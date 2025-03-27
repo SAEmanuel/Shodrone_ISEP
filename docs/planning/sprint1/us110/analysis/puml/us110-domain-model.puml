@@ -1,27 +1,152 @@
 @startuml
+skinparam classAttributeIconSize 0
 
-skinparam monochrome true
-skinparam packageStyle rectangle
-skinparam shadowing false
+' --- Core Entities ---
 
-title Generic Domain Model Template
+class User {
+  - email: String
+  - name: String
+  - phoneNumber: String
+  - status: UserStatus
+}
 
-hide circles
-hide methods
+class Role {
+  - name: String
+}
 
-package "Subsystem" {
+enum UserStatus {
+  ACTIVE
+  DISABLED
+}
 
-    class Manager {
-    }
+User "1" -- "0..*" Role : has
+Role "1" -- "0..*" User : assigned to
 
-    class Resource {
-    }
+class Client {
+  - vatNumber: String
+  - name: String
+  - address: String
+  - email: String
+  - phoneNumber: String
+  - status: ClientStatus
+}
 
-    class Entity {
-    }
+enum ClientStatus {
+  DELETED
+  INFRINGEMENT
+  CREATED
+  REGULAR
+  VIP
+}
 
-    Manager "1" -- "1..*" Resource : manages >
-    Entity "1" -- "*" Resource : relates to >
+class ClientRepresentative {
+  - email: String
+  - name: String
+  - phoneNumber: String
+  - position: String
+  - status: RepresentativeStatus
+}
+
+enum RepresentativeStatus {
+  ACTIVE
+  DISABLED
+}
+
+Client "1" -- "0..*" ClientRepresentative
+
+class Figure {
+  - code: String
+  - description: String
+  - version: String
+  - isExclusive: Boolean
+  - dslCode: String
+  - category: String
+  - keywords: List<String>
+}
+
+Figure "0..1" -- "1" Client : exclusiveTo
+
+class DSLPlugin {
+  - name: String
+  - version: String
+}
+
+Figure "1" -- "0..1" DSLPlugin : validatedBy
+
+class DroneModel {
+  - name: String
+  - programmingLanguage: String
+}
+
+class DronePlugin {
+  - name: String
+  - language: String
+  - version: String
+}
+
+DroneModel "1" -- "1" DronePlugin : uses
+
+class Drone {
+  - serialNumber: String
+  - status: DroneStatus
+  - removalReason: String
+  - removalDate: Date
+}
+
+enum DroneStatus {
+  ACTIVE
+  REMOVED
+}
+
+DroneModel "1" -- "0..*" Drone
+Drone "0..*" -- "1" DroneStatus
+
+class Show {
+  - place: String
+  - time: DateTime
+  - duration: Integer
+  - numberOfDrones: Integer
+}
+
+class ShowFigure {
+  - order: Integer
+}
+
+Show "1" -- "1..*" ShowFigure
+Figure "1" -- "1..*" ShowFigure
+
+class ShowRequest {
+  - status: ShowRequestStatus
+  - description: String
+}
+
+enum ShowRequestStatus {
+  CREATED
+  IN_PROGRESS
+  ACCEPTED
+  REJECTED
+}
+
+ShowRequest "1" -- "1" Client
+ShowRequest "1" -- "0..*" ShowProposal
+
+class ShowProposal {
+  - simulationVideoLink: String
+  - acceptanceEmail: String
+  - templateUsed: String
+}
+
+ShowProposal "1" -- "1..*" Simulation
+
+class Simulation {
+  - status: SimulationStatus
+  - reportFile: String
+}
+
+enum SimulationStatus {
+  PENDING
+  PASSED
+  FAILED
 }
 
 @enduml
