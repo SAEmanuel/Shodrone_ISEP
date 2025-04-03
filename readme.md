@@ -192,12 +192,3 @@ To generate PlantUML diagrams for documentation, execute the script (for the mom
 - **Manual Generation**: Alternatively, run `java -jar plantuml.jar docs/*.puml` from the root if the script is unavailable or on unsupported OS.
 - **Output**: Diagrams (e.g., use case, class diagrams) are saved in SVG format for scalability, with source files retained for edits.
 
----
-
-### Explanation of Changes
-- **How to Build**: Updated to reflect the multi-module structure (`shodrone-app1`, `shodrone-app2`, `shodrone-util`) and the presence of `build-all.sh`/`build-all.bat` and `quickbuild.sh`/`quickbuild.bat`. Added support for `mvnw` as a Maven wrapper.
-- **How to Execute Tests**: Specified how to run tests for each module individually, reflecting the project structure, and included paths for test reports.
-- **How to Run**: Separated execution instructions for `shodrone-app1` and `shodrone-app2`, as they are distinct applications, and included configuration steps.
-- **How to Install/Deploy**: Adjusted to account for the multi-module setup, ensuring both apps are deployed, and leveraged the build scripts for deployment automation.
-
-If you’d like to share the contents of `build-all.sh` or other scripts, I can refine the instructions further to match their exact behavior. Let me know if you need additional adjustments!
