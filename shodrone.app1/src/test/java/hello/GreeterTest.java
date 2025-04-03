@@ -6,10 +6,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 /**
-	A comment
+ A comment
 */
 public class GreeterTest {
-	
+
 	private Greeter greeter = new Greeter();
 
 	@Test
