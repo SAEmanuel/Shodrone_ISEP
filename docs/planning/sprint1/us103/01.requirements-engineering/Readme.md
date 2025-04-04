@@ -19,9 +19,7 @@ ANTLR tool should be used (https://www.antlr.org/).
 
 **From forum:**
 
-> **Question:** ? 
->
-> **Answer:** .
+> None.
 
 
 ### 1.3. Acceptance Criteria
