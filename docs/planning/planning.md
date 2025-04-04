@@ -28,15 +28,16 @@ The Shodrone project is developed over the 4th semester (2nd year, 2nd semester)
 Throughout the project development period, the distribution of _tasks / requirements / features_ by the team members was carried out as described in the following table.
 
 
-| Task                         | [Sprint A]()                                                                           | [Sprint B]() | [Sprint C]() |
-|------------------------------|----------------------------------------------------------------------------------------|--------------|--------------|
-| Glossary                     | [1230444](global-artifacts/01.requirements-engineering/glossary.md)                    |              |              |
-| Use Case Diagram (UCD)       | [1231274](global-artifacts/01.requirements-engineering/use-case-diagram.md)            |              |              |
-| Supplementary Specification  | [1231274](global-artifacts/01.requirements-engineering/supplementary-specification.md) |              |              |
-| DDD                          | [All team members](sprint1/us110/Readme.md)                                            |              |              |
-| Readme.md                    | [1231274](../../readme.md)                                                             |              |              |
-| Planning.md                  | [1231274](planning.md)                                                                 |              |              |
-| Sprint1 US's documentation   | [1231274](sprint1)                                                                     |              |              |
+| Task                        | [Sprint A]()                                                                                    | [Sprint B]() | [Sprint C]() |
+|-----------------------------|-------------------------------------------------------------------------------------------------|--------------|--------------|
+| Glossary                    | [1230444](global-artifacts/01.requirements-engineering/glossary.md)                             |              |              |
+| Use Case Diagram (UCD)      | [1231274](global-artifacts/01.requirements-engineering/use-case-diagram.md)                     |              |              |
+| Supplementary Specification | [1231274](global-artifacts/01.requirements-engineering/supplementary-specification.md)          |              |              |
+| DDD                         | [All team members](sprint1/us110/Readme.md)                                                     |              |              |
+| Readme.md                   | [1231274](../../readme.md)                                                                      |              |              |
+| Planning.md                 | [1231274](planning.md)                                                                          |              |              |
+| Sprint1 US's documentation  | [1231274](sprint1)                                                                              |              |              |
+| Scripts                     | [1231274](../../build-all.sh), [1230444](../../build-all.sh) and [1231498](../../build-all.sh)  |              |              |
 
 ## Sprint Schedule
 

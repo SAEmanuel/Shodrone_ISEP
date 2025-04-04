@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="1" failures="0" name="hello2.GreeterTest" time="0.009" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="hello2.GreeterTest" time="0.014" errors="0" skipped="0">
   <properties>
     <property name="jansi.mode" value="strip"/>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
@@ -7,6 +7,7 @@
     <property name="sun.boot.library.path" value="/usr/lib/jvm/jdk-21-oracle-x64/lib"/>
     <property name="user.country.format" value="PT"/>
     <property name="maven.multiModuleProjectDirectory" value="/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61"/>
+    <property name="maven.javadoc.skip" value="true"/>
     <property name="java.vm.vendor" value="Oracle Corporation"/>
     <property name="java.vendor.url" value="https://java.oracle.com/"/>
     <property name="path.separator" value=":"/>
@@ -44,7 +45,7 @@
     <property name="java.class.path" value="/usr/share/maven/boot/plexus-classworlds-2.x.jar"/>
     <property name="java.vm.specification.version" value="21"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher clean install --batch-mode --no-transfer-progress"/>
+    <property name="sun.java.command" value="org.codehaus.plexus.classworlds.launcher.Launcher -B dependency:copy-dependencies verify -D maven.javadoc.skip=true"/>
     <property name="java.home" value="/usr/lib/jvm/jdk-21-oracle-x64"/>
     <property name="user.language" value="en"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
@@ -60,5 +61,5 @@
     <property name="sun.cpu.endian" value="little"/>
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
   </properties>
-  <testcase classname="hello2.GreeterTest" name="greeterSaysHello" time="0.009"/>
+  <testcase classname="hello2.GreeterTest" name="greeterSaysHello" time="0.014"/>
 </testsuite>
