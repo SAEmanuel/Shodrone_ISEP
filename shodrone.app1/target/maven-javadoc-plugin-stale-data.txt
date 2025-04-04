@@ -1,0 +1,59 @@
+/usr/lib/jvm/jdk-21-oracle-x64/bin/javadoc
+-Xdoclint:none
+@options
+@packages
+-classpath
+'/home/jorge-rodrigues/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/home/jorge-rodrigues/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar:/home/jorge-rodrigues/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar'
+-doclet
+'nl.talsmasoftware.umldoclet.UMLDoclet'
+-docletpath
+'/home/jorge-rodrigues/.m2/repository/nl/talsmasoftware/umldoclet/2.0.12/umldoclet-2.0.12.jar'
+-encoding
+'UTF-8'
+-private
+-sourcepath
+'/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/src/main/java:/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/generated-sources/annotations'
+-Xdoclint:none
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'shodrone.app1 0.1.0 API'
+-use
+-version
+-windowtitle
+'shodrone.app1 0.1.0 API'
+hello
+hello
+/home/jorge-rodrigues/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar = 1536758932000
+/home/jorge-rodrigues/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar = 1504739599000
+/home/jorge-rodrigues/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar = 1695178071000
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/src/main/java = 1743088878047
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/generated-sources/annotations = 1743780722857
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/link.svg = 1743780724746
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/search.html = 1743780724738
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/module-search-index.js = 1743780724731
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/script.js = 1743780724745
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/stylesheet.css = 1743780724744
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/package-dependencies.svg = 1743780725360
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/help-doc.html = 1743780724743
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/search.js = 1743780724747
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/type-search-index.js = 1743780724731
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/allpackages-index.html = 1743780724731
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/overview-tree.html = 1743780724722
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/search-page.js = 1743780724748
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/member-search-index.js = 1743780724731
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/element-list = 1743780724704
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/index.html = 1743780724739
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/tag-search-index.js = 1743780724732
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/allclasses-index.html = 1743780724729
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/index-all.html = 1743780724737
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/copy.svg = 1743780724745
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.app1/target/apidocs/package-search-index.js = 1743780724731
