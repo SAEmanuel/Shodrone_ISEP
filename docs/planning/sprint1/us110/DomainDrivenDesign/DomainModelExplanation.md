@@ -358,7 +358,7 @@ The Shodrone platform provides a complete workflow for organizing, negotiating, 
 
 ### Clients and Requests
 
-The process begins when a **Client**, represented as a company, submits a **ShowRequest**. Each client may have multiple **Representatives**, who act on behalf of the company during the request and negotiation phases. The show request includes all key parameters such as preferred **ShowDate**, number of drones, location(s), duration, and a description of the intended event. It may also include a **FigureProposal**, suggesting specific figures to be performed.
+The process begins when a **Client**, represented as a company, submits a **ShowRequest**. Each client may have multiple **Representatives**, who act on behalf of the company during the request and negotiation phases. The show request includes all key parameters such as preferred **ShowDate**, **number of drones**, **location**, **duration**, and a **description** of the intended event. It may also include a **FigureProposal**, suggesting specific figures to be performed.
 
 ### Proposals and Negotiation
 
