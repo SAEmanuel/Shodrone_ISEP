@@ -6,7 +6,7 @@
 
 Domain-Driven Design (DDD) is a software development approach introduced by Eric Evans in his 2003 book, *Domain-Driven Design: Tackling Complexity in the Heart of Software*. DDD focuses on creating software that reflects a deep understanding of the business domain it serves. It emphasizes collaboration between technical experts (developers, architects) and domain experts (business stakeholders) to build a shared understanding of the domain, which is then translated into a model that drives the software design and implementation.
 
-In the context of the Shodrone project—a system to support back-office operations for a company providing customized drone multimedia shows—DDD is crucial for managing the complexity of the domain, which includes concepts like clients, show requests, figures, shows, and drone simulations. The class diagram provided (e.g., entities like `ShowRequest`, `Figure`, `Customer`, `Drone`) reflects a DDD-inspired design, capturing the domain’s core concepts and their relationships.
+In the context of the Shodrone project—a system to support back-office operations for a company providing customized drone multimedia shows—DDD is crucial for managing the complexity of the domain, which includes concepts like clients, show requests, figures, shows, and drone simulations. The class diagram provided (entities like `ShowRequest`, `Figure`, `Customer`, `Drone`) reflects a DDD-inspired design, capturing the domain’s core concepts and their relationships.
 
 ## Importance of DDD
 
@@ -19,37 +19,37 @@ DDD offers several benefits, particularly for complex systems like Shodrone:
     - DDD introduces a *Ubiquitous Language*—a shared vocabulary used by both developers and domain experts. In Shodrone, terms like “Figure,” “Show,” “Exclusivity,” and “Drone” are consistently used in code, documentation, and discussions, reducing misunderstandings.
 
 3. **Handling Complexity**:
-    - By focusing on the core domain and modeling it explicitly, DDD helps manage complexity. Shodrone’s domain involves intricate relationships (e.g., a `Show` composed of multiple `Figures`, each with `Drones` and `DSLCode`). DDD’s modeling techniques (e.g., entities, value objects, aggregates) help structure this complexity into manageable components.
+    - By focusing on the core domain and modeling it explicitly, DDD helps manage complexity. Shodrone’s domain involves intricate relationships (a `Show` composed of multiple `Figures`, each with `Drones` and `DSLCode`). DDD’s modeling techniques (entities, value objects, aggregates) help structure this complexity into manageable components.
 
 4. **Maintainability and Scalability**:
     - A well-modeled domain makes the system easier to maintain and extend. For example, Shodrone’s requirement to support future DSL versions (3.1.3) is facilitated by a modular design where `Figure` and `Version` are distinct entities, allowing for future migrations.
 
 5. **Focus on Core Business Logic**:
-    - DDD prioritizes the core domain over technical concerns. In Shodrone, the core domain is the management and simulation of drone shows, not the underlying database or UI framework. DDD ensures that business logic (e.g., collision detection in simulations) is central to the design.
+    - DDD prioritizes the core domain over technical concerns. In Shodrone, the core domain is the management and simulation of drone shows, not the underlying database or UI framework. DDD ensures that business logic (collision detection in simulations) is central to the design.
 
 ## Key Concepts of DDD
 
 DDD introduces several concepts that are reflected in the Shodrone class diagram:
 
-- **Entities**: Objects with a distinct identity that persists over time. In Shodrone, `Customer`, `ShowRequest`, `Figure`, and `Drone` are entities, each with a unique identifier (e.g., `ClientID`, `ShowRequestID`, `DroneID`).
+- **Entities**: Objects with a distinct identity that persists over time. In Shodrone, `Customer`, `ShowRequest`, `Figure`, and `Drone` are entities, each with a unique identifier.
 - **Value Objects**: Objects without identity, used to describe attributes. For example, `Address` and `Email` in the `Customer` and `Representative` entities are value objects, immutable and defined by their attributes.
 - **Aggregates**: A cluster of related objects treated as a single unit for data consistency. In the diagram, `ShowRequest` is an aggregate root, encapsulating `ShowProposal` and `ShowDescription`, ensuring consistency in show request operations.
-- **Aggregate Roots**: The entry point to an aggregate, ensuring controlled access. `ShowRequest`, `Customer`, and `Figure` are aggregate roots in Shodrone, managing their respective sub-entities (e.g., `Representative` under `Customer`).
+- **Aggregate Roots**: The entry point to an aggregate, ensuring controlled access. `ShowRequest`, `Customer`, and `Figure` are aggregate roots in Shodrone, managing their respective sub-entities (`Representative` under `Customer`).
 - **Ubiquitous Language**: A shared language derived from the domain. Shodrone’s glossary (mentioned below) defines terms like “Exclusivity,” “DSLCode,” and “ShowDate,” ensuring consistency across the team.
 
 ## Steps to Apply DDD in the Shodrone Project
 
-Applying DDD to the Shodrone project involves several steps, which align with the project’s development process (e.g., sprints, Scrum methodology):
+Applying DDD to the Shodrone project involves several steps, which align with the project’s development process (sprints, Scrum methodology):
 
 ### 1. Domain Discovery and Collaboration
 - **Objective**: Understand the domain through collaboration with stakeholders.
-- **Process**: Engage with Shodrone’s domain experts (e.g., CRM Managers, Show Designers, Drone Techs) to identify key concepts, processes, and rules. For example, discussions would reveal that a `ShowRequest` includes a `ShowDescription` and may involve new `Figures` with `Exclusivity`.
+- **Process**: Engage with Shodrone’s domain experts (CRM Managers, Show Designers, Drone Techs) to identify key concepts, processes, and rules. For example, discussions would reveal that a `ShowRequest` includes a `ShowDescription` and may involve new `Figures` with `Exclusivity`.
 - **Shodrone Application**: This step was likely performed during the initial requirements gathering, leading to the identification of entities like `Customer`, `ShowRequest`, and `Figure`, as well as use cases (3.1.4 Show Request).
 
 ### 2. Build a Ubiquitous Language
 - **Objective**: Create a shared vocabulary to ensure consistency.
 - **Process**: Document domain terms and their meanings in a glossary, using them consistently in conversations, code, and documentation. For Shodrone, terms like “Figure,” “DSLCode,” “Exclusivity,” and “ShowProposal” are part of this language.
-- **Shodrone Application**: A glossary of Shodrone’s domain concepts is available in the project documentation (e.g., `docs/glossary.md`), defining all terms used in the class diagram and code. This ensures that when a developer sees `ShowRequest.ShowDate`, it matches the business’s understanding of a show’s scheduled date.
+- **Shodrone Application**: A glossary of Shodrone’s domain concepts is available in the project documentation (`docs/glossary.md`), defining all terms used in the class diagram and code. This ensures that when a developer sees `ShowRequest.ShowDate`, it matches the business’s understanding of a show’s scheduled date.
 
 ### 3. Model the Domain
 - **Objective**: Translate the domain understanding into a model.
@@ -57,7 +57,7 @@ Applying DDD to the Shodrone project involves several steps, which align with th
     - Entities like `Customer` with attributes (`ClientID`, `VatNumber`, `Address`) and relationships (1-to-many with `Representative`).
     - Aggregates like `ShowRequest`, which encapsulates `ShowProposal` and `ShowDescription`.
     - Value objects like `Exclusivity` and `Version`, which describe attributes without identity.
-- **Shodrone Application**: The diagram reflects a well-structured model, with clear boundaries (e.g., `Show` as an aggregate root managing `Drones` and `Figures`).
+- **Shodrone Application**: The diagram reflects a well-structured model, with clear boundaries (`Show` as an aggregate root managing `Drones` and `Figures`).
 
 ### 4. Define Bounded Contexts
 - **Objective**: Divide the domain into manageable parts.
@@ -65,7 +65,7 @@ Applying DDD to the Shodrone project involves several steps, which align with th
     - **Client Management**: Handling `Customer` and `Representative`.
     - **Show Management**: Handling `ShowRequest`, `ShowProposal`, and `Show`.
     - **Simulation**: Handling `Figure`, `Drone`, and simulation logic.
-- **Shodrone Application**: The current diagram appears to cover a single bounded context (Show Management and Simulation), but as the system scales (e.g., supporting large shows as per 3 System Specifications), separate contexts may be defined.
+- **Shodrone Application**: The current diagram appears to cover a single bounded context (Show Management and Simulation), but as the system scales (supporting large shows as per 3 System Specifications), separate contexts may be defined.
 
 ### 5. Implement the Domain Model
 - **Objective**: Translate the model into code.
@@ -86,7 +86,7 @@ Applying DDD to the Shodrone project involves several steps, which align with th
     - Scalability (NFR12): The simulation system uses multithreading and shared memory to handle large shows.
     - Persistence (NFR07): Supports both in-memory and RDBMS, mapping entities like `Customer` and `ShowRequest` to the database.
     - Authentication (NFR08): Ensures secure access to domain operations.
-- **Shodrone Application**: The class diagram is implemented in a way that supports these NFRs, with entities designed for persistence (e.g., `ClientID` as a primary key) and simulation (e.g., `Drone` with `DroneID`).
+- **Shodrone Application**: The class diagram is implemented in a way that supports these NFRs, with entities designed for persistence (`ClientID` as a primary key) and simulation (e.g., `Drone` with `DroneID`).
 
 ## Benefits for the Shodrone Project
 
