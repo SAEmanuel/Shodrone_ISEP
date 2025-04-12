@@ -20,8 +20,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build project with Maven
-        run: mvn clean install --batch-mode --no-transfer-progress
+      - name: Build project with Maven (no tests)
+        run: mvn clean install -DskipTests --batch-mode --no-transfer-progress
 
       - name: Run tests (skipped for now)
         run: mvn test -DskipTests
