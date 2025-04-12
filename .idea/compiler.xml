@@ -16,6 +16,8 @@
         </processorPath>
         <module name="shodrone.app2" />
         <module name="shodrone.app1" />
+        <module name="persistence.impl.jpa" />
+        <module name="shodrone.infraestructure.application" />
       </profile>
     </annotationProcessing>
   </component>

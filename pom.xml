@@ -7,17 +7,28 @@
     <groupId>lapr4</groupId>
     <artifactId>shodrone</artifactId>
     <packaging>pom</packaging>
+    <version>0.1.0</version>
+
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <modules>
         <module>shodrone.app1</module>
         <module>shodrone.app2</module>
         <module>shodrone.util.ci</module>
+        <module>persistence.impl.jpa</module>
+        <module>shodrone.infraestructure.application</module>
     </modules>
-    <version>0.1.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <eapli.framework.core.version>25.0.0-RELEASE</eapli.framework.core.version>
     </properties>
 
     <dependencies>
@@ -27,21 +38,34 @@
             <version>2.3.1</version>
         </dependency>
 
-        <!-- support junit5 -->
+        <dependency>
+            <groupId>org.bitbucket.pag_isep.eapliframework</groupId>
+            <artifactId>eapli.framework.core</artifactId>
+            <version>25.0.0-RELEASE</version>
+        </dependency>
+
+        <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.10.1</version>
             <scope>test</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-params -->
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
             <version>5.10.1</version>
             <scope>test</scope>
         </dependency>
-        <!-- drivers for H2 -->
+        <!-- Jakarta -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+
+        <!-- H2 Database -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -49,7 +73,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Project Lombok -->
+        <!-- Lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -61,12 +85,22 @@
     <build>
         <plugins>
 
+            <!-- Surefire plugin (executes tests) -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+
+            <!-- Surefire report (generates test reports) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
                 <version>3.0.0</version>
                 <configuration>
-                    <testFailureIgnore>true</testFailureIgnore>
                     <aggregate>true</aggregate>
                 </configuration>
                 <executions>
@@ -79,6 +113,7 @@
                 </executions>
             </plugin>
 
+            <!-- JaCoCo for code coverage -->
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -93,7 +128,7 @@
                 </executions>
             </plugin>
 
-            <!-- lombok -->
+            <!-- Maven compiler plugin (with lombok support) -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -109,6 +144,8 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+
+            <!-- Lombok plugin for delombok -->
             <plugin>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok-maven-plugin</artifactId>
@@ -130,13 +167,10 @@
                             <verbose>false</verbose>
                         </configuration>
                     </execution>
-                    <!-- This is for delomboking also your tests sources. <execution> <id>test-delombok</id>
-                        <phase>generate-test-sources</phase> <goals> <goal>testDelombok</goal> </goals>
-                        <configuration> <verbose>false</verbose> </configuration> </execution> -->
                 </executions>
             </plugin>
 
-            <!-- dependency version -->
+            <!-- Dependency version management -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
@@ -146,31 +180,22 @@
                 </configuration>
             </plugin>
 
-            <!-- javadoc -->
+            <!-- Javadoc with UML doclet -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <!-- UML Taglet JDK 8 -->
-                    <!-- <source>1.8</source> <javadocVersion>1.8.0</javadocVersion> <taglet>org.jdrupes.taglets.plantUml.Taglet</taglet>
-                        <tagletArtifact> <groupId>org.jdrupes.taglets</groupId> <artifactId>plantuml-taglet</artifactId>
-                        <version>1.0.5</version> </tagletArtifact> -->
-
-                    <!-- UML DocLet JDK 9+ -->
                     <doclet>nl.talsmasoftware.umldoclet.UMLDoclet</doclet>
                     <docletArtifact>
                         <groupId>nl.talsmasoftware</groupId>
                         <artifactId>umldoclet</artifactId>
                         <version>2.0.12</version>
                     </docletArtifact>
-
-                    <!-- params -->
                     <show>private</show>
                     <doclint>none</doclint>
                     <additionalOptions>
                         <additionalOption>-Xdoclint:none</additionalOption>
-                        <!-- Specify each diagram option here as an additionOption tag. -->
                     </additionalOptions>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>
@@ -185,6 +210,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>
