@@ -1,24 +1,31 @@
-# Sprint 2 (EAPLI) user story distribution
+# Sprint 2 (EAPLI) - User Story Distribution with Estimated Difficulty
 
-| Author   | User Story | Title                                                |
-|----------|------------|--------------------------------------------------------|
-| Pessoa 1 | US210      | Authentication and authorization                      |
-|          | US211      | Register users                                        |
-|          | US212      | Disable/enable users                                  |
-|          | US213      | List users                                            |
-| Pessoa 2 | US220      | Register customer                                     |
-|          | US221      | Add a customer representative                         |
-|          | US222      | List customer representatives                         |
-|          | US223      | Edit a customer representative                        |
-|          | US224      | Disable a customer representative                     |
-| Pessoa 3 | US230      | Register Show request                                 |
-|          | US235      | List show requests of client                          |
-|          | US236      | Edit a show request                                   |
-| Pessoa 4 | US231      | List public figures in Figure catalogue               |
-|          | US232      | Search Figure catalogue                               |
-|          | US233      | Add Figure to the catalogue                           |
-|          | US234      | Decommission Figure                                   |
-| Pessoa 5 | US245      | Add figure category                                   |
-|          | US246      | Edit figure category                                  |
-|          | US247      | List figure categories                                |
-|          | US248      | Inactivate/Activate a figure category                 |
+| Author           | User Story | Title                                   | Difficulty   |
+|------------------|------------|-----------------------------------------|--------------|
+| Romeu Xu         | US210      | Authentication and authorization        | 🔴 Hard      |
+|                  | US211      | Register users                          | 🟡 Medium    |
+|                  | US212      | Disable/enable users                    | 🟢 Easy      |
+|                  | US213      | List users                              | 🟢 Easy      |
+|                  | US220      | Register customer                       | 🟡 Medium    |
+| Emanuel Almeida  | US221      | Add a customer representative           | 🟡 Medium    |
+|                  | US222      | List customer representatives           | 🟢 Easy      |
+|                  | US223      | Edit a customer representative          | 🟡 Medium    |
+|                  | US224      | Disable a customer representative       | 🟢 Easy      |
+| Jorge Ubaldo     | US230      | Register Show request                   | 🔴 Hard      |
+|                  | US235      | List show requests of client            | 🟢 Easy      |
+|                  | US236      | Edit a show request                     | 🟡 Medium    |
+| Paulo Mendes     | US231      | List public figures in Figure catalogue | 🟢 Easy      |
+|                  | US232      | Search Figure catalogue                 | 🟡 Medium    |
+|                  | US233      | Add Figure to the catalogue             | 🟡 Medium    |
+|                  | US234      | Decommission Figure                     | 🟢 Easy      |
+| Francisco Santos | US245      | Add figure category                     | 🟡 Medium    |
+|                  | US246      | Edit figure category                    | 🟢 Easy      |
+|                  | US247      | List figure categories                  | 🟢 Easy      |
+|                  | US248      | Inactivate/Activate a figure category   | 🟢 Easy      |
+
+---
+
+### Difficulty Legend:
+- 🔴 **Hard** – Complex logic, security-sensitive or multiple dependencies
+- 🟡 **Medium** – Moderate business logic, updates across entities, validations
+- 🟢 **Easy** – Basic CRUD (create, read, update, delete) operations or straightforward implementation
