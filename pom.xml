@@ -44,6 +44,19 @@
             <version>25.0.0-RELEASE</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.bitbucket.pag_isep.eapliframework</groupId>
+            <artifactId>eapli.framework.infrastructure.authz</artifactId>
+            <version>25.0.0-RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bitbucket.pag_isep.eapliframework</groupId>
+            <artifactId>eapli.framework.infrastructure.pubsub</artifactId>
+            <version>25.0.0-RELEASE</version>
+        </dependency>
+
+
         <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
