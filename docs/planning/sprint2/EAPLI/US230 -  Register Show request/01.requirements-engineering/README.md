@@ -32,6 +32,15 @@ The following specifications are derived from the requirements document (Section
 
 ### 1.3. Acceptance Criteria
 
+- **AC1**: The CRM Collaborator must be authenticated and authorized to register a show request (role-based access).
+- **AC2**: The `ShowRequest` must include all required attributes: `customer`, `numberOfDrones`, `duration`, `creationDate`, `status` ("Created"), and a `ShowDescription`.
+- **AC3**: The `ShowDescription` must include `place`, `time`, and a sequence of `FigureExecution` with valid figures.
+- **AC4**: The customer must be active or VIP (checked via `Customer.status`); otherwise, the system rejects the request with an error.
+- **AC5**: All figures in the `ShowDescription` must be public (`Figure.isPublic = true`) or exclusive to the customer (`Figure.exclusivity` matches the customer); otherwise, the system rejects the request with an error.
+- **AC6**: The `place`, `time`, `numberOfDrones`, and `duration` fields must not be empty and must be in valid formats (e.g., time as "YYYY-MM-DD HH:MM", `numberOfDrones` as a positive integer).
+- **AC7**: The `ShowRequestStatus` list must be initialized with a "Created" status, including the timestamp and author (`ShowRequestAuthor`).
+- **AC8**: The `ShowRequest` must be persisted RDBMS (NFR07).
+- **AC9**: After successful registration, the system must display a confirmation message: "Show request registered successfully with ID [ShowRequest.id]."
 
 ### 1.4. Found out Dependencies
 
