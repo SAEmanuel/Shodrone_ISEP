@@ -37,7 +37,7 @@ Throughout the project development period, the distribution of _tasks / requirem
 | Readme.md                   | [1231274](../../readme.md)                                                                      |              |              |
 | Planning.md                 | [1231274](planning.md)                                                                          |              |              |
 | Sprint1 US's documentation  | [1231274](sprint1)                                                                              |              |              |
-| Scripts                     | [1231274](../../scripts/build/build-all.sh), [1230444](../../scripts/build/build-all.sh) and [1231498](../../scripts/build/build-all.sh)  |              |              |
+| Scripts                     | [1231274](../../build-all.sh), [1230444](../../build-all.sh) and [1231498](../../build-all.sh)  |              |              |
 
 ## Sprint Schedule
 
