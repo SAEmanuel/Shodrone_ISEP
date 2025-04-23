@@ -1,27 +1,67 @@
-```
 @startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Alternative One
+
+autonumber
+
 actor "CRM Collaborator" as Collaborator
 participant ":System" as System
 
-Collaborator -> System: login()
-System -> Collaborator: authenticated
-Collaborator -> System: registerShowRequest(customer, place, time, numDrones, duration, figures)
-System -> System: validateCustomer(customer)
-alt customer is active or VIP
-    System -> System: validateFigures(figures, customer)
-    alt figures are valid
-        System -> System: createShowRequest(customer, numDrones, duration)
-        System -> System: createShowDescription(place, time, figures)
-        System -> System: setShowRequestAuthor(collaborator)
+activate Collaborator
+
+    activate System
+
+    Collaborator -> System: login()
+    System --> Collaborator: authenticated
+
+    deactivate System
+    Collaborator -> System: ask to register a show request
+
+    activate System
+
+    System --> Collaborator: request data (customer,duration, figures...)
+    deactivate System
+    Collaborator -> System: types requested data (customer,duration, figures...)
+
+    activate System
+
+    System --> Collaborator: show all data registered for confirmation
+    deactivate System
+    Collaborator -> System: registerShowRequest(customer, place, time, numDrones, duration, figures)
+
+    activate System
+
+        System -> System: validations(...)
+        activate System
+
+        deactivate System
+
+        System -> System: createShowRequest(customer, numDrones, duration...)
+        activate System
+
+        deactivate System
+
         System -> System: addShowRequestStatus("Created", timestamp)
+        activate System
+
+        deactivate System
+
         System -> System: persistShowRequest()
-        System -> Collaborator: "Show request registered successfully with ID SR-001"
-    else figures invalid
-        System -> Collaborator: error("Invalid figures: must be public or exclusive")
-    end
-else customer invalid
-    System -> Collaborator: error("Only active or VIP customers allowed")
-end
+        activate System
+
+        deactivate System
+
+        System --> Collaborator: show outputs and status of the registration
+    deactivate System
+
+
+
+deactivate Collaborator
+
+
+
 
 @enduml
-```
