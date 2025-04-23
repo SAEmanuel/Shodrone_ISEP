@@ -23,12 +23,14 @@ public class Bootstrap implements Runnable {
         authenticationRepository.addUserRole(AuthenticationController.ROLE_CRM_COLLABORATOR, AuthenticationController.ROLE_CRM_COLLABORATOR);
         authenticationRepository.addUserRole(AuthenticationController.ROLE_SHOW_DESIGNER, AuthenticationController.ROLE_SHOW_DESIGNER);
         authenticationRepository.addUserRole(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE, AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
+        authenticationRepository.addUserRole(AuthenticationController.ROLE_DRONE_TECH, AuthenticationController.ROLE_DRONE_TECH);
 
         authenticationRepository.addUserWithRole("Administrator x"          , "admin@this.app"              , "admin" , AuthenticationController.ROLE_ADMIN);
         authenticationRepository.addUserWithRole("CRM Manager x"            , "crm_manager@this.app"        , "crmman", AuthenticationController.ROLE_CRM_MANAGER);
         authenticationRepository.addUserWithRole("CRM Collaborator x"       , "crm_collaborator@this.app"   , "crmcol", AuthenticationController.ROLE_CRM_COLLABORATOR);
         authenticationRepository.addUserWithRole("Show Designer x"          , "show_designer@this.app"      , "shwdsg", AuthenticationController.ROLE_SHOW_DESIGNER);
         authenticationRepository.addUserWithRole("Representative x"         , "representative@this.app"     , "repre" , AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
+        authenticationRepository.addUserWithRole("Drone Technician x"       , "dronetech@this.app"          , "drone" , AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
 
     }
 }

@@ -14,6 +14,7 @@ public class AuthenticationController {
     public static final String ROLE_CRM_COLLABORATOR = "CRM COLLABORATOR";
     public static final String ROLE_SHOW_DESIGNER= "SHOW DESIGNER";
     public static final String ROLE_CUSTOMER_REPRESENTATIVE= "CUSTOMER REPRESENTATIVE";
+    public static final String ROLE_DRONE_TECH= "Drone Technician";
 
     //private final ApplicationSession applicationSession;
     private final AuthenticationRepository authenticationRepository;
