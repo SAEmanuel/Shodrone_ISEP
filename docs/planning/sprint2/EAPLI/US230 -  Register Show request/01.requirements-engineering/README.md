@@ -43,6 +43,10 @@ The following specifications are derived from the requirements document (Section
 - **AC9**: After successful registration, the system must display a confirmation message: "Show request registered successfully with ID [ShowRequest.id]."
 
 ### 1.4. Found out Dependencies
+- **US210**: Authentication and user management – Required to authenticate the CRM Collaborator and set the `ShowRequestAuthor` (only CRM Collaborators can register show requests, per NFR08).
+- **US220**: List all customers – Needed to select a `Customer` and validate their `status` (active or VIP).
+- **US231**: List public figures in the catalogue – Needed to select `Figure` entities for the `ShowDescription`, ensuring they are public or exclusive to the customer.
+- **US110**: Iterative updates to the DDD model – The `ShowRequest` entity, along with `ShowDescription`, `FigureExecution`, `ShowRequestAuthor`, and `ShowRequestStatus`, must be defined in the DDD model.
 
 
 ### 1.5 Input and Output Data
