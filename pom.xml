@@ -17,7 +17,7 @@
     </repositories>
 
     <modules>
-        <module>shodrone.app1</module>
+        <module>shodrone.backoffice</module>
         <module>shodrone.app2</module>
         <module>shodrone.util.ci</module>
         <module>persistence.impl.jpa</module>

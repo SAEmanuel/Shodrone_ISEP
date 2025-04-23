@@ -27,7 +27,7 @@
         <dependency>
             <version>0.1.0</version>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.app1</artifactId>
+            <artifactId>backoffice</artifactId>
         </dependency>
         <dependency>
             <version>0.1.0</version>
