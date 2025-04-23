@@ -31,6 +31,7 @@ public class Bootstrap implements Runnable {
         authenticationRepository.addUserWithRole("Show Designer x"          , "show_designer@this.app"      , "shwdsg", AuthenticationController.ROLE_SHOW_DESIGNER);
         authenticationRepository.addUserWithRole("Representative x"         , "representative@this.app"     , "repre" , AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
         authenticationRepository.addUserWithRole("Drone Technician x"       , "dronetech@this.app"          , "drone" , AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
+        authenticationRepository.addUserWithRole("DroSDSDn x"               , "xu@this.app"                 , "drone" , AuthenticationController.ROLE_CRM_COLLABORATOR);
 
     }
 }

@@ -1,5 +1,5 @@
 GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
-shodrone.util.ci/backoffice,default,Bootstrap,82,0,0,0,17,0,3,0,3,0
+shodrone.util.ci/backoffice,default,Bootstrap,89,0,0,0,18,0,3,0,3,0
 shodrone.util.ci/backoffice,default,Main,20,0,0,0,9,0,2,0,2,0
 shodrone.util.ci/backoffice,controller,AuthenticationController,32,0,2,0,11,0,5,0,4,0
 shodrone.util.ci/backoffice,ui,CRMManagerUI,74,0,6,0,14,0,5,0,2,0
