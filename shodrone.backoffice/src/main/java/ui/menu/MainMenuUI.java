@@ -1,7 +1,6 @@
-package ui.main_menu;
+package ui.menu;
 
 import ui.authz.AuthenticationUI;
-import ui.menu.MenuItem;
 import utils.Utils;
 
 import java.util.ArrayList;

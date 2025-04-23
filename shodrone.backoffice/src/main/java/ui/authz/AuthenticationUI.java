@@ -1,6 +1,6 @@
 package ui.authz;
 
-import ui.AdminUI;
+import ui.*;
 import controller.AuthenticationController;
 import ui.menu.MenuItem;
 import utils.*;
@@ -45,6 +45,10 @@ public class AuthenticationUI implements Runnable {
     private List<MenuItem> getMenuItemForRoles() {
         List<MenuItem> rolesUI = new ArrayList<>();
         rolesUI.add(new MenuItem(AuthenticationController.ROLE_ADMIN, new AdminUI()));
+        rolesUI.add(new MenuItem(AuthenticationController.ROLE_CRM_COLLABORATOR, new CRMCollaboratorUI()));
+        rolesUI.add(new MenuItem(AuthenticationController.ROLE_CRM_MANAGER, new CRMManagerUI()));
+        rolesUI.add(new MenuItem(AuthenticationController.ROLE_SHOW_DESIGNER, new ShowDesignerUI()));
+        rolesUI.add(new MenuItem(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE, new RepresentativeUI()));
 
         //TODO: Complete with other user roles and related RoleUI
         return rolesUI;

@@ -1,8 +1,6 @@
-import ui.main_menu.MainMenuUI;
+import ui.menu.MainMenuUI;
 
 import java.io.IOException;
-
-import static more.ColorfulOutput.*;
 
 public class Main {
 

@@ -12,8 +12,8 @@ import static more.ColorfulOutput.ANSI_BRIGHT_WHITE;
 import static more.ColorfulOutput.ANSI_RESET;
 
 
-public class AdminUI implements Runnable {
-    public AdminUI() {
+public class CRMCollaboratorUI implements Runnable {
+    public CRMCollaboratorUI() {
     }
 
     public void run() {
@@ -24,7 +24,7 @@ public class AdminUI implements Runnable {
 
         int option = 0;
         do {
-            String menu = "\n╔═════════════ "+ANSI_BRIGHT_WHITE+" ADMIN MENU "+ANSI_RESET+" ═════════════╗";
+            String menu = "\n╔════════"+ANSI_BRIGHT_WHITE+" CRM COLLABORATOR MENU "+ANSI_RESET+"═════════╗";
             option = Utils.showAndSelectIndex(options, menu);
 
             if ((option >= 0) && (option < options.size())) {
