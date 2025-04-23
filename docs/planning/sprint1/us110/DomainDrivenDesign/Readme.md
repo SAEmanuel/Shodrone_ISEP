@@ -25,7 +25,7 @@ DDD offers several benefits, particularly for complex systems like Shodrone:
     - A well-modeled domain makes the system easier to maintain and extend. For example, Shodrone’s requirement to support future DSL versions (3.1.3) is facilitated by a modular design where `Figure` and `Version` are distinct entities, allowing for future migrations.
 
 5. **Focus on Core Business Logic**:
-    - DDD prioritizes the core domain over technical concerns. In Shodrone, the core domain is the management and simulation of drone shows, not the underlying database or UI framework. DDD ensures that business logic (collision detection in simulations) is central to the design.
+    - DDD prioritizes the core domain over technical concerns. In Shodrone, the core domain is the management and simulation of drone shows, not the underlying database or ui framework. DDD ensures that business logic (collision detection in simulations) is central to the design.
 
 ## Key Concepts of DDD
 

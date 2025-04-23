@@ -35,7 +35,7 @@ Mas o texto refere-se especificamente à data de agendamente do show? Parece-me 
 > **Question:** Uma figura pode ter várias versões. De que forma o cliente pretende que seja feito o registo destas diferentes versões?
 >- Cada figura tem o seu indicativo de versão e são vistas como "figuras diferentes" ou todas as versões precisam ficar agregadas à primeira versão dessa figura criada e todas têm o mesmo nome?
 >
-> **Answer:** Do ponto de vista da Shodrone isso apenas poderá ter reflexos na UI. Por exemplo, ao pesquisar por uma figura poderem aparecer todas as versões dessa mesma figura. Mas isso nada tem a ver com a implementação no backend.
+> **Answer:** Do ponto de vista da Shodrone isso apenas poderá ter reflexos na ui. Por exemplo, ao pesquisar por uma figura poderem aparecer todas as versões dessa mesma figura. Mas isso nada tem a ver com a implementação no backend.
 O cliente não tem qualquer opinião sobre o assunto.
 
 
@@ -93,7 +93,7 @@ Sempre que o CRM collaborator cria uma proposta é obrigado a escolher um templa
 > **Question:** Já foi dito que para o show request e show proposal faz sentido guardar que colaborador que o criou no sistema. No entanto surgiu-nos a dúvida de como deveríamos guardar esta informação. Há algum tipo de identificação de colaborador? Se sim, que regras existem para esta identificação? Se não, apenas o email do colaborador chegaria para o identificar?
 >
 > **Answer:** Todos os utilizadores devem ter um ID, garantidamente. Estava mal se não tivessem.
-O que deve ser esse ID é outra questão. Aparentemente, na UI deve ser usado o email. Internamente, o senhor é que sabe.
+O que deve ser esse ID é outra questão. Aparentemente, na ui deve ser usado o email. Internamente, o senhor é que sabe.
 
 > **Question:** Gostaria de saber se showRequest e showProposal são diferentes, isto é, se showProposal é apenas uma confirmação do showRequest, ou se é algo do género de uma contraproposta.
 Por exemplo, caso no showRequest seja pedido 100 drones, é possível que a showProposal tenha apenas 80?

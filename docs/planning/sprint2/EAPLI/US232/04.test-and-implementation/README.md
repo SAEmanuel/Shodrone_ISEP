@@ -27,7 +27,7 @@ You can add:
 Describe any integration aspects and how this functionality is demonstrated.
 
 - Integration points with other modules
-- Demo walkthrough (CLI, UI, etc.)
+- Demo walkthrough (CLI, ui, etc.)
 
 ## 7. Observations
 

@@ -8,9 +8,9 @@ The following sequence diagram graphically represents the intended flow for the 
 ![GeneralOverview](svg/usxx-sequence-diagram-ui-controller-overview.svg)
 
 #### OBS:
-- **_{MenuX}UI_ :** represents an instance of a UI class that presents several menu options and/or features to the user
-- **_{NameOfUC}UI_ :** represents an instance of a specific UI class for the realization of a given use case / user story
-- **_{NameOfUC}Controller_ :** represents an instance of a Controller class responsible for decoupling the UI from the Domain classes
+- **_{MenuX}UI_ :** represents an instance of a ui class that presents several menu options and/or features to the user
+- **_{NameOfUC}UI_ :** represents an instance of a specific ui class for the realization of a given use case / user story
+- **_{NameOfUC}Controller_ :** represents an instance of a Controller class responsible for decoupling the ui from the Domain classes
 - **_methodX(...)_ :** abstraction representing the invocation a public method of {NameOfUC} Controller
 - **_methodY(...)_ :** abstraction representing the invocation a public method of any class belonging to the domain
 - In the remaining sequence diagrams, focus only focus on the content of the **_loop_**
