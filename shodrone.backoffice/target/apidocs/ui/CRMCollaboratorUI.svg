@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="235px" preserveAspectRatio="none" style="width:200px;height:235px;" version="1.1" viewBox="0 0 200 235" width="200px" zoomAndPan="magnify"><defs><filter height="300%" id="ffs963mca4hwu" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[349843a5402cf1c817ed7cef1596aa8e]
+class ui.CRMCollaboratorUI--><a href="CRMCollaboratorUI.html" target="_top" title="CRMCollaboratorUI.html" xlink:actuate="onRequest" xlink:href="CRMCollaboratorUI.html" xlink:show="new" xlink:title="CRMCollaboratorUI.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#ffs963mca4hwu)" height="65.6698" id="ui.CRMCollaboratorUI" style="stroke: #A80036; stroke-width: 1.5;" width="161" x="16.5" y="133"/><ellipse cx="31.5" cy="154.344" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M34.4688,159.9846 Q33.8906,160.2815 33.25,160.4221 Q32.6094,160.5783 31.9063,160.5783 Q29.4063,160.5783 28.0781,158.9377 Q26.7656,157.2815 26.7656,154.1565 Q26.7656,151.0315 28.0781,149.3752 Q29.4063,147.719 31.9063,147.719 Q32.6094,147.719 33.25,147.8752 Q33.9063,148.0315 34.4688,148.3283 L34.4688,151.0471 Q33.8438,150.469 33.25,150.2033 Q32.6563,149.9221 32.0313,149.9221 Q30.6875,149.9221 30,151.0002 Q29.3125,152.0627 29.3125,154.1565 Q29.3125,156.2502 30,157.3283 Q30.6875,158.3908 32.0313,158.3908 Q32.6563,158.3908 33.25,158.1252 Q33.8438,157.844 34.4688,157.2658 L34.4688,159.9846 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="129" x="45.5" y="152.9659">CRMCollaboratorUI</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="9" x="105.5" y="167.7579">ui</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="17.5" x2="176.5" y1="175.6879" y2="175.6879"/><ellipse cx="27.5" cy="186.6879" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="54" x="36.5" y="191.4468">run(): void</text></a><!--MD5=[8dac795f9edbf65a524ac462449c98fb]
+class java.lang.Runnable--><rect codeLine="9" fill="#FEFECE" filter="url(#ffs963mca4hwu)" height="65.6698" id="java.lang.Runnable" style="stroke: #A80036; stroke-width: 1.5;" width="91" x="51.5" y="7"/><ellipse cx="66.5" cy="28.344" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M62.4219,24.1096 L62.4219,21.9533 L69.8125,21.9533 L69.8125,24.1096 L67.3438,24.1096 L67.3438,32.1877 L69.8125,32.1877 L69.8125,34.344 L62.4219,34.344 L62.4219,32.1877 L64.8906,32.1877 L64.8906,24.1096 L62.4219,24.1096 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="59" x="80.5" y="26.9659">Runnable</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="44" x="88" y="41.7579">java.lang</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="52.5" x2="141.5" y1="49.6879" y2="49.6879"/><ellipse cx="62.5" cy="60.6879" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="48" x="71.5" y="65.4468">run(): void</text><!--MD5=[ca35e08900a578e0faad5366c9ab029d]
+reverse link java.lang.Runnable to ui.CRMCollaboratorUI--><path codeLine="13" d="M97,93.45 C97,106.85 97,120.87 97,132.91 " fill="none" id="java.lang.Runnable-backto-ui.CRMCollaboratorUI" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="90,93.26,97,73.26,104,93.26,90,93.26" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="0" y="222.3598">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[d2cad2ee2409caf6bf9da3604c1ea383]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>CRMCollaboratorUI\n<size:10>ui" as ui.CRMCollaboratorUI [[CRMCollaboratorUI.html]] {
+        +run(): void
+    }
+
+    interface "<size:14>Runnable\n<size:10>java.lang" as java.lang.Runnable {
+        {abstract} +run(): void
+    }
+
+    java.lang.Runnable <|.. ui.CRMCollaboratorUI
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

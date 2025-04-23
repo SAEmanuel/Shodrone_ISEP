@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="235px" preserveAspectRatio="none" style="width:200px;height:235px;" version="1.1" viewBox="0 0 200 235" width="200px" zoomAndPan="magnify"><defs><filter height="300%" id="f1w41mqh7z7aqu" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[55895b14ffae7445c2d319334cd54855]
+class ui.CRMManagerUI--><a href="CRMManagerUI.html" target="_top" title="CRMManagerUI.html" xlink:actuate="onRequest" xlink:href="CRMManagerUI.html" xlink:show="new" xlink:title="CRMManagerUI.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#f1w41mqh7z7aqu)" height="65.6698" id="ui.CRMManagerUI" style="stroke: #A80036; stroke-width: 1.5;" width="139" x="27.5" y="133"/><ellipse cx="42.5" cy="154.344" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M45.4688,159.9846 Q44.8906,160.2815 44.25,160.4221 Q43.6094,160.5783 42.9063,160.5783 Q40.4063,160.5783 39.0781,158.9377 Q37.7656,157.2815 37.7656,154.1565 Q37.7656,151.0315 39.0781,149.3752 Q40.4063,147.719 42.9063,147.719 Q43.6094,147.719 44.25,147.8752 Q44.9063,148.0315 45.4688,148.3283 L45.4688,151.0471 Q44.8438,150.469 44.25,150.2033 Q43.6563,149.9221 43.0313,149.9221 Q41.6875,149.9221 41,151.0002 Q40.3125,152.0627 40.3125,154.1565 Q40.3125,156.2502 41,157.3283 Q41.6875,158.3908 43.0313,158.3908 Q43.6563,158.3908 44.25,158.1252 Q44.8438,157.844 45.4688,157.2658 L45.4688,159.9846 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="107" x="56.5" y="152.9659">CRMManagerUI</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="9" x="105.5" y="167.7579">ui</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="28.5" x2="165.5" y1="175.6879" y2="175.6879"/><ellipse cx="38.5" cy="186.6879" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="54" x="47.5" y="191.4468">run(): void</text></a><!--MD5=[8dac795f9edbf65a524ac462449c98fb]
+class java.lang.Runnable--><rect codeLine="9" fill="#FEFECE" filter="url(#f1w41mqh7z7aqu)" height="65.6698" id="java.lang.Runnable" style="stroke: #A80036; stroke-width: 1.5;" width="91" x="51.5" y="7"/><ellipse cx="66.5" cy="28.344" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M62.4219,24.1096 L62.4219,21.9533 L69.8125,21.9533 L69.8125,24.1096 L67.3438,24.1096 L67.3438,32.1877 L69.8125,32.1877 L69.8125,34.344 L62.4219,34.344 L62.4219,32.1877 L64.8906,32.1877 L64.8906,24.1096 L62.4219,24.1096 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="59" x="80.5" y="26.9659">Runnable</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="44" x="88" y="41.7579">java.lang</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="52.5" x2="141.5" y1="49.6879" y2="49.6879"/><ellipse cx="62.5" cy="60.6879" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="48" x="71.5" y="65.4468">run(): void</text><!--MD5=[6c3054037db093448f02b7cbb018d7c7]
+reverse link java.lang.Runnable to ui.CRMManagerUI--><path codeLine="13" d="M97,93.45 C97,106.85 97,120.87 97,132.91 " fill="none" id="java.lang.Runnable-backto-ui.CRMManagerUI" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="90,93.26,97,73.26,104,93.26,90,93.26" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="0" y="222.3598">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[086f8326cea3e4fad5b1af034c032bbf]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>CRMManagerUI\n<size:10>ui" as ui.CRMManagerUI [[CRMManagerUI.html]] {
+        +run(): void
+    }
+
+    interface "<size:14>Runnable\n<size:10>java.lang" as java.lang.Runnable {
+        {abstract} +run(): void
+    }
+
+    java.lang.Runnable <|.. ui.CRMManagerUI
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="328px" preserveAspectRatio="none" style="width:403px;height:328px;" version="1.1" viewBox="0 0 403 328" width="403px" zoomAndPan="magnify"><defs><filter height="300%" id="f1s2221xch2qf1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5cc94c21c9b2a581b186cea6c97dc43c]
+class controller--><a href="controller/package-summary.html" target="_top" title="controller/package-summary.html" xlink:actuate="onRequest" xlink:href="controller/package-summary.html" xlink:show="new" xlink:title="controller/package-summary.html" xlink:type="simple"><rect codeLine="13" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="controller" style="stroke: #A80036; stroke-width: 1.5;" width="60" x="97" y="93"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="100" y="110.8281">controller</text></a><!--MD5=[b2c3d89b312e4eed2d630e16ef59187f]
+class repositories--><a href="repositories/package-summary.html" target="_top" title="repositories/package-summary.html" xlink:actuate="onRequest" xlink:href="repositories/package-summary.html" xlink:show="new" xlink:title="repositories/package-summary.html" xlink:type="simple"><rect codeLine="15" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="repositories" style="stroke: #A80036; stroke-width: 1.5;" width="73" x="90.5" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="67" x="93.5" y="196.8281">repositories</text></a><!--MD5=[d39b0e5acf37d349c49873ef54346d0c]
+class session--><a href="session/package-summary.html" target="_top" title="session/package-summary.html" xlink:actuate="onRequest" xlink:href="session/package-summary.html" xlink:show="new" xlink:title="session/package-summary.html" xlink:type="simple"><rect codeLine="17" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="session" style="stroke: #A80036; stroke-width: 1.5;" width="48" x="7" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="42" x="10" y="196.8281">session</text></a><!--MD5=[160624e214f32d93441c682019030fa3]
+class pt.isep.lei.esoft.auth--><rect fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.5;" width="118" x="20" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="112" x="23" y="282.8281">pt.isep.lei.esoft.auth</text><!--MD5=[c6a8694d64ff17fbd4c79b92e03656cf]
+class ui.authz--><a href="ui/authz/package-summary.html" target="_top" title="ui/authz/package-summary.html" xlink:actuate="onRequest" xlink:href="ui/authz/package-summary.html" xlink:show="new" xlink:title="ui/authz/package-summary.html" xlink:type="simple"><rect codeLine="19" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="ui.authz" style="stroke: #A80036; stroke-width: 1.5;" width="50" x="182" y="7"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="44" x="185" y="24.8281">ui.authz</text></a><!--MD5=[8c13ae462408b54054d2545f1edcbcf1]
+class pt.isep.lei.esoft.auth.mappers.dto--><rect fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="pt.isep.lei.esoft.auth.mappers.dto" style="stroke: #A80036; stroke-width: 1.5;" width="192" x="192" y="93"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="186" x="195" y="110.8281">pt.isep.lei.esoft.auth.mappers.dto</text><!--MD5=[5776623614cdf6ed5872a3b30bd162d5]
+link controller to repositories--><path codeLine="6" d="M127,119.04 C127,133.38 127,157.46 127,173.78 " fill="none" id="controller-to-repositories" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="127,178.99,131,169.99,127,173.99,123,169.99,127,178.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0aff02642c1222a3a01081ff39b5264e]
+link session to pt.isep.lei.esoft.auth--><path codeLine="7" d="M37.88,205.04 C46.22,219.63 60.32,244.3 69.64,260.62 " fill="none" id="session-to-pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="72.14,264.99,71.1512,255.1909,69.6608,260.6479,64.2038,259.1575,72.14,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0f5339efcb2ad9ac8afd9862935f0822]
+link repositories to pt.isep.lei.esoft.auth--><path codeLine="8" d="M120.12,205.04 C111.78,219.63 97.68,244.3 88.36,260.62 " fill="none" id="repositories-to-pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="85.86,264.99,93.7962,259.1575,88.3392,260.6479,86.8488,255.1909,85.86,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0cf43c8f5398e820fa43937e5ff23bac]
+link ui.authz to controller--><path codeLine="9" d="M195.54,33.04 C181.52,47.76 157.74,72.72 142.2,89.04 " fill="none" id="ui.authz-to-controller" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="138.44,92.99,147.5364,89.2144,141.8815,89.3629,141.733,83.708,138.44,92.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[9478362e2df007a27dbb8ae434d7f57a]
+link ui.authz to pt.isep.lei.esoft.auth.mappers.dto--><path codeLine="10" d="M218.61,33.04 C232.8,47.76 256.88,72.72 272.61,89.04 " fill="none" id="ui.authz-to-pt.isep.lei.esoft.auth.mappers.dto" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="276.42,92.99,273.0522,83.7349,272.9493,89.3908,267.2934,89.2879,276.42,92.99" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="98.5" y="315.0341">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[03e24b1ccb7c71bebb3c842b1d70b44d]
+@startuml
+    set namespaceSeparator none
+    hide circle
+    hide empty fields
+    hide empty methods
+
+    controller - -> repositories
+    session - -> pt.isep.lei.esoft.auth
+    repositories - -> pt.isep.lei.esoft.auth
+    ui.authz - -> controller
+    ui.authz - -> pt.isep.lei.esoft.auth.mappers.dto
+
+    ' Package links
+    class "controller" [[controller/package-summary.html]] {
+    }
+    class "repositories" [[repositories/package-summary.html]] {
+    }
+    class "session" [[session/package-summary.html]] {
+    }
+    class "ui.authz" [[ui/authz/package-summary.html]] {
+    }
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+@startuml
+    set namespaceSeparator none
+    hide circle
+    hide empty fields
+    hide empty methods
+
+    controller - -> repositories
+    session - -> pt.isep.lei.esoft.auth
+    repositories - -> pt.isep.lei.esoft.auth
+    ui.authz - -> controller
+    ui.authz - -> pt.isep.lei.esoft.auth.mappers.dto
+
+    class "controller" [[controller/package-summary.html]] {
+    }
+    class "repositories" [[repositories/package-summary.html]] {
+    }
+    class "session" [[session/package-summary.html]] {
+    }
+    class "ui.authz" [[ui/authz/package-summary.html]] {
+    }
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

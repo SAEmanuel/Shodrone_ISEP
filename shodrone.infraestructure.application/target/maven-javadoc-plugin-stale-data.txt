@@ -1,0 +1,112 @@
+/usr/lib/jvm/jdk-21-oracle-x64/bin/javadoc
+-Xdoclint:none
+@options
+@packages
+-classpath
+'/home/jorge-rodrigues/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar:/home/jorge-rodrigues/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar:/home/jorge-rodrigues/.m2/repository/org/bitbucket/pag_isep/eapliframework/eapli.framework.core/25.0.0-RELEASE/eapli.framework.core-25.0.0-RELEASE.jar:/home/jorge-rodrigues/.m2/repository/commons-io/commons-io/2.15.1/commons-io-2.15.1.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.3/spring-boot-starter-data-jpa-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.3/spring-boot-starter-aop-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.3/spring-boot-starter-jdbc-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-jdbc/6.1.4/spring-jdbc-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar:/home/jorge-rodrigues/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/jorge-rodrigues/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/data/spring-data-jpa/3.2.3/spring-data-jpa-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/data/spring-data-commons/3.2.3/spring-data-commons-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-orm/6.1.4/spring-orm-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-context/6.1.4/spring-context-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-tx/6.1.4/spring-tx-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-beans/6.1.4/spring-beans-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-core/6.1.4/spring-core-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-jcl/6.1.4/spring-jcl-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.0.0/jakarta.annotation-api-2.0.0.jar:/home/jorge-rodrigues/.m2/repository/org/slf4j/slf4j-api/2.0.2/slf4j-api-2.0.2.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-aspects/6.1.4/spring-aspects-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.3/spring-boot-starter-json-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.3/spring-boot-starter-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot/3.2.3/spring-boot-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.3/spring-boot-autoconfigure-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.3/spring-boot-starter-logging-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/jorge-rodrigues/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/jorge-rodrigues/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/jorge-rodrigues/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/jorge-rodrigues/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.12.jar:/home/jorge-rodrigues/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-web/6.1.4/spring-web-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/io/micrometer/micrometer-observation/1.12.3/micrometer-observation-1.12.3.jar:/home/jorge-rodrigues/.m2/repository/io/micrometer/micrometer-commons/1.12.3/micrometer-commons-1.12.3.jar:/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar:/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar:/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar:/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar:/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar:/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar:/home/jorge-rodrigues/.m2/repository/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar:/home/jorge-rodrigues/.m2/repository/org/bitbucket/pag_isep/eapliframework/eapli.framework.infrastructure.authz/25.0.0-RELEASE/eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.3/spring-boot-starter-security-3.2.3.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-aop/6.1.4/spring-aop-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-config/6.2.2/spring-security-config-6.2.2.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-core/6.2.2/spring-security-core-6.2.2.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-crypto/6.2.2/spring-security-crypto-6.2.2.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-web/6.2.2/spring-security-web-6.2.2.jar:/home/jorge-rodrigues/.m2/repository/org/springframework/spring-expression/6.1.4/spring-expression-6.1.4.jar:/home/jorge-rodrigues/.m2/repository/org/bitbucket/pag_isep/eapliframework/eapli.framework.infrastructure.pubsub/25.0.0-RELEASE/eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar:/home/jorge-rodrigues/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/jorge-rodrigues/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar'
+-doclet
+'nl.talsmasoftware.umldoclet.UMLDoclet'
+-docletpath
+'/home/jorge-rodrigues/.m2/repository/nl/talsmasoftware/umldoclet/2.0.12/umldoclet-2.0.12.jar'
+-encoding
+'UTF-8'
+-private
+-sourcepath
+'/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/src/main/java:/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/generated-sources/annotations'
+-Xdoclint:none
+-author
+-bottom
+'Copyright &#169; 2025. All rights reserved.'
+-charset
+'UTF-8'
+-d
+'/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs'
+-docencoding
+'UTF-8'
+-Xdoclint:none
+-doctitle
+'shodrone.infraestructure.application 0.1.0 API'
+-use
+-version
+-windowtitle
+'shodrone.infraestructure.application 0.1.0 API'
+app
+app
+/home/jorge-rodrigues/.m2/repository/javax/xml/bind/jaxb-api/2.3.1/jaxb-api-2.3.1.jar = 1536758932000
+/home/jorge-rodrigues/.m2/repository/javax/activation/javax.activation-api/1.2.0/javax.activation-api-1.2.0.jar = 1504739599000
+/home/jorge-rodrigues/.m2/repository/org/bitbucket/pag_isep/eapliframework/eapli.framework.core/25.0.0-RELEASE/eapli.framework.core-25.0.0-RELEASE.jar = 1743932843505
+/home/jorge-rodrigues/.m2/repository/commons-io/commons-io/2.15.1/commons-io-2.15.1.jar = 1700843303000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.3/spring-boot-starter-data-jpa-3.2.3.jar = 1708632207000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.3/spring-boot-starter-aop-3.2.3.jar = 1708632198000
+/home/jorge-rodrigues/.m2/repository/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar = 1702263793000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.3/spring-boot-starter-jdbc-3.2.3.jar = 1708632208000
+/home/jorge-rodrigues/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar = 1641789548000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-jdbc/6.1.4/spring-jdbc-6.1.4.jar = 1707994975000
+/home/jorge-rodrigues/.m2/repository/org/hibernate/orm/hibernate-core/6.4.4.Final/hibernate-core-6.4.4.Final.jar = 1707398464000
+/home/jorge-rodrigues/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar = 1648723059000
+/home/jorge-rodrigues/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar = 1684690120000
+/home/jorge-rodrigues/.m2/repository/org/springframework/data/spring-data-jpa/3.2.3/spring-data-jpa-3.2.3.jar = 1708089150000
+/home/jorge-rodrigues/.m2/repository/org/springframework/data/spring-data-commons/3.2.3/spring-data-commons-3.2.3.jar = 1708088996000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-orm/6.1.4/spring-orm-6.1.4.jar = 1707994968000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-context/6.1.4/spring-context-6.1.4.jar = 1707994976000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-tx/6.1.4/spring-tx-6.1.4.jar = 1707994962000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-beans/6.1.4/spring-beans-6.1.4.jar = 1707994958000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-core/6.1.4/spring-core-6.1.4.jar = 1707994975000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-jcl/6.1.4/spring-jcl-6.1.4.jar = 1707994958000
+/home/jorge-rodrigues/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.0.0/jakarta.annotation-api-2.0.0.jar = 1602511630000
+/home/jorge-rodrigues/.m2/repository/org/slf4j/slf4j-api/2.0.2/slf4j-api-2.0.2.jar = 1663702801000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-aspects/6.1.4/spring-aspects-6.1.4.jar = 1707994962000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.3/spring-boot-starter-json-3.2.3.jar = 1708632197000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.3/spring-boot-starter-3.2.3.jar = 1708632202000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot/3.2.3/spring-boot-3.2.3.jar = 1708632201000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.3/spring-boot-autoconfigure-3.2.3.jar = 1708632195000
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.3/spring-boot-starter-logging-3.2.3.jar = 1708632214000
+/home/jorge-rodrigues/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar = 1701431604000
+/home/jorge-rodrigues/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar = 1701431559000
+/home/jorge-rodrigues/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar = 1697831384000
+/home/jorge-rodrigues/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar = 1697831380000
+/home/jorge-rodrigues/.m2/repository/org/slf4j/jul-to-slf4j/2.0.12/jul-to-slf4j-2.0.12.jar = 1707168920000
+/home/jorge-rodrigues/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar = 1693124795000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-web/6.1.4/spring-web-6.1.4.jar = 1707994977000
+/home/jorge-rodrigues/.m2/repository/io/micrometer/micrometer-observation/1.12.3/micrometer-observation-1.12.3.jar = 1707769141000
+/home/jorge-rodrigues/.m2/repository/io/micrometer/micrometer-commons/1.12.3/micrometer-commons-1.12.3.jar = 1707769129000
+/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.4/jackson-databind-2.15.4.jar = 1708018528000
+/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.4/jackson-annotations-2.15.4.jar = 1708016371000
+/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.4/jackson-core-2.15.4.jar = 1708016988000
+/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.4/jackson-datatype-jdk8-2.15.4.jar = 1708020620000
+/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.4/jackson-datatype-jsr310-2.15.4.jar = 1708020617000
+/home/jorge-rodrigues/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.4/jackson-module-parameter-names-2.15.4.jar = 1708020616000
+/home/jorge-rodrigues/.m2/repository/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar = 1690141497000
+/home/jorge-rodrigues/.m2/repository/org/bitbucket/pag_isep/eapliframework/eapli.framework.infrastructure.authz/25.0.0-RELEASE/eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar = 1743932841780
+/home/jorge-rodrigues/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.3/spring-boot-starter-security-3.2.3.jar = 1708632196000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-aop/6.1.4/spring-aop-6.1.4.jar = 1707994971000
+/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-config/6.2.2/spring-security-config-6.2.2.jar = 1708110049000
+/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-core/6.2.2/spring-security-core-6.2.2.jar = 1708110050000
+/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-crypto/6.2.2/spring-security-crypto-6.2.2.jar = 1708110050000
+/home/jorge-rodrigues/.m2/repository/org/springframework/security/spring-security-web/6.2.2/spring-security-web-6.2.2.jar = 1708110059000
+/home/jorge-rodrigues/.m2/repository/org/springframework/spring-expression/6.1.4/spring-expression-6.1.4.jar = 1707994977000
+/home/jorge-rodrigues/.m2/repository/org/bitbucket/pag_isep/eapliframework/eapli.framework.infrastructure.pubsub/25.0.0-RELEASE/eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar = 1743932843021
+/home/jorge-rodrigues/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar = 1645787726000
+/home/jorge-rodrigues/.m2/repository/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar = 1695178071000
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/src/main/java = 1745411469080
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/generated-sources/annotations = 1745438444243
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/link.svg = 1745438445710
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/search.html = 1745438445703
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/module-search-index.js = 1745438445694
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/script.js = 1745438445709
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/stylesheet.css = 1745438445709
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/package-dependencies.svg = 1745438446652
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/help-doc.html = 1745438445708
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/search.js = 1745438445711
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/type-search-index.js = 1745438445694
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/allpackages-index.html = 1745438445693
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/overview-tree.html = 1745438445681
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/search-page.js = 1745438445712
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/member-search-index.js = 1745438445694
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/element-list = 1745438445647
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/index.html = 1745438445704
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/tag-search-index.js = 1745438445694
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/allclasses-index.html = 1745438445692
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/index-all.html = 1745438445701
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/copy.svg = 1745438445710
+/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/apidocs/package-search-index.js = 1745438445694

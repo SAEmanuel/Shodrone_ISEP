@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Utils.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">utils</a> &gt; <span class="el_source">Utils.java</span></div><h1>Utils.java</h1><pre class="source lang-java linenums">package utils;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static more.ColorfulOutput.*;
+
+
+<span class="nc" id="L15">public class Utils {</span>
+    final static String COLOR_OPTIONS = ANSI_BRIGHT_BLACK;
+
+    static public String readLineFromConsole(String prompt) {
+        try {
+<span class="nc" id="L20">            System.out.printf(&quot;%s : &quot;, prompt);</span>
+
+<span class="nc" id="L22">            InputStreamReader converter = new InputStreamReader(System.in);</span>
+<span class="nc" id="L23">            BufferedReader in = new BufferedReader(converter);</span>
+
+<span class="nc" id="L25">            return in.readLine();</span>
+<span class="nc" id="L26">        } catch (Exception e) {</span>
+<span class="nc" id="L27">            e.printStackTrace();</span>
+<span class="nc" id="L28">            return null;</span>
+        }
+    }
+
+    static public int readIntegerFromConsole(String prompt) {
+        do {
+            try {
+<span class="nc" id="L35">                String input = readLineFromConsole(prompt);</span>
+
+<span class="nc" id="L37">                int value = Integer.parseInt(input);</span>
+
+<span class="nc" id="L39">                return value;</span>
+<span class="nc" id="L40">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L41">                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);</span>
+            }
+<span class="nc" id="L43">        } while (true);</span>
+    }
+
+    static public double readDoubleFromConsole(String prompt) {
+        do {
+            try {
+<span class="nc" id="L49">                String input = readLineFromConsole(prompt);</span>
+
+<span class="nc" id="L51">                double value = Double.parseDouble(input);</span>
+
+<span class="nc" id="L53">                return value;</span>
+<span class="nc" id="L54">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L55">                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);</span>
+            }
+<span class="nc" id="L57">        } while (true);</span>
+    }
+
+    static public Date readDateFromConsole(String prompt) {
+        do {
+            try {
+<span class="nc" id="L63">                String strDate = readLineFromConsole(prompt);</span>
+
+<span class="nc" id="L65">                SimpleDateFormat df = new SimpleDateFormat(&quot;dd-MM-yyyy&quot;);</span>
+
+<span class="nc" id="L67">                Date date = df.parse(strDate);</span>
+
+<span class="nc" id="L69">                return date;</span>
+<span class="nc" id="L70">            } catch (ParseException ex) {</span>
+<span class="nc" id="L71">                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);</span>
+            }
+<span class="nc" id="L73">        } while (true);</span>
+    }
+
+    static public boolean confirm(String message) {
+        String input;
+        do {
+<span class="nc" id="L79">            input = Utils.readLineFromConsole(&quot;\n&quot; + message + &quot;\n&quot;);</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">        } while (!input.equalsIgnoreCase(&quot;s&quot;) &amp;&amp; !input.equalsIgnoreCase(&quot;n&quot;));</span>
+
+<span class="nc" id="L82">        return input.equalsIgnoreCase(&quot;s&quot;);</span>
+    }
+
+    static public Object showAndSelectOne(List&lt;?&gt; list, String header) {
+<span class="nc" id="L86">        showList(list, header);</span>
+<span class="nc" id="L87">        return selectsObject(list);</span>
+    }
+
+    static public int showAndSelectIndex(List&lt;?&gt; list, String header) {
+<span class="nc" id="L91">        showList(list, header);</span>
+<span class="nc" id="L92">        return selectsIndex(list);</span>
+    }
+
+    static public int showAndSelectIndexDataBase(List&lt;?&gt; list, String header) {
+<span class="nc" id="L96">        showListDataBase(list, header);</span>
+<span class="nc" id="L97">        return selectsIndex(list);</span>
+    }
+
+    static public void showListDataBase(List&lt;?&gt; list, String header) {
+<span class="nc" id="L101">        System.out.println(header);</span>
+<span class="nc" id="L102">        System.out.println(&quot;╚═════════════════════════════════════════════════╝&quot;);</span>
+
+<span class="nc" id="L104">        int index = 0;</span>
+<span class="nc bnc" id="L105" title="All 2 branches missed.">        for (Object o : list) {</span>
+<span class="nc" id="L106">            index++;</span>
+
+<span class="nc" id="L108">            System.out.printf(&quot;║    %s(%-3s%s -  %-36s %-2s%n&quot;,COLOR_OPTIONS, index + &quot;)&quot;,ANSI_RESET,o.toString(),&quot;║&quot;);</span>
+<span class="nc" id="L109">        }</span>
+<span class="nc" id="L110">        System.out.printf(&quot;║    %s(0)%s  -  %-28s %9s%n&quot;,COLOR_OPTIONS,ANSI_RESET,&quot;Cancel&quot;,&quot;║&quot;);</span>
+<span class="nc" id="L111">        System.out.println(&quot;╚═════════════════════════════════════════════════╝&quot;);</span>
+<span class="nc" id="L112">    }</span>
+
+    static public void showList(List&lt;?&gt; list, String header) {
+<span class="nc" id="L115">        System.out.println(header);</span>
+<span class="nc" id="L116">        System.out.println(&quot;╚════════════════════════════════════════╝&quot;);</span>
+
+<span class="nc" id="L118">        int index = 0;</span>
+<span class="nc bnc" id="L119" title="All 2 branches missed.">        for (Object o : list) {</span>
+<span class="nc" id="L120">            index++;</span>
+
+<span class="nc" id="L122">            System.out.printf(&quot;║    %s(%d)%s -  %-28s %-2s%n&quot;,COLOR_OPTIONS,index,ANSI_RESET,o.toString(),&quot;║&quot;);</span>
+<span class="nc" id="L123">        }</span>
+<span class="nc" id="L124">        System.out.printf(&quot;║    %s(0)%s -  %-20s %9s%n&quot;,COLOR_OPTIONS,ANSI_RESET,&quot;Cancel&quot;,&quot;║&quot;);</span>
+<span class="nc" id="L125">        System.out.println(&quot;╚════════════════════════════════════════╝&quot;);</span>
+<span class="nc" id="L126">    }</span>
+
+    static public Object selectsObject(List&lt;?&gt; list) {
+        String input;
+        int value;
+        do {
+<span class="nc" id="L132">            input = Utils.readLineFromConsole(&quot;Type your option&quot;);</span>
+<span class="nc" id="L133">            value = Integer.valueOf(input);</span>
+<span class="nc bnc" id="L134" title="All 4 branches missed.">        } while (value &lt; 0 || value &gt; list.size());</span>
+
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (value == 0) {</span>
+<span class="nc" id="L137">            return null;</span>
+        } else {
+<span class="nc" id="L139">            return list.get(value - 1);</span>
+        }
+    }
+
+    static public int selectsIndex(List list) {
+        String input;
+        int value;
+        do {
+<span class="nc" id="L147">            input = Utils.readLineFromConsole(&quot;Type your option&quot;);</span>
+            try {
+<span class="nc" id="L149">                value = Integer.valueOf(input);</span>
+<span class="nc" id="L150">            } catch (NumberFormatException ex) {</span>
+<span class="nc" id="L151">                value = -1;</span>
+<span class="nc" id="L152">            }</span>
+<span class="nc bnc" id="L153" title="All 4 branches missed.">        } while (value &lt; 0 || value &gt; list.size());</span>
+
+<span class="nc" id="L155">        return value - 1;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

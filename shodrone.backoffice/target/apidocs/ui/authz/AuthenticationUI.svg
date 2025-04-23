@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="333px" preserveAspectRatio="none" style="width:336px;height:333px;" version="1.1" viewBox="0 0 336 333" width="336px" zoomAndPan="magnify"><defs><filter height="300%" id="fyk54tgy45ze2" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5bcec26b0f1bac56bd497563aefdd7f6]
+class ui.authz.AuthenticationUI--><a href="AuthenticationUI.html" target="_top" title="AuthenticationUI.html" xlink:actuate="onRequest" xlink:href="AuthenticationUI.html" xlink:show="new" xlink:title="AuthenticationUI.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#fyk54tgy45ze2)" height="163.5611" id="ui.authz.AuthenticationUI" style="stroke: #A80036; stroke-width: 1.5;" width="310" x="7" y="133"/><ellipse cx="100.75" cy="154.344" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M103.7188,159.9846 Q103.1406,160.2815 102.5,160.4221 Q101.8594,160.5783 101.1563,160.5783 Q98.6563,160.5783 97.3281,158.9377 Q96.0156,157.2815 96.0156,154.1565 Q96.0156,151.0315 97.3281,149.3752 Q98.6563,147.719 101.1563,147.719 Q101.8594,147.719 102.5,147.8752 Q103.1563,148.0315 103.7188,148.3283 L103.7188,151.0471 Q103.0938,150.469 102.5,150.2033 Q101.9063,149.9221 101.2813,149.9221 Q99.9375,149.9221 99.25,151.0002 Q98.5625,152.0627 98.5625,154.1565 Q98.5625,156.2502 99.25,157.3283 Q99.9375,158.3908 101.2813,158.3908 Q101.9063,158.3908 102.5,158.1252 Q103.0938,157.844 103.7188,157.2658 L103.7188,159.9846 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="114" x="121.25" y="152.9659">AuthenticationUI</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="39" x="158.75" y="167.7579">ui.authz</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="316" y1="175.6879" y2="175.6879"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="183.6879"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="154" x="27" y="191.4468">ctrl: AuthenticationController</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="316" y1="198.6698" y2="198.6698"/><ellipse cx="18" cy="209.6698" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="54" x="27" y="214.4287">run(): void</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="221.6517"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="213" x="27" y="229.4106">getMenuItemForRoles(): List&lt;MenuItem&gt;</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="236.6336"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="99" x="27" y="244.3925">doLogin(): boolean</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="251.6155"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="70" x="27" y="259.3744">logout(): void</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="266.5973"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="284" x="27" y="274.3563">redirectToRoleUI(List&lt;MenuItem&gt;, UserRoleDTO): void</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="281.5792"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="239" x="27" y="289.3381">selectsRole(List&lt;UserRoleDTO&gt;): UserRoleDTO</text></a><!--MD5=[8dac795f9edbf65a524ac462449c98fb]
+class java.lang.Runnable--><rect codeLine="15" fill="#FEFECE" filter="url(#fyk54tgy45ze2)" height="65.6698" id="java.lang.Runnable" style="stroke: #A80036; stroke-width: 1.5;" width="91" x="116.5" y="7"/><ellipse cx="131.5" cy="28.344" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M127.4219,24.1096 L127.4219,21.9533 L134.8125,21.9533 L134.8125,24.1096 L132.3438,24.1096 L132.3438,32.1877 L134.8125,32.1877 L134.8125,34.344 L127.4219,34.344 L127.4219,32.1877 L129.8906,32.1877 L129.8906,24.1096 L127.4219,24.1096 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="59" x="145.5" y="26.9659">Runnable</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="44" x="153" y="41.7579">java.lang</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="117.5" x2="206.5" y1="49.6879" y2="49.6879"/><ellipse cx="127.5" cy="60.6879" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="48" x="136.5" y="65.4468">run(): void</text><!--MD5=[21591bd4ac32d7074ce6bcdc1f6bd207]
+reverse link java.lang.Runnable to ui.authz.AuthenticationUI--><path codeLine="19" d="M162,93.39 C162,105.82 162,119.37 162,132.75 " fill="none" id="java.lang.Runnable-backto-ui.authz.AuthenticationUI" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="155,93.13,162,73.13,169,93.13,155,93.13" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="65" y="320.2511">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[f15fe288266dc972a8fd5fa6f1722c4c]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>AuthenticationUI\n<size:10>ui.authz" as ui.authz.AuthenticationUI [[AuthenticationUI.html]] {
+        -ctrl: AuthenticationController
+        +run(): void
+        -getMenuItemForRoles(): List<MenuItem>
+        -doLogin(): boolean
+        -logout(): void
+        -redirectToRoleUI(List<MenuItem>, UserRoleDTO): void
+        -selectsRole(List<UserRoleDTO>): UserRoleDTO
+    }
+
+    interface "<size:14>Runnable\n<size:10>java.lang" as java.lang.Runnable {
+        {abstract} +run(): void
+    }
+
+    java.lang.Runnable <|.. ui.authz.AuthenticationUI
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
