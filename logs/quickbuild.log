@@ -12,81 +12,84 @@
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-dependency-plugin:2.8:copy-dependencies (default-cli) @ shodrone ---
-[INFO] Copying junit-jupiter-params-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/junit-jupiter-params-5.10.1.jar
-[INFO] Copying spring-aop-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-aop-6.1.4.jar
-[INFO] Copying spring-boot-autoconfigure-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-autoconfigure-3.2.3.jar
-[INFO] Copying slf4j-api-2.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/slf4j-api-2.0.2.jar
-[INFO] Copying jackson-core-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jackson-core-2.15.4.jar
-[INFO] Copying jaxb-api-2.3.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jaxb-api-2.3.1.jar
-[INFO] Copying spring-jcl-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-jcl-6.1.4.jar
-[INFO] Copying eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar
-[INFO] Copying spring-security-config-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-security-config-6.2.2.jar
-[INFO] Copying spring-security-crypto-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-security-crypto-6.2.2.jar
-[INFO] Copying jackson-datatype-jdk8-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jackson-datatype-jdk8-2.15.4.jar
-[INFO] Copying hibernate-commons-annotations-6.0.6.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/hibernate-commons-annotations-6.0.6.Final.jar
-[INFO] Copying antlr4-runtime-4.13.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/antlr4-runtime-4.13.0.jar
-[INFO] Copying jaxb-core-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jaxb-core-4.0.2.jar
-[INFO] Copying spring-expression-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-expression-6.1.4.jar
-[INFO] Copying log4j-to-slf4j-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/log4j-to-slf4j-2.21.1.jar
-[INFO] Copying jackson-annotations-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jackson-annotations-2.15.4.jar
-[INFO] Copying commons-io-2.15.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/commons-io-2.15.1.jar
-[INFO] Copying jakarta.activation-api-2.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jakarta.activation-api-2.1.0.jar
-[INFO] Copying junit-platform-commons-1.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/junit-platform-commons-1.10.1.jar
-[INFO] Copying jul-to-slf4j-2.0.12.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jul-to-slf4j-2.0.12.jar
-[INFO] Copying spring-context-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-context-6.1.4.jar
-[INFO] Copying spring-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-data-jpa-3.2.3.jar
-[INFO] Copying spring-aspects-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-aspects-6.1.4.jar
-[INFO] Copying spring-boot-starter-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-starter-3.2.3.jar
-[INFO] Copying eapli.framework.core-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/eapli.framework.core-25.0.0-RELEASE.jar
-[INFO] Copying spring-jdbc-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-jdbc-6.1.4.jar
-[INFO] Copying jackson-databind-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jackson-databind-2.15.4.jar
-[INFO] Copying spring-security-core-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-security-core-6.2.2.jar
-[INFO] Copying logback-classic-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/logback-classic-1.4.14.jar
-[INFO] Copying byte-buddy-1.14.11.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/byte-buddy-1.14.11.jar
-[INFO] Copying spring-boot-starter-aop-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-starter-aop-3.2.3.jar
-[INFO] Copying jakarta.persistence-api-3.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jakarta.persistence-api-3.1.0.jar
-[INFO] Copying spring-boot-starter-jdbc-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-starter-jdbc-3.2.3.jar
-[INFO] Copying javax.activation-api-1.2.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/javax.activation-api-1.2.0.jar
-[INFO] Copying junit-jupiter-api-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/junit-jupiter-api-5.10.1.jar
-[INFO] Copying opentest4j-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/opentest4j-1.3.0.jar
-[INFO] Copying spring-boot-starter-logging-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-starter-logging-3.2.3.jar
-[INFO] Copying jakarta.transaction-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jakarta.transaction-api-2.0.1.jar
-[INFO] Copying spring-data-commons-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-data-commons-3.2.3.jar
-[INFO] Copying jackson-module-parameter-names-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jackson-module-parameter-names-2.15.4.jar
-[INFO] Copying h2-2.2.224.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/h2-2.2.224.jar
-[INFO] Copying angus-activation-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/angus-activation-2.0.0.jar
-[INFO] Copying HikariCP-5.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/HikariCP-5.0.1.jar
-[INFO] Copying snakeyaml-2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/snakeyaml-2.2.jar
-[INFO] Copying spring-tx-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-tx-6.1.4.jar
-[INFO] Copying micrometer-commons-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/micrometer-commons-1.12.3.jar
-[INFO] Copying jaxb-runtime-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jaxb-runtime-4.0.2.jar
-[INFO] Copying jakarta.inject-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jakarta.inject-api-2.0.1.jar
-[INFO] Copying jakarta.annotation-api-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jakarta.annotation-api-2.0.0.jar
-[INFO] Copying spring-boot-starter-security-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-starter-security-3.2.3.jar
-[INFO] Copying jackson-datatype-jsr310-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jackson-datatype-jsr310-2.15.4.jar
-[INFO] Copying txw2-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/txw2-4.0.2.jar
-[INFO] Copying logback-core-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/logback-core-1.4.14.jar
-[INFO] Copying spring-boot-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-3.2.3.jar
-[INFO] Copying spring-core-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-core-6.1.4.jar
-[INFO] Copying spring-boot-starter-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-starter-data-jpa-3.2.3.jar
-[INFO] Copying jandex-3.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jandex-3.1.2.jar
-[INFO] Copying micrometer-observation-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/micrometer-observation-1.12.3.jar
-[INFO] Copying spring-orm-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-orm-6.1.4.jar
-[INFO] Copying istack-commons-runtime-4.1.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/istack-commons-runtime-4.1.1.jar
-[INFO] Copying jboss-logging-3.5.0.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jboss-logging-3.5.0.Final.jar
-[INFO] Copying spring-beans-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-beans-6.1.4.jar
-[INFO] Copying apiguardian-api-1.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/apiguardian-api-1.1.2.jar
-[INFO] Copying aspectjweaver-1.9.21.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/aspectjweaver-1.9.21.jar
-[INFO] Copying spring-boot-starter-json-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-boot-starter-json-3.2.3.jar
-[INFO] Copying eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar
-[INFO] Copying log4j-api-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/log4j-api-2.21.1.jar
-[INFO] Copying spring-web-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-web-6.1.4.jar
-[INFO] Copying hibernate-core-6.4.4.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/hibernate-core-6.4.4.Final.jar
-[INFO] Copying classmate-1.5.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/classmate-1.5.1.jar
-[INFO] Copying jakarta.xml.bind-api-4.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/jakarta.xml.bind-api-4.0.0.jar
-[INFO] Copying lombok-1.18.30.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/lombok-1.18.30.jar
-[INFO] Copying commons-lang3-3.13.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/commons-lang3-3.13.0.jar
-[INFO] Copying spring-security-web-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/spring-security-web-6.2.2.jar
+[INFO] Copying bcrypt-0.9.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/bcrypt-0.9.0.jar
+[INFO] Copying commons-lang3-3.5.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/commons-lang3-3.5.jar
+[INFO] Copying AuthLib-1.0-SNAPSHOT.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/AuthLib-1.0-SNAPSHOT.jar
+[INFO] Copying bytes-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/dependency/bytes-1.3.0.jar
+[INFO] junit-jupiter-params-5.10.1.jar already exists in destination.
+[INFO] spring-aop-6.1.4.jar already exists in destination.
+[INFO] spring-boot-autoconfigure-3.2.3.jar already exists in destination.
+[INFO] slf4j-api-2.0.2.jar already exists in destination.
+[INFO] jackson-core-2.15.4.jar already exists in destination.
+[INFO] jaxb-api-2.3.1.jar already exists in destination.
+[INFO] spring-jcl-6.1.4.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar already exists in destination.
+[INFO] spring-security-config-6.2.2.jar already exists in destination.
+[INFO] spring-security-crypto-6.2.2.jar already exists in destination.
+[INFO] jackson-datatype-jdk8-2.15.4.jar already exists in destination.
+[INFO] hibernate-commons-annotations-6.0.6.Final.jar already exists in destination.
+[INFO] antlr4-runtime-4.13.0.jar already exists in destination.
+[INFO] jaxb-core-4.0.2.jar already exists in destination.
+[INFO] spring-expression-6.1.4.jar already exists in destination.
+[INFO] log4j-to-slf4j-2.21.1.jar already exists in destination.
+[INFO] jackson-annotations-2.15.4.jar already exists in destination.
+[INFO] commons-io-2.15.1.jar already exists in destination.
+[INFO] jakarta.activation-api-2.1.0.jar already exists in destination.
+[INFO] junit-platform-commons-1.10.1.jar already exists in destination.
+[INFO] jul-to-slf4j-2.0.12.jar already exists in destination.
+[INFO] spring-context-6.1.4.jar already exists in destination.
+[INFO] spring-data-jpa-3.2.3.jar already exists in destination.
+[INFO] spring-aspects-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.core-25.0.0-RELEASE.jar already exists in destination.
+[INFO] spring-jdbc-6.1.4.jar already exists in destination.
+[INFO] jackson-databind-2.15.4.jar already exists in destination.
+[INFO] spring-security-core-6.2.2.jar already exists in destination.
+[INFO] logback-classic-1.4.14.jar already exists in destination.
+[INFO] byte-buddy-1.14.11.jar already exists in destination.
+[INFO] spring-boot-starter-aop-3.2.3.jar already exists in destination.
+[INFO] jakarta.persistence-api-3.1.0.jar already exists in destination.
+[INFO] spring-boot-starter-jdbc-3.2.3.jar already exists in destination.
+[INFO] javax.activation-api-1.2.0.jar already exists in destination.
+[INFO] junit-jupiter-api-5.10.1.jar already exists in destination.
+[INFO] opentest4j-1.3.0.jar already exists in destination.
+[INFO] spring-boot-starter-logging-3.2.3.jar already exists in destination.
+[INFO] jakarta.transaction-api-2.0.1.jar already exists in destination.
+[INFO] spring-data-commons-3.2.3.jar already exists in destination.
+[INFO] jackson-module-parameter-names-2.15.4.jar already exists in destination.
+[INFO] h2-2.2.224.jar already exists in destination.
+[INFO] angus-activation-2.0.0.jar already exists in destination.
+[INFO] HikariCP-5.0.1.jar already exists in destination.
+[INFO] snakeyaml-2.2.jar already exists in destination.
+[INFO] spring-tx-6.1.4.jar already exists in destination.
+[INFO] micrometer-commons-1.12.3.jar already exists in destination.
+[INFO] jaxb-runtime-4.0.2.jar already exists in destination.
+[INFO] jakarta.inject-api-2.0.1.jar already exists in destination.
+[INFO] jakarta.annotation-api-2.0.0.jar already exists in destination.
+[INFO] spring-boot-starter-security-3.2.3.jar already exists in destination.
+[INFO] jackson-datatype-jsr310-2.15.4.jar already exists in destination.
+[INFO] txw2-4.0.2.jar already exists in destination.
+[INFO] logback-core-1.4.14.jar already exists in destination.
+[INFO] spring-boot-3.2.3.jar already exists in destination.
+[INFO] spring-core-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-data-jpa-3.2.3.jar already exists in destination.
+[INFO] jandex-3.1.2.jar already exists in destination.
+[INFO] micrometer-observation-1.12.3.jar already exists in destination.
+[INFO] spring-orm-6.1.4.jar already exists in destination.
+[INFO] istack-commons-runtime-4.1.1.jar already exists in destination.
+[INFO] jboss-logging-3.5.0.Final.jar already exists in destination.
+[INFO] spring-beans-6.1.4.jar already exists in destination.
+[INFO] apiguardian-api-1.1.2.jar already exists in destination.
+[INFO] aspectjweaver-1.9.21.jar already exists in destination.
+[INFO] spring-boot-starter-json-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar already exists in destination.
+[INFO] log4j-api-2.21.1.jar already exists in destination.
+[INFO] spring-web-6.1.4.jar already exists in destination.
+[INFO] hibernate-core-6.4.4.Final.jar already exists in destination.
+[INFO] classmate-1.5.1.jar already exists in destination.
+[INFO] jakarta.xml.bind-api-4.0.0.jar already exists in destination.
+[INFO] lombok-1.18.30.jar already exists in destination.
+[INFO] spring-security-web-6.2.2.jar already exists in destination.
 [INFO] 
 [INFO] --- jacoco-maven-plugin:0.8.6:prepare-agent (prepare-agent) @ shodrone ---
 [INFO] argLine set to -javaagent:/home/jorge-rodrigues/.m2/repository/org/jacoco/org.jacoco.agent/0.8.6/org.jacoco.agent-0.8.6-runtime.jar=destfile=/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/jacoco.exec
@@ -96,9 +99,6 @@
 [INFO] 
 [INFO] --- maven-assembly-plugin:3.6.0:single (make-assembly) @ shodrone ---
 [WARNING] Cannot include project artifact: lapr4:shodrone:pom:0.1.0; it doesn't have an associated file or directory.
-[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/bitbucket/pag_isep/eapliframework/eapli.framework.core/25.0.0-RELEASE/eapli.framework.core-25.0.0-RELEASE.pom
-[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/bitbucket/pag_isep/eapliframework/eapli.framework.infrastructure.authz/25.0.0-RELEASE/eapli.framework.infrastructure.authz-25.0.0-RELEASE.pom
-[INFO] Downloading from central: https://repo.maven.apache.org/maven2/org/bitbucket/pag_isep/eapliframework/eapli.framework.infrastructure.pubsub/25.0.0-RELEASE/eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.pom
 [INFO] Building jar: /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/target/shodrone-0.1.0-jar-with-dependencies.jar
 [INFO] 
 [INFO] --- maven-javadoc-plugin:3.2.0:jar (attach-javadocs) @ shodrone ---
@@ -107,89 +107,88 @@
 [INFO] --------------------------< lapr4:backoffice >--------------------------
 [INFO] Building shodrone.app1 0.1.0                                       [2/4]
 [INFO] --------------------------------[ jar ]---------------------------------
-[INFO] Downloading from jitpack.io: https://jitpack.io/pt/isep/lei/esoft/AuthLib/1.0-SNAPSHOT/maven-metadata.xml
 [INFO] 
 [INFO] --- maven-dependency-plugin:2.8:copy-dependencies (default-cli) @ backoffice ---
-[INFO] Copying junit-jupiter-params-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/junit-jupiter-params-5.10.1.jar
-[INFO] Copying spring-aop-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-aop-6.1.4.jar
-[INFO] Copying spring-boot-autoconfigure-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-autoconfigure-3.2.3.jar
-[INFO] Copying slf4j-api-2.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/slf4j-api-2.0.2.jar
-[INFO] Copying jackson-core-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jackson-core-2.15.4.jar
-[INFO] Copying jaxb-api-2.3.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jaxb-api-2.3.1.jar
-[INFO] Copying spring-jcl-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-jcl-6.1.4.jar
-[INFO] Copying eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar
-[INFO] Copying junit-4.13.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/junit-4.13.1.jar
-[INFO] Copying spring-security-config-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-security-config-6.2.2.jar
-[INFO] Copying spring-security-crypto-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-security-crypto-6.2.2.jar
-[INFO] Copying jackson-datatype-jdk8-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jackson-datatype-jdk8-2.15.4.jar
-[INFO] Copying hibernate-commons-annotations-6.0.6.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/hibernate-commons-annotations-6.0.6.Final.jar
-[INFO] Copying antlr4-runtime-4.13.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/antlr4-runtime-4.13.0.jar
-[INFO] Copying jaxb-core-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jaxb-core-4.0.2.jar
-[INFO] Copying spring-expression-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-expression-6.1.4.jar
-[INFO] Copying log4j-to-slf4j-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/log4j-to-slf4j-2.21.1.jar
-[INFO] Copying jackson-annotations-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jackson-annotations-2.15.4.jar
-[INFO] Copying commons-io-2.15.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/commons-io-2.15.1.jar
-[INFO] Copying jakarta.activation-api-2.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jakarta.activation-api-2.1.0.jar
-[INFO] Copying junit-platform-commons-1.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/junit-platform-commons-1.10.1.jar
-[INFO] Copying jul-to-slf4j-2.0.12.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jul-to-slf4j-2.0.12.jar
-[INFO] Copying spring-context-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-context-6.1.4.jar
-[INFO] Copying spring-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-data-jpa-3.2.3.jar
-[INFO] Copying spring-aspects-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-aspects-6.1.4.jar
-[INFO] Copying spring-boot-starter-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-starter-3.2.3.jar
-[INFO] Copying eapli.framework.core-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/eapli.framework.core-25.0.0-RELEASE.jar
-[INFO] Copying spring-jdbc-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-jdbc-6.1.4.jar
-[INFO] Copying jackson-databind-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jackson-databind-2.15.4.jar
-[INFO] Copying hamcrest-core-1.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/hamcrest-core-1.3.jar
-[INFO] Copying spring-security-core-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-security-core-6.2.2.jar
-[INFO] Copying logback-classic-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/logback-classic-1.4.14.jar
-[INFO] Copying commons-lang3-3.5.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/commons-lang3-3.5.jar
-[INFO] Copying byte-buddy-1.14.11.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/byte-buddy-1.14.11.jar
-[INFO] Copying spring-boot-starter-aop-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-starter-aop-3.2.3.jar
-[INFO] Copying jakarta.persistence-api-3.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jakarta.persistence-api-3.1.0.jar
-[INFO] Copying spring-boot-starter-jdbc-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-starter-jdbc-3.2.3.jar
-[INFO] Copying javax.activation-api-1.2.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/javax.activation-api-1.2.0.jar
-[INFO] Copying junit-jupiter-api-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/junit-jupiter-api-5.10.1.jar
-[INFO] Copying opentest4j-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/opentest4j-1.3.0.jar
-[INFO] Copying spring-boot-starter-logging-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-starter-logging-3.2.3.jar
-[INFO] Copying jakarta.transaction-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jakarta.transaction-api-2.0.1.jar
-[INFO] Copying spring-data-commons-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-data-commons-3.2.3.jar
-[INFO] Copying jackson-module-parameter-names-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jackson-module-parameter-names-2.15.4.jar
-[INFO] Copying h2-2.2.224.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/h2-2.2.224.jar
-[INFO] Copying angus-activation-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/angus-activation-2.0.0.jar
-[INFO] Copying HikariCP-5.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/HikariCP-5.0.1.jar
-[INFO] Copying snakeyaml-2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/snakeyaml-2.2.jar
-[INFO] Copying spring-tx-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-tx-6.1.4.jar
-[INFO] Copying AuthLib-1.0-SNAPSHOT.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/AuthLib-1.0-SNAPSHOT.jar
-[INFO] Copying bytes-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/bytes-1.3.0.jar
-[INFO] Copying micrometer-commons-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/micrometer-commons-1.12.3.jar
-[INFO] Copying jaxb-runtime-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jaxb-runtime-4.0.2.jar
-[INFO] Copying jakarta.inject-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jakarta.inject-api-2.0.1.jar
-[INFO] Copying jakarta.annotation-api-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jakarta.annotation-api-2.0.0.jar
-[INFO] Copying spring-boot-starter-security-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-starter-security-3.2.3.jar
-[INFO] Copying jackson-datatype-jsr310-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jackson-datatype-jsr310-2.15.4.jar
-[INFO] Copying txw2-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/txw2-4.0.2.jar
-[INFO] Copying logback-core-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/logback-core-1.4.14.jar
-[INFO] Copying spring-boot-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-3.2.3.jar
-[INFO] Copying spring-core-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-core-6.1.4.jar
-[INFO] Copying spring-boot-starter-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-starter-data-jpa-3.2.3.jar
-[INFO] Copying jandex-3.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jandex-3.1.2.jar
-[INFO] Copying micrometer-observation-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/micrometer-observation-1.12.3.jar
-[INFO] Copying spring-orm-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-orm-6.1.4.jar
-[INFO] Copying bcrypt-0.9.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/bcrypt-0.9.0.jar
-[INFO] Copying istack-commons-runtime-4.1.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/istack-commons-runtime-4.1.1.jar
-[INFO] Copying jboss-logging-3.5.0.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jboss-logging-3.5.0.Final.jar
-[INFO] Copying spring-beans-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-beans-6.1.4.jar
-[INFO] Copying apiguardian-api-1.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/apiguardian-api-1.1.2.jar
-[INFO] Copying aspectjweaver-1.9.21.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/aspectjweaver-1.9.21.jar
-[INFO] Copying spring-boot-starter-json-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-boot-starter-json-3.2.3.jar
-[INFO] Copying eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar
-[INFO] Copying log4j-api-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/log4j-api-2.21.1.jar
-[INFO] Copying spring-web-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-web-6.1.4.jar
-[INFO] Copying hibernate-core-6.4.4.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/hibernate-core-6.4.4.Final.jar
-[INFO] Copying classmate-1.5.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/classmate-1.5.1.jar
-[INFO] Copying jakarta.xml.bind-api-4.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/jakarta.xml.bind-api-4.0.0.jar
-[INFO] Copying lombok-1.18.30.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/lombok-1.18.30.jar
-[INFO] Copying spring-security-web-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/dependency/spring-security-web-6.2.2.jar
+[INFO] junit-jupiter-params-5.10.1.jar already exists in destination.
+[INFO] spring-aop-6.1.4.jar already exists in destination.
+[INFO] spring-boot-autoconfigure-3.2.3.jar already exists in destination.
+[INFO] slf4j-api-2.0.2.jar already exists in destination.
+[INFO] jackson-core-2.15.4.jar already exists in destination.
+[INFO] jaxb-api-2.3.1.jar already exists in destination.
+[INFO] spring-jcl-6.1.4.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar already exists in destination.
+[INFO] junit-4.13.1.jar already exists in destination.
+[INFO] spring-security-config-6.2.2.jar already exists in destination.
+[INFO] spring-security-crypto-6.2.2.jar already exists in destination.
+[INFO] jackson-datatype-jdk8-2.15.4.jar already exists in destination.
+[INFO] hibernate-commons-annotations-6.0.6.Final.jar already exists in destination.
+[INFO] antlr4-runtime-4.13.0.jar already exists in destination.
+[INFO] jaxb-core-4.0.2.jar already exists in destination.
+[INFO] spring-expression-6.1.4.jar already exists in destination.
+[INFO] log4j-to-slf4j-2.21.1.jar already exists in destination.
+[INFO] jackson-annotations-2.15.4.jar already exists in destination.
+[INFO] commons-io-2.15.1.jar already exists in destination.
+[INFO] jakarta.activation-api-2.1.0.jar already exists in destination.
+[INFO] junit-platform-commons-1.10.1.jar already exists in destination.
+[INFO] jul-to-slf4j-2.0.12.jar already exists in destination.
+[INFO] spring-context-6.1.4.jar already exists in destination.
+[INFO] spring-data-jpa-3.2.3.jar already exists in destination.
+[INFO] spring-aspects-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.core-25.0.0-RELEASE.jar already exists in destination.
+[INFO] spring-jdbc-6.1.4.jar already exists in destination.
+[INFO] jackson-databind-2.15.4.jar already exists in destination.
+[INFO] hamcrest-core-1.3.jar already exists in destination.
+[INFO] spring-security-core-6.2.2.jar already exists in destination.
+[INFO] logback-classic-1.4.14.jar already exists in destination.
+[INFO] commons-lang3-3.5.jar already exists in destination.
+[INFO] byte-buddy-1.14.11.jar already exists in destination.
+[INFO] spring-boot-starter-aop-3.2.3.jar already exists in destination.
+[INFO] jakarta.persistence-api-3.1.0.jar already exists in destination.
+[INFO] spring-boot-starter-jdbc-3.2.3.jar already exists in destination.
+[INFO] javax.activation-api-1.2.0.jar already exists in destination.
+[INFO] junit-jupiter-api-5.10.1.jar already exists in destination.
+[INFO] opentest4j-1.3.0.jar already exists in destination.
+[INFO] spring-boot-starter-logging-3.2.3.jar already exists in destination.
+[INFO] jakarta.transaction-api-2.0.1.jar already exists in destination.
+[INFO] spring-data-commons-3.2.3.jar already exists in destination.
+[INFO] jackson-module-parameter-names-2.15.4.jar already exists in destination.
+[INFO] h2-2.2.224.jar already exists in destination.
+[INFO] angus-activation-2.0.0.jar already exists in destination.
+[INFO] HikariCP-5.0.1.jar already exists in destination.
+[INFO] snakeyaml-2.2.jar already exists in destination.
+[INFO] spring-tx-6.1.4.jar already exists in destination.
+[INFO] AuthLib-1.0-SNAPSHOT.jar already exists in destination.
+[INFO] bytes-1.3.0.jar already exists in destination.
+[INFO] micrometer-commons-1.12.3.jar already exists in destination.
+[INFO] jaxb-runtime-4.0.2.jar already exists in destination.
+[INFO] jakarta.inject-api-2.0.1.jar already exists in destination.
+[INFO] jakarta.annotation-api-2.0.0.jar already exists in destination.
+[INFO] spring-boot-starter-security-3.2.3.jar already exists in destination.
+[INFO] jackson-datatype-jsr310-2.15.4.jar already exists in destination.
+[INFO] txw2-4.0.2.jar already exists in destination.
+[INFO] logback-core-1.4.14.jar already exists in destination.
+[INFO] spring-boot-3.2.3.jar already exists in destination.
+[INFO] spring-core-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-data-jpa-3.2.3.jar already exists in destination.
+[INFO] jandex-3.1.2.jar already exists in destination.
+[INFO] micrometer-observation-1.12.3.jar already exists in destination.
+[INFO] spring-orm-6.1.4.jar already exists in destination.
+[INFO] bcrypt-0.9.0.jar already exists in destination.
+[INFO] istack-commons-runtime-4.1.1.jar already exists in destination.
+[INFO] jboss-logging-3.5.0.Final.jar already exists in destination.
+[INFO] spring-beans-6.1.4.jar already exists in destination.
+[INFO] apiguardian-api-1.1.2.jar already exists in destination.
+[INFO] aspectjweaver-1.9.21.jar already exists in destination.
+[INFO] spring-boot-starter-json-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar already exists in destination.
+[INFO] log4j-api-2.21.1.jar already exists in destination.
+[INFO] spring-web-6.1.4.jar already exists in destination.
+[INFO] hibernate-core-6.4.4.Final.jar already exists in destination.
+[INFO] classmate-1.5.1.jar already exists in destination.
+[INFO] jakarta.xml.bind-api-4.0.0.jar already exists in destination.
+[INFO] lombok-1.18.30.jar already exists in destination.
+[INFO] spring-security-web-6.2.2.jar already exists in destination.
 [INFO] 
 [INFO] --- jacoco-maven-plugin:0.8.6:prepare-agent (prepare-agent) @ backoffice ---
 [INFO] argLine set to -javaagent:/home/jorge-rodrigues/.m2/repository/org/jacoco/org.jacoco.agent/0.8.6/org.jacoco.agent-0.8.6-runtime.jar=destfile=/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/jacoco.exec
@@ -218,7 +217,7 @@
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running authz.GreeterTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.042 s - in authz.GreeterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s - in authz.GreeterTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -226,7 +225,6 @@
 [INFO] 
 [INFO] 
 [INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ backoffice ---
-[INFO] Building jar: /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/backoffice-0.1.0.jar
 [INFO] 
 [INFO] --- maven-assembly-plugin:3.6.0:single (make-assembly) @ backoffice ---
 [INFO] Building jar: /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/backoffice-0.1.0-jar-with-dependencies.jar
@@ -239,86 +237,86 @@
 [INFO] --------------------------------[ pom ]---------------------------------
 [INFO] 
 [INFO] --- maven-dependency-plugin:2.8:copy-dependencies (default-cli) @ shodrone.util.ci ---
-[INFO] Copying junit-jupiter-params-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/junit-jupiter-params-5.10.1.jar
-[INFO] Copying spring-aop-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-aop-6.1.4.jar
-[INFO] Copying shodrone.app2-0.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/shodrone.app2-0.1.0.jar
-[INFO] Copying spring-boot-autoconfigure-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-autoconfigure-3.2.3.jar
-[INFO] Copying slf4j-api-2.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/slf4j-api-2.0.2.jar
-[INFO] Copying jackson-core-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jackson-core-2.15.4.jar
-[INFO] Copying jaxb-api-2.3.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jaxb-api-2.3.1.jar
-[INFO] Copying spring-jcl-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-jcl-6.1.4.jar
-[INFO] Copying eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar
-[INFO] Copying spring-security-config-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-security-config-6.2.2.jar
-[INFO] Copying spring-security-crypto-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-security-crypto-6.2.2.jar
-[INFO] Copying jackson-datatype-jdk8-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jackson-datatype-jdk8-2.15.4.jar
-[INFO] Copying hibernate-commons-annotations-6.0.6.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/hibernate-commons-annotations-6.0.6.Final.jar
-[INFO] Copying antlr4-runtime-4.13.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/antlr4-runtime-4.13.0.jar
-[INFO] Copying jaxb-core-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jaxb-core-4.0.2.jar
-[INFO] Copying spring-expression-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-expression-6.1.4.jar
-[INFO] Copying log4j-to-slf4j-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/log4j-to-slf4j-2.21.1.jar
-[INFO] Copying jackson-annotations-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jackson-annotations-2.15.4.jar
-[INFO] Copying commons-io-2.15.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/commons-io-2.15.1.jar
-[INFO] Copying jakarta.activation-api-2.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jakarta.activation-api-2.1.0.jar
-[INFO] Copying junit-platform-commons-1.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/junit-platform-commons-1.10.1.jar
-[INFO] Copying jul-to-slf4j-2.0.12.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jul-to-slf4j-2.0.12.jar
-[INFO] Copying spring-context-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-context-6.1.4.jar
-[INFO] Copying spring-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-data-jpa-3.2.3.jar
-[INFO] Copying spring-aspects-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-aspects-6.1.4.jar
-[INFO] Copying spring-boot-starter-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-starter-3.2.3.jar
-[INFO] Copying eapli.framework.core-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/eapli.framework.core-25.0.0-RELEASE.jar
-[INFO] Copying spring-jdbc-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-jdbc-6.1.4.jar
-[INFO] Copying jackson-databind-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jackson-databind-2.15.4.jar
-[INFO] Copying backoffice-0.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/backoffice-0.1.0.jar
-[INFO] Copying spring-security-core-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-security-core-6.2.2.jar
-[INFO] Copying logback-classic-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/logback-classic-1.4.14.jar
-[INFO] Copying byte-buddy-1.14.11.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/byte-buddy-1.14.11.jar
-[INFO] Copying spring-boot-starter-aop-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-starter-aop-3.2.3.jar
-[INFO] Copying jakarta.persistence-api-3.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jakarta.persistence-api-3.1.0.jar
-[INFO] Copying spring-boot-starter-jdbc-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-starter-jdbc-3.2.3.jar
-[INFO] Copying javax.activation-api-1.2.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/javax.activation-api-1.2.0.jar
-[INFO] Copying junit-jupiter-api-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/junit-jupiter-api-5.10.1.jar
-[INFO] Copying opentest4j-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/opentest4j-1.3.0.jar
-[INFO] Copying spring-boot-starter-logging-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-starter-logging-3.2.3.jar
-[INFO] Copying jakarta.transaction-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jakarta.transaction-api-2.0.1.jar
-[INFO] Copying spring-data-commons-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-data-commons-3.2.3.jar
-[INFO] Copying jackson-module-parameter-names-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jackson-module-parameter-names-2.15.4.jar
-[INFO] Copying h2-2.2.224.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/h2-2.2.224.jar
-[INFO] Copying angus-activation-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/angus-activation-2.0.0.jar
-[INFO] Copying HikariCP-5.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/HikariCP-5.0.1.jar
-[INFO] Copying snakeyaml-2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/snakeyaml-2.2.jar
-[INFO] Copying spring-tx-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-tx-6.1.4.jar
-[INFO] Copying AuthLib-1.0-SNAPSHOT.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/AuthLib-1.0-SNAPSHOT.jar
-[INFO] Copying bytes-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/bytes-1.3.0.jar
-[INFO] Copying micrometer-commons-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/micrometer-commons-1.12.3.jar
-[INFO] Copying jaxb-runtime-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jaxb-runtime-4.0.2.jar
-[INFO] Copying jakarta.inject-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jakarta.inject-api-2.0.1.jar
-[INFO] Copying jakarta.annotation-api-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jakarta.annotation-api-2.0.0.jar
-[INFO] Copying spring-boot-starter-security-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-starter-security-3.2.3.jar
-[INFO] Copying jackson-datatype-jsr310-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jackson-datatype-jsr310-2.15.4.jar
-[INFO] Copying txw2-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/txw2-4.0.2.jar
-[INFO] Copying logback-core-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/logback-core-1.4.14.jar
-[INFO] Copying spring-boot-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-3.2.3.jar
-[INFO] Copying spring-core-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-core-6.1.4.jar
-[INFO] Copying spring-boot-starter-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-starter-data-jpa-3.2.3.jar
-[INFO] Copying jandex-3.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jandex-3.1.2.jar
-[INFO] Copying micrometer-observation-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/micrometer-observation-1.12.3.jar
-[INFO] Copying spring-orm-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-orm-6.1.4.jar
-[INFO] Copying bcrypt-0.9.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/bcrypt-0.9.0.jar
-[INFO] Copying istack-commons-runtime-4.1.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/istack-commons-runtime-4.1.1.jar
-[INFO] Copying jboss-logging-3.5.0.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jboss-logging-3.5.0.Final.jar
-[INFO] Copying spring-beans-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-beans-6.1.4.jar
-[INFO] Copying apiguardian-api-1.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/apiguardian-api-1.1.2.jar
-[INFO] Copying aspectjweaver-1.9.21.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/aspectjweaver-1.9.21.jar
-[INFO] Copying spring-boot-starter-json-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-boot-starter-json-3.2.3.jar
-[INFO] Copying eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar
-[INFO] Copying log4j-api-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/log4j-api-2.21.1.jar
-[INFO] Copying spring-web-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-web-6.1.4.jar
-[INFO] Copying hibernate-core-6.4.4.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/hibernate-core-6.4.4.Final.jar
-[INFO] Copying classmate-1.5.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/classmate-1.5.1.jar
-[INFO] Copying jakarta.xml.bind-api-4.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/jakarta.xml.bind-api-4.0.0.jar
-[INFO] Copying lombok-1.18.30.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/lombok-1.18.30.jar
-[INFO] Copying commons-lang3-3.13.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/commons-lang3-3.13.0.jar
-[INFO] Copying spring-security-web-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/spring-security-web-6.2.2.jar
+[INFO] Copying commons-lang3-3.5.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/dependency/commons-lang3-3.5.jar
+[INFO] junit-jupiter-params-5.10.1.jar already exists in destination.
+[INFO] spring-aop-6.1.4.jar already exists in destination.
+[INFO] shodrone.app2-0.1.0.jar already exists in destination.
+[INFO] spring-boot-autoconfigure-3.2.3.jar already exists in destination.
+[INFO] slf4j-api-2.0.2.jar already exists in destination.
+[INFO] jackson-core-2.15.4.jar already exists in destination.
+[INFO] jaxb-api-2.3.1.jar already exists in destination.
+[INFO] spring-jcl-6.1.4.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar already exists in destination.
+[INFO] spring-security-config-6.2.2.jar already exists in destination.
+[INFO] spring-security-crypto-6.2.2.jar already exists in destination.
+[INFO] jackson-datatype-jdk8-2.15.4.jar already exists in destination.
+[INFO] hibernate-commons-annotations-6.0.6.Final.jar already exists in destination.
+[INFO] antlr4-runtime-4.13.0.jar already exists in destination.
+[INFO] jaxb-core-4.0.2.jar already exists in destination.
+[INFO] spring-expression-6.1.4.jar already exists in destination.
+[INFO] log4j-to-slf4j-2.21.1.jar already exists in destination.
+[INFO] jackson-annotations-2.15.4.jar already exists in destination.
+[INFO] commons-io-2.15.1.jar already exists in destination.
+[INFO] jakarta.activation-api-2.1.0.jar already exists in destination.
+[INFO] junit-platform-commons-1.10.1.jar already exists in destination.
+[INFO] jul-to-slf4j-2.0.12.jar already exists in destination.
+[INFO] spring-context-6.1.4.jar already exists in destination.
+[INFO] spring-data-jpa-3.2.3.jar already exists in destination.
+[INFO] spring-aspects-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.core-25.0.0-RELEASE.jar already exists in destination.
+[INFO] spring-jdbc-6.1.4.jar already exists in destination.
+[INFO] jackson-databind-2.15.4.jar already exists in destination.
+[INFO] backoffice-0.1.0.jar already exists in destination.
+[INFO] spring-security-core-6.2.2.jar already exists in destination.
+[INFO] logback-classic-1.4.14.jar already exists in destination.
+[INFO] byte-buddy-1.14.11.jar already exists in destination.
+[INFO] spring-boot-starter-aop-3.2.3.jar already exists in destination.
+[INFO] jakarta.persistence-api-3.1.0.jar already exists in destination.
+[INFO] spring-boot-starter-jdbc-3.2.3.jar already exists in destination.
+[INFO] javax.activation-api-1.2.0.jar already exists in destination.
+[INFO] junit-jupiter-api-5.10.1.jar already exists in destination.
+[INFO] opentest4j-1.3.0.jar already exists in destination.
+[INFO] spring-boot-starter-logging-3.2.3.jar already exists in destination.
+[INFO] jakarta.transaction-api-2.0.1.jar already exists in destination.
+[INFO] spring-data-commons-3.2.3.jar already exists in destination.
+[INFO] jackson-module-parameter-names-2.15.4.jar already exists in destination.
+[INFO] h2-2.2.224.jar already exists in destination.
+[INFO] angus-activation-2.0.0.jar already exists in destination.
+[INFO] HikariCP-5.0.1.jar already exists in destination.
+[INFO] snakeyaml-2.2.jar already exists in destination.
+[INFO] spring-tx-6.1.4.jar already exists in destination.
+[INFO] AuthLib-1.0-SNAPSHOT.jar already exists in destination.
+[INFO] bytes-1.3.0.jar already exists in destination.
+[INFO] micrometer-commons-1.12.3.jar already exists in destination.
+[INFO] jaxb-runtime-4.0.2.jar already exists in destination.
+[INFO] jakarta.inject-api-2.0.1.jar already exists in destination.
+[INFO] jakarta.annotation-api-2.0.0.jar already exists in destination.
+[INFO] spring-boot-starter-security-3.2.3.jar already exists in destination.
+[INFO] jackson-datatype-jsr310-2.15.4.jar already exists in destination.
+[INFO] txw2-4.0.2.jar already exists in destination.
+[INFO] logback-core-1.4.14.jar already exists in destination.
+[INFO] spring-boot-3.2.3.jar already exists in destination.
+[INFO] spring-core-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-data-jpa-3.2.3.jar already exists in destination.
+[INFO] jandex-3.1.2.jar already exists in destination.
+[INFO] micrometer-observation-1.12.3.jar already exists in destination.
+[INFO] spring-orm-6.1.4.jar already exists in destination.
+[INFO] bcrypt-0.9.0.jar already exists in destination.
+[INFO] istack-commons-runtime-4.1.1.jar already exists in destination.
+[INFO] jboss-logging-3.5.0.Final.jar already exists in destination.
+[INFO] spring-beans-6.1.4.jar already exists in destination.
+[INFO] apiguardian-api-1.1.2.jar already exists in destination.
+[INFO] aspectjweaver-1.9.21.jar already exists in destination.
+[INFO] spring-boot-starter-json-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar already exists in destination.
+[INFO] log4j-api-2.21.1.jar already exists in destination.
+[INFO] spring-web-6.1.4.jar already exists in destination.
+[INFO] hibernate-core-6.4.4.Final.jar already exists in destination.
+[INFO] classmate-1.5.1.jar already exists in destination.
+[INFO] jakarta.xml.bind-api-4.0.0.jar already exists in destination.
+[INFO] lombok-1.18.30.jar already exists in destination.
+[INFO] spring-security-web-6.2.2.jar already exists in destination.
 [INFO] 
 [INFO] --- jacoco-maven-plugin:0.8.6:prepare-agent (prepare-agent) @ shodrone.util.ci ---
 [INFO] argLine set to -javaagent:/home/jorge-rodrigues/.m2/repository/org/jacoco/org.jacoco.agent/0.8.6/org.jacoco.agent-0.8.6-runtime.jar=destfile=/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.util.ci/target/jacoco.exec
@@ -347,82 +345,85 @@
 [INFO] --------------------------------[ jar ]---------------------------------
 [INFO] 
 [INFO] --- maven-dependency-plugin:2.8:copy-dependencies (default-cli) @ shodrone.infraestructure.application ---
-[INFO] Copying junit-jupiter-params-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/junit-jupiter-params-5.10.1.jar
-[INFO] Copying spring-aop-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-aop-6.1.4.jar
-[INFO] Copying spring-boot-autoconfigure-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-autoconfigure-3.2.3.jar
-[INFO] Copying slf4j-api-2.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/slf4j-api-2.0.2.jar
-[INFO] Copying jackson-core-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jackson-core-2.15.4.jar
-[INFO] Copying jaxb-api-2.3.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jaxb-api-2.3.1.jar
-[INFO] Copying spring-jcl-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-jcl-6.1.4.jar
-[INFO] Copying eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar
-[INFO] Copying spring-security-config-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-security-config-6.2.2.jar
-[INFO] Copying spring-security-crypto-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-security-crypto-6.2.2.jar
-[INFO] Copying jackson-datatype-jdk8-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jackson-datatype-jdk8-2.15.4.jar
-[INFO] Copying hibernate-commons-annotations-6.0.6.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/hibernate-commons-annotations-6.0.6.Final.jar
-[INFO] Copying antlr4-runtime-4.13.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/antlr4-runtime-4.13.0.jar
-[INFO] Copying jaxb-core-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jaxb-core-4.0.2.jar
-[INFO] Copying spring-expression-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-expression-6.1.4.jar
-[INFO] Copying log4j-to-slf4j-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/log4j-to-slf4j-2.21.1.jar
-[INFO] Copying jackson-annotations-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jackson-annotations-2.15.4.jar
-[INFO] Copying commons-io-2.15.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/commons-io-2.15.1.jar
-[INFO] Copying jakarta.activation-api-2.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jakarta.activation-api-2.1.0.jar
-[INFO] Copying junit-platform-commons-1.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/junit-platform-commons-1.10.1.jar
-[INFO] Copying jul-to-slf4j-2.0.12.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jul-to-slf4j-2.0.12.jar
-[INFO] Copying spring-context-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-context-6.1.4.jar
-[INFO] Copying spring-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-data-jpa-3.2.3.jar
-[INFO] Copying spring-aspects-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-aspects-6.1.4.jar
-[INFO] Copying spring-boot-starter-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-starter-3.2.3.jar
-[INFO] Copying eapli.framework.core-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/eapli.framework.core-25.0.0-RELEASE.jar
-[INFO] Copying spring-jdbc-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-jdbc-6.1.4.jar
-[INFO] Copying jackson-databind-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jackson-databind-2.15.4.jar
-[INFO] Copying spring-security-core-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-security-core-6.2.2.jar
-[INFO] Copying logback-classic-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/logback-classic-1.4.14.jar
-[INFO] Copying byte-buddy-1.14.11.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/byte-buddy-1.14.11.jar
-[INFO] Copying spring-boot-starter-aop-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-starter-aop-3.2.3.jar
-[INFO] Copying jakarta.persistence-api-3.1.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jakarta.persistence-api-3.1.0.jar
-[INFO] Copying spring-boot-starter-jdbc-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-starter-jdbc-3.2.3.jar
-[INFO] Copying javax.activation-api-1.2.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/javax.activation-api-1.2.0.jar
-[INFO] Copying junit-jupiter-api-5.10.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/junit-jupiter-api-5.10.1.jar
-[INFO] Copying opentest4j-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/opentest4j-1.3.0.jar
-[INFO] Copying spring-boot-starter-logging-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-starter-logging-3.2.3.jar
-[INFO] Copying jakarta.transaction-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jakarta.transaction-api-2.0.1.jar
-[INFO] Copying spring-data-commons-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-data-commons-3.2.3.jar
-[INFO] Copying jackson-module-parameter-names-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jackson-module-parameter-names-2.15.4.jar
-[INFO] Copying h2-2.2.224.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/h2-2.2.224.jar
-[INFO] Copying angus-activation-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/angus-activation-2.0.0.jar
-[INFO] Copying HikariCP-5.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/HikariCP-5.0.1.jar
-[INFO] Copying snakeyaml-2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/snakeyaml-2.2.jar
-[INFO] Copying spring-tx-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-tx-6.1.4.jar
-[INFO] Copying micrometer-commons-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/micrometer-commons-1.12.3.jar
-[INFO] Copying jaxb-runtime-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jaxb-runtime-4.0.2.jar
-[INFO] Copying junit-3.8.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/junit-3.8.1.jar
-[INFO] Copying jakarta.inject-api-2.0.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jakarta.inject-api-2.0.1.jar
-[INFO] Copying jakarta.annotation-api-2.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jakarta.annotation-api-2.0.0.jar
-[INFO] Copying spring-boot-starter-security-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-starter-security-3.2.3.jar
-[INFO] Copying jackson-datatype-jsr310-2.15.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jackson-datatype-jsr310-2.15.4.jar
-[INFO] Copying txw2-4.0.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/txw2-4.0.2.jar
-[INFO] Copying logback-core-1.4.14.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/logback-core-1.4.14.jar
-[INFO] Copying spring-boot-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-3.2.3.jar
-[INFO] Copying spring-core-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-core-6.1.4.jar
-[INFO] Copying spring-boot-starter-data-jpa-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-starter-data-jpa-3.2.3.jar
-[INFO] Copying jandex-3.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jandex-3.1.2.jar
-[INFO] Copying micrometer-observation-1.12.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/micrometer-observation-1.12.3.jar
-[INFO] Copying spring-orm-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-orm-6.1.4.jar
-[INFO] Copying istack-commons-runtime-4.1.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/istack-commons-runtime-4.1.1.jar
-[INFO] Copying jboss-logging-3.5.0.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jboss-logging-3.5.0.Final.jar
-[INFO] Copying spring-beans-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-beans-6.1.4.jar
-[INFO] Copying apiguardian-api-1.1.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/apiguardian-api-1.1.2.jar
-[INFO] Copying aspectjweaver-1.9.21.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/aspectjweaver-1.9.21.jar
-[INFO] Copying spring-boot-starter-json-3.2.3.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-boot-starter-json-3.2.3.jar
-[INFO] Copying eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar
-[INFO] Copying log4j-api-2.21.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/log4j-api-2.21.1.jar
-[INFO] Copying spring-web-6.1.4.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-web-6.1.4.jar
-[INFO] Copying hibernate-core-6.4.4.Final.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/hibernate-core-6.4.4.Final.jar
-[INFO] Copying classmate-1.5.1.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/classmate-1.5.1.jar
-[INFO] Copying jakarta.xml.bind-api-4.0.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/jakarta.xml.bind-api-4.0.0.jar
-[INFO] Copying lombok-1.18.30.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/lombok-1.18.30.jar
-[INFO] Copying commons-lang3-3.13.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/commons-lang3-3.13.0.jar
-[INFO] Copying spring-security-web-6.2.2.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/spring-security-web-6.2.2.jar
+[INFO] Copying bcrypt-0.9.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/bcrypt-0.9.0.jar
+[INFO] Copying commons-lang3-3.5.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/commons-lang3-3.5.jar
+[INFO] Copying AuthLib-1.0-SNAPSHOT.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/AuthLib-1.0-SNAPSHOT.jar
+[INFO] Copying bytes-1.3.0.jar to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/dependency/bytes-1.3.0.jar
+[INFO] junit-jupiter-params-5.10.1.jar already exists in destination.
+[INFO] spring-aop-6.1.4.jar already exists in destination.
+[INFO] spring-boot-autoconfigure-3.2.3.jar already exists in destination.
+[INFO] slf4j-api-2.0.2.jar already exists in destination.
+[INFO] jackson-core-2.15.4.jar already exists in destination.
+[INFO] jaxb-api-2.3.1.jar already exists in destination.
+[INFO] spring-jcl-6.1.4.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.authz-25.0.0-RELEASE.jar already exists in destination.
+[INFO] spring-security-config-6.2.2.jar already exists in destination.
+[INFO] spring-security-crypto-6.2.2.jar already exists in destination.
+[INFO] jackson-datatype-jdk8-2.15.4.jar already exists in destination.
+[INFO] hibernate-commons-annotations-6.0.6.Final.jar already exists in destination.
+[INFO] antlr4-runtime-4.13.0.jar already exists in destination.
+[INFO] jaxb-core-4.0.2.jar already exists in destination.
+[INFO] spring-expression-6.1.4.jar already exists in destination.
+[INFO] log4j-to-slf4j-2.21.1.jar already exists in destination.
+[INFO] jackson-annotations-2.15.4.jar already exists in destination.
+[INFO] commons-io-2.15.1.jar already exists in destination.
+[INFO] jakarta.activation-api-2.1.0.jar already exists in destination.
+[INFO] junit-platform-commons-1.10.1.jar already exists in destination.
+[INFO] jul-to-slf4j-2.0.12.jar already exists in destination.
+[INFO] spring-context-6.1.4.jar already exists in destination.
+[INFO] spring-data-jpa-3.2.3.jar already exists in destination.
+[INFO] spring-aspects-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.core-25.0.0-RELEASE.jar already exists in destination.
+[INFO] spring-jdbc-6.1.4.jar already exists in destination.
+[INFO] jackson-databind-2.15.4.jar already exists in destination.
+[INFO] spring-security-core-6.2.2.jar already exists in destination.
+[INFO] logback-classic-1.4.14.jar already exists in destination.
+[INFO] byte-buddy-1.14.11.jar already exists in destination.
+[INFO] spring-boot-starter-aop-3.2.3.jar already exists in destination.
+[INFO] jakarta.persistence-api-3.1.0.jar already exists in destination.
+[INFO] spring-boot-starter-jdbc-3.2.3.jar already exists in destination.
+[INFO] javax.activation-api-1.2.0.jar already exists in destination.
+[INFO] junit-jupiter-api-5.10.1.jar already exists in destination.
+[INFO] opentest4j-1.3.0.jar already exists in destination.
+[INFO] spring-boot-starter-logging-3.2.3.jar already exists in destination.
+[INFO] jakarta.transaction-api-2.0.1.jar already exists in destination.
+[INFO] spring-data-commons-3.2.3.jar already exists in destination.
+[INFO] jackson-module-parameter-names-2.15.4.jar already exists in destination.
+[INFO] h2-2.2.224.jar already exists in destination.
+[INFO] angus-activation-2.0.0.jar already exists in destination.
+[INFO] HikariCP-5.0.1.jar already exists in destination.
+[INFO] snakeyaml-2.2.jar already exists in destination.
+[INFO] spring-tx-6.1.4.jar already exists in destination.
+[INFO] micrometer-commons-1.12.3.jar already exists in destination.
+[INFO] jaxb-runtime-4.0.2.jar already exists in destination.
+[INFO] junit-3.8.1.jar already exists in destination.
+[INFO] jakarta.inject-api-2.0.1.jar already exists in destination.
+[INFO] jakarta.annotation-api-2.0.0.jar already exists in destination.
+[INFO] spring-boot-starter-security-3.2.3.jar already exists in destination.
+[INFO] jackson-datatype-jsr310-2.15.4.jar already exists in destination.
+[INFO] txw2-4.0.2.jar already exists in destination.
+[INFO] logback-core-1.4.14.jar already exists in destination.
+[INFO] spring-boot-3.2.3.jar already exists in destination.
+[INFO] spring-core-6.1.4.jar already exists in destination.
+[INFO] spring-boot-starter-data-jpa-3.2.3.jar already exists in destination.
+[INFO] jandex-3.1.2.jar already exists in destination.
+[INFO] micrometer-observation-1.12.3.jar already exists in destination.
+[INFO] spring-orm-6.1.4.jar already exists in destination.
+[INFO] istack-commons-runtime-4.1.1.jar already exists in destination.
+[INFO] jboss-logging-3.5.0.Final.jar already exists in destination.
+[INFO] spring-beans-6.1.4.jar already exists in destination.
+[INFO] apiguardian-api-1.1.2.jar already exists in destination.
+[INFO] aspectjweaver-1.9.21.jar already exists in destination.
+[INFO] spring-boot-starter-json-3.2.3.jar already exists in destination.
+[INFO] eapli.framework.infrastructure.pubsub-25.0.0-RELEASE.jar already exists in destination.
+[INFO] log4j-api-2.21.1.jar already exists in destination.
+[INFO] spring-web-6.1.4.jar already exists in destination.
+[INFO] hibernate-core-6.4.4.Final.jar already exists in destination.
+[INFO] classmate-1.5.1.jar already exists in destination.
+[INFO] jakarta.xml.bind-api-4.0.0.jar already exists in destination.
+[INFO] lombok-1.18.30.jar already exists in destination.
+[INFO] spring-security-web-6.2.2.jar already exists in destination.
 [INFO] 
 [INFO] --- jacoco-maven-plugin:0.8.6:prepare-agent (prepare-agent) @ shodrone.infraestructure.application ---
 [INFO] argLine set to -javaagent:/home/jorge-rodrigues/.m2/repository/org/jacoco/org.jacoco.agent/0.8.6/org.jacoco.agent-0.8.6-runtime.jar=destfile=/home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/jacoco.exec
@@ -448,7 +449,6 @@
 [INFO] No tests to run.
 [INFO] 
 [INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ shodrone.infraestructure.application ---
-[INFO] Building jar: /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/shodrone.infraestructure.application-0.1.0.jar
 [INFO] 
 [INFO] --- maven-assembly-plugin:3.6.0:single (make-assembly) @ shodrone.infraestructure.application ---
 [INFO] Building jar: /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.infraestructure.application/target/shodrone.infraestructure.application-0.1.0-jar-with-dependencies.jar
@@ -458,13 +458,13 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for shodrone 0.1.0:
 [INFO] 
-[INFO] shodrone ........................................... SUCCESS [  8.316 s]
-[INFO] shodrone.app1 ...................................... SUCCESS [  8.998 s]
-[INFO] shodrone.util.ci ................................... SUCCESS [  6.275 s]
-[INFO] shodrone.infraestructure.application ............... SUCCESS [  5.493 s]
+[INFO] shodrone ........................................... SUCCESS [  8.076 s]
+[INFO] shodrone.app1 ...................................... SUCCESS [  8.274 s]
+[INFO] shodrone.util.ci ................................... SUCCESS [  5.794 s]
+[INFO] shodrone.infraestructure.application ............... SUCCESS [  5.845 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  29.428 s
-[INFO] Finished at: 2025-04-24T12:22:35+01:00
+[INFO] Total time:  28.335 s
+[INFO] Finished at: 2025-04-24T12:50:10+01:00
 [INFO] ------------------------------------------------------------------------

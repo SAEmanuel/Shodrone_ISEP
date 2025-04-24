@@ -84,7 +84,7 @@
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running authz.GreeterTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.064 s - in authz.GreeterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s - in authz.GreeterTest
 [INFO] 
 [INFO] Results:
 [INFO] 
@@ -435,13 +435,13 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for shodrone 0.1.0:
 [INFO] 
-[INFO] shodrone ........................................... SUCCESS [  7.992 s]
-[INFO] shodrone.app1 ...................................... SUCCESS [ 15.256 s]
-[INFO] shodrone.util.ci ................................... SUCCESS [  5.746 s]
-[INFO] shodrone.infraestructure.application ............... SUCCESS [  7.823 s]
+[INFO] shodrone ........................................... SUCCESS [  8.454 s]
+[INFO] shodrone.app1 ...................................... SUCCESS [ 15.051 s]
+[INFO] shodrone.util.ci ................................... SUCCESS [  5.569 s]
+[INFO] shodrone.infraestructure.application ............... SUCCESS [  8.572 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  36.937 s
-[INFO] Finished at: 2025-04-24T12:23:23+01:00
+[INFO] Total time:  37.771 s
+[INFO] Finished at: 2025-04-24T12:50:55+01:00
 [INFO] ------------------------------------------------------------------------
