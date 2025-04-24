@@ -1,6 +1,6 @@
 @echo off
 
-echo Executando aplicacao Shodrone App 1...
+echo Executando aplicação Shodrone Backoffice App...
 
-:: Executar o programa Java com o .jar correto
-java -cp shodrone.app1\target\shodrone.app1-0.1.0.jar hello.HelloWorld
+java -jar shodrone.backoffice\target\backoffice-0.1.0-jar-with-dependencies.jar
+
