@@ -1,0 +1,55 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Register Show Request Domain Model Template
+
+hide circles
+hide methods
+
+package "CRM Collaborator Subsystem" {
+
+    class Representative {
+    ID:id
+    Client:client
+    Email:email
+    Name:name
+    String:position
+    }
+
+    class ShowRequest {
+        DescriptionDSL: dsl
+        Description: description
+        Date: requestDate
+        Integer: numberDrones
+        Location: location
+        Date: showDate
+        Time: showDuration
+        Status: showRequestStatus
+    }
+
+    class FigureProposal {
+    }
+
+    class Figure {
+       Description: figureDescription
+       Version:version
+       DescriptionDSL: dslCode
+       KeyWord:keyWord
+    }
+
+    class Exclusivity {
+        Time:exclusivityTime
+    }
+
+    Representative "1" - "1..*" ShowRequest : request >
+    ShowRequest "1 " -> "1..*" Figure
+    ShowRequest "1" --> "0..1" FigureProposal
+    FigureProposal "1   " -> "  1..*" Figure
+    Figure "1" -> "0..1" Exclusivity : have >
+
+}
+
+@enduml
