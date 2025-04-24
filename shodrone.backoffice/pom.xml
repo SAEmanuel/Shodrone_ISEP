@@ -64,4 +64,15 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>jacoco</id>
+            <url>https://repo.maven.apache.org/maven2</url>
+        </repository>
+        <repository>
+            <id>repsy</id>
+            <name>lei-soft</name>
+            <url>https://repo.repsy.io/mvn/pmaio/lei-soft</url>
+        </repository>
+    </repositories>
 </project>
