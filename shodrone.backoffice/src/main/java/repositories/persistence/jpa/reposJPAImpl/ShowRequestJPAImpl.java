@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package persistence.reposJPAImpl;
+package repositories.persistence.jpa.reposJPAImpl;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
-import persistence.interfaces.exampleRepository;
+import repositories.persistence.jpa.interfaces.ShowRequestRepository;
+import repositories.persistence.jpa.interfaces.exampleRepository;
 
 
-public class exampleJPAImpl implements exampleRepository {
+public class ShowRequestJPAImpl implements ShowRequestRepository {
 
     private EntityManager getEntityManager() {
         EntityManagerFactory factory = Persistence.
@@ -23,14 +24,14 @@ public class exampleJPAImpl implements exampleRepository {
 
 
     @Override
-    public void add(Object automovel){
-        if(automovel == null){
+    public void add(Object repo){
+        if(repo == null){
             throw new IllegalArgumentException();
         }
         EntityManager em = getEntityManager();
         EntityTransaction tx = em.getTransaction();
         tx.begin();
-        em.persist(automovel);
+        em.persist(repo);
         tx.commit();
         em.close();
         //return automovel;
