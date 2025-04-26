@@ -1,4 +1,4 @@
-package repositories;
+package persistence.inmemory;
 
 /**
  * Singleton class that manages multiple repositories used in the application.
@@ -9,7 +9,7 @@ package repositories;
 public class Repositories {
 
     private static Repositories instance;
-    private final AuthenticationRepository authenticationRepository;
+    private final InMemoryAuthenticationRepository inMemoryAuthenticationRepository;
 
 
     /**
@@ -17,7 +17,7 @@ public class Repositories {
      * Initializes the various repositories used in the application.
      */
     private Repositories() {
-        authenticationRepository = new AuthenticationRepository();
+        inMemoryAuthenticationRepository = new InMemoryAuthenticationRepository();
     }
 
     /**
@@ -39,7 +39,7 @@ public class Repositories {
      *
      * @return the AuthenticationRepository instance
      */
-    public AuthenticationRepository getAuthenticationRepository() {
-        return authenticationRepository;
+    public InMemoryAuthenticationRepository getAuthenticationRepository() {
+        return inMemoryAuthenticationRepository;
     }
 }

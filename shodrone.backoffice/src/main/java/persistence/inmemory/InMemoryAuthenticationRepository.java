@@ -1,4 +1,4 @@
-package repositories;
+package persistence.inmemory;
 
 import pt.isep.lei.esoft.auth.AuthFacade;
 import pt.isep.lei.esoft.auth.UserSession;
@@ -8,14 +8,14 @@ import pt.isep.lei.esoft.auth.UserSession;
  * This class interacts with the AuthFacade to perform login, logout,
  * and manage user sessions and roles.
  */
-public class AuthenticationRepository {
+public class InMemoryAuthenticationRepository {
     private final AuthFacade authenticationFacade;
 
     /**
      * Constructs an AuthenticationRepository instance.
      * Initializes the AuthFacade used for handling authentication operations.
      */
-    public AuthenticationRepository() {
+    public InMemoryAuthenticationRepository() {
         authenticationFacade = new AuthFacade();
     }
 

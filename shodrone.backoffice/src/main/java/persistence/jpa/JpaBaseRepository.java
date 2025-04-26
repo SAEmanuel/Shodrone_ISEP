@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package repositories.persistence.jpa;
+package persistence.jpa;
 
 import jakarta.persistence.*;
 
@@ -13,12 +13,12 @@ import java.util.List;
 
 /**
  * An utility abstract class for implementing JPA repositories. based on
- * JpaRepository by Paulo Gandra de Sousa
+ * JpaBaseRepository by Paulo Gandra de Sousa
  *
  * @param <T> the entity type that we want to build a repository for
  * @param <ID> the key type of the entity
  */
-public abstract class JpaRepository<T, ID extends Serializable> {
+public abstract class JpaBaseRepository<T, ID extends Serializable> implements GenericRepository<T, ID> {
 
     @PersistenceUnit
     private static EntityManagerFactory emFactory;
@@ -33,7 +33,7 @@ public abstract class JpaRepository<T, ID extends Serializable> {
     }
 
     @SuppressWarnings("unchecked")
-    public JpaRepository() {
+    public JpaBaseRepository() {
         ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();
         this.entityClass = (Class<T>) genericSuperclass.getActualTypeArguments()[0];
     }
@@ -65,6 +65,28 @@ public abstract class JpaRepository<T, ID extends Serializable> {
         return entity;
     }
 
+    @Override
+    public T update(T entity) {
+        EntityManager em = entityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        T updated = em.merge(entity);
+        tx.commit();
+        em.close();
+        return updated;
+    }
+
+    @Override
+    public void delete(T entity) {
+        EntityManager em = entityManager();
+        EntityTransaction tx = em.getTransaction();
+        tx.begin();
+        em.remove(em.contains(entity) ? entity : em.merge(entity));
+        tx.commit();
+        em.close();
+    }
+
+
     /**
      * reads an entity given its ID
      *
@@ -94,5 +116,8 @@ public abstract class JpaRepository<T, ID extends Serializable> {
      *
      * @return the name of the persistence unit
      */
-    protected abstract String persistenceUnitName();
+    protected String persistenceUnitName() {
+        return "shodrone_backoffice";
+    }
+
 }

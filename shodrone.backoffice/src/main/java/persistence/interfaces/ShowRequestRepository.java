@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package repositories.persistence.jpa.interfaces;
+package persistence.interfaces;
 
 
 /**
  *
  * @author eapli
  */
-public interface ShowRequestRepository {
+public interface ShowRequestRepository<T> {
 
 
-    public void add(Object repo);
+    public T add(T entity);
 
 
 }

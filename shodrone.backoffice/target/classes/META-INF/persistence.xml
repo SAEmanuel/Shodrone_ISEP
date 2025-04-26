@@ -4,7 +4,7 @@
              xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
              version="3.0">
 
-  <persistence-unit name="shodronePU">
+  <persistence-unit name="shodrone_backoffice">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 
     <!-- Scan automatic entities (requires entities in correct packages) -->
