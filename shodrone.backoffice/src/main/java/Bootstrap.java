@@ -12,6 +12,11 @@ public class Bootstrap implements Runnable {
         addUsers();
     }
 
+    //------------------------------ Serializable ----------------------------------------------
+    protected static void inputAppInformation() {
+        //Serialization serialization = new Serialization();
+        //serialization.serializeRepositoriesInput();
+    }
 
 
     //add users to the repository
