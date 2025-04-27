@@ -1,13 +1,12 @@
 package factories.impl;
 
 import domain.entity.ShowRequest;
-import factories.interfaces.ShowRequestFactoryInt;
+import domain.model.DomainFactory;
 
-public class ShowRequestFactoryImpl implements ShowRequestFactoryInt {
+public class ShowRequestFactoryImpl implements DomainFactory<ShowRequest> {
 
     @Override
-    public ShowRequest create() {
+    public ShowRequest build() {
         return null;
     }
-
 }
