@@ -12,15 +12,16 @@ participant ":System" as System
 
 activate SD
 
-SD -> System: requestAddCategory(categoryName)
+SD -> System: requestAddCategory(name, description)
 activate System
 
-System -> System: validateCategoryName(categoryName)
-System -> System: checkCategoryUniqueness(categoryName)
-alt Category name invalid or duplicate
-    System --> SD: errorMessage("Invalid or duplicate category name")
-else Category name valid and unique
-    System -> System: saveCategory(categoryName, timestamp, SD)
+System -> System: validateCategoryName(name)
+System -> System: checkCategoryUniqueness(name)
+System -> System: validateDescription(description)
+alt Name invalid, duplicate, or description invalid
+    System --> SD: errorMessage("Invalid or duplicate category name, or invalid description")
+else Name and description valid and unique
+    System -> System: saveCategory(id, name, description, status, cretedOn, createdBy)
     System --> SD: confirmationMessage("Category added successfully")
 end
 

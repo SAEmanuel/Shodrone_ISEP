@@ -15,14 +15,18 @@ As a Show Designer, I want to add a new figure category to the catalog, so that 
 - The category name should be stored as entered, but uniqueness is enforced case-insensitively.
 - The creation date/time and the user responsible should be recorded for each category.
 - Categories are immediately available for association with figures after creation.
+- The category should support an optional description for clarification and future search.
+- The status of the category (active/inactive) should be managed for lifecycle control, as required in later user stories (US248).
+- All actions related to category creation must be auditable (who, when).
 
 ### 1.3. Acceptance Criteria
 
 - [ ] The system prevents adding a category with a name that already exists (case-insensitive).
 - [ ] The system prevents adding a category with an empty name or only whitespace.
 - [ ] Only users with the Show Designer role can add categories.
-- [ ] The category is saved with the exact name entered by the user.
+- [ ] The category is saved with the exact name and description entered by the user.
 - [ ] The creation timestamp and creator are recorded.
+- [ ] The category status is set to ACTIVE upon creation.
 - [ ] A success or error message is shown after the operation.
 - [ ] The new category is available for figure association immediately.
 
@@ -39,6 +43,7 @@ As a Show Designer, I want to add a new figure category to the catalog, so that 
 **Input Data:**
 
 * Category name provided by the Show Designer.
+* Optional description for the category.
 
 **Output Data:**
 
@@ -53,5 +58,7 @@ As a Show Designer, I want to add a new figure category to the catalog, so that 
 
 - The category name may include spaces and special characters, but must be unique (case-insensitive).
 - The system should be prepared for future internationalization/localization.
-- There should be a configurable maximum length for the category name (e.g., 50 characters).
-- All operations should be audited for traceability.
+- There should be a configurable maximum length for the category name (80 characters).
+- The category description should also have a configurable maximum length (255 characters).
+- All operations should be audited for traceability (who created, when, and possibly who updated).
+- The category status should support future activation/inactivation (see US248).
