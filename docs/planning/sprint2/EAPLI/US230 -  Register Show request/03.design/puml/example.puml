@@ -1,0 +1,241 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Requister Show Request
+
+autonumber
+
+actor "CRM Collaborator" as crmColl
+participant ":RegisterShowRequestUI" as UI
+participant ":RegisterShowRequestController" as CTRL
+participant "authenticationController\n:AuthenticationController" as authcot
+participant "figureController\n:FigureController" as figctrl
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "authenticationRepository\n:AuthenticationRepository" as authenticationRepository
+participant "figureRepository\n:FigureRepository" as fgrrepo
+
+participant "userSession\n:UserSession" as UserSession
+participant "factoryProvider\n:FactoyProvider" as factprov
+participant "email\n:Email" as Email
+participant "greenSpaceRepository\n:GreenSpaceRepository" as greenSpaceRepository
+participant ":GreenSpace" as green
+participant ":Size" as Size
+participant "greenSpace\n:GreenSpace" as EMPREGO
+
+
+activate crmColl
+
+    crmColl -> UI : ask to register a Show Request
+    activate UI
+
+    UI -> CTRL** : create
+    activate CTRL
+        CTRL -> CTRL : getShowRequestRepository()
+        activate CTRL
+
+
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+        RepositorySingleton --> CTRL: repositories
+        deactivate RepositorySingleton
+
+
+        CTRL -> PLAT : getShowRequestRepository()
+        activate PLAT
+
+        PLAT --> CTRL: showRequestRepository
+        deactivate PLAT
+        CTRL -->CTRL : showRequestRepository
+
+        deactivate CTRL
+
+
+        UI -> authcot** : getMyActiveCustomers()
+deactivate CTRL
+        activate authcot
+            authcot --> authcot : getAuthenticationRepository()
+            activate authcot
+
+                authcot -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> authcot : repositories
+                deactivate RepositorySingleton
+
+                authcot -> PLAT : getAuthenticationRepository()
+                activate PLAT
+
+                    PLAT --> authcot : authenticationRepository
+                deactivate PLAT
+                    authcot --> authcot : authenticationRepository
+                    |||
+            deactivate authcot
+
+            authcot -> authenticationRepository : getMyActiveCustomers()
+            activate authenticationRepository
+
+                authenticationRepository --> authcot : listActiveCustomers
+            deactivate authenticationRepository
+
+            authcot --> UI : listActiveCustomers
+
+        deactivate authcot
+
+    UI --> crmColl : optionsToSelectCustomer()
+    deactivate UI
+
+
+
+
+
+    crmColl -> UI : CustumerSelected
+    activate UI
+
+        UI -> figctrl** : getAvailableFiguresForCostumer(CostumerID identification)
+
+
+        activate figctrl
+
+        figctrl --> figctrl : getFigureRepository()
+
+        activate figctrl
+
+            figctrl -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> figctrl : repositories
+            deactivate RepositorySingleton
+
+            figctrl -> PLAT : getFigureRepository()
+
+            activate PLAT
+
+                PLAT --> figctrl : figureRepository
+            deactivate PLAT
+
+                figctrl --> figctrl: figureRepository
+        deactivate figctrl
+
+            figctrl -> fgrrepo** : getAvailableFiguresForCostumer(CostumerID identification)
+
+            activate fgrrepo
+
+            fgrrepo --> figctrl : listWithAvailableFiguresForCostumer
+
+            deactivate fgrrepo
+            figctrl --> UI : listWithAvailableFiguresForCostumer
+        deactivate figctrl
+
+        UI --> crmColl : optionsToSelectFigures
+    deactivate UI
+
+    UI --> crmColl : request data ()
+    deactivate UI
+
+    crmColl -> UI : types requested data
+    activate UI
+
+    UI -> CTRL : getGreenSpacesSizes()
+        activate CTRL
+
+           CTRL ->  green : GreenSpace
+                activate green
+
+                green -> Size: Size
+
+                    activate Size
+                    Size -> Size : values()
+
+                        Size --> green :sizeList
+                    deactivate Size
+
+                    green --> CTRL : sizeList
+                deactivate green
+            CTRL --> UI : sizeList
+
+        deactivate CTRL
+
+     UI --> crmColl : shows list of sizes\n and request a selection
+     deactivate UI
+
+     crmColl -> UI : select an option
+
+    activate UI
+
+    UI --> crmColl : show all data registered\n and the confirmation menu
+    deactivate UI
+
+    crmColl -> UI : submits data
+    activate UI
+
+    UI -> CTRL : registerGreenSpace(name,size,area)
+    activate CTRL
+
+
+
+    CTRL -> CTRL : registerGreenSpace(name,size,area)
+    activate CTRL
+
+        CTRL -> CTRL : getResponsible()
+                    activate CTRL
+
+                        CTRL -> PLAT  : getAuthenticationRepository()
+                        activate PLAT
+
+                        PLAT --> CTRL : authenticationRepository
+                        deactivate PLAT
+
+                        CTRL -> authenticationRepository : getCurrentUserSession()
+                        activate authenticationRepository
+
+                            authenticationRepository --> CTRL : currentUserSession
+                        deactivate authenticationRepository
+
+                        CTRL -> UserSession : getUserId()
+                        activate UserSession
+
+                            UserSession --> CTRL : userSession
+                        deactivate UserSession
+
+                        CTRL -> Email : getEmail()
+                        activate Email
+
+                            Email --> CTRL : email
+                        deactivate Email
+                    CTRL --> CTRL : email
+                    deactivate CTRL
+
+            deactivate CTRL
+    |||
+            CTRL -> greenSpaceRepository : registerGreenSpace(name,size,area,email)
+
+    activate greenSpaceRepository
+
+    greenSpaceRepository -> EMPREGO** : create
+
+    greenSpaceRepository -> greenSpaceRepository : addGreenSpace(greenSpace)
+
+    activate greenSpaceRepository
+    greenSpaceRepository -> greenSpaceRepository : validate(greenSpace)
+    activate greenSpaceRepository
+
+    deactivate greenSpaceRepository
+
+    deactivate greenSpaceRepository
+
+
+
+    greenSpaceRepository --> CTRL : greenSpace
+    deactivate greenSpaceRepository
+    CTRL --> UI : greenSpace
+    deactivate CTRL
+
+
+        UI --> crmColl : shows operation (in)success
+    deactivate UI
+
+@enduml

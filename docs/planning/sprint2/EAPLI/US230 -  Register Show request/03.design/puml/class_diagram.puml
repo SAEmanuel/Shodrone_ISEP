@@ -1,0 +1,63 @@
+@startuml
+'skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+'skinparam linetype orto
+skinparam classAttributeIconSize 0
+'left to right direction
+
+class GreenSpaceRepository {
+    - List<GreenSpace> greenSpacesList
+    + registerGreenSpace(String name, int size, float area, String address, String resposible)
+    - addGreenSpace(greenSpace)
+    - validate(greenSpace)
+    + getGreenSpacesSizes()
+}
+
+class GreenSpace {
+    -  String name
+    -  String address;
+    -  String responsible;
+    -  Size size;
+    -  float area;
+
+    + GreenSpace(String name, int size, float area, String address,String responsible)
+    - validateInfo(String name, float area,String address)
+
+}
+
+class enum_Size {
+    GARDEN
+    MEDIUM
+    LARGE
+}
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getGreenSpaceRepository()
+}
+
+class GreenSpaceController {
+    + GreenSpaceController()
+    + registerGreenSpace(String name, int size, float area,String address)
+    + getResponsible()
+    + getGreenSpacesSizes()
+}
+
+class RegisterGreenSpaceUI {
+    + showSizes(GreenSpace.Size[] sizes)
+}
+
+RegisterGreenSpaceUI ..> GreenSpaceController
+
+GreenSpaceController <-- RegisterGreenSpaceUI : getGreenSpacesSizes()
+GreenSpaceController .> Repositories : repositories
+Repositories  --> "1 " GreenSpaceRepository
+Repositories -> Repositories : instance
+GreenSpaceController ..>  GreenSpaceRepository : greenSpaceRepository
+GreenSpaceRepository <- GreenSpaceController : getGreenSpacesSizes()
+GreenSpaceRepository --> GreenSpace : register
+enum_Size - GreenSpace
+@enduml
