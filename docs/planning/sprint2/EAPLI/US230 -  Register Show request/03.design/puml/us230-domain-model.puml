@@ -20,14 +20,11 @@ participant "figureRepository\n:FigureRepository" as fgrrepo
 participant "userSession\n:UserSession" as UserSession
 participant "email\n:Email" as Email
 
-participant "localDateTime\n: LocalDateTime " as localTime
-participant "clock\n:Clock" as clock
+participant "localDateTime\n: LocalDateTime" as localTime
 participant "factoryProvider\n:FactoyProvider" as factprov
+participant "showRequestFactoryImpl\n:ShowRequestFactoryImpl" as factImpl
 
-participant "greenSpaceRepository\n:GreenSpaceRepository" as greenSpaceRepository
-participant ":GreenSpace" as green
-participant ":Size" as Size
-participant "greenSpace\n:GreenSpace" as EMPREGO
+participant "showRequest\n:ShowRequest" as showRequest
 
 
 activate crmColl
@@ -210,28 +207,39 @@ deactivate CTRL
                     deactivate CTRL
 
     |||
-            CTRL -> greenSpaceRepository : registerGreenSpace(name,size,area,email)
-            deactivate CTRL
 
-    activate greenSpaceRepository
+            CTRL -> factprov : getShowRequestFactory()
 
-    greenSpaceRepository -> EMPREGO** : create
+            activate factprov
 
-    greenSpaceRepository -> greenSpaceRepository : addGreenSpace(greenSpace)
+            factprov --> CTRL : showRequestFactory
 
-    activate greenSpaceRepository
-    greenSpaceRepository -> greenSpaceRepository : validate(greenSpace)
-    activate greenSpaceRepository
+            deactivate factprov
+            |||
+            CTRL -> factImpl : registerShowRequest(location,date,numDrones,duration,description,listFigures,customer,registrationTime,author)
 
-    deactivate greenSpaceRepository
+            activate factImpl
+                factImpl --> factImpl : build()
 
-    deactivate greenSpaceRepository
+                activate factImpl
+                    factImpl --> factImpl : validations()
+                    activate factImpl
+
+                    deactivate factImpl
+
+                    factImpl -> showRequest**: create
+
+                factImpl --> factImpl : showRequestObject
+
+                deactivate factImpl
+
+                factImpl --> CTRL :
+            deactivate factImpl
 
 
 
-    greenSpaceRepository --> CTRL : greenSpace
-    deactivate greenSpaceRepository
-    CTRL --> UI : greenSpace
+
+
     deactivate CTRL
 
 
