@@ -7,10 +7,10 @@
 |                  | US212      | Disable/enable users                    | 🟢 Easy      |
 |                  | US213      | List users                              | 🟢 Easy      |
 |                  | US220      | Register customer                       | 🟡 Medium    |
-| Emanuel Almeida  | US221      | Add a customer representative           | 🟡 Medium    |
-|                  | US222      | List customer representatives           | 🟢 Easy      |
-|                  | US223      | Edit a customer representative          | 🟡 Medium    |
-|                  | US224      | Disable a customer representative       | 🟢 Easy      |
+| Emanuel Almeida  | US240      | Drone model creation                    | 🟡 Medium    |
+|                  | US241      | Add drone to the inventory              | 🟡 Medium    |
+|                  | US242      | Remove drone from the inventory         | 🟢 Easy      |
+|                  | US243      | List drones in the inventory            | 🟢 Easy      |
 | Jorge Ubaldo     | US230      | Register Show request                   | 🔴 Hard      |
 |                  | US235      | List show requests of client            | 🟢 Easy      |
 |                  | US236      | Edit a show request                     | 🟡 Medium    |
