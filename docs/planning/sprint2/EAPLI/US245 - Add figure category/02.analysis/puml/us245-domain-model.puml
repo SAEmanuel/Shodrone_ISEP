@@ -1,0 +1,53 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Figure and Category domain model section
+
+hide circles
+hide methods
+
+package "Category Aggregate" {
+
+    class Category <<AggregateRoot>> {
+    }
+
+    class Name {
+    }
+
+    class ID {
+    }
+
+    class CategoryStatus {
+    }
+
+    class CreatedOn {
+    }
+
+    class CreatedBy {
+    }
+
+    class Description {
+    }
+
+}
+
+package "Figure Aggregate" {
+    class Figure <<AggregateRoot>> {
+    }
+}
+
+
+    Figure "*" --- "1 *" Category : >
+    Category "1" -- "1" ID: >
+    Category "1" --- "1" Name: >
+    Category "1" --- "1" CategoryStatus: >
+    Category "1" -- "1" CreatedOn: >
+    Category "1" --- "1" CreatedBy: >
+    Category "1" ---- "1" Description: >
+
+
+@enduml
