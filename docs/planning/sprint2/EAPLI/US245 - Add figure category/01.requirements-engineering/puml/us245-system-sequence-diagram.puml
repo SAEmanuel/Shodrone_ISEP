@@ -1,0 +1,30 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Figure Category
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+SD -> System: requestAddCategory(categoryName)
+activate System
+
+System -> System: validateCategoryName(categoryName)
+System -> System: checkCategoryUniqueness(categoryName)
+alt Category name invalid or duplicate
+    System --> SD: errorMessage("Invalid or duplicate category name")
+else Category name valid and unique
+    System -> System: saveCategory(categoryName, timestamp, SD)
+    System --> SD: confirmationMessage("Category added successfully")
+end
+
+deactivate System
+deactivate SD
+
+@enduml
