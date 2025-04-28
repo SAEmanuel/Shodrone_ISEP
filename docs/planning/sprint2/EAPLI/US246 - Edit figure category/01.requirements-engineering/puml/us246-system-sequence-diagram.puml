@@ -1,0 +1,41 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Edit Figure Category
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+SD -> System: requestEditCategory(id, newName, newDescription)
+activate System
+
+System -> System: validateCategoryExists(id)
+alt Category does not exist
+    System --> SD: errorMessage("Category not found")
+else Category exists
+    System -> System: checkCategoryActive(id)
+    alt Category is inactive
+        System --> SD: errorMessage("Cannot edit inactive category")
+    else Category is active
+        System -> System: validateCategoryName(newName)
+        System -> System: checkCategoryUniqueness(newName, id)
+        System -> System: validateDescription(newDescription)
+        alt Name invalid, duplicate, or description invalid
+            System --> SD: errorMessage("Invalid or duplicate category name, or invalid description")
+        else Name and description valid and unique
+            System -> System: updateCategory(id, newName, newDescription, updatedOn, updatedBy)
+            System --> SD: confirmationMessage("Category updated successfully")
+        end
+    end
+end
+
+deactivate System
+deactivate SD
+
+@enduml
