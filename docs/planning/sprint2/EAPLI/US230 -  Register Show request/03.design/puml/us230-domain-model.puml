@@ -1,0 +1,56 @@
+@startuml
+' Sequence Diagram for US230 - Register Show Request
+
+actor "CRM Collaborator" as Collaborator
+participant ":RegisterShowRequestUI" as UI
+participant ":RegisterShowRequestService" as Service
+participant ":ShowRequestRepository" as ShowRequestRepo
+participant ":CustomerRepository" as CustomerRepo
+participant ":FigureRepository" as FigureRepo
+participant "sr:ShowRequest" as ShowRequest
+participant "sd:ShowDescription" as ShowDescription
+participant "fe:FigureExecution" as FigureExecution
+participant "srs:ShowRequestStatus" as ShowRequestStatus
+participant ":AuthFacade" as AuthFacade
+
+Collaborator -> UI: start
+UI -> AuthFacade: getCurrentUser()
+AuthFacade -> UI: user (CRM Collaborator)
+UI -> UI: checkRole("CRM Collaborator")
+alt role is CRM Collaborator
+UI -> Collaborator: showCustomerList()
+Collaborator -> UI: selectCustomer(customerId)
+UI -> CustomerRepo: findById(customerId)
+CustomerRepo -> UI: customer
+UI -> UI: validateCustomer(customer)
+alt customer is active or VIP
+UI -> Collaborator: enterDetails(place, time, numDrones, duration, figureIds)
+UI -> Service: registerShowRequest(customer, place, time, numDrones, duration, figureIds)
+Service -> FigureRepo: findByIds(figureIds)
+FigureRepo -> Service: figures
+Service -> Service: validateFigures(figures, customer)
+alt figures are valid
+Service -> ShowRequest: new(customer, numDrones, duration)
+ShowRequest -> ShowDescription: new(place, time)
+ShowDescription -> FigureExecution: new(order, figure) for each figure
+ShowRequest -> ShowRequest: setShowDescription(sd)
+Service -> AuthFacade: getCurrentUser()
+AuthFacade -> Service: user
+ShowRequest -> ShowRequest: setShowRequestAuthor(user.userId, user.username)
+ShowRequest -> ShowRequestStatus: new("Created", timestamp, user.username)
+Service -> ShowRequestRepo: save(sr)
+ShowRequestRepo -> Service: sr
+Service -> UI: success("Show request registered successfully with ID " + sr.id)
+UI -> Collaborator: "Show request registered successfully with ID SR-001"
+else figures invalid
+Service -> UI: error("Invalid figures: must be public or exclusive")
+UI -> Collaborator: error("Invalid figures: must be public or exclusive")
+end
+else customer invalid
+UI -> Collaborator: error("Only active or VIP customers allowed")
+end
+else role invalid
+UI -> Collaborator: error("Access denied: CRM Collaborator role required")
+end
+
+@enduml

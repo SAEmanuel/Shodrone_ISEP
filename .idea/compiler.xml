@@ -13,8 +13,8 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar" />
         </processorPath>
-        <module name="shodrone.core" />
         <module name="shodrone.infraestructure.application" />
         <module name="shodrone.backoffice" />
       </profile>
@@ -23,6 +23,7 @@
       <module name="persistence.impl.jpa" target="11" />
       <module name="shodrone.app1" target="11" />
       <module name="shodrone.app2" target="11" />
+      <module name="shodrone.core" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

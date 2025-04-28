@@ -25,7 +25,6 @@
         <module>shodrone.backoffice</module>
         <module>shodrone.util.ci</module>
         <module>shodrone.infraestructure.application</module>
-        <module>shodrone.core</module>
     </modules>
 
     <properties>

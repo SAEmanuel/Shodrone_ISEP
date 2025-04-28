@@ -11,6 +11,7 @@
       <set>
         <option value="$PROJECT_DIR$/persistence.impl.jpa/pom.xml" />
         <option value="$PROJECT_DIR$/shodrone.app2/pom.xml" />
+        <option value="$PROJECT_DIR$/shodrone.core/pom.xml" />
       </set>
     </option>
   </component>
