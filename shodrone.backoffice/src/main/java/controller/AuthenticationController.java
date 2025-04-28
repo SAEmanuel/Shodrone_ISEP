@@ -5,7 +5,7 @@ import persistence.inmemory.Repositories;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;
-
+import java.time.LocalDateTime;
 
 public class AuthenticationController {
 

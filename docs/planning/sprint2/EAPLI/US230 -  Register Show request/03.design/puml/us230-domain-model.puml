@@ -16,10 +16,14 @@ participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "authenticationRepository\n:AuthenticationRepository" as authenticationRepository
 participant "figureRepository\n:FigureRepository" as fgrrepo
-participant "factoryProvider\n:FactoyProvider" as factprov
 
 participant "userSession\n:UserSession" as UserSession
 participant "email\n:Email" as Email
+
+participant "localDateTime\n: LocalDateTime " as localTime
+participant "clock\n:Clock" as clock
+participant "factoryProvider\n:FactoyProvider" as factprov
+
 participant "greenSpaceRepository\n:GreenSpaceRepository" as greenSpaceRepository
 participant ":GreenSpace" as green
 participant ":Size" as Size
@@ -187,6 +191,22 @@ deactivate CTRL
                             Email --> CTRL : email
                         deactivate Email
                     CTRL --> CTRL : author
+
+                    deactivate CTRL
+
+                    |||
+
+                    CTRL --> CTRL : getThisTime()
+
+                    activate CTRL
+
+                        CTRL -> localTime** : now()
+                        activate localTime
+
+                            localTime --> CTRL : Time
+                        deactivate localTime
+                        CTRL --> CTRL : registrationTime
+
                     deactivate CTRL
 
     |||
