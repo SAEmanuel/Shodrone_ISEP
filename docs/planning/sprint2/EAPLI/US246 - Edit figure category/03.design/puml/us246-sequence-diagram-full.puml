@@ -12,40 +12,49 @@ participant ":PersistenceContext" as PC
 participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
 participant "repository\n:FigureCategoryRepository" as REPO
 participant "FigureCategory" as FigureCategory
+participant ":AuthFacade" as AuthFacade
 
 activate ACTOR
 
 ACTOR -> UI : requests edit figure category
 
 activate UI
-UI -> CTRL : create()
+UI -> AuthFacade: getCurrentUser()
+AuthFacade -> UI: user (ShowDesigner)
+UI -> UI: checkRole("ShowDesigner")
+alt role is ShowDesigner
+    UI -> CTRL : create()
 
-activate CTRL
-CTRL -> PC: repositories()
-activate PC
-PC -> FACTORY_INSTANCE: create()
-activate FACTORY_INSTANCE
-FACTORY_INSTANCE -> REPO: create()
-deactivate FACTORY_INSTANCE
-PC -> CTRL: FigureCategoryRepository
-deactivate PC
+    activate CTRL
+    CTRL -> PC: repositories()
+    activate PC
+    PC -> FACTORY_INSTANCE: create()
+    activate FACTORY_INSTANCE
+    FACTORY_INSTANCE -> REPO: create()
+    deactivate FACTORY_INSTANCE
+    PC -> CTRL: FigureCategoryRepository
+    deactivate PC
 
-UI -> UI: doShow()
+    UI -> UI: doShow()
 
-UI -> CTRL: editFigureCategory(id, newName, newDescription)
-CTRL -> CTRL: validate(id, newName, newDescription)
-alt invalid input, duplicate name, or inactive category
-    CTRL -> UI: errorMessage("Invalid or duplicate category name/description, or category inactive")
-else valid input
-    CTRL -> REPO: findById(id)
-    REPO -> CTRL: FigureCategory
-    CTRL -> FigureCategory: update(newName, newDescription)
-    CTRL -> REPO: save(FigureCategory)
-    REPO -> CTRL: confirmation
-    CTRL -> UI: successMessage("Category updated successfully")
+    UI -> CTRL: editFigureCategory(id, newName, newDescription)
+    CTRL -> CTRL: validate(id, newName, newDescription)
+    alt invalid input, duplicate name, or inactive category
+        CTRL -> UI: errorMessage("Invalid or duplicate category name/description, or category inactive")
+    else valid input
+        CTRL -> REPO: findById(id)
+        REPO -> CTRL: FigureCategory
+        CTRL -> FigureCategory: update(newName, newDescription)
+        CTRL -> REPO: save(FigureCategory)
+        REPO -> CTRL: confirmation
+        CTRL -> UI: successMessage("Category updated successfully")
+    end
+
+    deactivate CTRL
+else role is not ShowDesigner
+    UI -> ACTOR: errorMessage("Access denied: ShowDesigner role required")
 end
 
-deactivate CTRL
 deactivate UI
 deactivate ACTOR
 
