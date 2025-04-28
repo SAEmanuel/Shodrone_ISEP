@@ -1,0 +1,34 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Inactivate/Activate Figure Category
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+SD -> System: requestChangeCategoryStatus(id, action)
+activate System
+
+System -> System: validateCategoryExists(id)
+alt Category does not exist
+    System --> SD: errorMessage("Category not found")
+else Category exists
+    System -> System: checkCategoryStatus(id)
+    alt Status already as requested
+        System --> SD: errorMessage("Category already in requested status")
+    else Status change allowed
+        System -> System: updateCategoryStatus(id, action, updatedOn, updatedBy)
+        System --> SD: confirmationMessage("Category status updated successfully")
+    end
+end
+
+deactivate System
+deactivate SD
+
+@enduml
