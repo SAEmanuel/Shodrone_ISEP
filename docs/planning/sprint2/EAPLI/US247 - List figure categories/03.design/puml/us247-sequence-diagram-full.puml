@@ -1,0 +1,43 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "ShowDesigner" as ACTOR
+participant ":ListFigureCategoriesUI" as UI
+participant ":ListFigureCategoriesController" as CTRL
+participant ":PersistenceContext" as PC
+participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
+participant "repository\n:FigureCategoryRepository" as REPO
+
+activate ACTOR
+
+ACTOR -> UI : requests list of figure categories
+
+activate UI
+UI -> CTRL : create()
+
+activate CTRL
+CTRL -> PC: repositories()
+activate PC
+PC -> FACTORY_INSTANCE: create()
+activate FACTORY_INSTANCE
+FACTORY_INSTANCE -> REPO: create()
+deactivate FACTORY_INSTANCE
+PC -> CTRL: FigureCategoryRepository
+deactivate PC
+
+UI -> UI: doShow()
+
+UI -> CTRL: listFigureCategories()
+CTRL -> REPO: findAllActiveOrderedByName()
+REPO -> CTRL: listOfCategories
+CTRL -> UI: displayCategories(listOfCategories)
+
+deactivate CTRL
+deactivate UI
+deactivate ACTOR
+
+@enduml
