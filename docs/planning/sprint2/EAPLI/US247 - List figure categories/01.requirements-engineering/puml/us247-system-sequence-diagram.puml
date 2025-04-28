@@ -1,0 +1,26 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - List Figure Categories
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+SD -> System: requestListCategories()
+activate System
+
+System -> System: fetchAllCategories()
+System -> System: filterByStatus(ACTIVE)
+System -> System: sortCategoriesByName()
+System -> SD: displayCategories(listOfCategories)
+
+deactivate System
+deactivate SD
+
+@enduml
