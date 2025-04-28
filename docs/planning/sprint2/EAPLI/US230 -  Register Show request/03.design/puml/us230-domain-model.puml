@@ -25,6 +25,8 @@ participant "factoryProvider\n:FactoyProvider" as factprov
 participant "showRequestFactoryImpl\n:ShowRequestFactoryImpl" as factImpl
 
 participant "showRequest\n:ShowRequest" as showRequest
+participant "showRequestJPAImpl\n:ShowRequestJPAImpl" as jpa
+participant "inMemoryShowRequestRepository\n:InMemoryShowRequestRepository" as mmry
 
 
 activate crmColl
@@ -233,13 +235,12 @@ deactivate CTRL
 
                 deactivate factImpl
 
-                factImpl --> CTRL :
+                factImpl --> CTRL : showRequestObject
             deactivate factImpl
 
-
-
-
-
+            CTRL -> jpa** : add(showRequestObject)
+            CTRL -> mmry** : add(showRequestObject)
+            CTRL --> UI : showRequestObject
     deactivate CTRL
 
 
