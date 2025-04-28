@@ -1,0 +1,50 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+autonumber
+
+actor "ShowDesigner" as ACTOR
+participant ":AddFigureCategoryUI" as UI
+participant ":AddFigureCategoryController" as CTRL
+participant ":PersistenceContext" as PC
+participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
+participant "repository\n:FigureCategoryRepository" as REPO
+participant "FigureCategory" as FigureCategory
+
+activate ACTOR
+
+ACTOR -> UI : requests add figure category
+
+activate UI
+UI -> CTRL : create()
+
+activate CTRL
+CTRL -> PC: repositories()
+activate PC
+PC -> FACTORY_INSTANCE: create()
+activate FACTORY_INSTANCE
+FACTORY_INSTANCE -> REPO: create()
+deactivate FACTORY_INSTANCE
+PC -> CTRL: FigureCategoryRepository
+deactivate PC
+
+UI -> UI: doShow()
+
+UI -> CTRL: addFigureCategory(name, description)
+CTRL -> CTRL: validate(name, description)
+alt invalid input
+    CTRL -> UI: errorMessage("Invalid or duplicate category name/description")
+else valid input
+    CTRL -> FigureCategory: newFigureCategory = create(name, description)
+    CTRL -> REPO: save(newFigureCategory)
+    REPO -> CTRL: confirmation
+    CTRL -> UI: successMessage("Category added successfully")
+end
+
+deactivate CTRL
+deactivate UI
+deactivate ACTOR
+
+@enduml
