@@ -12,38 +12,47 @@ participant ":PersistenceContext" as PC
 participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
 participant "repository\n:FigureCategoryRepository" as REPO
 participant "FigureCategory" as FigureCategory
+participant ":AuthFacade" as AuthFacade
 
 activate ACTOR
 
 ACTOR -> UI : requests add figure category
 
 activate UI
-UI -> CTRL : create()
+UI -> AuthFacade: getCurrentUser()
+AuthFacade -> UI: user (ShowDesigner)
+UI -> UI: checkRole("ShowDesigner")
+alt role is ShowDesigner
+    UI -> CTRL : create()
 
-activate CTRL
-CTRL -> PC: repositories()
-activate PC
-PC -> FACTORY_INSTANCE: create()
-activate FACTORY_INSTANCE
-FACTORY_INSTANCE -> REPO: create()
-deactivate FACTORY_INSTANCE
-PC -> CTRL: FigureCategoryRepository
-deactivate PC
+    activate CTRL
+    CTRL -> PC: repositories()
+    activate PC
+    PC -> FACTORY_INSTANCE: create()
+    activate FACTORY_INSTANCE
+    FACTORY_INSTANCE -> REPO: create()
+    deactivate FACTORY_INSTANCE
+    PC -> CTRL: FigureCategoryRepository
+    deactivate PC
 
-UI -> UI: doShow()
+    UI -> UI: doShow()
 
-UI -> CTRL: addFigureCategory(name, description)
-CTRL -> CTRL: validate(name, description)
-alt invalid input
-    CTRL -> UI: errorMessage("Invalid or duplicate category name/description")
-else valid input
-    CTRL -> FigureCategory: newFigureCategory = create(name, description)
-    CTRL -> REPO: save(newFigureCategory)
-    REPO -> CTRL: confirmation
-    CTRL -> UI: successMessage("Category added successfully")
+    UI -> CTRL: addFigureCategory(name, description)
+    CTRL -> CTRL: validate(name, description)
+    alt invalid input
+        CTRL -> UI: errorMessage("Invalid or duplicate category name/description")
+    else valid input
+        CTRL -> FigureCategory: newFigureCategory = create(name, description)
+        CTRL -> REPO: save(newFigureCategory)
+        REPO -> CTRL: confirmation
+        CTRL -> UI: successMessage("Category added successfully")
+    end
+
+    deactivate CTRL
+else role is not ShowDesigner
+    UI -> ACTOR: errorMessage("Access denied: ShowDesigner role required")
 end
 
-deactivate CTRL
 deactivate UI
 deactivate ACTOR
 

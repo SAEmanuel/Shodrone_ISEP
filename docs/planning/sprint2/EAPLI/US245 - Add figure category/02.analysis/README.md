@@ -6,28 +6,30 @@
 
 ![Domain Model](svg/us245-domain-model.svg)
 
-The diagram presented in this section is a detailed excerpt of the domain model, focusing specifically on the entities and value objects relevant to the management of figure categories. This model is **more complete** than the general domain model of the system (in this section) because, in this context, it is important to explicitly represent all attributes and relationships required to ensure robustness, traceability, and extensibility for the category functionality.
+The diagram presented in this section reflects the current and complete version of the domain model for figure and category management. This model explicitly details all relevant attributes and relationships needed to ensure robustness, traceability, and extensibility for the category functionality.
 
-In the general domain model, it is typical to identify only the main entities and their relationships, without detailing all internal attributes. That level of abstraction is sufficient for an overall view of the system, but it does not cover all the technical and functional needs of each specific use case. For example, in the general model, it may be enough to know that there is a `Category` entity associated with `Figure`, but there is no need to detail attributes such as `CreatedOn`, `CreatedBy`, `CategoryStatus,`etc...
+Unlike the general domain model-which only identifies the main entities and their associations-this excerpt includes all internal attributes required for implementation and compliance with business rules. For example, attributes such as `CreatedOn`, `CreatedBy`, `CategoryStatus`, `UpdatedOn`, and `UpdatedBy` are included to fully support auditing, lifecycle management, and traceability.
 
-In this excerpt, however, a higher level of detail is justified because:
-- It ensures all functional and non-functional requirements defined for the category-related user stories (US245–US248) are met.
-- It supports auditing (who created, when, who updated), uniqueness, activation/deactivation, and detailed category description.
-- It facilitates the implementation of business rules and the future extensibility of the system.
+A higher level of detail is justified here because:
+- It ensures all functional and non-functional requirements for category management are met, including auditing, uniqueness, activation/inactivation, and description.
+- It supports the enforcement of business rules and future extensibility.
+- It enables full traceability of changes (who created and updated, and when).
 
 #### **Explanation of the model elements**
 
-- **Category** (`<<AggregateRoot>>`): The main entity of the category aggregate. All external operations on categories are performed through this root, ensuring integrity and encapsulation.
-- **ID**: Unique identifier for the category.
-- **Name**: Value object representing the category name, ensuring uniqueness (case-insensitive) and validation.
-- **CategoryStatus**: Enum indicating whether the category is active or inactive, allowing activation/deactivation without data loss.
-- **CreatedOn**: Date/time when the category was created, essential for auditing.
-- **CreatedBy**: Reference to the user who created the category, also for auditing and traceability.
-- **Description**: Optional field to describe the category, useful for clarification and future searches.
-- **Figure** (`<<AggregateRoot>>`): The main entity of the figure aggregate, associated with one or more categories.
+- **Category** (`<<AggregateRoot>>`): The root entity for figure categories, encapsulating all business logic and ensuring consistency.
+- **ID**: Unique identifier for each category.
+- **Name**: Value object ensuring category name uniqueness (case-insensitive) and validation.
+- **CategoryStatus**: Enum indicating whether the category is active or inactive.
+- **CreatedOn**: Date/time when the category was created (audit field).
+- **CreatedBy**: Reference to the user who created the category (audit field).
+- **UpdatedOn**: Date/time of the last modification (audit field).
+- **UpdatedBy**: Reference to the user who last modified the category (audit field).
+- **Description**: Optional field for clarifying the category's purpose.
+- **Figure** (`<<AggregateRoot>>`): The main entity for figures, associated with one or more categories.
 
-This detailed modeling enables the system to support all flows and business rules associated with the management of figure categories, as required by the project specification.
+This comprehensive model ensures that all business rules and requirements for figure category management are supported, and that the system is prepared for future enhancements.
 
 ### 2.2. Other Remarks
 
-n/a
+This version of the domain model is fully aligned with the latest requirements and no further changes are currently anticipated.

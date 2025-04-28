@@ -24,6 +24,8 @@ As a Show Designer, I want to list all figure categories in the catalogue so tha
 - [ ] The list is up to date and reflects recent changes (additions, edits, inactivations).
 - [ ] A suitable message is shown if no categories are available.
 
+> **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
+
 ### 1.4. Found out Dependencies
 
 - Depends on the user authentication and authorization module.

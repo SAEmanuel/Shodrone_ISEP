@@ -25,6 +25,8 @@ As a Show Designer, I want to inactivate or activate a figure category in the ca
 - [ ] It is possible to reactivate an inactivated category.
 - [ ] The system prevents redundant operations (e.g., trying to inactivate an already inactive category).
 
+> **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
+
 ### 1.4. Found out Dependencies
 
 - Depends on the user authentication and authorization module.
