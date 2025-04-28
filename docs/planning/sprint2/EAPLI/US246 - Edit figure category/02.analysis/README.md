@@ -20,5 +20,4 @@ This detailed modeling ensures that all business rules for editing a category-su
 
 ### 2.2. Other Remarks
 
-- For maximum traceability, `UpdatedOn` and `UpdatedBy` fields were added.
 - All validations (uniqueness, active status, input constraints) should be enforced within the aggregate to maintain domain integrity.

@@ -33,6 +33,12 @@ package "Category Aggregate" {
     class Description {
     }
 
+    class UpdatedOn {
+    }
+
+    class UpdatedBy {
+    }
+
 }
 
 package "Figure Aggregate" {
@@ -42,12 +48,14 @@ package "Figure Aggregate" {
 
 
     Figure "*" --- "1 *" Category : >
-    Category "1" -- "1" ID: >
+    Category "1" --- "1" ID: >
     Category "1" --- "1" Name: >
     Category "1" --- "1" CategoryStatus: >
-    Category "1" -- "1" CreatedOn: >
+    Category "1" --- "1" CreatedOn: >
     Category "1" --- "1" CreatedBy: >
-    Category "1" ---- "1" Description: >
+    Category "1" --- "1" Description: >
+    Category "1" --- "1" UpdatedOn: >
+    Category "1" --- "1" UpdatedBy: >
 
 
 @enduml
