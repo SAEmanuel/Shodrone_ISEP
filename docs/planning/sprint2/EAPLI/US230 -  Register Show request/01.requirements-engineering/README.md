@@ -30,6 +30,11 @@ The following specifications are derived from the requirements document (Section
 - **Q: Can the same figure be used multiple times in the sequence?**
     - A: Yes, the sequence (`FigureExecution`) can include repeated figures (e.g., "Circle -> Spiral -> Circle").
 
+**Forum Questions**:
+> **Question:** Um representante pode atender vários clientes, ou cada cliente tem seus próprios representantes, sem compartilhamento entre eles?
+>
+> **Answer:** Simplifiquemos: os representantes não são partilhados entre clientes. Não encontro user stories que apontem noutro sentido.
+
 ### 1.3. Acceptance Criteria
 
 - **AC1**: The CRM Collaborator must be authenticated and authorized to register a show request (role-based access).

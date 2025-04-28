@@ -22,11 +22,11 @@ The design follows a layered architecture:
 ### 3.2. Sequence Diagrams
 
 #### 3.2.1. Class Diagram
-
+![Class Diagram](svg/class_diagram.svg)
 #### 3.2.2. Sequence Diagram (SD)
 The Sequence Diagram (SD) below provides a detailed view of the internal interactions within the system to register a `ShowRequest`. It includes the UI, application service, domain entities, and repositories.
 
-![Sequence Diagram](svg/us230-sequence-diagram.png)
+![Sequence Diagram](svg/us230-sequence-diagram.svg)
 
 ### 3.3. Design Patterns (if any)
 The following design patterns and principles have been applied throughout the system design to ensure maintainability, scalability, and adherence to best practices:

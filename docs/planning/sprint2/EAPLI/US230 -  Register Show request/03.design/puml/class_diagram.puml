@@ -1,63 +1,90 @@
 @startuml
-'skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 skinparam linetype polyline
-'skinparam linetype orto
 skinparam classAttributeIconSize 0
-'left to right direction
-
-class GreenSpaceRepository {
-    - List<GreenSpace> greenSpacesList
-    + registerGreenSpace(String name, int size, float area, String address, String resposible)
-    - addGreenSpace(greenSpace)
-    - validate(greenSpace)
-    + getGreenSpacesSizes()
-}
-
-class GreenSpace {
-    -  String name
-    -  String address;
-    -  String responsible;
-    -  Size size;
-    -  float area;
-
-    + GreenSpace(String name, int size, float area, String address,String responsible)
-    - validateInfo(String name, float area,String address)
-
-}
-
-class enum_Size {
-    GARDEN
-    MEDIUM
-    LARGE
-}
 
 class Repositories {
     - Repositories()
     + getInstance() : Repositories
-    + getGreenSpaceRepository()
+    + getShowRequestRepository() : ShowRequestRepository
+    + getAuthenticationRepository() : AuthenticationRepository
+    + getFigureRepository() : FigureRepository
 }
 
-class GreenSpaceController {
-    + GreenSpaceController()
-    + registerGreenSpace(String name, int size, float area,String address)
-    + getResponsible()
-    + getGreenSpacesSizes()
+class AuthenticationController {
+    + getMyActiveCustomers() : List<Customer>
 }
 
-class RegisterGreenSpaceUI {
-    + showSizes(GreenSpace.Size[] sizes)
+class FigureController {
+    + getAvailableFiguresForCustomer(CustomerID identification) : List<Figure>
 }
 
-RegisterGreenSpaceUI ..> GreenSpaceController
+class RegisterShowRequestController {
+    + RegisterShowRequestController()
+    + registerShowRequest(location, date, numDrones, duration, description, listFigures, customer)
+    + getResponsible() : Email
+    + getThisTime() : LocalDateTime
+}
 
-GreenSpaceController <-- RegisterGreenSpaceUI : getGreenSpacesSizes()
-GreenSpaceController .> Repositories : repositories
-Repositories  --> "1 " GreenSpaceRepository
-Repositories -> Repositories : instance
-GreenSpaceController ..>  GreenSpaceRepository : greenSpaceRepository
-GreenSpaceRepository <- GreenSpaceController : getGreenSpacesSizes()
-GreenSpaceRepository --> GreenSpace : register
-enum_Size - GreenSpace
+class RegisterShowRequestUI {
+    + askToRegisterShowRequest()
+    + optionsToSelectCustomer(List<Customer> customers)
+    + optionsToSelectFigures(List<Figure> figures)
+    + requestData()
+    + showConfirmation()
+    + showsOperationSuccess()
+}
+
+class ShowRequestFactory {
+    + registerShowRequest(location, date, numDrones, duration, description, listFigures, customer, registrationTime, author) : ShowRequest
+}
+
+class ShowRequest {
+    + create(...)
+}
+
+class AuthenticationRepository {
+    + getMyActiveCustomers() : List<Customer>
+    + getCurrentUserSession() : UserSession
+}
+
+class FigureRepository {
+    + getAvailableFiguresForCustomer(CustomerID id) : List<Figure>
+}
+
+class ShowRequestRepository {
+    + add(ShowRequest showRequest)
+}
+
+class UserSession {
+    + getUserId() : Email
+}
+
+class Email {
+    + getEmail() : String
+}
+
+class LocalDateTime {
+    + now() : LocalDateTime
+}
+
+RegisterShowRequestUI ..> RegisterShowRequestController
+RegisterShowRequestController ..> Repositories : repositories
+Repositories --> "1" ShowRequestRepository
+Repositories --> "1" AuthenticationRepository
+Repositories --> "1" FigureRepository
+
+RegisterShowRequestController ..> AuthenticationRepository
+AuthenticationController ..> AuthenticationRepository
+AuthenticationRepository --> UserSession
+UserSession --> Email
+
+RegisterShowRequestController ..> ShowRequestFactory
+ShowRequestFactory --> ShowRequest
+
+RegisterShowRequestController ..> LocalDateTime
+
+FigureController ..> FigureRepository
+
 @enduml
