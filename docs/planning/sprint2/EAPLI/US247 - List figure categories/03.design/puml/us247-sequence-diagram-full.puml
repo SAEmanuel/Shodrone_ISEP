@@ -11,32 +11,41 @@ participant ":ListFigureCategoriesController" as CTRL
 participant ":PersistenceContext" as PC
 participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
 participant "repository\n:FigureCategoryRepository" as REPO
+participant ":AuthFacade" as AuthFacade
 
 activate ACTOR
 
 ACTOR -> UI : requests list of figure categories
 
 activate UI
-UI -> CTRL : create()
+UI -> AuthFacade: getCurrentUser()
+AuthFacade -> UI: user (ShowDesigner)
+UI -> UI: checkRole("ShowDesigner")
+alt role is ShowDesigner
+    UI -> CTRL : create()
 
-activate CTRL
-CTRL -> PC: repositories()
-activate PC
-PC -> FACTORY_INSTANCE: create()
-activate FACTORY_INSTANCE
-FACTORY_INSTANCE -> REPO: create()
-deactivate FACTORY_INSTANCE
-PC -> CTRL: FigureCategoryRepository
-deactivate PC
+    activate CTRL
+    CTRL -> PC: repositories()
+    activate PC
+    PC -> FACTORY_INSTANCE: create()
+    activate FACTORY_INSTANCE
+    FACTORY_INSTANCE -> REPO: create()
+    deactivate FACTORY_INSTANCE
+    PC -> CTRL: FigureCategoryRepository
+    deactivate PC
 
-UI -> UI: doShow()
+    UI -> UI: doShow()
 
-UI -> CTRL: listFigureCategories()
-CTRL -> REPO: findAllActiveOrderedByName()
-REPO -> CTRL: listOfCategories
-CTRL -> UI: displayCategories(listOfCategories)
+    UI -> CTRL: listFigureCategories()
+    CTRL -> REPO: findAllActiveOrderedByName()
+    REPO -> CTRL: listOfCategories
+    CTRL -> UI: displayCategories(listOfCategories)
 
-deactivate CTRL
+    deactivate CTRL
+else role is not ShowDesigner
+    UI -> ACTOR: errorMessage("Access denied: ShowDesigner role required")
+end
+
 deactivate UI
 deactivate ACTOR
 
