@@ -3,57 +3,106 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
+title UI Sequence Diagram (SSD) - Add Figure Category
+
 autonumber
 
-actor "ShowDesigner" as ACTOR
+actor "Show Designer" as showDesigner
 participant ":AddFigureCategoryUI" as UI
 participant ":AddFigureCategoryController" as CTRL
-participant ":PersistenceContext" as PC
-participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
-participant "repository\n:FigureCategoryRepository" as REPO
-participant "FigureCategory" as FigureCategory
-participant ":AuthFacade" as AuthFacade
+participant "figureCategoryController\n:FigureCategoryController" as catCtrl
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "figureCategoryRepository\n:FigureCategoryRepository" as catRepo
 
-activate ACTOR
+participant "factoryProvider\n:FactoryProvider" as factProv
+participant "figureCategoryFactoryImpl\n:FigureCategoryFactoryImpl" as catFactImpl
+participant "figureCategory\n:FigureCategory" as figureCategory
+participant "figureCategoryJPAImpl\n:FigureCategoryJPAImpl" as catJPA
+participant "inMemoryFigureCategoryRepository\n:InMemoryFigureCategoryRepository" as catMem
 
-ACTOR -> UI : requests add figure category
+participant "localDateTime\n:LocalDateTime" as localTime
 
-activate UI
-UI -> AuthFacade: getCurrentUser()
-AuthFacade -> UI: user (ShowDesigner)
-UI -> UI: checkRole("ShowDesigner")
-alt role is ShowDesigner
-    UI -> CTRL : create()
+activate showDesigner
+
+    showDesigner -> UI : ask to add a Figure Category
+    activate UI
+
+    UI -> showDesigner : ask for category data (name, description)
+    showDesigner -> UI : provides category data
+
+    UI -> CTRL** : create
 
     activate CTRL
-    CTRL -> PC: repositories()
-    activate PC
-    PC -> FACTORY_INSTANCE: create()
-    activate FACTORY_INSTANCE
-    FACTORY_INSTANCE -> REPO: create()
-    deactivate FACTORY_INSTANCE
-    PC -> CTRL: FigureCategoryRepository
-    deactivate PC
 
-    UI -> UI: doShow()
+        CTRL -> CTRL : getFigureCategoryRepository()
+        activate CTRL
 
-    UI -> CTRL: addFigureCategory(name, description)
-    CTRL -> CTRL: validate(name, description)
-    alt invalid input
-        CTRL -> UI: errorMessage("Invalid or duplicate category name/description")
-    else valid input
-        CTRL -> FigureCategory: newFigureCategory = create(name, description)
-        CTRL -> REPO: save(newFigureCategory)
-        REPO -> CTRL: confirmation
-        CTRL -> UI: successMessage("Category added successfully")
-    end
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
 
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getFigureCategoryRepository()
+            activate PLAT
+
+                PLAT --> CTRL: figureCategoryRepository
+            deactivate PLAT
+            CTRL --> CTRL : figureCategoryRepository
+
+        deactivate CTRL
+
+        CTRL -> factProv : getFigureCategoryFactory()
+        activate factProv
+
+            factProv --> CTRL : categoryFactory
+        deactivate factProv
+
+        CTRL -> catFactImpl : createFigureCategory(name, description)
+        activate catFactImpl
+            catFactImpl --> catFactImpl : validations()
+            alt invalid input
+                catFactImpl --> CTRL : error("Invalid or duplicate category name/description")
+                CTRL -> UI : error("Invalid or duplicate category name/description")
+                deactivate CTRL
+                deactivate UI
+                deactivate showDesigner
+                return
+            else valid input
+                catFactImpl -> figureCategory**: create
+
+                catFactImpl --> CTRL : figureCategoryObject
+                activate CTRL
+
+            end
+        deactivate catFactImpl
+
+        CTRL -> localTime** : getCurrentMoment()
+        activate localTime
+
+            localTime --> CTRL : createdOn
+        deactivate localTime
+
+        CTRL -> catJPA : add(figureCategoryObject)
+        deactivate catFactImpl
+        activate catJPA
+
+            catJPA --> CTRL : confirmation
+        deactivate catJPA
+
+        CTRL -> catMem : add(figureCategoryObject)
+        activate catMem
+
+            catMem --> CTRL : confirmation
+        deactivate catMem
+
+        CTRL -> UI : figureCategoryObject
     deactivate CTRL
-else role is not ShowDesigner
-    UI -> ACTOR: errorMessage("Access denied: ShowDesigner role required")
-end
+
+    UI -> showDesigner : shows operation (in)success
 
 deactivate UI
-deactivate ACTOR
+deactivate showDesigner
 
 @enduml
