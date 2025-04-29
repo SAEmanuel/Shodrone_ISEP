@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/shodrone.iml" filepath="$PROJECT_DIR$/shodrone.iml" />
-      <module fileurl="file://$PROJECT_DIR$/shodrone.infraestructure.application.iml" filepath="$PROJECT_DIR$/shodrone.infraestructure.application.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shodrone.core/shodrone.core.iml" filepath="$PROJECT_DIR$/shodrone.core/shodrone.core.iml" />
     </modules>
   </component>
 </project>
