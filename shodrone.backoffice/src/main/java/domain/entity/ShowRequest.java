@@ -1,11 +1,11 @@
 package domain.entity;
 
-import domain.model.DomainEntityBase;
+
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowRequestStatus;
+import eapli.framework.domain.model.DomainEntityBase;
 import eapli.framework.general.domain.model.Description;
 import jakarta.persistence.*;
-import pt.isep.lei.esoft.auth.domain.model.User;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
