@@ -1,6 +1,5 @@
 package domain.entity;
 
-
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowRequestStatus;
 import eapli.framework.domain.model.DomainEntityBase;
@@ -10,77 +9,92 @@ import jakarta.persistence.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import java.util.Objects;
 
 @Entity
-@Table(name = "Show Request")
+@Table(name = "show_request")
 public class ShowRequest extends DomainEntityBase<Long> {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "Identification",nullable = false,unique = true)
-    private Long ShowRequestId;
-    @Column(nullable = false,name = "Submission Date")
+    @Column(name = "identification", nullable = false, unique = true)
+    private Long showRequestId;
+
+    @Column(name = "submission_date", nullable = false)
     private LocalDateTime submissionDate;
-    @Column(nullable = false,name = "Status")
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private ShowRequestStatus status;
-    @Column(nullable = false,name = "Submission Author")
-    private String submissionAuthor; //WARNING
+
+    @Column(name = "submission_author", nullable = false)
+    private String submissionAuthor;
 
     @Embedded
     private Costumer costumer;
 
     @OneToMany(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "Figures")
-    @Column(nullable = false,name = "Figures")
+    @JoinColumn(name = "show_request_id")
     private List<Figure> figures;
 
-
-    @Column(nullable = true,name = "Description")
+    @Embedded
     private Description description;
-    @Column(nullable = false,name = "Location")
-    private Location location;
-    @Column(nullable = false,name = "Show Date")
-    private LocalDateTime showDate;
-    @Column(nullable = false, name = "Number of Drones")
-    private int numberOfDrones;
-    @Column(nullable = false, name = "Show Duration")
-    private Duration numberOfShips;
 
-    public ShowRequest() {
+    @Embedded
+    private Location location;
+
+    @Column(name = "show_date", nullable = false)
+    private LocalDateTime showDate;
+
+    @Column(name = "number_of_drones", nullable = false)
+    private int numberOfDrones;
+
+    @Column(name = "show_duration", nullable = false)
+    private Duration showDuration;
+
+    protected ShowRequest() {
+        // For JPA only
     }
 
-
-
-
-
-
-
+    public ShowRequest(LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor,
+                       Costumer costumer, List<Figure> figures, Description description,
+                       Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
+        this.submissionDate = submissionDate;
+        this.status = status;
+        this.submissionAuthor = submissionAuthor;
+        this.costumer = costumer;
+        this.figures = figures;
+        this.description = description;
+        this.location = location;
+        this.showDate = showDate;
+        this.numberOfDrones = numberOfDrones;
+        this.showDuration = showDuration;
+    }
 
     @Override
     public Long identity() {
-        return 0L;
+        return showRequestId;
     }
 
     @Override
     public boolean sameAs(Object other) {
-        return false;
-    }
-
-    @Override
-    public int compareTo(Long other) {
-        return super.compareTo(other);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
+        if (!(other instanceof ShowRequest)) return false;
+        ShowRequest that = (ShowRequest) other;
+        return Objects.equals(showRequestId, that.showRequestId);
     }
 
     @Override
     public boolean equals(Object o) {
-        return super.equals(o);
+        if (this == o) return true;
+        if (!(o instanceof ShowRequest)) return false;
+        ShowRequest that = (ShowRequest) o;
+        return Objects.equals(showRequestId, that.showRequestId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(showRequestId);
     }
 }
