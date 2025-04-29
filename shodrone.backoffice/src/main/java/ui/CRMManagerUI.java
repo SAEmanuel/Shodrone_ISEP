@@ -19,7 +19,7 @@ public class CRMManagerUI implements Runnable {
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("List 'Show Request' of Clients", new ShowTextUI("Not implemented yet.")));
-        options.add(new MenuItem("Change Client Status", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Change Costumer Status", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Manage Proposal Templates", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Manage Clients", new ShowTextUI("Not implemented yet.")));
 

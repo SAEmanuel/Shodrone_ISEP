@@ -1,4 +1,4 @@
 package domain.entity;
 
-public class Image {
+public class Figure {
 }

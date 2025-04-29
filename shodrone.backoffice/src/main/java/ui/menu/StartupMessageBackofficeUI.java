@@ -1,4 +1,4 @@
-package ui;
+package ui.menu;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

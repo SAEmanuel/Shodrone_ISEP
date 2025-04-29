@@ -1,4 +1,4 @@
 package domain.entity;
 
-public class Client {
+public class Costumer {
 }

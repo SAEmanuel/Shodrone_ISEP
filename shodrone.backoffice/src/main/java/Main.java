@@ -1,4 +1,4 @@
-import ui.StartupMessageBackofficeUI;
+import ui.menu.StartupMessageBackofficeUI;
 import ui.menu.MainMenuUI;
 
 import java.io.IOException;
