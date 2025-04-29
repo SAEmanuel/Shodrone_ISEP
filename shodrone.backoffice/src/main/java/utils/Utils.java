@@ -10,10 +10,47 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static more.ColorfulOutput.*;
+import static more.TextEffects.*;
 
 
 public class Utils {
     final static String COLOR_OPTIONS = ANSI_BRIGHT_BLACK;
+
+    public static void dropLines(int nLines) {
+        if (nLines > 0) {
+            System.out.print("\n".repeat(nLines));
+        }
+    }
+
+
+    public static void printCenteredTitle(String title) {
+        int lineLength = 50;  // Total line length
+
+        dropLines(2); // Print two empty lines before starting
+
+        // Print the "═" line in bright black
+        System.out.print(ANSI_BRIGHT_BLACK);
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("═");
+        }
+        System.out.println(ANSI_RESET); // Reset color after the line
+
+        // Prepare and print the centered title with color and bold
+        int leftSpaces = (lineLength - title.length()) / 2;
+        System.out.print(" ".repeat(Math.max(0, leftSpaces)));
+        System.out.println(BOLD + ANSI_MEDIUM_SPRING_GREEN + title + ANSI_RESET);
+
+        // Prepare and print "MENU" centered below the title, also bold and same color
+        String menu = "MENU";
+        leftSpaces = (lineLength - menu.length()) / 2;
+        System.out.print(" ".repeat(Math.max(0, leftSpaces)));
+        System.out.println(BOLD + ANSI_MEDIUM_SPRING_GREEN + menu + ANSI_RESET);
+
+        System.out.println(); // Final spacing
+    }
+
+
+
 
     static public String readLineFromConsole(String prompt) {
         try {

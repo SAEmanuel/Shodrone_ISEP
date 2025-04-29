@@ -1,7 +1,9 @@
 package persistence.inmemory;
 
+import persistence.interfaces.ShowRequestRepository;
 import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
 import persistence.jpa.AuthenticationRepository;
+import persistence.jpa.JPAImpl.ShowRequestJPAImpl;
 
 
 /**
@@ -15,7 +17,7 @@ public class Repositories {
     private static Repositories instance;
     private final InMemoryAuthenticationRepository inMemoryAuthenticationRepository;
     private final AuthenticationRepository jpaAuthenticationRepository;
-
+    private final InMemoryShowRequestRepository inMemoryShowRequestRepository;
     /**
      * Private constructor for Repositories.
      * Initializes the various repositories used in the application.
@@ -23,6 +25,7 @@ public class Repositories {
     private Repositories() {
         inMemoryAuthenticationRepository = new InMemoryAuthenticationRepository();
         jpaAuthenticationRepository = new AuthenticationRepositoryJPAImpl();
+        inMemoryShowRequestRepository = new InMemoryShowRequestRepository();
     }
 
     /**
@@ -55,5 +58,9 @@ public class Repositories {
      */
     public AuthenticationRepository getJpaAuthenticationRepository() {
         return jpaAuthenticationRepository;
+    }
+
+    public ShowRequestRepository getShowRequestRepository() {
+        return inMemoryShowRequestRepository;
     }
 }
