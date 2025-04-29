@@ -1,7 +1,7 @@
 package factories.impl;
 
 import domain.entity.ShowRequest;
-import domain.model.DomainFactory;
+import eapli.framework.domain.model.DomainFactory;
 
 public class ShowRequestFactoryImpl implements DomainFactory<ShowRequest> {
 
