@@ -3,50 +3,58 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
+title UI Sequence Diagram (SSD) - List Figure Categories
+
 autonumber
 
-actor "ShowDesigner" as ACTOR
+actor "Show Designer" as showDesigner
 participant ":ListFigureCategoriesUI" as UI
 participant ":ListFigureCategoriesController" as CTRL
-participant ":PersistenceContext" as PC
-participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
-participant "repository\n:FigureCategoryRepository" as REPO
-participant ":AuthFacade" as AuthFacade
+participant "figureCategoryController\n:FigureCategoryController" as catCtrl
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "figureCategoryRepository\n:FigureCategoryRepository" as catRepo
 
-activate ACTOR
+activate showDesigner
 
-ACTOR -> UI : requests list of figure categories
+    showDesigner -> UI : ask to list Figure Categories
+    activate UI
 
-activate UI
-UI -> AuthFacade: getCurrentUser()
-AuthFacade -> UI: user (ShowDesigner)
-UI -> UI: checkRole("ShowDesigner")
-alt role is ShowDesigner
-    UI -> CTRL : create()
-
+    UI -> CTRL : create
     activate CTRL
-    CTRL -> PC: repositories()
-    activate PC
-    PC -> FACTORY_INSTANCE: create()
-    activate FACTORY_INSTANCE
-    FACTORY_INSTANCE -> REPO: create()
-    deactivate FACTORY_INSTANCE
-    PC -> CTRL: FigureCategoryRepository
-    deactivate PC
 
-    UI -> UI: doShow()
+        CTRL -> CTRL : getFigureCategoryRepository()
+        activate CTRL
 
-    UI -> CTRL: listFigureCategories()
-    CTRL -> REPO: findAllActiveOrderedByName()
-    REPO -> CTRL: listOfCategories
-    CTRL -> UI: displayCategories(listOfCategories)
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getFigureCategoryRepository()
+            activate PLAT
+
+                PLAT --> CTRL: figureCategoryRepository
+            deactivate PLAT
+            CTRL --> CTRL : figureCategoryRepository
+
+        deactivate CTRL
+
+        UI -> UI: doShow()
+
+        UI -> CTRL: listFigureCategories()
+        CTRL -> catRepo: findAllActiveOrderedByName()
+        activate catRepo
+            catRepo --> CTRL: listOfCategories
+        deactivate catRepo
+        CTRL -> UI: displayCategories(listOfCategories)
 
     deactivate CTRL
-else role is not ShowDesigner
-    UI -> ACTOR: errorMessage("Access denied: ShowDesigner role required")
-end
+
+    UI -> showDesigner : shows list of categories
 
 deactivate UI
-deactivate ACTOR
+deactivate showDesigner
 
 @enduml
