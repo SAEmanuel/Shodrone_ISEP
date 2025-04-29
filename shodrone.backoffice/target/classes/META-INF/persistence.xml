@@ -22,8 +22,8 @@
       <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
 
       <!-- show SQL in console -->
-      <property name="hibernate.show_sql" value="true"/>
-      <property name="hibernate.format_sql" value="true"/>
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="false"/>
     </properties>
   </persistence-unit>
 </persistence>

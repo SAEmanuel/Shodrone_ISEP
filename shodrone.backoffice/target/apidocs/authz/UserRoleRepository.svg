@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="156px" preserveAspectRatio="none" style="width:246px;height:156px;" version="1.1" viewBox="0 0 246 156" width="246px" zoomAndPan="magnify"><defs><filter height="300%" id="f16c21esuyesfp" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5884b9fe79cd7fdd9385cb1d59f809e1]
+class authz.UserRoleRepository--><a href="UserRoleRepository.html" target="_top" title="UserRoleRepository.html" xlink:actuate="onRequest" xlink:href="UserRoleRepository.html" xlink:show="new" xlink:title="UserRoleRepository.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#f16c21esuyesfp)" height="118.6155" id="authz.UserRoleRepository" style="stroke: #A80036; stroke-width: 1.5;" width="220" x="7" y="7"/><ellipse cx="47.65" cy="28.344" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M50.6188,33.9846 Q50.0406,34.2815 49.4,34.4221 Q48.7594,34.5783 48.0563,34.5783 Q45.5563,34.5783 44.2281,32.9377 Q42.9156,31.2815 42.9156,28.1565 Q42.9156,25.0315 44.2281,23.3752 Q45.5563,21.719 48.0563,21.719 Q48.7594,21.719 49.4,21.8752 Q50.0563,22.0315 50.6188,22.3283 L50.6188,25.0471 Q49.9938,24.469 49.4,24.2033 Q48.8063,23.9221 48.1813,23.9221 Q46.8375,23.9221 46.15,25.0002 Q45.4625,26.0627 45.4625,28.1565 Q45.4625,30.2502 46.15,31.3283 Q46.8375,32.3908 48.1813,32.3908 Q48.8063,32.3908 49.4,32.1252 Q49.9938,31.844 50.6188,31.2658 L50.6188,33.9846 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="131" x="67.35" y="26.9659">UserRoleRepository</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="27" x="119.35" y="41.7579">authz</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="226" y1="49.6879" y2="49.6879"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="57.6879"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="142" x="27" y="65.4468">emf: EntityManagerFactory</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="226" y1="72.6698" y2="72.6698"/><ellipse cx="18" cy="83.6698" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="105" x="27" y="88.4287">save(UserRole): void</text><ellipse cx="18" cy="98.6517" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="194" x="27" y="103.4106">findById(String): Optional&lt;UserRole&gt;</text><ellipse cx="18" cy="113.6336" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="123" x="27" y="118.3925">findAll(): List&lt;UserRole&gt;</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="23" y="143.3054">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[d23ee38bf64f0d1c018d3b93f75259f9]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>UserRoleRepository\n<size:10>authz" as authz.UserRoleRepository [[UserRoleRepository.html]] {
+        {static} -emf: EntityManagerFactory
+        +save(UserRole): void
+        +findById(String): Optional<UserRole>
+        +findAll(): List<UserRole>
+    }
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

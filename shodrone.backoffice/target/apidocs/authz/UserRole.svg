@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="246px" preserveAspectRatio="none" style="width:237px;height:246px;" version="1.1" viewBox="0 0 237 246" width="237px" zoomAndPan="magnify"><defs><filter height="300%" id="f7ori9hcznnyo" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[6e9ce638ce98935d7a91f661d591ba67]
+class authz.UserRole--><a href="UserRole.html" target="_top" title="UserRole.html" xlink:actuate="onRequest" xlink:href="UserRole.html" xlink:show="new" xlink:title="UserRole.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#f7ori9hcznnyo)" height="208.5068" id="authz.UserRole" style="stroke: #A80036; stroke-width: 1.5;" width="211" x="7" y="7"/><ellipse cx="78.25" cy="28.344" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M81.2188,33.9846 Q80.6406,34.2815 80,34.4221 Q79.3594,34.5783 78.6563,34.5783 Q76.1563,34.5783 74.8281,32.9377 Q73.5156,31.2815 73.5156,28.1565 Q73.5156,25.0315 74.8281,23.3752 Q76.1563,21.719 78.6563,21.719 Q79.3594,21.719 80,21.8752 Q80.6563,22.0315 81.2188,22.3283 L81.2188,25.0471 Q80.5938,24.469 80,24.2033 Q79.4063,23.9221 78.7813,23.9221 Q77.4375,23.9221 76.75,25.0002 Q76.0625,26.0627 76.0625,28.1565 Q76.0625,30.2502 76.75,31.3283 Q77.4375,32.3908 78.7813,32.3908 Q79.4063,32.3908 80,32.1252 Q80.5938,31.844 81.2188,31.2658 L81.2188,33.9846 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="60" x="98.75" y="26.9659">UserRole</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="27" x="115.25" y="41.7579">authz</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="217" y1="49.6879" y2="49.6879"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="57.6879"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="48" x="27" y="65.4468">id: String</text><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="72.6698"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="97" x="27" y="80.4287">description: String</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="217" y1="87.6517" y2="87.6517"/><ellipse cx="18" cy="98.6517" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="53" x="27" y="103.4106">UserRole()</text><ellipse cx="18" cy="113.6336" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="123" x="27" y="118.3925">UserRole(String, String)</text><ellipse cx="18" cy="128.6155" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="72" x="27" y="133.3744">getId(): String</text><ellipse cx="18" cy="143.5973" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="93" x="27" y="148.3563">setId(String): void</text><ellipse cx="18" cy="158.5792" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="121" x="27" y="163.3381">getDescription(): String</text><ellipse cx="18" cy="173.5611" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="142" x="27" y="178.32">setDescription(String): void</text><ellipse cx="18" cy="188.543" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="185" x="27" y="193.3019">changeDescription(String): boolean</text><ellipse cx="18" cy="203.5249" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="116" x="27" y="208.2838">hasId(String): boolean</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="18.5" y="233.1968">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[7343b096fd1d7528cc1566bc00561078]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>UserRole\n<size:10>authz" as authz.UserRole [[UserRole.html]] {
+        -id: String
+        -description: String
+        +UserRole()
+        +UserRole(String, String)
+        +getId(): String
+        +setId(String): void
+        +getDescription(): String
+        +setDescription(String): void
+        +changeDescription(String): boolean
+        +hasId(String): boolean
+    }
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: Java(TM) SE Runtime Environment
+JVM: Java HotSpot(TM) 64-Bit Server VM
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

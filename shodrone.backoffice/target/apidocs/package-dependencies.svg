@@ -1,33 +1,88 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="328px" preserveAspectRatio="none" style="width:403px;height:328px;" version="1.1" viewBox="0 0 403 328" width="403px" zoomAndPan="magnify"><defs><filter height="300%" id="f1s2221xch2qf1" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[5cc94c21c9b2a581b186cea6c97dc43c]
-class controller--><a href="controller/package-summary.html" target="_top" title="controller/package-summary.html" xlink:actuate="onRequest" xlink:href="controller/package-summary.html" xlink:show="new" xlink:title="controller/package-summary.html" xlink:type="simple"><rect codeLine="13" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="controller" style="stroke: #A80036; stroke-width: 1.5;" width="60" x="97" y="93"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="100" y="110.8281">controller</text></a><!--MD5=[b2c3d89b312e4eed2d630e16ef59187f]
-class repositories--><a href="repositories/package-summary.html" target="_top" title="repositories/package-summary.html" xlink:actuate="onRequest" xlink:href="repositories/package-summary.html" xlink:show="new" xlink:title="repositories/package-summary.html" xlink:type="simple"><rect codeLine="15" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="repositories" style="stroke: #A80036; stroke-width: 1.5;" width="73" x="90.5" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="67" x="93.5" y="196.8281">repositories</text></a><!--MD5=[d39b0e5acf37d349c49873ef54346d0c]
-class session--><a href="session/package-summary.html" target="_top" title="session/package-summary.html" xlink:actuate="onRequest" xlink:href="session/package-summary.html" xlink:show="new" xlink:title="session/package-summary.html" xlink:type="simple"><rect codeLine="17" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="session" style="stroke: #A80036; stroke-width: 1.5;" width="48" x="7" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="42" x="10" y="196.8281">session</text></a><!--MD5=[160624e214f32d93441c682019030fa3]
-class pt.isep.lei.esoft.auth--><rect fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.5;" width="118" x="20" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="112" x="23" y="282.8281">pt.isep.lei.esoft.auth</text><!--MD5=[c6a8694d64ff17fbd4c79b92e03656cf]
-class ui.authz--><a href="ui/authz/package-summary.html" target="_top" title="ui/authz/package-summary.html" xlink:actuate="onRequest" xlink:href="ui/authz/package-summary.html" xlink:show="new" xlink:title="ui/authz/package-summary.html" xlink:type="simple"><rect codeLine="19" fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="ui.authz" style="stroke: #A80036; stroke-width: 1.5;" width="50" x="182" y="7"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="44" x="185" y="24.8281">ui.authz</text></a><!--MD5=[8c13ae462408b54054d2545f1edcbcf1]
-class pt.isep.lei.esoft.auth.mappers.dto--><rect fill="#FEFECE" filter="url(#f1s2221xch2qf1)" height="26.3441" id="pt.isep.lei.esoft.auth.mappers.dto" style="stroke: #A80036; stroke-width: 1.5;" width="192" x="192" y="93"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="186" x="195" y="110.8281">pt.isep.lei.esoft.auth.mappers.dto</text><!--MD5=[5776623614cdf6ed5872a3b30bd162d5]
-link controller to repositories--><path codeLine="6" d="M127,119.04 C127,133.38 127,157.46 127,173.78 " fill="none" id="controller-to-repositories" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="127,178.99,131,169.99,127,173.99,123,169.99,127,178.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0aff02642c1222a3a01081ff39b5264e]
-link session to pt.isep.lei.esoft.auth--><path codeLine="7" d="M37.88,205.04 C46.22,219.63 60.32,244.3 69.64,260.62 " fill="none" id="session-to-pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="72.14,264.99,71.1512,255.1909,69.6608,260.6479,64.2038,259.1575,72.14,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0f5339efcb2ad9ac8afd9862935f0822]
-link repositories to pt.isep.lei.esoft.auth--><path codeLine="8" d="M120.12,205.04 C111.78,219.63 97.68,244.3 88.36,260.62 " fill="none" id="repositories-to-pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="85.86,264.99,93.7962,259.1575,88.3392,260.6479,86.8488,255.1909,85.86,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0cf43c8f5398e820fa43937e5ff23bac]
-link ui.authz to controller--><path codeLine="9" d="M195.54,33.04 C181.52,47.76 157.74,72.72 142.2,89.04 " fill="none" id="ui.authz-to-controller" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="138.44,92.99,147.5364,89.2144,141.8815,89.3629,141.733,83.708,138.44,92.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[9478362e2df007a27dbb8ae434d7f57a]
-link ui.authz to pt.isep.lei.esoft.auth.mappers.dto--><path codeLine="10" d="M218.61,33.04 C232.8,47.76 256.88,72.72 272.61,89.04 " fill="none" id="ui.authz-to-pt.isep.lei.esoft.auth.mappers.dto" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="276.42,92.99,273.0522,83.7349,272.9493,89.3908,267.2934,89.2879,276.42,92.99" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="98.5" y="315.0341">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[03e24b1ccb7c71bebb3c842b1d70b44d]
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="414px" preserveAspectRatio="none" style="width:1071px;height:414px;" version="1.1" viewBox="0 0 1071 414" width="1071px" zoomAndPan="magnify"><defs><filter height="300%" id="f1to26v1hwnjs6" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[a315a8c31e077c9528facf1561644d4e]
+class factories--><a href="factories/package-summary.html" target="_top" title="factories/package-summary.html" xlink:actuate="onRequest" xlink:href="factories/package-summary.html" xlink:show="new" xlink:title="factories/package-summary.html" xlink:type="simple"><rect codeLine="27" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="factories" style="stroke: #A80036; stroke-width: 1.5;" width="55" x="45.5" y="7"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="49" x="48.5" y="24.8281">factories</text></a><!--MD5=[27746c9c6247d51cbaa9893fdf40903d]
+class factories.impl--><a href="factories/impl/package-summary.html" target="_top" title="factories/impl/package-summary.html" xlink:actuate="onRequest" xlink:href="factories/impl/package-summary.html" xlink:show="new" xlink:title="factories/impl/package-summary.html" xlink:type="simple"><rect codeLine="29" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="factories.impl" style="stroke: #A80036; stroke-width: 1.5;" width="82" x="32" y="93"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="76" x="35" y="110.8281">factories.impl</text></a><!--MD5=[6177c2a011dfce444bd9c29ddd3fcf19]
+class eapli.framework.domain.model--><rect fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="eapli.framework.domain.model" style="stroke: #A80036; stroke-width: 1.5;" width="180" x="7" y="351"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="174" x="10" y="368.8281">eapli.framework.domain.model</text><!--MD5=[c732efb59427a33e721dc61d18eba653]
+class domain.entity--><a href="domain/entity/package-summary.html" target="_top" title="domain/entity/package-summary.html" xlink:actuate="onRequest" xlink:href="domain/entity/package-summary.html" xlink:show="new" xlink:title="domain/entity/package-summary.html" xlink:type="simple"><rect codeLine="31" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="domain.entity" style="stroke: #A80036; stroke-width: 1.5;" width="82" x="125" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="76" x="128" y="196.8281">domain.entity</text></a><!--MD5=[5cc94c21c9b2a581b186cea6c97dc43c]
+class controller--><a href="controller/package-summary.html" target="_top" title="controller/package-summary.html" xlink:actuate="onRequest" xlink:href="controller/package-summary.html" xlink:show="new" xlink:title="controller/package-summary.html" xlink:type="simple"><rect codeLine="33" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="controller" style="stroke: #A80036; stroke-width: 1.5;" width="60" x="731" y="93"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="54" x="734" y="110.8281">controller</text></a><!--MD5=[2e46bf2c95c7c260697c4ae9e31061f0]
+class persistence.inmemory--><a href="persistence/inmemory/package-summary.html" target="_top" title="persistence/inmemory/package-summary.html" xlink:actuate="onRequest" xlink:href="persistence/inmemory/package-summary.html" xlink:show="new" xlink:title="persistence/inmemory/package-summary.html" xlink:type="simple"><rect codeLine="35" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="persistence.inmemory" style="stroke: #A80036; stroke-width: 1.5;" width="131" x="695.5" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="125" x="698.5" y="196.8281">persistence.inmemory</text></a><!--MD5=[d15ccaf2b763971ee8a7fedbb27bb3a9]
+class authz--><a href="authz/package-summary.html" target="_top" title="authz/package-summary.html" xlink:actuate="onRequest" xlink:href="authz/package-summary.html" xlink:show="new" xlink:title="authz/package-summary.html" xlink:type="simple"><rect codeLine="37" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="authz" style="stroke: #A80036; stroke-width: 1.5;" width="37" x="1015.5" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="31" x="1018.5" y="282.8281">authz</text></a><!--MD5=[38a105ab4939857c40fab1f14e566603]
+class jakarta.persistence--><rect fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="jakarta.persistence" style="stroke: #A80036; stroke-width: 1.5;" width="113" x="844.5" y="351"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="107" x="847.5" y="368.8281">jakarta.persistence</text><!--MD5=[d39b0e5acf37d349c49873ef54346d0c]
+class session--><a href="session/package-summary.html" target="_top" title="session/package-summary.html" xlink:actuate="onRequest" xlink:href="session/package-summary.html" xlink:show="new" xlink:title="session/package-summary.html" xlink:type="simple"><rect codeLine="39" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="session" style="stroke: #A80036; stroke-width: 1.5;" width="48" x="605" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="42" x="608" y="196.8281">session</text></a><!--MD5=[160624e214f32d93441c682019030fa3]
+class pt.isep.lei.esoft.auth--><rect fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.5;" width="118" x="570" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="112" x="573" y="282.8281">pt.isep.lei.esoft.auth</text><!--MD5=[43d93c6d2f76da8726488d985e60b9dc]
+class persistence.jpa--><a href="persistence/jpa/package-summary.html" target="_top" title="persistence/jpa/package-summary.html" xlink:actuate="onRequest" xlink:href="persistence/jpa/package-summary.html" xlink:show="new" xlink:title="persistence/jpa/package-summary.html" xlink:type="simple"><rect codeLine="41" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="persistence.jpa" style="stroke: #A80036; stroke-width: 1.5;" width="91" x="723.5" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="85" x="726.5" y="282.8281">persistence.jpa</text></a><!--MD5=[1ba656c2e0a7d21749310830c251231e]
+class persistence.jpa.JPAImpl--><a href="persistence/jpa/JPAImpl/package-summary.html" target="_top" title="persistence/jpa/JPAImpl/package-summary.html" xlink:actuate="onRequest" xlink:href="persistence/jpa/JPAImpl/package-summary.html" xlink:show="new" xlink:title="persistence/jpa/JPAImpl/package-summary.html" xlink:type="simple"><rect codeLine="43" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="persistence.jpa.JPAImpl" style="stroke: #A80036; stroke-width: 1.5;" width="137" x="861.5" y="179"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="131" x="864.5" y="196.8281">persistence.jpa.JPAImpl</text></a><!--MD5=[8d7523c2774edc006ab9ce56625aeb53]
+class persistence.interfaces--><a href="persistence/interfaces/package-summary.html" target="_top" title="persistence/interfaces/package-summary.html" xlink:actuate="onRequest" xlink:href="persistence/interfaces/package-summary.html" xlink:show="new" xlink:title="persistence/interfaces/package-summary.html" xlink:type="simple"><rect codeLine="45" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="persistence.interfaces" style="stroke: #A80036; stroke-width: 1.5;" width="130" x="850" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="124" x="853" y="282.8281">persistence.interfaces</text></a><!--MD5=[437567139800a6f52c6f3e4eacb50545]
+class domain.valueObjects--><a href="domain/valueObjects/package-summary.html" target="_top" title="domain/valueObjects/package-summary.html" xlink:actuate="onRequest" xlink:href="domain/valueObjects/package-summary.html" xlink:show="new" xlink:title="domain/valueObjects/package-summary.html" xlink:type="simple"><rect codeLine="47" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="domain.valueObjects" style="stroke: #A80036; stroke-width: 1.5;" width="123" x="150.5" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="117" x="153.5" y="282.8281">domain.valueObjects</text></a><!--MD5=[4763bc188ae47057f4406abc9b9f3c7a]
+class eapli.framework.general.domain.model--><rect fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="eapli.framework.general.domain.model" style="stroke: #A80036; stroke-width: 1.5;" width="226" x="309" y="265"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="220" x="312" y="282.8281">eapli.framework.general.domain.model</text><!--MD5=[c6a8694d64ff17fbd4c79b92e03656cf]
+class ui.authz--><a href="ui/authz/package-summary.html" target="_top" title="ui/authz/package-summary.html" xlink:actuate="onRequest" xlink:href="ui/authz/package-summary.html" xlink:show="new" xlink:title="ui/authz/package-summary.html" xlink:type="simple"><rect codeLine="49" fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="ui.authz" style="stroke: #A80036; stroke-width: 1.5;" width="50" x="816" y="7"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="44" x="819" y="24.8281">ui.authz</text></a><!--MD5=[8c13ae462408b54054d2545f1edcbcf1]
+class pt.isep.lei.esoft.auth.mappers.dto--><rect fill="#FEFECE" filter="url(#f1to26v1hwnjs6)" height="26.3441" id="pt.isep.lei.esoft.auth.mappers.dto" style="stroke: #A80036; stroke-width: 1.5;" width="192" x="826" y="93"/><text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="186" x="829" y="110.8281">pt.isep.lei.esoft.auth.mappers.dto</text><!--MD5=[ffe70826dd465f7c4c9ece440d816863]
+link factories to factories.impl--><path codeLine="6" d="M73,33.04 C73,47.38 73,71.46 73,87.78 " fill="none" id="factories-to-factories.impl" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="73,92.99,77,83.99,73,87.99,69,83.99,73,92.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[45251f09f0249c940955b9ec32c40bcb]
+link factories.impl to eapli.framework.domain.model--><path codeLine="7" d="M74.13,119 C78,160.31 90.79,296.74 95.36,345.49 " fill="none" id="factories.impl-to-eapli.framework.domain.model" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="95.85,350.72,98.9825,341.3826,95.378,345.7423,91.0182,342.1378,95.85,350.72" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[6ee9c1f5ce2ff2b3a4aa2808ec2bbaed]
+link factories.impl to domain.entity--><path codeLine="8" d="M86.32,119.04 C102.76,133.88 130.74,159.15 148.78,175.45 " fill="none" id="factories.impl-to-domain.entity" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="152.7,178.99,148.7035,169.9885,148.9899,175.6381,143.3404,175.9246,152.7,178.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[505318dcc7f155bd9cb9f9eec3602b26]
+link controller to persistence.inmemory--><path codeLine="9" d="M761,119.04 C761,133.38 761,157.46 761,173.78 " fill="none" id="controller-to-persistence.inmemory" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="761,178.99,765,169.99,761,173.99,757,169.99,761,178.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[beb81201088a5c217dee9bbf71053252]
+link authz to jakarta.persistence--><path codeLine="10" d="M1015.23,290.86 C991.4,305.91 950.3,331.86 924.44,348.2 " fill="none" id="authz-to-jakarta.persistence" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="920.11,350.93,929.8552,349.5048,924.3371,348.2595,925.5824,342.7414,920.11,350.93" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0aff02642c1222a3a01081ff39b5264e]
+link session to pt.isep.lei.esoft.auth--><path codeLine="11" d="M629,205.04 C629,219.38 629,243.46 629,259.78 " fill="none" id="session-to-pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="629,264.99,633,255.99,629,259.99,625,255.99,629,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[a53d221bac6c0a033aa7909ce10a28fb]
+link persistence.jpa to jakarta.persistence--><path codeLine="12" d="M787.91,291.04 C811.63,306.13 852.29,332 877.84,348.26 " fill="none" id="persistence.jpa-to-jakarta.persistence" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="882.12,350.99,876.6799,342.7799,877.9035,348.3028,872.3805,349.5264,882.12,350.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[338837e44afb9a4ddee86517f56730e8]
+link persistence.jpa.JPAImpl to persistence.jpa--><path codeLine="13" d="M906.93,205.04 C877.76,220.26 827.59,246.43 796.47,262.67 " fill="none" id="persistence.jpa.JPAImpl-to-persistence.jpa" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="792.02,264.99,801.8499,264.3797,796.4544,262.6801,798.1541,257.2846,792.02,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[71efd76ee809acc070861ed1fd7cc2c0]
+link persistence.jpa.JPAImpl to authz--><path codeLine="14" d="M944.9,205.04 C963.36,219.94 994.83,245.36 1015,261.66 " fill="none" id="persistence.jpa.JPAImpl-to-authz" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="1019.13,264.99,1014.6322,256.2282,1015.2368,261.8526,1009.6124,262.4573,1019.13,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[84d4888aac7b253cd5101ea5d8bff384]
+link persistence.jpa.JPAImpl to persistence.interfaces--><path codeLine="15" d="M927.85,205.04 C925.29,219.38 920.99,243.46 918.08,259.78 " fill="none" id="persistence.jpa.JPAImpl-to-persistence.interfaces" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="917.15,264.99,922.6559,256.8239,918.0206,260.0664,914.7781,255.431,917.15,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[eb629462be30cbeb8c39bf3ed13bf854]
+link persistence.inmemory to persistence.interfaces--><path codeLine="16" d="M783.06,205.04 C810.85,220.19 858.56,246.21 888.35,262.47 " fill="none" id="persistence.inmemory-to-persistence.interfaces" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="892.98,264.99,887.0051,257.1606,888.5938,262.5897,883.1646,264.1785,892.98,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[2ec31ae8644ab6c3c5ae99fabfcbbd9e]
+link persistence.inmemory to pt.isep.lei.esoft.auth--><path codeLine="17" d="M742.09,205.04 C718.37,220.13 677.71,246 652.16,262.26 " fill="none" id="persistence.inmemory-to-pt.isep.lei.esoft.auth" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="647.88,264.99,657.6195,263.5264,652.0965,262.3028,653.3201,256.7799,647.88,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[1dc76d7258ffaf24575b2c4658d6b6b2]
+link persistence.inmemory to persistence.jpa--><path codeLine="18" d="M762.15,205.04 C763.51,219.38 765.81,243.46 767.36,259.78 " fill="none" id="persistence.inmemory-to-persistence.jpa" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="767.86,264.99,770.9659,255.6437,767.3738,260.0137,763.0038,256.4216,767.86,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[f55f53a7c8032ce80b44f955441a8786]
+link domain.valueObjects to eapli.framework.domain.model--><path codeLine="19" d="M195.52,291.04 C175.03,306.01 140.02,331.57 117.73,347.86 " fill="none" id="domain.valueObjects-to-eapli.framework.domain.model" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="113.45,350.99,123.0757,348.9052,117.4856,348.0381,118.3527,342.4481,113.45,350.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0db091219e9575828577be98586fdfb7]
+link domain.entity to eapli.framework.domain.model--><path codeLine="20" d="M160.1,205.1 C153.26,219.31 141.8,243.64 133,265 C121.46,293 109.65,326.19 102.84,345.87 " fill="none" id="domain.entity-to-eapli.framework.domain.model" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="101.13,350.81,107.8427,343.6031,102.7582,346.0825,100.2788,340.998,101.13,350.81" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e831788e49945cf72441d217042ddc9c]
+link domain.entity to domain.valueObjects--><path codeLine="21" d="M172.59,205.04 C180.52,219.51 193.86,243.88 202.8,260.2 " fill="none" id="domain.entity-to-domain.valueObjects" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="205.42,264.99,204.595,255.1758,203.0137,260.6071,197.5824,259.0258,205.42,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[e0648866822b27a3d5ce0e4b12ff04da]
+link domain.entity to eapli.framework.general.domain.model--><path codeLine="22" d="M202.68,205.04 C249.73,220.47 331.13,247.18 380.43,263.36 " fill="none" id="domain.entity-to-eapli.framework.general.domain.model" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="385.39,264.99,378.0868,258.3822,380.6395,263.4303,375.5913,265.983,385.39,264.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[0cf43c8f5398e820fa43937e5ff23bac]
+link ui.authz to controller--><path codeLine="23" d="M829.54,33.04 C815.52,47.76 791.74,72.72 776.2,89.04 " fill="none" id="ui.authz-to-controller" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="772.44,92.99,781.5364,89.2144,775.8815,89.3629,775.733,83.708,772.44,92.99" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[9478362e2df007a27dbb8ae434d7f57a]
+link ui.authz to pt.isep.lei.esoft.auth.mappers.dto--><path codeLine="24" d="M852.61,33.04 C866.8,47.76 890.88,72.72 906.61,89.04 " fill="none" id="ui.authz-to-pt.isep.lei.esoft.auth.mappers.dto" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="910.42,92.99,907.0522,83.7349,906.9493,89.3908,901.2934,89.2879,910.42,92.99" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="432.75" y="401.0341">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[c291ed9b2fdf1eab4fded2c2675e6c54]
 @startuml
     set namespaceSeparator none
     hide circle
     hide empty fields
     hide empty methods
 
-    controller - -> repositories
+    factories - -> factories.impl
+    factories.impl - -> eapli.framework.domain.model
+    factories.impl - -> domain.entity
+    controller - -> persistence.inmemory
+    authz - -> jakarta.persistence
     session - -> pt.isep.lei.esoft.auth
-    repositories - -> pt.isep.lei.esoft.auth
+    persistence.jpa - -> jakarta.persistence
+    persistence.jpa.JPAImpl - -> persistence.jpa
+    persistence.jpa.JPAImpl - -> authz
+    persistence.jpa.JPAImpl - -> persistence.interfaces
+    persistence.inmemory - -> persistence.interfaces
+    persistence.inmemory - -> pt.isep.lei.esoft.auth
+    persistence.inmemory - -> persistence.jpa
+    domain.valueObjects - -> eapli.framework.domain.model
+    domain.entity - -> eapli.framework.domain.model
+    domain.entity - -> domain.valueObjects
+    domain.entity - -> eapli.framework.general.domain.model
     ui.authz - -> controller
     ui.authz - -> pt.isep.lei.esoft.auth.mappers.dto
 
     ' Package links
+    class "factories" [[factories/package-summary.html]] {
+    }
+    class "factories.impl" [[factories/impl/package-summary.html]] {
+    }
+    class "domain.entity" [[domain/entity/package-summary.html]] {
+    }
     class "controller" [[controller/package-summary.html]] {
     }
-    class "repositories" [[repositories/package-summary.html]] {
+    class "persistence.inmemory" [[persistence/inmemory/package-summary.html]] {
+    }
+    class "authz" [[authz/package-summary.html]] {
     }
     class "session" [[session/package-summary.html]] {
+    }
+    class "persistence.jpa" [[persistence/jpa/package-summary.html]] {
+    }
+    class "persistence.jpa.JPAImpl" [[persistence/jpa/JPAImpl/package-summary.html]] {
+    }
+    class "persistence.interfaces" [[persistence/interfaces/package-summary.html]] {
+    }
+    class "domain.valueObjects" [[domain/valueObjects/package-summary.html]] {
     }
     class "ui.authz" [[ui/authz/package-summary.html]] {
     }
@@ -41,17 +96,47 @@ link ui.authz to pt.isep.lei.esoft.auth.mappers.dto--><path codeLine="10" d="M21
     hide empty fields
     hide empty methods
 
-    controller - -> repositories
+    factories - -> factories.impl
+    factories.impl - -> eapli.framework.domain.model
+    factories.impl - -> domain.entity
+    controller - -> persistence.inmemory
+    authz - -> jakarta.persistence
     session - -> pt.isep.lei.esoft.auth
-    repositories - -> pt.isep.lei.esoft.auth
+    persistence.jpa - -> jakarta.persistence
+    persistence.jpa.JPAImpl - -> persistence.jpa
+    persistence.jpa.JPAImpl - -> authz
+    persistence.jpa.JPAImpl - -> persistence.interfaces
+    persistence.inmemory - -> persistence.interfaces
+    persistence.inmemory - -> pt.isep.lei.esoft.auth
+    persistence.inmemory - -> persistence.jpa
+    domain.valueObjects - -> eapli.framework.domain.model
+    domain.entity - -> eapli.framework.domain.model
+    domain.entity - -> domain.valueObjects
+    domain.entity - -> eapli.framework.general.domain.model
     ui.authz - -> controller
     ui.authz - -> pt.isep.lei.esoft.auth.mappers.dto
 
+    class "factories" [[factories/package-summary.html]] {
+    }
+    class "factories.impl" [[factories/impl/package-summary.html]] {
+    }
+    class "domain.entity" [[domain/entity/package-summary.html]] {
+    }
     class "controller" [[controller/package-summary.html]] {
     }
-    class "repositories" [[repositories/package-summary.html]] {
+    class "persistence.inmemory" [[persistence/inmemory/package-summary.html]] {
+    }
+    class "authz" [[authz/package-summary.html]] {
     }
     class "session" [[session/package-summary.html]] {
+    }
+    class "persistence.jpa" [[persistence/jpa/package-summary.html]] {
+    }
+    class "persistence.jpa.JPAImpl" [[persistence/jpa/JPAImpl/package-summary.html]] {
+    }
+    class "persistence.interfaces" [[persistence/interfaces/package-summary.html]] {
+    }
+    class "domain.valueObjects" [[domain/valueObjects/package-summary.html]] {
     }
     class "ui.authz" [[ui/authz/package-summary.html]] {
     }

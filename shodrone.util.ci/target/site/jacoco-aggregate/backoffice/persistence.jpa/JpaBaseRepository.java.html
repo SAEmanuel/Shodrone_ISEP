@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>JpaBaseRepository.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">persistence.jpa</a> &gt; <span class="el_source">JpaBaseRepository.java</span></div><h1>JpaBaseRepository.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package persistence.jpa;
+
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.lang.reflect.ParameterizedType;
+import java.util.List;
+
+/**
+ * An utility abstract class for implementing JPA repositories. based on
+ * JpaBaseRepository by Paulo Gandra de Sousa
+ *
+ * @param &lt;T&gt; the entity type that we want to build a repository for
+ * @param &lt;ID&gt; the key type of the entity
+ */
+public abstract class JpaBaseRepository&lt;T, ID extends Serializable&gt; implements GenericRepository&lt;T, ID&gt; {
+
+    @PersistenceUnit
+    private static EntityManagerFactory emFactory;
+    private final Class&lt;T&gt; entityClass;
+    private EntityManager _entityManager;
+
+    protected EntityManagerFactory entityManagerFactory() {
+<span class="nc bnc" id="L29" title="All 2 branches missed.">        if (emFactory == null) {</span>
+<span class="nc" id="L30">            emFactory = Persistence.createEntityManagerFactory(persistenceUnitName());</span>
+        }
+<span class="nc" id="L32">        return emFactory;</span>
+    }
+
+    @SuppressWarnings(&quot;unchecked&quot;)
+<span class="nc" id="L36">    public JpaBaseRepository() {</span>
+<span class="nc" id="L37">        ParameterizedType genericSuperclass = (ParameterizedType) getClass().getGenericSuperclass();</span>
+<span class="nc" id="L38">        this.entityClass = (Class&lt;T&gt;) genericSuperclass.getActualTypeArguments()[0];</span>
+<span class="nc" id="L39">    }</span>
+
+    protected EntityManager entityManager() {
+<span class="nc bnc" id="L42" title="All 4 branches missed.">        if (_entityManager == null || !_entityManager.isOpen()) {</span>
+<span class="nc" id="L43">            _entityManager = entityManagerFactory().createEntityManager();</span>
+        }
+<span class="nc" id="L45">        return _entityManager;</span>
+    }
+
+    /**
+     * inserts an entity and commits
+     *
+     * @param entity
+     * @return the persisted entity
+     */
+    public T add(T entity) {
+<span class="nc bnc" id="L55" title="All 2 branches missed.">        if (entity == null) {</span>
+<span class="nc" id="L56">            throw new IllegalArgumentException();</span>
+        }
+<span class="nc" id="L58">        EntityManager em = entityManager();</span>
+<span class="nc" id="L59">        EntityTransaction tx = em.getTransaction();</span>
+<span class="nc" id="L60">        tx.begin();</span>
+<span class="nc" id="L61">        em.persist(entity);</span>
+<span class="nc" id="L62">        tx.commit();</span>
+<span class="nc" id="L63">        em.close();</span>
+
+<span class="nc" id="L65">        return entity;</span>
+    }
+
+    @Override
+    public T update(T entity) {
+<span class="nc" id="L70">        EntityManager em = entityManager();</span>
+<span class="nc" id="L71">        EntityTransaction tx = em.getTransaction();</span>
+<span class="nc" id="L72">        tx.begin();</span>
+<span class="nc" id="L73">        T updated = em.merge(entity);</span>
+<span class="nc" id="L74">        tx.commit();</span>
+<span class="nc" id="L75">        em.close();</span>
+<span class="nc" id="L76">        return updated;</span>
+    }
+
+    @Override
+    public void delete(T entity) {
+<span class="nc" id="L81">        EntityManager em = entityManager();</span>
+<span class="nc" id="L82">        EntityTransaction tx = em.getTransaction();</span>
+<span class="nc" id="L83">        tx.begin();</span>
+<span class="nc bnc" id="L84" title="All 2 branches missed.">        em.remove(em.contains(entity) ? entity : em.merge(entity));</span>
+<span class="nc" id="L85">        tx.commit();</span>
+<span class="nc" id="L86">        em.close();</span>
+<span class="nc" id="L87">    }</span>
+
+
+    /**
+     * reads an entity given its ID
+     *
+     * @param id
+     * @return
+     */
+    public T findById(ID id) {
+<span class="nc" id="L97">        return this.entityManager().find(entityClass, id);</span>
+    }
+
+    /**
+     * Returns the List of all entities in the persistence store
+     *
+     * @return
+     */
+    //@SuppressWarnings(&quot;unchecked&quot;)
+    public List&lt;T&gt; findAll() {
+<span class="nc" id="L107">        Query query = entityManager().createQuery(</span>
+<span class="nc" id="L108">                &quot;SELECT e FROM &quot; + entityClass.getSimpleName() + &quot; e&quot;);</span>
+<span class="nc" id="L109">        List&lt;T&gt; list = query.getResultList();</span>
+<span class="nc" id="L110">        return list;</span>
+    }
+
+    /**
+     * derived classes should implement this method to return the name of the
+     * persistence unit
+     *
+     * @return the name of the persistence unit
+     */
+    protected String persistenceUnitName() {
+<span class="nc" id="L120">        return &quot;shodrone_backoffice&quot;;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

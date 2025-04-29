@@ -1,7 +1,15 @@
 unnamed package
+authz
 controller
+domain.entity
+domain.valueObjects
+factories
+factories.impl
 more
-repositories
+persistence.inmemory
+persistence.interfaces
+persistence.jpa
+persistence.jpa.JPAImpl
 session
 ui
 ui.authz

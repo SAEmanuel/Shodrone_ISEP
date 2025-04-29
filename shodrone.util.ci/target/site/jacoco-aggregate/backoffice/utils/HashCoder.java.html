@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>HashCoder.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">utils</a> &gt; <span class="el_source">HashCoder.java</span></div><h1>HashCoder.java</h1><pre class="source lang-java linenums">/*
+ * Copyright (c) 2013-2024 the original author or authors.
+ *
+ * MIT License
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
+ * associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction,
+ * including without limitation the rights to use, copy, modify, merge, publish, distribute,
+ * sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or
+ * substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT
+ * NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+ * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+package utils;
+
+import java.util.Arrays;
+import java.util.Objects;
+
+/**
+ * Helper class for {@code hashCode()} method implementation.
+ * &lt;p&gt;
+ * Example usage:
+ *
+ * &lt;pre&gt;
+ * &lt;code&gt;
+ * public class Example {
+ *      private int fi;
+ *      private float ff;
+ *      private AnotherClass fo;
+ *
+ *      ...
+ *
+ *      &amp;#64;Override
+ *      public int hashCode(){
+ *              return new HashCoder().with(fi).with(ff).with(fo).code();
+ *      }
+ * }
+ * &lt;/code&gt;
+ * &lt;/pre&gt;
+ *
+ * If you want to include the super class in the hash code you need to
+ * explicitly add it as a part of the hash code. For instance:
+ *
+ * &lt;pre&gt;
+ * &lt;code&gt;
+ *      &amp;#64;Override
+ *      public int hashCode(){
+ *              return new HashCoder().with(super.hashcode()).with(oneField).with(anotherField).code();
+ *      }
+ * &lt;/code&gt;
+ * &lt;/pre&gt;
+ * &lt;p&gt;
+ * Check &lt;a href=
+ * &quot;https://stackoverflow.com/questions/113511/best-implementation-for-hashcode-method&quot;&gt;this
+ * stackoverflow&lt;/a&gt; thread for insights on how to properly calculate an hash code.
+ * &lt;p&gt;
+ * See also &lt;a href=
+ * &quot;https://commons.apache.org/proper/commons-lang/javadocs/api-release/org/apache/commons/lang3/builder/HashCodeBuilder.html&quot;&gt;org.apache.commons.lang3.builder.HashCodeBuilder&lt;/a&gt;
+ *
+ * @author Paulo Gandra Sousa
+ */
+public final class HashCoder {
+
+    private int result;
+
+    /**
+     * Constructor.
+     */
+<span class="nc" id="L76">    public HashCoder() {</span>
+<span class="nc" id="L77">        result = 31;</span>
+<span class="nc" id="L78">    }</span>
+
+<span class="nc" id="L80">    public HashCoder(final int seed) {</span>
+<span class="nc" id="L81">        result = seed;</span>
+<span class="nc" id="L82">    }</span>
+
+    //
+    // utility methods for individual parts of the hash code
+    //
+
+    public static int part(final boolean f) {
+<span class="nc bnc" id="L89" title="All 2 branches missed.">        return f ? 0 : 1;</span>
+    }
+
+    public static int part(final byte f) {
+<span class="nc" id="L93">        return f;</span>
+    }
+
+    public static int part(final char f) {
+<span class="nc" id="L97">        return f;</span>
+    }
+
+    public static int part(final short f) {
+<span class="nc" id="L101">        return f;</span>
+    }
+
+    public static int part(final int f) {
+<span class="nc" id="L105">        return f;</span>
+    }
+
+    public static int part(final long f) {
+<span class="nc" id="L109">        return (int) (f ^ (f &gt;&gt;&gt; 32));</span>
+    }
+
+    public static int part(final float f) {
+<span class="nc" id="L113">        return Float.floatToIntBits(f);</span>
+    }
+
+    public static int part(final double f) {
+<span class="nc" id="L117">        return part(Double.doubleToLongBits(f));</span>
+    }
+
+    public static int part(final Object f) {
+<span class="nc" id="L121">        return Objects.hashCode(f);</span>
+    }
+
+    /**
+     * Computes the hash based on the current hash and the hash of a part
+     * (field)
+     *
+     * @param currentHash
+     * @param partHash
+     *
+     * @return the hash code
+     */
+    public static int compute(final int currentHash, final int partHash) {
+<span class="nc" id="L134">        return 37 * currentHash + partHash;</span>
+    }
+
+    /**
+     * utility method to generate the hash of an object
+     *
+     * @param f
+     *
+     * @return the hash code
+     */
+    public static int hash(final Object f) {
+<span class="nc" id="L145">        return Objects.hash(f);</span>
+    }
+
+    //
+    // builder parts
+    //
+
+    public HashCoder with(final boolean f) {
+<span class="nc" id="L153">        result = compute(result, part(f));</span>
+<span class="nc" id="L154">        return this;</span>
+    }
+
+    public HashCoder with(final boolean[] f) {
+<span class="nc" id="L158">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L159">        return this;</span>
+    }
+
+    public HashCoder with(final byte f) {
+<span class="nc" id="L163">        result = compute(result, part(f));</span>
+<span class="nc" id="L164">        return this;</span>
+    }
+
+    public HashCoder with(final byte[] f) {
+<span class="nc" id="L168">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L169">        return this;</span>
+    }
+
+    public HashCoder with(final char f) {
+<span class="nc" id="L173">        result = compute(result, part(f));</span>
+<span class="nc" id="L174">        return this;</span>
+    }
+
+    public HashCoder with(final char[] f) {
+<span class="nc" id="L178">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L179">        return this;</span>
+    }
+
+    public HashCoder with(final short f) {
+<span class="nc" id="L183">        result = compute(result, part(f));</span>
+<span class="nc" id="L184">        return this;</span>
+    }
+
+    public HashCoder with(final short[] f) {
+<span class="nc" id="L188">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L189">        return this;</span>
+    }
+
+    public HashCoder with(final int f) {
+<span class="nc" id="L193">        result = compute(result, part(f));</span>
+<span class="nc" id="L194">        return this;</span>
+    }
+
+    public HashCoder with(final int[] f) {
+<span class="nc" id="L198">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L199">        return this;</span>
+    }
+
+    public HashCoder with(final long f) {
+<span class="nc" id="L203">        result = compute(result, part(f));</span>
+<span class="nc" id="L204">        return this;</span>
+    }
+
+    public HashCoder with(final long[] f) {
+<span class="nc" id="L208">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L209">        return this;</span>
+    }
+
+    public HashCoder with(final float f) {
+<span class="nc" id="L213">        result = compute(result, part(f));</span>
+<span class="nc" id="L214">        return this;</span>
+    }
+
+    public HashCoder with(final float[] f) {
+<span class="nc" id="L218">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L219">        return this;</span>
+    }
+
+    public HashCoder with(final double f) {
+<span class="nc" id="L223">        result = compute(result, part(f));</span>
+<span class="nc" id="L224">        return this;</span>
+    }
+
+    public HashCoder with(final double[] f) {
+<span class="nc" id="L228">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L229">        return this;</span>
+    }
+
+    public HashCoder with(final Object f) {
+<span class="nc" id="L233">        result = compute(result, part(f));</span>
+<span class="nc" id="L234">        return this;</span>
+    }
+
+    public HashCoder with(final Object[] f) {
+<span class="nc" id="L238">        result = compute(result, Arrays.hashCode(f));</span>
+<span class="nc" id="L239">        return this;</span>
+    }
+
+    /**
+     * Returns the actual hash code based on the different parts added to this
+     * builder
+     *
+     * @return the hash code
+     */
+    public int code() {
+<span class="nc" id="L249">        return result;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

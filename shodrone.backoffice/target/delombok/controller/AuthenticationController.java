@@ -1,11 +1,11 @@
 package controller;
 
-import repositories.AuthenticationRepository;
-import repositories.Repositories;
+import persistence.inmemory.InMemoryAuthenticationRepository;
+import persistence.inmemory.Repositories;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;
-
+import java.time.LocalDateTime;
 
 public class AuthenticationController {
 
@@ -17,28 +17,28 @@ public class AuthenticationController {
     public static final String ROLE_DRONE_TECH= "Drone Technician";
 
     //private final ApplicationSession applicationSession;
-    private final AuthenticationRepository authenticationRepository;
+    private final InMemoryAuthenticationRepository inMemoryAuthenticationRepository;
 
     public AuthenticationController() {
-        this.authenticationRepository = Repositories.getInstance().getAuthenticationRepository();
+        this.inMemoryAuthenticationRepository = Repositories.getInstance().getAuthenticationRepository();
     }
 
     public boolean doLogin(String email, String pwd) {
         try {
-            return authenticationRepository.doLogin(email, pwd);
+            return inMemoryAuthenticationRepository.doLogin(email, pwd);
         } catch (IllegalArgumentException ex) {
             return false;
         }
     }
 
     public List<UserRoleDTO> getUserRoles() {
-        if (authenticationRepository.getCurrentUserSession().isLoggedIn()) {
-            return authenticationRepository.getCurrentUserSession().getUserRoles();
+        if (inMemoryAuthenticationRepository.getCurrentUserSession().isLoggedIn()) {
+            return inMemoryAuthenticationRepository.getCurrentUserSession().getUserRoles();
         }
         return null;
     }
 
     public void doLogout() {
-        authenticationRepository.doLogout();
+        inMemoryAuthenticationRepository.doLogout();
     }
 }
