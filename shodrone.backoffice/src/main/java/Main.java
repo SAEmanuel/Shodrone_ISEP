@@ -1,3 +1,4 @@
+import ui.StartupMessageBackofficeUI;
 import ui.menu.MainMenuUI;
 
 import java.io.IOException;
@@ -9,6 +10,7 @@ public class Main {
         bootstrap.run();
 
         try {
+            StartupMessageBackofficeUI.display();
             MainMenuUI menu = new MainMenuUI();
             menu.run();
         } catch (Exception e) {
