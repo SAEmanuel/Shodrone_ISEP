@@ -1,10 +1,8 @@
-# US245 - Add figure category
-
 ## 3. Design
 
 ### 3.1. Design Overview
 
-The design for the "Add Figure Category" functionality follows a layered and modular approach, aligned with the architectural principles and best practices recommended in the project requirements[1]. The process is initiated by the Show Designer through the user interface, which delegates the business logic to a dedicated controller. The controller is responsible for all validations (e.g., name uniqueness, input constraints), creation of the domain object, and coordination with the persistence layer to store the new category.
+The design for the "Add Figure Category" functionality follows a modular and layered approach, aligned with the architectural principles and best practices recommended in the project requirements. The process is initiated by the Show Designer through the user interface, which delegates the business logic to a dedicated controller. The controller is responsible for all validations (e.g., name uniqueness, input constraints), creation of the domain object, and coordination with the persistence layer to store the new category.
 
 The system ensures that:
 - All input is validated before persistence (e.g., uniqueness of the name, non-empty, length constraints, optional description).
@@ -13,7 +11,7 @@ The system ensures that:
 - The repository pattern is used to abstract data access, allowing for easy switching between in-memory and database-backed persistence as required by the non-functional requirements.
 - The UI receives clear feedback (success or error messages) based on the outcome of the operation.
 
-This design supports extensibility (future editing, inactivation, listing), maintainability, and traceability, and ensures that all business rules and non-functional requirements are respected.
+This design supports extensibility (future editing, inactivation, listing), maintainability, and traceability, ensuring that all business rules and non-functional requirements are respected.
 
 ### 3.2. Sequence Diagram(s)
 
@@ -39,5 +37,6 @@ The sequence diagram illustrates the complete flow for adding a figure category:
 - **SOLID Principles:** The design follows SOLID object-oriented principles, ensuring single responsibility, open-closed extensibility, interface segregation, and dependency inversion throughout the architecture.
 - **GoF Patterns:** The solution applies classic Gang of Four (GoF) design patterns, such as Repository and Factory, to promote flexibility, decoupling, and maintainability.
 
-
 This design ensures robustness, clarity, and compliance with both functional and non-functional requirements, and is fully aligned with the project’s architectural guidelines.
+
+
