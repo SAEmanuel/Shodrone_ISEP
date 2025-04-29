@@ -23,7 +23,7 @@ The sequence diagram illustrates the complete flow for adding a figure category:
 - The controller requests the appropriate repository from the persistence context, using a factory for decoupling.
 - The controller validates the input (name, description) and checks for uniqueness.
 - If validation fails, an error message is returned to the UI.
-- If validation succeeds, a new `Category` aggregate root is created with all required attributes (name, description, status=ACTIVE, createdOn, createdBy).
+- If validation succeeds, a new `FigureCategory` aggregate root is created with all required attributes (name, description, status=ACTIVE, createdOn, createdBy).
 - The repository persists the new category.
 - The UI provides feedback to the user (success or error).
 
@@ -31,7 +31,7 @@ The sequence diagram illustrates the complete flow for adding a figure category:
 
 - **Repository Pattern:** Abstracts data access and persistence, allowing the domain layer to remain independent of the data source (in-memory or RDBMS).
 - **Factory Pattern:** Used for repository creation, promoting decoupling and easier testing/configuration.
-- **Aggregate Root (DDD):** `Category` is modeled as an aggregate root, encapsulating all business logic and ensuring consistency within the category aggregate.
+- **Aggregate Root (DDD):** `FigureCategory` is modeled as an aggregate root, encapsulating all business logic and ensuring consistency within the category aggregate.
 - **Controller Pattern:** The controller mediates between the UI and the domain/persistence layers, centralizing business logic and validation.
 - **Separation of Concerns:** Clear separation between UI, business logic (controller), domain model, and persistence, improving maintainability and testability.
 - **SOLID Principles:** The design follows SOLID object-oriented principles, ensuring single responsibility, open-closed extensibility, interface segregation, and dependency inversion throughout the architecture.

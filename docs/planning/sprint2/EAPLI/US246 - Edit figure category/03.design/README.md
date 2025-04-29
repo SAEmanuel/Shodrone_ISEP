@@ -32,7 +32,7 @@ The sequence diagram illustrates the complete flow for editing a figure category
 
 - **Repository Pattern:** Abstracts data access and persistence, allowing the domain layer to remain independent of the data source.
 - **Factory Pattern:** Used for repository creation, promoting decoupling and easier testing/configuration.
-- **Aggregate Root (DDD):** `Category` is modeled as an aggregate root, ensuring all updates and business rules are encapsulated within the aggregate.
+- **Aggregate Root (DDD):** `FigureCategory` is modeled as an aggregate root, ensuring all updates and business rules are encapsulated within the aggregate.
 - **Controller Pattern:** The controller mediates between the UI and the domain/persistence layers, centralizing business logic and validation.
 - **Separation of Concerns:** The system is organized into clear layers (UI, controller, domain, persistence), each with distinct responsibilities.
 - **SOLID and GoF Principles:** The design adheres to SOLID object-oriented principles and applies classic GoF patterns to ensure maintainability and extensibility.

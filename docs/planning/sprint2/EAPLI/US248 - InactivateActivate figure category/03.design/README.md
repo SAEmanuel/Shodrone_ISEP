@@ -31,7 +31,7 @@ The sequence diagram illustrates the complete flow for inactivating or activatin
 
 - **Repository Pattern:** Abstracts data access and persistence, keeping the domain logic independent of the data source.
 - **Factory Pattern:** Used for repository creation, promoting decoupling and easier testing/configuration.
-- **Aggregate Root (DDD):** `Category` is modeled as an aggregate root, ensuring all updates and business rules are encapsulated within the aggregate.
+- **Aggregate Root (DDD):** `FigureCategory` is modeled as an aggregate root, ensuring all updates and business rules are encapsulated within the aggregate.
 - **Controller Pattern:** The controller mediates between the UI and the domain/persistence layers, centralizing business logic and validation.
 - **Separation of Concerns:** Maintains clear boundaries between UI, business logic, domain model, and persistence.
 - **SOLID and GoF Principles:** The design adheres to SOLID object-oriented principles and applies classic GoF patterns to ensure maintainability and extensibility.
