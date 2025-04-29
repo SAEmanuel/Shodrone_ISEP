@@ -13,7 +13,9 @@ public class RegisterShowRequestUI implements Runnable{
 
     @Override
     public void run() {
-        Utils.printCenteredTitle( "REGISTER SHOW REQUEST");
+        Utils.printCenteredTitle("REGISTER SHOW REQUEST");
+
+        registerShowcontroller.registerShowRequest();
     }
 
 }

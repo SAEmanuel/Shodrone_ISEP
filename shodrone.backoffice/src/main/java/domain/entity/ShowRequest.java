@@ -32,8 +32,9 @@ public class ShowRequest extends DomainEntityBase<Long> {
     @Column(name = "submission_author", nullable = false)
     private String submissionAuthor;
 
-    @Embedded
-    private Costumer costumer;
+    @OneToOne
+    @JoinColumn(name = "costumer_id", nullable = false)
+    private Customer costumer;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "show_request_id")
@@ -59,7 +60,7 @@ public class ShowRequest extends DomainEntityBase<Long> {
     }
 
     public ShowRequest(LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor,
-                       Costumer costumer, List<Figure> figures, Description description,
+                       Customer costumer, List<Figure> figures, Description description,
                        Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
         this.submissionDate = submissionDate;
         this.status = status;
