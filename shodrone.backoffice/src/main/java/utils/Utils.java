@@ -1,5 +1,7 @@
 package utils;
 
+import more.TextEffects;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -15,6 +17,11 @@ import static more.TextEffects.*;
 
 public class Utils {
     final static String COLOR_OPTIONS = ANSI_BRIGHT_BLACK;
+
+    public static void exitImediately(String message) {
+        System.out.printf("%n%s%s%s%n%n", ANSI_BRIGHT_RED, message, ANSI_RESET);
+        throw new RuntimeException("Exiting application");
+    }
 
     public static void dropLines(int nLines) {
         if (nLines > 0) {
@@ -129,6 +136,11 @@ public class Utils {
         return selectsIndex(list);
     }
 
+    static public int showAndSelectIndexCustomOptions(List<?> list, String header) {
+        showListCustom(list, header);
+        return selectsIndex(list);
+    }
+
     static public int showAndSelectIndexDataBase(List<?> list, String header) {
         showListDataBase(list, header);
         return selectsIndex(list);
@@ -160,6 +172,16 @@ public class Utils {
         }
         System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
         System.out.println("╚════════════════════════════════════════╝");
+    }
+
+    static public void showListCustom(List<?> list, String header) {
+        System.out.println(ANSI_BRIGHT_BLACK+ITALIC+"• ".concat(header).concat(":")+ANSI_RESET);
+        int index = 0;
+        for (Object o : list) {
+            index++;
+            System.out.printf("    %s(%d)%s -  %-28s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString());
+        }
+        System.out.printf("    %s(0)%s -  %-20s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel");
     }
 
     static public Object selectsObject(List<?> list) {

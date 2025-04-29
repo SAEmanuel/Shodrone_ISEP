@@ -55,16 +55,15 @@ public class ShowRequest extends DomainEntityBase<Long> {
     @Column(name = "show_duration", nullable = false)
     private Duration showDuration;
 
-    protected ShowRequest() {
-        // For JPA only
-    }
+    protected ShowRequest() {}
 
-    public ShowRequest(LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor,
-                       Customer costumer, List<Figure> figures, Description description,
+    public ShowRequest(Customer costumer, List<Figure> figures, Description description,
                        Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
+
         this.submissionDate = submissionDate;
         this.status = status;
         this.submissionAuthor = submissionAuthor;
+
         this.costumer = costumer;
         this.figures = figures;
         this.description = description;
