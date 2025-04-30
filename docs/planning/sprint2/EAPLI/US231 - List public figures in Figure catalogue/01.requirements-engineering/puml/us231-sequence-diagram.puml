@@ -1,0 +1,48 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Figure Category
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+SD -> System: requestPublicFigureList()
+    activate System
+
+    SD -> System: login()
+    System --> SD: authenticated
+
+    deactivate System
+    SD -> System: ask to show all public figures
+
+    activate System
+
+    System --> SD: confirmation
+    deactivate System
+
+    SD -> System: requestPublicFigureList()
+
+    activate System
+        System -> System: listPublicFigures()
+        activate System
+
+        System -> System: findAllPublicFigures()
+        activate System
+
+        System -> System: publicFigureList
+        deactivate System
+
+        System -> System: publicFigureList
+        deactivate System
+
+        System --> SD: show the output of public figure list
+    deactivate System
+deactivate SD
+
+@enduml
