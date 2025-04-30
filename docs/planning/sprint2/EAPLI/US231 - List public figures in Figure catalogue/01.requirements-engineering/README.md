@@ -4,11 +4,11 @@
 
 ### 1.1. User Story Description
 
-As a CRM Collaborator, I want to list all public figures in the figure catalogue so that I can select appropriate figures when creating or editing a show request. This functionality ensures that only valid, reusable content (non-exclusive figures) is presented for general use across customers.
+As a CRM Collaborator or Show Designer, I want to list all public figures in the figure catalogue so that I can select appropriate figures when creating or editing a show request. This functionality ensures that only valid, reusable content (non-exclusive figures) is presented for general use across customers.
 
 ### 1.2. Customer Specifications and Clarifications
 
-The following specifications are derived from the requirements document (Section 3.2.1, Page 12) and the DDD model:
+The following specifications are derived from the requirements document and the DDD model:
 
 - A **public figure** is defined as a `Figure` entity where `Figure.isPublic = true`.
 - Only **active figures** should be listed (`Figure.status = Active`).
@@ -16,9 +16,11 @@ The following specifications are derived from the requirements document (Section
     - **ID** (e.g., "FIG-101")
     - **Name** (e.g., "Spiral")
     - **Description**
-    - **Duration** (in seconds)
     - **Category**
+    - **version**
+    - **availability** (`public`, `exclusive`)
     - **DSL** (optional but recommended)
+    - **Status**: Automatically initialized as `Active`
 
 **Clarifications**:
 - **Q: Should exclusive figures appear in this list?**
@@ -35,7 +37,7 @@ The following specifications are derived from the requirements document (Section
 
 ### 1.3. Acceptance Criteria
 
-- **AC1**: Only authenticated CRM Collaborators can access the list (authorization via role-based access).
+- **AC1**: Only authenticated CRM Collaborators and Show Designer can access the list (authorization via role-based access).
 - **AC2**: The system must retrieve and list all `Figure` entities where `isPublic = true` and `status = Active`.
 - **AC3**: Each listed figure must display its ID and optionally a name, a description, a duration, a category and a dsl.
 - **AC4**: The list must be paginated if the number of results exceeds a configured limit (e.g., 20 per page).
@@ -52,10 +54,9 @@ The following specifications are derived from the requirements document (Section
 
 **Input Data:**
 
-- No user-entered data required.
-- Automatic parameters (optional):
-    - Page number (integer, default: 1)
-    - Page size (integer, default: 20)
+- typed data:
+    - `page` (integer, default: 1)
+    - `pageSize` (integer, default: 20)
 
 **Output Data:**
 
@@ -63,9 +64,11 @@ The following specifications are derived from the requirements document (Section
     - `Figure.id`
     - `Figure.name`
     - `Figure.description`
-    - `Figure.duration`
+    - `Figure.version`
+    - `Figure.availability`
     - `Figure.category.name`
     - `Figure.dsl`
+    - `Figure.status`
   
 ### 1.6. System Sequence Diagram (SSD)
 

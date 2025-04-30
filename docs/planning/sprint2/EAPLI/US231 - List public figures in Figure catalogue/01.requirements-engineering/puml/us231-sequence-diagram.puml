@@ -3,8 +3,7 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - Add Figure Category
-
+title System Sequence Diagram (SSD) - List public figures in Figure catalogue
 autonumber
 
 actor "Show Designer" as SD
@@ -12,10 +11,9 @@ participant ":System" as System
 
 activate SD
 
-SD -> System: requestPublicFigureList()
+    SD -> System: login()
     activate System
 
-    SD -> System: login()
     System --> SD: authenticated
 
     deactivate System
@@ -23,22 +21,26 @@ SD -> System: requestPublicFigureList()
 
     activate System
 
-    System --> SD: confirmation
+    System --> SD: request data (page, pagesize)
     deactivate System
-
-    SD -> System: requestPublicFigureList()
+    SD -> System: types requested data (page, pagesize)
 
     activate System
-        System -> System: listPublicFigures()
+
+    System --> SD: show all data registered for confirmation
+    deactivate System
+
+    SD -> System: requestPublicFigureList(page, pagesize)
+
+    activate System
+
+
+        System -> System: listAllPublicFigures()
         activate System
 
-        System -> System: findAllPublicFigures()
-        activate System
+            System -> System: filterByStatus(ACTIVE)
 
-        System -> System: publicFigureList
-        deactivate System
-
-        System -> System: publicFigureList
+        System --> System: publicFigureList
         deactivate System
 
         System --> SD: show the output of public figure list
