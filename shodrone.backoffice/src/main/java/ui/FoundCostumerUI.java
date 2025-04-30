@@ -43,7 +43,7 @@ public class FoundCostumerUI implements Runnable {
 
     }
 
-    private void foundListCostumerUI(int option) {
+    private void foundUniqueCostumerUI(int option) {
         Optional<Customer> customer = Optional.empty();
         switch (option){
             case 1:
@@ -55,24 +55,19 @@ public class FoundCostumerUI implements Runnable {
         if(Validations.isNotEmptyOptional(customer)){
             Utils.printOptionalValidMessage("Customer found:",customer);
         }else{
-            Utils.exitImediately("No customer's found in system. Please register a new customer in 'Register Customer' menu option.");
+            Utils.exitImediately("No customer found. Please register a new customer in 'Register Customer' menu option.");
         }
     }
 
 
-    public void foundUniqueCostumerUI(int option){
+    public void foundListCostumerUI(int option){
         Optional<List<Customer>> customerList = Optional.empty();
-        switch (option){
-            case 2:
-                customerList =  getListcustomerscontroller().foundCustomerByName();
-                break;
-            default:
-                customerList = getListcustomerscontroller().getAllCustomer();
-        }
+        customerList = getListcustomerscontroller().getAllCustomer();
+
         if(Validations.isNotEmptyOptional(customerList)){
             Utils.printOptionalValidMessage("Customers found:",customerList);
         }else{
-            Utils.exitImediately("No customer found. Please register a new customer in 'Register Customer' menu option.");
+            Utils.exitImediately("No customer's found in system. Please register a new customer in 'Register Customer' menu option.");
         }
     }
 }

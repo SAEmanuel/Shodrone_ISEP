@@ -5,10 +5,11 @@
  */
 package persistence.jpa.JPAImpl;
 
+import domain.entity.ShowRequest;
 import persistence.jpa.JpaBaseRepository;
 import persistence.interfaces.ShowRequestRepository;
 
 
-public class ShowRequestJPAImpl extends JpaBaseRepository<Object, Integer> implements ShowRequestRepository {
+public class ShowRequestJPAImpl extends JpaBaseRepository<ShowRequest, Integer> implements ShowRequestRepository<ShowRequest> {
 
 }

@@ -23,14 +23,13 @@
 
     <modules>
         <module>shodrone.backoffice</module>
-        <module>shodrone.util.ci</module>
         <module>shodrone.infraestructure.application</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <eapli.framework.core.version>25.0.0-RELEASE</eapli.framework.core.version>
     </properties>
 
@@ -185,41 +184,41 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <release>11</release>
+                    <release>17</release>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.24</version>
+                            <version>1.18.30</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
 
             <!-- Lombok plugin for delombok -->
-            <plugin>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok-maven-plugin</artifactId>
-                <version>1.18.20.0</version>
-                <executions>
-                    <execution>
-                        <id>delombok</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>delombok</goal>
-                        </goals>
-                        <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-                            <outputDirectory>${project.build.directory}/delombok</outputDirectory>
-                            <addOutputDirectory>false</addOutputDirectory>
-                            <formatPreferences>
-                                <javaLangAsFQN>skip</javaLangAsFQN>
-                            </formatPreferences>
-                            <verbose>false</verbose>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.projectlombok</groupId>-->
+<!--                <artifactId>lombok-maven-plugin</artifactId>-->
+<!--                <version>1.18.20.0</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>delombok</id>-->
+<!--                        <phase>generate-sources</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>delombok</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>-->
+<!--                            <outputDirectory>${project.build.directory}/delombok</outputDirectory>-->
+<!--                            <addOutputDirectory>false</addOutputDirectory>-->
+<!--                            <formatPreferences>-->
+<!--                                <javaLangAsFQN>skip</javaLangAsFQN>-->
+<!--                            </formatPreferences>-->
+<!--                            <verbose>false</verbose>-->
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
 
             <!-- Dependency version management -->
             <plugin>

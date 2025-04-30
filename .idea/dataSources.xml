@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="shodrone_backoffice" uuid="3813218b-1bdf-4385-8b26-98470b9066b3">
+    <data-source source="LOCAL" name="shodrone_backoffice" uuid="7fee6c58-1fc5-4b3f-92e3-655efc000dab">
       <driver-ref>h2.unified</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.h2.Driver</jdbc-driver>

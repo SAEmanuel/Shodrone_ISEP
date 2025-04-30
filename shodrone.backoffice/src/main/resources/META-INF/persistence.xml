@@ -9,7 +9,6 @@
     <class>authz.User</class>
     <class>domain.entity.ShowRequest</class>
 
-    <class>domain.entity.ShowRequest</class>
     <!-- Scan automatic entities (requires entities in correct packages) -->
     <properties>
       <!-- JDBC config -->
