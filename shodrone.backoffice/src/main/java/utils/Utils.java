@@ -1,6 +1,5 @@
 package utils;
 
-import more.TextEffects;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -8,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,6 +29,11 @@ public class Utils {
         }
     }
 
+    public static void printOptionalValidMessage(String message, Optional<?> optionalMessage) {
+        if (message != null && !message.isEmpty()) {
+            System.out.printf("%s%s: %S%s%n", ANSI_BRIGHT_YELLOW, message,optionalMessage.get().toString(),ANSI_RESET);
+        }
+    }
 
     public static void printCenteredTitle(String title) {
         int lineLength = 50;  // Total line length

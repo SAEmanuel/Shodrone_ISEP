@@ -25,18 +25,18 @@ public class ListCostumersController {
 
     //--------
     public Optional<Customer> foundCustomerByID(){
-        return null;
+        return Optional.empty(); // Implement actual logic here
     }
 
     public Optional<List<Customer>> foundCustomerByName(){
-        return null;
+        return Optional.empty(); // Implement actual logic here
     }
 
     public Optional<Customer> foundCustomerByNIF(){
-        return null;
+        return Optional.empty(); // Implement actual logic here
     }
 
     public Optional<List<Customer>> getAllCustomer(){
-        return null;
+        return Optional.empty(); // Implement actual logic here
     }
 }
