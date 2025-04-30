@@ -4,14 +4,11 @@ import authz.Email;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
-import eapli.framework.general.domain.model.Description;
-import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
 import eapli.framework.strings.util.StringPredicates;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-
-
+import more.Description;
+import more.Name;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -55,7 +52,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
     @JsonProperty
     @Embedded
     @AttributeOverride(name = "email", column = @Column(name = "created_by", nullable = false, updatable = false))
-    private EmailAddress createdBy;
+    private Email createdBy;
 
     @XmlElement
     @JsonProperty
@@ -65,7 +62,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
     @JsonProperty
     @Embedded
     @AttributeOverride(name = "email", column = @Column(name = "updated_by"))
-    private EmailAddress updatedBy;
+    private Email updatedBy;
 
 
     protected FigureCategory() {
