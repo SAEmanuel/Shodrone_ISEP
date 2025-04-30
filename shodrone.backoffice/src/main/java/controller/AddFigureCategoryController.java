@@ -1,7 +1,7 @@
 package controller;
 
 import domain.entity.FigureCategory;
-import factories.FactoryProvider;
+import persistence.RepositoryProvider;
 import more.Description;
 import more.Name;
 import persistence.interfaces.FigureCategoryRepository;
@@ -12,7 +12,7 @@ public class AddFigureCategoryController {
     private final FigureCategoryRepository repository;
 
     public AddFigureCategoryController() {
-        repository = FactoryProvider.figureCategoryRepository();
+        repository = RepositoryProvider.figureCategoryRepository();
     }
 
     public Optional<FigureCategory> addFigureCategoryWithNameAndDescription(Name name, Description description) {
