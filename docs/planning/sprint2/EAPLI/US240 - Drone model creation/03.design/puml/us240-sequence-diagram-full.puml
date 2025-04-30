@@ -1,0 +1,92 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SD) - Drone Model Creation
+
+autonumber
+
+actor "Drone Tech" as droneTech
+participant ":AddDroneModelUI" as UI
+participant ":AddDroneModelController" as CTRL
+participant "droneModelController\n:DroneModelController" as dmCtrl
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "droneModelRepository\n:DroneModelRepository" as dmRepo
+
+participant "factoryProvider\n:FactoryProvider" as factProv
+participant "droneModelFactoryImpl\n:DroneModelFactoryImpl" as dmFactImpl
+participant "droneModel\n:DroneModel" as droneModel
+
+participant "droneModelJPAImpl\n:DroneModelJPAImpl" as dmJPA
+participant "inMemoryDroneModelRepository\n:InMemoryDroneModelRepository" as dmMem
+
+
+activate droneTech
+
+    droneTech -> UI : ask to create a Drone Model
+    activate UI
+
+    UI -> droneTech : ask for drone model data (identifier, windToleranceData)
+    droneTech -> UI : provides drone model data
+
+    UI -> CTRL** : create
+
+    activate CTRL
+
+        CTRL -> CTRL : getDroneModelRepository()
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getDroneModelRepository()
+            activate PLAT
+
+                PLAT --> CTRL: droneModelRepository
+            deactivate PLAT
+            CTRL --> CTRL : droneModelRepository
+
+        deactivate CTRL
+
+        CTRL -> factProv : getDroneModelFactory()
+        activate factProv
+
+            factProv --> CTRL : droneModelFactory
+        deactivate factProv
+
+        CTRL -> dmFactImpl : createDroneModel(identifier, windToleranceData)
+        activate dmFactImpl
+            dmFactImpl --> dmFactImpl : validateIdentifier(identifier)
+            dmFactImpl --> dmFactImpl : validateWindToleranceData(windToleranceData)
+
+                dmFactImpl --> CTRL : droneModelObject
+                activate CTRL
+
+        deactivate dmFactImpl
+
+        CTRL -> dmJPA : add(droneModelObject)
+        activate dmJPA
+
+            dmJPA --> CTRL : confirmation
+        deactivate dmJPA
+
+        CTRL -> dmMem : add(droneModelObject)
+        activate dmMem
+
+            dmMem --> CTRL : confirmation
+        deactivate dmMem
+
+        CTRL -> UI : droneModelObject
+    deactivate CTRL
+
+    UI -> droneTech : shows operation (in)success
+
+deactivate UI
+deactivate droneTech
+
+@enduml
