@@ -1,0 +1,157 @@
+package domain.entity;
+
+import authz.Email;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.domain.model.DomainEntities;
+import eapli.framework.general.domain.model.Description;
+import eapli.framework.general.domain.model.EmailAddress;
+import eapli.framework.infrastructure.authz.domain.model.Name;
+import eapli.framework.strings.util.StringPredicates;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+
+
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@XmlRootElement
+@Entity
+public class FigureCategory implements AggregateRoot<String>, Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long pk;
+
+    @Version
+    private Long version;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false, unique = true)
+    @Size(min = 3, max = 80)
+    private Name name;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false)
+    @Size(max = 300)
+    private Description description;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false)
+    private boolean active;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdOn;
+
+    @XmlElement
+    @JsonProperty
+    @Embedded
+    @AttributeOverride(name = "email", column = @Column(name = "created_by", nullable = false, updatable = false))
+    private EmailAddress createdBy;
+
+    @XmlElement
+    @JsonProperty
+    private LocalDateTime updatedOn;
+
+    @XmlElement
+    @JsonProperty
+    @Embedded
+    @AttributeOverride(name = "email", column = @Column(name = "updated_by"))
+    private EmailAddress updatedBy;
+
+
+    protected FigureCategory() {
+        // For ORM
+    }
+
+
+    private static boolean nameMeetsMinimumRequirements(final Name name) {
+        return !StringPredicates.isNullOrEmpty(name.toString()) && !StringPredicates.isNullOrWhiteSpace(name.toString());
+    }
+
+    private static boolean descriptionMeetsMinimumRequirements(final Description description) {
+        return !StringPredicates.isNullOrEmpty(description.toString());
+    }
+
+
+    public void changeDescriptionTo(final Description newDescription) {
+        if (!descriptionMeetsMinimumRequirements(newDescription)) {
+            throw new IllegalArgumentException();
+        }
+        this.description = newDescription;
+    }
+
+    public void changeCategoryNameTo(final Name newCategoryName) {
+        if (!nameMeetsMinimumRequirements(newCategoryName)) {
+            throw new IllegalArgumentException();
+        }
+        this.name = newCategoryName;
+    }
+
+    public boolean isActive() {
+        return this.active;
+    }
+
+    public boolean toggleState() {
+        this.active = !this.active;
+        return isActive();
+    }
+
+    public Description description() {
+        return this.description;
+    }
+
+    @Override
+    public String identity() {
+        return this.name.toString();
+    }
+
+    @Override
+    public boolean hasIdentity(final String id) {
+        return id.equalsIgnoreCase(this.name.toString());
+    }
+
+    @Override
+    public boolean sameAs(Object other) {
+        final FigureCategory figureCategory = (FigureCategory) other;
+        return this.equals(figureCategory) && description().equals(figureCategory.description()) && isActive() == figureCategory.isActive();
+    }
+
+    @Override
+    public int hashCode() {
+        return DomainEntities.hashCode(this);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        return DomainEntities.areEqual(this, o);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("FigureCategory {")
+                .append("categoryName='").append(name).append('\'')
+                .append(", description='").append(description).append('\'')
+                .append(", active=").append(active)
+                .append(", createdOn=").append(createdOn)
+                .append(", createdBy=").append(createdBy);
+        if (updatedOn != null) {
+            sb.append(", updatedOn=").append(updatedOn);
+        }
+        if (updatedBy != null) {
+            sb.append(", updatedBy=").append(updatedBy);
+        }
+        sb.append('}');
+        return sb.toString();
+    }
+
+}

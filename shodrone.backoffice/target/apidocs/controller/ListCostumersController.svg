@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="169px" preserveAspectRatio="none" style="width:347px;height:169px;" version="1.1" viewBox="0 0 347 169" width="347px" zoomAndPan="magnify"><defs><filter height="300%" id="fvhqjodxyubp5" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[9a405ed61e859808c4d32e0394f45b60]
+class controller.ListCostumersController--><a href="ListCostumersController.html" target="_top" title="ListCostumersController.html" xlink:actuate="onRequest" xlink:href="ListCostumersController.html" xlink:show="new" xlink:title="ListCostumersController.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#fvhqjodxyubp5)" height="131.9961" id="controller.ListCostumersController" style="stroke: #A80036; stroke-width: 1.5;" width="321" x="7" y="7"/><ellipse cx="79.75" cy="26.1328" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M82.2231,32.2759 Q81.6421,32.5747 81.0029,32.7241 Q80.3638,32.8735 79.6582,32.8735 Q77.1514,32.8735 75.8315,31.2217 Q74.5117,29.5698 74.5117,26.4487 Q74.5117,23.3193 75.8315,21.6675 Q77.1514,20.0156 79.6582,20.0156 Q80.3638,20.0156 81.0112,20.165 Q81.6587,20.3145 82.2231,20.6133 L82.2231,23.3359 Q81.5923,22.7549 80.9988,22.4851 Q80.4053,22.2153 79.7744,22.2153 Q78.4297,22.2153 77.7449,23.282 Q77.0601,24.3486 77.0601,26.4487 Q77.0601,28.5405 77.7449,29.6072 Q78.4297,30.6738 79.7744,30.6738 Q80.4053,30.6738 80.9988,30.4041 Q81.5923,30.1343 82.2231,29.5532 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="167" x="100.25" y="25.5352">ListCostumersController</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="47" x="160.25" y="38.1563">controller</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="327" y1="45.2656" y2="45.2656"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="53.2656"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="281" x="27" y="59.9004">inMemoryCostumerRepository: CostumerRepository</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="8" x2="327" y1="66.2207" y2="66.2207"/><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="15" y="74.2207"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="269" x="27" y="80.8555">getJpaCustomerRepository(): CostumerRepository</text><ellipse cx="18" cy="90.1758" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="239" x="27" y="93.8105">foundCustomerByID(): Optional&lt;Customer&gt;</text><ellipse cx="18" cy="103.1309" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="295" x="27" y="106.7656">foundCustomerByName(): Optional&lt;List&lt;Customer&gt;&gt;</text><ellipse cx="18" cy="116.0859" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="245" x="27" y="119.7207">foundCustomerByNIF(): Optional&lt;Customer&gt;</text><ellipse cx="18" cy="129.041" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="252" x="27" y="132.6758">getAllCustomer(): Optional&lt;List&lt;Customer&gt;&gt;</text></a><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="73.5" y="155.6641">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[58d04bc24b5cac90b05cb3d4c0fe840d]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>ListCostumersController\n<size:10>controller" as controller.ListCostumersController [[ListCostumersController.html]] {
+        -inMemoryCostumerRepository: CostumerRepository
+        -getJpaCustomerRepository(): CostumerRepository
+        +foundCustomerByID(): Optional<Customer>
+        +foundCustomerByName(): Optional<List<Customer>>
+        +foundCustomerByNIF(): Optional<Customer>
+        +getAllCustomer(): Optional<List<Customer>>
+    }
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: pt
+Country: PT
+--></g></svg>

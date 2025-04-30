@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="260px" preserveAspectRatio="none" style="width:210px;height:260px;" version="1.1" viewBox="0 0 210 260" width="210px" zoomAndPan="magnify"><defs><filter height="300%" id="ff8y5lalvhg68" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[d9922b44eb143e6e352a00bfbd3c6a8a]
+class domain.valueObjects.NIF--><a href="NIF.html" target="_top" title="NIF.html" xlink:actuate="onRequest" xlink:href="NIF.html" xlink:show="new" xlink:title="NIF.html" xlink:type="simple"><rect codeLine="5" fill="#FEFECE" filter="url(#ff8y5lalvhg68)" height="119.041" id="domain.valueObjects.NIF" style="stroke: #A80036; stroke-width: 1.5;" width="167" x="15.5" y="105.27"/><ellipse cx="45.35" cy="124.4028" fill="#ADD1B2" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M47.8231,130.5459 Q47.2421,130.8447 46.6029,130.9941 Q45.9638,131.1435 45.2582,131.1435 Q42.7514,131.1435 41.4315,129.4917 Q40.1117,127.8398 40.1117,124.7187 Q40.1117,121.5893 41.4315,119.9375 Q42.7514,118.2856 45.2582,118.2856 Q45.9638,118.2856 46.6112,118.435 Q47.2587,118.5845 47.8231,118.8833 L47.8231,121.6059 Q47.1923,121.0249 46.5988,120.7551 Q46.0053,120.4853 45.3744,120.4853 Q44.0297,120.4853 43.3449,121.552 Q42.6601,122.6186 42.6601,124.7187 Q42.6601,126.8105 43.3449,127.8772 Q44.0297,128.9438 45.3744,128.9438 Q46.0053,128.9438 46.5988,128.6741 Q47.1923,128.4043 47.8231,127.8232 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="22" x="102.65" y="123.8052">NIF</text><text fill="#000000" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="102" x="62.65" y="136.4262">domain.valueObjects</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="16.5" x2="181.5" y1="143.5356" y2="143.5356"/><rect fill="none" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="23.5" y="151.5356"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="52" x="35.5" y="158.1704">nif: String</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="16.5" x2="181.5" y1="164.4907" y2="164.4907"/><polygon fill="#FFFF44" points="26.5,170.4907,30.5,174.4907,26.5,178.4907,22.5,174.4907" style="stroke: #B38D22; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="25" x="35.5" y="179.1255">NIF()</text><ellipse cx="26.5" cy="188.4458" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="57" x="35.5" y="192.0805">NIF(String)</text><rect fill="#F24D5C" height="6" style="stroke: #C82930; stroke-width: 1.0;" width="6" x="23.5" y="198.4009"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="141" x="35.5" y="205.0356">isValidNIF(String): boolean</text><ellipse cx="26.5" cy="214.3559" fill="#84BE84" rx="3" ry="3" style="stroke: #038048; stroke-width: 1.0;"/><text fill="#000000" font-family="sans-serif" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="78" x="35.5" y="217.9907">getNif(): String</text></a><!--MD5=[ce0423b4918b6b29de95b9c9580cdd71]
+class eapli.framework.domain.model.ValueObject--><rect codeLine="13" fill="#FEFECE" filter="url(#ff8y5lalvhg68)" height="38.2656" id="eapli.framework.domain.model.ValueObject" style="stroke: #A80036; stroke-width: 1.5;" width="184" x="7" y="7"/><ellipse cx="22" cy="26.1328" fill="#B4A7E5" rx="11" ry="11" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M18.4277,22.3979 L18.4277,20.2397 L25.8071,20.2397 L25.8071,22.3979 L23.3418,22.3979 L23.3418,30.4746 L25.8071,30.4746 L25.8071,32.6328 L18.4277,32.6328 L18.4277,30.4746 L20.8931,30.4746 L20.8931,22.3979 Z "/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="82" x="71" y="25.5352">ValueObject</text><text fill="#000000" font-family="sans-serif" font-size="10" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="152" x="36" y="38.1563">eapli.framework.domain.model</text><!--MD5=[321691b014b5bdb644b3d6e653dbae32]
+reverse link eapli.framework.domain.model.ValueObject to domain.valueObjects.NIF--><path codeLine="15" d="M99,66.8 C99,78.7 99,92.02 99,104.89 " fill="none" id="eapli.framework.domain.model.ValueObject-backto-domain.valueObjects.NIF" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="92,67.08,99,47.08,106,67.08,92,67.08" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#888888" font-family="sans-serif" font-size="10" lengthAdjust="spacingAndGlyphs" textLength="188" x="2" y="246.979">UMLDoclet 2.0.12, PlantUML 1.2020.16</text><!--MD5=[f0a5b577e2ae71fcfb8f8722aad1ac2b]
+@startuml
+    set namespaceSeparator none
+    hide empty fields
+    hide empty methods
+
+    class "<size:14>NIF\n<size:10>domain.valueObjects" as domain.valueObjects.NIF [[NIF.html]] {
+        -nif: String
+        #NIF()
+        +NIF(String)
+        -isValidNIF(String): boolean
+        +getNif(): String
+    }
+
+    interface "<size:14>ValueObject\n<size:10>eapli.framework.domain.model" as eapli.framework.domain.model.ValueObject
+
+    eapli.framework.domain.model.ValueObject <|.. domain.valueObjects.NIF
+
+    center footer UMLDoclet 2.0.12, PlantUML 1.2020.16
+@enduml
+
+PlantUML version 1.2020.16(Sun Aug 23 21:20:43 WEST 2020)
+(APACHE source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: pt
+Country: PT
+--></g></svg>

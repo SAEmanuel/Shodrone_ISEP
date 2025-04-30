@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>TextEffects.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">more</a> &gt; <span class="el_source">TextEffects.java</span></div><h1>TextEffects.java</h1><pre class="source lang-java linenums">package more;
+
+<span class="nc" id="L3">public class TextEffects {</span>
+    public static final String RESET = &quot;\u001B[0m&quot;;
+
+    // Text styles
+    public static final String BOLD = &quot;\u001B[1m&quot;;
+    public static final String DIM = &quot;\u001B[2m&quot;;
+    public static final String ITALIC = &quot;\u001B[3m&quot;;
+    public static final String UNDERLINE = &quot;\u001B[4m&quot;;
+    public static final String BLINK = &quot;\u001B[5m&quot;; // May not be supported in all terminals
+    public static final String INVERT = &quot;\u001B[7m&quot;;
+    public static final String HIDDEN = &quot;\u001B[8m&quot;;
+    public static final String STRIKETHROUGH = &quot;\u001B[9m&quot;;
+
+    // Reset specific styles
+    public static final String RESET_BOLD = &quot;\u001B[21m&quot;;
+    public static final String RESET_DIM = &quot;\u001B[22m&quot;;
+    public static final String RESET_ITALIC = &quot;\u001B[23m&quot;;
+    public static final String RESET_UNDERLINE = &quot;\u001B[24m&quot;;
+    public static final String RESET_BLINK = &quot;\u001B[25m&quot;;
+    public static final String RESET_INVERT = &quot;\u001B[27m&quot;;
+    public static final String RESET_HIDDEN = &quot;\u001B[28m&quot;;
+    public static final String RESET_STRIKETHROUGH = &quot;\u001B[29m&quot;;
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

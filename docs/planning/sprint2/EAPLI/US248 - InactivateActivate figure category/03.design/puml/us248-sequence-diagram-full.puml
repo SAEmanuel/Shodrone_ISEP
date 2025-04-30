@@ -3,59 +3,93 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
+title UI Sequence Diagram (SSD) - Inactivate/Activate Figure Category
+
 autonumber
 
-actor "ShowDesigner" as ACTOR
+actor "Show Designer" as showDesigner
 participant ":ChangeCategoryStatusUI" as UI
 participant ":ChangeCategoryStatusController" as CTRL
-participant ":PersistenceContext" as PC
-participant "factory\n:RepositoryFactory" as FACTORY_INSTANCE
-participant "repository\n:FigureCategoryRepository" as REPO
-participant "FigureCategory" as FigureCategory
-participant ":AuthFacade" as AuthFacade
+participant "figureCategoryController\n:FigureCategoryController" as catCtrl
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "figureCategoryRepository\n:FigureCategoryRepository" as catRepo
 
-activate ACTOR
+activate showDesigner
 
-ACTOR -> UI : requests change of category status
+    showDesigner -> UI : ask to change category status
+    activate UI
 
-activate UI
-UI -> AuthFacade: getCurrentUser()
-AuthFacade -> UI: user (ShowDesigner)
-UI -> UI: checkRole("ShowDesigner")
-alt role is ShowDesigner
-    UI -> CTRL : create()
+    UI -> catRepo : getChangeableCategories()
+    activate catRepo
+        catRepo --> UI : listOfCategories
+    deactivate catRepo
 
+    UI -> showDesigner : show categories and ask for selection
+    showDesigner -> UI : selects category (categoryId) and action (activate/inactivate)
+
+    UI -> catRepo : getCategoryById(categoryId)
+    activate catRepo
+        catRepo --> UI : categoryObject
+    deactivate catRepo
+
+    UI -> CTRL : create
     activate CTRL
-    CTRL -> PC: repositories()
-    activate PC
-    PC -> FACTORY_INSTANCE: create()
-    activate FACTORY_INSTANCE
-    FACTORY_INSTANCE -> REPO: create()
-    deactivate FACTORY_INSTANCE
-    PC -> CTRL: FigureCategoryRepository
-    deactivate PC
 
-    UI -> UI: doShow()
+        CTRL -> CTRL : getFigureCategoryRepository()
+        activate CTRL
 
-    UI -> CTRL: changeCategoryStatus(id, action)
-    CTRL -> CTRL: validate(id, action)
-    alt invalid input or already in requested status
-        CTRL -> UI: errorMessage("Invalid request or category already in requested status")
-    else valid input
-        CTRL -> REPO: findById(id)
-        REPO -> CTRL: FigureCategory
-        CTRL -> FigureCategory: updateStatus(action)
-        CTRL -> REPO: save(FigureCategory)
-        REPO -> CTRL: confirmation
-        CTRL -> UI: successMessage("Category status updated successfully")
-    end
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
 
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getFigureCategoryRepository()
+            activate PLAT
+
+                PLAT --> CTRL: figureCategoryRepository
+            deactivate PLAT
+            CTRL --> CTRL : figureCategoryRepository
+
+        deactivate CTRL
+
+        CTRL -> catRepo : findById(categoryId)
+        activate catRepo
+            catRepo --> CTRL : figureCategoryObject
+        deactivate catRepo
+
+        CTRL -> catCtrl : validateChangeCategoryStatus(figureCategoryObject, action)
+        activate catCtrl
+            catCtrl --> catCtrl : validations()
+            alt invalid input or already in requested status
+                catCtrl --> CTRL : error("Invalid request or category already in requested status")
+                CTRL -> UI : error("Invalid request or category already in requested status")
+                deactivate CTRL
+                deactivate UI
+                deactivate showDesigner
+                return
+            else valid input
+                catCtrl --> CTRL : validationSuccess
+            end
+        deactivate catCtrl
+
+        CTRL -> figureCategory : updateStatus(action)
+        activate figureCategory
+            figureCategory --> CTRL : updatedCategoryObject
+        deactivate figureCategory
+
+        CTRL -> catRepo : save(updatedCategoryObject)
+        activate catRepo
+            catRepo --> CTRL : confirmation
+        deactivate catRepo
+
+        CTRL -> UI : updatedCategoryObject
     deactivate CTRL
-else role is not ShowDesigner
-    UI -> ACTOR: errorMessage("Access denied: ShowDesigner role required")
-end
+
+    UI -> showDesigner : shows operation (in)success
 
 deactivate UI
-deactivate ACTOR
+deactivate showDesigner
 
 @enduml

@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Repositories.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">persistence.inmemory</a> &gt; <span class="el_source">Repositories.java</span></div><h1>Repositories.java</h1><pre class="source lang-java linenums">package persistence.inmemory;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>Repositories.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">persistence.inmemory</a> &gt; <span class="el_source">Repositories.java</span></div><h1>Repositories.java</h1><pre class="source lang-java linenums">package persistence.inmemory;
 
+import persistence.interfaces.CostumerRepository;
+import persistence.interfaces.ShowRequestRepository;
 import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
 import persistence.jpa.AuthenticationRepository;
+import persistence.jpa.JPAImpl.ShowRequestJPAImpl;
 
 
 /**
@@ -15,15 +18,19 @@ public class Repositories {
     private static Repositories instance;
     private final InMemoryAuthenticationRepository inMemoryAuthenticationRepository;
     private final AuthenticationRepository jpaAuthenticationRepository;
+    private final InMemoryShowRequestRepository inMemoryShowRequestRepository;
+    private final InMemoryCustomerRepository inMemoryCustomerRepository;
 
     /**
      * Private constructor for Repositories.
      * Initializes the various repositories used in the application.
      */
-<span class="nc" id="L23">    private Repositories() {</span>
-<span class="nc" id="L24">        inMemoryAuthenticationRepository = new InMemoryAuthenticationRepository();</span>
-<span class="nc" id="L25">        jpaAuthenticationRepository = new AuthenticationRepositoryJPAImpl();</span>
-<span class="nc" id="L26">    }</span>
+<span class="nc" id="L28">    private Repositories() {</span>
+<span class="nc" id="L29">        inMemoryAuthenticationRepository = new InMemoryAuthenticationRepository();</span>
+<span class="nc" id="L30">        jpaAuthenticationRepository = new AuthenticationRepositoryJPAImpl();</span>
+<span class="nc" id="L31">        inMemoryShowRequestRepository = new InMemoryShowRequestRepository();</span>
+<span class="nc" id="L32">        inMemoryCustomerRepository = new InMemoryCustomerRepository();</span>
+<span class="nc" id="L33">    }</span>
 
     /**
      * Provides access to the singleton instance of Repositories.
@@ -31,12 +38,12 @@ public class Repositories {
      * @return the single instance of Repositories
      */
     public static Repositories getInstance() {
-<span class="nc bnc" id="L34" title="All 2 branches missed.">        if (instance == null) {</span>
-<span class="nc" id="L35">            synchronized (Repositories.class) {</span>
-<span class="nc" id="L36">                instance = new Repositories();</span>
-<span class="nc" id="L37">            }</span>
+<span class="nc bnc" id="L41" title="All 2 branches missed.">        if (instance == null) {</span>
+<span class="nc" id="L42">            synchronized (Repositories.class) {</span>
+<span class="nc" id="L43">                instance = new Repositories();</span>
+<span class="nc" id="L44">            }</span>
         }
-<span class="nc" id="L39">        return instance;</span>
+<span class="nc" id="L46">        return instance;</span>
     }
 
     /**
@@ -45,7 +52,7 @@ public class Repositories {
      * @return the AuthenticationRepository instance
      */
     public InMemoryAuthenticationRepository getAuthenticationRepository() {
-<span class="nc" id="L48">        return inMemoryAuthenticationRepository;</span>
+<span class="nc" id="L55">        return inMemoryAuthenticationRepository;</span>
     }
 
     /**
@@ -54,7 +61,15 @@ public class Repositories {
      * @return the AuthenticationRepository (JPA) instance
      */
     public AuthenticationRepository getJpaAuthenticationRepository() {
-<span class="nc" id="L57">        return jpaAuthenticationRepository;</span>
+<span class="nc" id="L64">        return jpaAuthenticationRepository;</span>
+    }
+
+    public ShowRequestRepository getShowRequestRepository() {
+<span class="nc" id="L68">        return inMemoryShowRequestRepository;</span>
+    }
+
+    public CostumerRepository getCostumerRepository() {
+<span class="nc" id="L72">        return inMemoryCustomerRepository;</span>
     }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

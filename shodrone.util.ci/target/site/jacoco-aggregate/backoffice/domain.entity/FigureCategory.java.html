@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>FigureCategory.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">domain.entity</a> &gt; <span class="el_source">FigureCategory.java</span></div><h1>FigureCategory.java</h1><pre class="source lang-java linenums">package domain.entity;
+
+import authz.Email;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.domain.model.DomainEntities;
+import eapli.framework.general.domain.model.Description;
+import eapli.framework.infrastructure.authz.domain.model.Name;
+import eapli.framework.strings.util.StringPredicates;
+import jakarta.persistence.*;
+
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@XmlRootElement
+@Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = { &quot;categoryName&quot;})})
+public class FigureCategory implements AggregateRoot&lt;String&gt;, Serializable {
+
+    private static final int NAME_MIN_LENGTH = 3;
+    private static final int NAME_MAX_LENGTH = 80;
+    private static final int DESCRIPTION_MIN_LENGTH = 5;
+    private static final int DESCRIPTION_MAX_LENGTH = 300;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long pk;
+
+    @Version
+    private Long version;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false, unique = true)
+    private Name categoryName;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false)
+    private Description description;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false)
+    private boolean active;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdOn;
+
+    @XmlElement
+    @JsonProperty
+    @Column(nullable = false, updatable = false)
+    private Email createdBy;
+
+    @XmlElement
+    @JsonProperty
+    private LocalDateTime updatedOn;
+
+    @XmlElement
+    @JsonProperty
+    private Email updatedBy;
+
+
+<span class="nc" id="L69">    protected FigureCategory() {</span>
+        // For ORM
+<span class="nc" id="L71">    }</span>
+
+
+    private static boolean nameMeetsMinimumRequirements(final Name name) {
+<span class="nc bnc" id="L75" title="All 4 branches missed.">        if (name == null || !StringPredicates.isNullOrEmpty(name.toString())) {</span>
+<span class="nc" id="L76">            return false;</span>
+        }
+<span class="nc" id="L78">        String trimmed = name.toString().trim();</span>
+<span class="nc" id="L79">        int length = trimmed.length();</span>
+<span class="nc bnc" id="L80" title="All 4 branches missed.">        return length &gt;= NAME_MIN_LENGTH &amp;&amp; length &lt;= NAME_MAX_LENGTH;</span>
+    }
+
+    private static boolean descriptionMeetsMinimumRequirements(final Description description) {
+<span class="nc bnc" id="L84" title="All 4 branches missed.">        if (description == null || !StringPredicates.isNonEmpty(description.toString())) {</span>
+<span class="nc" id="L85">            return false;</span>
+        }
+<span class="nc" id="L87">        String trimmed = description.toString().trim();</span>
+<span class="nc" id="L88">        int length = trimmed.length();</span>
+<span class="nc bnc" id="L89" title="All 4 branches missed.">        return length &gt;= DESCRIPTION_MIN_LENGTH &amp;&amp; length &lt;= DESCRIPTION_MAX_LENGTH;</span>
+    }
+
+
+    public void changeDescriptionTo(final Description newDescription) {
+<span class="nc bnc" id="L94" title="All 2 branches missed.">        if (!descriptionMeetsMinimumRequirements(newDescription)) {</span>
+<span class="nc" id="L95">            throw new IllegalArgumentException();</span>
+        }
+<span class="nc" id="L97">        this.description = newDescription;</span>
+<span class="nc" id="L98">    }</span>
+
+    public void changeCategoryNameTo(final Name newCategoryName) {
+<span class="nc bnc" id="L101" title="All 2 branches missed.">        if (!nameMeetsMinimumRequirements(newCategoryName)) {</span>
+<span class="nc" id="L102">            throw new IllegalArgumentException();</span>
+        }
+<span class="nc" id="L104">        this.categoryName = newCategoryName;</span>
+<span class="nc" id="L105">    }</span>
+
+    public boolean isActive() {
+<span class="nc" id="L108">        return this.active;</span>
+    }
+
+    public boolean toggleState() {
+<span class="nc bnc" id="L112" title="All 2 branches missed.">        this.active = !this.active;</span>
+<span class="nc" id="L113">        return isActive();</span>
+    }
+
+    public Description description() {
+<span class="nc" id="L117">        return this.description;</span>
+    }
+
+    @Override
+    public String identity() {
+<span class="nc" id="L122">        return this.categoryName.toString();</span>
+    }
+
+    @Override
+    public boolean hasIdentity(final String id) {
+<span class="nc" id="L127">        return id.equalsIgnoreCase(this.categoryName.toString());</span>
+    }
+
+    @Override
+    public boolean sameAs(Object other) {
+<span class="nc" id="L132">        final FigureCategory figureCategory = (FigureCategory) other;</span>
+<span class="nc bnc" id="L133" title="All 6 branches missed.">        return this.equals(figureCategory) &amp;&amp; description().equals(figureCategory.description()) &amp;&amp; isActive() == figureCategory.isActive();</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L138">        return DomainEntities.hashCode(this);</span>
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+<span class="nc" id="L143">        return DomainEntities.areEqual(this, o);</span>
+    }
+
+//    @Override
+//    public String toString() {
+//        // Usa emojis da biblioteca JEmoji
+//        String statusEmoji = active ? Emojis.GREEN_CIRCLE.getEmoji() : Emojis.RED_CIRCLE.getEmoji();
+//        StringBuilder sb = new StringBuilder();
+//        sb.append(Emojis.LABEL.getEmoji()).append(&quot; &quot;).append(categoryName)
+//                .append(&quot; | &quot;).append(Emojis.MEMO.getEmoji()).append(&quot; &quot;).append(description)
+//                .append(&quot; | &quot;).append(statusEmoji).append(active ? &quot; Active&quot; : &quot; Inactive&quot;)
+//                .append(&quot; | &quot;).append(Emojis.ALARM_CLOCK.getEmoji()).append(&quot; Created: &quot;).append(createdOn)
+//                .append(&quot; &quot;).append(Emojis.BUST_IN_SILHOUETTE.getEmoji()).append(&quot; &quot;).append(createdBy);
+//        if (updatedOn != null) {
+//            sb.append(&quot; | &quot;).append(Emojis.ALARM_CLOCK.getEmoji()).append(&quot; Updated: &quot;).append(updatedOn)
+//                    .append(&quot; &quot;).append(Emojis.BUST_IN_SILHOUETTE.getEmoji()).append(&quot; &quot;).append(updatedBy);
+//        }
+//        return sb.toString();
+//    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
