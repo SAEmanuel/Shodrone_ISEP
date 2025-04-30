@@ -1,7 +1,7 @@
 package utils;
 
 import factories.FactoryProvider;
-import persistence.jpa.AuthenticationRepository;
+import persistence.interfaces.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.UserSession;
 
 public class AuthUtils {

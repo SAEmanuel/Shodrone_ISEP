@@ -1,10 +1,9 @@
 package persistence.inmemory;
 
 import persistence.interfaces.CostumerRepository;
-import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.ShowRequestRepository;
 import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
-import persistence.jpa.AuthenticationRepository;
+import persistence.interfaces.AuthenticationRepository;
 
 
 /**

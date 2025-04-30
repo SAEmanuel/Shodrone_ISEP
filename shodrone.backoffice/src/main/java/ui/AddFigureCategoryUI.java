@@ -26,10 +26,10 @@ public class AddFigureCategoryUI implements Runnable {
         Optional<FigureCategory> result;
         if (!option) {
             System.out.println(ANSI_ORANGE + "Description skipped..." + ANSI_RESET);
-            result = controller.addFigureCategory(name, null);
+            result = controller.addFigureCategoryWithName(name);
         } else {
             description = Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new);
-            result = controller.addFigureCategory(name, description);
+            result = controller.addFigureCategoryWithNameAndDescription(name, description);
         }
 
         if (result.isPresent()) {

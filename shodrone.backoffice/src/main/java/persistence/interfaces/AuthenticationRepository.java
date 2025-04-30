@@ -1,4 +1,4 @@
-package persistence.jpa;
+package persistence.interfaces;
 
 import pt.isep.lei.esoft.auth.UserSession;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
