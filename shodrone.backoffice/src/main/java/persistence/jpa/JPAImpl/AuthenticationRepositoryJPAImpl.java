@@ -64,4 +64,9 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
     public List<UserRole> getAllRoles() {
         return roleRepository.findAll();
     }
+
+    public UserRoleRepository getRoleRepository() {
+        return this.roleRepository;
+    }
+
 }

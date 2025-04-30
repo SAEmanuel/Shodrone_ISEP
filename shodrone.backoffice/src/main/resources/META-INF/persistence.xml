@@ -6,6 +6,8 @@
 
   <persistence-unit name="shodrone_backoffice">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>authz.User</class>
+    <class>domain.entity.ShowRequest</class>
 
     <class>domain.entity.ShowRequest</class>
     <!-- Scan automatic entities (requires entities in correct packages) -->

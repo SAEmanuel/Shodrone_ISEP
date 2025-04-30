@@ -85,7 +85,7 @@ public class AuthenticationUI implements Runnable {
         Iterator<MenuItem> it = rolesUI.iterator();
         while (it.hasNext() && !found) {
             MenuItem item = it.next();
-            found = item.hasDescription(role.getDescription());
+            found = item.hasDescription(role.getDescription().toUpperCase());
             if (found) {
                 item.run();
             }

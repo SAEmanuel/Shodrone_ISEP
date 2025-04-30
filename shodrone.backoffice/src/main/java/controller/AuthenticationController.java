@@ -1,44 +1,42 @@
 package controller;
 
-import persistence.inmemory.InMemoryAuthenticationRepository;
 import persistence.inmemory.Repositories;
+import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;
-import java.time.LocalDateTime;
 
 public class AuthenticationController {
 
     public static final String ROLE_ADMIN = "ADMINISTRATOR";
     public static final String ROLE_CRM_MANAGER = "CRM MANAGER";
     public static final String ROLE_CRM_COLLABORATOR = "CRM COLLABORATOR";
-    public static final String ROLE_SHOW_DESIGNER= "SHOW DESIGNER";
-    public static final String ROLE_CUSTOMER_REPRESENTATIVE= "CUSTOMER REPRESENTATIVE";
-    public static final String ROLE_DRONE_TECH= "Drone Technician";
+    public static final String ROLE_SHOW_DESIGNER = "SHOW DESIGNER";
+    public static final String ROLE_CUSTOMER_REPRESENTATIVE = "CUSTOMER REPRESENTATIVE";
+    public static final String ROLE_DRONE_TECH = "DRONE TECHNICIAN";
 
-    //private final ApplicationSession applicationSession;
-    private final InMemoryAuthenticationRepository inMemoryAuthenticationRepository;
+    private final AuthenticationRepositoryJPAImpl authRepository;
 
     public AuthenticationController() {
-        this.inMemoryAuthenticationRepository = Repositories.getInstance().getAuthenticationRepository();
+        this.authRepository = (AuthenticationRepositoryJPAImpl) Repositories.getInstance().getJpaAuthenticationRepository();
     }
 
     public boolean doLogin(String email, String pwd) {
         try {
-            return inMemoryAuthenticationRepository.doLogin(email, pwd);
+            return authRepository.doLogin(email, pwd);
         } catch (IllegalArgumentException ex) {
             return false;
         }
     }
 
     public List<UserRoleDTO> getUserRoles() {
-        if (inMemoryAuthenticationRepository.getCurrentUserSession().isLoggedIn()) {
-            return inMemoryAuthenticationRepository.getCurrentUserSession().getUserRoles();
+        if (authRepository.isLoggedIn()) {
+            return authRepository.getUserRoles();
         }
         return null;
     }
 
     public void doLogout() {
-        inMemoryAuthenticationRepository.doLogout();
+        authRepository.doLogout();
     }
 }
