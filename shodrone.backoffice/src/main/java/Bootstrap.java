@@ -69,7 +69,7 @@ public class Bootstrap implements Runnable {
         Email userEmail = new Email(email);
 
         if (repo.findById(userEmail) != null) {
-            System.out.println("⚠️ Utilizador já existe: " + email);
+            //System.out.println("⚠️ Utilizador já existe: " + email);
             return;
         }
 

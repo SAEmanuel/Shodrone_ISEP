@@ -2,6 +2,7 @@ package persistence.jpa.JPAImpl;
 
 import authz.*;
 import persistence.jpa.AuthenticationRepository;
+import pt.isep.lei.esoft.auth.UserSession;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 import persistence.jpa.JpaBaseRepository;
 
@@ -47,6 +48,12 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
         return loggedUser.getRoles().stream()
                 .map(role -> new UserRoleDTO(role.getId(), role.getDescription()))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public UserSession getCurrentUserSession() {
+        throw new UnsupportedOperationException("Not implemented yet");
+
     }
 
     public User getCurrentUser() {
