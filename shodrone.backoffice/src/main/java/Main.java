@@ -9,6 +9,7 @@ public class Main {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
 
+
         try {
             StartupMessageBackofficeUI.display();
             MainMenuUI menu = new MainMenuUI();
