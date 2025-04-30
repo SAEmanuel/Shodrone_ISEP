@@ -1,7 +1,7 @@
 package utils;
 
-import persistence.RepositoryProvider;
-import persistence.jpa.AuthenticationRepository;
+import factories.FactoryProvider;
+import persistence.interfaces.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.UserSession;
 
 public class AuthUtils {
@@ -10,7 +10,7 @@ public class AuthUtils {
 
     private static AuthenticationRepository getAuthRepo() {
         if (authRepo == null) {
-            authRepo = RepositoryProvider.authenticationRepository();
+            authRepo = FactoryProvider.authenticationRepository();
         }
         return authRepo;
     }

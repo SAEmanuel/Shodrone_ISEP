@@ -1,7 +1,7 @@
 package controller;
 
 import domain.entity.FigureCategory;
-import persistence.RepositoryProvider;
+import factories.FactoryProvider;
 import more.Description;
 import more.Name;
 import persistence.interfaces.FigureCategoryRepository;
@@ -9,24 +9,19 @@ import persistence.interfaces.FigureCategoryRepository;
 import java.util.Optional;
 
 public class AddFigureCategoryController {
-    //todo after inMem implementation, implement JPA
-    private final FigureCategoryRepository inMemRepository;
+    private final FigureCategoryRepository repository;
 
     public AddFigureCategoryController() {
-        inMemRepository = RepositoryProvider.figureCategoryRepository();
+        repository = FactoryProvider.figureCategoryRepository();
     }
 
-
-    public Optional<FigureCategory> addFigureCategory(Name name, Description description) {
+    public Optional<FigureCategory> addFigureCategoryWithNameAndDescription(Name name, Description description) {
         FigureCategory category = new FigureCategory(name, description);
-        return inMemRepository.save(category);
+        return repository.save(category);
     }
 
-    public void addFigureCategory(Name name) {
-        if (inMemRepository.findByName(name.toString().toLowerCase()).isPresent()) {
-            throw new IllegalArgumentException("Category name already exists.");
-        }
+    public Optional<FigureCategory> addFigureCategoryWithName(Name name) {
         FigureCategory category = new FigureCategory(name);
-        inMemRepository.save(category);
+        return repository.save(category);
     }
 }

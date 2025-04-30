@@ -1,7 +1,7 @@
 package persistence.jpa.JPAImpl;
 
 import authz.*;
-import persistence.jpa.AuthenticationRepository;
+import persistence.interfaces.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.UserSession;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 import persistence.jpa.JpaBaseRepository;
