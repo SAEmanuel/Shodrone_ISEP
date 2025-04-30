@@ -8,7 +8,7 @@ As a CRM Collaborator and Show Designer, I want to search the figure catalogue u
 
 ### 1.2. Customer Specifications and Clarifications
 
-The following specifications are derived from the requirements document (Section 3.2.2, Page 13) and the DDD model:
+The following specifications are derived from the requirements document and the DDD model:
 
 - The figure catalogue includes both:
     - **Public figures** (`Figure.isPublic = true`)
@@ -46,7 +46,8 @@ The following specifications are derived from the requirements document (Section
 - **AC4**: Only active figures are included in results (`Figure.status = Active`).
 - **AC5**: The search must be paginated (default: 20 results per page).
 - **AC6**: If no results match, system displays: "No figures match the search criteria."
-- **AC7**: Results include: `id`, `name`, `description`, `duration`, `category`, and `dsl`.
+- **AC7**: Results include: `id`, `name`, `description`, `version`, `category`, `availability`, `dsl` and `Status`.
+
 
 ### 1.4. Found out Dependencies
 
@@ -60,13 +61,15 @@ The following specifications are derived from the requirements document (Section
 
 **Input Data:**
 
-- Search parameters:
-    - `nameKeyword` (string, optional, partial match)
-    - `categoryId` (integer, optional)
-    - `availability` (enum: `public`, `exclusive`, `both`)
-    - `customerId` (integer, optional)
+- typed data:
+    - `name` (string, optional, partial match)
     - `page` (integer, default: 1)
     - `pageSize` (integer, default: 20)
+
+- selected data:
+    - `categoryId` (integer, optional)
+    - `availability` (enum: `public`, `exclusive`, optional)
+    - `customerId` (integer, optional)
 
 **Output Data:**
 
