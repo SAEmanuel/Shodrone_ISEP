@@ -1,0 +1,54 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US 232 Search Figure Catalogue
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+activate System
+
+    SD -> System: login()
+    System --> SD: authenticated
+
+    deactivate System
+    SD -> System: ask to search for figures
+
+    activate System
+
+    System --> SD: request data (nameKeyword, categoryId, availability, customerId,...)
+    deactivate System
+    SD -> System: types requested data (nameKeyword, categoryId, availability, customerId,...)
+
+    activate System
+
+    System --> SD: show all data registered for confirmation
+    deactivate System
+
+    SD -> System: searchFigures(nameKeyword, categoryId, availability, customerId,...)
+    activate System
+
+        System -> System: validations(...)
+        activate System
+
+        deactivate System
+
+        System -> System: findFiguresByFilter(nameKeyword, categoryId, availability, customerId,...)
+        activate System
+
+
+        System -> System: figureList
+        deactivate System
+
+
+    System --> SD: show the output of public figure list
+    deactivate System
+deactivate SD
+
+@enduml
