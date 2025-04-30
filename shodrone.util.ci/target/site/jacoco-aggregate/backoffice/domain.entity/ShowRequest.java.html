@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ShowRequest.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">domain.entity</a> &gt; <span class="el_source">ShowRequest.java</span></div><h1>ShowRequest.java</h1><pre class="source lang-java linenums">package domain.entity;
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ShowRequest.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">domain.entity</a> &gt; <span class="el_source">ShowRequest.java</span></div><h1>ShowRequest.java</h1><pre class="source lang-java linenums">package domain.entity;
 
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowRequestStatus;
@@ -32,8 +32,9 @@ public class ShowRequest extends DomainEntityBase&lt;Long&gt; {
     @Column(name = &quot;submission_author&quot;, nullable = false)
     private String submissionAuthor;
 
-    @Embedded
-    private Costumer costumer;
+    @OneToOne
+    @JoinColumn(name = &quot;costumer_id&quot;, nullable = false)
+    private Customer costumer;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = &quot;show_request_id&quot;)
@@ -54,16 +55,15 @@ public class ShowRequest extends DomainEntityBase&lt;Long&gt; {
     @Column(name = &quot;show_duration&quot;, nullable = false)
     private Duration showDuration;
 
-<span class="nc" id="L57">    protected ShowRequest() {</span>
-        // For JPA only
-<span class="nc" id="L59">    }</span>
+<span class="nc" id="L58">    protected ShowRequest() {}</span>
 
-    public ShowRequest(LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor,
-                       Costumer costumer, List&lt;Figure&gt; figures, Description description,
-<span class="nc" id="L63">                       Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {</span>
-<span class="nc" id="L64">        this.submissionDate = submissionDate;</span>
-<span class="nc" id="L65">        this.status = status;</span>
-<span class="nc" id="L66">        this.submissionAuthor = submissionAuthor;</span>
+    public ShowRequest(Customer costumer, List&lt;Figure&gt; figures, Description description,
+<span class="nc" id="L61">                       Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {</span>
+
+<span class="nc" id="L63">        this.submissionDate = submissionDate;</span>
+<span class="nc" id="L64">        this.status = status;</span>
+<span class="nc" id="L65">        this.submissionAuthor = submissionAuthor;</span>
+
 <span class="nc" id="L67">        this.costumer = costumer;</span>
 <span class="nc" id="L68">        this.figures = figures;</span>
 <span class="nc" id="L69">        this.description = description;</span>

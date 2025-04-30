@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="pt"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../jacoco-resources/report.gif" type="image/gif"/><title>ColorPaletteDemo.java</title><link rel="stylesheet" href="../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../index.html" class="el_report">shodrone.util.ci</a> &gt; <a href="../index.html" class="el_bundle">backoffice</a> &gt; <a href="index.source.html" class="el_package">more</a> &gt; <span class="el_source">ColorPaletteDemo.java</span></div><h1>ColorPaletteDemo.java</h1><pre class="source lang-java linenums">package more;
+
+<span class="nc" id="L3">public class ColorPaletteDemo {</span>
+    public static void main(String[] args) {
+<span class="nc" id="L5">        System.out.println(&quot;\n\033[1mColor Palette Preview:\033[0m\n&quot;);</span>
+
+<span class="nc" id="L7">        printColor(&quot;BLACK&quot;, ColorfulOutput.ANSI_BLACK);</span>
+<span class="nc" id="L8">        printColor(&quot;YELLOW&quot;, ColorfulOutput.ANSI_YELLOW);</span>
+<span class="nc" id="L9">        printColor(&quot;BLUE&quot;, ColorfulOutput.ANSI_BLUE);</span>
+<span class="nc" id="L10">        printColor(&quot;PURPLE&quot;, ColorfulOutput.ANSI_PURPLE);</span>
+<span class="nc" id="L11">        printColor(&quot;CYAN&quot;, ColorfulOutput.ANSI_CYAN);</span>
+<span class="nc" id="L12">        printColor(&quot;WHITE&quot;, ColorfulOutput.ANSI_WHITE);</span>
+<span class="nc" id="L13">        printColor(&quot;BRIGHT BLACK&quot;, ColorfulOutput.ANSI_BRIGHT_BLACK);</span>
+<span class="nc" id="L14">        printColor(&quot;BRIGHT YELLOW&quot;, ColorfulOutput.ANSI_BRIGHT_YELLOW);</span>
+<span class="nc" id="L15">        printColor(&quot;BRIGHT BLUE&quot;, ColorfulOutput.ANSI_BRIGHT_BLUE);</span>
+<span class="nc" id="L16">        printColor(&quot;BRIGHT PURPLE&quot;, ColorfulOutput.ANSI_BRIGHT_PURPLE);</span>
+<span class="nc" id="L17">        printColor(&quot;BRIGHT CYAN&quot;, ColorfulOutput.ANSI_BRIGHT_CYAN);</span>
+<span class="nc" id="L18">        printColor(&quot;BRIGHT WHITE&quot;, ColorfulOutput.ANSI_BRIGHT_WHITE);</span>
+
+<span class="nc" id="L20">        System.out.println(&quot;\n\033[1mGreens:\033[0m&quot;);</span>
+<span class="nc" id="L21">        printColor(&quot;GREEN&quot;, ColorfulOutput.ANSI_GREEN);</span>
+<span class="nc" id="L22">        printColor(&quot;BRIGHT GREEN&quot;, ColorfulOutput.ANSI_BRIGHT_GREEN);</span>
+<span class="nc" id="L23">        printColor(&quot;LIGHT GREEN&quot;, ColorfulOutput.ANSI_LIGHT_GREEN);</span>
+<span class="nc" id="L24">        printColor(&quot;PALE GREEN&quot;, ColorfulOutput.ANSI_PALE_GREEN);</span>
+<span class="nc" id="L25">        printColor(&quot;SEA GREEN&quot;, ColorfulOutput.ANSI_SEA_GREEN);</span>
+<span class="nc" id="L26">        printColor(&quot;FOREST GREEN&quot;, ColorfulOutput.ANSI_FOREST_GREEN);</span>
+<span class="nc" id="L27">        printColor(&quot;SPRING GREEN&quot;, ColorfulOutput.ANSI_SPRING_GREEN);</span>
+<span class="nc" id="L28">        printColor(&quot;LIME GREEN&quot;, ColorfulOutput.ANSI_LIME_GREEN);</span>
+<span class="nc" id="L29">        printColor(&quot;GREEN YELLOW&quot;, ColorfulOutput.ANSI_GREEN_YELLOW);</span>
+<span class="nc" id="L30">        printColor(&quot;MEDIUM SPRING GREEN&quot;, ColorfulOutput.ANSI_MEDIUM_SPRING_GREEN);</span>
+
+<span class="nc" id="L32">        System.out.println(&quot;\n\033[1mReds &amp; Oranges:\033[0m&quot;);</span>
+<span class="nc" id="L33">        printColor(&quot;RED&quot;, ColorfulOutput.ANSI_RED);</span>
+<span class="nc" id="L34">        printColor(&quot;BRIGHT RED&quot;, ColorfulOutput.ANSI_BRIGHT_RED);</span>
+<span class="nc" id="L35">        printColor(&quot;LIGHT RED&quot;, ColorfulOutput.ANSI_LIGHT_RED);</span>
+<span class="nc" id="L36">        printColor(&quot;DARK RED&quot;, ColorfulOutput.ANSI_DARK_RED);</span>
+<span class="nc" id="L37">        printColor(&quot;PINK&quot;, ColorfulOutput.ANSI_PINK);</span>
+<span class="nc" id="L38">        printColor(&quot;CRIMSON&quot;, ColorfulOutput.ANSI_CRIMSON);</span>
+<span class="nc" id="L39">        printColor(&quot;SALMON&quot;, ColorfulOutput.ANSI_SALMON);</span>
+<span class="nc" id="L40">        printColor(&quot;FIREBRICK&quot;, ColorfulOutput.ANSI_FIREBRICK);</span>
+<span class="nc" id="L41">        printColor(&quot;INDIAN RED&quot;, ColorfulOutput.ANSI_INDIAN_RED);</span>
+<span class="nc" id="L42">        printColor(&quot;MAROON&quot;, ColorfulOutput.ANSI_MAROON);</span>
+<span class="nc" id="L43">        printColor(&quot;ORANGE&quot;, ColorfulOutput.ANSI_ORANGE);</span>
+<span class="nc" id="L44">        printColor(&quot;DARK ORANGE&quot;, ColorfulOutput.ANSI_DARK_ORANGE);</span>
+<span class="nc" id="L45">        printColor(&quot;LIGHT ORANGE&quot;, ColorfulOutput.ANSI_LIGHT_ORANGE);</span>
+<span class="nc" id="L46">        printColor(&quot;CORAL&quot;, ColorfulOutput.ANSI_CORAL);</span>
+<span class="nc" id="L47">        printColor(&quot;TOMATO&quot;, ColorfulOutput.ANSI_TOMATO);</span>
+<span class="nc" id="L48">        printColor(&quot;ORANGE RED&quot;, ColorfulOutput.ANSI_ORANGE_RED);</span>
+
+<span class="nc" id="L50">        System.out.println();</span>
+<span class="nc" id="L51">    }</span>
+
+    private static void printColor(String name, String ansiCode) {
+<span class="nc" id="L54">        System.out.println(ansiCode + name + ColorfulOutput.ANSI_RESET);</span>
+<span class="nc" id="L55">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>

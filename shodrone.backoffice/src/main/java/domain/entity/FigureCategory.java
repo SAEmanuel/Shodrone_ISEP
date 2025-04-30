@@ -5,9 +5,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.general.domain.model.Description;
+import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import eapli.framework.strings.util.StringPredicates;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+
+
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -16,13 +20,7 @@ import java.time.LocalDateTime;
 
 @XmlRootElement
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = { "categoryName"})})
 public class FigureCategory implements AggregateRoot<String>, Serializable {
-
-    private static final int NAME_MIN_LENGTH = 3;
-    private static final int NAME_MAX_LENGTH = 80;
-    private static final int DESCRIPTION_MIN_LENGTH = 5;
-    private static final int DESCRIPTION_MAX_LENGTH = 300;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,11 +32,13 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
     @XmlElement
     @JsonProperty
     @Column(nullable = false, unique = true)
-    private Name categoryName;
+    @Size(min = 3, max = 80)
+    private Name name;
 
     @XmlElement
     @JsonProperty
     @Column(nullable = false)
+    @Size(max = 300)
     private Description description;
 
     @XmlElement
@@ -53,8 +53,9 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
     @XmlElement
     @JsonProperty
-    @Column(nullable = false, updatable = false)
-    private Email createdBy;
+    @Embedded
+    @AttributeOverride(name = "email", column = @Column(name = "created_by", nullable = false, updatable = false))
+    private EmailAddress createdBy;
 
     @XmlElement
     @JsonProperty
@@ -62,7 +63,9 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
     @XmlElement
     @JsonProperty
-    private Email updatedBy;
+    @Embedded
+    @AttributeOverride(name = "email", column = @Column(name = "updated_by"))
+    private EmailAddress updatedBy;
 
 
     protected FigureCategory() {
@@ -71,21 +74,11 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
 
     private static boolean nameMeetsMinimumRequirements(final Name name) {
-        if (name == null || !StringPredicates.isNullOrEmpty(name.toString())) {
-            return false;
-        }
-        String trimmed = name.toString().trim();
-        int length = trimmed.length();
-        return length >= NAME_MIN_LENGTH && length <= NAME_MAX_LENGTH;
+        return !StringPredicates.isNullOrEmpty(name.toString()) && !StringPredicates.isNullOrWhiteSpace(name.toString());
     }
 
     private static boolean descriptionMeetsMinimumRequirements(final Description description) {
-        if (description == null || !StringPredicates.isNonEmpty(description.toString())) {
-            return false;
-        }
-        String trimmed = description.toString().trim();
-        int length = trimmed.length();
-        return length >= DESCRIPTION_MIN_LENGTH && length <= DESCRIPTION_MAX_LENGTH;
+        return !StringPredicates.isNullOrEmpty(description.toString());
     }
 
 
@@ -100,7 +93,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         if (!nameMeetsMinimumRequirements(newCategoryName)) {
             throw new IllegalArgumentException();
         }
-        this.categoryName = newCategoryName;
+        this.name = newCategoryName;
     }
 
     public boolean isActive() {
@@ -118,12 +111,12 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
     @Override
     public String identity() {
-        return this.categoryName.toString();
+        return this.name.toString();
     }
 
     @Override
     public boolean hasIdentity(final String id) {
-        return id.equalsIgnoreCase(this.categoryName.toString());
+        return id.equalsIgnoreCase(this.name.toString());
     }
 
     @Override
@@ -144,6 +137,21 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
     @Override
     public String toString() {
-        return identity();
+        StringBuilder sb = new StringBuilder();
+        sb.append("FigureCategory {")
+                .append("categoryName='").append(name).append('\'')
+                .append(", description='").append(description).append('\'')
+                .append(", active=").append(active)
+                .append(", createdOn=").append(createdOn)
+                .append(", createdBy=").append(createdBy);
+        if (updatedOn != null) {
+            sb.append(", updatedOn=").append(updatedOn);
+        }
+        if (updatedBy != null) {
+            sb.append(", updatedBy=").append(updatedBy);
+        }
+        sb.append('}');
+        return sb.toString();
     }
+
 }
