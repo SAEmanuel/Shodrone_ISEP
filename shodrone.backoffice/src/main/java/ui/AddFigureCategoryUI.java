@@ -1,41 +1,42 @@
 package ui;
 
 import controller.AddFigureCategoryController;
-import eapli.framework.presentation.console.AbstractUI;
+import domain.entity.FigureCategory;
 import more.Description;
 import more.Name;
 import utils.Utils;
 
-import static more.ColorfulOutput.ANSI_ORANGE;
-import static more.ColorfulOutput.ANSI_RESET;
+import java.util.Optional;
 
+import static more.ColorfulOutput.*;
 
-public class AddFigureCategoryUI extends AbstractUI {
+public class AddFigureCategoryUI implements Runnable {
 
     private final AddFigureCategoryController controller = new AddFigureCategoryController();
 
     @Override
-    protected boolean doShow() {
+    public void run() {
+        Utils.printCenteredTitle("Add Figure Category");
 
         Name name = Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new);
-        Description description;
+        Description description = null;
 
-        boolean option = Utils.confirm("Do you want to add a description? ");
+        boolean option = Utils.confirm("Do you want to add a description? (y/n)");
 
+        Optional<FigureCategory> result;
         if (!option) {
             System.out.println(ANSI_ORANGE + "Description skipped..." + ANSI_RESET);
+            result = controller.addFigureCategory(name, null);
         } else {
             description = Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new);
+            result = controller.addFigureCategory(name, description);
         }
 
-       // controller.addFigureCategory(name, description);
-
-            return false;
+        if (result.isPresent()) {
+            System.out.println(ANSI_BRIGHT_GREEN + "Category added successfully!" + ANSI_RESET);
+        } else {
+            System.out.println(ANSI_BRIGHT_RED + "A category with that name already exists!" + ANSI_RESET);
         }
-
-        @Override
-        public String headline () {
-            return "Add Figure Category";
-        }
-
     }
+
+}

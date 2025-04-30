@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import more.Description;
 import more.Name;
+import utils.AuthUtils;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -69,13 +70,46 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         // For ORM
     }
 
+    public FigureCategory(Name name, Description description) {
+        if (!nameMeetsMinimumRequirements(name)) {
+            throw new IllegalArgumentException("Invalid Category name.");
+        }
+        if (!descriptionMeetsMinimumRequirements(description)) {
+            throw new IllegalArgumentException("Invalid Category Description.");
+        }
+
+        this.name = name;
+        this.description = description;
+        this.active = true;
+        this.createdOn = LocalDateTime.now();
+        //String strEmail = AuthUtils.getCurrentUserEmail();
+        this.createdBy = null; //new Email(strEmail);
+        this.updatedOn = null;
+        this.updatedBy = null;
+    }
+
+    public FigureCategory(Name name) {
+        if (!nameMeetsMinimumRequirements(name)) {
+            throw new IllegalArgumentException("Invalid Category name.");
+        }
+        this.name = name;
+        String strDescription = "Not provided!";
+        this.description = new Description(strDescription);
+        this.active = true;
+        this.createdOn = LocalDateTime.now();
+        //String strEmail = AuthUtils.getCurrentUserEmail();
+        this.createdBy = null; //new Email(strEmail);
+        this.updatedOn = null;
+        this.updatedBy = null;
+    }
+
 
     private static boolean nameMeetsMinimumRequirements(final Name name) {
         return !StringPredicates.isNullOrEmpty(name.toString()) && !StringPredicates.isNullOrWhiteSpace(name.toString());
     }
 
     private static boolean descriptionMeetsMinimumRequirements(final Description description) {
-        return !StringPredicates.isNullOrEmpty(description.toString());
+        return description.toString() != null;
     }
 
 
