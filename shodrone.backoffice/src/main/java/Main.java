@@ -17,19 +17,6 @@ public class Main {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.run();
 
-
-//        Name name = Name.valueOf("Jorge", "Ubaldo");
-//        EmailAddress emailAddress = EmailAddress.valueOf("jorgeubaldorf@gmail.com");
-//        PhoneNumber phoneNumber = new PhoneNumber("912861312");
-//        NIF nif = new NIF("123456789");
-//        Address address = new Address("Rua brigadeiro","Porto","4440-778","Portugal");
-//
-//        Customer customer1 = new Customer(name,emailAddress,phoneNumber,nif,address);
-//
-CostumerJPAImpl costumerJPAImpl = new CostumerJPAImpl();
-//        costumerJPAImpl.add(customer1);
-        System.out.println(costumerJPAImpl.findAll().size());
-
         try {
             StartupMessageBackofficeUI.display();
             MainMenuUI menu = new MainMenuUI();

@@ -1,10 +1,9 @@
 package controller;
 
 import domain.entity.FigureCategory;
-import factories.FactoryProvider;
+import persistence.RepositoryProvider;
 import more.Description;
 import more.Name;
-import persistence.inmemory.Repositories;
 import persistence.interfaces.FigureCategoryRepository;
 
 import java.util.Optional;
@@ -14,7 +13,7 @@ public class AddFigureCategoryController {
     private final FigureCategoryRepository inMemRepository;
 
     public AddFigureCategoryController() {
-        inMemRepository = FactoryProvider.figureCategoryRepository();
+        inMemRepository = RepositoryProvider.figureCategoryRepository();
     }
 
 
