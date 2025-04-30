@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -217,5 +218,21 @@ public class Utils {
         } while (value < 0 || value > list.size());
 
         return value - 1;
+    }
+
+    public static <T> T rePromptWhileInvalid(String prompt, Function<String, T> parseFunction) {
+        T result = null;
+        boolean redo;
+        do {
+            redo = false;
+            String input = readLineFromConsole(prompt);
+            try {
+                result = parseFunction.apply(input);
+            } catch (Exception e) {
+                redo = true;
+            }
+        } while (redo);
+
+        return result;
     }
 }
