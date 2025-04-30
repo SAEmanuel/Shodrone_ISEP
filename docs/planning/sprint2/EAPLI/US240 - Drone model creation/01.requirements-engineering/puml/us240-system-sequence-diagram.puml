@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Drone Model Creation
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: requestCreateDroneModel(identifier, windToleranceData)
+activate System
+
+System -> System: validateIdentifier(identifier)
+System -> System: checkIdentifierUniqueness(identifier)
+System -> System: validateWindToleranceData(windToleranceData)
+alt Identifier invalid, duplicate, or wind tolerance data invalid
+    System --> DT: errorMessage("Invalid or duplicate identifier, or invalid wind tolerance data")
+else Identifier and wind tolerance data valid
+    System -> System: saveDroneModel(identifier, windToleranceData)
+    System --> DT: confirmationMessage("Drone model created successfully")
+end
+
+deactivate System
+deactivate DT
+
+@enduml
