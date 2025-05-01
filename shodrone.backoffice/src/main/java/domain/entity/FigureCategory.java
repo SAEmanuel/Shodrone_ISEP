@@ -90,7 +90,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
     }
 
     public FigureCategory(Name name, Email createdBy) {
-        this(name, new Description("Not provided!"), createdBy);
+        this(name, new Description("Description not provided!"), createdBy);
     }
 
 
@@ -156,23 +156,28 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         return DomainEntities.areEqual(this, o);
     }
 
+//    @Override
+//    public String toString() {
+//        StringBuilder sb = new StringBuilder();
+//        sb.append("FigureCategory {")
+//                .append("categoryName='").append(name).append('\'')
+//                .append(", description='").append(description).append('\'')
+//                .append(", active=").append(active)
+//                .append(", createdOn=").append(createdOn)
+//                .append(", createdBy=").append(createdBy);
+//        if (updatedOn != null) {
+//            sb.append(", updatedOn=").append(updatedOn);
+//        }
+//        if (updatedBy != null) {
+//            sb.append(", updatedBy=").append(updatedBy);
+//        }
+//        sb.append('}');
+//        return sb.toString();
+//    }
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("FigureCategory {")
-                .append("categoryName='").append(name).append('\'')
-                .append(", description='").append(description).append('\'')
-                .append(", active=").append(active)
-                .append(", createdOn=").append(createdOn)
-                .append(", createdBy=").append(createdBy);
-        if (updatedOn != null) {
-            sb.append(", updatedOn=").append(updatedOn);
-        }
-        if (updatedBy != null) {
-            sb.append(", updatedBy=").append(updatedBy);
-        }
-        sb.append('}');
-        return sb.toString();
+        return String.format("[%s -> %s]", name, description);
     }
 
 }

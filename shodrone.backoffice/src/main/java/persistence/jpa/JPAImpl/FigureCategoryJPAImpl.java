@@ -3,6 +3,8 @@ package persistence.jpa.JPAImpl;
 import domain.entity.FigureCategory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
+import more.Description;
+import more.Name;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.jpa.JpaBaseRepository;
 
@@ -28,6 +30,34 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                     .getSingleResult();
             return Optional.of(found);
         } catch (NoResultException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
+        try {
+            FigureCategory managed = entityManager().find(FigureCategory.class, category.identity());
+
+            if (managed == null) {
+                return Optional.empty();
+            }
+
+            entityManager().getTransaction().begin();
+            if(newName != null) {
+                managed.changeCategoryNameTo(newName);
+            }
+            if(newDescription != null) {
+                managed.changeDescriptionTo(newDescription);
+            }
+            entityManager().getTransaction().commit();
+
+            return Optional.of(managed);
+        } catch (Exception e) {
+            if (entityManager().getTransaction().isActive()) {
+                entityManager().getTransaction().rollback();
+            }
+            e.printStackTrace();
             return Optional.empty();
         }
     }
