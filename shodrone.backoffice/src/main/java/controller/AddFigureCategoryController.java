@@ -1,5 +1,6 @@
 package controller;
 
+import authz.Email;
 import domain.entity.FigureCategory;
 import persistence.RepositoryProvider;
 import more.Description;
@@ -15,13 +16,13 @@ public class AddFigureCategoryController {
         repository = RepositoryProvider.figureCategoryRepository();
     }
 
-    public Optional<FigureCategory> addFigureCategoryWithNameAndDescription(Name name, Description description) {
-        FigureCategory category = new FigureCategory(name, description);
+    public Optional<FigureCategory> addFigureCategoryWithNameAndDescription(Name name, Description description, Email createdBy) {
+        FigureCategory category = new FigureCategory(name, description, createdBy);
         return repository.save(category);
     }
 
-    public Optional<FigureCategory> addFigureCategoryWithName(Name name) {
-        FigureCategory category = new FigureCategory(name);
+    public Optional<FigureCategory> addFigureCategoryWithName(Name name, Email createdBy) {
+        FigureCategory category = new FigureCategory(name, createdBy);
         return repository.save(category);
     }
 }
