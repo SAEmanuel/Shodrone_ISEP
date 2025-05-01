@@ -1,7 +1,7 @@
 package controller;
 
-import persistence.inmemory.Repositories;
-import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
+import persistence.RepositoryProvider;
+import persistence.interfaces.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;
@@ -15,10 +15,10 @@ public class AuthenticationController {
     public static final String ROLE_CUSTOMER_REPRESENTATIVE = "CUSTOMER REPRESENTATIVE";
     public static final String ROLE_DRONE_TECH = "DRONE TECHNICIAN";
 
-    private final AuthenticationRepositoryJPAImpl authRepository;
+    private final AuthenticationRepository authRepository;
 
     public AuthenticationController() {
-        this.authRepository = (AuthenticationRepositoryJPAImpl) Repositories.getInstance().getJpaAuthenticationRepository();
+        authRepository = RepositoryProvider.authenticationRepository();
     }
 
     public boolean doLogin(String email, String pwd) {

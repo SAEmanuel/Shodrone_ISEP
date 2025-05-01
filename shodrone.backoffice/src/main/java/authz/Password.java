@@ -51,4 +51,10 @@ public class Password {
         hash = 7 * hash + this.password.hashCode();
         return hash;
     }
+
+    @Override
+    public String toString() {
+        return this.password;
+    }
+
 }

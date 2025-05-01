@@ -35,7 +35,7 @@ public class User {
     }
 
     public Email getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {
@@ -48,6 +48,10 @@ public class User {
 
     public boolean hasPassword(String pwd) {
         return this.password.checkPassword(pwd);
+    }
+
+    public Password getPassword() {
+        return this.password;
     }
 
     public boolean addRole(UserRole role) {

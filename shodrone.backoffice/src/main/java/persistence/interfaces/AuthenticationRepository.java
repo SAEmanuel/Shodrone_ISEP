@@ -15,4 +15,8 @@ public interface AuthenticationRepository {
     List<UserRoleDTO> getUserRoles();
 
     UserSession getCurrentUserSession();
+
+    boolean addUserRole(String roleId, String description);
+
+    boolean addUserWithRole(String name, String email, String password, String roleId);
 }

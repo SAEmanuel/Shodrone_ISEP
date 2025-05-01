@@ -52,8 +52,15 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
 
     @Override
     public UserSession getCurrentUserSession() {
-        throw new UnsupportedOperationException("Not implemented yet");
+        if (loggedUser == null) return null;
 
+        return new UserSession(
+                new pt.isep.lei.esoft.auth.domain.model.User(
+                        new pt.isep.lei.esoft.auth.domain.model.Email(loggedUser.getId().toString()),
+                        new pt.isep.lei.esoft.auth.domain.model.Password(loggedUser.getPassword().toString()),
+                        loggedUser.getName()
+                )
+        );
     }
 
     public User getCurrentUser() {
@@ -74,6 +81,31 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
 
     public UserRoleRepository getRoleRepository() {
         return this.roleRepository;
+    }
+
+    @Override
+    public boolean addUserRole(String roleId, String description) {
+        if (roleRepository.findById(roleId).isEmpty()) {
+            saveRole(new UserRole(roleId, description));
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addUserWithRole(String name, String email, String password, String roleId) {
+        Email userEmail = new Email(email);
+
+        if (findById(userEmail) != null) return false;
+
+        UserRole role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new IllegalStateException("❌ Role not found: " + roleId));
+
+        User user = new User(userEmail, new Password(password), name);
+        user.addRole(role);
+        saveUser(user);
+
+        return true;
     }
 
 }

@@ -14,7 +14,7 @@ public class RepositoryProvider {
     private static ShowRequestRepository showRequestRepository;
     private static AuthenticationRepository authenticationRepository;
 
-    private static final boolean USE_IN_MEMORY = true;
+    private static final boolean USE_IN_MEMORY = false;
 
     public static FigureCategoryRepository figureCategoryRepository() {
         if (figureCategoryRepository == null) {
