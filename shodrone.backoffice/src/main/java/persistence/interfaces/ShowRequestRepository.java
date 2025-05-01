@@ -13,7 +13,7 @@ package persistence.interfaces;
 public interface ShowRequestRepository<T> {
 
 
-    public T add(T entity);
+    public T save(T entity);
 
 
 }

@@ -27,7 +27,7 @@ public class FoundCostumerUI implements Runnable {
         }catch(Exception e){}
     }
 
-    public Optional<?> foundCustomersUI() {
+    public Optional<Costumer> foundCustomersUI() {
         List<String> options = new ArrayList<>();
         options.add("Search Customer by ID");
         options.add("Search Customer by NIF");
@@ -51,7 +51,7 @@ public class FoundCostumerUI implements Runnable {
             default:
                 Utils.exitImmediately("Cannot register a show request without a customer.");
         }
-        return optionalResult;
+        return (Optional<Costumer>) optionalResult;
     }
 
     private Optional<Costumer> foundUniqueCostumerIDUI(int option) {

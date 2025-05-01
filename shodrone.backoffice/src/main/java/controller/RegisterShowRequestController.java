@@ -1,35 +1,40 @@
 package controller;
 
-import persistence.inmemory.Repositories;
+import domain.entity.Costumer;
+import domain.entity.Figure;
+import persistence.RepositoryProvider;
 import persistence.interfaces.ShowRequestRepository;
-import persistence.jpa.JPAImpl.ShowRequestJPAImpl;
+import ui.FoundCostumerUI;
+import ui.ListFiguresByCostumerUI;
+
+import java.util.List;
+import java.util.Optional;
 
 public class RegisterShowRequestController {
+    private final ShowRequestRepository showRequestRepository;
 
-    private ShowRequestRepository inMemoryShowRequestRepository;
-    private ShowRequestJPAImpl jpaShowRequestRepository;
+    private final FoundCostumerUI foundCostumerUI;
+    private final ListFiguresByCostumerUI listFiguresByCostumerUI;
+
+    private Costumer costumerSelected;
+    private List<Figure> figuresSelected;
 
     public RegisterShowRequestController() {
-        getInMemoryShowRequestRepository();
-        getJpaShowRequestRepository();
+        this.showRequestRepository = RepositoryProvider.showRequestRepository();
+        this.foundCostumerUI = new FoundCostumerUI();
+        this.listFiguresByCostumerUI = new ListFiguresByCostumerUI();
+        this.costumerSelected = null;
     }
 
-    private ShowRequestRepository getInMemoryShowRequestRepository() {
-        if (inMemoryShowRequestRepository == null) {
-            inMemoryShowRequestRepository = Repositories.getInstance().getShowRequestRepository();
+    public void registerShowRequest(){}
+
+    public void foundCostumerForRegistration(){
+        Optional<Costumer> result = foundCostumerUI.foundCustomersUI();
+        if(result.isEmpty()){
+            throw new IllegalArgumentException("No customer selected.");
         }
-        return inMemoryShowRequestRepository;
+        costumerSelected = result.get();
     }
-    private ShowRequestJPAImpl getJpaShowRequestRepository() {
-        if (jpaShowRequestRepository == null) {
-            jpaShowRequestRepository = new ShowRequestJPAImpl();
-        }
-        return jpaShowRequestRepository;
-    }
-
-
-    public void registerShowRequest(){
-
-    }
-
+    //TODO
+    public void foundFiguresForRegistration(){}
 }

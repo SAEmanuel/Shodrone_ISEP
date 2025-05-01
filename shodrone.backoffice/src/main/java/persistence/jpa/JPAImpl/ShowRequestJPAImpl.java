@@ -12,4 +12,8 @@ import persistence.interfaces.ShowRequestRepository;
 
 public class ShowRequestJPAImpl extends JpaBaseRepository<ShowRequest, Integer> implements ShowRequestRepository<ShowRequest> {
 
+    @Override
+    public ShowRequest save(ShowRequest entity) {
+        return null;
+    }
 }

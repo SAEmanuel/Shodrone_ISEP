@@ -39,12 +39,15 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private FigureStatus status;
-    
+
+    @OneToOne
+    @JoinColumn(name = "costumer_id")
+    private Costumer costumer;
 
     protected Figure() {}
     
     public Figure(String name, Description description,
-                  Version version, FigureCategory category, FigureAvailability availability, FigureStatus status) {
+                  Version version, FigureCategory category, FigureAvailability availability, FigureStatus status,Costumer costumer) {
 
         this.name = name;
         this.description = description;
@@ -52,6 +55,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
         this.category = category;
         this.availability = availability;
         this.status = status;
+        this.costumer = costumer;
     }
 
     @Override
