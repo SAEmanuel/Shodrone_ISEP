@@ -4,7 +4,7 @@ import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.valueObjects.Location;
 import factories.FactoryProvider;
-import more.Description;
+import domain.valueObjects.Description;
 import persistence.RepositoryProvider;
 import persistence.interfaces.ShowRequestRepository;
 import ui.FoundCostumerUI;
