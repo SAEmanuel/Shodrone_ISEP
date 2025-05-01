@@ -1,20 +1,12 @@
 package factories;
 
 
+import factories.impl.LocationFactoryImpl;
 import factories.impl.ShowRequestFactoryImpl;
-import persistence.inmemory.InMemoryAuthenticationRepository;
-import persistence.inmemory.InMemoryCustomerRepository;
-import persistence.inmemory.InMemoryFigureCategoryRepository;
-import persistence.inmemory.InMemoryShowRequestRepository;
-import persistence.interfaces.CostumerRepository;
-import persistence.interfaces.FigureCategoryRepository;
-import persistence.interfaces.ShowRequestRepository;
-import persistence.interfaces.AuthenticationRepository;
-import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
-import persistence.jpa.JPAImpl.ShowRequestJPAImpl;
 
 public class FactoryProvider {
     private static ShowRequestFactoryImpl showRequestFactory;
+    private static LocationFactoryImpl locationFactory;
 
     public FactoryProvider() {
     }
@@ -24,5 +16,12 @@ public class FactoryProvider {
             showRequestFactory = new ShowRequestFactoryImpl();
         }
         return showRequestFactory;
+    }
+
+    public static LocationFactoryImpl getLocationFactoryImpl() {
+        if(locationFactory == null){
+            locationFactory = new LocationFactoryImpl();
+        }
+        return locationFactory;
     }
 }

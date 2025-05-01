@@ -55,10 +55,10 @@ public class FoundCostumerUI implements Runnable {
     }
 
     private Optional<Costumer> foundUniqueCostumerIDUI(int option) {
-        return getListcustomerscontroller().foundCustomerByID(Utils.readLongFromConsole("Insert the Customer ID:"));
+        return getListcustomerscontroller().foundCustomerByID(Utils.readLongFromConsole("Insert the Customer ID"));
     }
     private Optional<Costumer> foundUniqueCostumerNIFUI(int option) {
-        return getListcustomerscontroller().foundCustomerByNIF(Utils.readNIFFromConsole("Insert the Customer NIF:"));
+        return getListcustomerscontroller().foundCustomerByNIF(Utils.readNIFFromConsole("Insert the Customer NIF"));
     }
     private Optional<List<Costumer>> foundListCostumerUI(int option){
         return getListcustomerscontroller().getAllCustomer();

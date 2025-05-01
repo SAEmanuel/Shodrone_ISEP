@@ -1,7 +1,12 @@
 package ui;
 
 import controller.RegisterShowRequestController;
+import domain.valueObjects.Location;
 import utils.Utils;
+
+import static more.ColorfulOutput.ANSI_BRIGHT_BLACK;
+import static more.ColorfulOutput.ANSI_RESET;
+import static more.TextEffects.ITALIC;
 
 
 public class RegisterShowRequestUI implements Runnable{
@@ -22,8 +27,15 @@ public class RegisterShowRequestUI implements Runnable{
             getRegisterShowcontroller().foundCostumerForRegistration();
             getRegisterShowcontroller().foundFiguresForRegistration();
 
-            registerShowcontroller.registerShowRequest();
+            getRegisterShowcontroller().getDescriptionsForRegistration(Utils.readLineFromConsole(ANSI_BRIGHT_BLACK+ITALIC+"\n• Enter the description of the show"+ANSI_RESET));
+            requestLocationInformation();
+
         }catch(Exception e){}
+    }
+
+    private void requestLocationInformation() {
+        Utils.printSubTitle("Location information");
+        getRegisterShowcontroller().getLocationOfShow();
     }
 
 

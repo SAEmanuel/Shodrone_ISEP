@@ -66,7 +66,9 @@ public class Utils {
     }
 
 
-
+    static public void printSubTitle(String prompt){
+        System.out.println(ANSI_BRIGHT_BLACK+ITALIC+"• ".concat(prompt).concat(ANSI_RESET).concat(":"));
+    }
 
     static public String readLineFromConsole(String prompt) {
         try {
@@ -277,7 +279,7 @@ public class Utils {
                 value = -1;
             }
         } while (value < 0 || value > list.size());
-        dropLines(1);
+        //dropLines(1);
         return value - 1;
     }
 
