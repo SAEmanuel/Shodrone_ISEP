@@ -1,6 +1,8 @@
 package utils;
 
 
+import domain.valueObjects.NIF;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.ParseException;
@@ -107,7 +109,7 @@ public class Utils {
         } while (true);
     }
 
-    public static long readLongFromConsole(String prompt) {
+    static public long readLongFromConsole(String prompt) {
         while (true) {
             try {
                 String input = readLineFromConsole(prompt);
@@ -118,6 +120,16 @@ public class Utils {
         }
     }
 
+    static public NIF readNIFFromConsole(String prompt) {
+        do {
+            try {
+                String input = readLineFromConsole(prompt);
+                return new NIF(input);
+            }catch (IllegalArgumentException ex) {
+                printAlterMessage("❌".concat(ex.getMessage()).concat( "Please enter a valid NIF value."));
+            }
+        }while (true);
+    }
 
 
 
