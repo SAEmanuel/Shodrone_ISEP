@@ -70,37 +70,28 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         // For ORM
     }
 
-    public FigureCategory(Name name, Description description) {
+    public FigureCategory(Name name, Description description, Email createdBy) {
         if (!nameMeetsMinimumRequirements(name)) {
             throw new IllegalArgumentException("Invalid Category name.");
         }
         if (!descriptionMeetsMinimumRequirements(description)) {
             throw new IllegalArgumentException("Invalid Category Description.");
         }
+        if (createdBy == null) {
+            throw new IllegalArgumentException("CreatedBy cannot be null.");
+        }
 
         this.name = name;
         this.description = description;
         this.active = true;
         this.createdOn = LocalDateTime.now();
-        //String strEmail = AuthUtils.getCurrentUserEmail();
-        this.createdBy = null; //new Email(strEmail);
+        this.createdBy = createdBy;
         this.updatedOn = null;
         this.updatedBy = null;
     }
 
-    public FigureCategory(Name name) {
-        if (!nameMeetsMinimumRequirements(name)) {
-            throw new IllegalArgumentException("Invalid Category name.");
-        }
-        this.name = name;
-        String strDescription = "Not provided!";
-        this.description = new Description(strDescription);
-        this.active = true;
-        this.createdOn = LocalDateTime.now();
-        //String strEmail = AuthUtils.getCurrentUserEmail();
-        this.createdBy = null; //new Email(strEmail);
-        this.updatedOn = null;
-        this.updatedBy = null;
+    public FigureCategory(Name name, Email createdBy) {
+        this(name, new Description("Not provided!"), createdBy);
     }
 
 
