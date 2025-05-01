@@ -1,10 +1,10 @@
-# US232 - Search Figure catalogue
+# US234 - Decommission Figure
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us232-domain-model.svg)
+![Domain Model](svg/us234-domain-model.svg)
 
 This diagram presents the updated domain model for figure and category management, tailored specifically to support the listing of **public figures** in the **Figure catalogue**. It integrates all relevant data required to fulfill the user story and meet catalog listing needs, including references to category data and figure visibility.
 

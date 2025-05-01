@@ -39,4 +39,3 @@ This version of the domain model emphasizes read-optimized access to figure data
 - **Future extensibility**, such as support for filtering by availability or status.
 
 The model is now prepared to support additional features like search, filtering, and version tracking in the figure catalogue.
-w

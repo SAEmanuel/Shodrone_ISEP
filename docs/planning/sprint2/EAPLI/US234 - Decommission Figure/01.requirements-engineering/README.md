@@ -66,6 +66,3 @@ Below is the PlantUML source code for the System Sequence Diagram (SSD) of US234
 
 ### 1.7 Other Relevant Remarks
 
-- Inactive figures may be reactivated in a future user story if needed.
-- System must prevent any show request creation or editing that references decommissioned figures.
-
