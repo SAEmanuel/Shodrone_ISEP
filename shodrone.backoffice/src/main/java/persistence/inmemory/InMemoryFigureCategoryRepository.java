@@ -1,6 +1,8 @@
 package persistence.inmemory;
 
 import domain.entity.FigureCategory;
+import more.Description;
+import more.Name;
 import persistence.interfaces.FigureCategoryRepository;
 
 import java.util.*;
@@ -21,11 +23,31 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
 
     @Override
     public Optional<FigureCategory> findByName(String name) {
-        return Optional.ofNullable(store.get(name));
+        return Optional.ofNullable(store.get(name.toLowerCase()));
     }
 
     @Override
     public List<FigureCategory> findAll() {
         return new ArrayList<>(store.values());
+    }
+
+    @Override
+    public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
+        Optional<FigureCategory> categoryOptional = findByName(category.identity());
+
+        if (categoryOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        FigureCategory existing = categoryOptional.get();
+
+        if (newName != null) {
+            existing.changeCategoryNameTo(newName);
+        }
+        if (newDescription != null) {
+            existing.changeDescriptionTo(newDescription);
+        }
+
+        return Optional.of(existing);
     }
 }
