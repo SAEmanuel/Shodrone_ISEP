@@ -1,30 +1,45 @@
 package persistence.inmemory;
 
+import domain.entity.Costumer;
 import domain.valueObjects.NIF;
 import persistence.interfaces.CostumerRepository;
+import utils.Validations;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public class InMemoryCustomerRepository<Costumer> implements CostumerRepository<Costumer> {
-    
+public class InMemoryCustomerRepository implements CostumerRepository {
+    private final Map<NIF, Costumer> store;
+
+    public InMemoryCustomerRepository() {
+        this.store = new HashMap<>();
+    }
+
     @Override
     public Optional<Costumer> findByID(Object id) {
-        return Optional.empty();
+        if (!(id instanceof Long)) return Optional.empty();
+        Long customerId = (Long) id;
+        return store.values().stream()
+                .filter(c -> c.identity().equals(customerId))
+                .findFirst();
     }
 
     @Override
     public Optional<Costumer> findByNIF(NIF nif) {
-        return Optional.empty();
+        return Optional.ofNullable(store.get(nif));
     }
 
     @Override
     public Optional<List<Costumer>> getAllCostumers() {
-        return Optional.empty();
+        if (store.isEmpty()) return Optional.empty();
+        return Optional.of(new ArrayList<>(store.values()));
     }
 
     @Override
-    public Optional<Costumer> save(Costumer entity) {
-        return null;
+    public Optional<Costumer> saveInStore(Costumer entity, NIF costumerNIF) {
+        if (!Validations.containsKey(this.store, costumerNIF)) {
+            store.put(costumerNIF, entity);
+            return Optional.of(entity);
+        }
+        return Optional.empty();
     }
 }

@@ -10,12 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public class FoundCostumerUI implements Runnable {
-    private ListCostumersController listcustomerscontroller;
+    private final ListCostumersController listcustomerscontroller;
 
     public FoundCostumerUI() {
         listcustomerscontroller = new ListCostumersController();
     }
-
     private ListCostumersController getListcustomerscontroller() {
         return listcustomerscontroller;
     }
@@ -26,48 +25,46 @@ public class FoundCostumerUI implements Runnable {
             foundCustomersUI();
     }
 
-    public void foundCustomersUI() {
+    public Optional<?> foundCustomersUI() {
         List<String> options = new ArrayList<>();
         options.add("Search Customer by ID");
         options.add("Search Customer by NIF");
         options.add("Show All Customers");
         int option = Utils.showAndSelectIndexCustomOptions(options, "Search Customer");
+        Optional<?> optionalResult = Optional.empty();
 
-        if(option == 0 || option == 1){
-            foundUniqueCostumerUI(option);
-        }else if(option == 2){
-            foundListCostumerUI(option);
-        }else{
-            Utils.exitImediately("Cannot register a show request without a customer.");
-        }
-
-    }
-
-    private void foundUniqueCostumerUI(int option) {
-        Optional<Costumer> customer = Optional.empty();
-        switch (option){
+        switch (option) {
             case 0:
-                customer = getListcustomerscontroller().foundCustomerByID(Utils.readLongFromConsole("Insert the Customer ID:"));
+                optionalResult = foundUniqueCostumerIDUI(option);
+                break;
+            case 1:
+                optionalResult = foundUniqueCostumerNIFUI(option);
+                break;
+            case 2:
+                optionalResult = foundListCostumerUI(option);
                 break;
             default:
-                //customer = getListcustomerscontroller().foundCustomerByNIF();
+            Utils.exitImediately("Cannot register a show request without a customer.");
         }
-        if(Validations.isNotEmptyOptional(customer)){
-            Utils.printOptionalValidMessage("Customer found:",customer);
-        }else{
-            Utils.exitImediately("No customer found. Please register a new customer in 'Register Customer' menu option.");
-        }
+        didMethodFoundCostumer(optionalResult);
+        return optionalResult;
     }
 
+    private Optional<Costumer> foundUniqueCostumerIDUI(int option) {
+        return getListcustomerscontroller().foundCustomerByID(Utils.readLongFromConsole("Insert the Customer ID:"));
+    }
+    private Optional<Costumer> foundUniqueCostumerNIFUI(int option) {
+        return getListcustomerscontroller().foundCustomerByNIF(Utils.readNIFFromConsole("Insert the Customer NIF:"));
+    }
+    private Optional<List<Costumer>> foundListCostumerUI(int option){
+        return getListcustomerscontroller().getAllCustomer();
+    }
 
-    public void foundListCostumerUI(int option){
-        Optional<List<Costumer>> customerList = Optional.empty();
-        customerList = getListcustomerscontroller().getAllCustomer();
-
-        if(Validations.isNotEmptyOptional(customerList)){
-            Utils.printOptionalValidMessage("Customers found:",customerList);
+    private void didMethodFoundCostumer(Optional<?> result){
+        if(Validations.isNotEmptyOptional(result)){
+            Utils.printOptionalValidMessage("Customers found:",result);
         }else{
-            Utils.exitImediately("No customer's found in system. Please register a new customer in 'Register Customer' menu option.");
+            Utils.exitImediately("No customer/s found in system. Please register a new customer in 'Register Customer' menu option.");
         }
     }
 }
