@@ -1,10 +1,6 @@
 package ui;
 
 import controller.ListPublicFiguresController;
-import domain.entity.Figure;
-import domain.entity.FigureCategory;
-import more.Description;
-import more.Name;
 import utils.Utils;
 
 import java.util.List;

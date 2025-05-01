@@ -4,7 +4,7 @@ import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 import domain.valueObjects.Version;
 import eapli.framework.domain.model.AggregateRoot;
-import eapli.framework.general.domain.model.Description;
+import more.Description;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
@@ -61,7 +61,11 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Override
     public Long identity() { return figureId; }
 
-    public FigureStatus figureStatus() { return status; }
+    public String name() { return name; }
+
+    public FigureStatus status() { return status; }
+
+    public Costumer costumer() { return costumer; }
 
     @Override
     public boolean sameAs(Object other) {
