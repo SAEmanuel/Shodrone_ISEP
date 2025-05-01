@@ -4,7 +4,7 @@ import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 import domain.valueObjects.Version;
 import eapli.framework.domain.model.AggregateRoot;
-import more.Description;
+import domain.valueObjects.Description;
 import jakarta.persistence.*;
 
 import java.io.Serializable;

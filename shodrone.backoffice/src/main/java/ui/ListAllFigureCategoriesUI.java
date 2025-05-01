@@ -1,6 +1,6 @@
 package ui;
 
-import controller.ListAllFigureCategoriesController;
+import controller.GetAllFigureCategoriesController;
 import domain.entity.FigureCategory;
 import utils.Utils;
 
@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class ListAllFigureCategoriesUI implements Runnable {
-    private final ListAllFigureCategoriesController controller = new ListAllFigureCategoriesController();
+    private final GetAllFigureCategoriesController controller = new GetAllFigureCategoriesController();
 
     @Override
     public void run() {

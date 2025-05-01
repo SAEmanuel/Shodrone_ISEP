@@ -2,8 +2,8 @@ package ui;
 
 
 import controller.EditFigureCategoryController;
-import controller.GetAllFigureCategoriesController;
 
+import controller.GetAllFigureCategoriesController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
@@ -21,16 +21,16 @@ public class EditFigureCategoryUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("Edit Figure Category");
 
-        List<FigureCategory> allCategories = getAllFigureCategoriesController.getAllFigureCategories();
-        if (!allCategories.isEmpty()) {
-            int index = Utils.showAndSelectIndexCustomOptions(allCategories, "Select the desired category to edit");
+        Optional<List<FigureCategory>> allCategoriesOptional = getAllFigureCategoriesController.getAllFigureCategories();
+        if (allCategoriesOptional.isPresent()) {
+            int index = Utils.showAndSelectIndexCustomOptions(allCategoriesOptional.get(), "Select the desired category to edit");
 
             if (index < 0) {
                 Utils.printFailMessage("No category selected.");
                 return;
             }
 
-            FigureCategory chosenCategory = allCategories.get(index);
+            FigureCategory chosenCategory = allCategoriesOptional.get().get(index);
 
             Utils.printAlterMessage("Current name: " + chosenCategory.identity());
             boolean editName = Utils.confirm("Do you want to edit the category's name? (y/n)");

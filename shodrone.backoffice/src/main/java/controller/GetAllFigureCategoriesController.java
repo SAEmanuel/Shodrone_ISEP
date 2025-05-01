@@ -5,17 +5,18 @@ import persistence.RepositoryProvider;
 import persistence.interfaces.FigureCategoryRepository;
 
 import java.util.List;
-
+import java.util.Optional;
 
 public class GetAllFigureCategoriesController {
+
     private final FigureCategoryRepository repository;
 
     public GetAllFigureCategoriesController() {
         repository = RepositoryProvider.figureCategoryRepository();
     }
 
-    public List<FigureCategory> getAllFigureCategories() {
-        return repository.findAll();
+    public Optional<List<FigureCategory>> getAllFigureCategories() {
+        List<FigureCategory> all = repository.findAll();
+        return all.isEmpty() ? Optional.empty() : Optional.of(all);
     }
-
 }
