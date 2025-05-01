@@ -8,8 +8,8 @@ title UI Sequence Diagram (SSD) - List public figures in Figure Catalogue
 autonumber
 
 actor "Show Designer" as showDesigner
-participant ":ListFigureUI" as UI
-participant ":ListFigureController" as CTRL
+participant ":ListPublicFigureUI" as UI
+participant ":ListPublicFigureController" as CTRL
 participant ":Repositories" as RepositorySingleton
 participant "repositories\n:Repositories" as PLAT
 participant "figureRepository\n:FigureRepository" as catRepo

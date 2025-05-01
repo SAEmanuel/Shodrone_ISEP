@@ -1,19 +1,14 @@
 package persistence;
 
 
-import persistence.inmemory.InMemoryAuthenticationRepository;
-import persistence.inmemory.InMemoryCustomerRepository;
-import persistence.inmemory.InMemoryFigureCategoryRepository;
-import persistence.inmemory.InMemoryShowRequestRepository;
-import persistence.interfaces.CostumerRepository;
-import persistence.interfaces.FigureCategoryRepository;
-import persistence.interfaces.ShowRequestRepository;
-import persistence.interfaces.AuthenticationRepository;
+import persistence.inmemory.*;
+import persistence.interfaces.*;
 import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
 import persistence.jpa.JPAImpl.ShowRequestJPAImpl;
 
 public class RepositoryProvider {
     private static FigureCategoryRepository figureCategoryRepository;
+    private static FigureRepository figureRepository;
     private static CostumerRepository costumerRepository;
     private static ShowRequestRepository showRequestRepository;
     private static AuthenticationRepository authenticationRepository;
@@ -29,6 +24,17 @@ public class RepositoryProvider {
             }
         }
         return figureCategoryRepository;
+    }
+
+    public static FigureRepository figureRepository() {
+        if (figureRepository == null) {
+            if (USE_IN_MEMORY) {
+                figureRepository = new InMemoryFigureRepository();
+            } else {
+                // figureRepository = new JpaFigureRepository();
+            }
+        }
+        return figureRepository;
     }
 
     public static CostumerRepository costumerRepository() {
