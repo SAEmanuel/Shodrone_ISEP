@@ -10,6 +10,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Setter;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
+import static more.ColorfulOutput.*;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -123,9 +124,8 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         return this.active;
     }
 
-    public boolean toggleState() {
+    public void toggleState() {
         this.active = !this.active;
-        return isActive();
     }
 
     public Description description() {
@@ -183,7 +183,10 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
     @Override
     public String toString() {
-        return String.format("[%s -> %s]", name, description);
+        if (isActive()) {
+            return String.format("[%s -> %s] %s(%s)%s", name, description, ANSI_FOREST_GREEN, "ACTIVE", ANSI_RESET);
+        }
+        return String.format("[%s -> %s] %s(%s)%s" , name, description, ANSI_BRIGHT_BLACK, "INACTIVE", ANSI_RESET);
     }
 
 }

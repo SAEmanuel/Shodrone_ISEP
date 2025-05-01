@@ -17,5 +17,7 @@ public interface FigureCategoryRepository {
 
     Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription);
 
+    Optional<FigureCategory> changeStatus(FigureCategory category);
+
 
 }

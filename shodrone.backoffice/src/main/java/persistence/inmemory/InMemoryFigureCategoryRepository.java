@@ -53,4 +53,16 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
 
         return Optional.of(existing);
     }
+
+    @Override
+    public Optional<FigureCategory> changeStatus(FigureCategory category) {
+        Optional<FigureCategory> categoryOptional = findByName(category.identity());
+
+        if (categoryOptional.isEmpty()) {
+            return Optional.empty();
+        }
+
+        categoryOptional.get().toggleState();
+        return categoryOptional;
+    }
 }

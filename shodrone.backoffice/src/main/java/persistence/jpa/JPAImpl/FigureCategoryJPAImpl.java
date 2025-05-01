@@ -64,5 +64,29 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         }
     }
 
+    @Override
+    public Optional<FigureCategory> changeStatus(FigureCategory category) {
+        try {
+            FigureCategory managed = entityManager().find(FigureCategory.class, category.identity());
 
+            if (managed == null) {
+                return Optional.empty();
+            }
+
+            entityManager().getTransaction().begin();
+
+            managed.updateTime();
+            managed.setUpdatedBy(new Email("xu_vai_implementar_again@gmail.com"));
+            managed.toggleState();
+            entityManager().getTransaction().commit();
+
+            return Optional.of(managed);
+        } catch (Exception e) {
+            if (entityManager().getTransaction().isActive()) {
+                entityManager().getTransaction().rollback();
+            }
+            e.printStackTrace();
+            return Optional.empty();
+        }
+    }
 }

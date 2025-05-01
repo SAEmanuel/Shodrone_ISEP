@@ -51,7 +51,7 @@ public class EditFigureCategoryUI implements Runnable {
                     () -> Utils.printFailMessage("Failed to update category.")
             );
         } else {
-            Utils.printFailMessage("No categories in the system yet.");
+            Utils.printFailMessage("No categories in the system yet...");
         }
     }
 }

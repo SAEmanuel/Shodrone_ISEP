@@ -21,13 +21,14 @@ public class ShowDesignerUI implements Runnable {
         options.add(new MenuItem("Add Figure Category", new AddFigureCategoryUI()));
         options.add(new MenuItem("Edit Figure Category", new EditFigureCategoryUI()));
         options.add(new MenuItem("List Figure Categories", new ListAllFigureCategoriesUI()));
+        options.add(new MenuItem("Inactivate/Activate a Figure Category", new FigureCategoryAvailabilityUI()));
         options.add(new MenuItem("List Public Figures", new ListPublicFiguresUI()));
-        options.add(new MenuItem("Option 4", new ShowTextUI("You have chosen Option 4.")));
+        options.add(new MenuItem("Option x", new ShowTextUI("You have chosen Option x.")));
 
         int option = 0;
         do {
-            String menu = "\n╔══════════"+ANSI_BRIGHT_WHITE+" SHOW DESIGNER MENU "+ANSI_RESET+"══════════╗";
-            option = Utils.showAndSelectIndex(options, menu);
+            String menu = "\n╔═══════════════" + ANSI_BRIGHT_WHITE + " SHOW DESIGNER MENU " + ANSI_RESET + "══════════════╗";
+            option = Utils.showAndSelectIndexBigger(options, menu);
 
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();

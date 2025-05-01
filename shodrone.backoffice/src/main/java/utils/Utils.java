@@ -169,6 +169,25 @@ public class Utils {
         return selectsIndex(list);
     }
 
+    static public int showAndSelectIndexBigger(List<?> list, String header) {
+        showListBigger(list, header);
+        return selectsIndex(list);
+    }
+
+    private static void showListBigger(List<?> list, String header) {
+        System.out.println(header);
+        System.out.println("╚═════════════════════════════════════════════════╝");
+
+        int index = 0;
+        for (Object o : list) {
+            index++;
+            System.out.printf("║    %s(%d)%s -  %-38s║%n", COLOR_OPTIONS, index, ANSI_RESET, o.toString());
+        }
+
+        System.out.printf("║    %s(0)%s -  %-38s║%n", COLOR_OPTIONS, ANSI_RESET, "Cancel");
+        System.out.println("╚═════════════════════════════════════════════════╝");
+    }
+
     static public int showAndSelectIndexCustomOptions(List<?> list, String header) {
         showListCustom(list, header);
         return selectsIndex(list);
