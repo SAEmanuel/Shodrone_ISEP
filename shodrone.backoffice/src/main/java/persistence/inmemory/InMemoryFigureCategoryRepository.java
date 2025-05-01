@@ -2,8 +2,8 @@ package persistence.inmemory;
 
 import authz.Email;
 import domain.entity.FigureCategory;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
 
 import java.util.*;

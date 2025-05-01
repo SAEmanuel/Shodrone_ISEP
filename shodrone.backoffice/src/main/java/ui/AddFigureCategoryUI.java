@@ -3,8 +3,8 @@ package ui;
 import authz.Email;
 import controller.AddFigureCategoryController;
 import domain.entity.FigureCategory;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 import utils.Utils;
 
 import java.util.Optional;

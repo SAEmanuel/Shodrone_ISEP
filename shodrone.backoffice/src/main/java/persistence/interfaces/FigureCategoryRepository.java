@@ -1,8 +1,8 @@
 package persistence.interfaces;
 
 import domain.entity.FigureCategory;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 
 import java.util.List;
 import java.util.Optional;

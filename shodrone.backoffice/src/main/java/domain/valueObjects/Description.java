@@ -1,4 +1,4 @@
-package more;
+package domain.valueObjects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import eapli.framework.domain.model.ValueObject;

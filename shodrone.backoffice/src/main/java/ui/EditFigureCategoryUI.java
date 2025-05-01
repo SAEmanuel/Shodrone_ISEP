@@ -5,8 +5,8 @@ import controller.EditFigureCategoryController;
 import controller.GetAllFigureCategoriesController;
 
 import domain.entity.FigureCategory;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 import utils.Utils;
 
 import java.util.List;

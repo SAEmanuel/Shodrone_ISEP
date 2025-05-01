@@ -8,8 +8,8 @@ import eapli.framework.strings.util.StringPredicates;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Setter;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

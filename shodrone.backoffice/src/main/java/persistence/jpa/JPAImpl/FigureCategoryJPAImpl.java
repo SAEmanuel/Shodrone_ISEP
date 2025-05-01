@@ -3,9 +3,8 @@ package persistence.jpa.JPAImpl;
 import authz.Email;
 import domain.entity.FigureCategory;
 import jakarta.persistence.NoResultException;
-import jakarta.persistence.Query;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.jpa.JpaBaseRepository;
 

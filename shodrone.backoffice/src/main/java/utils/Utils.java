@@ -221,6 +221,17 @@ public class Utils {
         System.out.printf("    %s(0)%s -  %-20s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel");
     }
 
+    static public void showListElements(List<?> list, String header) {
+        if (!header.isEmpty())
+            System.out.println(ANSI_BRIGHT_BLACK+ITALIC+"• ".concat(header).concat(":")+ANSI_RESET);
+
+        for (Object o : list) {
+            System.out.printf("    %s  %s%-2s%s%n","•", ANSI_BLUE, o.toString(), ANSI_RESET);
+        }
+
+        dropLines(3);
+    }
+
     static public Object selectsObject(List<?> list) {
         String input;
         int value;

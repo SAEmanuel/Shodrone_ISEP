@@ -3,8 +3,8 @@ package controller;
 import authz.Email;
 import domain.entity.FigureCategory;
 import persistence.RepositoryProvider;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package more;
+package domain.valueObjects;
 
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.validations.Preconditions;

@@ -20,6 +20,7 @@ public class ShowDesignerUI implements Runnable {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Add Figure Category", new AddFigureCategoryUI()));
         options.add(new MenuItem("Edit Figure Category", new EditFigureCategoryUI()));
+        options.add(new MenuItem("List Figure Categories", new ListAllFigureCategoriesUI()));
         options.add(new MenuItem("List Public Figures", new ListPublicFiguresUI()));
         options.add(new MenuItem("Option 4", new ShowTextUI("You have chosen Option 4.")));
 

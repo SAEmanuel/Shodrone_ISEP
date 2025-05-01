@@ -1,8 +1,8 @@
 package controller;
 
 import domain.entity.FigureCategory;
-import more.Description;
-import more.Name;
+import domain.valueObjects.Description;
+import domain.valueObjects.Name;
 import persistence.RepositoryProvider;
 import persistence.interfaces.FigureCategoryRepository;
 
