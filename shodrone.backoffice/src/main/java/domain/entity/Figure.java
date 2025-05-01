@@ -1,12 +1,83 @@
 package domain.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import domain.valueObjects.FigureAvailability;
+import domain.valueObjects.FigureStatus;
+import domain.valueObjects.Location;
+import domain.valueObjects.Version;
+import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.general.domain.model.Description;
+import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
-@Table(name = "FIGURE")
-public class Figure {
+@Table(name = "figure")
+public class Figure implements AggregateRoot<Long>, Serializable {
+
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "identification", nullable = false, unique = true)
+    private Long figureId;
+
+    @Column(name = "Name", nullable = false)
+    private String name;
+
+    @Embedded
+    private Description description;
+
+    @Embedded
+    private Version version;
+
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private FigureCategory category;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FigureAvailability availability;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private FigureStatus status;
+    
+
+    protected Figure() {}
+    
+    public Figure(String name, Description description,
+                  Version version, FigureCategory category, FigureAvailability availability, FigureStatus status) {
+
+        this.name = name;
+        this.description = description;
+        this.version = version;
+        this.category = category;
+        this.availability = availability;
+        this.status = status;
+    }
+
+    @Override
+    public Long identity() { return figureId; }
+
+    @Override
+    public boolean sameAs(Object other) {
+        if (!(other instanceof Figure)) return false;
+        Figure that = (Figure) other;
+        return Objects.equals(figureId, that.figureId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Figure)) return false;
+        Figure that = (Figure) o;
+        return Objects.equals(figureId, that.figureId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(figureId);
+    }
 }
