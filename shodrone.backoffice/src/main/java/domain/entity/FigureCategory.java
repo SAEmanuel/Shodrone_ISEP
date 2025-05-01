@@ -136,6 +136,10 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         this.updatedOn = LocalDateTime.now();
     }
 
+    public Long id() {
+        return this.pk;
+    }
+
     @Override
     public String identity() {
         return this.name.toString();

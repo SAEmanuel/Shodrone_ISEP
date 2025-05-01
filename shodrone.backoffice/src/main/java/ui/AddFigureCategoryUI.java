@@ -5,6 +5,7 @@ import controller.AddFigureCategoryController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
+import utils.AuthUtils;
 import utils.Utils;
 
 import java.util.Optional;
@@ -24,8 +25,8 @@ public class AddFigureCategoryUI implements Runnable {
         boolean option = Utils.confirm("Do you want to add a description? (y/n)");
 
         Optional<FigureCategory> result;
-        //todo (CreatedBy is not possible to find yet) - to be implemented by Xu
-        Email createdBy = new Email("xu_vai_implementar@gmail.com");
+
+        Email createdBy = new Email(AuthUtils.getCurrentUserEmail());
         if (!option) {
             Utils.printAlterMessage("Description skipped...");
             result = controller.addFigureCategoryWithName(name, createdBy);
