@@ -5,6 +5,7 @@ import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
+import utils.AuthUtils;
 
 import java.util.*;
 
@@ -42,7 +43,7 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
 
         FigureCategory existing = categoryOptional.get();
         existing.updateTime();
-        existing.setUpdatedBy(new Email("xu_vai_implementar_again@gmail.com"));
+        existing.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
 
         if (newName != null) {
             existing.changeCategoryNameTo(newName);

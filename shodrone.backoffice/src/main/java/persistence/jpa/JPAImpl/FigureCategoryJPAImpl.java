@@ -7,7 +7,9 @@ import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.jpa.JpaBaseRepository;
+import utils.AuthUtils;
 
+import java.util.List;
 import java.util.Optional;
 
 public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Long>
@@ -16,21 +18,26 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
 
     @Override
     public Optional<FigureCategory> save(FigureCategory category) {
-        FigureCategory saved = this.add(category);
-        return Optional.ofNullable(saved);
+        Optional<FigureCategory> checkExistence = findByName(category.identity());
+        if (checkExistence.isEmpty()) {
+            FigureCategory saved = this.add(category);
+            return Optional.ofNullable(saved);
+        }
+        return Optional.empty();
     }
 
 
     @Override
     public Optional<FigureCategory> findByName(String name) {
-        try {
-            FigureCategory found = entityManager()
-                    .createQuery("SELECT f FROM FigureCategory f WHERE LOWER(f.name) = LOWER(:name)", FigureCategory.class)
-                    .setParameter("name", name)
-                    .getSingleResult();
-            return Optional.of(found);
-        } catch (NoResultException e) {
+        List<FigureCategory> results = entityManager()
+                .createQuery("SELECT f FROM FigureCategory f WHERE LOWER(f.name.name) = :name", FigureCategory.class)
+                .setParameter("name", name.toLowerCase())
+                .getResultList();
+
+        if (results.isEmpty()) {
             return Optional.empty();
+        } else {
+            return Optional.of(results.get(0));
         }
     }
 
@@ -51,7 +58,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                 managed.changeDescriptionTo(newDescription);
             }
             managed.updateTime();
-            managed.setUpdatedBy(new Email("xu_vai_implementar_again@gmail.com"));
+            managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
             entityManager().getTransaction().commit();
 
             return Optional.of(managed);
@@ -67,7 +74,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
     @Override
     public Optional<FigureCategory> changeStatus(FigureCategory category) {
         try {
-            FigureCategory managed = entityManager().find(FigureCategory.class, category.identity());
+            FigureCategory managed = entityManager().find(FigureCategory.class, category.id());
 
             if (managed == null) {
                 return Optional.empty();
@@ -76,7 +83,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
             entityManager().getTransaction().begin();
 
             managed.updateTime();
-            managed.setUpdatedBy(new Email("xu_vai_implementar_again@gmail.com"));
+            managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
             managed.toggleState();
             entityManager().getTransaction().commit();
 
