@@ -52,7 +52,7 @@ public class NIF implements ValueObject {
         if (this == o) return true;
         if (!(o instanceof NIF)) return false;
         NIF nif = (NIF) o;
-        return Objects.equals(nif, nif.nif);
+        return this.nif.equals(nif.nif);
     }
 
     @Override

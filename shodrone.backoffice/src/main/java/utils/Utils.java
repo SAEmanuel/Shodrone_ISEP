@@ -1,6 +1,7 @@
 package utils;
 
 
+import domain.entity.Costumer;
 import domain.valueObjects.NIF;
 
 import java.io.BufferedReader;
@@ -34,7 +35,7 @@ public class Utils {
 
     public static void printOptionalValidMessage(String message, Optional<?> optionalMessage) {
         if (message != null && !message.isEmpty()) {
-            System.out.printf("%s%s: %S%s%n", ANSI_GREEN, message,optionalMessage.get().toString(),ANSI_RESET);
+            System.out.printf("%s%s: %s%s%n", ANSI_GREEN, message,optionalMessage.get().toString(),ANSI_RESET);
         }
     }
 
@@ -246,7 +247,7 @@ public class Utils {
                 value = -1;
             }
         } while (value < 0 || value > list.size());
-
+        dropLines(1);
         return value - 1;
     }
 
@@ -272,6 +273,23 @@ public class Utils {
 
     public static void printFailMessage(String message) {
         System.out.println(ANSI_BRIGHT_RED + message + ANSI_RESET);
+    }
+
+    public static Optional<?> showAndSelectObjectFromList(Optional<List<?>> optionalResult) {
+        Optional<?> result = Optional.empty();
+        List<?> list = optionalResult.get();
+
+        String concat = ANSI_BRIGHT_BLACK.concat(BOLD).concat(UNDERLINE).concat("                  ").concat(ANSI_RESET);
+        System.out.print(concat);
+        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("\nAvailable items:").concat(ANSI_RESET));
+
+        int index = 1;
+        for (Object obj : list) {
+            System.out.printf("    %s(%d)%s -  %s%n", ANSI_BRIGHT_BLACK,index++,ANSI_RESET,obj.toString());
+        }
+        result = Optional.ofNullable(selectsObject(list));
+        System.out.println(concat);
+        return result;
     }
 
 }

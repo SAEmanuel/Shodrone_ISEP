@@ -38,17 +38,19 @@ public class FoundCostumerUI implements Runnable {
         switch (option) {
             case 0:
                 optionalResult = foundUniqueCostumerIDUI(option);
+                didMethodFoundCostumer(optionalResult);
                 break;
             case 1:
                 optionalResult = foundUniqueCostumerNIFUI(option);
+                didMethodFoundCostumer(optionalResult);
                 break;
             case 2:
                 optionalResult = foundListCostumerUI(option);
+                optionalResult = Utils.showAndSelectObjectFromList((Optional<List<?>>) optionalResult);
                 break;
             default:
                 Utils.exitImmediately("Cannot register a show request without a customer.");
         }
-        didMethodFoundCostumer(optionalResult);
         return optionalResult;
     }
 

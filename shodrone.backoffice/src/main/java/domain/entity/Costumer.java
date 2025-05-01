@@ -81,6 +81,34 @@ public final class Costumer implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Name=%s, Email=%s, Phone=%s, NIF=%s]", name, email, phoneNumber, nif);
+        return String.format(
+                "ID: %-4d | Name: %-20s | Email: %-30s | Phone: %-12s | NIF: %-9s | Address: %-43s",
+                customerSystemID,
+                name.toString(),
+                email.toString(),
+                phoneNumber.toString(),
+                nif.toString(),
+                address.toString()
+        );
     }
+
+//    @Override
+//    public String toString() {
+//        return String.format(
+//                "ID:     %-4d%n" +
+//                        "Name:   %-20s%n" +
+//                        "Email:  %-30s%n" +
+//                        "Phone:  %-12s%n" +
+//                        "NIF:    %-9s%n" +
+//                        "Address:%-40s%n",
+//                customerSystemID,
+//                name.toString(),
+//                email.toString(),
+//                phoneNumber.toString(),
+//                nif.toString(),
+//                address.toString()
+//        );
+//    }
+
+
 }
