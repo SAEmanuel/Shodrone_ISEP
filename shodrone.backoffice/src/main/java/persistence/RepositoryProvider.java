@@ -4,6 +4,7 @@ package persistence;
 import persistence.inmemory.*;
 import persistence.interfaces.*;
 import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
+import persistence.jpa.JPAImpl.FigureCategoryJPAImpl;
 import persistence.jpa.JPAImpl.ShowRequestJPAImpl;
 
 public class RepositoryProvider {
@@ -20,7 +21,7 @@ public class RepositoryProvider {
             if (USE_IN_MEMORY) {
                 figureCategoryRepository = new InMemoryFigureCategoryRepository();
             } else {
-                // figureCategoryRepository = new JpaFigureCategoryRepository();
+                 figureCategoryRepository = new FigureCategoryJPAImpl();
             }
         }
         return figureCategoryRepository;

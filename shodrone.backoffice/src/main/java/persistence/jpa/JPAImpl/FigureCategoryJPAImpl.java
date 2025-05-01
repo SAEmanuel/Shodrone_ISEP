@@ -1,5 +1,6 @@
 package persistence.jpa.JPAImpl;
 
+import authz.Email;
 import domain.entity.FigureCategory;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.Query;
@@ -50,6 +51,8 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
             if(newDescription != null) {
                 managed.changeDescriptionTo(newDescription);
             }
+            managed.updateTime();
+            managed.setUpdatedBy(new Email("xu_vai_implementar_again@gmail.com"));
             entityManager().getTransaction().commit();
 
             return Optional.of(managed);

@@ -1,5 +1,6 @@
 package persistence.inmemory;
 
+import authz.Email;
 import domain.entity.FigureCategory;
 import more.Description;
 import more.Name;
@@ -40,6 +41,8 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         }
 
         FigureCategory existing = categoryOptional.get();
+        existing.updateTime();
+        existing.setUpdatedBy(new Email("xu_vai_implementar_again@gmail.com"));
 
         if (newName != null) {
             existing.changeCategoryNameTo(newName);

@@ -7,6 +7,7 @@ import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.strings.util.StringPredicates;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.Setter;
 import more.Description;
 import more.Name;
 
@@ -58,6 +59,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
     @JsonProperty
     private LocalDateTime updatedOn;
 
+    @Setter
     @XmlElement
     @JsonProperty
     @Embedded
@@ -128,6 +130,10 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
     public Description description() {
         return this.description;
+    }
+
+    public void updateTime() {
+        this.updatedOn = LocalDateTime.now();
     }
 
     @Override
