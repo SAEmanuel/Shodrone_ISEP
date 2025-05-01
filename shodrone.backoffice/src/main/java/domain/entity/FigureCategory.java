@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import more.Description;
 import more.Name;
-import utils.AuthUtils;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

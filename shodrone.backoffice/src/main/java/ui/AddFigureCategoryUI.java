@@ -5,12 +5,10 @@ import controller.AddFigureCategoryController;
 import domain.entity.FigureCategory;
 import more.Description;
 import more.Name;
-import utils.AuthUtils;
 import utils.Utils;
 
 import java.util.Optional;
 
-import static more.ColorfulOutput.*;
 
 public class AddFigureCategoryUI implements Runnable {
 
@@ -21,14 +19,15 @@ public class AddFigureCategoryUI implements Runnable {
         Utils.printCenteredTitle("Add Figure Category");
 
         Name name = Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new);
-        Description description = null;
+        Description description;
 
         boolean option = Utils.confirm("Do you want to add a description? (y/n)");
 
         Optional<FigureCategory> result;
-        Email createdBy = new Email(AuthUtils.getCurrentUserEmail());
+        //todo (CreatedBy is not possible to find yet) - to be implemented by Xu
+        Email createdBy = new Email("xu_vai_implementar@gmail.com");
         if (!option) {
-            System.out.println(ANSI_ORANGE + "Description skipped..." + ANSI_RESET);
+            Utils.printAlterMessage("Description skipped...");
             result = controller.addFigureCategoryWithName(name, createdBy);
         } else {
             description = Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new);
@@ -36,9 +35,9 @@ public class AddFigureCategoryUI implements Runnable {
         }
 
         if (result.isPresent()) {
-            System.out.println(ANSI_BRIGHT_GREEN + "Category added successfully!" + ANSI_RESET);
+            Utils.printSuccessMessage("Category added successfully!");
         } else {
-            System.out.println(ANSI_BRIGHT_RED + "A category with that name already exists!" + ANSI_RESET);
+            Utils.printFailMessage("A category with that name already exists!");
         }
     }
 

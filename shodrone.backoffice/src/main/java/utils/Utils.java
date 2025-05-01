@@ -21,7 +21,7 @@ import static more.TextEffects.*;
 public class Utils {
     final static String COLOR_OPTIONS = ANSI_BRIGHT_BLACK;
 
-    public static void exitImediately(String message) {
+    public static void exitImmediately(String message) {
         System.out.printf("%n%s%s%s%n%n", ANSI_BRIGHT_RED, message, ANSI_RESET);
         throw new RuntimeException("Exiting application");
     }
@@ -265,4 +265,13 @@ public class Utils {
 
         return result;
     }
+
+    public static void printSuccessMessage(String message) {
+        System.out.println(ANSI_BRIGHT_GREEN + message + ANSI_RESET);
+    }
+
+    public static void printFailMessage(String message) {
+        System.out.println(ANSI_BRIGHT_RED + message + ANSI_RESET);
+    }
+
 }
