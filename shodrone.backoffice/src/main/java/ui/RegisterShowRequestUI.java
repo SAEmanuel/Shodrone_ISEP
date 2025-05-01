@@ -27,7 +27,7 @@ public class RegisterShowRequestUI implements Runnable{
     public void run() {
         Utils.printCenteredTitle("REGISTER SHOW REQUEST");
         try{
-            getFoundCostumerUI().foundCustomersUI();
+            getFoundCostumerUI().run();
             registerShowcontroller.registerShowRequest();
         }catch(Exception e){}
     }

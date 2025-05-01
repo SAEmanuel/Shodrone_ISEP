@@ -34,7 +34,7 @@ public class Utils {
 
     public static void printOptionalValidMessage(String message, Optional<?> optionalMessage) {
         if (message != null && !message.isEmpty()) {
-            System.out.printf("%s%s: %S%s%n", ANSI_BRIGHT_YELLOW, message,optionalMessage.get().toString(),ANSI_RESET);
+            System.out.printf("%s%s: %S%s%n", ANSI_GREEN, message,optionalMessage.get().toString(),ANSI_RESET);
         }
     }
 

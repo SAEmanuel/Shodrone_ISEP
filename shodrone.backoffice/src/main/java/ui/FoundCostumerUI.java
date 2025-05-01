@@ -22,7 +22,9 @@ public class FoundCostumerUI implements Runnable {
 
     @Override
     public void run() {
+        try {
             foundCustomersUI();
+        }catch(Exception e){}
     }
 
     public Optional<?> foundCustomersUI() {
@@ -44,7 +46,7 @@ public class FoundCostumerUI implements Runnable {
                 optionalResult = foundListCostumerUI(option);
                 break;
             default:
-            Utils.exitImediately("Cannot register a show request without a customer.");
+                Utils.exitImmediately("Cannot register a show request without a customer.");
         }
         didMethodFoundCostumer(optionalResult);
         return optionalResult;
@@ -62,9 +64,9 @@ public class FoundCostumerUI implements Runnable {
 
     private void didMethodFoundCostumer(Optional<?> result){
         if(Validations.isNotEmptyOptional(result)){
-            Utils.printOptionalValidMessage("Customers found:",result);
+            Utils.printOptionalValidMessage("Customers found",result);
         }else{
-            Utils.exitImediately("No customer/s found in system. Please register a new customer in 'Register Customer' menu option.");
+            Utils.exitImmediately("No customer/s found in system. Please register a new customer in 'Register Customer' menu option.");
         }
     }
 }

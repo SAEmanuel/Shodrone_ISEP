@@ -6,12 +6,14 @@ import domain.valueObjects.PhoneNumber;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
 public final class Costumer implements Serializable {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerSystemID;
@@ -79,6 +81,6 @@ public final class Costumer implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Customer[name=%s, email=%s, phone=%s, NIF=%s]", name, email, phoneNumber, nif);
+        return String.format("Name=%s, Email=%s, Phone=%s, NIF=%s]", name, email, phoneNumber, nif);
     }
 }

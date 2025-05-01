@@ -1,7 +1,11 @@
 package controller;
 
 import domain.entity.Costumer;
+import domain.valueObjects.Address;
 import domain.valueObjects.NIF;
+import domain.valueObjects.PhoneNumber;
+import eapli.framework.general.domain.model.EmailAddress;
+import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.RepositoryProvider;
 import persistence.interfaces.CostumerRepository;
 
@@ -13,19 +17,29 @@ public class ListCostumersController {
 
     public ListCostumersController() {
         costumerRepository = RepositoryProvider.costumerRepository();
+        addCostumerTests();
     }
 
     public Optional<Costumer> foundCustomerByID(Long id){
         return costumerRepository.findByID(id);
     }
-
     public Optional<Costumer> foundCustomerByNIF(NIF nif){
         return costumerRepository.findByNIF(nif);
     }
-
     public Optional<List<Costumer>> getAllCustomer(){
         return costumerRepository.getAllCostumers();
     }
 
 
+    private void addCostumerTests() {
+        Name name = Name.valueOf("Jorge", "Ubaldo");
+        EmailAddress emailAddress = EmailAddress.valueOf("jorgeubaldorf@gmail.com");
+        PhoneNumber phoneNumber = new PhoneNumber("912861312");
+        NIF nif = new NIF("123456789");
+        Address address = new Address("Rua brigadeiro","Porto","4440-778","Portugal");
+
+        Costumer customer1 = new Costumer(name,emailAddress,phoneNumber,nif,address);
+
+        costumerRepository.saveInStore(customer1,nif);
+    }
 }

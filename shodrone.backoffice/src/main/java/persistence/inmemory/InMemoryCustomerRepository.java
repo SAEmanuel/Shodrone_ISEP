@@ -9,6 +9,7 @@ import java.util.*;
 
 public class InMemoryCustomerRepository implements CostumerRepository {
     private final Map<NIF, Costumer> store;
+    private static Long LAST_COSTUMER_ID = 0L;
 
     public InMemoryCustomerRepository() {
         this.store = new HashMap<>();
@@ -37,9 +38,11 @@ public class InMemoryCustomerRepository implements CostumerRepository {
     @Override
     public Optional<Costumer> saveInStore(Costumer entity, NIF costumerNIF) {
         if (!Validations.containsKey(this.store, costumerNIF)) {
+            entity.setCustomerSystemID(LAST_COSTUMER_ID++);
             store.put(costumerNIF, entity);
             return Optional.of(entity);
         }
         return Optional.empty();
     }
+
 }
