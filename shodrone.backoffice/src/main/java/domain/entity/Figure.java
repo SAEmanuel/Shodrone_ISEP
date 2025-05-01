@@ -2,16 +2,12 @@ package domain.entity;
 
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
-import domain.valueObjects.Location;
 import domain.valueObjects.Version;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.Description;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -60,6 +56,8 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     @Override
     public Long identity() { return figureId; }
+
+    public FigureStatus figureStatus() { return status; }
 
     @Override
     public boolean sameAs(Object other) {

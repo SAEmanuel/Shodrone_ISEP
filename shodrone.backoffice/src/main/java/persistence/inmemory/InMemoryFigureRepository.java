@@ -1,0 +1,53 @@
+package persistence.inmemory;
+
+import domain.entity.Figure;
+import domain.entity.FigureCategory;
+import domain.valueObjects.FigureAvailability;
+import domain.valueObjects.FigureStatus;
+import persistence.interfaces.FigureRepository;
+
+import java.util.*;
+
+public class InMemoryFigureRepository implements FigureRepository {
+    private final Map<Long, Figure> store = new HashMap<>();
+
+    @Override
+    public Optional<Figure> save(Figure figure) {
+        Long key = figure.identity();
+        if (store.containsKey(key)) {
+            return Optional.empty();
+        } else {
+            store.put(key, figure);
+            return Optional.of(figure);
+        }
+    }
+
+    @Override
+    public Optional<Figure> findByID(Long FigureId) {
+        return Optional.ofNullable(store.get(FigureId));
+    }
+
+    @Override
+    public Optional<Figure> findByStatus(FigureStatus status) { return Optional.ofNullable(store.get(status)); }
+
+    @Override
+    public List<Figure> findFigures(Long figureId, String name, FigureCategory category, FigureAvailability availability) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Figure> findAllPublicFigures() {
+        ArrayList<Figure> figures = new ArrayList<Figure>();
+        if(store.values().isEmpty())
+            return figures;
+
+        for (Figure figure : store.values()) {
+            // If the figure is public, add it to the list
+            if (figure.figureStatus().equals(FigureStatus.ACTIVE)) {
+                figures.add(figure);
+            }
+        }
+
+        return figures;
+    }
+}
