@@ -1,7 +1,7 @@
 package ui;
 
 import controller.ListCostumersController;
-import domain.entity.Customer;
+import domain.entity.Costumer;
 import utils.Utils;
 import utils.Validations;
 
@@ -44,13 +44,13 @@ public class FoundCostumerUI implements Runnable {
     }
 
     private void foundUniqueCostumerUI(int option) {
-        Optional<Customer> customer = Optional.empty();
+        Optional<Costumer> customer = Optional.empty();
         switch (option){
-            case 1:
-                customer = getListcustomerscontroller().foundCustomerByID();
+            case 0:
+                customer = getListcustomerscontroller().foundCustomerByID(Utils.readLongFromConsole("Insert the Customer ID:"));
                 break;
             default:
-                customer = getListcustomerscontroller().foundCustomerByNIF();
+                //customer = getListcustomerscontroller().foundCustomerByNIF();
         }
         if(Validations.isNotEmptyOptional(customer)){
             Utils.printOptionalValidMessage("Customer found:",customer);
@@ -61,7 +61,7 @@ public class FoundCostumerUI implements Runnable {
 
 
     public void foundListCostumerUI(int option){
-        Optional<List<Customer>> customerList = Optional.empty();
+        Optional<List<Costumer>> customerList = Optional.empty();
         customerList = getListcustomerscontroller().getAllCustomer();
 
         if(Validations.isNotEmptyOptional(customerList)){

@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-public final class Customer implements Serializable {
+public final class Costumer implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerSystemID;
@@ -28,9 +28,9 @@ public final class Customer implements Serializable {
     @Embedded
     private Address address;
 
-    protected Customer() {}
+    protected Costumer() {}
 
-    public Customer(final Name name, final EmailAddress email,
+    public Costumer(final Name name, final EmailAddress email,
                     final PhoneNumber phoneNumber, final NIF nif,
                     final Address address) {
         this.name = Objects.requireNonNull(name);
@@ -67,8 +67,8 @@ public final class Customer implements Serializable {
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
-        if (!(o instanceof Customer)) return false;
-        final Customer other = (Customer) o;
+        if (!(o instanceof Costumer)) return false;
+        final Costumer other = (Costumer) o;
         return nif.equals(other.nif); // assuming NIF is unique
     }
 

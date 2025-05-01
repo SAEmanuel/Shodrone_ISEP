@@ -1,46 +1,31 @@
 package controller;
 
-import domain.entity.Customer;
-import persistence.inmemory.Repositories;
+import domain.entity.Costumer;
+import domain.valueObjects.NIF;
+import persistence.RepositoryProvider;
 import persistence.interfaces.CostumerRepository;
-import persistence.jpa.JPAImpl.CostumerJPAImpl;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ListCostumersController {
-    private CostumerRepository inMemoryCostumerRepository;
-    private CostumerJPAImpl jpaCustomerRepository;
+    private final CostumerRepository costumerRepository;
 
     public ListCostumersController() {
-        inMemoryCostumerRepository = getInMemoryCustomerRepository();
-        jpaCustomerRepository = getJPACostumerRepository();
+        costumerRepository = RepositoryProvider.costumerRepository();
     }
 
-    private CostumerRepository getInMemoryCustomerRepository() {
-        if(inMemoryCostumerRepository == null){
-            inMemoryCostumerRepository = Repositories.getInstance().getCostumerRepository();
-        }
-        return inMemoryCostumerRepository;
+    public Optional<Costumer> foundCustomerByID(Long id){
+        return costumerRepository.findByID(id);
     }
 
-    private CostumerJPAImpl getJPACostumerRepository() {
-        if(jpaCustomerRepository == null){
-            jpaCustomerRepository = new CostumerJPAImpl();
-        }
-        return jpaCustomerRepository;
+    public Optional<Costumer> foundCustomerByNIF(NIF nif){
+        return costumerRepository.findByNIF(nif);
     }
 
-    //--------
-    public Optional<Customer> foundCustomerByID(){
-        return Optional.empty(); // Implement actual logic here
+    public Optional<List<Costumer>> getAllCustomer(){
+        return costumerRepository.getAllCostumers();
     }
 
-    public Optional<Customer> foundCustomerByNIF(){
-        return Optional.empty(); // Implement actual logic here
-    }
 
-    public Optional<List<Customer>> getAllCustomer(){
-        return Optional.empty(); // Implement actual logic here
-    }
 }

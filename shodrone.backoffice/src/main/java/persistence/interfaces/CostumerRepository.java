@@ -1,6 +1,14 @@
 package persistence.interfaces;
 
-public interface CostumerRepository<T>{
+import domain.valueObjects.NIF;
 
-    public T add(T entity);
+import java.util.List;
+import java.util.Optional;
+
+public interface CostumerRepository<Costumer>{
+
+    Optional<Costumer>  save(Costumer entity);
+    Optional<Costumer> findByID(Costumer id);
+    Optional<Costumer>  findByNIF(NIF nif);
+    Optional<List<Costumer>>  getAllCostumers();
 }

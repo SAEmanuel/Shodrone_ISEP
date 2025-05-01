@@ -9,14 +9,13 @@ import java.util.List;
 
 public class RegisterShowRequestUI implements Runnable{
 
-    private RegisterShowRequestController registerShowcontroller;
-    private FoundCostumerUI foundCostumerUI;
+    private final RegisterShowRequestController registerShowcontroller;
+    private final FoundCostumerUI foundCostumerUI;
 
     public RegisterShowRequestUI() {
         registerShowcontroller = new RegisterShowRequestController();
         foundCostumerUI = new FoundCostumerUI();
     }
-
     private RegisterShowRequestController getRegisterShowcontroller() {
         return registerShowcontroller;
     }

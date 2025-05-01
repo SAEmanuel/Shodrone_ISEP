@@ -34,7 +34,7 @@ public class ShowRequest extends DomainEntityBase<Long> {
 
     @OneToOne
     @JoinColumn(name = "costumer_id", nullable = false)
-    private Customer costumer;
+    private Costumer costumer;
 
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "show_request_id")
@@ -57,7 +57,7 @@ public class ShowRequest extends DomainEntityBase<Long> {
 
     protected ShowRequest() {}
 
-    public ShowRequest(Customer costumer, List<Figure> figures, Description description,
+    public ShowRequest(Costumer costumer, List<Figure> figures, Description description,
                        Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
 
         this.submissionDate = submissionDate;

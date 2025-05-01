@@ -107,6 +107,20 @@ public class Utils {
         } while (true);
     }
 
+    public static long readLongFromConsole(String prompt) {
+        while (true) {
+            try {
+                String input = readLineFromConsole(prompt);
+                return Long.parseLong(input);
+            } catch (NumberFormatException ex) {
+                printAlterMessage("❌ Invalid number. Please enter a valid long value.");
+            }
+        }
+    }
+
+
+
+
     static public Date readDateFromConsole(String prompt) {
         do {
             try {
@@ -178,6 +192,10 @@ public class Utils {
         }
         System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
         System.out.println("╚════════════════════════════════════════╝");
+    }
+
+    static public void printAlterMessage(String message) {
+        System.out.println(ANSI_ORANGE.concat(BOLD).concat(message).concat(ANSI_RESET));
     }
 
     static public void showListCustom(List<?> list, String header) {
