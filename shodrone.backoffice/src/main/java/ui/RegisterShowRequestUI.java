@@ -26,11 +26,12 @@ public class RegisterShowRequestUI implements Runnable{
         try{
             getRegisterShowcontroller().foundCostumerForRegistration();
             getRegisterShowcontroller().foundFiguresForRegistration();
-
             getRegisterShowcontroller().getDescriptionsForRegistration(Utils.readLineFromConsole(ANSI_BRIGHT_BLACK+ITALIC+"\n• Enter the description of the show"+ANSI_RESET));
             requestLocationInformation();
 
-        }catch(Exception e){}
+        }catch(Exception e){
+            Utils.printAlterMessage(e.getMessage());
+        }
     }
 
     private void requestLocationInformation() {

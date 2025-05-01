@@ -307,13 +307,13 @@ public class Utils {
         System.out.println(ANSI_BRIGHT_RED + message + ANSI_RESET);
     }
 
-    public static Optional<?> showAndSelectObjectFromList(Optional<List<?>> optionalResult) {
+    public static Optional<?> showAndSelectObjectFromList(Optional<List<?>> optionalResult,String header) {
         Optional<?> result = Optional.empty();
         List<?> list = optionalResult.get();
 
         String concat = ANSI_BRIGHT_BLACK.concat(BOLD).concat(UNDERLINE).concat("                  ").concat(ANSI_RESET);
         System.out.print(concat);
-        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("\nAvailable items:").concat(ANSI_RESET));
+        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("\nAvailable ".concat(header).concat(" :")).concat(ANSI_RESET));
 
         int index = 1;
         for (Object obj : list) {

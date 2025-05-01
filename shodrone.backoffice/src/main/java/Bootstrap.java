@@ -1,8 +1,12 @@
 import controller.AuthenticationController;
+import domain.entity.Costumer;
+import domain.entity.Figure;
+import domain.entity.FigureCategory;
+import domain.valueObjects.*;
+import eapli.framework.general.domain.model.EmailAddress;
+import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.RepositoryProvider;
-import persistence.inmemory.InMemoryAuthenticationRepository;
 import persistence.interfaces.AuthenticationRepository;
-import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
 import authz.*;
 
 
@@ -11,19 +15,52 @@ public class Bootstrap implements Runnable {
     private static final String PROD_MANAGER_EMAIL = "prodm@this.app";
     private static final String PROD_MANAGER_PASSWORD = "manager";
 
+    Costumer customer1 = new Costumer(
+            Name.valueOf("Jorge", "Ubaldo"),
+            EmailAddress.valueOf("jorgeubaldorf@gmail.com"),
+            new PhoneNumber("912861312"),
+            new NIF("123456789"),
+            new Address("Rua Brigadeiro", "Porto", "4440-778", "Portugal")
+    );
 
-    //Add some task categories to the repository as bootstrap
+    Costumer customer2 = new Costumer(
+            Name.valueOf("Maria", "Silva"),
+            EmailAddress.valueOf("maria.silva@example.com"),
+            new PhoneNumber("923456789"),
+            new NIF("286500850"),
+            new Address("Rua das Flores", "Lisboa", "1100-045", "Portugal")
+    );
+
+    Costumer customer3 = new Costumer(
+            Name.valueOf("Carlos", "Ferreira"),
+            EmailAddress.valueOf("carlos.ferreira@example.com"),
+            new PhoneNumber("934567890"),
+            new NIF("248367080"),
+            new Address("Avenida Central", "Braga", "4700-123", "Portugal")
+    );
+
+    Figure figure1 = new Figure(
+            "Joao",
+            new domain.valueObjects.Description("NAO SEI O Q ESCREVER"),
+            new Version(),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new domain.valueObjects.Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            FigureAvailability.PUBLIC,
+            FigureStatus.ACTIVE,
+            customer1
+    );
+
     public void run() {
         addUsers();
+        RepositoryProvider.costumerRepository().saveInStore(customer1,customer1.nif());
+        RepositoryProvider.costumerRepository().saveInStore(customer2,customer2.nif());
+        RepositoryProvider.costumerRepository().saveInStore(customer3,customer3.nif());
+        RepositoryProvider.figureRepository().save(figure1,1L);
     }
 
-    //------------------------------ Serializable ----------------------------------------------
     protected static void inputAppInformation() {
         //Serialization serialization = new Serialization();
         //serialization.serializeRepositoriesInput();
     }
-
-
     private void addUsers() {
         AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
 

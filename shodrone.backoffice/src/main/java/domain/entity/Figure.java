@@ -86,4 +86,21 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     public int hashCode() {
         return Objects.hash(figureId);
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "ID: %-6s | Name: %-10s | Status: %-8s | Availability: %-10s | Version: %-6s | Category: %-10s",
+                figureId != null ? figureId : "N/A",
+                name != null ? name : "N/A",
+                status != null ? status : "N/A",
+                availability != null ? availability : "N/A",
+                version != null ? version.toString() : "N/A",
+                category != null ? category.identity() : "N/A"
+        );
+    }
+
+
+
+
 }

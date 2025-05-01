@@ -22,6 +22,7 @@ public class FoundCostumerUI implements Runnable {
 
     @Override
     public void run() {
+        Utils.printCenteredTitle("FOUND CUSTOMER");
         try {
             foundCustomersUI();
         }catch(Exception e){}
@@ -46,7 +47,7 @@ public class FoundCostumerUI implements Runnable {
                 break;
             case 2:
                 optionalResult = foundListCostumerUI(option);
-                optionalResult = Utils.showAndSelectObjectFromList((Optional<List<?>>) optionalResult);
+                optionalResult = Utils.showAndSelectObjectFromList((Optional<List<?>>) optionalResult,"Costumers");
                 break;
             default:
                 Utils.exitImmediately("Cannot register a show request without a customer.");
