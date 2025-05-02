@@ -7,102 +7,70 @@ title UI Sequence Diagram (SSD) - Add Figure Category
 
 autonumber
 
-actor "Show Designer" as showDesigner
+actor "Show Designer" as SD
 participant ":AddFigureCategoryUI" as UI
+participant "Name" as name
+participant "Description" as desc
 participant ":AddFigureCategoryController" as CTRL
-participant "figureCategoryController\n:FigureCategoryController" as catCtrl
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "figureCategoryRepository\n:FigureCategoryRepository" as catRepo
+participant "repositoryProvider\n:RepositoryProvider" as provider
+participant "FigureCategoryRepository\n:FigureCategoryRepository" as interface
+participant "InMemoryFigureCategoryRepository" as inMem
+participant "FigureCategoryJPAImpl" as jpa
+participant "FigureCategory" as category
 
-participant "factoryProvider\n:FactoryProvider" as factProv
-participant "figureCategoryFactoryImpl\n:FigureCategoryFactoryImpl" as catFactImpl
-participant "figureCategory\n:FigureCategory" as figureCategory
-participant "figureCategoryJPAImpl\n:FigureCategoryJPAImpl" as catJPA
-participant "inMemoryFigureCategoryRepository\n:InMemoryFigureCategoryRepository" as catMem
+activate SD
 
-participant "localDateTime\n:LocalDateTime" as localTime
+SD -> UI : requests to add a new Figure Category with valid name and description
+activate UI
 
-activate showDesigner
+UI -> name**: Utils.rePromptWhileInvalid()
+activate name
+name -> UI: name
+deactivate name
 
-    showDesigner -> UI : ask to add a Figure Category
-    activate UI
+UI -> desc**: Utils.rePromptWhileInvalid()
+activate desc
+desc -> UI: description
+deactivate desc
 
-    UI -> showDesigner : ask for category data (name, description)
-    showDesigner -> UI : provides category data
+UI -> CTRL **: create
+UI -> CTRL : addFigureCategoryWithNameAndDescription(name, description, createdBy)
+activate CTRL
 
-    UI -> CTRL** : create
+CTRL -> category : new FigureCategory(name, description, createdBy)
+activate category
+category --> CTRL : FigureCategory instance
+deactivate category
 
-    activate CTRL
+CTRL -> provider ** : figureCategoryRepository()
+activate provider
+provider --> CTRL : repository (dynamic: inMem or jpa)
+deactivate provider
 
-        CTRL -> CTRL : getFigureCategoryRepository()
-        activate CTRL
+alt Repository is InMemoryFigureCategoryRepository
+    CTRL -> inMem: save(category)
+    activate inMem
+    inMem -> inMem: containsKey(category.identity())
+    inMem --> CTRL: Optional<FigureCategory>
+    deactivate inMem
 
-            CTRL -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
+else Repository is FigureCategoryJPAImpl
+    CTRL -> jpa: save(category)
+    activate jpa
+    jpa -> jpa: findByName(category.identity())
+    jpa --> CTRL: Optional<FigureCategory>
+    deactivate jpa
+end
 
-                RepositorySingleton --> CTRL: repositories
-            deactivate RepositorySingleton
+CTRL --> UI: Optional<FigureCategory>
+deactivate CTRL
 
-            CTRL -> PLAT : getFigureCategoryRepository()
-            activate PLAT
-
-                PLAT --> CTRL: figureCategoryRepository
-            deactivate PLAT
-            CTRL --> CTRL : figureCategoryRepository
-
-        deactivate CTRL
-
-        CTRL -> factProv : getFigureCategoryFactory()
-        activate factProv
-
-            factProv --> CTRL : categoryFactory
-        deactivate factProv
-
-        CTRL -> catFactImpl : createFigureCategory(name, description)
-        activate catFactImpl
-            catFactImpl --> catFactImpl : validations()
-            alt invalid input
-                catFactImpl --> CTRL : error("Invalid or duplicate category name/description")
-                CTRL -> UI : error("Invalid or duplicate category name/description")
-                deactivate CTRL
-                deactivate UI
-                deactivate showDesigner
-                return
-            else valid input
-                catFactImpl -> figureCategory**: create
-
-                catFactImpl --> CTRL : figureCategoryObject
-                activate CTRL
-
-            end
-        deactivate catFactImpl
-
-        CTRL -> localTime** : getCurrentMoment()
-        activate localTime
-
-            localTime --> CTRL : createdOn
-        deactivate localTime
-
-        CTRL -> catJPA : add(figureCategoryObject)
-        deactivate catFactImpl
-        activate catJPA
-
-            catJPA --> CTRL : confirmation
-        deactivate catJPA
-
-        CTRL -> catMem : add(figureCategoryObject)
-        activate catMem
-
-            catMem --> CTRL : confirmation
-        deactivate catMem
-
-        CTRL -> UI : figureCategoryObject
-    deactivate CTRL
-
-    UI -> showDesigner : shows operation (in)success
+alt Category saved successfully
+    UI --> SD: success message
+else Save failed (duplicate name)
+    UI --> SD: error message
+end
 
 deactivate UI
-deactivate showDesigner
-
+deactivate SD
 @enduml

@@ -14,8 +14,8 @@ activate SD
 
 SD -> System: requests to edit Figure Category
 activate System
-System -> System: fetches all categories
-System --> SD: sends all categories for user to choose
+System -> System: fetches all active categories
+System --> SD: sends all active categories for user to choose
 SD -> System : chooses the category to edit and edits fields
 System -> System: validates Category name
 System -> System: checks Category's name uniqueness
@@ -23,14 +23,9 @@ System -> System: validates description
 
 alt Duplicated name
  System --> SD: error message (duplicated name)
-else Category exists
+else Valid name
+ System --> SD: informs user about the successful operation
 
-    alt Category is inactive
-        System --> SD: errorMessage("Cannot edit inactive category")
-    else Category is active
-        System --> SD: informs user about the successful operation
-
-    end
 end
 
 deactivate System
