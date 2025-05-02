@@ -1,0 +1,40 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Drones to Inventory
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: requestListDroneModels()
+activate System
+System --> DT: droneModelsList
+deactivate System
+
+DT -> System: requestAddDrones(DroneModelId, serialNumbers)
+activate System
+
+loop for each serialNumber in serialNumbers
+    System -> System: validateSerialNumber(serialNumber)
+    System -> System: checkSerialNumberUniqueness(serialNumber)
+    alt Serial number invalid or duplicate
+        System --> DT: errorMessage("Invalid or duplicate serial number: " + serialNumber)
+        deactivate System
+        deactivate DT
+        return
+    end
+end
+
+System -> System: saveDrones(DroneModelId, serialNumbers, status=available)
+System --> DT: confirmationMessage("Drones added successfully", serialNumbers)
+
+deactivate System
+deactivate DT
+
+@enduml
