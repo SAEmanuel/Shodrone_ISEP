@@ -7,111 +7,107 @@ title UI Sequence Diagram (SSD) - Edit Figure Category
 
 autonumber
 
-actor "Show Designer" as showDesigner
+actor "Show Designer" as SD
 participant ":EditFigureCategoryUI" as UI
 participant ":EditFigureCategoryController" as CTRL
-participant "figureCategoryController\n:FigureCategoryController" as catCtrl
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "figureCategoryRepository\n:FigureCategoryRepository" as catRepo
+participant ":GetAllFigureCategoriesController" as FetchCtrl
+participant "RepositoryProvider" as Provider
+participant "FigureCategoryRepository" as Repo
+participant "InMemoryFigureCategoryRepository" as InMemRepo
+participant "FigureCategoryJPAImpl" as JpaRepo
+participant "FigureCategory" as Entity
 
-participant "factoryProvider\n:FactoryProvider" as factProv
-participant "figureCategoryFactoryImpl\n:FigureCategoryFactoryImpl" as catFactImpl
-participant "figureCategory\n:FigureCategory" as figureCategory
-participant "figureCategoryJPAImpl\n:FigureCategoryJPAImpl" as catJPA
-participant "inMemoryFigureCategoryRepository\n:InMemoryFigureCategoryRepository" as catMem
 
-participant "localDateTime\n:LocalDateTime" as localTime
 
-activate showDesigner
+activate SD
+SD -> UI : request to edit a Figure Category
+activate UI
 
-    showDesigner -> UI : ask to edit a Figure Category
-    activate UI
+UI -> FetchCtrl : getAllFigureCategories()
+activate FetchCtrl
 
-    UI -> catRepo : getEditableCategories()
-    activate catRepo
-        catRepo --> UI : listOfCategories
-    deactivate catRepo
+FetchCtrl -> Provider** : figureCategoryRepository()
+activate Provider
+Provider --> FetchCtrl : FigureCategoryRepository
+deactivate Provider
 
-    UI -> showDesigner : show editable categories and ask for selection
-    showDesigner -> UI : selects category (categoryId)
 
-    UI -> catRepo : getCategoryById(categoryId)
-    activate catRepo
-        catRepo --> UI : categoryObject
-    deactivate catRepo
+activate Repo
+FetchCtrl -> Repo : findAll()
 
-    UI -> showDesigner : ask for new data (newName, newDescription)
-    showDesigner -> UI : provides new data
+alt using InMemoryFigureCategoryRepository
+    Repo -> InMemRepo : findAll()
+    activate InMemRepo
 
-    UI -> CTRL : create
-    activate CTRL
+    InMemRepo --> Repo : List<FigureCategory>
+    deactivate InMemRepo
+else using FigureCategoryJPAImpl
+    Repo -> JpaRepo : findAll()
+    activate JpaRepo
 
-        CTRL -> CTRL : getFigureCategoryRepository()
-        activate CTRL
+    JpaRepo --> Repo : List<FigureCategory>
+    deactivate JpaRepo
+end
 
-            CTRL -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
 
-                RepositorySingleton --> CTRL: repositories
-            deactivate RepositorySingleton
+Repo -> FetchCtrl: Optional<List<FigureCategory>>
+deactivate Repo
 
-            CTRL -> PLAT : getFigureCategoryRepository()
-            activate PLAT
 
-                PLAT --> CTRL: figureCategoryRepository
-            deactivate PLAT
-            CTRL --> CTRL : figureCategoryRepository
+FetchCtrl --> UI : Optional<List<FigureCategory>>
+deactivate FetchCtrl
 
-        deactivate CTRL
+UI -> SD : show categories to choose from
 
-        CTRL -> catFactImpl : validateEditFigureCategory(newName, newDescription)
-        activate catFactImpl
-            catFactImpl --> catFactImpl : validations()
-            alt invalid input or duplicate name or inactive category
-                catFactImpl --> CTRL : error("Invalid or duplicate category name/description, or category inactive")
-                CTRL -> UI : error("Invalid or duplicate category name/description, or category inactive")
-                deactivate CTRL
-                deactivate UI
-                deactivate showDesigner
-                return
-            else valid input
-            activate CTRL
-                catFactImpl --> CTRL : validationSuccess
-            end
-        deactivate catFactImpl
+SD -> UI : selects category and fields to edit
+UI -> CTRL : editChosenCategory(category, newName?, newDescription?)
+activate CTRL
 
-        CTRL -> catRepo : findById(categoryId)
-        activate catRepo
-            catRepo --> CTRL : figureCategoryObject
-        deactivate catRepo
+CTRL -> Provider : figureCategoryRepository()
+activate Provider
+Provider --> CTRL : FigureCategoryRepository
+deactivate Provider
 
-        CTRL -> figureCategory** : update(newName, newDescription)
-        activate figureCategory
-            figureCategory --> CTRL : updatedCategoryObject
-        deactivate figureCategory
+CTRL -> Repo : editChosenCategory(category, newName?, newDescription?)
+activate Repo
 
-        CTRL -> localTime** : getCurrentMoment()
-        activate localTime
-            localTime --> CTRL : updatedOn
-        deactivate localTime
+alt InMemoryFigureCategoryRepository
+    Repo -> InMemRepo : editChosenCategory()
+    activate InMemRepo
 
-        CTRL -> catJPA : update(updatedCategoryObject)
-        activate catJPA
-            catJPA --> CTRL : confirmation
-        deactivate catJPA
+    InMemRepo -> Entity : changeCategoryNameTo() / changeDescriptionTo()
+    activate Entity
 
-        CTRL -> catMem : update(updatedCategoryObject)
-        activate catMem
-            catMem --> CTRL : confirmation
-        deactivate catMem
+    Entity -> InMemRepo : FigureCategory
+    deactivate Entity
 
-        CTRL -> UI : updatedCategoryObject
-    deactivate CTRL
+    InMemRepo --> Repo : Optional<FigureCategory>
+else FigureCategoryJPAImpl
+    deactivate InMemRepo
+    Repo -> JpaRepo : editChosenCategory()
+    activate JpaRepo
+    JpaRepo -> JpaRepo : entityManager().find()
+    JpaRepo -> Entity : changeCategoryNameTo() / changeDescriptionTo()
 
-    UI -> showDesigner : shows operation (in)success
+    activate Entity
+
+    Entity -> JpaRepo : FigureCategory
+    deactivate Entity
+    JpaRepo --> Repo : Optional<FigureCategory>
+    deactivate JpaRepo
+end
+    Repo -> CTRL : Optional<FigureCategory>
+    deactivate Repo
+
+CTRL --> UI : Optional<FigureCategory>
+deactivate CTRL
+
+alt success
+    UI -> SD : success message
+else failure
+    UI -> SD : error message
+end
 
 deactivate UI
-deactivate showDesigner
-
+deactivate SD
 @enduml
