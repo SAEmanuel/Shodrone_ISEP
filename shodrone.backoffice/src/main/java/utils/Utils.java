@@ -26,6 +26,7 @@ import static more.TextEffects.*;
 
 public class Utils {
     final static String COLOR_OPTIONS = ANSI_BRIGHT_BLACK;
+    final static int STEP = 10;
 
     public static void exitImmediately(String message) {
         System.out.printf("%n%s%s%s%n%n", ANSI_BRIGHT_RED, message, ANSI_RESET);
@@ -402,6 +403,21 @@ public class Utils {
         return value - 1;
     }
 
+    static public int selectsIndex(List<?> list, int cycle) {
+        String input;
+        int value;
+        do {
+            input = Utils.readLineFromConsole("Type your option");
+            try {
+                value = Integer.valueOf(input);
+            } catch (NumberFormatException ex) {
+                value = -1;
+            }
+        } while (value < 0 || value > list.size());
+        //dropLines(1);
+        return (value - 1) + (cycle * STEP);
+    }
+
     public static <T> T rePromptWhileInvalid(String prompt, Function<String, T> parseFunction) {
         T result = null;
         boolean redo;
@@ -464,6 +480,34 @@ public class Utils {
         }
 
         System.out.println("──────────────────────────────────────────────────\n");
+    }
+
+    static public int showAndSelectIndexPartially(List<?> list, String header) {
+        int total = list.size();
+        int startIndex = 0;
+        int cycle = 0;
+
+        while (startIndex < total) {
+            int endIndex = Math.min(startIndex + STEP, total);
+            List<?> sublist = list.subList(startIndex, endIndex);
+
+            showListCustom(sublist, header + " (Showing " + (startIndex + 1) + " to " + endIndex + " of " + total + ")");
+
+            startIndex += STEP;
+
+            if (startIndex < total) {
+                boolean seeMore = Utils.confirm("Do you want to see more items? (y/n)");
+                if (seeMore) {
+                    cycle++;
+                    System.out.println(cycle);
+                    continue;
+                }
+            }
+
+            return selectsIndex(list, cycle);
+        }
+
+        return -1;
     }
 
 }

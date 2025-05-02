@@ -23,7 +23,7 @@ public class EditFigureCategoryUI implements Runnable {
 
         Optional<List<FigureCategory>> allCategoriesOptional = getAllFigureCategoriesController.getAllFigureCategories();
         if (allCategoriesOptional.isPresent()) {
-            int index = Utils.showAndSelectIndexCustomOptions(allCategoriesOptional.get(), "Select the desired category to edit");
+            int index = Utils.showAndSelectIndexPartially(allCategoriesOptional.get(), "Select the desired category to edit");
 
             if (index < 0) {
                 Utils.printFailMessage("No category selected.");
