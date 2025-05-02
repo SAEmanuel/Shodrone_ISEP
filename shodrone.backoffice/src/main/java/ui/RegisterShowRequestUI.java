@@ -43,28 +43,8 @@ public class RegisterShowRequestUI implements Runnable{
             Utils.printCenteredSubtitle("Show duration");
             getRegisterShowcontroller().getShowDuration();
 
-            ShowRequest resultClone = getRegisterShowcontroller().registerShowRequest();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-
-            System.out.printf("\n\n🧾 Show Request with ID [%d] summary: %n", resultClone.identity());
-            System.out.println("──────────────────────────────────────────────────");
-            System.out.println("⏱️ Submitted at              : " + resultClone.getSubmissionDate().format(formatter));
-            System.out.println("👤 Responsible Collaborator  : " + resultClone.getSubmissionAuthor());
-            System.out.println("👥 Customer                  : " + resultClone.getCostumer().name());
-            System.out.println("📝 Description               : " + resultClone.getDescription());
-            System.out.println("📅 Show Date                 : " + resultClone.getShowDate().format(formatter));
-            System.out.println("📍 Location                  : " + resultClone.getLocation().toString());
-            System.out.println("🚁 Number of Drones          : " + resultClone.getNumberOfDrones());
-            System.out.println("⏱️ Show Duration             : " + resultClone.getShowDuration().toMinutes() + " minutes");
-            System.out.println("🗿 Selected Figures          :");
-
-            int index = 1;
-            for (Figure figure : resultClone.getFigures()) {
-                System.out.printf("   %d. %s%n", index++, figure.toString());
-            }
-
-            System.out.println("──────────────────────────────────────────────────\n");
-
+            ShowRequest registeredShowRequest = getRegisterShowcontroller().registerShowRequest();
+            Utils.printShowRequestResume(registeredShowRequest);
             Utils.printSuccessMessage("\n✅ Show request successfully registered!");
 
         }catch(Exception e){

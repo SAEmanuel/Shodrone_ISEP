@@ -7,7 +7,6 @@ import domain.valueObjects.Location;
 import factories.FactoryProvider;
 import domain.valueObjects.Description;
 import persistence.RepositoryProvider;
-import persistence.interfaces.ShowRequestRepository;
 import ui.FoundCostumerUI;
 import ui.ListFiguresByCostumerUI;
 import utils.Utils;
@@ -41,7 +40,10 @@ public class RegisterShowRequestController {
         Optional<ShowRequest> result = FactoryProvider.getShowRequestFactory().automaticBuild(costumerSelected, figuresSelected, descriptionOfShowRequest,
                                                                                               locationOfShow, showDate, numberOfDrones, showDuration);
         if (result.isPresent()) {
-            //SAVE IN REPO
+            result = RepositoryProvider.showRequestRepository().saveInStore(result.get());
+            if (result.isEmpty()){
+                Utils.exitImmediately("❌ Failed to save the show request.");
+            }
         } else {
             Utils.exitImmediately("❌ Failed to register the show request. Please check the input data and try again.");
         }
