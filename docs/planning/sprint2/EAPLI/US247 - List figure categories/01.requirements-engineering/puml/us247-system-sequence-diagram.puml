@@ -12,13 +12,14 @@ participant ":System" as System
 
 activate SD
 
-SD -> System: requestListCategories()
+SD -> System: request all categories
 activate System
 
-System -> System: fetchAllCategories()
-System -> System: filterByStatus(ACTIVE)
-System -> System: sortCategoriesByName()
-System -> SD: displayCategories(listOfCategories)
+System -> System: fetches all categories
+
+System -> System: sorts categories by name
+
+System --> SD: displays all categories
 
 deactivate System
 deactivate SD

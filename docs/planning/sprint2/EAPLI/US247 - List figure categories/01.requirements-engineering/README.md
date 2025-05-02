@@ -1,4 +1,4 @@
-# US247 - List figure categories
+# US247 - List Figure Categories
 
 ## 1. Requirements Engineering
 
@@ -17,12 +17,11 @@ As a Show Designer, I want to list all figure categories in the catalogue so tha
 
 ### 1.3. Acceptance Criteria
 
-- [ ] Only Show Designers can list figure categories.
-- [ ] The system displays all active categories, ordered by name.
-- [ ] Each entry shows the category name and description (if available).
-- [ ] Inactive categories are not shown in the default listing.
-- [ ] The list is up to date and reflects recent changes (additions, edits, inactivations).
-- [ ] A suitable message is shown if no categories are available.
+- [x] Only Show Designers can list figure categories.
+- [x] The system displays all categories, ordered by name.
+- [x] Each entry shows the category name and description (if available).
+- [x] The list is up to date and reflects recent changes (additions, edits, inactivations).
+- [x] A suitable message is shown if no categories are available.
 
 > **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
 
@@ -32,17 +31,16 @@ As a Show Designer, I want to list all figure categories in the catalogue so tha
 - Relies on the persistence infrastructure for retrieving categories.
 - Depends on category activation/inactivation logic (US248).
 
-### 1.5 Input and Output Data
+### 1.5. Input and Output Data
 
 **Input Data:**
 
-* Request to list categories (initiated by the Show Designer).
+- Request to list categories (initiated by the Show Designer).
 
 **Output Data:**
 
-* List of active categories, each with name and description.
-* Message indicating if no categories are available.
-
+- List of active categories, each with name and description.
+- Message indicating if no categories are available.
 ### 1.6. System Sequence Diagram (SSD)
 
 ![System Sequence Diagram](svg/us247-system-sequence-diagram.svg)
