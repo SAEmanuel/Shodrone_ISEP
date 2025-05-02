@@ -24,7 +24,7 @@ public class FigureCategoryAvailabilityUI implements Runnable{
             Utils.printFailMessage("No categories in the system yet...");
         } else {
             Utils.printAlterMessage("The current status will change when selected");
-            int index = Utils.showAndSelectIndexCustomOptions(categoriesOptional.get(), "Select the desired category to enable/disable");
+            int index = Utils.showAndSelectIndexPartially(categoriesOptional.get(), "Select the desired category to enable/disable");
 
             FigureCategory selectedCategory = categoriesOptional.get().get(index);
             Optional<FigureCategory> optionalCategory = changeFigureCategoryStatusController.changeStatus(selectedCategory);
