@@ -1,4 +1,4 @@
-# US246 - Edit figure category
+# US246 - Edit Figure Category
 
 ## 1. Requirements Engineering
 
@@ -19,14 +19,14 @@ As a Show Designer, I want to edit an existing figure category in the figure cat
 
 ### 1.3. Acceptance Criteria
 
-- [ ] Only Show Designers can edit figure categories.
-- [ ] The system prevents changing the name to one that already exists (case-insensitive).
-- [ ] The system prevents setting an empty or whitespace-only name.
-- [ ] The description, if provided, respects the maximum length constraint.
-- [ ] Edits to inactive categories are not allowed.
-- [ ] The system records the user and timestamp of the edit.
-- [ ] A success or error message is shown after the operation.
-- [ ] The updated category is immediately available for figure association.
+- [x] Only Show Designers can edit figure categories.
+- [x] The system prevents changing the name to one that already exists (case-insensitive).
+- [x] The system prevents setting an empty or whitespace-only name.
+- [x] The description, if provided, respects the maximum length constraint.
+- [x] Edits to inactive categories are not allowed.
+- [x] The system records the user and timestamp of the edit.
+- [x] A success or error message is shown after the operation.
+- [x] The updated category is immediately available for figure association.
 
 > **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
 
@@ -37,18 +37,18 @@ As a Show Designer, I want to edit an existing figure category in the figure cat
 - Relies on the persistence infrastructure being operational.
 - Integration with the figure management module for category association.
 
-### 1.5 Input and Output Data
+### 1.5. Input and Output Data
 
 **Input Data:**
 
-* Category identifier (ID) to select the category to edit.
-* New category name (string).
-* New description (optional string).
+- Category identifier (ID) to select the category to edit.
+- New category name (string).
+- New description (optional string).
 
 **Output Data:**
 
-* Confirmation of successful edit (success message and updated category details), or
-* Error message indicating reason for failure (e.g., duplicate name, invalid input, inactive category).
+- Confirmation of successful edit (success message and updated category details), or
+- Error message indicating reason for failure (e.g., duplicate name, invalid input, inactive category).
 
 ### 1.6. System Sequence Diagram (SSD)
 

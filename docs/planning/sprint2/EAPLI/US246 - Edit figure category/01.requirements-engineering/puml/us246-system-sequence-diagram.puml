@@ -12,26 +12,24 @@ participant ":System" as System
 
 activate SD
 
-SD -> System: requestEditCategory(id, newName, newDescription)
+SD -> System: requests to edit Figure Category
 activate System
 
-System -> System: validateCategoryExists(id)
-alt Category does not exist
-    System --> SD: errorMessage("Category not found")
+System --> SD: sends all categories for user to choose
+SD -> System : chooses the category to edit and edits fields
+System -> System: validates Category name
+System -> System: checks Category's name uniqueness
+System -> System: validates description
+
+alt Duplicated name
+ System --> SD: error message (duplicated name)
 else Category exists
-    System -> System: checkCategoryActive(id)
+
     alt Category is inactive
         System --> SD: errorMessage("Cannot edit inactive category")
     else Category is active
-        System -> System: validateCategoryName(newName)
-        System -> System: checkCategoryUniqueness(newName, id)
-        System -> System: validateDescription(newDescription)
-        alt Name invalid, duplicate, or description invalid
-            System --> SD: errorMessage("Invalid or duplicate category name, or invalid description")
-        else Name and description valid and unique
-            System -> System: updateCategory(id, newName, newDescription, updatedOn, updatedBy)
-            System --> SD: confirmationMessage("Category updated successfully")
-        end
+        System --> SD: informs user about the successful operation
+
     end
 end
 
