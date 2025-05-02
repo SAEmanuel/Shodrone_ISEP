@@ -263,71 +263,88 @@ public class Utils {
     }
 
     static public void showPagedElementList(List<?> list, int sizeOfObjectsPerPage, String header) {
-        System.out.println(header);
-        System.out.println("╚════════════════════════════════════════╝");
+        int totalItems = list.size();
+        int totalPages = (int) Math.ceil( (double) totalItems / sizeOfObjectsPerPage);
 
-        int pageSizeCount = 0;
-        boolean resume = true;
-        int index = 0;
+        int lineLength = 30;
+        for (int page = 0; page <= totalPages; page++) {
 
-        for(Object o: list){
-            index++;
-            if(!resume)
-                break;
-
-            System.out.printf("║    %s(%d)%s -  %-28s %-2s%n",COLOR_OPTIONS,pageSizeCount,ANSI_RESET,o.toString(),"║");
-
-            pageSizeCount++;
-
-            if (pageSizeCount == sizeOfObjectsPerPage && index != list.size()) {
-                pageSizeCount = 0;
-                resume = Utils.confirm("Do you want to list one more page? (y/n)");
+            if (page <= totalPages){
                 Utils.dropLines(2);
+                Utils.printCenteredSubtitle(header);
+                System.out.printf("%s│    Page (%d)  │%s%n", COLOR_OPTIONS,(page),ANSI_RESET);
             }
-        }
 
-        System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
-        System.out.println("╚════════════════════════════════════════╝");
+            int startIndex = (page - 1) * sizeOfObjectsPerPage;
+            int endIndex = Math.min(startIndex + sizeOfObjectsPerPage, totalItems);
+            List<?> pageItems = list.subList(startIndex, endIndex);
+
+            for (Object o : pageItems) {
+                System.out.printf(COLOR_OPTIONS + "│" + ANSI_RESET + "%sFigure -> %-28s%s%n", ANSI_BLUE, o.toString(), ANSI_RESET );
+            }
+
+            String input;
+            do {
+                input = Utils.readLineFromConsole(COLOR_OPTIONS + "│    " + "(y/n)" + ANSI_RESET + " - Do you want to list one more page? ");
+            } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
+
+            //----------------------------------
+            System.out.print(ANSI_BRIGHT_BLACK);
+            System.out.print("╰");
+            for (int i = 0; i < lineLength; i++) {
+                System.out.print("─");
+            }
+            System.out.print("╯");
+            System.out.println(ANSI_RESET);
+
+            if(input.equalsIgnoreCase("n")) { break; }
+        }
     }
 
     static public void showPagedElementListByStartingPage(List<?> list, int startingPage, int sizeOfObjectsPerPage, String header) {
-        System.out.println(header);
-        System.out.println("╚════════════════════════════════════════╝");
+        int totalItems = list.size();
+        int totalPages = (int) Math.ceil( (double) totalItems / sizeOfObjectsPerPage);
 
-        int pageCount = 0;
-        int pageSizeCount = 0;
-        boolean resume = true;
-        int index = 0;
-
-        for(Object o: list){
-            index++;
-
-            if(!resume)
-                break;
-
-            pageSizeCount++;
-
-            if( (pageCount * pageSizeCount) == (startingPage * sizeOfObjectsPerPage) ){
-                System.out.printf("║    %s(%d)%s -  %-28s %-2s%n",COLOR_OPTIONS,pageSizeCount,ANSI_RESET,o.toString(),"║");
-            }
-
-            if(pageCount != startingPage) {
-                if ( pageSizeCount ==  sizeOfObjectsPerPage ){
-                    pageCount++;
-                    pageSizeCount = 0;
-                }
-            } else if (pageSizeCount == sizeOfObjectsPerPage
-                    && (pageCount * pageSizeCount) == (startingPage * sizeOfObjectsPerPage)
-                    && index != list.size()) {
-                pageSizeCount = 0;
-                System.out.printf("║    %s(y/n)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Do you want to list one more page?","║");
-                resume = Utils.confirm("");
-                Utils.dropLines(2);
-            }
-
+        if (startingPage < 1 || startingPage > totalPages) {
+            Utils.printFailMessage("No elements found starting at page " + startingPage + " with " + sizeOfObjectsPerPage + " per page -> total list size : " + list.size());
+            return;
         }
-        System.out.println("╚════════════════════════════════════════╝");
 
+        int lineLength = 30;
+
+        for (int page = startingPage; page <= totalPages; page++) {
+
+            if (page <= totalPages){
+                Utils.dropLines(2);
+                Utils.printCenteredSubtitle(header);
+                System.out.printf("%s│    Page (%d)  │%s%n", COLOR_OPTIONS,(page),ANSI_RESET);
+            }
+
+            int startIndex = (page - 1) * sizeOfObjectsPerPage;
+            int endIndex = Math.min(startIndex + sizeOfObjectsPerPage, totalItems);
+            List<?> pageItems = list.subList(startIndex, endIndex);
+
+            for (Object o : pageItems) {
+                System.out.printf(COLOR_OPTIONS + "│" + ANSI_RESET + "%sFigure -> %-28s%s%n", ANSI_BLUE, o.toString(), ANSI_RESET );
+            }
+
+            String input;
+            do {
+                input = Utils.readLineFromConsole(COLOR_OPTIONS + "│    " + "(y/n)" + ANSI_RESET + " - Do you want to list one more page? ");
+            } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
+
+            //----------------------------------
+            System.out.print(ANSI_BRIGHT_BLACK);
+            System.out.print("╰");
+            for (int i = 0; i < lineLength; i++) {
+                System.out.print("─");
+            }
+            System.out.print("╯");
+            System.out.println(ANSI_RESET);
+
+
+            if(input.equalsIgnoreCase("n")) { break; }
+        }
     }
 
     static public void printAlterMessage(String message) {
