@@ -1,0 +1,61 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Search Figure catalogue
+
+autonumber
+
+actor "Show Designer" as showDesigner
+participant ":ListSearchedFigureUI" as UI
+participant ":ListSearchedFigureController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "figureRepository\n:FigureRepository" as catRepo
+
+activate showDesigner
+
+    showDesigner -> UI : ask to search figures
+    activate UI
+
+    UI -> showDesigner : ask for optional data (id, name, description, version, availability, category, dsl, status, page, pagesize)
+    showDesigner -> UI : provides optional data
+
+    UI -> CTRL** : create
+    activate CTRL
+
+        CTRL -> CTRL : getFigureRepository()
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getFigureRepository()
+            activate PLAT
+
+                PLAT --> CTRL: figureRepository
+            deactivate PLAT
+            CTRL --> CTRL : figureRepository
+
+        deactivate CTRL
+
+        UI -> CTRL: displaySearchedFigures(id, name, description, version, availability, category, dsl, status, page, pagesize)
+                CTRL -> catRepo: findFigures()
+                activate catRepo
+
+                    catRepo --> CTRL: listOfFigures
+                deactivate catRepo
+                CTRL -> UI: listOfFigures
+
+            deactivate CTRL
+
+            UI -> showDesigner : shows list of searched Figures
+
+deactivate UI
+deactivate showDesigner
+
+@enduml
