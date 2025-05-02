@@ -6,30 +6,38 @@
 
 ![Domain Model](svg/us245-domain-model.svg)
 
-The diagram presented in this section reflects the current and complete version of the domain model for figure and category management. This model explicitly details all relevant attributes and relationships needed to ensure robustness, traceability, and extensibility for the category functionality.
-
-Unlike the general domain model-which only identifies the main entities and their associations-this excerpt includes all internal attributes required for implementation and compliance with business rules. For example, attributes such as `CreatedOn`, `CreatedBy`, `CategoryStatus`, `UpdatedOn`, and `UpdatedBy` are included to fully support auditing, lifecycle management, and traceability.
-
-A higher level of detail is justified here because:
-- It ensures all functional and non-functional requirements for category management are met, including auditing, uniqueness, activation/inactivation, and description.
-- It supports the enforcement of business rules and future extensibility.
-- It enables full traceability of changes (who created and updated, and when).
+The following diagram illustrates the updated and complete domain model for the **Figure Category** functionality. It includes all relevant attributes and associations required for implementation, traceability, and auditing.
 
 #### **Explanation of the model elements**
 
-- **Category** (`<<AggregateRoot>>`): The root entity for figure categories, encapsulating all business logic and ensuring consistency.
-- **ID**: Unique identifier for each category.
-- **Name**: Value object ensuring category name uniqueness (case-insensitive) and validation.
-- **CategoryStatus**: Enum indicating whether the category is active or inactive.
-- **CreatedOn**: Date/time when the category was created (audit field).
-- **CreatedBy**: Reference to the user who created the category (audit field).
-- **UpdatedOn**: Date/time of the last modification (audit field).
-- **UpdatedBy**: Reference to the user who last modified the category (audit field).
-- **Description**: Optional field for clarifying the category's purpose.
-- **Figure** (`<<AggregateRoot>>`): The main entity for figures, associated with one or more categories.
+- **FigureCategory** (`<<AggregateRoot>>`):  
+  The aggregate root representing a category of figures. It encapsulates all rules and logic necessary for managing the lifecycle of a category.
 
-This comprehensive model ensures that all business rules and requirements for figure category management are supported, and that the system is prepared for future enhancements.
+    - `pk`: Primary key (surrogate, auto-generated).
+    - `version`: Used for optimistic concurrency control.
+    - `createdOn` / `updatedOn`: Audit fields for timestamps.
+    - `active`: Boolean flag indicating availability (status).
 
-### 2.2. Other Remarks
+- **Name** (`<<ValueObject>>`):  
+  Value object representing the name of the category. Enforces constraints such as length, allowed characters, and uniqueness.
 
-This version of the domain model is fully aligned with the latest requirements and no further changes are currently anticipated.
+- **Description** (`<<ValueObject>>`):  
+  Optional value object used to provide additional context about the category. Subject to validation constraints (length, non-empty, meaningful content).
+
+- **Email** (`<<ValueObject>>`):  
+  Used both as the `createdBy` and `updatedBy` identifiers, referencing the authenticated user responsible for actions on the category.  
+  Must be a valid email from the `@shodrone.app` domain.
+
+- **Figure** (`<<AggregateRoot>>`):  
+  Represents a shape or form created by a customer. Each `Figure` is associated with exactly one `FigureCategory`, supporting classification and filtering of figures.
+
+---
+
+This detailed model supports:
+
+-  Full **auditability** of each category (who created or modified it, and when).
+-  Enforcement of **domain constraints** (e.g., email domain, name rules, optional descriptions).
+-  Easy **extensibility** for future figure or category features.
+-  Complete **traceability** from figures back to their respective categories.
+
+> This version of the domain model reflects the most up-to-date understanding of requirements and ensures compliance with business rules for category and figure management.

@@ -12,34 +12,27 @@ hide methods
 
 package "Category Aggregate" {
 
-    class Category <<AggregateRoot>> {
+    class FigureCategory <<AggregateRoot>> {
+    - pk <<Long>>
+    - version <<Long>>
+    - createdOn <<LocalDateTime>>
+    - updatedOn <<LocalDateTime>>
+    - active <<boolean>>
     }
 
-    class Name {
+    class Name <<ValueObject>> {
     }
 
-    class ID {
+    class Description <<ValueObject>> {
     }
 
-    class CategoryStatus {
-    }
-
-    class CreatedOn {
-    }
-
-    class CreatedBy {
-    }
-
-    class Description {
-    }
-
-    class UpdatedOn {
-    }
-
-    class UpdatedBy {
+    class Email <<ValueObject>> {
+    - createdBy
+    - updatedBy
     }
 
 }
+
 
 package "Figure Aggregate" {
     class Figure <<AggregateRoot>> {
@@ -47,15 +40,11 @@ package "Figure Aggregate" {
 }
 
 
-    Figure "*" --- "1 *" Category : >
-    Category "1" --- "1" ID: >
-    Category "1" --- "1" Name: >
-    Category "1" --- "1" CategoryStatus: >
-    Category "1" --- "1" CreatedOn: >
-    Category "1" --- "1" CreatedBy: >
-    Category "1" --- "1" Description: >
-    Category "1" --- "1" UpdatedOn: >
-    Category "1" --- "1" UpdatedBy: >
+    Figure "*" --- "1 *" FigureCategory : >
+    FigureCategory "1" --- "1" Name: >
+    FigureCategory "1" --- "1" Description: >
+    FigureCategory "1" --- "1" Email: >
+
 
 
 @enduml
