@@ -7,89 +7,79 @@ title UI Sequence Diagram (SSD) - Inactivate/Activate Figure Category
 
 autonumber
 
-actor "Show Designer" as showDesigner
-participant ":ChangeCategoryStatusUI" as UI
-participant ":ChangeCategoryStatusController" as CTRL
-participant "figureCategoryController\n:FigureCategoryController" as catCtrl
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "figureCategoryRepository\n:FigureCategoryRepository" as catRepo
+actor "Show Designer" as SD
+participant ":FigureCategoryAvailabilityUI" as UI
+participant ":EditFigureCategoryController" as CTRL
+participant "RepositoryProvider" as Provider
+participant "FigureCategoryRepository" as Repo
+participant "InMemoryFigureCategoryRepository" as InMemRepo
+participant "FigureCategoryJPAImpl" as JpaRepo
+participant "FigureCategory" as Category
 
-activate showDesigner
+activate SD
+SD -> UI : request to change availability of category
+activate UI
 
-    showDesigner -> UI : ask to change category status
-    activate UI
+UI -> CTRL : getAllFigureCategories()
+activate CTRL
 
-    UI -> catRepo : getChangeableCategories()
-    activate catRepo
-        catRepo --> UI : listOfCategories
-    deactivate catRepo
+CTRL -> Provider : figureCategoryRepository()
+activate Provider
+Provider --> CTRL : repository instance
+deactivate Provider
 
-    UI -> showDesigner : show categories and ask for selection
-    showDesigner -> UI : selects category (categoryId) and action (activate/inactivate)
+alt Repository is InMemoryFigureCategoryRepository
+    CTRL -> InMemRepo : findAll()
+    activate InMemRepo
+    InMemRepo --> CTRL : List<FigureCategory>
+    deactivate InMemRepo
+else Repository is FigureCategoryJPAImpl
+    CTRL -> JpaRepo : findAll()
+    activate JpaRepo
+    JpaRepo --> CTRL : List<FigureCategory>
+    deactivate JpaRepo
+end
 
-    UI -> catRepo : getCategoryById(categoryId)
-    activate catRepo
-        catRepo --> UI : categoryObject
-    deactivate catRepo
+CTRL --> UI : Optional<List<FigureCategory>>
+deactivate CTRL
 
-    UI -> CTRL : create
-    activate CTRL
+UI -> SD : show categories to choose from
 
-        CTRL -> CTRL : getFigureCategoryRepository()
-        activate CTRL
+SD -> UI : selects category
+UI -> CTRL : changeStatus(selectedCategory)
+activate CTRL
 
-            CTRL -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
+CTRL -> Provider : figureCategoryRepository()
+activate Provider
+Provider --> CTRL : repository instance
+deactivate Provider
 
-                RepositorySingleton --> CTRL: repositories
-            deactivate RepositorySingleton
+alt Repository is InMemoryFigureCategoryRepository
+    CTRL -> InMemRepo : changeStatus(category)
+    activate InMemRepo
+    InMemRepo -> Category** : toggleState(), updateTime(), setUpdatedBy()
+    InMemRepo --> CTRL : Optional<FigureCategory>
+    deactivate InMemRepo
+    deactivate Category
+else Repository is FigureCategoryJPAImpl
+    CTRL -> JpaRepo : changeStatus(category)
+    activate JpaRepo
+    JpaRepo -> JpaRepo : entityManager().find(category.id)
+    JpaRepo -> Category** : toggleState(), updateTime(), setUpdatedBy()
+    deactivate Category
+    JpaRepo --> CTRL : Optional<FigureCategory>
+    deactivate JpaRepo
+end
 
-            CTRL -> PLAT : getFigureCategoryRepository()
-            activate PLAT
+CTRL --> UI : Optional<FigureCategory>
+deactivate CTRL
 
-                PLAT --> CTRL: figureCategoryRepository
-            deactivate PLAT
-            CTRL --> CTRL : figureCategoryRepository
-
-        deactivate CTRL
-
-        CTRL -> catRepo : findById(categoryId)
-        activate catRepo
-            catRepo --> CTRL : figureCategoryObject
-        deactivate catRepo
-
-        CTRL -> catCtrl : validateChangeCategoryStatus(figureCategoryObject, action)
-        activate catCtrl
-            catCtrl --> catCtrl : validations()
-            alt invalid input or already in requested status
-                catCtrl --> CTRL : error("Invalid request or category already in requested status")
-                CTRL -> UI : error("Invalid request or category already in requested status")
-                deactivate CTRL
-                deactivate UI
-                deactivate showDesigner
-                return
-            else valid input
-                catCtrl --> CTRL : validationSuccess
-            end
-        deactivate catCtrl
-
-        CTRL -> figureCategory : updateStatus(action)
-        activate figureCategory
-            figureCategory --> CTRL : updatedCategoryObject
-        deactivate figureCategory
-
-        CTRL -> catRepo : save(updatedCategoryObject)
-        activate catRepo
-            catRepo --> CTRL : confirmation
-        deactivate catRepo
-
-        CTRL -> UI : updatedCategoryObject
-    deactivate CTRL
-
-    UI -> showDesigner : shows operation (in)success
+alt Success
+    UI -> SD : Success message
+else Failure
+    UI -> SD : Error message
+end
 
 deactivate UI
-deactivate showDesigner
-
+deactivate SD
 @enduml
