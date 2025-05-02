@@ -2,6 +2,7 @@ package ui.authz;
 
 import authz.Email;
 
+import authz.Password;
 import authz.UserRole;
 import controller.AuthenticationController;
 import controller.RegisterUserController;
@@ -23,9 +24,14 @@ public class RegisterUserUI implements Runnable {
 
         Utils.printCenteredTitle("Show Designer Registration");
 
+        Utils.showNameRules();
         Name name = Utils.rePromptWhileInvalid("Choose your user name: ", Name::new);
+
+        Utils.showEmailRules();
         Email email = Utils.rePromptWhileInvalid("Choose your email: ", Email::new);
-        String password = Utils.readLineFromConsole("Choose a password: ");
+
+        Utils.showPasswordRules();
+        String password = Password.rePromptWhileInvalidPassword("Choose a password: ");
 
         boolean success = controller.registerUser(name.name(), email.getEmail(), password, role);
 

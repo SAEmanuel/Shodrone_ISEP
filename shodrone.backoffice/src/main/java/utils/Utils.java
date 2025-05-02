@@ -514,4 +514,39 @@ public class Utils {
         return -1;
     }
 
+    public static void showNameRules() {
+        Utils.silentWaring("""
+              The name must follow these rules:
+               • Minimum 3 and maximum 80 characters
+               • Only letters, spaces, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
+               • Must not start with a space or special character
+            """);
+    }
+
+    public static void showDescriptionRules() {
+        Utils.silentWaring("""
+          The description must follow these rules:
+           • Minimum 5 and maximum 300 characters
+           • Cannot be null, empty or only whitespace
+        """);
+    }
+
+    public static void showEmailRules() {
+        Utils.silentWaring("""
+              The email must:
+               • Be a valid email format (e.g., user@shodrone.app)
+               • Use the domain '@shodrone.app'
+            """);
+    }
+
+    public static void showPasswordRules() {
+        Utils.silentWaring("""
+              The password must:
+               • Contain at least one uppercase letter
+               • Contain at least three digits
+               • Include at least one special character (e.g., !@#$%^&)
+               • Not be blank
+            """);
+    }
+
 }

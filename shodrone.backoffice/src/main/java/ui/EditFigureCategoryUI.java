@@ -35,22 +35,13 @@ public class EditFigureCategoryUI implements Runnable {
             Utils.printAlterMessage("Current name: " + chosenCategory.identity());
             boolean editName = Utils.confirm("Do you want to edit the category's name? (y/n)");
 
-            Utils.silentWaring("""
-                  The name must follow these rules:
-                   • Minimum 3 and maximum 80 characters
-                   • Only letters, spaces, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
-                   • Must not start with a space or special character
-                """);
+            Utils.showNameRules();
             Name newName = editName ? Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new) : null;
 
             Utils.printAlterMessage("Current description: " + chosenCategory.description());
             boolean editDescription = Utils.confirm("Do you want to edit the category's description? (y/n)");
 
-            Utils.silentWaring("""
-                      The description must follow these rules:
-                       • Minimum 5 and maximum 300 characters
-                       • Cannot be null, empty or only whitespace
-                    """);
+            Utils.showDescriptionRules();
             Description newDescription = editDescription ? Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new) : null;
 
             if (!editName && !editDescription) {

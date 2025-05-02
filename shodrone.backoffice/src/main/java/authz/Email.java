@@ -15,19 +15,23 @@ public class Email implements Serializable {
 
     public Email(String email) {
         if (!validate(email)) {
-            throw new IllegalArgumentException("Invalid Email Address.");
+            throw new IllegalArgumentException("Invalid Email Address. It must be a valid address ending with @shodrone.app.");
         }
         this.email = email;
     }
 
     private boolean validate(String email) {
-        return email != null && !email.isBlank() && checkFormat(email);
+        return email != null && !email.isBlank() && checkFormat(email) && checkDomain(email);
     }
 
     private boolean checkFormat(String email) {
         String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
         Pattern pat = Pattern.compile(emailRegex);
         return pat.matcher(email).matches();
+    }
+
+    private boolean checkDomain(String email) {
+        return email.toLowerCase().endsWith("@shodrone.app");
     }
 
     public String getEmail() {

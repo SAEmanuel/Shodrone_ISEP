@@ -12,12 +12,9 @@ import authz.*;
 
 public class Bootstrap implements Runnable {
 
-    private static final String PROD_MANAGER_EMAIL = "prodm@this.app";
-    private static final String PROD_MANAGER_PASSWORD = "manager";
-
     Costumer customer1 = new Costumer(
             Name.valueOf("Jorge", "Ubaldo"),
-            EmailAddress.valueOf("jorgeubaldorf@gmail.com"),
+            EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
             new PhoneNumber("912861312"),
             new NIF("123456789"),
             new Address("Rua Brigadeiro", "Porto", "4440-778", "Portugal")
@@ -25,7 +22,7 @@ public class Bootstrap implements Runnable {
 
     Costumer customer2 = new Costumer(
             Name.valueOf("Maria", "Silva"),
-            EmailAddress.valueOf("maria.silva@example.com"),
+            EmailAddress.valueOf("maria.silva@shodrone.app"),
             new PhoneNumber("923456789"),
             new NIF("286500850"),
             new Address("Rua das Flores", "Lisboa", "1100-045", "Portugal")
@@ -33,18 +30,23 @@ public class Bootstrap implements Runnable {
 
     Costumer customer3 = new Costumer(
             Name.valueOf("Carlos", "Ferreira"),
-            EmailAddress.valueOf("carlos.ferreira@example.com"),
+            EmailAddress.valueOf("carlos.ferreira@shodrone.app"),
             new PhoneNumber("934567890"),
             new NIF("248367080"),
             new Address("Avenida Central", "Braga", "4700-123", "Portugal")
     );
+
 
     Figure figure1 = new Figure(
             1L,
             "Aviao",
             new Description("NAO SEI O Q ESCREVER"),
             new Version(),
-            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            new FigureCategory(
+                    new domain.valueObjects.Name("Joao Mario"),
+                    new Description("NAO SEI O Q ESCREVER"),
+                    new Email("oxuvaiimplementar@shodrone.app")
+            ),
             FigureAvailability.PUBLIC,
             FigureStatus.ACTIVE,
             customer1
@@ -55,7 +57,7 @@ public class Bootstrap implements Runnable {
             "Circulo",
             new Description("NAO SEI O Q ESCREVER"),
             new Version(),
-            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@shodrone.app")),
             FigureAvailability.EXCLUSIVE,
             FigureStatus.ACTIVE,
             customer1
@@ -66,7 +68,7 @@ public class Bootstrap implements Runnable {
             "Quadrado",
             new Description("NAO SEI O Q ESCREVER"),
             new Version(),
-            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@shodrone.app")),
             FigureAvailability.EXCLUSIVE,
             FigureStatus.ACTIVE,
             customer1
@@ -77,7 +79,7 @@ public class Bootstrap implements Runnable {
             "Retangulo",
             new Description("NAO SEI O Q ESCREVER"),
             new Version(),
-            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@shodrone.app")),
             FigureAvailability.PUBLIC,
             FigureStatus.ACTIVE,
             customer1
@@ -98,6 +100,7 @@ public class Bootstrap implements Runnable {
         //Serialization serialization = new Serialization();
         //serialization.serializeRepositoriesInput();
     }
+
     private void addUsers() {
         AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
 
@@ -108,13 +111,13 @@ public class Bootstrap implements Runnable {
         repo.addUserRole(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE, "Customer Representative");
         repo.addUserRole(AuthenticationController.ROLE_DRONE_TECH, "Drone Technician");
 
-        repo.addUserWithRole("Administrator x", "admin@this.app", "admin", AuthenticationController.ROLE_ADMIN);
-        repo.addUserWithRole("CRM Manager x", "crm_manager@this.app", "crmman", AuthenticationController.ROLE_CRM_MANAGER);
-        repo.addUserWithRole("CRM Collaborator x", "crm_collaborator@this.app", "crmcol", AuthenticationController.ROLE_CRM_COLLABORATOR);
-        repo.addUserWithRole("Show Designer x", "show_designer@this.app", "shwdsg", AuthenticationController.ROLE_SHOW_DESIGNER);
-        repo.addUserWithRole("Representative x", "representative@this.app", "repre", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("Drone Technician x", "dronetech@this.app", "drone", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("DroSDSDn x", "xu@this.app", "drone", AuthenticationController.ROLE_CRM_COLLABORATOR);
+        repo.addUserWithRole("Administrator x", "admin@shodrone.app", "Admin123!", AuthenticationController.ROLE_ADMIN);
+        repo.addUserWithRole("CRM Manager x", "crm_manager@shodrone.app", "CrmMan456@", AuthenticationController.ROLE_CRM_MANAGER);
+        repo.addUserWithRole("CRM Collaborator x", "crm_collaborator@shodrone.app", "Colab789#", AuthenticationController.ROLE_CRM_COLLABORATOR);
+        repo.addUserWithRole("Show Designer x", "show_designer@shodrone.app", "Show321$", AuthenticationController.ROLE_SHOW_DESIGNER);
+        repo.addUserWithRole("Representative x", "representative@shodrone.app", "Repres654%", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("Drone Technician x", "dronetech@shodrone.app", "Drone987^", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", AuthenticationController.ROLE_CRM_COLLABORATOR);
     }
 
 
