@@ -18,8 +18,8 @@ activate System
 System -> System: validates Category name
 System -> System: checks Category's name uniqueness
 System -> System: validates description
-alt Name invalid, duplicate, or description invalid
-    System --> SD: error message (invalid name/duplicated name/invalid description)
+alt Name duplicate
+    System --> SD: error message (duplicated name)
 else Name and description valid and unique
     System -> System: saves new category and registers who created it and when
     System --> SD: informs user about the successful operation
