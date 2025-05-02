@@ -3,9 +3,7 @@ package persistence;
 
 import persistence.inmemory.*;
 import persistence.interfaces.*;
-import persistence.jpa.JPAImpl.AuthenticationRepositoryJPAImpl;
-import persistence.jpa.JPAImpl.FigureCategoryJPAImpl;
-import persistence.jpa.JPAImpl.ShowRequestJPAImpl;
+import persistence.jpa.JPAImpl.*;
 
 public class RepositoryProvider {
     private static FigureCategoryRepository figureCategoryRepository;
@@ -32,7 +30,7 @@ public class RepositoryProvider {
             if (USE_IN_MEMORY) {
                 figureRepository = new InMemoryFigureRepository();
             } else {
-                // figureRepository = new JpaFigureRepository();
+                figureRepository = new FigureRepositoryJPAImpl();
             }
         }
         return figureRepository;
@@ -43,7 +41,7 @@ public class RepositoryProvider {
             if (USE_IN_MEMORY) {
                 costumerRepository = new InMemoryCustomerRepository();
             } else {
-                // costumerRepository = new JpaCustomerRepository();
+                costumerRepository = new CostumerJPAImpl();
             }
         }
         return costumerRepository;

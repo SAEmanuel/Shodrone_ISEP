@@ -1,7 +1,6 @@
 package persistence.jpa.JPAImpl;
 
 import domain.entity.ShowRequest;
-import jakarta.persistence.TypedQuery;
 import persistence.jpa.JpaBaseRepository;
 import persistence.interfaces.ShowRequestRepository;
 
@@ -12,21 +11,15 @@ public class ShowRequestJPAImpl extends JpaBaseRepository<ShowRequest, Long> imp
 
     @Override
     public Optional<ShowRequest> saveInStore(ShowRequest entity) {
-        // Verifica se já existe um pedido igual (podes personalizar os critérios)
-        TypedQuery<ShowRequest> query = entityManager().createQuery(
-                "SELECT s FROM ShowRequest s WHERE s.submissionDate = :date AND s.submissionAuthor = :author", ShowRequest.class);
-        query.setParameter("date", entity.getSubmissionDate());
-        query.setParameter("author", entity.getSubmissionAuthor());
-
-        List<ShowRequest> result = query.getResultList();
-
-        if (result.isEmpty()) {
-            entityManager().persist(entity);
-            return Optional.of(entity);
+        if (entity.identity() != null && findById(entity.identity()) != null) {
+            return Optional.empty();
         }
 
-        return Optional.empty();
+        add(entity);
+        return Optional.of(entity);
     }
+
+
 
     @Override
     public List<ShowRequest> getAll() {

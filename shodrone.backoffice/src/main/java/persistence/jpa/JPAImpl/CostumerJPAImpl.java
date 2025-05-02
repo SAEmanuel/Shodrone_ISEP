@@ -38,7 +38,7 @@ public class CostumerJPAImpl extends JpaBaseRepository<Costumer, Long> implement
     public Optional<Costumer> saveInStore(Costumer entity, NIF costumerNIF) {
         Optional<Costumer> existing = findByNIF(costumerNIF);
         if (existing.isEmpty()) {
-            entityManager().persist(entity);
+            add(entity);
             return Optional.of(entity);
         }
         return Optional.empty();

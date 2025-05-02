@@ -90,10 +90,10 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.costumerRepository().saveInStore(customer1,customer1.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer2,customer2.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer3,customer3.nif());
-        RepositoryProvider.figureRepository().save(figure1, figure1.identity());
-        RepositoryProvider.figureRepository().save(figure2, figure2.identity());
-        RepositoryProvider.figureRepository().save(figure3, figure3.identity());
-        RepositoryProvider.figureRepository().save(figure4, figure4.identity());
+//        RepositoryProvider.figureRepository().save(figure1, figure1.identity());
+//        RepositoryProvider.figureRepository().save(figure2, figure2.identity());
+//        RepositoryProvider.figureRepository().save(figure3, figure3.identity());
+//        RepositoryProvider.figureRepository().save(figure4, figure4.identity());
     }
 
     protected static void inputAppInformation() {
