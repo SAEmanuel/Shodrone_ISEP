@@ -1,0 +1,98 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SD) - List Drones in the Inventory
+
+autonumber
+
+actor "Drone Tech" as droneTech
+participant ":ListDronesInInventoryUI" as UI
+participant ":ListDronesInInventoryController" as CTRL
+participant "droneController\n:DroneController" as droneCtrl
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "droneModelRepository\n:DroneModelRepository" as dmRepo
+participant "droneRepository\n:DroneRepository" as dRepo
+
+activate droneTech
+
+    droneTech -> UI : ask to list drone models
+    activate UI
+
+    UI -> CTRL : create
+    activate CTRL
+
+        CTRL -> CTRL : getDroneModelRepository()
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getDroneModelRepository()
+            activate PLAT
+
+                PLAT --> CTRL: droneModelRepository
+            deactivate PLAT
+            CTRL --> CTRL : droneModelRepository
+
+        deactivate CTRL
+
+        UI -> UI: doShowDroneModels()
+
+        UI -> CTRL: listDroneModels()
+        CTRL -> dmRepo: findAll()
+        activate dmRepo
+            dmRepo --> CTRL: droneModelsList
+        deactivate dmRepo
+        CTRL -> UI: displayDroneModels(droneModelsList)
+
+    deactivate CTRL
+
+    UI -> droneTech : shows list of drone models
+
+    droneTech -> UI : select drone model and ask to list drones
+    activate UI
+
+    UI -> CTRL : create
+    activate CTRL
+
+        CTRL -> CTRL : getDroneRepository()
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getDroneRepository()
+            activate PLAT
+
+                PLAT --> CTRL: droneRepository
+            deactivate PLAT
+            CTRL --> CTRL : droneRepository
+
+        deactivate CTRL
+
+        UI -> UI: doShowDrones()
+
+        UI -> CTRL: listDrones(selectedDroneModelId)
+        CTRL -> dRepo: findAllActiveByModelOrderedBySerialNumber(selectedDroneModelId, status=available)
+        activate dRepo
+            dRepo --> CTRL: listOfDrones
+        deactivate dRepo
+        CTRL -> UI: displayDrones(listOfDrones)
+
+    deactivate CTRL
+
+    UI -> droneTech : shows list of drones
+
+deactivate UI
+deactivate droneTech
+
+@enduml
