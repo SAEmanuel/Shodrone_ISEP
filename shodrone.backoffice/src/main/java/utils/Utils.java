@@ -121,7 +121,7 @@ public class Utils {
 
                 return value;
             } catch (NumberFormatException ex) {
-                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+                printAlterMessage("Invalid number. Please enter a valid integer value.");
             }
         } while (true);
     }

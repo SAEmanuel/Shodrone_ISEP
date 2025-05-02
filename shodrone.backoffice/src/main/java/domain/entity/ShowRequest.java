@@ -3,7 +3,7 @@ package domain.entity;
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowRequestStatus;
 import eapli.framework.domain.model.DomainEntityBase;
-import eapli.framework.general.domain.model.Description;
+import domain.valueObjects.Description;
 import jakarta.persistence.*;
 
 import java.time.Duration;
@@ -57,13 +57,10 @@ public class ShowRequest extends DomainEntityBase<Long> {
 
     protected ShowRequest() {}
 
-    public ShowRequest(Costumer costumer, List<Figure> figures, Description description,
-                       Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
-
+    public ShowRequest(LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor, Costumer costumer, List<Figure> figures, Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
         this.submissionDate = submissionDate;
         this.status = status;
         this.submissionAuthor = submissionAuthor;
-
         this.costumer = costumer;
         this.figures = figures;
         this.description = description;
@@ -71,6 +68,51 @@ public class ShowRequest extends DomainEntityBase<Long> {
         this.showDate = showDate;
         this.numberOfDrones = numberOfDrones;
         this.showDuration = showDuration;
+    }
+
+
+    public Duration getShowDuration() {
+        return showDuration;
+    }
+
+    public int getNumberOfDrones() {
+        return numberOfDrones;
+    }
+
+    public LocalDateTime getShowDate() {
+        return showDate;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Description getDescription() {
+        return description;
+    }
+
+    public List<Figure> getFigures() {
+        return figures;
+    }
+
+    public Costumer getCostumer() {
+        return costumer;
+    }
+
+    public String getSubmissionAuthor() {
+        return submissionAuthor;
+    }
+
+    public ShowRequestStatus getStatus() {
+        return status;
+    }
+
+    public LocalDateTime getSubmissionDate() {
+        return submissionDate;
+    }
+
+    public Long getShowRequestId() {
+        return showRequestId;
     }
 
     @Override
