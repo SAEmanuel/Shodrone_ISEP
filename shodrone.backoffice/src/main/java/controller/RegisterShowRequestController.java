@@ -2,21 +2,21 @@ package controller;
 
 import domain.entity.Costumer;
 import domain.entity.Figure;
+import domain.entity.ShowRequest;
 import domain.valueObjects.Location;
 import factories.FactoryProvider;
 import domain.valueObjects.Description;
 import persistence.RepositoryProvider;
-import persistence.interfaces.ShowRequestRepository;
 import ui.FoundCostumerUI;
 import ui.ListFiguresByCostumerUI;
 import utils.Utils;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public class RegisterShowRequestController {
-    private final ShowRequestRepository showRequestRepository;
     private final FoundCostumerUI foundCostumerUI;
     private final ListFiguresByCostumerUI listFiguresByCostumerUI;
 
@@ -26,16 +26,31 @@ public class RegisterShowRequestController {
     private Location locationOfShow;
     private LocalDateTime showDate;
     private int numberOfDrones;
-    private int showDuration;
+    private Duration showDuration;
 
     public RegisterShowRequestController() {
-        this.showRequestRepository = RepositoryProvider.showRequestRepository();
         this.foundCostumerUI = new FoundCostumerUI();
         this.listFiguresByCostumerUI = new ListFiguresByCostumerUI();
 
         this.costumerSelected = null;
         this.figuresSelected = null;
     }
+
+    public ShowRequest registerShowRequest() {
+        Optional<ShowRequest> result = FactoryProvider.getShowRequestFactory().automaticBuild(costumerSelected, figuresSelected, descriptionOfShowRequest,
+                                                                                              locationOfShow, showDate, numberOfDrones, showDuration);
+        if (result.isPresent()) {
+            result = RepositoryProvider.showRequestRepository().saveInStore(result.get());
+            if (result.isEmpty()){
+                Utils.exitImmediately("❌ Failed to save the show request.");
+            }
+        } else {
+            Utils.exitImmediately("❌ Failed to register the show request. Please check the input data and try again.");
+        }
+        return result.get();
+    }
+
+
 
     public void foundCostumerForRegistration(){
         Optional<Costumer> result = foundCostumerUI.foundCustomersUI();
@@ -64,4 +79,13 @@ public class RegisterShowRequestController {
     public void getDateForShow(){
         this.showDate = Utils.readDateFromConsole("Enter the show date (yyyy-MM-dd HH:mm)");
     }
+
+    public void getNumberOfDrones(){
+        this.numberOfDrones = Utils.readIntegerFromConsole("Enter the number of drones");
+    }
+
+    public void getShowDuration(){
+        this.showDuration = Duration.ofMinutes(Utils.readIntegerFromConsole("Enter the show duration (minutes)"));
+    }
+
 }

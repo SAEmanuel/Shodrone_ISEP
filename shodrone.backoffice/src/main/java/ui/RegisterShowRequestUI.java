@@ -1,8 +1,12 @@
 package ui;
 
 import controller.RegisterShowRequestController;
+import domain.entity.Figure;
+import domain.entity.ShowRequest;
 import domain.valueObjects.Location;
 import utils.Utils;
+
+import java.time.format.DateTimeFormatter;
 
 import static more.ColorfulOutput.ANSI_BRIGHT_BLACK;
 import static more.ColorfulOutput.ANSI_RESET;
@@ -34,6 +38,14 @@ public class RegisterShowRequestUI implements Runnable{
             requestLocationInformation();
             Utils.printCenteredSubtitle("Show date");
             getRegisterShowcontroller().getDateForShow();
+            Utils.printCenteredSubtitle("Drone information");
+            getRegisterShowcontroller().getNumberOfDrones();
+            Utils.printCenteredSubtitle("Show duration");
+            getRegisterShowcontroller().getShowDuration();
+
+            ShowRequest registeredShowRequest = getRegisterShowcontroller().registerShowRequest();
+            Utils.printShowRequestResume(registeredShowRequest);
+            Utils.printSuccessMessage("\n✅ Show request successfully registered!");
 
         }catch(Exception e){
             Utils.printAlterMessage(e.getMessage());

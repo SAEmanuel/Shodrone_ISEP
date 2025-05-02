@@ -6,6 +6,11 @@
 package persistence.interfaces;
 
 
+import domain.entity.ShowRequest;
+
+import java.util.List;
+import java.util.Optional;
+
 /**
  *
  * @author eapli
@@ -13,7 +18,7 @@ package persistence.interfaces;
 public interface ShowRequestRepository<T> {
 
 
-    public T save(T entity);
-
-
+    public Optional<T> saveInStore(ShowRequest entity);
+    public List<ShowRequest> getAll();
+    public Optional<ShowRequest> findById(Object id);
 }

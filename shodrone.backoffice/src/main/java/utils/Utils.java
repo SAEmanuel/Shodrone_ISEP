@@ -1,6 +1,8 @@
 package utils;
 
 
+import domain.entity.Figure;
+import domain.entity.ShowRequest;
 import domain.valueObjects.NIF;
 
 import java.io.BufferedReader;
@@ -121,7 +123,7 @@ public class Utils {
 
                 return value;
             } catch (NumberFormatException ex) {
-                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+                printAlterMessage("Invalid number. Please enter a valid integer value.");
             }
         } while (true);
     }
@@ -436,6 +438,32 @@ public class Utils {
         }
         result = Optional.ofNullable(selectsObject(list));
         return result;
+    }
+
+
+
+    static public void printShowRequestResume(ShowRequest registeredShowRequest) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        System.out.printf("%n%n🧾 Show Request with ID [%d] summary: %n", registeredShowRequest.identity());
+        System.out.println("──────────────────────────────────────────────────");
+        System.out.println("⏱️ Submitted at              : " + registeredShowRequest.getSubmissionDate().format(formatter));
+        System.out.println("💬️ Status                    : " + registeredShowRequest.getStatus().toString());
+        System.out.println("👤 Responsible Collaborator  : " + registeredShowRequest.getSubmissionAuthor());
+        System.out.println("👥 Customer                  : " + registeredShowRequest.getCostumer().name());
+        System.out.println("📝 Description               : " + registeredShowRequest.getDescription());
+        System.out.println("📅 Show Date                 : " + registeredShowRequest.getShowDate().format(formatter));
+        System.out.println("📍 Location                  : " + registeredShowRequest.getLocation().toString());
+        System.out.println("🚁 Number of Drones          : " + registeredShowRequest.getNumberOfDrones());
+        System.out.println("⏱️ Show Duration             : " + registeredShowRequest.getShowDuration().toMinutes() + " minutes");
+        System.out.println("🗿 Selected Figures          :");
+
+        int index = 1;
+        for (Figure figure : registeredShowRequest.getFigures()) {
+            System.out.printf("   %d. %s%n", index++, figure.toString());
+        }
+
+        System.out.println("──────────────────────────────────────────────────\n");
     }
 
 }

@@ -3,8 +3,9 @@ package domain.entity;
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowRequestStatus;
 import eapli.framework.domain.model.DomainEntityBase;
-import eapli.framework.general.domain.model.Description;
+import domain.valueObjects.Description;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -22,48 +23,55 @@ public class ShowRequest extends DomainEntityBase<Long> {
     @Column(name = "identification", nullable = false, unique = true)
     private Long showRequestId;
 
+    @Getter
     @Column(name = "submission_date", nullable = false)
     private LocalDateTime submissionDate;
 
+    @Getter
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ShowRequestStatus status;
 
+    @Getter
     @Column(name = "submission_author", nullable = false)
     private String submissionAuthor;
 
+    @Getter
     @OneToOne
     @JoinColumn(name = "costumer_id", nullable = false)
     private Costumer costumer;
 
+    @Getter
     @OneToMany(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "show_request_id")
     private List<Figure> figures;
 
+    @Getter
     @Embedded
     private Description description;
 
+    @Getter
     @Embedded
     private Location location;
 
+    @Getter
     @Column(name = "show_date", nullable = false)
     private LocalDateTime showDate;
 
+    @Getter
     @Column(name = "number_of_drones", nullable = false)
     private int numberOfDrones;
 
+    @Getter
     @Column(name = "show_duration", nullable = false)
     private Duration showDuration;
 
     protected ShowRequest() {}
 
-    public ShowRequest(Costumer costumer, List<Figure> figures, Description description,
-                       Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
-
+    public ShowRequest(LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor, Costumer costumer, List<Figure> figures, Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
         this.submissionDate = submissionDate;
         this.status = status;
         this.submissionAuthor = submissionAuthor;
-
         this.costumer = costumer;
         this.figures = figures;
         this.description = description;
@@ -71,6 +79,11 @@ public class ShowRequest extends DomainEntityBase<Long> {
         this.showDate = showDate;
         this.numberOfDrones = numberOfDrones;
         this.showDuration = showDuration;
+    }
+
+
+    public void setId(long l) {
+        this.showRequestId = l;
     }
 
     @Override
