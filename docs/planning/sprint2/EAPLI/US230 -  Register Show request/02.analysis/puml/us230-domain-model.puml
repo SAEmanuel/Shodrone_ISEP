@@ -11,45 +11,80 @@ hide methods
 
 package "CRM Collaborator Subsystem" {
 
-    class Representative {
-    ID:id
-    Client:client
-    Email:email
-    Name:name
-    String:position
+    entity "Customer" as Customer {
+      * id : String <<generated>>
+      --
+      * name : String
+      * status : String <<enum>> {active, VIP, inactive}
     }
 
-    class ShowRequest {
-        DescriptionDSL: dsl
-        Description: description
-        Date: requestDate
-        Integer: numberDrones
-        Location: location
-        Date: showDate
-        Time: showDuration
-        Status: showRequestStatus
+    entity "ShowRequest" as ShowRequest {
+      * id : String <<generated>>
+      --
+      * numberOfDrones : Integer
+      * duration : Integer
+      * creationDate : DateTime
+      * status : String
     }
 
-    class FigureProposal {
+    entity "ShowProposal" as ShowProposal {
+      * id : String <<generated>>
+      --
+      * proposalDate : DateTime
+      * status : String <<enum>> {Draft, Sent, Approved, Rejected}
+      * costEstimate : Decimal
+      * feasibilityNotes : String
     }
 
-    class Figure {
-       Description: figureDescription
-       Version:version
-       DescriptionDSL: dslCode
-       KeyWord:keyWord
+    entity "ShowDescription" as ShowDescription {
+      * place : String
+      * latitude : Double
+      * longitude : Double
+      * time : DateTime
     }
 
-    class Exclusivity {
-        Time:exclusivityTime
+    entity "FigureExecution" as FigureExecution {
+      * order : Integer
     }
 
-    Representative "1" - "1..*" ShowRequest : request >
-    ShowRequest "1 " -> "1..*" Figure
-    ShowRequest "1" --> "0..1" FigureProposal
-    FigureProposal "1   " -> "  1..*" Figure
-    Figure "1" -> "0..1" Exclusivity : have >
+    entity "Figure" as Figure {
+      * id : String <<generated>>
+      --
+      * name : String
+      * isPublic : Boolean
+      * exclusivity : String
+    }
+
+    entity "ShowRequestAuthor" as ShowRequestAuthor {
+      * userId : String
+      * username : String
+    }
+
+    entity "ShowRequestStatus" as ShowRequestStatus {
+      * status : String
+      * timestamp : DateTime
+      * changedBy : String
+    }
+
+    ' Relationships
+    Customer ||--o{ ShowRequest : requests
+    ShowRequest ||--o| ShowDescription : describes
+    ShowDescription ||--o{ FigureExecution : includes
+    FigureExecution ||--o{ Figure : performs
+    ShowRequest ||--o| ShowRequestAuthor : createdBy
+    ShowRequest ||--o{ ShowRequestStatus : hasStatus
+    ShowRequest ||--o| ShowProposal : proposedAs
+
+    ' Notes on constraints
+    note right of Customer: Must be active or VIP for new requests
+    note right of Figure: Must be public or exclusive to customer
+    note right of ShowRequestStatus: Initialized with "Created" status
+    note right of ShowProposal: Created with "Draft" status
+    note right of ShowRequest: Cannot be edited once a ShowProposal exists
+    note right of ShowDescription: Latitude: [-90.0, 90.0]\nLongitude: [-180.0, 180.0]
 
 }
 
 @enduml
+
+stes ou quiser prosseguir com outra seção (como a implementação de US235), posso ajudar!

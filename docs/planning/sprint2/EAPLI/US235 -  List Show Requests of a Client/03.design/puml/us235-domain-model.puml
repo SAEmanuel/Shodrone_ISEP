@@ -1,18 +1,77 @@
-
 @startuml
-actor "CRM Collaborator" as Collaborator
-participant ":System" as System
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
 
-Collaborator -> System: login()
-System -> Collaborator: authenticated
-Collaborator -> System: listShowRequestsOfClient()
-System -> Collaborator: showClientList()
-Collaborator -> System: selectClient(clientId)
-System -> System: retrieveShowRequests(clientId)
-alt show requests exist
-    System -> Collaborator: displayShowRequests(requests)
-else no show requests
-    System -> Collaborator: "No show requests found for this client"
-end
+title UI Sequence Diagram (SSD) - List Show Request of client
+
+autonumber
+
+actor "CRM Collaborator/Manager" as crmColl
+participant ":ListShowRequestOfClientUI" as UI
+participant ":ListShowRequestOfClientController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as repoProvier
+participant "costumerRepositoryInterface\n:CostumerRepositoryInterface" as cosInt
+participant "showRequestRepositoryInterface\n:ShowRequestRepositoryInterface" as shwint
+
+
+
+
+activate crmColl
+
+    crmColl -> UI : ask to list a Show Request of client
+
+    activate UI
+
+    UI -> CTRL **: create
+    UI -> CTRL : listCostumerInSystem()
+
+    activate CTRL
+
+        CTRL -> repoProvier : getCostumerRepository()
+
+        activate repoProvier
+
+        repoProvier -> cosInt **: create
+        repoProvier --> CTRL : costumerRepositoryInterface
+        deactivate repoProvier
+
+
+        CTRL -> cosInt: getAllCostumerInSystem()
+        activate cosInt
+
+        cosInt --> CTRL: listCostumerInSystem
+        deactivate cosInt
+        CTRL --> UI : listCostumerInSystem
+        UI --> crmColl : ask to select a costumer
+
+        crmColl -> UI : select a costumer
+
+        UI -> CTRL : getShowRequestOfClient(Costumer selectedCostumer)
+
+        CTRL -> repoProvier : getShowRequestRepository()
+        activate repoProvier
+
+            repoProvier -> shwint ** : create
+            repoProvier --> CTRL : showRequestRepositoryInterface
+        deactivate repoProvier
+
+        CTRL -> shwint : getShowRequestOfClient()
+        activate shwint
+
+            shwint --> CTRL : showRequestList
+        deactivate shwint
+        CTRL --> UI : showRequestList
+    deactivate CTRL
+        UI --> crmColl : show all show request of client selected (if some)
+    deactivate UI
+    deactivate crmColl
+
+
+
+
+
+
+
 
 @enduml
