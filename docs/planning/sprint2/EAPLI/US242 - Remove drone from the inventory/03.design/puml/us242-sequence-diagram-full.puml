@@ -1,0 +1,132 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SD) - Remove Drone from Inventory
+
+autonumber
+
+actor "Drone Tech" as droneTech
+participant ":RemoveDroneFromInventoryUI" as UI
+participant ":RemoveDroneFromInventoryController" as CTRL
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "droneRepository\n:DroneRepository" as dRepo
+participant "droneRemovalRecordRepository\n:DroneRemovalRecordRepository" as drrRepo
+
+participant "factoryProvider\n:FactoryProvider" as factProv
+participant "droneRemovalRecordFactoryImpl\n:DroneRemovalRecordFactoryImpl" as drrFactImpl
+participant "droneRemovalRecord\n:DroneRemovalRecord" as droneRemovalRecord
+participant "droneRemovalRecordJPAImpl\n:DroneRemovalRecordJPAImpl" as drrJPA
+participant "inMemoryDroneRemovalRecordRepository\n:InMemoryDroneRemovalRecordRepository" as drrMem
+
+participant "localDateTime\n:LocalDateTime" as localTime
+participant "authService\n:AuthService" as authService
+
+activate droneTech
+
+    droneTech -> UI : request to remove drone
+    activate UI
+
+    UI -> droneTech : ask for serial number and removal reason
+    droneTech -> UI : provides serial number and removal reason
+
+    UI -> CTRL : removeDrone(serialNumber, removalReason)
+    activate CTRL
+
+    CTRL -> CTRL : getDroneRepository()
+    activate CTRL
+
+        CTRL -> RepositorySingleton : getInstance()
+        activate RepositorySingleton
+
+            RepositorySingleton --> CTRL: repositories
+        deactivate RepositorySingleton
+
+        CTRL -> PLAT : getDroneRepository()
+        activate PLAT
+
+            PLAT --> CTRL: droneRepository
+        deactivate PLAT
+        CTRL --> CTRL : droneRepository
+
+    deactivate CTRL
+
+    CTRL -> dRepo : existsBySerialNumber(serialNumber)
+    activate dRepo
+
+        dRepo --> CTRL : exists
+    deactivate dRepo
+
+    alt serial number does not exist
+        CTRL -> UI : error("Serial number not found: " + serialNumber)
+        deactivate CTRL
+        deactivate UI
+        deactivate droneTech
+        return
+    else serial number exists
+        CTRL -> CTRL : getDroneRemovalRecordRepository()
+        activate CTRL
+
+            CTRL -> RepositorySingleton : getInstance()
+            activate RepositorySingleton
+
+                RepositorySingleton --> CTRL: repositories
+            deactivate RepositorySingleton
+
+            CTRL -> PLAT : getDroneRemovalRecordRepository()
+            activate PLAT
+
+                PLAT --> CTRL: droneRemovalRecordRepository
+            deactivate PLAT
+            CTRL --> CTRL : droneRemovalRecordRepository
+
+        deactivate CTRL
+
+        CTRL -> factProv : getDroneRemovalRecordFactory()
+        activate factProv
+
+            factProv --> CTRL : droneRemovalRecordFactory
+        deactivate factProv
+
+        CTRL -> localTime : getCurrentMoment()
+        activate localTime
+
+            localTime --> CTRL : removalDate
+        deactivate localTime
+
+        CTRL -> authService : getCurrentUser()
+        activate authService
+
+            authService --> CTRL : removedBy
+        deactivate authService
+
+        CTRL -> drrFactImpl : createDroneRemovalRecord(serialNumber, removalReason, removalDate, removedBy)
+        activate drrFactImpl
+
+            drrFactImpl -> droneRemovalRecord** : create
+            drrFactImpl --> CTRL : droneRemovalRecordObject
+        deactivate drrFactImpl
+
+        CTRL -> drrJPA : add(droneRemovalRecordObject)
+        activate drrJPA
+
+            drrJPA --> CTRL : confirmation
+        deactivate drrJPA
+
+        CTRL -> drrMem : add(droneRemovalRecordObject)
+        activate drrMem
+
+            drrMem --> CTRL : confirmation
+        deactivate drrMem
+
+        CTRL -> UI : serialNumber
+    deactivate CTRL
+
+    UI -> droneTech : shows operation (in)success
+
+deactivate UI
+deactivate droneTech
+
+@enduml
