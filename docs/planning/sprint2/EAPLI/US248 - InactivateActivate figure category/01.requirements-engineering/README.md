@@ -1,4 +1,4 @@
-# US248 - Inactivate/Activate a figure category
+# US248 - Inactivate/Activate a Figure Category
 
 ## 1. Requirements Engineering
 
@@ -17,13 +17,11 @@ As a Show Designer, I want to inactivate or activate a figure category in the ca
 
 ### 1.3. Acceptance Criteria
 
-- [ ] Only Show Designers can inactivate or activate categories.
-- [ ] The status of the category is updated to ACTIVE or INACTIVE as requested.
-- [ ] The user and timestamp of the status change are recorded.
-- [ ] Inactivated categories are excluded from the default list for association with figures.
-- [ ] A success or error message is shown after the operation.
-- [ ] It is possible to reactivate an inactivated category.
-- [ ] The system prevents redundant operations (e.g., trying to inactivate an already inactive category).
+- [x] Only Show Designers can inactivate or activate categories.
+- [x] The status of the category is updated to ACTIVE or INACTIVE as requested.
+- [x] The user and timestamp of the status change are recorded.
+- [x] A success or error message is shown after the operation.
+- [x] It is possible to reactivate an inactivated category.
 
 > **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
 
@@ -37,14 +35,13 @@ As a Show Designer, I want to inactivate or activate a figure category in the ca
 
 **Input Data:**
 
-* Category identifier (ID) to select the category.
-* Requested action (activate or inactivate).
+- Request to change the current availability of a category.
+- Category selection by the user.
 
 **Output Data:**
 
-* Confirmation of successful status change (success message and updated category details), or
-* Error message indicating reason for failure (e.g., category not found, already in requested status, insufficient permissions).
-
+- Confirmation of successful status change, or
+- Error message if the operation could not be performed (e.g., already in desired state).
 ### 1.6. System Sequence Diagram (SSD)
 
 ![System Sequence Diagram](svg/us248-system-sequence-diagram.svg)

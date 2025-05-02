@@ -14,7 +14,7 @@ activate SD
 
 SD -> System: requests to edit Figure Category
 activate System
-
+System -> System: fetches all categories
 System --> SD: sends all categories for user to choose
 SD -> System : chooses the category to edit and edits fields
 System -> System: validates Category name

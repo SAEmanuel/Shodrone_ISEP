@@ -12,21 +12,16 @@ participant ":System" as System
 
 activate SD
 
-SD -> System: requestChangeCategoryStatus(id, action)
+SD -> System: requests to change the current category availability
 activate System
+System -> System: fetches all categories
+System --> SD: sends all categories for user to choose
 
-System -> System: validateCategoryExists(id)
-alt Category does not exist
-    System --> SD: errorMessage("Category not found")
-else Category exists
-    System -> System: checkCategoryStatus(id)
-    alt Status already as requested
-        System --> SD: errorMessage("Category already in requested status")
-    else Status change allowed
-        System -> System: updateCategoryStatus(id, action, updatedOn, updatedBy)
-        System --> SD: confirmationMessage("Category status updated successfully")
-    end
-end
+SD -> System: chooses the category
+System -> System: changes the chosen category status
+
+System --> SD: informs user about the successful operation
+
 
 deactivate System
 deactivate SD
