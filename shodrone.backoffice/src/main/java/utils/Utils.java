@@ -7,6 +7,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -82,10 +86,10 @@ public class Utils {
         System.out.println(ANSI_MEDIUM_SPRING_GREEN + subtitle + ANSI_RESET);
 
         // Linha inferior decorativa
-//        System.out.print(ANSI_BRIGHT_BLACK);
-//        for (int i = 0; i < lineLength; i++) {
-//            System.out.print("─");
-//        }
+        System.out.print(ANSI_BRIGHT_BLACK);
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("─");
+        }
         System.out.println(ANSI_RESET);
     }
 
@@ -157,18 +161,25 @@ public class Utils {
     }
 
 
-    static public Date readDateFromConsole(String prompt) {
+    static public LocalDateTime readDateFromConsole(String prompt) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         do {
             try {
                 String strDate = readLineFromConsole(prompt);
+                LocalDateTime inputDateTime = LocalDateTime.parse(strDate, formatter);
 
-                SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+                LocalDateTime now = LocalDateTime.now();
+                LocalDateTime minAllowed = now.plusHours(72);
 
-                Date date = df.parse(strDate);
+                if (inputDateTime.isBefore(minAllowed)) {
+                    printAlterMessage("The date/time must be at least 72 hours from now (" + minAllowed.format(formatter) + ").");
+                    continue;
+                }
 
-                return date;
-            } catch (ParseException ex) {
-                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+                return inputDateTime;
+
+            } catch (DateTimeParseException ex) {
+                printAlterMessage("Invalid date/time. Please use format yyyy-MM-dd HH:mm (e.g., 2025-05-01 14:30).");
             }
         } while (true);
     }

@@ -9,6 +9,7 @@ import persistence.RepositoryProvider;
 import persistence.interfaces.ShowRequestRepository;
 import ui.FoundCostumerUI;
 import ui.ListFiguresByCostumerUI;
+import utils.Utils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -43,6 +44,7 @@ public class RegisterShowRequestController {
         }
         costumerSelected = result.get();
     }
+
     public void foundFiguresForRegistration(){
         List<Figure> figures = listFiguresByCostumerUI.getListFiguresUI(costumerSelected);
         if(figures.isEmpty()){
@@ -50,8 +52,16 @@ public class RegisterShowRequestController {
         }
         figuresSelected = figures;
     }
+
     public void getDescriptionsForRegistration(String rawDescriptionOfShowRequest){
         descriptionOfShowRequest = new Description(rawDescriptionOfShowRequest);
     }
-    public void getLocationOfShow(){this.locationOfShow = FactoryProvider.getLocationFactoryImpl().createLocationObject();}
+
+    public void getLocationOfShow(){
+        this.locationOfShow = FactoryProvider.getLocationFactoryImpl().createLocationObject();
+    }
+
+    public void getDateForShow(){
+        this.showDate = Utils.readDateFromConsole("Enter the show date (yyyy-MM-dd HH:mm)");
+    }
 }

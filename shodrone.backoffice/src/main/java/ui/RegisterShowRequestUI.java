@@ -32,6 +32,8 @@ public class RegisterShowRequestUI implements Runnable{
             getRegisterShowcontroller().getDescriptionsForRegistration(Utils.readLineFromConsole(ANSI_BRIGHT_BLACK+ITALIC+"• Enter the description of the show"+ANSI_RESET));
             Utils.printCenteredSubtitle("Show location");
             requestLocationInformation();
+            Utils.printCenteredSubtitle("Show date");
+            getRegisterShowcontroller().getDateForShow();
 
         }catch(Exception e){
             Utils.printAlterMessage(e.getMessage());

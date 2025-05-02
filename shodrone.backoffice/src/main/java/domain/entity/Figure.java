@@ -94,15 +94,15 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     @Override
     public String toString() {
-        return ANSI_BRIGHT_PURPLE + "Figure{" + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE+ "\nFigureId=" + figureId + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\nName='" + name + '\'' + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\nDescription=" + description + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\nVersion=" + version + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\nCategory=" + category + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\nAvailability=" + availability.toString() + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\nStatus=" + status.toString() + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\nCostumer=" + costumer.identity() + ANSI_RESET +
-                ANSI_BRIGHT_PURPLE + "\n}" + ANSI_RESET ;
+        return String.format(
+                "ID: %-3s | Name: %-10s | Status: %-6s | Availability: %-10s | Version: %-6s | Category: %-10s",
+                figureId != null ? figureId : "N/A",
+                name != null ? name : "N/A",
+                status != null ? status : "N/A",
+                availability != null ? availability : "N/A",
+                version != null ? version.toString() : "N/A",
+                category != null ? category.identity() : "N/A"
+        );
     }
+
 }
