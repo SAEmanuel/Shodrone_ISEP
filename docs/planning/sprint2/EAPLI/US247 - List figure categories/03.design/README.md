@@ -2,39 +2,39 @@
 
 ### 3.1. Design Overview
 
-The design for the "List Figure Categories" functionality follows a layered and modular architecture, ensuring a clear separation of concerns between the user interface, business logic, and data access layers. The process is initiated by the Show Designer, who requests to view all available figure categories. The user interface delegates this request to a dedicated controller, which then interacts with the repository to retrieve the relevant categories from the persistence layer.
+The design for the "List Figure Categories" functionality follows a layered and modular architecture, ensuring a clear separation of concerns between the user interface, business logic, and data access layers. The process begins with the Show Designer requesting to view all available figure categories via the user interface. This request is delegated to a controller, which communicates with the appropriate repository to fetch the data from the persistence layer.
 
 Key design aspects:
 - Only authenticated users with the Show Designer role can access the category listing.
-- The controller ensures that only active categories are retrieved and that the results are ordered alphabetically by name.
-- The repository abstracts the data access logic, allowing the domain layer to remain independent of the underlying data source (supporting both in-memory and database-backed persistence).
-- The UI displays the resulting list, showing each category’s name and description.
-- The design supports future extensibility, such as filtering, searching, and pagination.
+- The controller ensures that all categories are retrieved and presented as they exist, allowing future extensibility for filtering by active status or other criteria.
+- The repository abstracts the data access logic, supporting both in-memory and JPA-backed persistence through polymorphic handling.
+- The user interface receives the list (if available) and displays each category’s name and description.
+- In the case of an empty list, an appropriate message is shown to the user.
+- The solution allows easy extensibility (e.g., search, filter, pagination) while maintaining traceability and maintainability.
 
-This approach ensures maintainability, scalability, and compliance with both functional and non-functional requirements, and is fully aligned with the project’s architectural guidelines.
+This design enforces consistency across the system, providing robustness and flexibility aligned with the architecture's quality standards.
 
 ### 3.2. Sequence Diagram(s)
 
 ![Sequence Diagram Full](svg/us247-sequence-diagram-full.svg)
 
 The sequence diagram illustrates the complete flow for listing figure categories:
-- The Show Designer initiates the request via the UI.
-- The UI calls the controller to handle the operation.
-- The controller obtains the appropriate repository from the persistence context, using a factory for decoupling.
-- The controller invokes the repository method to retrieve all active categories, ordered by name.
-- The repository returns the list of categories to the controller, which then passes it to the UI for display.
-- The UI presents the list to the user.
 
-Sequence diagrams, as part of UML, are used to visualize how objects interact in a particular sequence, emphasizing the order of interactions over time and clarifying the responsibilities of each component in the system.
+- The Show Designer initiates the request through the UI.
+- The UI delegates the request to a controller.
+- The controller acquires the appropriate repository using a factory-based provider.
+- The repository (in-memory or JPA) retrieves all categories.
+- The controller receives the list and returns it to the UI.
+- The UI either displays the list of categories (if available) or shows a message indicating the absence of categories.
+
+The sequence diagram includes an `alt` fragment to illustrate both the scenario where categories are available and the scenario where the list is empty.
 
 ### 3.3. Design Patterns (if any)
 
-- **Repository Pattern:** Abstracts data access and persistence, keeping the domain logic independent of the data source.
-- **Factory Pattern:** Used for repository creation, promoting decoupling and easier testing/configuration.
-- **Controller Pattern:** Centralizes business logic and mediates between the UI and the domain/persistence layers.
-- **Separation of Concerns:** Maintains clear boundaries between UI, business logic, domain model, and persistence.
-- **SOLID and GoF Principles:** The design adheres to SOLID object-oriented principles and applies classic GoF patterns to ensure maintainability and extensibility.
+- **Repository Pattern:** Provides an abstraction over data access, allowing persistence logic to be decoupled from business logic.
+- **Factory Pattern:** Used by the repository provider to instantiate the correct repository implementation (JPA or in-memory).
+- **Controller Pattern:** Coordinates the request, encapsulating logic between the UI and data layer.
+- **Separation of Concerns:** Ensures each layer (UI, controller, domain, persistence) has a well-defined responsibility.
+- **SOLID and GoF Principles:** The implementation respects object-oriented design principles, promoting flexibility and maintainability.
 
-This design ensures robustness, clarity, and compliance with both functional and non-functional requirements.
-
-
+This architecture supports both immediate business needs and future requirements, ensuring a scalable and testable solution.

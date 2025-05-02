@@ -1,7 +1,7 @@
 package ui;
 
 import controller.ChangeFigureCategoryStatusController;
-import controller.GetAllFigureCategoriesController;
+import controller.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
 import utils.Utils;
 
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public class FigureCategoryAvailabilityUI implements Runnable {
 
-    private final GetAllFigureCategoriesController getAllFigureCategoriesController = new GetAllFigureCategoriesController();
+    private final GetFigureCategoriesController getFigureCategoriesController = new GetFigureCategoriesController();
     private final ChangeFigureCategoryStatusController changeFigureCategoryStatusController = new ChangeFigureCategoryStatusController();
 
 
@@ -18,7 +18,7 @@ public class FigureCategoryAvailabilityUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("Inactivate/Activate a Figure Category");
 
-        Optional<List<FigureCategory>> categoriesOptional = getAllFigureCategoriesController.getAllFigureCategories();
+        Optional<List<FigureCategory>> categoriesOptional = getFigureCategoriesController.getAllFigureCategories();
 
         if (categoriesOptional.isEmpty()) {
             Utils.printFailMessage("No categories in the system yet...");

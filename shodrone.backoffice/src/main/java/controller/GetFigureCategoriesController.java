@@ -7,11 +7,11 @@ import persistence.interfaces.FigureCategoryRepository;
 import java.util.List;
 import java.util.Optional;
 
-public class GetAllFigureCategoriesController {
+public class GetFigureCategoriesController {
 
     private final FigureCategoryRepository repository;
 
-    public GetAllFigureCategoriesController() {
+    public GetFigureCategoriesController() {
         repository = RepositoryProvider.figureCategoryRepository();
     }
 

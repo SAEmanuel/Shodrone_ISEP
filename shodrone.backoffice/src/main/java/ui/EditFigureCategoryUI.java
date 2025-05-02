@@ -3,7 +3,7 @@ package ui;
 
 import controller.EditFigureCategoryController;
 
-import controller.GetAllFigureCategoriesController;
+import controller.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
@@ -15,13 +15,13 @@ import java.util.Optional;
 public class EditFigureCategoryUI implements Runnable {
 
     private final EditFigureCategoryController editFigureCategoryController = new EditFigureCategoryController();
-    private final GetAllFigureCategoriesController getAllFigureCategoriesController = new GetAllFigureCategoriesController();
+    private final GetFigureCategoriesController getFigureCategoriesController = new GetFigureCategoriesController();
 
     @Override
     public void run() {
         Utils.printCenteredTitle("Edit Figure Category");
 
-        Optional<List<FigureCategory>> allCategoriesOptional = getAllFigureCategoriesController.getAllFigureCategories();
+        Optional<List<FigureCategory>> allCategoriesOptional = getFigureCategoriesController.getAllFigureCategories();
         if (allCategoriesOptional.isPresent()) {
             int index = Utils.showAndSelectIndexPartially(allCategoriesOptional.get(), "Select the desired category to edit");
 

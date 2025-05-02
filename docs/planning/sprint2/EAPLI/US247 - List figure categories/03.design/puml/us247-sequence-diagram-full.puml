@@ -7,54 +7,49 @@ title UI Sequence Diagram (SSD) - List Figure Categories
 
 autonumber
 
-actor "Show Designer" as showDesigner
-participant ":ListFigureCategoriesUI" as UI
-participant ":ListFigureCategoriesController" as CTRL
-participant "figureCategoryController\n:FigureCategoryController" as catCtrl
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "figureCategoryRepository\n:FigureCategoryRepository" as catRepo
+actor "Show Designer" as SD
+participant ":ListAllFigureCategoriesUI" as UI
+participant ":GetFigureCategoriesController" as CTRL
+participant "RepositoryProvider" as Provider
+participant "FigureCategoryRepository" as Repo
+participant "InMemoryFigureCategoryRepository" as InMemRepo
+participant "FigureCategoryJPAImpl" as JpaRepo
 
-activate showDesigner
+activate SD
+SD -> UI : requests to list all categories
+activate UI
 
-    showDesigner -> UI : ask to list Figure Categories
-    activate UI
+UI -> CTRL : getAllFigureCategories()
+activate CTRL
 
-    UI -> CTRL : create
-    activate CTRL
+CTRL -> Provider** : figureCategoryRepository()
+activate Provider
 
-        CTRL -> CTRL : getFigureCategoryRepository()
-        activate CTRL
+Provider --> CTRL : repository instance
+deactivate Provider
 
-            CTRL -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
+alt Repository is InMemoryFigureCategoryRepository
+    CTRL -> InMemRepo : findAll()
+    activate InMemRepo
 
-                RepositorySingleton --> CTRL: repositories
-            deactivate RepositorySingleton
+    InMemRepo --> CTRL : Optional<List<FigureCategory>>
+    deactivate InMemRepo
+else Repository is FigureCategoryJPAImpl
+    CTRL -> JpaRepo : findAll()
+    activate JpaRepo
 
-            CTRL -> PLAT : getFigureCategoryRepository()
-            activate PLAT
+    JpaRepo --> CTRL : Optional<List<FigureCategory>>
+    deactivate JpaRepo
+end
 
-                PLAT --> CTRL: figureCategoryRepository
-            deactivate PLAT
-            CTRL --> CTRL : figureCategoryRepository
+CTRL --> UI : Optional<List<FigureCategory>>
+deactivate CTRL
 
-        deactivate CTRL
-
-        UI -> UI: doShow()
-
-        UI -> CTRL: listFigureCategories()
-        CTRL -> catRepo: findAllActiveOrderedByName()
-        activate catRepo
-            catRepo --> CTRL: listOfCategories
-        deactivate catRepo
-        CTRL -> UI: displayCategories(listOfCategories)
-
-    deactivate CTRL
-
-    UI -> showDesigner : shows list of categories
-
+alt List is not empty
+    UI -> SD : display list of categories
+else List is empty
+    UI -> SD : show message "No categories in the system yet..."
+end
 deactivate UI
-deactivate showDesigner
-
+deactivate SD
 @enduml
