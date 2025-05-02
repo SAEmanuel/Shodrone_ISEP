@@ -35,7 +35,7 @@ public class Utils {
 
     public static void printOptionalValidMessage(String message, Optional<?> optionalMessage) {
         if (message != null && !message.isEmpty()) {
-            System.out.printf("%s%s: %s%s%n", ANSI_GREEN, message,optionalMessage.get().toString(),ANSI_RESET);
+            System.out.printf("%s%s: %s%s%n", ANSI_GREEN, message, optionalMessage.get().toString(), ANSI_RESET);
         }
     }
 
@@ -65,9 +65,34 @@ public class Utils {
         System.out.println(); // Final spacing
     }
 
+    public static void printCenteredSubtitle(String subtitle) {
+        int lineLength = 30;
 
-    static public void printSubTitle(String prompt){
-        System.out.println(ANSI_BRIGHT_BLACK+ITALIC+"• ".concat(prompt).concat(ANSI_RESET).concat(":"));
+        dropLines(1);
+
+        // Linha superior decorativa
+        System.out.print(ANSI_BRIGHT_BLACK);
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("─");
+        }
+        System.out.println(ANSI_RESET);
+
+        // Subtítulo centralizado
+        int leftSpaces = (lineLength - subtitle.length()) / 2;
+        System.out.print(" ".repeat(Math.max(0, leftSpaces)));
+        System.out.println(ANSI_MEDIUM_SPRING_GREEN + subtitle + ANSI_RESET);
+
+        // Linha inferior decorativa
+//        System.out.print(ANSI_BRIGHT_BLACK);
+//        for (int i = 0; i < lineLength; i++) {
+//            System.out.print("─");
+//        }
+        System.out.println(ANSI_RESET);
+    }
+
+
+    static public void printSubTitle(String prompt) {
+        System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• ".concat(prompt).concat(ANSI_RESET).concat(":"));
     }
 
     static public String readLineFromConsole(String prompt) {
@@ -102,15 +127,13 @@ public class Utils {
         do {
             try {
                 String input = readLineFromConsole(prompt);
-
-                double value = Double.parseDouble(input);
-
-                return value;
+                return Double.parseDouble(input);
             } catch (NumberFormatException ex) {
-                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+                printAlterMessage("Invalid number. Please enter a valid decimal number.");
             }
         } while (true);
     }
+
 
     static public long readLongFromConsole(String prompt) {
         while (true) {
@@ -128,12 +151,11 @@ public class Utils {
             try {
                 String input = readLineFromConsole(prompt);
                 return new NIF(input);
-            }catch (IllegalArgumentException ex) {
-                printAlterMessage("❌".concat(ex.getMessage()).concat( "Please enter a valid NIF value."));
+            } catch (IllegalArgumentException ex) {
+                printAlterMessage("❌".concat(ex.getMessage()).concat("Please enter a valid NIF value."));
             }
-        }while (true);
+        } while (true);
     }
-
 
 
     static public Date readDateFromConsole(String prompt) {
@@ -208,9 +230,9 @@ public class Utils {
         for (Object o : list) {
             index++;
 
-            System.out.printf("║    %s(%-3s%s -  %-36s %-2s%n",COLOR_OPTIONS, index + ")",ANSI_RESET,o.toString(),"║");
+            System.out.printf("║    %s(%-3s%s -  %-36s %-2s%n", COLOR_OPTIONS, index + ")", ANSI_RESET, o.toString(), "║");
         }
-        System.out.printf("║    %s(0)%s  -  %-28s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
+        System.out.printf("║    %s(0)%s  -  %-28s %9s%n", COLOR_OPTIONS, ANSI_RESET, "Cancel", "║");
         System.out.println("╚═════════════════════════════════════════════════╝");
     }
 
@@ -222,9 +244,9 @@ public class Utils {
         for (Object o : list) {
             index++;
 
-            System.out.printf("║    %s(%d)%s -  %-28s %-2s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString(),"║");
+            System.out.printf("║    %s(%d)%s -  %-28s %-2s%n", COLOR_OPTIONS, index, ANSI_RESET, o.toString(), "║");
         }
-        System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
+        System.out.printf("║    %s(0)%s -  %-20s %9s%n", COLOR_OPTIONS, ANSI_RESET, "Cancel", "║");
         System.out.println("╚════════════════════════════════════════╝");
     }
 
@@ -233,21 +255,21 @@ public class Utils {
     }
 
     static public void showListCustom(List<?> list, String header) {
-        System.out.println(ANSI_BRIGHT_BLACK+ITALIC+"• ".concat(header).concat(":")+ANSI_RESET);
+        System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• ".concat(header).concat(":") + ANSI_RESET);
         int index = 0;
         for (Object o : list) {
             index++;
-            System.out.printf("    %s(%d)%s -  %-28s%n",COLOR_OPTIONS,index,ANSI_RESET,o.toString());
+            System.out.printf("    %s(%d)%s -  %-28s%n", COLOR_OPTIONS, index, ANSI_RESET, o.toString());
         }
-        System.out.printf("    %s(0)%s -  %-20s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel");
+        System.out.printf("    %s(0)%s -  %-20s%n", COLOR_OPTIONS, ANSI_RESET, "Cancel");
     }
 
     static public void showListElements(List<?> list, String header) {
         if (!header.isEmpty())
-            System.out.println(ANSI_BRIGHT_BLACK+ITALIC+"• ".concat(header).concat(":")+ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• ".concat(header).concat(":") + ANSI_RESET);
 
         for (Object o : list) {
-            System.out.printf("    %s  %s%-2s%s%n","•", ANSI_BLUE, o.toString(), ANSI_RESET);
+            System.out.printf("    %s  %s%-2s%s%n", "•", ANSI_BLUE, o.toString(), ANSI_RESET);
         }
 
         dropLines(3);
@@ -307,20 +329,17 @@ public class Utils {
         System.out.println(ANSI_BRIGHT_RED + message + ANSI_RESET);
     }
 
-    public static Optional<?> showAndSelectObjectFromList(Optional<List<?>> optionalResult,String header) {
+    public static Optional<?> showAndSelectObjectFromList(Optional<List<?>> optionalResult, String header) {
         Optional<?> result = Optional.empty();
         List<?> list = optionalResult.get();
 
-        String concat = ANSI_BRIGHT_BLACK.concat(BOLD).concat(UNDERLINE).concat("                  ").concat(ANSI_RESET);
-        System.out.print(concat);
-        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("\nAvailable ".concat(header).concat(" :")).concat(ANSI_RESET));
+        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("• Available ".concat(header).concat(" :")).concat(ANSI_RESET));
 
         int index = 1;
         for (Object obj : list) {
-            System.out.printf("    %s(%d)%s -  %s%n", ANSI_BRIGHT_BLACK,index++,ANSI_RESET,obj.toString());
+            System.out.printf("    %s(%d)%s -  %s%n", ANSI_BRIGHT_BLACK, index++, ANSI_RESET, obj.toString());
         }
         result = Optional.ofNullable(selectsObject(list));
-        System.out.println(concat);
         return result;
     }
 
