@@ -12,17 +12,17 @@ participant ":System" as System
 
 activate SD
 
-SD -> System: requestAddCategory(name, description)
+SD -> System: requests to add a new Figure Category
 activate System
 
-System -> System: validateCategoryName(name)
-System -> System: checkCategoryUniqueness(name)
-System -> System: validateDescription(description)
+System -> System: validates Category name
+System -> System: checks Category's name uniqueness
+System -> System: validates description
 alt Name invalid, duplicate, or description invalid
-    System --> SD: errorMessage("Invalid or duplicate category name, or invalid description")
+    System --> SD: error message (invalid name/duplicated name/invalid description)
 else Name and description valid and unique
-    System -> System: saveCategory(id, name, description, status, cretedOn, createdBy)
-    System --> SD: confirmationMessage("Category added successfully")
+    System -> System: saves new category and registers who created it and when
+    System --> SD: informs user about the successful operation
 end
 
 deactivate System

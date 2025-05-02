@@ -21,14 +21,14 @@ As a Show Designer, I want to add a new figure category to the catalog, so that 
 
 ### 1.3. Acceptance Criteria
 
-- [ ] The system prevents adding a category with a name that already exists (case-insensitive).
-- [ ] The system prevents adding a category with an empty name or only whitespace.
-- [ ] Only users with the Show Designer role can add categories.
-- [ ] The category is saved with the exact name and description entered by the user.
-- [ ] The creation timestamp and creator are recorded.
-- [ ] The category status is set to ACTIVE upon creation.
-- [ ] A success or error message is shown after the operation.
-- [ ] The new category is available for figure association immediately.
+- [x] The system prevents adding a category with a name that already exists (case-insensitive).
+- [x] The system prevents adding a category with an empty name or only whitespace.
+- [x] Only users with the Show Designer role can add categories.
+- [x] The category is saved with the exact name and description entered by the user.
+- [x] The creation timestamp and creator are recorded.
+- [x] The category status is set to ACTIVE upon creation.
+- [x] A success or error message is shown after the operation.
+- [x] The new category is available for figure association immediately.
 
 > **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
 
