@@ -1,23 +1,43 @@
-# US246 - Edit figure category
+# US245 - Add figure category
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us246-domain-model.svg)
+![Domain Model](svg/us245-domain-model.svg)
 
-This excerpt of the domain model highlights the essential elements for supporting the editing of a figure category:
+The following diagram illustrates the updated and complete domain model for the **Figure Category** functionality. It includes all relevant attributes and associations required for implementation, traceability, and auditing.
 
-- **Category (`<<AggregateRoot>>`)**: The main entity representing a figure category. All edits are performed through this aggregate root to ensure consistency and encapsulation of business rules.
-- **ID**: Unique identifier for each category, used to select the category to be edited.
-- **Name**: Value object representing the category name. It must remain unique (case-insensitive) after editing, and all validations (e.g., not empty, length constraints) are enforced here.
-- **Description**: Optional field that can be updated to clarify or further describe the category.
-- **CategoryStatus**: Indicates whether the category is active or inactive. Edits are only permitted if the category is active, in line with the acceptance criteria.
-- **CreatedOn/CreatedBy**: Audit fields that record when and by whom the category was created (not changed during edit). 
-- **UpdatedOn/UpdatedBy**: Fields to record who performed the last edit and when, supporting traceability and compliance with good practices.
+#### **Explanation of the model elements**
 
-This detailed modeling ensures that all business rules for editing a category-such as name uniqueness, edit permissions, and auditability-can be enforced at the domain level. It also supports future extensibility, such as adding further audit fields or additional validation logic, without requiring changes to the core structure.
+- **FigureCategory** (`<<AggregateRoot>>`):  
+  The aggregate root representing a category of figures. It encapsulates all rules and logic necessary for managing the lifecycle of a category.
 
-### 2.2. Other Remarks
+    - `pk`: Primary key (surrogate, auto-generated).
+    - `version`: Used for optimistic concurrency control.
+    - `createdOn` / `updatedOn`: Audit fields for timestamps.
+    - `active`: Boolean flag indicating availability (status).
 
-- All validations (uniqueness, active status, input constraints) should be enforced within the aggregate to maintain domain integrity.
+- **Name** (`<<ValueObject>>`):  
+  Value object representing the name of the category. Enforces constraints such as length, allowed characters, and uniqueness.
+
+- **Description** (`<<ValueObject>>`):  
+  Optional value object used to provide additional context about the category. Subject to validation constraints (length, non-empty, meaningful content).
+
+- **Email** (`<<ValueObject>>`):  
+  Used both as the `createdBy` and `updatedBy` identifiers, referencing the authenticated user responsible for actions on the category.  
+  Must be a valid email from the `@shodrone.app` domain.
+
+- **Figure** (`<<AggregateRoot>>`):  
+  Represents a shape or form created by a customer. Each `Figure` is associated with exactly one `FigureCategory`, supporting classification and filtering of figures.
+
+---
+
+This detailed model supports:
+
+-  Full **auditability** of each category (who created or modified it, and when).
+-  Enforcement of **domain constraints** (e.g., email domain, name rules, optional descriptions).
+-  Easy **extensibility** for future figure or category features.
+-  Complete **traceability** from figures back to their respective categories.
+
+> This version of the domain model reflects the most up-to-date understanding of requirements and ensures compliance with business rules for category and figure management.

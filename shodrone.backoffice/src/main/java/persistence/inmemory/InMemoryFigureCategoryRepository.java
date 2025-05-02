@@ -63,6 +63,8 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
             return Optional.empty();
         }
 
+        categoryOptional.get().updateTime();
+        categoryOptional.get().setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
         categoryOptional.get().toggleState();
         return categoryOptional;
     }

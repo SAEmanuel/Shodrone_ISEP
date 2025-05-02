@@ -1,15 +1,43 @@
-# US248 - Inactivate/Activate a figure category
+# US245 - Add figure category
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us248-domain-model.svg)
+![Domain Model](svg/us245-domain-model.svg)
 
-The current domain model already includes all the necessary attributes to support the inactivation and activation of figure categories. The `Category` aggregate contains a `CategoryStatus` field to represent whether a category is active or inactive, as well as audit fields (`UpdatedOn`, `UpdatedBy`) to track status changes. No structural changes to the domain model were required for this user story.
+The following diagram illustrates the updated and complete domain model for the **Figure Category** functionality. It includes all relevant attributes and associations required for implementation, traceability, and auditing.
 
-This model ensures that all requirements for status management, auditability, and future extensibility are met.
+#### **Explanation of the model elements**
 
-### 2.2. Other Remarks
+- **FigureCategory** (`<<AggregateRoot>>`):  
+  The aggregate root representing a category of figures. It encapsulates all rules and logic necessary for managing the lifecycle of a category.
 
-No changes to the domain model were necessary for US248, as all relevant attributes and relationships were already present.
+    - `pk`: Primary key (surrogate, auto-generated).
+    - `version`: Used for optimistic concurrency control.
+    - `createdOn` / `updatedOn`: Audit fields for timestamps.
+    - `active`: Boolean flag indicating availability (status).
+
+- **Name** (`<<ValueObject>>`):  
+  Value object representing the name of the category. Enforces constraints such as length, allowed characters, and uniqueness.
+
+- **Description** (`<<ValueObject>>`):  
+  Optional value object used to provide additional context about the category. Subject to validation constraints (length, non-empty, meaningful content).
+
+- **Email** (`<<ValueObject>>`):  
+  Used both as the `createdBy` and `updatedBy` identifiers, referencing the authenticated user responsible for actions on the category.  
+  Must be a valid email from the `@shodrone.app` domain.
+
+- **Figure** (`<<AggregateRoot>>`):  
+  Represents a shape or form created by a customer. Each `Figure` is associated with exactly one `FigureCategory`, supporting classification and filtering of figures.
+
+---
+
+This detailed model supports:
+
+-  Full **auditability** of each category (who created or modified it, and when).
+-  Enforcement of **domain constraints** (e.g., email domain, name rules, optional descriptions).
+-  Easy **extensibility** for future figure or category features.
+-  Complete **traceability** from figures back to their respective categories.
+
+> This version of the domain model reflects the most up-to-date understanding of requirements and ensures compliance with business rules for category and figure management.

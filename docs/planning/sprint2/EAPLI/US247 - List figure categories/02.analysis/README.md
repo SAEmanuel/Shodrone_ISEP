@@ -1,17 +1,43 @@
-# US247 - List figure categories
+# US245 - Add figure category
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us247-domain-model.svg)
+![Domain Model](svg/us245-domain-model.svg)
 
-The domain model for figure categories is already well-prepared for the requirements of listing categories. All the necessary information-such as category name, description, status (active/inactive), and audit fields-is present in the `Category` aggregate. This allows the system to efficiently retrieve and display all active categories, as required by the user story.
+The following diagram illustrates the updated and complete domain model for the **Figure Category** functionality. It includes all relevant attributes and associations required for implementation, traceability, and auditing.
 
-No structural changes to the model are needed for this use case. The listing functionality simply queries the existing `Category` entities, typically filtering by `CategoryStatus` (to show only active categories) and ordering by `Name`. The presence of fields like `Description`, `CreatedOn`, and `CreatedBy` also allows for richer displays or future extensions (e.g., advanced filtering, audit trails).
+#### **Explanation of the model elements**
 
-This design ensures that the system can support not only the current requirements (listing active categories for selection and management), but also future enhancements such as filtering by other attributes, pagination, or viewing audit information.
+- **FigureCategory** (`<<AggregateRoot>>`):  
+  The aggregate root representing a category of figures. It encapsulates all rules and logic necessary for managing the lifecycle of a category.
 
-### 2.2. Other Remarks
+    - `pk`: Primary key (surrogate, auto-generated).
+    - `version`: Used for optimistic concurrency control.
+    - `createdOn` / `updatedOn`: Audit fields for timestamps.
+    - `active`: Boolean flag indicating availability (status).
 
-There is little to add at the analysis level, as the domain model already covers all information needed for listing categories. The current structure is robust and extensible, supporting both the immediate needs of US247 and potential future requirements without modification.
+- **Name** (`<<ValueObject>>`):  
+  Value object representing the name of the category. Enforces constraints such as length, allowed characters, and uniqueness.
+
+- **Description** (`<<ValueObject>>`):  
+  Optional value object used to provide additional context about the category. Subject to validation constraints (length, non-empty, meaningful content).
+
+- **Email** (`<<ValueObject>>`):  
+  Used both as the `createdBy` and `updatedBy` identifiers, referencing the authenticated user responsible for actions on the category.  
+  Must be a valid email from the `@shodrone.app` domain.
+
+- **Figure** (`<<AggregateRoot>>`):  
+  Represents a shape or form created by a customer. Each `Figure` is associated with exactly one `FigureCategory`, supporting classification and filtering of figures.
+
+---
+
+This detailed model supports:
+
+-  Full **auditability** of each category (who created or modified it, and when).
+-  Enforcement of **domain constraints** (e.g., email domain, name rules, optional descriptions).
+-  Easy **extensibility** for future figure or category features.
+-  Complete **traceability** from figures back to their respective categories.
+
+> This version of the domain model reflects the most up-to-date understanding of requirements and ensures compliance with business rules for category and figure management.
