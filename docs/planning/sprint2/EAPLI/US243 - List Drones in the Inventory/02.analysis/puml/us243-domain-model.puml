@@ -1,0 +1,45 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Drone Model and Drone Domain Model Section
+
+hide circles
+hide methods
+
+package "DroneModel Aggregate" {
+
+    class DroneModel <<AggregateRoot>> {
+    }
+
+    class Identifier {
+    }
+
+    class WindToleranceData {
+    }
+
+    class DroneCode <<Entity>> {
+    }
+
+    class Plugin <<Entity>> {
+    }
+
+
+}
+
+package "Drone Aggregate" {
+    class Drone <<AggregateRoot>> {
+    }
+}
+
+DroneModel "1" --- "1" Identifier : >
+DroneModel "1" --- "1" WindToleranceData : >
+DroneModel "1" --- "1" DroneCode : >
+DroneCode "1" --- "1" Plugin : >
+
+Drone "1" --- "1" DroneModel : >
+
+@enduml
