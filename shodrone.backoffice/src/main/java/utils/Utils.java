@@ -352,6 +352,10 @@ public class Utils {
         System.out.println(ANSI_ORANGE.concat(BOLD).concat(message).concat(ANSI_RESET));
     }
 
+    static public void silentWaring(String message) {
+        System.out.println(COLOR_OPTIONS + message + ANSI_RESET);
+    }
+
     static public void showListCustom(List<?> list, String header) {
         System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• ".concat(header).concat(":") + ANSI_RESET);
         int index = 0;
