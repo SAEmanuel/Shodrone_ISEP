@@ -1,0 +1,32 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Remove Drone from Inventory
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: requestRemoveDrone(serialNumber, removalReason)
+activate System
+
+System -> System: validateSerialNumber(serialNumber)
+System -> System: checkDroneExists(serialNumber)
+alt Serial number invalid or drone does not exist
+    System --> DT: errorMessage("Invalid serial number or drone not found")
+else Serial number valid and drone exists
+    System -> System: getCurrentDate()
+    System -> System: getRemovedBy()
+    System -> System: createDroneRemovalRecord(serialNumber, removalReason, removalDate, removedBy)
+    System --> DT: confirmationMessage("Drone removed successfully", serialNumber)
+end
+
+deactivate System
+deactivate DT
+
+@enduml
