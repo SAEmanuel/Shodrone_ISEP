@@ -1,7 +1,7 @@
 package ui.menu;
 
-import ui.authz.AuthenticationUI;
-import ui.authz.RegisterShowDesignerUI;
+import controller.AuthenticationController;
+import ui.authz.RegisterUserUI;
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -16,10 +16,10 @@ public class SignUpUI implements Runnable {
     public void run() {
 
         List<MenuItem> options = new ArrayList<MenuItem>();
-        options.add(new MenuItem("Register as CRM Manager", new ShowTextUI("Not implemented yet")));
-        options.add(new MenuItem("Register as CRM Collaborator", new ShowTextUI("Not implemented yet")));
-        options.add(new MenuItem("Register as Show Designer", new RegisterShowDesignerUI()));
-        options.add(new MenuItem("Register as Drone Technician", new ShowTextUI("Not implemented yet")));
+        options.add(new MenuItem("Register as CRM Manager",new RegisterUserUI(AuthenticationController.ROLE_CRM_MANAGER)));
+        options.add(new MenuItem("Register as CRM Collaborator", new RegisterUserUI(AuthenticationController.ROLE_CRM_COLLABORATOR)));
+        options.add(new MenuItem("Register as Show Designer", new RegisterUserUI(AuthenticationController.ROLE_SHOW_DESIGNER)));
+        options.add(new MenuItem("Register as Drone Technician", new RegisterUserUI(AuthenticationController.ROLE_DRONE_TECH)));
         options.add(new MenuItem("Register as Costumer", new ShowTextUI("Not implemented yet")));
 
         int option = 0;

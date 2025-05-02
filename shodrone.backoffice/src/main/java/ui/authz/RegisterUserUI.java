@@ -1,16 +1,22 @@
 package ui.authz;
 
 import authz.Email;
-import authz.Password;
 
+import authz.UserRole;
 import controller.AuthenticationController;
 import controller.RegisterUserController;
 import utils.Utils;
 import domain.valueObjects.Name;
 
-public class RegisterShowDesignerUI implements Runnable {
+public class RegisterUserUI implements Runnable {
 
     private final RegisterUserController controller = new RegisterUserController();
+
+    private final String role;
+
+    public RegisterUserUI(String role) {
+        this.role = role;
+    }
 
     @Override
     public void run() {
@@ -21,7 +27,7 @@ public class RegisterShowDesignerUI implements Runnable {
         Email email = Utils.rePromptWhileInvalid("Choose your email: ", Email::new);
         String password = Utils.readLineFromConsole("Choose a password: ");
 
-        boolean success = controller.registerUser(name.name(), email.getEmail(), password, AuthenticationController.ROLE_SHOW_DESIGNER);
+        boolean success = controller.registerUser(name.name(), email.getEmail(), password, role);
 
         if (success) {
             Utils.printSuccessMessage("User registered successfully!");

@@ -103,7 +103,6 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
 
         User user = new User(userEmail, new Password(password), name);
         user.addRole(role);
-        System.out.println(password);
         saveUser(user);
 
         return true;

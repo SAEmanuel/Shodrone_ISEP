@@ -8,7 +8,7 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
-public class FigureCategoryAvailabilityUI implements Runnable{
+public class FigureCategoryAvailabilityUI implements Runnable {
 
     private final GetAllFigureCategoriesController getAllFigureCategoriesController = new GetAllFigureCategoriesController();
     private final ChangeFigureCategoryStatusController changeFigureCategoryStatusController = new ChangeFigureCategoryStatusController();
@@ -29,7 +29,7 @@ public class FigureCategoryAvailabilityUI implements Runnable{
             FigureCategory selectedCategory = categoriesOptional.get().get(index);
             Optional<FigureCategory> optionalCategory = changeFigureCategoryStatusController.changeStatus(selectedCategory);
 
-            if(optionalCategory.isEmpty()) {
+            if (optionalCategory.isEmpty()) {
                 Utils.printFailMessage("Failed to change category status");
             } else {
                 Utils.printSuccessMessage("Category status changed");
