@@ -31,9 +31,39 @@ The following specifications are derived from the requirements document (Section
     - A: Yes, the sequence (`FigureExecution`) can include repeated figures (e.g., "Circle -> Spiral -> Circle").
 
 **Forum Questions**:
-> **Question:** Um representante pode atender vários clientes, ou cada cliente tem seus próprios representantes, sem compartilhamento entre eles?
+> **Question:** Concorda com os seguintes estados (requestStatus), listados abaixo, para um Show Request? OPEN (Aberto; Por tratar); SENT (Enviado ao cliente; A aguardar resposta); ACCEPTED (Aceite pelo cliente e gera uma proposta); CLOSED (Pedido fechado, valido para cancelado ou rejeitado).
 >
-> **Answer:** Simplifiquemos: os representantes não são partilhados entre clientes. Não encontro user stories que apontem noutro sentido.
+> **Answer:** Não. Acho que está a confundir show request com show proposal.
+
+> **Question:** Concorda com registar o histórico (history) de Show Request da seguinte forma: linhas que contêm as datas (creationDate / uptadedAt) e descrições de ações/atualizações efetuadas nos pedidos de espetáculos?
+>
+> **Answer:** Também não. Ver 1.
+
+> **Question:** O conceito autor (author) é referente ao cliente como autor do pedido de espetáculo ou ao utilizador que efetua pedidos de atualizações no workflow do Show Request?
+>
+> **Answer:** Quem o submete, que é um CRM Collaborator.
+
+> **Question:** A duração (duration) do espetáculo deve ser expressa em minutos ou horas?
+>
+> **Answer:** Minutos parece mais realista. A maior parte dos drones não tem horas de autonomia...
+ 
+> **Question:** Que conteúdo acredita ser importante incluir no conceito history?
+>
+> **Answer:** Parece relevante ter o histórico do que acontece relacionado com um show request. Por exemplo, saber que houve propostas criadas relacionadas com o show request. Que algumas foram submetidas. E que algumas foram rejeitadas e outras aprovadas.
+
+> **Question:** Boa tarde, um cliente pode pedir dois show requests na mesma data e hora? Se sim, podem também ser na mesma geolocalozação?
+>
+> **Answer:** Não há nada nos requisitos que o impeça.
+
+> **Question:** Bom dia, existe algum atributo do show request que o identifique unicamente no negócio?
+>
+> **Answer:** Cada ‘show’ request terá provavelmente um número ou um código.
+
+> **Question:** Tendo em conta que o Show request terá que ter informação acerca da localização do espetáculo, o cliente deseja implementar regras de negócio para este campo?
+>
+> **Answer:** O local terá uma localização, incluindo altitude, porque esta última pode afetar o funcionamento dos drone.
+
+
 
 ### 1.3. Acceptance Criteria
 
