@@ -44,7 +44,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
     @Override
     public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
         try {
-            FigureCategory managed = entityManager().find(FigureCategory.class, category.identity());
+            FigureCategory managed = entityManager().find(FigureCategory.class, category.id());
 
             if (managed == null) {
                 return Optional.empty();
