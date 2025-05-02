@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - List Drones in the Inventory
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: requestListDroneModels()
+activate System
+System --> DT: droneModelsList
+deactivate System
+
+DT -> System: requestListDrones(selectedDroneModelId)
+activate System
+
+System -> System: fetchAllDrones()
+System -> System: filterByDroneModel(selectedDroneModelId)
+System -> System: filterByStatus(available)
+System -> System: excludeRemovedDrones()
+System -> System: sortDronesBySerialNumber()
+System -> DT: displayDrones(listOfDrones)
+
+deactivate System
+deactivate DT
+
+@enduml
