@@ -1,0 +1,18 @@
+
+@startuml
+actor "CRM Collaborator" as Collaborator
+participant ":System" as System
+
+Collaborator -> System: login()
+System -> Collaborator: authenticated
+Collaborator -> System: listShowRequestsOfClient()
+System -> Collaborator: showClientList()
+Collaborator -> System: selectClient(clientId)
+System -> System: retrieveShowRequests(clientId)
+alt show requests exist
+    System -> Collaborator: displayShowRequests(requests)
+else no show requests
+    System -> Collaborator: "No show requests found for this client"
+end
+
+@enduml
