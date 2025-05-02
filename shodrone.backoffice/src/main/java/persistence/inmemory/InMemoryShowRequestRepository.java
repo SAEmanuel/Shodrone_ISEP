@@ -1,5 +1,6 @@
 package persistence.inmemory;
 
+import domain.entity.Costumer;
 import domain.entity.ShowRequest;
 import persistence.interfaces.ShowRequestRepository;
 
@@ -30,4 +31,19 @@ public class InMemoryShowRequestRepository implements ShowRequestRepository {
     public Optional<ShowRequest> findById(Object id) {
         return Optional.ofNullable(store.get((long)(id)));
     }
+
+    @Override
+    public Optional<List<ShowRequest>> findByCostumer(Costumer costumer) {
+        if (costumer == null) return Optional.empty();
+
+        List<ShowRequest> result = new ArrayList<>();
+        for (ShowRequest request : store.values()) {
+            if (costumer.identity().equals(request.getCostumer().identity())) {
+                result.add(request);
+            }
+        }
+
+        return result.isEmpty() ? Optional.empty() : Optional.of(result);
+    }
+
 }

@@ -1,5 +1,6 @@
 package persistence.jpa.JPAImpl;
 
+import domain.entity.Costumer;
 import domain.entity.ShowRequest;
 import persistence.jpa.JpaBaseRepository;
 import persistence.interfaces.ShowRequestRepository;
@@ -19,8 +20,6 @@ public class ShowRequestJPAImpl extends JpaBaseRepository<ShowRequest, Long> imp
         return Optional.of(entity);
     }
 
-
-
     @Override
     public List<ShowRequest> getAll() {
         return entityManager().createQuery("SELECT s FROM ShowRequest s", ShowRequest.class).getResultList();
@@ -31,4 +30,17 @@ public class ShowRequestJPAImpl extends JpaBaseRepository<ShowRequest, Long> imp
         if (!(id instanceof Long)) return Optional.empty();
         return Optional.ofNullable(entityManager().find(ShowRequest.class, (long) id));
     }
+
+    @Override
+    public Optional<List<ShowRequest>> findByCostumer(Costumer costumer) {
+        if (costumer == null) return Optional.empty();
+
+        List<ShowRequest> requests = entityManager()
+                .createQuery("SELECT s FROM ShowRequest s WHERE s.costumer = :costumer", ShowRequest.class)
+                .setParameter("costumer", costumer)
+                .getResultList();
+
+        return requests.isEmpty() ? Optional.empty() : Optional.of(requests);
+    }
+
 }

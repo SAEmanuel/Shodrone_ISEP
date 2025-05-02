@@ -19,9 +19,8 @@ public class CRMCollaboratorUI implements Runnable {
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Submit Show Request", new RegisterShowRequestUI()));
+        options.add(new MenuItem("List Show Request of Clients", new ListShowRequestByCostumerUI()));
         options.add(new MenuItem("Edit Show Request", new ShowTextUI("Not implemented yet.")));
-        options.add(new MenuItem("List Show Request of Clients", new ShowTextUI("Not implemented yet.")));
-        options.add(new MenuItem("Manage Clients", new ShowTextUI("Not implemented yet.")));
 
         int option = 0;
         do {

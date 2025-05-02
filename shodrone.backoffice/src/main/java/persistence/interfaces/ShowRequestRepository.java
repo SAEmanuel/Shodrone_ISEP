@@ -6,6 +6,7 @@
 package persistence.interfaces;
 
 
+import domain.entity.Costumer;
 import domain.entity.ShowRequest;
 
 import java.util.List;
@@ -21,4 +22,5 @@ public interface ShowRequestRepository<T> {
     public Optional<T> saveInStore(ShowRequest entity);
     public List<ShowRequest> getAll();
     public Optional<ShowRequest> findById(Object id);
+    public Optional<List<ShowRequest>> findByCostumer(Costumer costumer);
 }
