@@ -6,12 +6,15 @@ import domain.entity.FigureCategory;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public interface FigureRepository {
 
     Optional<Figure> save(Figure figure, Long identity);
+
+    List<Figure> findAll();
 
     Optional<Figure> findByID(Long figureId);
 

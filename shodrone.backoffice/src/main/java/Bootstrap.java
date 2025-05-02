@@ -40,10 +40,44 @@ public class Bootstrap implements Runnable {
     );
 
     Figure figure1 = new Figure(
-            "Joao",
-            new domain.valueObjects.Description("NAO SEI O Q ESCREVER"),
+            1L,
+            "Aviao",
+            new Description("NAO SEI O Q ESCREVER"),
             new Version(),
-            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new domain.valueObjects.Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            FigureAvailability.PUBLIC,
+            FigureStatus.ACTIVE,
+            customer1
+    );
+
+    Figure figure2 = new Figure(
+            2L,
+            "Circulo",
+            new Description("NAO SEI O Q ESCREVER"),
+            new Version(),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            FigureAvailability.EXCLUSIVE,
+            FigureStatus.ACTIVE,
+            customer1
+    );
+
+    Figure figure3 = new Figure(
+            3L,
+            "Quadrado",
+            new Description("NAO SEI O Q ESCREVER"),
+            new Version(),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
+            FigureAvailability.EXCLUSIVE,
+            FigureStatus.ACTIVE,
+            customer1
+    );
+
+    Figure figure4 = new Figure(
+            4L,
+            "Retangulo",
+            new Description("NAO SEI O Q ESCREVER"),
+            new Version(),
+            new FigureCategory(new domain.valueObjects.Name("Joao Mario"), new Description("NAO SEI O Q ESCREVER"), new Email("oxuvaiimplementar@gmail.com")),
             FigureAvailability.PUBLIC,
             FigureStatus.ACTIVE,
             customer1
@@ -54,7 +88,10 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.costumerRepository().saveInStore(customer1,customer1.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer2,customer2.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer3,customer3.nif());
-        RepositoryProvider.figureRepository().save(figure1,1L);
+        RepositoryProvider.figureRepository().save(figure1, figure1.identity());
+        RepositoryProvider.figureRepository().save(figure2, figure2.identity());
+        RepositoryProvider.figureRepository().save(figure3, figure3.identity());
+        RepositoryProvider.figureRepository().save(figure4, figure4.identity());
     }
 
     protected static void inputAppInformation() {

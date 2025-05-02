@@ -1,6 +1,7 @@
 package ui;
 
 import controller.ListPublicFiguresController;
+import domain.entity.Figure;
 import utils.Utils;
 
 import java.util.List;
@@ -11,8 +12,7 @@ public class ListPublicFiguresUI implements Runnable {
 
     @Override
     public void run() {
-         Utils.printCenteredTitle("Not implemented yet");
-        /*
+        Utils.printCenteredTitle("Not implemented yet");
 
         Utils.printCenteredTitle("List Public Figures");
 
@@ -20,24 +20,15 @@ public class ListPublicFiguresUI implements Runnable {
         if (!allPublicFigures.isEmpty()) {
 
             boolean page = Utils.confirm("Do you want to select a page number? (y/n)");
-            int newpage = page ? Utils.readIntegerFromConsole("Enter the page number: ") : null;
+            int newpage = page ? Utils.readIntegerFromConsole("Enter the page number: ") : 0;
 
-            Utils.printAlterMessage("Current description: " + chosenCategory.description());
-            boolean editDescription = Utils.confirm("Do you want to edit the category's description? (y/n)");
-            Description newDescription = editDescription ? Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new) : null;
+            boolean pageSize = Utils.confirm("Do you want to select a page size? (y/n)");
+            int newPageSize = pageSize ? Utils.readIntegerFromConsole("Enter the page size: ") : 20;
 
-            if (!editName && !editDescription) {
-                Utils.printFailMessage("Nothing has changed!");
-                return;
-            }
+            Utils.showPagedElementList(allPublicFigures, newPageSize, "List Public Figures");
 
-            Optional<FigureCategory> editedCategory = editFigureCategoryController.editChosenCategory(chosenCategory, newName, newDescription);
-            editedCategory.ifPresentOrElse(
-                    figureCategory -> Utils.printSuccessMessage("Category updated successfully!"),
-                    () -> Utils.printFailMessage("Failed to update category.")
-            );
         } else {
-            Utils.printFailMessage("No categories in the system yet.");
-        }*/
+            Utils.printFailMessage("No figures in the system yet.");
+        }
     }
 }
