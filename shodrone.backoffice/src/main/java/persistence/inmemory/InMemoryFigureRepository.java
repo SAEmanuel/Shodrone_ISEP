@@ -6,6 +6,7 @@ import domain.entity.FigureCategory;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 import persistence.interfaces.FigureRepository;
+import utils.Utils;
 
 import java.util.*;
 
@@ -21,6 +22,11 @@ public class InMemoryFigureRepository implements FigureRepository {
             store.put(key, figure);
             return Optional.of(figure);
         }
+    }
+
+    @Override
+    public List<Figure> findAll() {
+        return new ArrayList<>(store.values());
     }
 
     @Override
@@ -47,7 +53,6 @@ public class InMemoryFigureRepository implements FigureRepository {
         return figures;
     }
 
-
     @Override
     public List<Figure> findFigures(Long figureId, String name, FigureCategory category, FigureAvailability availability) {
         return new ArrayList<Figure>();
@@ -60,8 +65,8 @@ public class InMemoryFigureRepository implements FigureRepository {
             return figures;
 
         for (Figure figure : store.values()) {
-            // If the figure is public, add it to the list
-            if (figure.status().equals(FigureStatus.ACTIVE)) {
+
+            if (figure.status().equals(FigureStatus.ACTIVE) && figure.availability().equals(FigureAvailability.PUBLIC)) {
                 figures.add(figure);
             }
         }

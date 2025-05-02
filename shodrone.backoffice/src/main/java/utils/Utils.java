@@ -1,7 +1,6 @@
 package utils;
 
 
-import domain.entity.Costumer;
 import domain.valueObjects.NIF;
 
 import java.io.BufferedReader;
@@ -226,6 +225,74 @@ public class Utils {
         }
         System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
         System.out.println("╚════════════════════════════════════════╝");
+    }
+
+    static public void showPagedElementList(List<?> list, int sizeOfObjectsPerPage, String header) {
+        System.out.println(header);
+        System.out.println("╚════════════════════════════════════════╝");
+
+        int pageSizeCount = 0;
+        boolean resume = true;
+        int index = 0;
+
+        for(Object o: list){
+            index++;
+            if(!resume)
+                break;
+
+            System.out.printf("║    %s(%d)%s -  %-28s %-2s%n",COLOR_OPTIONS,pageSizeCount,ANSI_RESET,o.toString(),"║");
+
+            pageSizeCount++;
+
+            if (pageSizeCount == sizeOfObjectsPerPage && index != list.size()) {
+                pageSizeCount = 0;
+                resume = Utils.confirm("Do you want to list one more page? (y/n)");
+                Utils.dropLines(2);
+            }
+        }
+
+        System.out.printf("║    %s(0)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Cancel","║");
+        System.out.println("╚════════════════════════════════════════╝");
+    }
+
+    static public void showPagedElementListByStartingPage(List<?> list, int startingPage, int sizeOfObjectsPerPage, String header) {
+        System.out.println(header);
+        System.out.println("╚════════════════════════════════════════╝");
+
+        int pageCount = 0;
+        int pageSizeCount = 0;
+        boolean resume = true;
+        int index = 0;
+
+        for(Object o: list){
+            index++;
+
+            if(!resume)
+                break;
+
+            pageSizeCount++;
+
+            if( (pageCount * pageSizeCount) == (startingPage * sizeOfObjectsPerPage) ){
+                System.out.printf("║    %s(%d)%s -  %-28s %-2s%n",COLOR_OPTIONS,pageSizeCount,ANSI_RESET,o.toString(),"║");
+            }
+
+            if(pageCount != startingPage) {
+                if ( pageSizeCount ==  sizeOfObjectsPerPage ){
+                    pageCount++;
+                    pageSizeCount = 0;
+                }
+            } else if (pageSizeCount == sizeOfObjectsPerPage
+                    && (pageCount * pageSizeCount) == (startingPage * sizeOfObjectsPerPage)
+                    && index != list.size()) {
+                pageSizeCount = 0;
+                System.out.printf("║    %s(y/n)%s -  %-20s %9s%n",COLOR_OPTIONS,ANSI_RESET,"Do you want to list one more page?","║");
+                resume = Utils.confirm("");
+                Utils.dropLines(2);
+            }
+
+        }
+        System.out.println("╚════════════════════════════════════════╝");
+
     }
 
     static public void printAlterMessage(String message) {

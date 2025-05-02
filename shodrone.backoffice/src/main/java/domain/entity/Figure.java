@@ -10,6 +10,8 @@ import jakarta.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+import static more.ColorfulOutput.*;
+
 @Entity
 @Table(name = "figure")
 public class Figure implements AggregateRoot<Long>, Serializable {
@@ -46,9 +48,10 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     protected Figure() {}
     
-    public Figure(String name, Description description,
+    public Figure(Long figureId, String name, Description description,
                   Version version, FigureCategory category, FigureAvailability availability, FigureStatus status,Costumer costumer) {
 
+        this.figureId = figureId;
         this.name = name;
         this.description = description;
         this.version = version;
@@ -62,6 +65,8 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     public Long identity() { return figureId; }
 
     public String name() { return name; }
+
+    public FigureAvailability availability() { return availability; }
 
     public FigureStatus status() { return status; }
 
@@ -89,18 +94,15 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     @Override
     public String toString() {
-        return String.format(
-                "ID: %-6s | Name: %-10s | Status: %-8s | Availability: %-10s | Version: %-6s | Category: %-10s",
-                figureId != null ? figureId : "N/A",
-                name != null ? name : "N/A",
-                status != null ? status : "N/A",
-                availability != null ? availability : "N/A",
-                version != null ? version.toString() : "N/A",
-                category != null ? category.identity() : "N/A"
-        );
+        return ANSI_BRIGHT_PURPLE + "Figure{" + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE+ "\nFigureId=" + figureId + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\nName='" + name + '\'' + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\nDescription=" + description + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\nVersion=" + version + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\nCategory=" + category + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\nAvailability=" + availability.toString() + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\nStatus=" + status.toString() + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\nCostumer=" + costumer.identity() + ANSI_RESET +
+                ANSI_BRIGHT_PURPLE + "\n}" + ANSI_RESET ;
     }
-
-
-
-
 }
