@@ -1,6 +1,7 @@
 package persistence;
 
 
+import lombok.Setter;
 import persistence.inmemory.*;
 import persistence.interfaces.*;
 import persistence.jpa.JPAImpl.*;
@@ -12,11 +13,16 @@ public class RepositoryProvider {
     private static ShowRequestRepository showRequestRepository;
     private static AuthenticationRepository authenticationRepository;
 
-    private static final boolean USE_IN_MEMORY = true;
+    @Setter
+    private static boolean useInMemory = true;
+
+    private static boolean isInMemory() {
+        return useInMemory;
+    }
 
     public static FigureCategoryRepository figureCategoryRepository() {
         if (figureCategoryRepository == null) {
-            if (USE_IN_MEMORY) {
+            if (isInMemory()) {
                 figureCategoryRepository = new InMemoryFigureCategoryRepository();
             } else {
                  figureCategoryRepository = new FigureCategoryJPAImpl();
@@ -27,7 +33,7 @@ public class RepositoryProvider {
 
     public static FigureRepository figureRepository() {
         if (figureRepository == null) {
-            if (USE_IN_MEMORY) {
+            if (isInMemory()) {
                 figureRepository = new InMemoryFigureRepository();
             } else {
                 figureRepository = new FigureRepositoryJPAImpl();
@@ -38,7 +44,7 @@ public class RepositoryProvider {
 
     public static CostumerRepository costumerRepository() {
         if (costumerRepository == null) {
-            if (USE_IN_MEMORY) {
+            if (isInMemory()) {
                 costumerRepository = new InMemoryCustomerRepository();
             } else {
                 costumerRepository = new CostumerJPAImpl();
@@ -49,7 +55,7 @@ public class RepositoryProvider {
 
     public static ShowRequestRepository showRequestRepository() {
         if (showRequestRepository == null) {
-            if (USE_IN_MEMORY) {
+            if (isInMemory()) {
                 showRequestRepository = new InMemoryShowRequestRepository();
             } else {
                 showRequestRepository = new ShowRequestJPAImpl();
@@ -60,7 +66,7 @@ public class RepositoryProvider {
 
     public static AuthenticationRepository authenticationRepository() {
         if (authenticationRepository == null) {
-            if (USE_IN_MEMORY) {
+            if (isInMemory()) {
                 authenticationRepository = new InMemoryAuthenticationRepository();
             } else {
                 authenticationRepository = new AuthenticationRepositoryJPAImpl();

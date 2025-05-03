@@ -112,7 +112,7 @@ public class Bootstrap implements Runnable {
     );
 
     private final Figure figure2 = new Figure("Circle", new Description("Circular figure"), (long) 1.2,
-            category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer2
+            category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer1
     );
 
     private final Figure figure3 = new Figure("Square", new Description("Square figure"), (long) 1.2,

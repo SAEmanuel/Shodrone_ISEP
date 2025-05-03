@@ -1,3 +1,5 @@
+import factories.FactoryProvider;
+import persistence.RepositoryProvider;
 import ui.menu.StartupMessageBackofficeUI;
 import ui.menu.MainMenuUI;
 
@@ -7,10 +9,12 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Bootstrap bootstrap = new Bootstrap();
-        bootstrap.run();
+        boolean typePersistence = true;
 
         try {
-            StartupMessageBackofficeUI.display();
+            typePersistence = StartupMessageBackofficeUI.display();
+            RepositoryProvider.setUseInMemory(typePersistence);
+            bootstrap.run();
             MainMenuUI menu = new MainMenuUI();
             menu.run();
         } catch (Exception e) {

@@ -549,4 +549,26 @@ public class Utils {
             """);
     }
 
+    public static void clearTerminal() {
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+
+            boolean isIDE = System.console() == null;
+
+            if (isIDE) {
+                System.out.println("\n".repeat(50));  // Imprime 50 quebras de linha
+            } else {
+                if (os.contains("win")) {
+                    new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+                } else {
+                    System.out.print("\033[H\033[2J");
+                    System.out.flush();
+                }
+            }
+        } catch (Exception e) {
+            Utils.printFailMessage("Failed to clear terminal: " + e.getMessage());
+        }
+    }
+
+
 }
