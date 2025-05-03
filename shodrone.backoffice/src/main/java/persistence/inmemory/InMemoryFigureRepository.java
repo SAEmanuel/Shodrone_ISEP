@@ -14,7 +14,7 @@ public class InMemoryFigureRepository implements FigureRepository {
     private final Map<Long, Figure> store = new HashMap<>();
 
     @Override
-    public Optional<Figure> save(Figure figure, Long identity) {
+    public Optional<Figure> save(Figure figure) {
         Long key = figure.identity();
         if (store.containsKey(key)) {
             return Optional.empty();
@@ -30,8 +30,8 @@ public class InMemoryFigureRepository implements FigureRepository {
     }
 
     @Override
-    public Optional<Figure> findByID(Long FigureId) {
-        return Optional.ofNullable(store.get(FigureId));
+    public Optional<Figure> findByID(Object id) {
+        return Optional.ofNullable(store.get(id));
     }
 
     @Override

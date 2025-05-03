@@ -12,11 +12,11 @@ import java.util.Optional;
 
 public interface FigureRepository {
 
-    Optional<Figure> save(Figure figure, Long identity);
+    Optional<Figure> save(Figure figure);
 
     List<Figure> findAll();
 
-    Optional<Figure> findByID(Long figureId);
+    Optional<Figure> findByID(Object figureId);
 
     Optional<Figure> findByStatus(FigureStatus status);
 

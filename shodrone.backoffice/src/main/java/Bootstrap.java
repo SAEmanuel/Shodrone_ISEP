@@ -56,10 +56,10 @@ public class Bootstrap implements Runnable {
 
     // --- Figure Setup ---------------------------------------------------
     private void addFigures() {
-        RepositoryProvider.figureRepository().save(figure1, figure1.identity());
-        RepositoryProvider.figureRepository().save(figure2, figure2.identity());
-        RepositoryProvider.figureRepository().save(figure3, figure3.identity());
-        RepositoryProvider.figureRepository().save(figure4, figure4.identity());
+        RepositoryProvider.figureRepository().save(figure1);
+        //RepositoryProvider.figureRepository().save(figure2);
+        //RepositoryProvider.figureRepository().save(figure3);
+        //RepositoryProvider.figureRepository().save(figure4);
     }
 
     // --- Categories -----------------------------------------------------
@@ -107,23 +107,19 @@ public class Bootstrap implements Runnable {
     );
 
     // --- Figures --------------------------------------------------------
-    private final Figure figure1 = new Figure(
-            1L, "Airplane", new Description("Airplane figure"), new Version(),
-            category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1
+    private final Figure figure1 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
+            category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE//, customer1
     );
-
-    private final Figure figure2 = new Figure(
-            2L, "Circle", new Description("Circular figure"), new Version(),
+    /*
+    private final Figure figure2 = new Figure("Circle", new Description("Circular figure"), (long) 1.2,
             category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer1
     );
 
-    private final Figure figure3 = new Figure(
-            3L, "Square", new Description("Square figure"), new Version(),
+    private final Figure figure3 = new Figure("Square", new Description("Square figure"), (long) 1.2,
             category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer1
     );
 
-    private final Figure figure4 = new Figure(
-            4L, "Rectangle", new Description("Rectangular figure"), new Version(),
+    private final Figure figure4 = new Figure("Rectangle", new Description("Rectangular figure"), (long) 1.2,
             category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1
-    );
+    );*/
 }
