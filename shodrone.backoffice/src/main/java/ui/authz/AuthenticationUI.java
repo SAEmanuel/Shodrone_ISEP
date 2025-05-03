@@ -49,6 +49,7 @@ public class AuthenticationUI implements Runnable {
         rolesUI.add(new MenuItem(AuthenticationController.ROLE_CRM_MANAGER, new CRMManagerUI()));
         rolesUI.add(new MenuItem(AuthenticationController.ROLE_SHOW_DESIGNER, new ShowDesignerUI()));
         rolesUI.add(new MenuItem(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE, new RepresentativeUI()));
+        rolesUI.add(new MenuItem(AuthenticationController.ROLE_DRONE_TECH, new DroneTechUI()));
 
         //TODO: Complete with other user roles and related RoleUI
         return rolesUI;
