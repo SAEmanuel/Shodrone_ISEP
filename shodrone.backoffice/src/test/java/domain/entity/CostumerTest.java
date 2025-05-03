@@ -10,8 +10,6 @@ import eapli.framework.infrastructure.authz.domain.model.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class CostumerTest {
 
     private Name name;
@@ -23,11 +21,11 @@ class CostumerTest {
 
     @BeforeEach
     void setUp() {
-        Name.valueOf("John", "Doe");
+        name = Name.valueOf("John", "Doe");
         email = EmailAddress.valueOf("john.doe@example.com");
         phone = new PhoneNumber("912345678");
-        nif = new NIF("123456789");
-        address = new Address("Rua Exemplo", "1234-567", "Lisboa", "Portugal");
+        nif = new NIF("900000007");
+        address = new Address("Rua Exemplo", "Lisboa", "1234-567", "Portugal");
         costumer = new Costumer(name, email, phone, nif, address);
     }
 
@@ -66,8 +64,8 @@ class CostumerTest {
         Costumer other = new Costumer(Name.valueOf("Another", "Name"),
                 EmailAddress.valueOf("another@example.com"),
                 new PhoneNumber("934567890"),
-                new NIF("123456789"),
-                new Address("Outra Rua", "9999-999", "Porto", "Portugal"));
+                new NIF("900000007"),
+                new Address("Outra Rua", "Porto", "9999-999", "Portugal"));
 
         assertEquals(costumer, other);
     }
@@ -76,9 +74,9 @@ class CostumerTest {
     void testNotEqualsDifferentNIF() {
         Costumer other = new Costumer(Name.valueOf("Different", "Person"),
                 EmailAddress.valueOf("different@example.com"),
-                new PhoneNumber("900000000"),
-                new NIF("987654321"),
-                new Address("Outra Rua", "8888-888", "Braga", "Portugal"));
+                new PhoneNumber("912861312"),
+                new NIF("245716084"),
+                new Address("Outra Rua", "Braga", "8888-888", "Portugal"));
 
         assertNotEquals(costumer, other);
     }
