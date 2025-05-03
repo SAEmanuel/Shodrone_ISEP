@@ -16,10 +16,10 @@ import java.util.Optional;
  *
  * @author eapli
  */
-public interface ShowRequestRepository<T> {
+public interface ShowRequestRepository {
 
 
-    public Optional<T> saveInStore(ShowRequest entity);
+    public Optional<ShowRequest> saveInStore(ShowRequest entity);
     public List<ShowRequest> getAll();
     public Optional<ShowRequest> findById(Object id);
     public Optional<List<ShowRequest>> findByCostumer(Costumer costumer);
