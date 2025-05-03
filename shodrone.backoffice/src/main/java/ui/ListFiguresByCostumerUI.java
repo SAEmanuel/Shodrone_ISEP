@@ -63,11 +63,11 @@ public class ListFiguresByCostumerUI implements Runnable {
 
             // Mostrar lista numerada com opção 0 para sair
             System.out.println(ANSI_BRIGHT_BLACK + BOLD +"• Figures:"+ ANSI_RESET);
-            System.out.println("  0 - Finish selection");
+            System.out.printf("    %s(0)%s -  Finish selection%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             for (int i = 0; i < figureList.size(); i++) {
                 Figure f = figureList.get(i);
-                System.out.printf("  %d - ID: %-3d | Name: %-10s | Availability: %s%n",
-                        i + 1, f.identity(), f.name(), f.availability());
+                System.out.printf("    %s(%d)%s -  ID: %-3d | Name: %-10s | Availability: %s%n",
+                        ANSI_BRIGHT_BLACK,i + 1,ANSI_RESET, f.identity(), f.name(), f.availability());
             }
 
             String input = Utils.readLineFromConsole("Select a figure by number (or press ENTER to finish)").trim();
