@@ -34,15 +34,40 @@ This section is intended for documenting **unit tests**, **integration tests**, 
 ### Screenshots
 - (Optional) Screenshots of test results passing in the console or IDE can be attached here.
 
----
-
 ## 5. Construction (Implementation)
+This section is reserved for the implementation logic of the feature described in this User Story.
 
----
+- **Controller**: `RegisterShowRequestController`
+   - Manages the registration process by coordinating with `FoundCustomerUI`, `ListFiguresByCustomerUI`, and factory/repository classes.
+- **Services/Factories**:
+   - `FactoryProvider.getShowRequestFactory()`: Responsible for creating a `ShowRequest` instance.
+   - `RepositoryProvider.showRequestRepository()`: Handles persistence of the `ShowRequest`.
+- **Implementation Strategy**:
+   - The user selects a client, associated figures, and enters show details.
+   - Validation checks ensure the client is active, figures are public or exclusive, and the date is in the future.
+   - The `ShowRequest` is then instantiated and persisted via the repository.
+- **Patterns Used**:
+   - **Factory Pattern**: Employed to instantiate `ShowRequest` and `Location` objects.
+   - **Repository Pattern**: Used for data persistence and retrieval.
 
 ## 6. Integration and Demo
+### Integration Points
+- Integrates with `AuthenticationRepository` to verify the user’s role.
+- Connects with `CustomerRepository` and `FigureRepository` to retrieve client and figure data.
 
----
+### Demo Walkthrough
+- In the CLI, the user navigates to the "Register Show Request" option, selects a client and figures, and inputs show details.
+- Upon successful registration, a confirmation message is displayed with a summary of the request.
+
 ## 7. Observations
+
+- **Known Limitations**:
+   - Editing registered show requests is not supported (planned for US236).
+- **Design Decisions**:
+   - Use of `Optional` to handle search results and persistence operations gracefully.
+- **Open Questions**:
+   - How should exclusive figures that expire after a certain period be managed?
+
+
 
 
