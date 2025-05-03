@@ -40,14 +40,14 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Column(nullable = false)
     private FigureStatus status;
 
-    @OneToOne //(cascade = CascadeType.ALL)
+    @ManyToOne //(cascade = CascadeType.ALL)
     @JoinColumn(name = "costumer_id")
     private Costumer costumer;
 
     protected Figure() {}
     
     public Figure(String name, Description description,
-                  Long version, FigureCategory category, FigureAvailability availability, FigureStatus status) {//, Costumer costumer) {
+                  Long version, FigureCategory category, FigureAvailability availability, FigureStatus status,Costumer costumer) {
 
         this.name = name;
         this.description = description;
@@ -55,7 +55,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
         this.category = category;
         this.availability = availability;
         this.status = status;
-        //this.costumer = costumer;
+        this.costumer = costumer;
     }
 
     @Override

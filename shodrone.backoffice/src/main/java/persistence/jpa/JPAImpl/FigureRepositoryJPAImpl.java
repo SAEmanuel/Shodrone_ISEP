@@ -63,8 +63,8 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         Optional<Costumer> costumer = Optional.ofNullable(figure.costumer());
         CostumerRepository costumerRepository = RepositoryProvider.costumerRepository();
 
-        if (costumer.isPresent() && costumer.get().identity() != null) {
-            Optional<Costumer> existingCostumer = costumerRepository.findByID(costumer.get().identity());
+        if (costumer.isPresent() && costumer.get().nif() != null) {
+            Optional<Costumer> existingCostumer = costumerRepository.findByNIF(costumer.get().nif());
 
             if (existingCostumer.isEmpty()) {
                 costumer = costumerRepository.saveInStore(costumer.get(), costumer.get().nif());
