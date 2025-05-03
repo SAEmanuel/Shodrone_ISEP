@@ -3,16 +3,19 @@ package domain.entity;
 import domain.valueObjects.Address;
 import domain.valueObjects.NIF;
 import domain.valueObjects.PhoneNumber;
+import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import jakarta.persistence.*;
 import lombok.Setter;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.Objects;
 
+@XmlRootElement
 @Entity
-public final class Costumer implements Serializable {
+public final class Costumer implements AggregateRoot<Long>, Serializable {
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -78,6 +81,20 @@ public final class Costumer implements Serializable {
     public int hashCode() {
         return Objects.hash(nif);
     }
+
+    @Override
+    public boolean sameAs(final Object other) {
+        if (this == other) return true;
+        if (!(other instanceof Costumer)) return false;
+        final Costumer otherCostumer = (Costumer) other;
+
+        if (this.customerSystemID != null && otherCostumer.customerSystemID != null) {
+            return this.customerSystemID.equals(otherCostumer.customerSystemID);
+        }
+
+        return this.nif.equals(otherCostumer.nif);
+    }
+
 
     @Override
     public String toString() {

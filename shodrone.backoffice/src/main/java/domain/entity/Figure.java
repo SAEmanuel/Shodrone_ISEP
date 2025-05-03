@@ -6,6 +6,7 @@ import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.AggregateRoot;
 import domain.valueObjects.Description;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.Objects;
 @Table(name = "figure")
 public class Figure implements AggregateRoot<Long>, Serializable {
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long figureId;

@@ -12,17 +12,22 @@ import java.util.*;
 
 public class InMemoryFigureRepository implements FigureRepository {
     private final Map<Long, Figure> store = new HashMap<>();
+    private static long LAST_FIGURE_ID = 1L;
 
     @Override
     public Optional<Figure> save(Figure figure) {
-        Long key = figure.identity();
-        if (store.containsKey(key)) {
-            return Optional.empty();
-        } else {
-            store.put(key, figure);
-            return Optional.of(figure);
+        if (figure == null) return Optional.empty();
+
+        if (figure.identity() == null) {
+            figure.setFigureId(LAST_FIGURE_ID++);
         }
+
+        store.put(figure.identity(), figure);
+        return Optional.of(figure);
+
     }
+
+
 
     @Override
     public List<Figure> findAll() {

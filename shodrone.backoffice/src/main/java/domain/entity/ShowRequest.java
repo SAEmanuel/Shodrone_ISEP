@@ -2,19 +2,23 @@ package domain.entity;
 
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowRequestStatus;
+import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntityBase;
 import domain.valueObjects.Description;
 import jakarta.persistence.*;
 import lombok.Getter;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
+@XmlRootElement
 @Entity
 @Table(name = "show_request")
-public class ShowRequest extends DomainEntityBase<Long> {
+public class ShowRequest extends DomainEntityBase<Long> implements AggregateRoot<Long>, Serializable {
 
     private static final long serialVersionUID = 1L;
 

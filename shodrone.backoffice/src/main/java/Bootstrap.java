@@ -108,7 +108,7 @@ public class Bootstrap implements Runnable {
 
     // --- Figures --------------------------------------------------------
     private final Figure figure1 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1
+            category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2
     );
 
     private final Figure figure2 = new Figure("Circle", new Description("Circular figure"), (long) 1.2,
@@ -116,10 +116,10 @@ public class Bootstrap implements Runnable {
     );
 
     private final Figure figure3 = new Figure("Square", new Description("Square figure"), (long) 1.2,
-            category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer2
+            category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer1
     );
 
     private final Figure figure4 = new Figure("Rectangle", new Description("Rectangular figure"), (long) 1.2,
-            category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer3
+            category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1
     );
 }
