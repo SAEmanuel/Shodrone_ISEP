@@ -46,6 +46,7 @@ public class RegisterShowRequestUI implements Runnable{
             ShowRequest registeredShowRequest = getRegisterShowcontroller().registerShowRequest();
             Utils.printShowRequestResume(registeredShowRequest);
             Utils.printSuccessMessage("\n✅ Show request successfully registered!");
+            Utils.waitForUser();
 
         }catch(Exception e){
             Utils.printAlterMessage(e.getMessage());

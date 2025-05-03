@@ -28,6 +28,7 @@ public class ListShowRequestByCostumerUI implements Runnable {
                 Utils.printShowRequestResume(showRequest);
                 Utils.dropLines(2);
             }
+            Utils.waitForUser();
 
         }catch(Exception e){
             Utils.printAlterMessage(e.getMessage());

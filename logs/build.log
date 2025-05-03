@@ -68,7 +68,7 @@
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ backoffice ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 9 source files to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/test-classes
+[INFO] Compiling 14 source files to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/test-classes
 [INFO] /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/src/test/java/authz/GreeterTest.java: /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/src/test/java/authz/GreeterTest.java uses or overrides a deprecated API.
 [INFO] /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/src/test/java/authz/GreeterTest.java: Recompile with -Xlint:deprecation for details.
 [INFO] 
@@ -78,28 +78,38 @@
 [INFO] -------------------------------------------------------
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
+[INFO] Running controllers.AddFigureCategoryControllerTest
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.894 s - in controllers.AddFigureCategoryControllerTest
+[INFO] Running authz.PasswordTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.316 s - in authz.PasswordTest
+[INFO] Running authz.EmailTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s - in authz.EmailTest
+[INFO] Running persistence.InMemoryFigureCategoryRepositoryTest
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.056 s - in persistence.InMemoryFigureCategoryRepositoryTest
 [INFO] Running domain.valueObjects.NIFTest
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.177 s - in domain.valueObjects.NIFTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.055 s - in domain.valueObjects.NIFTest
 [INFO] Running domain.valueObjects.AddressTest
-[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s - in domain.valueObjects.AddressTest
+[INFO] Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.038 s - in domain.valueObjects.AddressTest
 [INFO] Running domain.valueObjects.LocationTest
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s - in domain.valueObjects.LocationTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.044 s - in domain.valueObjects.LocationTest
 [INFO] Running domain.valueObjects.NameTest
-[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.074 s - in domain.valueObjects.NameTest
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.043 s - in domain.valueObjects.NameTest
 [INFO] Running domain.valueObjects.PhoneNumberTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.051 s - in domain.valueObjects.PhoneNumberTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s - in domain.valueObjects.PhoneNumberTest
 [INFO] Running domain.valueObjects.DescriptionTest
-[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s - in domain.valueObjects.DescriptionTest
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.062 s - in domain.valueObjects.DescriptionTest
+[INFO] Running domain.entity.FigureCategoryTest
+[INFO] Tests run: 19, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.091 s - in domain.entity.FigureCategoryTest
 [INFO] Running domain.entity.ShowRequestTest
-[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.052 s - in domain.entity.ShowRequestTest
+[INFO] Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.044 s - in domain.entity.ShowRequestTest
 [INFO] Running domain.entity.CostumerTest
-[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 s - in domain.entity.CostumerTest
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s - in domain.entity.CostumerTest
 [INFO] Running authz.GreeterTest
-[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 s - in authz.GreeterTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.037 s - in authz.GreeterTest
 [INFO] 
 [INFO] Results:
 [INFO] 
-[INFO] Tests run: 77, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 139, Failures: 0, Errors: 0, Skipped: 0
 [INFO] 
 [INFO] 
 [INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ backoffice ---
@@ -626,7 +636,7 @@
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.8.1:testCompile (default-testCompile) @ backoffice ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 9 source files to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/test-classes
+[INFO] Compiling 14 source files to /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/target/test-classes
 [INFO] /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/src/test/java/authz/GreeterTest.java: /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/src/test/java/authz/GreeterTest.java uses or overrides a deprecated API.
 [INFO] /home/jorge-rodrigues/Desktop/2_ano/2_Semestre/sem4pi-2024-2025-sem4pi_2024_2025_g61/shodrone.backoffice/src/test/java/authz/GreeterTest.java: Recompile with -Xlint:deprecation for details.
 [INFO] 
@@ -744,12 +754,12 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary for shodrone 0.1.0:
 [INFO] 
-[INFO] shodrone ........................................... SUCCESS [ 10.073 s]
-[INFO] shodrone.backoffice ................................ SUCCESS [ 34.897 s]
-[INFO] shodrone.infraestructure.application ............... SUCCESS [  8.966 s]
+[INFO] shodrone ........................................... SUCCESS [  8.829 s]
+[INFO] shodrone.backoffice ................................ SUCCESS [ 36.937 s]
+[INFO] shodrone.infraestructure.application ............... SUCCESS [  9.145 s]
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  54.035 s
-[INFO] Finished at: 2025-05-03T18:24:26+01:00
+[INFO] Total time:  55.036 s
+[INFO] Finished at: 2025-05-03T20:54:09+01:00
 [INFO] ------------------------------------------------------------------------

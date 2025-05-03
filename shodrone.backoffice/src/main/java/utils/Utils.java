@@ -549,6 +549,18 @@ public class Utils {
             """);
     }
 
+    public static void waitForUser() {
+        dropLines(2);
+        System.out.printf("%s%s───────> %sPress ENTER to continue%s <───────%s%n",ANSI_BRIGHT_BLACK,BOLD,ANSI_BRIGHT_WHITE,ANSI_BRIGHT_BLACK,ANSI_RESET);
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+            reader.readLine();
+            clearTerminal();
+        } catch (Exception e) {
+            System.out.println("Error waiting for input: " + e.getMessage());
+        }
+    }
+
     public static void clearTerminal() {
         try {
             String os = System.getProperty("os.name").toLowerCase();
@@ -556,7 +568,7 @@ public class Utils {
             boolean isIDE = System.console() == null;
 
             if (isIDE) {
-                System.out.println("\n".repeat(50));  // Imprime 50 quebras de linha
+                System.out.println("\n".repeat(20));  // Imprime 50 quebras de linha
             } else {
                 if (os.contains("win")) {
                     new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
