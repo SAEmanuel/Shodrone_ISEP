@@ -30,13 +30,13 @@ public final class Name implements ValueObject, Serializable {
             Preconditions.matches(VALID_NAME_REGEX, trimmed, "Invalid Name: " + trimmed);
             this.name = trimmed;
         } catch (IllegalArgumentException ex) {
-            throw new IllegalArgumentException();
+            throw ex;
         }
     }
 
 
     protected Name() {
-        this.name = "";
+        this.name = null;
     }
 
     public static Name valueOf(final String name) {
