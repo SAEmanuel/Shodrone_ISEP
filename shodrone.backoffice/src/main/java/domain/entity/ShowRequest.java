@@ -81,6 +81,21 @@ public class ShowRequest extends DomainEntityBase<Long> {
         this.showDuration = showDuration;
     }
 
+    //WARNING -> Only for testing porpouse
+    protected ShowRequest(long ShowRequestID, LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor, Costumer costumer, List<Figure> figures, Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
+        this.showRequestId = ShowRequestID;
+        this.submissionDate = submissionDate;
+        this.status = status;
+        this.submissionAuthor = submissionAuthor;
+        this.costumer = costumer;
+        this.figures = figures;
+        this.description = description;
+        this.location = location;
+        this.showDate = showDate;
+        this.numberOfDrones = numberOfDrones;
+        this.showDuration = showDuration;
+    }
+
 
     public void setId(long l) {
         this.showRequestId = l;
