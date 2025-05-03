@@ -2,7 +2,6 @@ package persistence.jpa.JPAImpl;
 
 import authz.Email;
 import domain.entity.FigureCategory;
-import jakarta.persistence.NoResultException;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
@@ -39,6 +38,13 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         } else {
             return Optional.of(results.get(0));
         }
+    }
+
+    @Override
+    public List<FigureCategory> findActiveCategories() {
+        return entityManager()
+                .createQuery("SELECT f FROM FigureCategory f WHERE f.active = true", FigureCategory.class)
+                .getResultList();
     }
 
     @Override

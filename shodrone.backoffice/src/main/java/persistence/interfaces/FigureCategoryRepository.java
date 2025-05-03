@@ -15,6 +15,8 @@ public interface FigureCategoryRepository {
 
     List<FigureCategory> findAll();
 
+    List<FigureCategory> findActiveCategories();
+
     Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription);
 
     Optional<FigureCategory> changeStatus(FigureCategory category);

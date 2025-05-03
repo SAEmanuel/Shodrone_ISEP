@@ -34,6 +34,16 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
     }
 
     @Override
+    public List<FigureCategory> findActiveCategories() {
+       List<FigureCategory> activeCategories = new ArrayList<>();
+       for(FigureCategory category : store.values()) {
+           if (category.isActive())
+               activeCategories.add(category);
+       }
+       return activeCategories;
+    }
+
+    @Override
     public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
         Optional<FigureCategory> categoryOptional = findByName(category.identity());
 

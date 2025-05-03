@@ -21,16 +21,16 @@ public class EditFigureCategoryUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("Edit Figure Category");
 
-        Optional<List<FigureCategory>> allCategoriesOptional = getFigureCategoriesController.getAllFigureCategories();
-        if (allCategoriesOptional.isPresent()) {
-            int index = Utils.showAndSelectIndexPartially(allCategoriesOptional.get(), "Select the desired category to edit");
+        Optional<List<FigureCategory>> activeCategoriesOptional = getFigureCategoriesController.getActiveFigureCategories();
+        if (activeCategoriesOptional.isPresent()) {
+            int index = Utils.showAndSelectIndexPartially(activeCategoriesOptional.get(), "Select the desired category to edit");
 
             if (index < 0) {
                 Utils.printFailMessage("No category selected.");
                 return;
             }
 
-            FigureCategory chosenCategory = allCategoriesOptional.get().get(index);
+            FigureCategory chosenCategory = activeCategoriesOptional.get().get(index);
 
             Utils.printAlterMessage("Current name: " + chosenCategory.identity());
             boolean editName = Utils.confirm("Do you want to edit the category's name? (y/n)");

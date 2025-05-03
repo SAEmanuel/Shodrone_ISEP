@@ -19,4 +19,9 @@ public class GetFigureCategoriesController {
         List<FigureCategory> all = repository.findAll();
         return all.isEmpty() ? Optional.empty() : Optional.of(all);
     }
+
+    public Optional<List<FigureCategory>> getActiveFigureCategories() {
+        List<FigureCategory> all = repository.findActiveCategories();
+        return all.isEmpty() ? Optional.empty() : Optional.of(all);
+    }
 }
