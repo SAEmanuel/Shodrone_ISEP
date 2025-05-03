@@ -16,8 +16,17 @@ public class AuthUtils {
     }
 
     public static String getCurrentUserEmail() {
-        AuthenticationRepository authRepo = getAuthRepo();
-        String email = authRepo.getCurrentUserSession().getUserId().toString();
-        return email != null ? email.toString() : null;
+        AuthenticationRepository repo = getAuthRepo();
+
+        if (repo == null || !repo.isLoggedIn()) {
+            return "system@shodrone.app";
+        }
+
+        var session = repo.getCurrentUserSession();
+        if (session == null || session.getUserId() == null) {
+            return "system@shodrone.app";
+        }
+
+        return session.getUserId().toString();
     }
 }

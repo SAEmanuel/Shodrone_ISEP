@@ -68,4 +68,14 @@ public class RepositoryProvider {
         }
         return authenticationRepository;
     }
+
+
+    // Only for testing purposes
+    public static void injectFigureCategoryRepository(FigureCategoryRepository mockRepo) {
+        figureCategoryRepository = mockRepo;
+    }
+
+    public static void injectAuthenticationRepository(AuthenticationRepository mockRepo) {
+        authenticationRepository = mockRepo;
+    }
 }
