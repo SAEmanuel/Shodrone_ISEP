@@ -36,8 +36,9 @@ public class Bootstrap implements Runnable {
         repo.addUserWithRole("CRM Collaborator x", "crm_collaborator@shodrone.app", "Colab789#", AuthenticationController.ROLE_CRM_COLLABORATOR);
         repo.addUserWithRole("Show Designer x", "show_designer@shodrone.app", "Show321$", AuthenticationController.ROLE_SHOW_DESIGNER);
         repo.addUserWithRole("Representative x", "representative@shodrone.app", "Repres654%", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("Drone Technician x", "dronetech@shodrone.app", "Drone987^", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
+        //repo.addUserWithRole("Drone Technician x", "dronetech@shodrone.app", "Drone987^", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
         repo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", AuthenticationController.ROLE_CRM_COLLABORATOR);
+        repo.addUserWithRole("Drone Technician - Staff", "xv@shodrone.app", "Xv1234!", AuthenticationController.ROLE_DRONE_TECH);
     }
 
     // --- Category Setup -------------------------------------------------
@@ -91,7 +92,7 @@ public class Bootstrap implements Runnable {
     );
 
     private final Costumer customer2 = new Costumer(
-            Name.valueOf("Maria", "Silva"),
+            Name.valueOf("Romeu", "Mendes"),
             EmailAddress.valueOf("maria.silva@shodrone.app"),
             new PhoneNumber("923456789"),
             new NIF("286500850"),
@@ -99,7 +100,7 @@ public class Bootstrap implements Runnable {
     );
 
     private final Costumer customer3 = new Costumer(
-            Name.valueOf("Carlos", "Ferreira"),
+            Name.valueOf("Paulo", "Xu"),
             EmailAddress.valueOf("carlos.ferreira@shodrone.app"),
             new PhoneNumber("934567890"),
             new NIF("248367080"),
