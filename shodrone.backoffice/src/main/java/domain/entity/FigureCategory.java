@@ -140,6 +140,10 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         return this.pk;
     }
 
+    public LocalDateTime updatedOn() {
+        return this.updatedOn;
+    }
+
     @Override
     public String identity() {
         return this.name.toString();
