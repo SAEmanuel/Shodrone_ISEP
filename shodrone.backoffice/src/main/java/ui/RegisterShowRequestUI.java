@@ -30,7 +30,7 @@ public class RegisterShowRequestUI implements Runnable{
         try{
             Utils.printCenteredSubtitle("Costumer information");
             getRegisterShowcontroller().foundCostumerForRegistration();
-            Utils.printCenteredSubtitle("Show information");
+            Utils.printCenteredSubtitle("Show figures");
             getRegisterShowcontroller().foundFiguresForRegistration();
             Utils.printCenteredSubtitle("Show description");
             getRegisterShowcontroller().getDescriptionsForRegistration(Utils.readLineFromConsole(ANSI_BRIGHT_BLACK+ITALIC+"• Enter the description of the show"+ANSI_RESET));
