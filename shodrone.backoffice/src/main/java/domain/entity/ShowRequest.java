@@ -86,7 +86,7 @@ public class ShowRequest extends DomainEntityBase<Long> implements AggregateRoot
     }
 
     //WARNING -> Only for testing porpouse
-    protected ShowRequest(long ShowRequestID, LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor, Costumer costumer, List<Figure> figures, Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
+    public ShowRequest(long ShowRequestID, LocalDateTime submissionDate, ShowRequestStatus status, String submissionAuthor, Costumer costumer, List<Figure> figures, Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration) {
         this.showRequestId = ShowRequestID;
         this.submissionDate = submissionDate;
         this.status = status;

@@ -45,6 +45,17 @@ public final class Costumer implements AggregateRoot<Long>, Serializable {
         this.address = address;
     }
 
+    public Costumer(final long costumerID,final Name name, final EmailAddress email,
+                    final PhoneNumber phoneNumber, final NIF nif,
+                    final Address address) {
+        this.customerSystemID = costumerID;
+        this.name = Objects.requireNonNull(name);
+        this.email = Objects.requireNonNull(email);
+        this.phoneNumber = Objects.requireNonNull(phoneNumber);
+        this.nif = Objects.requireNonNull(nif);
+        this.address = address;
+    }
+
     public Long identity() {
         return customerSystemID;
     }
