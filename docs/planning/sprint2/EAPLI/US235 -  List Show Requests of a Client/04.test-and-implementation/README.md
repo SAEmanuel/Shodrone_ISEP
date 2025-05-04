@@ -32,7 +32,8 @@ This section documents **unit tests**, **integration tests**, and **validation p
     - **Expected Outcome**: All 50 show requests are listed without performance issues, displayed sequentially with `Utils.printShowRequestResume`.
 
 ### Screenshots
-- (Optional) Screenshots of the CLI output showing the list of show requests can be attached here.
+![Unit Tests for Show Request](img/UnitTestShowRequest.png)
+![Unit Tests for Show Request Repository](img/InMemoryShowRequestRepositoryTests.png)
 
 
 ## 5. Construction (Implementation)

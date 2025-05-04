@@ -165,6 +165,7 @@ This section is intended to document **unit tests**, **integration tests**, or a
 ### Screenshots
 
 ![Unit Tests for Show Request](img/UnitTestShowRequest.png)
+![Unit Tests for Show Request Repository](img/InMemoryShowRequestRepositoryTests.png)
 
 ## 5. **Construction (Implementation)**
 
