@@ -17,6 +17,8 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+
+
 public class GetFigureCategoriesControllerTest {
     private GetFigureCategoriesController controller;
     private FigureCategoryRepository mockRepository;
