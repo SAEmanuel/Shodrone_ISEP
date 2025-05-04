@@ -247,58 +247,49 @@ This class is tested for its ability to persist, retrieve, update, and filter fi
 
 ```java
 
-public class InMemoryFigureCategoryRepositoryTest {
+class InMemoryFigureCategoryRepositoryTest {
 
-    private InMemoryFigureCategoryRepository repository;
+    private InMemoryFigureCategoryRepository repo;
     private final Email creator = new Email("test@shodrone.app");
 
     @BeforeEach
     void setUp() {
-        repository = new InMemoryFigureCategoryRepository();
+        repo = new InMemoryFigureCategoryRepository();
     }
 
     @Test
-    void testSaveNewCategory() {
-        FigureCategory cat = new FigureCategory(new Name("NewCat"), new Description("desc123"), creator);
-        Optional<FigureCategory> result = repository.save(cat);
-        assertTrue(result.isPresent());
+    void testSaveSuccess() {
+        FigureCategory category = new FigureCategory(new Name("Geometry"), new Description("Valid description"), creator);
+        Optional<FigureCategory> saved = repo.save(category);
+        assertTrue(saved.isPresent());
     }
 
     @Test
     void testSaveDuplicateReturnsEmpty() {
-        FigureCategory cat = new FigureCategory(new Name("Dup"), new Description("desc123"), creator);
-        repository.save(cat);
-        Optional<FigureCategory> result = repository.save(cat);
-        assertTrue(result.isEmpty());
+        FigureCategory category = new FigureCategory(new Name("Geometry"), new Description("Valid description"), creator);
+        repo.save(category);
+        Optional<FigureCategory> duplicate = repo.save(category);
+        assertTrue(duplicate.isEmpty());
     }
 
     @Test
-    void testFindByName() {
-        FigureCategory cat = new FigureCategory(new Name("FindMe"), new Description("desc123"), creator);
-        repository.save(cat);
-        Optional<FigureCategory> found = repository.findByName("FindMe");
+    void testFindByNameSuccess() {
+        FigureCategory category = new FigureCategory(new Name("Aviation"), new Description("Aircraft models"), creator);
+        repo.save(category);
+        Optional<FigureCategory> found = repo.findByName("aviation");
         assertTrue(found.isPresent());
+        assertEquals("Aviation", found.get().identity());
     }
 
     @Test
     void testFindAllReturnsAllSaved() {
-        repository.save(new FigureCategory(new Name("A"), new Description("desc123"), creator));
-        repository.save(new FigureCategory(new Name("B"), new Description("desc123"), creator));
-        List<FigureCategory> all = repository.findAll();
+        repo.save(new FigureCategory(new Name("A name"), new Description("Description one"), creator));
+        repo.save(new FigureCategory(new Name("B name"), new Description("Description two"), creator));
+        List<FigureCategory> all = repo.findAll();
         assertEquals(2, all.size());
     }
-
-    @Test
-    void testFindActiveCategoriesReturnsOnlyActive() {
-        FigureCategory active = new FigureCategory(new Name("Active"), new Description("desc123"), creator);
-        FigureCategory inactive = new FigureCategory(new Name("Inactive"), new Description("desc123"), creator);
-        repository.save(active);
-        repository.save(inactive);
-        inactive.toggleState();
-        List<FigureCategory> activeList = repository.findActiveCategories();
-        assertEquals(1, activeList.size());
-        assertEquals("Active", activeList.get(0).identity());
-    }
+    
+    
 }
 ```
 
@@ -514,68 +505,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         }
     }
 
-    @Override
-    public List<FigureCategory> findActiveCategories() {
-        return entityManager()
-                .createQuery("SELECT f FROM FigureCategory f WHERE f.active = true", FigureCategory.class)
-                .getResultList();
-    }
-
-    @Override
-    public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
-        try {
-            FigureCategory managed = entityManager().find(FigureCategory.class, category.id());
-
-            if (managed == null) {
-                return Optional.empty();
-            }
-
-            entityManager().getTransaction().begin();
-            if(newName != null) {
-                managed.changeCategoryNameTo(newName);
-            }
-            if(newDescription != null) {
-                managed.changeDescriptionTo(newDescription);
-            }
-            managed.updateTime();
-            managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-            entityManager().getTransaction().commit();
-
-            return Optional.of(managed);
-        } catch (Exception e) {
-            if (entityManager().getTransaction().isActive()) {
-                entityManager().getTransaction().rollback();
-            }
-            e.printStackTrace();
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public Optional<FigureCategory> changeStatus(FigureCategory category) {
-        try {
-            FigureCategory managed = entityManager().find(FigureCategory.class, category.id());
-
-            if (managed == null) {
-                return Optional.empty();
-            }
-
-            entityManager().getTransaction().begin();
-
-            managed.updateTime();
-            managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-            managed.toggleState();
-            entityManager().getTransaction().commit();
-
-            return Optional.of(managed);
-        } catch (Exception e) {
-            if (entityManager().getTransaction().isActive()) {
-                entityManager().getTransaction().rollback();
-            }
-            e.printStackTrace();
-            return Optional.empty();
-        }
-    }
+    
 }
 ```
 
@@ -610,52 +540,7 @@ public class RepositoryProvider {
         }
         return figureCategoryRepository;
     }
-
-    public static FigureRepository figureRepository() {
-        if (figureRepository == null) {
-            if (isInMemory()) {
-                figureRepository = new InMemoryFigureRepository();
-            } else {
-                figureRepository = new FigureRepositoryJPAImpl();
-            }
-        }
-        return figureRepository;
-    }
-
-    public static CostumerRepository costumerRepository() {
-        if (costumerRepository == null) {
-            if (isInMemory()) {
-                costumerRepository = new InMemoryCustomerRepository();
-            } else {
-                costumerRepository = new CostumerJPAImpl();
-            }
-        }
-        return costumerRepository;
-    }
-
-    public static ShowRequestRepository showRequestRepository() {
-        if (showRequestRepository == null) {
-            if (isInMemory()) {
-                showRequestRepository = new InMemoryShowRequestRepository();
-            } else {
-                showRequestRepository = new ShowRequestJPAImpl();
-            }
-        }
-        return showRequestRepository;
-    }
-
-    public static AuthenticationRepository authenticationRepository() {
-        if (authenticationRepository == null) {
-            if (isInMemory()) {
-                authenticationRepository = new InMemoryAuthenticationRepository();
-            } else {
-                authenticationRepository = new AuthenticationRepositoryJPAImpl();
-            }
-        }
-        return authenticationRepository;
-    }
-
-
+    
     // Only for testing purposes
     public static void injectFigureCategoryRepository(FigureCategoryRepository mockRepo) {
         figureCategoryRepository = mockRepo;
