@@ -8,7 +8,7 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
-public class FigureCategoryAvailabilityUI implements Runnable {
+public class ChangeFigureCategoryStatusUI implements Runnable {
 
     private final GetFigureCategoriesController getFigureCategoriesController = new GetFigureCategoriesController();
     private final ChangeFigureCategoryStatusController changeFigureCategoryStatusController = new ChangeFigureCategoryStatusController();
