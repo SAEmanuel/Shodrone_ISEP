@@ -1,0 +1,68 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US236 Edit a Show Request
+
+autonumber
+
+actor "CRM Collaborator" as Collaborator
+participant ":System" as System
+
+activate Collaborator
+
+activate System
+
+Collaborator -> System: login()
+System --> Collaborator: authenticated
+
+deactivate System
+Collaborator -> System: ask to edit a show request
+
+activate System
+
+System --> Collaborator: request costumer selection
+deactivate System
+Collaborator -> System: select costumer
+
+activate System
+
+System --> Collaborator: show list of editable show requests
+deactivate System
+Collaborator -> System: select show request to edit
+
+activate System
+
+System --> Collaborator: show current show request data
+deactivate System
+Collaborator -> System: update data (duration, figures, date, location...)
+
+activate System
+
+System -> System: validate no associated proposal()
+activate System
+deactivate System
+
+System -> System: validate updated data(...)
+activate System
+deactivate System
+
+System -> System: updateShowRequest(duration, figures, date, location...)
+activate System
+deactivate System
+
+System -> System: addShowRequestStatus("Edited", timestamp)
+activate System
+deactivate System
+
+System -> System: persistUpdatedShowRequest()
+activate System
+deactivate System
+
+System --> Collaborator: show updated data and confirmation
+deactivate System
+
+deactivate Collaborator
+
+@enduml
