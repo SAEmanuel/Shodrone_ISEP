@@ -1,8 +1,6 @@
 package ui;
 
-
 import ui.menu.MenuItem;
-import ui.menu.ShowTextUI;
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -11,20 +9,43 @@ import java.util.List;
 import static more.ColorfulOutput.ANSI_BRIGHT_WHITE;
 import static more.ColorfulOutput.ANSI_RESET;
 
-
+/**
+ * User interface for the CRM Collaborator role.
+ * <p>
+ * This menu provides options for CRM collaborators to interact with customer-related data,
+ * including the ability to submit, view, and edit show requests.
+ * </p>
+ */
 public class CRMCollaboratorUI implements Runnable {
+
+    /**
+     * Constructs a new instance of the CRMCollaboratorUI.
+     */
     public CRMCollaboratorUI() {
     }
 
+    /**
+     * Displays the CRM Collaborator menu and handles user interaction.
+     * <p>
+     * The menu allows the user to:
+     * <ul>
+     *     <li>Submit a show request</li>
+     *     <li>List show requests of clients</li>
+     *     <li>Edit an existing show request</li>
+     * </ul>
+     * The menu loop continues until the user selects the exit option.
+     * </p>
+     */
+    @Override
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Submit Show Request", new RegisterShowRequestUI()));
         options.add(new MenuItem("List Show Request of Clients", new ListShowRequestByCostumerUI()));
         options.add(new MenuItem("Edit Show Request", new EditShowRequestUI()));
 
-        int option = 0;
+        int option;
         do {
-            String menu = "\n╔════════"+ANSI_BRIGHT_WHITE+" CRM COLLABORATOR MENU "+ANSI_RESET+"═════════╗";
+            String menu = "\n╔════════" + ANSI_BRIGHT_WHITE + " CRM COLLABORATOR MENU " + ANSI_RESET + "═════════╗";
             option = Utils.showAndSelectIndex(options, menu);
 
             if ((option >= 0) && (option < options.size())) {

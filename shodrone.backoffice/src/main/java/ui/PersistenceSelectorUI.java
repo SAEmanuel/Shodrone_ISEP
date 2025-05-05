@@ -4,15 +4,47 @@ import utils.Utils;
 import java.util.Scanner;
 import static more.ColorfulOutput.*;
 
+/**
+ * UI class that allows the user to select the type of persistence to be used in the application.
+ *
+ * <p>It offers two options:
+ * <ul>
+ *     <li><b>In Memory</b>: Stores data temporarily in memory (e.g., file-based storage).</li>
+ *     <li><b>Database</b>: Persists data using a relational database (e.g., H2).</li>
+ * </ul>
+ *
+ * <p>The selection is made through a command-line interface where the user inputs either 1 or 2.</p>
+ */
 public class PersistenceSelectorUI {
 
+    /**
+     * Enumeration representing the supported types of persistence.
+     */
     public enum PersistenceType {
-        MEMORY, DATABASE
+        /** In-memory persistence. */
+        MEMORY,
+        /** Persistent storage using a relational database. */
+        DATABASE
     }
 
+    /**
+     * Default constructor for {@code PersistenceSelectorUI}.
+     */
     public PersistenceSelectorUI() {
     }
 
+    /**
+     * Displays the persistence selection menu and handles user input.
+     *
+     * <p>The method ensures the user selects a valid option (1 or 2),
+     * clears the terminal after selection, and returns the corresponding integer value.</p>
+     *
+     * @return the numeric value of the selected option:
+     *         <ul>
+     *             <li>1 for {@code MEMORY}</li>
+     *             <li>2 for {@code DATABASE}</li>
+     *         </ul>
+     */
     public int selectionUI() {
         Scanner scanner = new Scanner(System.in);
 

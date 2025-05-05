@@ -17,18 +17,32 @@ import java.util.Optional;
 import static more.ColorfulOutput.*;
 import static more.TextEffects.BOLD;
 
+/**
+ * UI class that allows the user to edit an existing {@link ShowRequest}.
+ * <p>
+ * The user can select one of their own show requests and change specific fields such as:
+ * description, show date, location, number of drones, duration, and associated figures.
+ */
 public class EditShowRequestUI implements Runnable {
 
     private EditShowRequestController controller;
     private ListShowRequestByCostumerController listShowRequestByCostumerController;
     private ListFiguresByCostumerUI listFiguresByCostumerUI;
 
+    /**
+     * Constructs the EditShowRequestUI and initializes its controllers.
+     */
     public EditShowRequestUI() {
         controller = getEditShowRequestController();
         listShowRequestByCostumerController = new ListShowRequestByCostumerController();
         listFiguresByCostumerUI = new ListFiguresByCostumerUI();
     }
 
+    /**
+     * Lazily instantiates or returns the existing {@link EditShowRequestController}.
+     *
+     * @return the controller responsible for editing show requests
+     */
     private EditShowRequestController getEditShowRequestController() {
         if (controller == null) {
             controller = new EditShowRequestController();
@@ -36,6 +50,10 @@ public class EditShowRequestUI implements Runnable {
         return controller;
     }
 
+    /**
+     * Entry point for executing the UI. Prompts the user to select and edit an existing show request.
+     * Performs validation and calls the controller to persist changes.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("EDIT SHOW REQUEST");
@@ -63,6 +81,13 @@ public class EditShowRequestUI implements Runnable {
         }
     }
 
+    /**
+     * Prompts the user to select fields to modify in the {@link ShowRequest} and applies those changes.
+     * <p>
+     * The user can repeatedly choose different attributes to change until they opt to finish editing.
+     *
+     * @param newRequest the mutable clone of the original {@link ShowRequest} being edited
+     */
     public void requestChanges(ShowRequest newRequest) {
         int option;
         Scanner scanner = new Scanner(System.in);
@@ -74,7 +99,7 @@ public class EditShowRequestUI implements Runnable {
             System.out.printf("    %s4 %s- %sNumber of Drones%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             System.out.printf("    %s5 %s- %sDuration%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             System.out.printf("    %s6 %s- %sFigures%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
-            System.out.printf("    %s0 %s- %sFinish editing%s\n",ANSI_BRIGHT_BLACK , ANSI_RESET, BOLD, ANSI_RESET);
+            System.out.printf("    %s0 %s- %sFinish editing%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             option = Utils.readIntegerFromConsole("• Option (0 to finish): ");
             switch (option) {
                 case 1 -> {
@@ -104,8 +129,5 @@ public class EditShowRequestUI implements Runnable {
                 default -> Utils.printAlterMessage("Invalid option.");
             }
         } while (option != 0);
-
     }
-
-
 }
