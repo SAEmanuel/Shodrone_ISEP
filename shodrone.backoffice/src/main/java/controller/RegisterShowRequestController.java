@@ -3,14 +3,17 @@ package controller;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
+import domain.history.HistoryLogger;
 import domain.valueObjects.Location;
 import factories.FactoryProvider;
 import domain.valueObjects.Description;
 import persistence.RepositoryProvider;
 import ui.FoundCostumerUI;
 import ui.ListFiguresByCostumerUI;
+import utils.AuthUtils;
 import utils.Utils;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +39,7 @@ public class RegisterShowRequestController {
         this.figuresSelected = null;
     }
 
-    public ShowRequest registerShowRequest() {
+    public ShowRequest registerShowRequest() throws IOException {
         Optional<ShowRequest> result = FactoryProvider.getShowRequestFactory().automaticBuild(costumerSelected, figuresSelected, descriptionOfShowRequest,
                                                                                               locationOfShow, showDate, numberOfDrones, showDuration);
         if (result.isPresent()) {
@@ -47,6 +50,8 @@ public class RegisterShowRequestController {
         } else {
             Utils.exitImmediately("❌ Failed to register the show request. Please check the input data and try again.");
         }
+        HistoryLogger<ShowRequest,Long> loggerEditer = new HistoryLogger<>();
+        loggerEditer.logCreation(result.get(),AuthUtils.getCurrentUserEmail());
         return result.get();
     }
 

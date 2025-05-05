@@ -29,7 +29,7 @@ public class ListShowRequestByCostumerController {
     }
 
 
-    public void foundCostumerForRegistration(){
+    private void foundCostumerForRegistration(){
         Optional<Costumer> result = foundCostumerUI.foundCustomersUI();
         if(result.isEmpty()){
             throw new IllegalArgumentException("No customer selected.");
