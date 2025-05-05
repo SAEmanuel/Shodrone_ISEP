@@ -39,7 +39,8 @@ public class LocationFactoryImpl {
                 latitude = Utils.readDoubleFromConsole("    5.Latitude (between -90 and 90)");
                 if (latitude < -90 || latitude > 90)
                     Utils.printAlterMessage("Latitude must be between -90 and 90.");
-                break;
+                else
+                    break;
             } catch (Exception e) {
                 Utils.printAlterMessage("Invalid latitude.");
             }
@@ -51,7 +52,8 @@ public class LocationFactoryImpl {
                 longitude = Utils.readDoubleFromConsole("    6.Longitude (between -180 and 180)");
                 if (longitude < -180 || longitude > 180)
                     Utils.printAlterMessage("Longitude must be between -180 and 180.");
-                break;
+                else
+                    break;
             } catch (Exception e) {
                 Utils.printAlterMessage("Invalid longitude.");
             }

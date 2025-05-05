@@ -32,7 +32,6 @@ public class EditShowRequestController {
             String author = AuthUtils.getCurrentUserEmail();
             loggerEditer.logChange(oldRequest, newRequest, author);
 
-            Utils.printSuccessMessage("Edit registered and logged.");
             result = Optional.of(newRequest);
 
         } catch (Exception e) {

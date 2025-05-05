@@ -15,6 +15,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
 
@@ -173,5 +174,20 @@ public class ShowRequest extends DomainEntityBase<Long> implements AggregateRoot
                 this.showDuration
         );
     }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return String.format(
+                "ShowRequest [ID=%d, Date=%s, Author=%s, Status=%s, Drones=%d, Duration=%s]",
+                showRequestId,
+                showDate.format(formatter),
+                submissionAuthor,
+                status,
+                numberOfDrones,
+                showDuration.toMinutes() + " min"
+        );
+    }
+
 
 }
