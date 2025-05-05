@@ -16,7 +16,7 @@ public class CreateDroneModelUI implements Runnable {
     private final CreateDroneModelController controller = new CreateDroneModelController();
 
     public void run() {
-        Utils.printCenteredTitle("Create Drone Model");
+        Utils.printDroneCenteredTitle("Create Drone Model");
 
         Utils.printDroneCenteredSubtitle("Drone Model ID");
         Utils.showModelIDRules();

@@ -74,8 +74,6 @@ public class Utils {
     public static void printCenteredSubtitle(String subtitle) {
         int lineLength = 30;
 
-        dropLines(1);
-
         // Linha superior decorativa
         System.out.print(ANSI_BRIGHT_BLACK);
         for (int i = 0; i < lineLength; i++) {
@@ -89,6 +87,42 @@ public class Utils {
         System.out.println(ANSI_MEDIUM_SPRING_GREEN + subtitle + ANSI_RESET);
 
         // Linha inferior decorativa
+        System.out.print(ANSI_BRIGHT_BLACK);
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("─");
+        }
+        System.out.println(ANSI_RESET);
+    }
+
+    public static void printDroneCenteredTitle(String title) {
+        int lineLength = 50;
+
+        dropLines(2);
+
+        System.out.print(ANSI_BRIGHT_BLACK);
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("─");
+        }
+        System.out.println(ANSI_RESET);
+
+        // Título centralizado com marcadores * nas laterais
+        int leftSpaces = (lineLength - title.length() - 2) / 2; // Ajuste para marcadores
+        System.out.print(ANSI_BRIGHT_BLACK + "*" + ANSI_RESET);
+        System.out.print(" ".repeat(Math.max(0, leftSpaces)));
+        System.out.print(BOLD + ANSI_MEDIUM_SPRING_GREEN + title + ANSI_RESET);
+        System.out.print(" ".repeat(Math.max(0, lineLength - title.length() - 2 - leftSpaces)));
+        System.out.println(ANSI_BRIGHT_BLACK + "*" + ANSI_RESET);
+
+        // "MENU" centralizado com marcadores * nas laterais
+        String menu = "MENU";
+        leftSpaces = (lineLength - menu.length() - 2) / 2; // Ajuste para marcadores
+        System.out.print(ANSI_BRIGHT_BLACK + "*" + ANSI_RESET);
+        System.out.print(" ".repeat(Math.max(0, leftSpaces)));
+        System.out.print(BOLD + ANSI_MEDIUM_SPRING_GREEN + menu + ANSI_RESET);
+        System.out.print(" ".repeat(Math.max(0, lineLength - menu.length() - 2 - leftSpaces)));
+        System.out.println(ANSI_BRIGHT_BLACK + "*" + ANSI_RESET);
+
+
         System.out.print(ANSI_BRIGHT_BLACK);
         for (int i = 0; i < lineLength; i++) {
             System.out.print("─");
@@ -166,13 +200,15 @@ public class Utils {
                 int value = Integer.parseInt(input);
 
                 if (value < 0) {
-                    printAlterMessage("Invalid number. Please enter a positive integer value.");
+                    printFailMessage("Invalid number. Please enter a positive integer value.");
+                    System.out.println();
                     continue;
                 }
 
                 return value;
             } catch (NumberFormatException ex) {
-                printAlterMessage("Invalid number. Please enter a valid integer value.");
+                printFailMessage("Invalid number. Please enter a valid integer value.");
+                System.out.println();
             }
         } while (true);
     }
