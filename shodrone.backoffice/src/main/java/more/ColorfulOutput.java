@@ -43,4 +43,13 @@ public class ColorfulOutput {
     public static final String ANSI_CORAL = "\u001B[38;5;203m";
     public static final String ANSI_TOMATO = "\u001B[38;5;202m";
     public static final String ANSI_ORANGE_RED = "\u001B[38;5;196m";
+
+    public static final String ANSI_TEAL = "\u001B[38;5;37m";
+    public static final String ANSI_NAVY = "\u001B[38;5;17m";
+    public static final String ANSI_VIOLET = "\u001B[38;5;129m";
+    public static final String ANSI_GOLD = "\u001B[38;5;220m";
+    public static final String ANSI_OLIVE = "\u001B[38;5;100m";
+    public static final String ANSI_SKY_BLUE = "\u001B[38;5;117m";
+    public static final String ANSI_ROSE = "\u001B[38;5;211m";
+    public static final String ANSI_GRAY = "\u001B[38;5;244m";
 }
