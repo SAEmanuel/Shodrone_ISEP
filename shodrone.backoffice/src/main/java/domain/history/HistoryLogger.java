@@ -1,10 +1,13 @@
 package domain.history;
 
+import utils.Utils;
+
 import java.io.*;
 import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import static more.ColorfulOutput.*;
 
 public class HistoryLogger<T extends IdentifiableEntity<ID>, ID extends Serializable> {
 
@@ -23,12 +26,13 @@ public class HistoryLogger<T extends IdentifiableEntity<ID>, ID extends Serializ
         if (diff.isBlank()) return;
 
         StringBuilder logEntry = new StringBuilder();
-        logEntry.append("========== ENTITY MODIFIED ==========\n");
+        logEntry.append(Utils.centeredTitle("ENTITY MODIFIED").concat("\n"));
+        logEntry.append(Utils.bottomBoxLine()).append("\n");
         logEntry.append("Timestamp : ").append(FORMATTER.format(LocalDateTime.now())).append("\n");
         logEntry.append("Author    : ").append(author).append("\n");
         logEntry.append("Entity ID : ").append(newEntity.identity()).append("\n");
         logEntry.append("Changes   :\n").append(diff).append("\n");
-        logEntry.append("=====================================\n");
+        logEntry.append("═════════════════════════════════════════════\n");
 
         writeLog(newEntity, logEntry.toString());
     }
@@ -38,12 +42,13 @@ public class HistoryLogger<T extends IdentifiableEntity<ID>, ID extends Serializ
      */
     public void logCreation(T newEntity, String author) throws IOException {
         StringBuilder logEntry = new StringBuilder();
-        logEntry.append("========== ENTITY CREATED ==========\n");
+        logEntry.append(Utils.centeredTitle("ENTITY CREATED").concat("\n"));
+        logEntry.append(Utils.bottomBoxLine()).append("\n");
         logEntry.append("Timestamp : ").append(FORMATTER.format(LocalDateTime.now())).append("\n");
         logEntry.append("Author    : ").append(author).append("\n");
         logEntry.append("Entity ID : ").append(newEntity.identity()).append("\n");
         logEntry.append("Initial State:\n").append(newEntity.toString()).append("\n");
-        logEntry.append("====================================\n");
+        logEntry.append("═════════════════════════════════════════════\n");
 
         writeLog(newEntity, logEntry.toString());
     }

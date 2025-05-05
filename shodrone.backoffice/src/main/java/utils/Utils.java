@@ -685,5 +685,27 @@ public class Utils {
         }
     }
 
+    private static final String BOX_BORDER_TOP = "═";
+    private static final String BOX_LEFT = "╔";
+    private static final String BOX_RIGHT = "╗";
+    private static final String BOX_BOTTOM_LEFT = "╚";
+    private static final String BOX_BOTTOM_RIGHT = "╝";
+    private static final int BOX_WIDTH = 45;
+
+// ...
+
+    public static String centeredTitle(String title) {
+        int totalPadding = BOX_WIDTH - title.length() - 2; // -2 for corners
+        int paddingLeft = totalPadding / 2;
+        int paddingRight = totalPadding - paddingLeft;
+        return BOX_LEFT + BOX_BORDER_TOP.repeat(paddingLeft) + title + BOX_BORDER_TOP.repeat(paddingRight) + BOX_RIGHT;
+    }
+
+    public static String bottomBoxLine() {
+        return BOX_BOTTOM_LEFT + BOX_BORDER_TOP.repeat(BOX_WIDTH - 2) + BOX_BOTTOM_RIGHT;
+    }
+
+
+
 
 }
