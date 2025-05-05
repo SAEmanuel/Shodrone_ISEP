@@ -1,0 +1,87 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Edit Show Request of Client (with History)
+
+autonumber
+
+actor "CRM Collaborator" as Collaborator
+participant ":EditShowRequestUI" as UI
+participant ":EditShowRequestController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as repoProvider
+participant "costumerRepositoryInterface\n:CostumerRepositoryInterface" as cosInt
+participant "showRequestRepositoryInterface\n:ShowRequestRepositoryInterface" as shwInt
+participant "showProposalRepositoryInterface\n:ShowProposalRepositoryInterface" as propInt
+participant "historyLogger\n:HistoryLogger" as historyLogger
+participant "historyEntry\n:HistoryEntry" as historyEntry
+
+activate Collaborator
+
+Collaborator -> UI : ask to edit a Show Request of client
+activate UI
+
+UI -> CTRL **: create
+UI -> CTRL : listCostumerInSystem()
+activate CTRL
+
+CTRL -> repoProvider : getCostumerRepository()
+activate repoProvider
+repoProvider -> cosInt **: create
+repoProvider --> CTRL : costumerRepositoryInterface
+deactivate repoProvider
+
+CTRL -> cosInt : getAllCostumerInSystem()
+activate cosInt
+cosInt --> CTRL : listCostumerInSystem
+deactivate cosInt
+
+CTRL --> UI : listCostumerInSystem
+UI --> Collaborator : ask to select a costumer
+
+Collaborator -> UI : select a costumer
+UI -> CTRL : getEditableShowRequestsOfClient(selectedCostumer)
+
+CTRL -> repoProvider : getShowRequestRepository()
+activate repoProvider
+repoProvider -> shwInt **: create
+repoProvider --> CTRL : showRequestRepositoryInterface
+deactivate repoProvider
+
+CTRL -> shwInt : getShowRequestsOfClient(selectedCostumer)
+activate shwInt
+shwInt --> CTRL : showRequestList
+deactivate shwInt
+
+CTRL --> UI : editableShowRequestList
+UI --> Collaborator : show list of editable show requests
+
+Collaborator -> UI : select a show request to edit
+UI -> CTRL : editShowRequest(selectedShowRequest, updatedData)
+activate CTRL
+
+CTRL -> selectedShowRequest : clone() \n(get snapshot before update)
+CTRL -> historyLogger : registerSnapshot(clone)
+activate historyLogger
+historyLogger -> historyEntry : create entry with timestamp, user
+deactivate historyLogger
+
+CTRL -> shwInt : updateShowRequest(selectedShowRequest, updatedData)
+activate shwInt
+shwInt --> CTRL : updatedShowRequest
+deactivate shwInt
+
+CTRL -> historyLogger : logChange(clone, updatedShowRequest, user)
+activate historyLogger
+historyLogger --> CTRL : confirmation
+deactivate historyLogger
+
+CTRL --> UI : updatedShowRequest
+UI --> Collaborator : show updated show request details
+
+deactivate CTRL
+deactivate UI
+deactivate Collaborator
+
+@enduml
