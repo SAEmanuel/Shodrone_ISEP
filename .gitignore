@@ -3,7 +3,6 @@
 /shodrone.util.ci/target/
 /shodrone.infraestructure.application/target/
 /target/
-/logs/
 /db/
 
 /.idea/

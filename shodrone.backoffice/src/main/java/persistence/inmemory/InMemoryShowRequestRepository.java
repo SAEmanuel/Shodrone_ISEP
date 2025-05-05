@@ -46,4 +46,18 @@ public class InMemoryShowRequestRepository implements ShowRequestRepository {
         return result.isEmpty() ? Optional.empty() : Optional.of(result);
     }
 
+    @Override
+    public Optional<ShowRequest> updateShowRequest(ShowRequest entity) {
+        if (entity == null || entity.identity() == null) {
+            return Optional.empty();
+        }
+
+        if (!store.containsKey(entity.identity())) {
+            return Optional.empty(); // Cannot update if it doesn't exist
+        }
+
+        store.put(entity.identity(), entity); // Overwrite the existing ShowRequest
+        return Optional.of(entity);
+    }
+
 }

@@ -43,4 +43,19 @@ public class ShowRequestJPAImpl extends JpaBaseRepository<ShowRequest, Long> imp
         return requests.isEmpty() ? Optional.empty() : Optional.of(requests);
     }
 
+    @Override
+    public Optional<ShowRequest> updateShowRequest(ShowRequest entity) {
+        if (entity == null || entity.identity() == null) {
+            return Optional.empty();
+        }
+
+        Optional<ShowRequest> existing = Optional.ofNullable(findById(entity.identity()));
+        if (existing.isEmpty()) {
+            return Optional.empty();
+        }
+
+        ShowRequest updated = update(entity);
+        return Optional.ofNullable(updated);
+    }
+
 }

@@ -8,7 +8,7 @@ import java.util.Objects;
 
 public class HistoryLogger<T extends IdentifiableEntity<ID>, ID extends Serializable> {
 
-    private static final String BASE_DIR = "logs/history/";
+    private static final String BASE_DIR = "logs/ObjectsHistory/";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**

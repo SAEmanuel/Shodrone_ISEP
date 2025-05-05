@@ -23,4 +23,5 @@ public interface ShowRequestRepository {
     public List<ShowRequest> getAll();
     public Optional<ShowRequest> findById(Object id);
     public Optional<List<ShowRequest>> findByCostumer(Costumer costumer);
+    public Optional<ShowRequest> updateShowRequest(ShowRequest entity);
 }
