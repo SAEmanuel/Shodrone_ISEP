@@ -1,5 +1,7 @@
 package more;
 
+import static more.ColorfulOutput.ANSI_TEAL;
+
 public class ColorPaletteDemo {
     public static void main(String[] args) {
         System.out.println("\n\033[1mColor Palette Preview:\033[0m\n");
@@ -46,6 +48,14 @@ public class ColorPaletteDemo {
         printColor("CORAL", ColorfulOutput.ANSI_CORAL);
         printColor("TOMATO", ColorfulOutput.ANSI_TOMATO);
         printColor("ORANGE RED", ColorfulOutput.ANSI_ORANGE_RED);
+        printColor("ANSI_TEAL", ColorfulOutput.ANSI_TEAL);
+        printColor("ANSI_NAVY", ColorfulOutput.ANSI_NAVY);
+        printColor("ANSI_VIOLET", ColorfulOutput.ANSI_VIOLET);
+        printColor("ANSI_GOLD", ColorfulOutput.ANSI_GOLD);
+        printColor("ANSI_OLIVE", ColorfulOutput.ANSI_OLIVE);
+        printColor("ANSI_SKY_BLUE", ColorfulOutput.ANSI_SKY_BLUE);
+        printColor("ANSI_ROSE", ColorfulOutput.ANSI_ROSE);
+        printColor("ANSI_GRAY", ColorfulOutput.ANSI_GRAY);
 
         System.out.println();
     }

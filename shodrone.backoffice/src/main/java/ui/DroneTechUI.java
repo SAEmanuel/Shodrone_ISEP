@@ -18,7 +18,7 @@ public class DroneTechUI implements Runnable {
 
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
-        options.add(new MenuItem("Create Drone Model", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Create Drone Model", new CreateDroneModelUI()));
         options.add(new MenuItem("Add Drone to the Inventory", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Remove Drone from the Inventory", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("List Drone in the Inventory", new ShowTextUI("Not implemented yet.")));
@@ -26,7 +26,7 @@ public class DroneTechUI implements Runnable {
         int option = 0;
 
         do {
-            String menu = "\n╔═══════════════" + ANSI_BRIGHT_WHITE + " DRONE TECH MENU " + ANSI_RESET + "══════════════╗";
+            String menu = "\n╔═══════════════" + ANSI_BRIGHT_WHITE + " DRONE TECH MENU " + ANSI_RESET + "═════════════════╗";
             option = Utils.showAndSelectIndexBigger(options, menu);
 
             if ((option >= 0) && (option < options.size())) {

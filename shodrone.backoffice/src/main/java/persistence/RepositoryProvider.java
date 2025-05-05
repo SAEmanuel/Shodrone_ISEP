@@ -12,6 +12,7 @@ public class RepositoryProvider {
     private static CostumerRepository costumerRepository;
     private static ShowRequestRepository showRequestRepository;
     private static AuthenticationRepository authenticationRepository;
+    private static DroneModelRepository droneModelRepository;
 
     @Setter
     private static boolean useInMemory = true;
@@ -73,6 +74,17 @@ public class RepositoryProvider {
             }
         }
         return authenticationRepository;
+    }
+
+    public static DroneModelRepository droneModelRepository() {
+        if (droneModelRepository == null) {
+            if (isInMemory()) {
+                droneModelRepository = new InMemoryDroneModelRepository();
+            } else {
+                droneModelRepository = new CreateDroneModelJPAImpl();
+            }
+        }
+        return droneModelRepository;
     }
 
 
