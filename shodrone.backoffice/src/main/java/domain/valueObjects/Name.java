@@ -20,6 +20,12 @@ public final class Name implements ValueObject, Serializable {
     @Column(unique = true)
     private final String name;
 
+    /**
+     * Constructor that validates the provided name.
+     *
+     * @param name The name value.
+     * @throws IllegalArgumentException if the name is invalid.
+     */
     public Name(final String name) {
         try {
             Preconditions.nonEmpty(name, "Name should neither be null nor empty");
@@ -34,24 +40,48 @@ public final class Name implements ValueObject, Serializable {
         }
     }
 
-
+    /**
+     * Default constructor for JPA.
+     */
     protected Name() {
         this.name = null;
     }
 
+    /**
+     * Factory method to create a new Name object.
+     *
+     * @param name The name value.
+     * @return A new Name instance.
+     */
     public static Name valueOf(final String name) {
         return new Name(name);
     }
 
+    /**
+     * Returns the name as a string.
+     *
+     * @return The name value.
+     */
     @Override
     public String toString() {
         return this.name;
     }
 
+    /**
+     * Getter for the name field.
+     *
+     * @return The name value.
+     */
     public String name() {
         return this.name;
     }
 
+    /**
+     * Compares this Name object to another object for equality.
+     *
+     * @param o The object to compare with.
+     * @return True if the names are equal, otherwise false.
+     */
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
@@ -60,6 +90,11 @@ public final class Name implements ValueObject, Serializable {
         return Objects.equals(this.name, other.name);
     }
 
+    /**
+     * Generates a hash code for this Name object based on the name value.
+     *
+     * @return The hash code for this Name object.
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.name);
