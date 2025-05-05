@@ -17,7 +17,7 @@ public class CreateDroneModelController {
     }
 
     public Optional<DroneModel> createDroneModelWithDescription(DroneModelID droneModelID, Name name, Description description, int maxWindSpeed) {
-        DroneModel category = new DroneModel(droneModelID, name, maxWindSpeed);
+        DroneModel category = new DroneModel(droneModelID, name, description, maxWindSpeed);
         return repository.save(category);
     }
 
