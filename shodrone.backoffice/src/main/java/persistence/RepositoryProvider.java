@@ -1,11 +1,42 @@
 package persistence;
 
-
 import lombok.Setter;
 import persistence.inmemory.*;
 import persistence.interfaces.*;
 import persistence.jpa.JPAImpl.*;
-
+/**
+ * The {@code RepositoryProvider} class is responsible for providing access to persistence repositories
+ * for various entities in the system. It uses the Singleton design pattern to ensure that only one instance
+ * of each repository is created and maintained during the application's runtime.
+ *
+ * The implementation can be configured to use either in-memory repositories or JPA-based repositories,
+ * depending on the need, through the {@link #setUseInMemory(boolean)} method.
+ *
+ * <p>The provided repositories include:</p>
+ * <ul>
+ *   <li>{@link FigureCategoryRepository} - Repository for figure categories.</li>
+ *   <li>{@link FigureRepository} - Repository for figures.</li>
+ *   <li>{@link CostumerRepository} - Repository for customers.</li>
+ *   <li>{@link ShowRequestRepository} - Repository for show requests.</li>
+ *   <li>{@link AuthenticationRepository} - Repository for authentication.</li>
+ *   <li>{@link DroneModelRepository} - Repository for drone models.</li>
+ * </ul>
+ *
+ * The class also provides methods for injecting mock repositories for unit testing purposes.
+ *
+ * <p>Example usage:</p>
+ * <pre>
+ * RepositoryProvider.setUseInMemory(true); // Use in-memory repositories
+ * CostumerRepository costumerRepo = RepositoryProvider.costumerRepository();
+ * </pre>
+ *
+ * @see FigureCategoryRepository
+ * @see FigureRepository
+ * @see CostumerRepository
+ * @see ShowRequestRepository
+ * @see AuthenticationRepository
+ * @see DroneModelRepository
+ */
 public class RepositoryProvider {
     private static FigureCategoryRepository figureCategoryRepository;
     private static FigureRepository figureRepository;
@@ -14,13 +45,26 @@ public class RepositoryProvider {
     private static AuthenticationRepository authenticationRepository;
     private static DroneModelRepository droneModelRepository;
 
+    /**
+     * Flag indicating whether in-memory or JPA-based repositories should be used.
+     */
     @Setter
     private static boolean useInMemory = true;
 
+    /**
+     * Checks if in-memory repositories should be used or JPA-based repositories.
+     *
+     * @return {@code true} if in-memory repositories are used; {@code false} otherwise.
+     */
     private static boolean isInMemory() {
         return useInMemory;
     }
 
+    /**
+     * Retrieves the figure category repository.
+     *
+     * @return The figure category repository.
+     */
     public static FigureCategoryRepository figureCategoryRepository() {
         if (figureCategoryRepository == null) {
             if (isInMemory()) {
@@ -32,6 +76,11 @@ public class RepositoryProvider {
         return figureCategoryRepository;
     }
 
+    /**
+     * Retrieves the figure repository.
+     *
+     * @return The figure repository.
+     */
     public static FigureRepository figureRepository() {
         if (figureRepository == null) {
             if (isInMemory()) {
@@ -43,6 +92,11 @@ public class RepositoryProvider {
         return figureRepository;
     }
 
+    /**
+     * Retrieves the customer repository.
+     *
+     * @return The customer repository.
+     */
     public static CostumerRepository costumerRepository() {
         if (costumerRepository == null) {
             if (isInMemory()) {
@@ -54,6 +108,11 @@ public class RepositoryProvider {
         return costumerRepository;
     }
 
+    /**
+     * Retrieves the show request repository.
+     *
+     * @return The show request repository.
+     */
     public static ShowRequestRepository showRequestRepository() {
         if (showRequestRepository == null) {
             if (isInMemory()) {
@@ -65,6 +124,11 @@ public class RepositoryProvider {
         return showRequestRepository;
     }
 
+    /**
+     * Retrieves the authentication repository.
+     *
+     * @return The authentication repository.
+     */
     public static AuthenticationRepository authenticationRepository() {
         if (authenticationRepository == null) {
             if (isInMemory()) {
@@ -76,6 +140,11 @@ public class RepositoryProvider {
         return authenticationRepository;
     }
 
+    /**
+     * Retrieves the drone model repository.
+     *
+     * @return The drone model repository.
+     */
     public static DroneModelRepository droneModelRepository() {
         if (droneModelRepository == null) {
             if (isInMemory()) {
@@ -88,11 +157,20 @@ public class RepositoryProvider {
     }
 
 
-    // Only for testing purposes
+    /**
+     * Dependency injection for the figure category repository (for testing purposes).
+     *
+     * @param mockRepo The mock repository to inject.
+     */
     public static void injectFigureCategoryRepository(FigureCategoryRepository mockRepo) {
         figureCategoryRepository = mockRepo;
     }
 
+    /**
+     * Dependency injection for the authentication repository (for testing purposes).
+     *
+     * @param mockRepo The mock repository to inject.
+     */
     public static void injectAuthenticationRepository(AuthenticationRepository mockRepo) {
         authenticationRepository = mockRepo;
     }
