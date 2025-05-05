@@ -96,6 +96,35 @@ public class Utils {
         System.out.println(ANSI_RESET);
     }
 
+    public static void printDroneCenteredSubtitle(String subtitle) {
+        int lineLength = 30;
+
+        dropLines(1);
+
+        // Linha superior decorativa com ─
+        System.out.print(ANSI_BRIGHT_BLACK);
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("─");
+        }
+        System.out.println(ANSI_RESET);
+
+        // Subtítulo centralizado com marcadores *
+        int leftSpaces = (lineLength - subtitle.length() - 2) / 2; // Ajuste para marcadores
+        System.out.print(ANSI_BRIGHT_BLACK + "*" + ANSI_RESET);
+        System.out.print(" ".repeat(Math.max(0, leftSpaces)));
+        System.out.print(ANSI_TEAL.concat(BOLD).concat(subtitle).concat(ANSI_RESET));
+        System.out.print(" ".repeat(Math.max(0, lineLength - subtitle.length() - 2 - leftSpaces)));
+        System.out.println(ANSI_BRIGHT_BLACK + "*" + ANSI_RESET);
+
+        // Linha inferior decorativa com ─
+        System.out.print(ANSI_BRIGHT_BLACK);
+        for (int i = 0; i < lineLength; i++) {
+            System.out.print("─");
+        }
+        System.out.println(ANSI_RESET);
+    }
+
+
 
     static public void printSubTitle(String prompt) {
         System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• ".concat(prompt).concat(ANSI_RESET).concat(":"));
@@ -103,7 +132,7 @@ public class Utils {
 
     static public String readLineFromConsole(String prompt) {
         try {
-            System.out.printf("%s : ", prompt);
+            System.out.printf("%s: ", prompt);
 
             InputStreamReader converter = new InputStreamReader(System.in);
             BufferedReader in = new BufferedReader(converter);
@@ -121,6 +150,25 @@ public class Utils {
                 String input = readLineFromConsole(prompt);
 
                 int value = Integer.parseInt(input);
+
+                return value;
+            } catch (NumberFormatException ex) {
+                printAlterMessage("Invalid number. Please enter a valid integer value.");
+            }
+        } while (true);
+    }
+
+    static public int readPositiveIntegerFromConsole(String prompt) {
+        do {
+            try {
+                String input = readLineFromConsole(prompt);
+
+                int value = Integer.parseInt(input);
+
+                if (value < 0) {
+                    printAlterMessage("Invalid number. Please enter a positive integer value.");
+                    continue;
+                }
 
                 return value;
             } catch (NumberFormatException ex) {
@@ -190,7 +238,7 @@ public class Utils {
     static public boolean confirm(String message) {
         String input;
         do {
-            input = Utils.readLineFromConsole("\n" + message + "\n");
+            input = Utils.readLineFromConsole("\n" + message);
         } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
 
         return input.equalsIgnoreCase("y");
@@ -431,6 +479,8 @@ public class Utils {
             try {
                 result = parseFunction.apply(input);
             } catch (Exception e) {
+                Utils.printFailMessage(e.getMessage());
+                System.out.println();
                 redo = true;
             }
         } while (redo);
@@ -547,6 +597,23 @@ public class Utils {
                • Include at least one special character (e.g., !@#$%^&)
                • Not be blank
             """);
+    }
+
+    public static void showModelIDRules() {
+        Utils.silentWaring("""
+          The Drone Model ID must follow these rules:
+           • Minimum 3 and maximum 50 characters
+           • Only letters (a–z, A–Z), digits (0–9) and underscores (_) are allowed
+           • Must not be empty or contain only whitespace
+           • No spaces or special characters like @, #, $, etc.
+        """);
+    }
+
+    public static void showMaxWindRule() {
+        Utils.silentWaring("""
+          The Operational Wind Limit must follow this rule:
+           • The value must be positive.
+        """);
     }
 
     public static void waitForUser() {
