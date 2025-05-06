@@ -7,31 +7,61 @@ import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static more.ColorfulOutput.*;
 import static more.TextEffects.BOLD;
 
+/**
+ * UI class responsible for listing and selecting figures associated with a given customer.
+ * <p>
+ * Provides an interactive console-based interface that allows users to select one or more
+ * figures from a customer's list of available figures.
+ */
 public class ListFiguresByCostumerUI implements Runnable {
+
+    /** Controller responsible for retrieving figures for a given customer. */
     private final ListFiguresByCostumerController listFiguresByCostumerController;
 
+    /**
+     * Constructs the UI with a new instance of {@link ListFiguresByCostumerController}.
+     */
     public ListFiguresByCostumerUI() {
         listFiguresByCostumerController = new ListFiguresByCostumerController();
     }
+
+    /**
+     * Returns the controller used to fetch figures related to a customer.
+     *
+     * @return the {@link ListFiguresByCostumerController} instance
+     */
     private ListFiguresByCostumerController getListFiguresByCostumerController() {
         return listFiguresByCostumerController;
     }
 
+    /**
+     * Entry point for the UI. Currently prints a title and handles exceptions.
+     * The main logic resides in {@link #getListFiguresUI(Costumer)} which requires a {@link Costumer}.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("LIST FIGURES BY COSTUMER");
         try {
-            //getListFiguresUI();
-        }catch(Exception e){
+            // Placeholder for actual logic using getListFiguresUI().
+        } catch(Exception e){
             Utils.printAlterMessage(e.getMessage());
         }
     }
 
+    /**
+     * Allows the user to interactively select figures associated with the given customer.
+     *
+     * <p>The figures already selected are shown above the remaining options, and the user can
+     * choose one by typing its number. Selected figures are added to a list and removed from
+     * the options. The user can finish the selection by choosing option 0 or pressing ENTER.</p>
+     *
+     * @param costumer the customer whose figures should be listed and selected from
+     * @return a list of {@link Figure} objects selected by the user
+     */
     public List<Figure> getListFiguresUI(Costumer costumer) {
         List<Figure> selectedFigureList = new ArrayList<>();
         List<Figure> figureList = getListFiguresByCostumerController()
@@ -61,13 +91,12 @@ public class ListFiguresByCostumerUI implements Runnable {
 
             Utils.dropLines(1);
 
-            // Mostrar lista numerada com opção 0 para sair
-            System.out.println(ANSI_BRIGHT_BLACK + BOLD +"• Figures:"+ ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_BLACK + BOLD + "• Figures:" + ANSI_RESET);
             System.out.printf("    %s(0)%s -  Finish selection%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             for (int i = 0; i < figureList.size(); i++) {
                 Figure f = figureList.get(i);
                 System.out.printf("    %s(%d)%s -  ID: %-3d | Name: %-10s | Availability: %s%n",
-                        ANSI_BRIGHT_BLACK,i + 1,ANSI_RESET, f.identity(), f.name(), f.availability());
+                        ANSI_BRIGHT_BLACK, i + 1, ANSI_RESET, f.identity(), f.name(), f.availability());
             }
 
             String input = Utils.readLineFromConsole("Select a figure by number (or press ENTER to finish)").trim();
@@ -108,7 +137,4 @@ public class ListFiguresByCostumerUI implements Runnable {
 
         return selectedFigureList;
     }
-
-
-
 }

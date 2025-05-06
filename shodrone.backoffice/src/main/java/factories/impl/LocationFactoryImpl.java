@@ -4,11 +4,41 @@ import domain.valueObjects.Address;
 import domain.valueObjects.Location;
 import utils.Utils;
 
+/**
+ * The LocationFactoryImpl class is responsible for creating instances of the Location entity.
+ * It provides a method to read user input from the console to gather location data and validate it
+ * before creating a valid Location object.
+ * <p>
+ * This class ensures that all required information (address, latitude, and longitude) is collected
+ * and validated through multiple input prompts, and if any input is invalid, the user will be
+ * prompted again until valid data is provided.
+ * </p>
+ */
 public class LocationFactoryImpl {
 
+    /**
+     * Default constructor for the LocationFactoryImpl class.
+     * It does not perform any operations but is required for creating instances of the factory.
+     */
     public LocationFactoryImpl() {
     }
 
+    /**
+     * Creates a new Location object by reading the address, latitude, and longitude inputs
+     * from the user through the console, validating the input values, and returning a new Location
+     * instance if all inputs are valid.
+     * <p>
+     * The method validates the address inputs (street, city, postal code, and country)
+     * and ensures that latitude and longitude values are within acceptable ranges:
+     * <ul>
+     *     <li>Latitude must be between -90 and 90.</li>
+     *     <li>Longitude must be between -180 and 180.</li>
+     * </ul>
+     * If any input is invalid, the user is prompted to enter the data again.
+     * </p>
+     *
+     * @return a new Location object with the validated address, latitude, and longitude.
+     */
     public Location createLocationObject() {
         String street;
         String city;
@@ -39,7 +69,8 @@ public class LocationFactoryImpl {
                 latitude = Utils.readDoubleFromConsole("    5.Latitude (between -90 and 90)");
                 if (latitude < -90 || latitude > 90)
                     Utils.printAlterMessage("Latitude must be between -90 and 90.");
-                break;
+                else
+                    break;
             } catch (Exception e) {
                 Utils.printAlterMessage("Invalid latitude.");
             }
@@ -51,7 +82,8 @@ public class LocationFactoryImpl {
                 longitude = Utils.readDoubleFromConsole("    6.Longitude (between -180 and 180)");
                 if (longitude < -180 || longitude > 180)
                     Utils.printAlterMessage("Longitude must be between -180 and 180.");
-                break;
+                else
+                    break;
             } catch (Exception e) {
                 Utils.printAlterMessage("Invalid longitude.");
             }

@@ -69,7 +69,7 @@ public class Utils {
         int lineLength = 30;
 
         // Linha superior decorativa
-        System.out.print(ANSI_BRIGHT_BLACK);
+        System.out.print("\n"+ANSI_BRIGHT_BLACK);
         for (int i = 0; i < lineLength; i++) {
             System.out.print("─");
         }
@@ -85,7 +85,7 @@ public class Utils {
         for (int i = 0; i < lineLength; i++) {
             System.out.print("─");
         }
-        System.out.println(ANSI_RESET);
+        System.out.println(ANSI_RESET+"\n");
     }
 
     public static void printDroneCenteredTitle(String title) {

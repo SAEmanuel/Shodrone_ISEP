@@ -2,15 +2,39 @@ package ui.menu;
 
 import static more.ColorfulOutput.*;
 
+/**
+ * Development team information user interface.
+ * <p>
+ * This class represents the user interface that displays information about the development team.
+ * When invoked, it shows the names and email addresses of the development team members.
+ * </p>
+ */
 public class DevTeamUI implements Runnable {
 
+    /**
+     * Constructs a new instance of the DevTeamUI.
+     */
     public DevTeamUI() {
 
     }
 
+    /**
+     * Displays the development team information.
+     * <p>
+     * This method prints the names and email addresses of the team members to the console:
+     * <ul>
+     *     <li>Emanuel Almeida - 1230839@isep.ipp.pt</li>
+     *     <li>Francisco Santos - 1230564@isep.ipp.pt</li>
+     *     <li>Jorge Ubaldo - 1231274@isep.ipp.pt</li>
+     *     <li>Paulo Mendes - 1231498@isep.ipp.pt</li>
+     *     <li>Romeu Xu - 1230444@isep.ipp.pt</li>
+     * </ul>
+     * </p>
+     */
+    @Override
     public void run() {
         System.out.println("\n\n══════════════════════════════════════════");
-        System.out.println(ANSI_BRIGHT_WHITE+"            DEVELOPMENT TEAM                \n"+ANSI_RESET);
+        System.out.println(ANSI_BRIGHT_WHITE + "            DEVELOPMENT TEAM                \n" + ANSI_RESET);
         System.out.println("  Emanuel Almeida   - 1230839@isep.ipp.pt");
         System.out.println("  Francisco Santos  - 1230564@isep.ipp.pt");
         System.out.println("  Jorge Ubaldo      - 1231274@isep.ipp.pt");

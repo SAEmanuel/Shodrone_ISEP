@@ -19,10 +19,19 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Controller responsible for registering a new show request.
+ * This controller manages user interaction to collect the necessary information
+ * and register a show request, including customer, figures, description, location,
+ * date, number of drones, and show duration.
+ */
 public class RegisterShowRequestController {
+
+    // User interface components for fetching data
     private final FoundCostumerUI foundCostumerUI;
     private final ListFiguresByCostumerUI listFiguresByCostumerUI;
 
+    // Data collected from the user for the show request
     private Costumer costumerSelected;
     private List<Figure> figuresSelected;
     private Description descriptionOfShowRequest;
@@ -31,17 +40,31 @@ public class RegisterShowRequestController {
     private int numberOfDrones;
     private Duration showDuration;
 
+    /**
+     * Constructor of the controller, initializing user interface components.
+     */
     public RegisterShowRequestController() {
         this.foundCostumerUI = new FoundCostumerUI();
         this.listFiguresByCostumerUI = new ListFiguresByCostumerUI();
 
+        // Initialize variables with default values
         this.costumerSelected = null;
         this.figuresSelected = null;
     }
 
+    /**
+     * Registers a new show request.
+     * This method constructs and saves a show request based on the provided data.
+     *
+     * @return The registered show request.
+     * @throws IOException If an error occurs during the registration process.
+     */
     public ShowRequest registerShowRequest() throws IOException {
+        // Attempts to automatically build a show request using the provided data
         Optional<ShowRequest> result = FactoryProvider.getShowRequestFactory().automaticBuild(costumerSelected, figuresSelected, descriptionOfShowRequest,
-                                                                                              locationOfShow, showDate, numberOfDrones, showDuration);
+                locationOfShow, showDate, numberOfDrones, showDuration);
+
+        // If show request construction is successful, attempts to save it to the repository
         if (result.isPresent()) {
             result = RepositoryProvider.showRequestRepository().saveInStore(result.get());
             if (result.isEmpty()){
@@ -50,13 +73,17 @@ public class RegisterShowRequestController {
         } else {
             Utils.exitImmediately("❌ Failed to register the show request. Please check the input data and try again.");
         }
-        HistoryLogger<ShowRequest,Long> loggerEditer = new HistoryLogger<>();
-        loggerEditer.logCreation(result.get(),AuthUtils.getCurrentUserEmail());
+
+        // Logs the creation of the show request
+        HistoryLogger<ShowRequest, Long> loggerEditer = new HistoryLogger<>();
+        loggerEditer.logCreation(result.get(), AuthUtils.getCurrentUserEmail());
         return result.get();
     }
 
-
-
+    /**
+     * Finds and selects a customer for the show request.
+     * If no customer is selected, an exception is thrown.
+     */
     public void foundCostumerForRegistration(){
         Optional<Costumer> result = foundCostumerUI.foundCustomersUI();
         if(result.isEmpty()){
@@ -65,6 +92,10 @@ public class RegisterShowRequestController {
         costumerSelected = result.get();
     }
 
+    /**
+     * Finds and selects the figures associated with the selected customer.
+     * If no figures are selected, an exception is thrown.
+     */
     public void foundFiguresForRegistration(){
         List<Figure> figures = listFiguresByCostumerUI.getListFiguresUI(costumerSelected);
         if(figures.isEmpty()){
@@ -73,24 +104,41 @@ public class RegisterShowRequestController {
         figuresSelected = figures;
     }
 
+    /**
+     * Sets the description for the show request.
+     *
+     * @param rawDescriptionOfShowRequest The raw description provided by the user.
+     */
     public void getDescriptionsForRegistration(String rawDescriptionOfShowRequest){
         descriptionOfShowRequest = new Description(rawDescriptionOfShowRequest);
     }
 
+    /**
+     * Creates a location object for the show.
+     */
     public void getLocationOfShow(){
         this.locationOfShow = FactoryProvider.getLocationFactoryImpl().createLocationObject();
     }
 
+    /**
+     * Sets the show date.
+     * The expected input format is: yyyy-MM-dd HH:mm
+     */
     public void getDateForShow(){
         this.showDate = Utils.readDateFromConsole("Enter the show date (yyyy-MM-dd HH:mm)");
     }
 
+    /**
+     * Sets the number of drones to be used in the show.
+     */
     public void getNumberOfDrones(){
         this.numberOfDrones = Utils.readIntegerFromConsole("Enter the number of drones");
     }
 
+    /**
+     * Sets the show duration in minutes.
+     */
     public void getShowDuration(){
         this.showDuration = Duration.ofMinutes(Utils.readIntegerFromConsole("Enter the show duration (minutes)"));
     }
-
 }
