@@ -1,8 +1,8 @@
 package domain.valueObjects;
 
 public enum DroneStatus {
-    ACTIVE,
-    INACTIVE,
+    AVAILABLE,
+    UNAVAILABLE,
     MAINTENANCE,
     RESERVED,
     IN_USE,

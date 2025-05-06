@@ -19,6 +19,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "SID", nullable = false, unique = true)
     private Long pk;
 
     @XmlElement
