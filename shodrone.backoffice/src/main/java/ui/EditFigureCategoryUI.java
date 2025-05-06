@@ -72,6 +72,6 @@ public class EditFigureCategoryUI implements Runnable {
         } else {
             Utils.printFailMessage("No categories in the system yet...");
         }
-        Utils.clearTerminal();
+
     }
 }

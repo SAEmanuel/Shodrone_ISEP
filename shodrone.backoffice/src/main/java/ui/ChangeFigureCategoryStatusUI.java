@@ -37,6 +37,6 @@ public class ChangeFigureCategoryStatusUI implements Runnable {
             }
 
         }
-        Utils.clearTerminal();
+
     }
 }

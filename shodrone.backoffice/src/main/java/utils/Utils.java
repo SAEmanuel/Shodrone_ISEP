@@ -594,6 +594,25 @@ public class Utils {
         return -1;
     }
 
+    public static void showListPartially(List<?> list, String header) {
+        int total = list.size();
+        int startIndex = 0;
+
+        while (startIndex < total) {
+            int endIndex = Math.min(startIndex + STEP, total);
+            List<?> sublist = list.subList(startIndex, endIndex);
+
+            showListElements(sublist, header + " (Showing " + (startIndex + 1) + " to " + endIndex + " of " + total + ")");
+
+            startIndex += STEP;
+
+            if (startIndex < total) {
+                boolean seeMore = Utils.confirm("Do you want to see more items? (y/n)");
+                if (!seeMore) break;
+            }
+        }
+    }
+
     public static void showNameRules() {
         Utils.silentWaring("""
               The name must follow these rules:

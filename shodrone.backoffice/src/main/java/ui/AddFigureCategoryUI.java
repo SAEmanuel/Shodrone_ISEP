@@ -45,7 +45,7 @@ public class AddFigureCategoryUI implements Runnable {
         } else {
             Utils.printFailMessage("A category with that name already exists!");
         }
-        Utils.clearTerminal();
+
     }
 
 }

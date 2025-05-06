@@ -21,9 +21,9 @@ public class ListAllFigureCategoriesUI implements Runnable {
             Utils.printFailMessage("No categories in the system yet...");
         } else {
             List<FigureCategory> allCategories = allFigureCategoriesOptional.get();
-            Utils.showListElements(allCategories, "");
+            Utils.showListPartially(allCategories, "");
         }
 
-        Utils.clearTerminal();
+
     }
 }
