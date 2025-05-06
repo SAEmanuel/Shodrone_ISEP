@@ -17,7 +17,7 @@ public class Bootstrap implements Runnable {
         addUsers();
         addCategories();
         addCustomers();
-        addFigures();
+        //addFigures();
     }
 
     // --- User Setup -----------------------------------------------------

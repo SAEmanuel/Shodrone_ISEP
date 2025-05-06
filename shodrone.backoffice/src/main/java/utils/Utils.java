@@ -7,18 +7,12 @@ import domain.valueObjects.NIF;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static more.ColorfulOutput.*;
 import static more.TextEffects.*;
@@ -130,7 +124,7 @@ public class Utils {
         System.out.println(ANSI_RESET);
     }
 
-    public static void printDroneCenteredSubtitle(String subtitle) {
+    public static void printCenteredSubtitleV2(String subtitle) {
         int lineLength = 30;
 
         dropLines(1);

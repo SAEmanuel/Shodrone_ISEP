@@ -18,11 +18,11 @@ public class CreateDroneModelUI implements Runnable {
     public void run() {
         Utils.printDroneCenteredTitle("Create Drone Model");
 
-        Utils.printDroneCenteredSubtitle("Drone Model ID");
+        Utils.printCenteredSubtitleV2("Drone Model ID");
         Utils.showModelIDRules();
         DroneModelID modelID = Utils.rePromptWhileInvalid("Enter the Drone Model ID", DroneModelID::new);
 
-        Utils.printDroneCenteredSubtitle("Drone Model Name");
+        Utils.printCenteredSubtitleV2("Drone Model Name");
         Utils.showNameRules();
         Name name = Utils.rePromptWhileInvalid("Enter the Drone Model name", Name::new);
 
@@ -32,14 +32,14 @@ public class CreateDroneModelUI implements Runnable {
         boolean hasDescription = Utils.confirm("Do you want to add a description? (y/n)");
 
         if (hasDescription) {
-            Utils.printDroneCenteredSubtitle("Drone Model Description");
+            Utils.printCenteredSubtitleV2("Drone Model Description");
             Utils.showDescriptionRules();
             description = Utils.rePromptWhileInvalid("Enter the Drone Model description", Description::new);
         } else {
             Utils.printAlterMessage("Description skipped...");
         }
 
-        Utils.printDroneCenteredSubtitle("Operational Wind Limit");
+        Utils.printCenteredSubtitleV2("Operational Wind Limit");
         Utils.showMaxWindRule();
         int maxWindSpeed = Utils.readPositiveIntegerFromConsole("Enter the operational wind limit " + ANSI_ORANGE + "(in m/s)" + ANSI_RESET);
 
