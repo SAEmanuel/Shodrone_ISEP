@@ -20,6 +20,7 @@ public class ChangeFigureCategoryStatusUI implements Runnable {
 
         Optional<List<FigureCategory>> categoriesOptional = getFigureCategoriesController.getAllFigureCategories();
 
+        Utils.printCenteredSubtitleV2("Figure Category selection");
         if (categoriesOptional.isEmpty()) {
             Utils.printFailMessage("No categories in the system yet...");
         } else {
@@ -36,5 +37,6 @@ public class ChangeFigureCategoryStatusUI implements Runnable {
             }
 
         }
+        Utils.clearTerminal();
     }
 }

@@ -23,6 +23,7 @@ public class EditFigureCategoryUI implements Runnable {
 
         Optional<List<FigureCategory>> activeCategoriesOptional = getFigureCategoriesController.getActiveFigureCategories();
         if (activeCategoriesOptional.isPresent()) {
+            Utils.printCenteredSubtitleV2("Figure Category selection");
             int index = Utils.showAndSelectIndexPartially(activeCategoriesOptional.get(), "Select the desired category to edit");
 
             if (index < 0) {
@@ -32,17 +33,31 @@ public class EditFigureCategoryUI implements Runnable {
 
             FigureCategory chosenCategory = activeCategoriesOptional.get().get(index);
 
+            Utils.printCenteredSubtitleV2("Name");
             Utils.printAlterMessage("Current name: " + chosenCategory.identity());
             boolean editName = Utils.confirm("Do you want to edit the category's name? (y/n)");
+            Name newName = null;
+            if (editName) {
+                Utils.showNameRules();
+                newName = Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new);
+            } else {
+                Utils.silentWaring("Name maintained...");
+                Utils.dropLines(2);
+            }
 
-            Utils.showNameRules();
-            Name newName = editName ? Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new) : null;
-
+            Utils.printCenteredSubtitleV2("Description");
             Utils.printAlterMessage("Current description: " + chosenCategory.description());
             boolean editDescription = Utils.confirm("Do you want to edit the category's description? (y/n)");
+            Description newDescription = null;
 
-            Utils.showDescriptionRules();
-            Description newDescription = editDescription ? Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new) : null;
+            if (editDescription) {
+                Utils.printCenteredSubtitle("Description");
+                Utils.showDescriptionRules();
+                newDescription = Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new);
+            } else {
+                Utils.silentWaring("Description maintained...");
+                Utils.dropLines(2);
+            }
 
             if (!editName && !editDescription) {
                 Utils.printFailMessage("Nothing has changed!");
@@ -57,5 +72,6 @@ public class EditFigureCategoryUI implements Runnable {
         } else {
             Utils.printFailMessage("No categories in the system yet...");
         }
+        Utils.clearTerminal();
     }
 }

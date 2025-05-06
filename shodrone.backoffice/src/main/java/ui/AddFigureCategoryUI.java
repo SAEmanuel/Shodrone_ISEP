@@ -19,10 +19,12 @@ public class AddFigureCategoryUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("Add Figure Category");
 
+        Utils.printCenteredSubtitleV2("Name");
         Utils.showNameRules();
         Name name = Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new);
         Description description;
 
+        Utils.printCenteredSubtitleV2("Description");
         boolean option = Utils.confirm("Do you want to add a description? (y/n)");
 
         Optional<FigureCategory> result;
@@ -43,6 +45,7 @@ public class AddFigureCategoryUI implements Runnable {
         } else {
             Utils.printFailMessage("A category with that name already exists!");
         }
+        Utils.clearTerminal();
     }
 
 }

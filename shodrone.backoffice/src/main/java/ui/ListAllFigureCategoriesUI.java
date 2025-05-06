@@ -16,6 +16,7 @@ public class ListAllFigureCategoriesUI implements Runnable {
 
         Optional<List<FigureCategory>> allFigureCategoriesOptional = controller.getAllFigureCategories();
 
+        Utils.printCenteredSubtitleV2("Figure Category selection");
         if (allFigureCategoriesOptional.isEmpty()) {
             Utils.printFailMessage("No categories in the system yet...");
         } else {
@@ -23,6 +24,6 @@ public class ListAllFigureCategoriesUI implements Runnable {
             Utils.showListElements(allCategories, "");
         }
 
-
+        Utils.clearTerminal();
     }
 }
