@@ -3,13 +3,14 @@ package persistence.inmemory;
 import persistence.interfaces.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.AuthFacade;
 import pt.isep.lei.esoft.auth.UserSession;
+import pt.isep.lei.esoft.auth.mappers.dto.UserDTO;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;
 
 
 public class InMemoryAuthenticationRepository implements AuthenticationRepository {
-    private final AuthFacade authenticationFacade;
+    private AuthFacade authenticationFacade;
 
     public InMemoryAuthenticationRepository() {
         authenticationFacade = new AuthFacade();
@@ -53,5 +54,14 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
 
     public boolean addUserWithRole(String name, String email, String pwd, String roleId) {
         return authenticationFacade.addUserWithRole(name, email, pwd, roleId);
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return authenticationFacade.getUsers();
+    }
+
+    public void reset() {
+        this.authenticationFacade = new AuthFacade();
     }
 }

@@ -3,6 +3,7 @@ package persistence.jpa.JPAImpl;
 import authz.*;
 import persistence.interfaces.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.UserSession;
+import pt.isep.lei.esoft.auth.mappers.dto.UserDTO;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 import persistence.jpa.JpaBaseRepository;
 
@@ -107,5 +108,15 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
 
         return true;
     }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return findAll().stream()
+                .map(user -> new UserDTO(user.getId().toString(), user.getName(), user.getRoles().stream()
+                        .map(role -> new UserRoleDTO(role.getId(), role.getDescription()))
+                        .toList()))
+                .toList();
+    }
+
 
 }
