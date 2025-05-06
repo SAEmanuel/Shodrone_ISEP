@@ -41,9 +41,16 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
     }
 
     @Override
+    public List<FigureCategory> findAll() {
+        return entityManager()
+                .createQuery("SELECT f FROM FigureCategory f ORDER BY f.name.name ASC", FigureCategory.class)
+                .getResultList();
+    }
+
+    @Override
     public List<FigureCategory> findActiveCategories() {
         return entityManager()
-                .createQuery("SELECT f FROM FigureCategory f WHERE f.active = true", FigureCategory.class)
+                .createQuery("SELECT f FROM FigureCategory f WHERE f.active = true ORDER BY f.name.name ASC", FigureCategory.class)
                 .getResultList();
     }
 

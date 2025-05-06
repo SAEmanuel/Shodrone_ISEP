@@ -30,17 +30,21 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
 
     @Override
     public List<FigureCategory> findAll() {
-        return new ArrayList<>(store.values());
+        List<FigureCategory> allCategories = new ArrayList<>(store.values());
+        allCategories.sort(Comparator.comparing(FigureCategory::identity));
+        return allCategories;
     }
 
     @Override
     public List<FigureCategory> findActiveCategories() {
-       List<FigureCategory> activeCategories = new ArrayList<>();
-       for(FigureCategory category : store.values()) {
-           if (category.isActive())
-               activeCategories.add(category);
-       }
-       return activeCategories;
+        List<FigureCategory> activeCategories = new ArrayList<>();
+        for (FigureCategory category : store.values()) {
+            if (category.isActive())
+                activeCategories.add(category);
+        }
+
+        activeCategories.sort(Comparator.comparing(FigureCategory::identity));
+        return activeCategories;
     }
 
     @Override
