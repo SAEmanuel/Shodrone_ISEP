@@ -1,10 +1,7 @@
 package domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import domain.valueObjects.Description;
-import domain.valueObjects.DroneModelID;
-import domain.valueObjects.Name;
-import domain.valueObjects.WindTolerance;
+import domain.valueObjects.*;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import jakarta.persistence.*;
@@ -33,7 +30,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
     @XmlElement
     @JsonProperty
     @Column(nullable = false)
-    private Name droneName;
+    private DroneName droneName;
 
     @XmlElement
     @JsonProperty
@@ -53,7 +50,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
 
     protected DroneModel() {}
 
-    public DroneModel (DroneModelID droneModelID, Name droneName, Description description, int maxWindSpeed) {
+    public DroneModel (DroneModelID droneModelID, DroneName droneName, Description description, int maxWindSpeed) {
         if (maxWindSpeed < 0) {
             throw new IllegalArgumentException("Max Wind Speed cannot be negative");
         }
@@ -65,7 +62,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
         this.windTolerances = null;
     }
 
-    public DroneModel (DroneModelID droneModelID, Name droneName, int maxWindSpeed) {
+    public DroneModel (DroneModelID droneModelID, DroneName droneName, int maxWindSpeed) {
         if (maxWindSpeed < 0) {
             throw new IllegalArgumentException("Max Wind Speed cannot be negative");
         }
@@ -85,7 +82,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
         this.description = newDescription;
     }
 
-    public void changeDroneNameTo(final Name newDroneName) {
+    public void changeDroneNameTo(final DroneName newDroneName) {
         if (newDroneName == null) {
             throw new IllegalArgumentException("Drone Name cannot be null.");
         }
@@ -111,7 +108,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
         return this.droneModelID.toString();
     }
 
-    public Name droneName() {
+    public DroneName droneName() {
         return this.droneName;
     }
 

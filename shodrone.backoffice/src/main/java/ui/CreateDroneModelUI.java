@@ -3,6 +3,7 @@ package ui;
 import domain.entity.DroneModel;
 import domain.valueObjects.Description;
 import domain.valueObjects.DroneModelID;
+import domain.valueObjects.DroneName;
 import domain.valueObjects.Name;
 import utils.Utils;
 import controller.CreateDroneModelController;
@@ -23,8 +24,8 @@ public class CreateDroneModelUI implements Runnable {
         DroneModelID modelID = Utils.rePromptWhileInvalid("Enter the Drone Model ID", DroneModelID::new);
 
         Utils.printCenteredSubtitleV2("Drone Model Name");
-        Utils.showNameRules();
-        Name name = Utils.rePromptWhileInvalid("Enter the Drone Model name", Name::new);
+        Utils.showDroneNameRules();
+        DroneName name = Utils.rePromptWhileInvalid("Enter the Drone Model name", DroneName::new);
 
         Optional<DroneModel> result;
         Description description = null;

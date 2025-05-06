@@ -1,6 +1,5 @@
 package persistence.interfaces;
 
-import domain.entity.FigureCategory;
 import domain.entity.DroneModel;
 
 import java.util.List;

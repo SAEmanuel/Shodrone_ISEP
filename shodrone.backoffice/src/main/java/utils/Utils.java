@@ -603,6 +603,15 @@ public class Utils {
             """);
     }
 
+    public static void showDroneNameRules() {
+        Utils.silentWaring("""
+              The name must follow these rules:
+               • Minimum 3 and maximum 80 characters
+               • Only letters, spaces, numbers, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
+               • Must not start with a space or special character
+            """);
+    }
+
     public static void showDescriptionRules() {
         Utils.silentWaring("""
           The description must follow these rules:
