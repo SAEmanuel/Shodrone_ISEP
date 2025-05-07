@@ -3,8 +3,12 @@ package persistence.inmemory;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
+import domain.valueObjects.Description;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
+import persistence.RepositoryProvider;
+import persistence.interfaces.CostumerRepository;
+import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.FigureRepository;
 import utils.Utils;
 
@@ -21,13 +25,43 @@ public class InMemoryFigureRepository implements FigureRepository {
         if (figure.identity() == null) {
             figure.setFigureId(LAST_FIGURE_ID++);
         }
+    
+        // Persist or reuse figure category
+        Optional<FigureCategory> category = Optional.ofNullable(figure.category());
+        FigureCategoryRepository categoryRepository = RepositoryProvider.figureCategoryRepository();
 
+        if (category.isPresent() && category.get().identity() != null) {
+            Optional<FigureCategory> existingCategory = categoryRepository.findByName(category.get().identity());
+
+            if (existingCategory.isEmpty()) {
+                category = categoryRepository.save(category.get());
+            } else {
+                category = Optional.of(existingCategory.get());
+            }
+            figure.UpdateFigureCategory(category.get()); 
+        }
+
+        
+        
+        // Persist or reuse costumer
+        Optional<Costumer> costumer = Optional.ofNullable(figure.costumer());
+        CostumerRepository costumerRepository = RepositoryProvider.costumerRepository();
+
+        if (costumer.isPresent() && costumer.get().nif() != null) {
+            Optional<Costumer> existingCostumer = costumerRepository.findByNIF(costumer.get().nif());
+
+            if (existingCostumer.isEmpty()) {
+                costumer = costumerRepository.saveInStore(costumer.get(), costumer.get().nif());
+            } else {
+                costumer = Optional.of(existingCostumer.get());
+            }
+            figure.UpdateFigureCostumer(costumer.get());
+        }
+        
         store.put(figure.identity(), figure);
         return Optional.of(figure);
-
+        
     }
-
-
 
     @Override
     public List<Figure> findAll() {
@@ -59,8 +93,86 @@ public class InMemoryFigureRepository implements FigureRepository {
     }
 
     @Override
-    public List<Figure> findFigures(Long figureId, String name, FigureCategory category, FigureAvailability availability) {
-        return new ArrayList<Figure>();
+    public Optional<List<Figure>> findFigures(Long figureId, String name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
+        ArrayList<Figure> figures = new ArrayList();
+        if(store.values().isEmpty())
+            return Optional.ofNullable(figures);
+
+        if (figureId != null) {
+            Figure figure = store.get(figureId);
+            if (figure != null) {
+                return Optional.of(List.of(figure));
+            }
+        }
+
+
+        int searching = 1;
+        ArrayList<Figure> searchFigures = new ArrayList<>(store.values());
+
+        while(searching <= 7) {
+            figures = new ArrayList<>();
+            for (Figure figure : searchFigures) {
+
+                switch (searching) {
+                    case 1:
+                        if(figure.name().equals(name)) {
+                            figures.add(figure);
+                        }else if(name == null) {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 2:
+                        if(figure.description().equals(description)) {
+                            figures.add(figure);
+                        }
+                        else if(description == null) {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 3:
+                        if(figure.version().equals(version)) {
+                            figures.add(figure);
+                        }else if(version == null) {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 4:
+                        if(figure.category().equals(category)) {
+                            figures.add(figure);
+                        }else if(category == null) {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 5:
+                        if(availability != null){
+                            if( figure.availability().toString().equals(availability.toString()) )
+                                figures.add(figure);
+                        }else if(availability == null) {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 6:
+                        if(status != null){
+                            if( figure.status().toString().equals(status.toString()) )
+                                figures.add(figure);
+                        }else if(status == null) {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 7:
+                        if(figure.costumer().equals(costumer)) {
+                            figures.add(figure);
+                        }else if(costumer == null) {
+                            figures.add(figure);
+                        }
+                        break;
+                }
+            }
+            searchFigures = figures;
+            searching++;
+        }
+
+        return Optional.of(figures);
     }
 
     @Override
