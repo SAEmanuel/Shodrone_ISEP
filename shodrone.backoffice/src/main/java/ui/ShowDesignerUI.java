@@ -23,7 +23,9 @@ public class ShowDesignerUI implements Runnable {
         options.add(new MenuItem("List Figure Categories", new ListAllFigureCategoriesUI()));
         options.add(new MenuItem("Inactivate/Activate a Figure Category", new ChangeFigureCategoryStatusUI()));
         options.add(new MenuItem("List Public Figures", new ListPublicFiguresUI()) );
+        options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
         options.add(new MenuItem("Add Figures", new AddFigureUI()) );
+
         options.add(new MenuItem("Option x", new ShowTextUI("You have chosen Option x.")));
 
         int option = 0;
