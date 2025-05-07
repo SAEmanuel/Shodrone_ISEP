@@ -9,13 +9,13 @@ public class InMemoryDroneModelRepository implements DroneModelRepository {
     private final Map<String, DroneModel> store = new HashMap<>();
 
     @Override
-    public Optional<DroneModel> save(DroneModel category) {
-        String key = category.identity().toLowerCase();
+    public Optional<DroneModel> save(DroneModel droneModel) {
+        String key = droneModel.identity().toLowerCase();
         if (store.containsKey(key)) {
             return Optional.empty();
         } else {
-            store.put(key, category);
-            return Optional.of(category);
+            store.put(key, droneModel);
+            return Optional.of(droneModel);
         }
     }
 
