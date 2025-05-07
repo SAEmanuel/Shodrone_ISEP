@@ -44,6 +44,7 @@ public class RepositoryProvider {
     private static ShowRequestRepository showRequestRepository;
     private static AuthenticationRepository authenticationRepository;
     private static DroneModelRepository droneModelRepository;
+    private static DroneRepository droneRepository;
 
     /**
      * Flag indicating whether in-memory or JPA-based repositories should be used.
@@ -154,6 +155,17 @@ public class RepositoryProvider {
             }
         }
         return droneModelRepository;
+    }
+
+    public static DroneRepository droneRepository() {
+        if (droneRepository == null) {
+            if (isInMemory()) {
+                droneRepository = new InMemoryDroneRepository();
+            } else {
+                droneRepository = new CreateDroneJPAImpl();
+            }
+        }
+        return droneRepository;
     }
 
 
