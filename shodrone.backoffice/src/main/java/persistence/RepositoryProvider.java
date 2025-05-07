@@ -99,7 +99,7 @@ public class RepositoryProvider {
     public static FigureRepository figureRepository() {
         if (figureRepository == null) {
             if (isInMemory()) {
-                figureRepository = new InMemoryFigureRepository();
+                figureRepository = new InMemoryFigureRepository(auditLoggerService);
             } else {
                 figureRepository = new FigureRepositoryJPAImpl();
             }

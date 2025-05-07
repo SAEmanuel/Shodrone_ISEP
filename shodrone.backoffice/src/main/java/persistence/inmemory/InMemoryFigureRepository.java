@@ -3,6 +3,7 @@ package persistence.inmemory;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
+import domain.history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
@@ -10,13 +11,20 @@ import persistence.RepositoryProvider;
 import persistence.interfaces.CostumerRepository;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.FigureRepository;
+import domain.history.AuditLoggerService;
 import utils.Utils;
 
 import java.util.*;
 
 public class InMemoryFigureRepository implements FigureRepository {
     private final Map<Long, Figure> store = new HashMap<>();
+    private final AuditLoggerService auditLoggerService;
     private static long LAST_FIGURE_ID = 1L;
+
+    public InMemoryFigureRepository(AuditLoggerService auditLoggerService) {
+        super();
+        this.auditLoggerService = auditLoggerService;
+    }
 
     @Override
     public Optional<Figure> save(Figure figure) {
