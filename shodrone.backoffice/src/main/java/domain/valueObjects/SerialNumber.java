@@ -2,9 +2,11 @@ package domain.valueObjects;
 
 import eapli.framework.domain.model.ValueObject;
 import eapli.framework.validations.Preconditions;
+import jakarta.persistence.Embeddable;
 
 import java.util.regex.Pattern;
 
+@Embeddable
 public class SerialNumber implements ValueObject {
 
     private static final Pattern VALID_SERIAL_NUMBER_REGEX = Pattern.compile("^SN-\\d{5}$");
