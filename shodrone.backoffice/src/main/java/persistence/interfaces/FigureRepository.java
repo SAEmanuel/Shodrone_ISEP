@@ -3,6 +3,7 @@ package persistence.interfaces;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
+import domain.valueObjects.Description;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 
@@ -22,7 +23,7 @@ public interface FigureRepository {
 
     List<Figure> findByCostumer(Costumer costumer);
 
-    List<Figure> findFigures(Long figureId, String name, FigureCategory category, FigureAvailability availability);
+    Optional<List<Figure>> findFigures(Long figureId, String name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer);
 
     List<Figure> findAllPublicFigures();
 

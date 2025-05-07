@@ -3,6 +3,7 @@ package persistence.jpa.JPAImpl;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
+import domain.valueObjects.Description;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 import jakarta.persistence.EntityTransaction;
@@ -12,14 +13,15 @@ import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.FigureRepository;
 import persistence.jpa.JpaBaseRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         implements FigureRepository {
 
-    /* FIX TABLE BY DROPPING
-    public Optional<Void> dropFigureTableAndSequence() {
+    // FIX TABLE BY DROPPING
+    /*public Optional<Void> dropFigureTableAndSequence() {
         EntityTransaction tx = entityManager().getTransaction();
 
         try {
@@ -38,32 +40,29 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
 
     @Override
     public Optional<Figure> save(Figure figure) {
-
         if (figure.identity() != null && findById(figure.identity()) != null) {
             return Optional.empty();
         }
 
         // Persist category if not already persisted
         Optional<FigureCategory> category = Optional.ofNullable(figure.category());
-        FigureCategoryRepository categoryRepository = RepositoryProvider.figureCategoryRepository();
-
         if (category.isPresent() && category.get().identity() != null) {
+            FigureCategoryRepository categoryRepository = RepositoryProvider.figureCategoryRepository();
             Optional<FigureCategory> existingCategory = categoryRepository.findByName(category.get().identity());
 
             if (existingCategory.isEmpty()) {
-                category = categoryRepository.save(category.orElse(null)); // Persist and get managed instance
+                category = categoryRepository.save(category.orElse(null));
             } else {
-                category = Optional.of(existingCategory.get()); // Use existing managed instance
+                category = Optional.of(existingCategory.get());
             }
-            figure.UpdateFigureCategory(category.get()); // Update figure with managed category
+            figure.UpdateFigureCategory(category.get());
         }
 
 
         // Persist or reuse costumer
         Optional<Costumer> costumer = Optional.ofNullable(figure.costumer());
-        CostumerRepository costumerRepository = RepositoryProvider.costumerRepository();
-
         if (costumer.isPresent() && costumer.get().nif() != null) {
+            CostumerRepository costumerRepository = RepositoryProvider.costumerRepository();
             Optional<Costumer> existingCostumer = costumerRepository.findByNIF(costumer.get().nif());
 
             if (existingCostumer.isEmpty()) {
@@ -75,6 +74,7 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         }
 
         add(figure);
+        System.out.println(figure);
         return Optional.of(figure);
     }
 
@@ -96,8 +96,9 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
     }
 
     @Override
-    public List<Figure> findFigures(Long figureId, String name, FigureCategory category, FigureAvailability availability) {
-        return List.of();
+    public Optional<List<Figure>> findFigures(Long figureId, String name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
+        ArrayList<Figure> figures = new ArrayList<>();
+        return Optional.ofNullable(figures);
     }
 
     @Override

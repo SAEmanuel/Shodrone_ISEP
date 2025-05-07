@@ -25,7 +25,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     private String name;
 
     @Embedded
-    private Description description;
+    public Description description;
 
     @Column(name = "Version")
     private Long version;
@@ -42,14 +42,14 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Column(nullable = false)
     private FigureStatus status;
 
-    @ManyToOne //(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "costumer_id")
     private Costumer costumer;
 
     protected Figure() {}
     
     public Figure(String name, Description description,
-                  Long version, FigureCategory category, FigureAvailability availability, FigureStatus status,Costumer costumer) {
+                  Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
 
         this.name = name;
         this.description = description;
@@ -64,6 +64,10 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     public Long identity() { return figureId; }
 
     public String name() { return name; }
+
+    public Description description() { return description; }
+
+    public Long version() { return version; }
 
     public FigureCategory category() { return category; }
 
@@ -100,13 +104,15 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Override
     public String toString() {
         return String.format(
-                "ID: %-3s | Name: %-10s | Status: %-6s | Availability: %-10s | Version: %-6s | Category: %-10s",
+                "ID: %-3s | Name: %-20s | Description: %-30s | Version: %-6s | Category: %-20s | Status: %-6s | Availability: %-10s | Costumer: %-20s",
                 figureId != null ? figureId : "N/A",
                 name != null ? name : "N/A",
+                description != null ? description : "N/A",
+                version != null ? version.toString() : "N/A",
+                category != null ? category.identity() : "N/A",
                 status != null ? status : "N/A",
                 availability != null ? availability : "N/A",
-                version != null ? version.toString() : "N/A",
-                category != null ? category.identity() : "N/A"
+                costumer != null ? costumer.name() : "N/A"
         );
     }
 

@@ -518,6 +518,24 @@ public class Utils {
         return result;
     }
 
+    public static <T> T rePromptEnumWhileInvalid(String prompt, Function<String, T> parseFunction) {
+        T result = null;
+        boolean redo;
+        do {
+            redo = false;
+            String input = readLineFromConsole(prompt);
+            try {
+                result = parseFunction.apply(input.toUpperCase());
+            } catch (Exception e) {
+                Utils.printFailMessage(e.getMessage());
+                System.out.println();
+                redo = true;
+            }
+        } while (redo);
+
+        return result;
+    }
+
     public static void printSuccessMessage(String message) {
         System.out.println(ANSI_BRIGHT_GREEN + message + ANSI_RESET);
     }
@@ -682,6 +700,22 @@ public class Utils {
         Utils.silentWarning("""
           The Operational Wind Limit must follow this rule:
            • The value must be positive.
+        """);
+    }
+
+    public static void showAvailabilityRules() {
+        Utils.silentWarning("""
+          The availability must be:
+            • PUBLIC
+            • EXCLUSIVE
+        """);
+    }
+
+    public static void showStatusRules() {
+        Utils.silentWarning("""
+          The status must be:
+            • ACTIVE
+            • NOTACTIVE
         """);
     }
 
