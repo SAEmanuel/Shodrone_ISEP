@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import static more.ColorfulOutput.*;
+
 @XmlRootElement
 @Entity
 public class DroneModel implements AggregateRoot<String>, Serializable {
@@ -146,45 +148,15 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
         return DomainEntities.areEqual(this, o);
     }
 
+
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("DroneModel {\n");
-        sb.append("  ID: ").append(droneModelID).append(",\n");
-        sb.append("  Name: ").append(droneName).append(",\n");
-        sb.append("  Description: ").append(description).append(",\n");
-        sb.append("  Max Wind Speed: ").append(maxWindSpeed).append(" km/h,\n");
-        sb.append("  Wind Tolerances: [\n");
-
-        if (windTolerances != null && !windTolerances.isEmpty()) {
-            for (WindTolerance wt : windTolerances) {
-                sb.append("    ").append(wt).append(",\n");
-            }
-        } else {
-            sb.append("    None\n");
-        }
-
-        sb.append("  ]\n");
-        sb.append("}");
-        return sb.toString();
+        return String.format(
+                "%s%sID%s: %s%s | %s%sName%s: %s%s | %s%sDescription%s: %s%s | %s%sMax Wind%s: %s%dm/s%s",
+                ANSI_SKY_BLUE, ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, droneModelID,
+                ANSI_SKY_BLUE ,ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, droneName,
+                ANSI_SKY_BLUE ,ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, description,
+                ANSI_SKY_BLUE ,ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, maxWindSpeed, ANSI_RESET
+        );
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

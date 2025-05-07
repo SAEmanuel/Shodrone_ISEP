@@ -18,12 +18,12 @@ public class CreateDroneModelController {
     }
 
     public Optional<DroneModel> createDroneModelWithDescription(DroneModelID droneModelID, DroneName name, Description description, int maxWindSpeed) {
-        DroneModel category = new DroneModel(droneModelID, name, description, maxWindSpeed);
-        return repository.save(category);
+        DroneModel model = new DroneModel(droneModelID, name, description, maxWindSpeed);
+        return repository.save(model);
     }
 
     public Optional<DroneModel> createDroneModelNoDescription(DroneModelID droneModelID, DroneName name, int maxWindSpeed) {
-        DroneModel category = new DroneModel(droneModelID ,name, maxWindSpeed);
-        return repository.save(category);
+        DroneModel model = new DroneModel(droneModelID ,name, maxWindSpeed);
+        return repository.save(model);
     }
 }

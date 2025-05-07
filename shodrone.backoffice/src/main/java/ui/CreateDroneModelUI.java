@@ -4,7 +4,6 @@ import domain.entity.DroneModel;
 import domain.valueObjects.Description;
 import domain.valueObjects.DroneModelID;
 import domain.valueObjects.DroneName;
-import domain.valueObjects.Name;
 import utils.Utils;
 import controller.CreateDroneModelController;
 
