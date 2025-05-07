@@ -92,17 +92,111 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
 
     @Override
     public List<Figure> findByCostumer(Costumer costumer) {
-        return List.of();
+        return entityManager()
+                .createQuery("SELECT f FROM Figure f WHERE f.costumer.id = costumer.id ORDER BY f.costumer.id ASC", Figure.class)
+                .getResultList();
     }
 
     @Override
     public Optional<List<Figure>> findFigures(Long figureId, String name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
-        ArrayList<Figure> figures = new ArrayList<>();
-        return Optional.ofNullable(figures);
+        List<Figure> figures = entityManager()
+                .createQuery("SELECT f FROM Figure f", Figure.class)
+                .getResultList();
+
+        if (figures.isEmpty()) {
+            return Optional.empty();
+        }
+
+        if (figureId != null) {
+            List<Figure> result = entityManager()
+                    .createQuery("SELECT f FROM Figure f WHERE f.figureId = :figureId", Figure.class)
+                    .setParameter("figureId", figureId)
+                    .getResultList();
+
+            if (!result.isEmpty()) {
+                return Optional.of(result);
+            }
+        }
+
+        int searching = 1;
+        List<Figure> searchFigures = new ArrayList<>(figures);
+
+        while (searching <= 7) {
+            figures = new ArrayList<>();
+            for (Figure figure : searchFigures) {
+                switch (searching) {
+                    case 1:
+                        if (name != null) {
+                            if (figure.name().equals(name))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 2:
+                        if (description != null) {
+                            if (figure.description() != null && figure.description().equals(description))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 3:
+                        if (version != null) {
+                            if (figure.version() != null && figure.version().equals(version))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 4:
+                        if (category != null) {
+                            if (figure.category().equals(category))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 5:
+                        if (availability != null) {
+                            if (figure.availability().equals(availability))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 6:
+                        if (status != null) {
+                            if (figure.status().equals(status))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 7:
+                        if (costumer != null) {
+                            if (figure.costumer().equals(costumer))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                }
+            }
+            searchFigures = figures;
+            searching++;
+        }
+
+        return Optional.of(figures);
     }
+
 
     @Override
     public List<Figure> findAllPublicFigures() {
-        return List.of();
+        return entityManager()
+                .createQuery("SELECT f FROM Figure f WHERE f.availability = :availability ORDER BY f.figureId ASC", Figure.class)
+                .setParameter("availability", FigureAvailability.PUBLIC)
+                .getResultList();
     }
+
 }
