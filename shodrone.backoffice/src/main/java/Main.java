@@ -13,6 +13,8 @@ public class Main {
         try {
             typePersistence = StartupMessageBackofficeUI.display();
             RepositoryProvider.setUseInMemory(typePersistence);
+            RepositoryProvider.initializeAuditLogger(RepositoryProvider.isInMemory());
+
             bootstrap.run();
             MainMenuUI menu = new MainMenuUI();
             menu.run();

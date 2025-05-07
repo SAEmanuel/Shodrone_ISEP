@@ -2,6 +2,7 @@ package persistence.jpa.JPAImpl;
 
 import authz.Email;
 import domain.entity.FigureCategory;
+import domain.history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
@@ -10,10 +11,19 @@ import utils.AuthUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Long>
         implements FigureCategoryRepository {
 
+
+    private final AuditLoggerService auditLoggerService;
+    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description");
+
+    public FigureCategoryJPAImpl(AuditLoggerService auditLoggerService) {
+        super();
+        this.auditLoggerService = auditLoggerService;
+    }
 
     @Override
     public Optional<FigureCategory> save(FigureCategory category) {
@@ -63,16 +73,21 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                 return Optional.empty();
             }
 
+            FigureCategory oldState = new FigureCategory(managed.name(), managed.description(), managed.createdBy());
+            oldState.setUpdatedBy(managed.updatedBy());
+
             entityManager().getTransaction().begin();
-            if(newName != null) {
+            if (newName != null) {
                 managed.changeCategoryNameTo(newName);
             }
-            if(newDescription != null) {
+            if (newDescription != null) {
                 managed.changeDescriptionTo(newDescription);
             }
             managed.updateTime();
             managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
             entityManager().getTransaction().commit();
+
+            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
 
             return Optional.of(managed);
         } catch (Exception e) {
@@ -93,12 +108,17 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                 return Optional.empty();
             }
 
+            FigureCategory oldState = new FigureCategory(managed.name(), managed.description(), managed.createdBy());
+            oldState.setUpdatedBy(managed.updatedBy());
+
             entityManager().getTransaction().begin();
 
             managed.updateTime();
             managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
             managed.toggleState();
             entityManager().getTransaction().commit();
+
+            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
 
             return Optional.of(managed);
         } catch (Exception e) {

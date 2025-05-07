@@ -79,9 +79,9 @@ public class StartupMessageBackofficeUI {
      */
     private static void printPersistenceType() {
         if (TYPE_PERSISTENCE) {
-            System.out.printf("Persistence type   : %s%s%s   |   %s%s%s%n", ANSI_GREEN_YELLOW + BOLD, "✔ FILE", ANSI_RESET, ANSI_LIGHT_RED + BOLD, "✖ H2db", ANSI_RESET);
+            System.out.printf("Persistence type   : %s%s%s   |   %s%s%s%n", ANSI_GREEN_YELLOW + BOLD, "✔ IN MEMORY", ANSI_RESET, ANSI_LIGHT_RED + BOLD, "✖ H2db", ANSI_RESET);
         } else {
-            System.out.printf("Persistence type   : %s%s%s   |   %s%s%s%n", ANSI_LIGHT_RED + BOLD, "✖ FILE", ANSI_RESET, ANSI_GREEN_YELLOW + BOLD, "✔ H2db", ANSI_RESET);
+            System.out.printf("Persistence type   : %s%s%s   |   %s%s%s%n", ANSI_LIGHT_RED + BOLD, "✖ IN MEMORY", ANSI_RESET, ANSI_GREEN_YELLOW + BOLD, "✔ H2db", ANSI_RESET);
         }
     }
 

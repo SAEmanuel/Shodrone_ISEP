@@ -1,11 +1,10 @@
-package persistence;
+package domain.history;
 
-import domain.history.AuditLogEntry;
 import persistence.interfaces.AuditLogRepository;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Objects;
+import java.util.Set;
 
 public class AuditLoggerService {
 
@@ -15,13 +14,12 @@ public class AuditLoggerService {
         this.repository = repository;
     }
 
-    public void logChanges(Object oldObj, Object newObj, String entityId, String user) {
+    public void logChanges(Object oldObj, Object newObj, String entityId, String user, Set<String> camposAuditados) {
         if (!oldObj.getClass().equals(newObj.getClass())) throw new IllegalArgumentException();
 
         for (Field field : oldObj.getClass().getDeclaredFields()) {
-            if (Modifier.isStatic(field.getModifiers()) || Modifier.isTransient(field.getModifiers())) {
-                continue;
-            }
+            if (!camposAuditados.contains(field.getName())) continue;
+
             field.setAccessible(true);
             try {
                 Object oldVal = field.get(oldObj);
@@ -32,21 +30,16 @@ public class AuditLoggerService {
                             oldObj.getClass().getSimpleName(),
                             entityId,
                             field.getName(),
-                            serializeValue(oldVal),
-                            serializeValue(newVal),
+                            String.valueOf(oldVal),
+                            String.valueOf(newVal),
                             user
                     );
                     repository.save(entry);
                 }
-
             } catch (IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    private String serializeValue(Object val) {
-        if (val == null) return "null";
-        return val.toString();
-    }
 }

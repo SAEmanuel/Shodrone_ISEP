@@ -149,6 +149,18 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         return this.name.toString();
     }
 
+
+    public Name name(){
+        return this.name;
+    }
+    public Email createdBy() {
+        return this.createdBy;
+    }
+
+    public Email updatedBy(){
+        return this.updatedBy;
+    }
+
     @Override
     public boolean hasIdentity(final String id) {
         return id.equalsIgnoreCase(this.name.toString());

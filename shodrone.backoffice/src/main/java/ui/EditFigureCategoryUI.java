@@ -41,7 +41,7 @@ public class EditFigureCategoryUI implements Runnable {
                 Utils.showNameRules();
                 newName = Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new);
             } else {
-                Utils.silentWaring("Name maintained...");
+                Utils.silentWarning("Name maintained...");
                 Utils.dropLines(2);
             }
 
@@ -55,7 +55,7 @@ public class EditFigureCategoryUI implements Runnable {
                 Utils.showDescriptionRules();
                 newDescription = Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new);
             } else {
-                Utils.silentWaring("Description maintained...");
+                Utils.silentWarning("Description maintained...");
                 Utils.dropLines(2);
             }
 

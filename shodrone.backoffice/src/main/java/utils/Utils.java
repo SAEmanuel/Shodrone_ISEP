@@ -430,7 +430,7 @@ public class Utils {
         System.out.println(ANSI_ORANGE.concat(BOLD).concat(message).concat(ANSI_RESET));
     }
 
-    static public void silentWaring(String message) {
+    static public void silentWarning(String message) {
         System.out.println(COLOR_OPTIONS + message + ANSI_RESET);
     }
 
@@ -614,7 +614,7 @@ public class Utils {
     }
 
     public static void showNameRules() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
               The name must follow these rules:
                • Minimum 3 and maximum 80 characters
                • Only letters, spaces, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
@@ -623,7 +623,7 @@ public class Utils {
     }
 
     public static void showDroneNameRules() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
               The name must follow these rules:
                • Minimum 3 and maximum 80 characters
                • Only letters, spaces, numbers, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
@@ -632,7 +632,7 @@ public class Utils {
     }
 
     public static void showDroneSerialNumberRules() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
           The serial number must follow these rules:
            • Must start with 'SN-' prefix
            • Must contain exactly 5 digits after the prefix (e.g., SN-00123)
@@ -643,7 +643,7 @@ public class Utils {
     }
 
     public static void showDescriptionRules() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
           The description must follow these rules:
            • Minimum 5 and maximum 300 characters
            • Cannot be null, empty or only whitespace
@@ -651,7 +651,7 @@ public class Utils {
     }
 
     public static void showEmailRules() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
               The email must:
                • Be a valid email format (e.g., user@shodrone.app)
                • Use the domain '@shodrone.app'
@@ -659,7 +659,7 @@ public class Utils {
     }
 
     public static void showPasswordRules() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
               The password must:
                • Contain at least one uppercase letter
                • Contain at least three digits
@@ -669,7 +669,7 @@ public class Utils {
     }
 
     public static void showModelIDRules() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
           The Drone Model ID must follow these rules:
            • Minimum 3 and maximum 50 characters
            • Only letters (a–z, A–Z), digits (0–9) and underscores (_) are allowed
@@ -679,7 +679,7 @@ public class Utils {
     }
 
     public static void showMaxWindRule() {
-        Utils.silentWaring("""
+        Utils.silentWarning("""
           The Operational Wind Limit must follow this rule:
            • The value must be positive.
         """);

@@ -2,6 +2,7 @@ package persistence.inmemory;
 
 import authz.Email;
 import domain.entity.FigureCategory;
+import domain.history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import persistence.interfaces.FigureCategoryRepository;
@@ -11,6 +12,14 @@ import java.util.*;
 
 public class InMemoryFigureCategoryRepository implements FigureCategoryRepository {
     private final Map<String, FigureCategory> store = new HashMap<>();
+    private final AuditLoggerService auditLoggerService;
+    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description");
+
+    public InMemoryFigureCategoryRepository(AuditLoggerService auditLoggerService) {
+        super();
+        this.auditLoggerService = auditLoggerService;
+    }
+
 
     @Override
     public Optional<FigureCategory> save(FigureCategory category) {
@@ -56,6 +65,10 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         }
 
         FigureCategory existing = categoryOptional.get();
+
+        FigureCategory oldState = new FigureCategory(existing.name(), existing.description(), existing.createdBy());
+        oldState.setUpdatedBy(existing.updatedBy());
+
         existing.updateTime();
         existing.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
 
@@ -65,6 +78,8 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         if (newDescription != null) {
             existing.changeDescriptionTo(newDescription);
         }
+
+        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
 
         return Optional.of(existing);
     }
@@ -77,9 +92,17 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
             return Optional.empty();
         }
 
-        categoryOptional.get().updateTime();
-        categoryOptional.get().setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-        categoryOptional.get().toggleState();
-        return categoryOptional;
+        FigureCategory existing = categoryOptional.get();
+
+        FigureCategory oldState = new FigureCategory(existing.name(), existing.description(), existing.createdBy());
+        oldState.setUpdatedBy(existing.updatedBy());
+
+        existing.updateTime();
+        existing.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
+        existing.toggleState();
+
+        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
+
+        return Optional.of(existing);
     }
 }

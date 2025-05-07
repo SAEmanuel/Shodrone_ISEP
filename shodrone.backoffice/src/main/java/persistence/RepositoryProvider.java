@@ -1,5 +1,6 @@
 package persistence;
 
+import domain.history.AuditLoggerService;
 import lombok.Setter;
 import persistence.inmemory.*;
 import persistence.interfaces.*;
@@ -46,6 +47,9 @@ public class RepositoryProvider {
     private static DroneModelRepository droneModelRepository;
     private static DroneRepository droneRepository;
 
+    private static AuditLoggerService auditLoggerService;
+    private static AuditLogRepository auditLogRepository;
+
     /**
      * Flag indicating whether in-memory or JPA-based repositories should be used.
      */
@@ -57,10 +61,20 @@ public class RepositoryProvider {
      *
      * @return {@code true} if in-memory repositories are used; {@code false} otherwise.
      */
-    private static boolean isInMemory() {
+    public static boolean isInMemory() {
         return useInMemory;
     }
 
+
+
+    public static void initializeAuditLogger(boolean inMemory) {
+        if (inMemory) {
+            auditLogRepository = new InMemoryAuditLogRepository();
+        } else {
+            auditLogRepository = new AuditLogJPAImpl();
+        }
+        auditLoggerService = new AuditLoggerService(auditLogRepository);
+    }
     /**
      * Retrieves the figure category repository.
      *
@@ -69,9 +83,9 @@ public class RepositoryProvider {
     public static FigureCategoryRepository figureCategoryRepository() {
         if (figureCategoryRepository == null) {
             if (isInMemory()) {
-                figureCategoryRepository = new InMemoryFigureCategoryRepository();
+                figureCategoryRepository = new InMemoryFigureCategoryRepository(auditLoggerService);
             } else {
-                 figureCategoryRepository = new FigureCategoryJPAImpl();
+                figureCategoryRepository = new FigureCategoryJPAImpl(auditLoggerService);
             }
         }
         return figureCategoryRepository;

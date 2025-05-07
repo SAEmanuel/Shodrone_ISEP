@@ -50,7 +50,7 @@ public class PersistenceSelectorUI {
 
         System.out.printf("%s╔═════%sSELECT THE TYPE OF PERSISTENCE%s════╗%s%n",ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s╚═══════════════════════════════════════╝%s%n",ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("    %s(1)%s -  In Memory  (File)%n",ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("    %s(1)%s -  In Memory  %n",ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("    %s(2)%s -  In Database (H2)%n",ANSI_BRIGHT_BLACK, ANSI_RESET);
         System.out.printf("%s═════════════════════════════════════════%s%n",ANSI_BRIGHT_BLACK, ANSI_RESET);
 
