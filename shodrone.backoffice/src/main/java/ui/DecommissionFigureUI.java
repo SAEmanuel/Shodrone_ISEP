@@ -1,0 +1,38 @@
+package ui;
+
+import controller.DecommissionFigureController;
+import controller.GetAllActiveFiguresController;
+import domain.entity.Figure;
+import domain.valueObjects.FigureStatus;
+import utils.Utils;
+
+import java.util.List;
+import java.util.Optional;
+
+public class DecommissionFigureUI implements Runnable {
+    private final DecommissionFigureController controller = new DecommissionFigureController();
+    private final GetAllActiveFiguresController getAllFiguresController = new GetAllActiveFiguresController();
+
+    @Override
+    public void run() {
+        Utils.printCenteredTitle("Decommission Figure");
+
+        Optional<Figure> result = Optional.empty();
+
+        Optional<Figure> figure = Optional.empty();
+        FigureStatus newStatus = null;
+
+        Optional<List<Figure>> listOfFigures = getAllFiguresController.getAllActiveFigures();
+        if (listOfFigures.isPresent() && !listOfFigures.get().isEmpty()) {
+            figure = (Optional<Figure>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfFigures, "Figure");
+
+            result = controller.editChosenFigure(figure.get());
+        }
+
+        if (!result.isEmpty()) {
+            Utils.printSuccessMessage("Decommission Figure successfully");
+        } else {
+            Utils.printFailMessage("Error: may haven't found any figure to decommission or decommitting failed!");
+        }
+    }
+}

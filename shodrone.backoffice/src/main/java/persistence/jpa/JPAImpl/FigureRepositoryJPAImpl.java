@@ -1,8 +1,10 @@
 package persistence.jpa.JPAImpl;
 
+import authz.Email;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
+import domain.entity.ShowRequest;
 import domain.valueObjects.Description;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
@@ -12,6 +14,7 @@ import persistence.interfaces.CostumerRepository;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.FigureRepository;
 import persistence.jpa.JpaBaseRepository;
+import utils.AuthUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,22 +81,18 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         return Optional.of(figure);
     }
 
-
-    @Override
-    public Optional<Figure> findByID(Object id) {
-        if (!(id instanceof Long)) return Optional.empty();
-        return Optional.ofNullable(entityManager().find(Figure.class, (long) id));
-    }
-
-    @Override
-    public Optional<Figure> findByStatus(FigureStatus status) {
-        return Optional.empty();
-    }
-
     @Override
     public List<Figure> findByCostumer(Costumer costumer) {
         return entityManager()
                 .createQuery("SELECT f FROM Figure f WHERE f.costumer.id = costumer.id ORDER BY f.costumer.id ASC", Figure.class)
+                .getResultList();
+    }
+
+    @Override
+    public List<Figure> findAllActive() {
+        return entityManager()
+                .createQuery("SELECT f FROM Figure f WHERE f.status = :status ORDER BY f.figureId ASC", Figure.class)
+                .setParameter("status", FigureStatus.ACTIVE)
                 .getResultList();
     }
 
@@ -194,9 +193,26 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
     @Override
     public List<Figure> findAllPublicFigures() {
         return entityManager()
-                .createQuery("SELECT f FROM Figure f WHERE f.availability = :availability ORDER BY f.figureId ASC", Figure.class)
+                .createQuery("SELECT f FROM Figure f WHERE f.status = :status and f.availability = :availability ORDER BY f.figureId ASC", Figure.class)
+                .setParameter("status", FigureStatus.ACTIVE)
                 .setParameter("availability", FigureAvailability.PUBLIC)
                 .getResultList();
     }
 
+    @Override
+    public Optional<Figure> editChosenFigure(Figure figure) {
+        if (figure == null || figure.identity() == null) {
+            return Optional.empty();
+        }
+
+        Optional<Figure> existing = Optional.ofNullable(findById(figure.identity()));
+        if (existing.isEmpty()) {
+            return Optional.empty();
+        }
+
+        figure.decommissionFigureStatus();
+
+        Figure updated = update(figure);
+        return Optional.ofNullable(updated);
+    }
 }

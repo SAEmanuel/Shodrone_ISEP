@@ -9,8 +9,8 @@ autonumber
 
 actor "Show Designer" as SD
 participant ":EditFigureStatusUI" as UI
-participant ":EditFigureStatusController" as CTRL
-participant ":GetAllFiguresController" as FetchCtrl
+participant ":DecommissionFigureController" as CTRL
+participant ":GetAllActiveFiguresController" as FetchCtrl
 participant "RepositoryProvider" as Provider
 participant "FigureRepository" as Repo
 participant "InMemoryFigurRepository" as InMemRepo
@@ -24,7 +24,7 @@ activate SD
 SD -> UI : request to edit a Figure Status
 activate UI
 
-UI -> FetchCtrl : getAllFigures()
+UI -> FetchCtrl : getAllActiveFigures()
 activate FetchCtrl
 
 FetchCtrl -> Provider** : figureRepository()
@@ -34,17 +34,17 @@ Provider --> FetchCtrl : FigureCategoryRepository
 deactivate Provider
 
 
-FetchCtrl -> Repo : findAll()
+FetchCtrl -> Repo : findAllActive()
 activate Repo
 
 alt using InMemoryFigureRepository
-    Repo -> InMemRepo : findAll()
+    Repo -> InMemRepo : findAllActive()
     activate InMemRepo
 
     InMemRepo --> Repo : List<Figure>
     deactivate InMemRepo
 else using FigureJPAImpl
-    Repo -> JpaRepo : findAll()
+    Repo -> JpaRepo : findAllActive()
     activate JpaRepo
 
     JpaRepo --> Repo : List<Figure>
@@ -61,8 +61,8 @@ deactivate FetchCtrl
 
 UI -> SD : show figures to choose from
 
-SD -> UI : selects figures and the new status
-UI -> CTRL : editChosenFigure(figure, newStatus)
+SD -> UI : select figure
+UI -> CTRL : editChosenFigure(figure)
 activate CTRL
 
 CTRL -> Provider : figureRepository()
@@ -71,7 +71,7 @@ activate Provider
 Provider --> CTRL : FigureRepository
 deactivate Provider
 
-CTRL -> Repo : editChosenFigure(figure, newStatus)
+CTRL -> Repo : editChosenFigure(figure)
 activate Repo
 
 alt InMemoryFigureRepository

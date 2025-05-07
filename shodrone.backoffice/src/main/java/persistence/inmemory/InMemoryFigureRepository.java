@@ -77,12 +77,19 @@ public class InMemoryFigureRepository implements FigureRepository {
     }
 
     @Override
-    public Optional<Figure> findByID(Object id) {
-        return Optional.ofNullable(store.get(id));
-    }
+    public List<Figure> findAllActive() {
+        ArrayList<Figure> figures = new ArrayList<Figure>();
+        if(store.values().isEmpty())
+            return figures;
 
-    @Override
-    public Optional<Figure> findByStatus(FigureStatus status) { return Optional.ofNullable(store.get(status)); }
+        for (Figure figure : store.values()) {
+            if (figure.status().equals(FigureStatus.ACTIVE)) {
+                figures.add(figure);
+            }
+        }
+
+        return figures;
+    }
 
     @Override
     public List<Figure> findByCostumer(Costumer costumer) {
@@ -91,7 +98,6 @@ public class InMemoryFigureRepository implements FigureRepository {
             return figures;
 
         for (Figure figure : store.values()) {
-
             if (figure.costumer().equals(costumer)) {
                 figures.add(figure);
             }
@@ -123,31 +129,34 @@ public class InMemoryFigureRepository implements FigureRepository {
 
                 switch (searching) {
                     case 1:
-                        if(figure.name().equals(name)) {
-                            figures.add(figure);
-                        }else if(name == null) {
+                        if(name != null) {
+                            if(figure.name().equals(name))
+                                figures.add(figure);
+                        }else{
                             figures.add(figure);
                         }
                         break;
                     case 2:
-                        if(figure.description().equals(description)) {
-                            figures.add(figure);
-                        }
-                        else if(description == null) {
+                        if(description != null) {
+                            if(figure.description().equals(description))
+                                figures.add(figure);
+                        }else{
                             figures.add(figure);
                         }
                         break;
                     case 3:
-                        if(figure.version().equals(version)) {
-                            figures.add(figure);
-                        }else if(version == null) {
+                        if(version != null) {
+                            if (figure.version().equals(version))
+                                figures.add(figure);
+                        }else{
                             figures.add(figure);
                         }
                         break;
                     case 4:
-                        if(figure.category().equals(category)) {
-                            figures.add(figure);
-                        }else if(category == null) {
+                        if(category != null) {
+                            if(figure.category().equals(category))
+                                figures.add(figure);
+                        }else {
                             figures.add(figure);
                         }
                         break;
@@ -155,7 +164,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                         if(availability != null){
                             if( figure.availability().toString().equals(availability.toString()) )
                                 figures.add(figure);
-                        }else if(availability == null) {
+                        }else{
                             figures.add(figure);
                         }
                         break;
@@ -163,14 +172,15 @@ public class InMemoryFigureRepository implements FigureRepository {
                         if(status != null){
                             if( figure.status().toString().equals(status.toString()) )
                                 figures.add(figure);
-                        }else if(status == null) {
+                        }else{
                             figures.add(figure);
                         }
                         break;
                     case 7:
-                        if(figure.costumer().equals(costumer)) {
-                            figures.add(figure);
-                        }else if(costumer == null) {
+                        if(availability != null){
+                            if(figure.costumer().equals(costumer))
+                                figures.add(figure);
+                        }else{
                             figures.add(figure);
                         }
                         break;
@@ -182,6 +192,7 @@ public class InMemoryFigureRepository implements FigureRepository {
 
         return Optional.of(figures);
     }
+
 
     @Override
     public List<Figure> findAllPublicFigures() {
@@ -197,5 +208,18 @@ public class InMemoryFigureRepository implements FigureRepository {
         }
 
         return figures;
+    }
+
+    @Override
+    public Optional<Figure> editChosenFigure(Figure figure) {
+        Figure myFigure = null;
+        if (store.containsKey(figure.identity())) {
+            myFigure = store.get(figure.identity());
+            myFigure.decommissionFigureStatus();
+            if ( myFigure.status().equals(FigureStatus.INACTIVE) )
+                return Optional.of(myFigure);
+        }
+
+        return Optional.empty();
     }
 }

@@ -16,10 +16,10 @@ public interface FigureRepository {
     Optional<Figure> save(Figure figure);
 
     List<Figure> findAll();
+    
+    List<Figure> findAllActive();
 
-    Optional<Figure> findByID(Object figureId);
-
-    Optional<Figure> findByStatus(FigureStatus status);
+    Optional<Figure> editChosenFigure(Figure figure);
 
     List<Figure> findByCostumer(Costumer costumer);
 

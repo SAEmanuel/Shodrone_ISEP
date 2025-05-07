@@ -1,5 +1,7 @@
 package domain.entity;
 
+import authz.Email;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 import eapli.framework.domain.model.DomainEntities;
@@ -8,7 +10,9 @@ import domain.valueObjects.Description;
 import jakarta.persistence.*;
 import lombok.Setter;
 
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 
@@ -77,9 +81,14 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     public Costumer costumer() { return costumer; }
 
+
+
     public void UpdateFigureCategory (FigureCategory category) { this.category = category; }
 
     public void UpdateFigureCostumer (Costumer costumer) { this.costumer = costumer; }
+
+
+    public void decommissionFigureStatus() { this.status = FigureStatus.INACTIVE; }
 
     @Override
     public boolean sameAs(Object other) {
@@ -115,5 +124,4 @@ public class Figure implements AggregateRoot<Long>, Serializable {
                 costumer != null ? costumer.name() : "N/A"
         );
     }
-
 }
