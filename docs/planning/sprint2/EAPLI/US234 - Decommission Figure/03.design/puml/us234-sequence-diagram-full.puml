@@ -1,0 +1,116 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Edit Figure Status
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":EditFigureStatusUI" as UI
+participant ":EditFigureStatusController" as CTRL
+participant ":GetAllFiguresController" as FetchCtrl
+participant "RepositoryProvider" as Provider
+participant "FigureRepository" as Repo
+participant "InMemoryFigurRepository" as InMemRepo
+participant "FigureJPAImpl" as JpaRepo
+participant "Figure" as Entity
+
+
+
+activate SD
+
+SD -> UI : request to edit a Figure Status
+activate UI
+
+UI -> FetchCtrl : getAllFigures()
+activate FetchCtrl
+
+FetchCtrl -> Provider** : figureRepository()
+activate Provider
+
+Provider --> FetchCtrl : FigureCategoryRepository
+deactivate Provider
+
+
+FetchCtrl -> Repo : findAll()
+activate Repo
+
+alt using InMemoryFigureRepository
+    Repo -> InMemRepo : findAll()
+    activate InMemRepo
+
+    InMemRepo --> Repo : List<Figure>
+    deactivate InMemRepo
+else using FigureJPAImpl
+    Repo -> JpaRepo : findAll()
+    activate JpaRepo
+
+    JpaRepo --> Repo : List<Figure>
+    deactivate JpaRepo
+end
+
+
+Repo -> FetchCtrl: Optional<List<Figure>>
+deactivate Repo
+
+
+FetchCtrl --> UI : Optional<List<Figure>>
+deactivate FetchCtrl
+
+UI -> SD : show figures to choose from
+
+SD -> UI : selects figures and the new status
+UI -> CTRL : editChosenFigure(figure, newStatus)
+activate CTRL
+
+CTRL -> Provider : figureRepository()
+activate Provider
+
+Provider --> CTRL : FigureRepository
+deactivate Provider
+
+CTRL -> Repo : editChosenFigure(figure, newStatus)
+activate Repo
+
+alt InMemoryFigureRepository
+    Repo -> InMemRepo : editChosenFigure()
+    activate InMemRepo
+
+    InMemRepo -> Entity : changeFigureStatusTo()
+    activate Entity
+
+    Entity -> InMemRepo : Figure
+    deactivate Entity
+
+    InMemRepo --> Repo : Optional<Figure>
+else FigureJPAImpl
+    deactivate InMemRepo
+    Repo -> JpaRepo : editChosenFigure()
+    activate JpaRepo
+    JpaRepo -> JpaRepo : entityManager().find()
+    JpaRepo -> Entity : changeFigureStatusTo()
+
+    activate Entity
+
+    Entity -> JpaRepo : Figure
+    deactivate Entity
+    JpaRepo --> Repo : Optional<Figure>
+    deactivate JpaRepo
+end
+    Repo -> CTRL : Optional<Figure>
+    deactivate Repo
+
+CTRL --> UI : Optional<Figure>
+deactivate CTRL
+
+alt success
+    UI -> SD : success message
+else failure
+    UI -> SD : error message
+end
+
+deactivate UI
+deactivate SD
+@enduml

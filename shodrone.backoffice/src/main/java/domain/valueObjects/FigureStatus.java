@@ -2,7 +2,7 @@ package domain.valueObjects;
 
 public enum FigureStatus {
     ACTIVE,
-    NOTACTIVE;
+    INACTIVE;
 
     /**
      * Returns the FigureStatus corresponding to the given string.
