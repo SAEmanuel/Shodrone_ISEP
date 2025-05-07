@@ -631,6 +631,17 @@ public class Utils {
             """);
     }
 
+    public static void showDroneSerialNumberRules() {
+        Utils.silentWaring("""
+          The serial number must follow these rules:
+           • Must start with 'SN-' prefix
+           • Must contain exactly 5 digits after the prefix (e.g., SN-00123)
+           • Only numbers (0-9) are allowed after the prefix
+           • No spaces or special characters allowed
+           • Each serial number must be unique in the system
+        """);
+    }
+
     public static void showDescriptionRules() {
         Utils.silentWaring("""
           The description must follow these rules:

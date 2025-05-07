@@ -52,4 +52,5 @@ public class ColorfulOutput {
     public static final String ANSI_SKY_BLUE = "\u001B[38;5;117m";
     public static final String ANSI_ROSE = "\u001B[38;5;211m";
     public static final String ANSI_GRAY = "\u001B[38;5;244m";
+    public static final String ANSI_BOLD = "\u001B[1m";
 }
