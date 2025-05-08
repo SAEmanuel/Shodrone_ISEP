@@ -1,5 +1,6 @@
 package domain.entity;
 
+import domain.valueObjects.DroneRemovalLog;
 import domain.valueObjects.DroneStatus;
 import domain.valueObjects.SerialNumber;
 import eapli.framework.domain.model.AggregateRoot;
@@ -7,6 +8,8 @@ import eapli.framework.domain.model.DomainEntities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Drone implements AggregateRoot<String>, Serializable {
@@ -21,12 +24,18 @@ public class Drone implements AggregateRoot<String>, Serializable {
     @Enumerated(EnumType.STRING)
     private DroneStatus droneStatus;
 
+    @ElementCollection
+    @CollectionTable(name = "drone_removal_logs", joinColumns = @JoinColumn(name = "drone_serial_number"))
+    private List<DroneRemovalLog> droneRemovalLogs;
+
+
     protected Drone() {}
 
     public Drone(SerialNumber serialNumber, DroneModel droneModel) {
         this.serialNumber = serialNumber;
         this.droneModel = droneModel;
         this.droneStatus = DroneStatus.AVAILABLE;
+        this.droneRemovalLogs = new ArrayList<>();
     }
 
     @Override
@@ -40,6 +49,18 @@ public class Drone implements AggregateRoot<String>, Serializable {
 
     public DroneStatus droneStatus() {
         return this.droneStatus;
+    }
+
+    public void changeDroneStatusTo(final DroneStatus newDroneStatus) {
+        this.droneStatus = newDroneStatus;
+    }
+
+    public void addDroneRemovalLog(final DroneRemovalLog newDroneRemovalLog) {
+        this.droneRemovalLogs.add(newDroneRemovalLog);
+    }
+
+    public List<DroneRemovalLog> droneRemovalLogs() {
+        return this.droneRemovalLogs;
     }
 
     @Override
@@ -71,8 +92,10 @@ public class Drone implements AggregateRoot<String>, Serializable {
                 "\n────────────────────────────" +
                 "\n🔢 Serial Number : " + serialNumber +
                 "\n📄 Model         : " + (droneModel != null ? droneModel.identity() : "N/A") +
+                "\n🏷️ Name          : " + (droneModel != null ? droneModel.droneName().name() : "N/A") +
                 "\n📶 Status        : " + droneStatus +
                 "\n────────────────────────────";
+
     }
     
 }

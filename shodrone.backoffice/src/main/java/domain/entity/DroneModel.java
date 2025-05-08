@@ -20,12 +20,6 @@ import static more.ColorfulOutput.*;
 public class DroneModel implements AggregateRoot<String>, Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "SID", nullable = false, unique = true)
-    private Long pk;
-
-    @XmlElement
-    @JsonProperty
     @Column(nullable = false, unique = true)
     @Size(min = 3, max = 50)
     private DroneModelID droneModelID;
