@@ -1,6 +1,7 @@
 package utils;
 
 
+import domain.entity.Drone;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import domain.valueObjects.NIF;
@@ -264,6 +265,18 @@ public class Utils {
             }
         } while (true);
     }
+
+    static public boolean showDroneDetails(Optional<Drone> drone) {
+
+        if(drone.isEmpty()) {
+            return false;
+        }
+
+        System.out.println(drone.get());
+       return confirm("Is that the correct drone? (y/n)");
+    }
+
+
 
     static public boolean confirm(String message) {
         String input;
@@ -657,6 +670,20 @@ public class Utils {
            • Only numbers (0-9) are allowed after the prefix
            • No spaces or special characters allowed
            • Each serial number must be unique in the system
+        """);
+    }
+
+    public static void showDroneRemovalRules() {
+        Utils.silentWarning("""
+        The drone removal must follow these rules:
+         • Reason must be between 5 and 100 characters long
+         • Reason cannot be empty or null
+        """);
+    }
+
+    public static void showDroneSerialNumberFormat() {
+        Utils.silentWarning("""
+        Drone Serial Number must be in the format SN-XXXXX.
         """);
     }
 
