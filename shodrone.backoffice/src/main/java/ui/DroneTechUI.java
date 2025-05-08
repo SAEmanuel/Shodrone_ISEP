@@ -20,7 +20,7 @@ public class DroneTechUI implements Runnable {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Create Drone Model", new CreateDroneModelUI()));
         options.add(new MenuItem("Add Drone to the Inventory", new AddDroneInventoryUI()));
-        options.add(new MenuItem("Remove Drone from the Inventory", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Remove Drone from the Inventory", new RemoveDroneInventoryUI()));
         options.add(new MenuItem("List Drone in the Inventory", new ShowTextUI("Not implemented yet.")));
 
         int option = 0;
