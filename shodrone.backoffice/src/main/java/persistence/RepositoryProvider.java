@@ -176,7 +176,7 @@ public class RepositoryProvider {
             if (isInMemory()) {
                 droneRepository = new InMemoryDroneRepository();
             } else {
-                droneRepository = new CreateDroneJPAImpl();
+                droneRepository = new DroneJPAImpl();
             }
         }
         return droneRepository;

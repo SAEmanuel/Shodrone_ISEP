@@ -1,14 +1,15 @@
 package persistence.jpa.JPAImpl;
 
 import domain.entity.Drone;
-import domain.entity.DroneModel;
+import domain.valueObjects.DroneRemovalLog;
+import domain.valueObjects.DroneStatus;
 import persistence.interfaces.DroneRepository;
 import persistence.jpa.JpaBaseRepository;
 
 import java.util.List;
 import java.util.Optional;
 
-public class CreateDroneJPAImpl extends JpaBaseRepository<Drone, Long> implements DroneRepository {
+public class DroneJPAImpl extends JpaBaseRepository<Drone, Long> implements DroneRepository {
 
     public Optional<Drone> save(Drone drone) {
         Optional<Drone> checkExistence = findByDroneSN(drone.identity());
@@ -31,4 +32,19 @@ public class CreateDroneJPAImpl extends JpaBaseRepository<Drone, Long> implement
             return Optional.of(result.get(0));
         }
     }
+
+    @Override
+    public Optional<Drone> removeDrone(Drone drone, DroneRemovalLog log) {
+        if (drone == null || log == null) {
+            return Optional.empty();
+        }
+
+        drone.changeDroneStatusTo(DroneStatus.UNAVAILABLE);
+        drone.addDroneRemovalLog(log);
+
+        Drone updatedDrone = update(drone);
+
+        return Optional.of(updatedDrone);
+    }
+
 }
