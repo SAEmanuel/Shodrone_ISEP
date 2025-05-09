@@ -145,12 +145,25 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
 
     @Override
     public String toString() {
+        final int ID_LIMIT = 20;
+        final int NAME_LIMIT = 25;
+        final int DESC_LIMIT = 35;
+
+        String idTrunc = truncate(droneModelID.toString(), ID_LIMIT);
+        String nameTrunc = truncate(droneName.name(), NAME_LIMIT);
+        String descTrunc = truncate(description.toString(), DESC_LIMIT);
+
         return String.format(
-                "%s%sID%s: %s%s | %s%sName%s: %s%s | %s%sDescription%s: %s%s | %s%sMax Wind%s: %s%dm/s%s",
-                ANSI_SKY_BLUE, ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, droneModelID,
-                ANSI_SKY_BLUE ,ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, droneName,
-                ANSI_SKY_BLUE ,ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, description,
-                ANSI_SKY_BLUE ,ANSI_BOLD, ANSI_RESET, ANSI_BRIGHT_BLACK, maxWindSpeed, ANSI_RESET
+                "%s%s%-2s%s: %s%-20s%s | %s%s%-4s%s: %s%-25s%s | %s%s%-11s%s: %s%-35s%s | %s%s%-8s%s: %s%3dm/s%s",
+                ANSI_ORANGE, ANSI_BOLD, "ID", ANSI_RESET, ANSI_BRIGHT_WHITE, idTrunc, ANSI_RESET,
+                ANSI_ORANGE, ANSI_BOLD, "Name", ANSI_RESET, ANSI_BRIGHT_WHITE, nameTrunc, ANSI_RESET,
+                ANSI_ORANGE, ANSI_BOLD, "Description", ANSI_RESET, ANSI_BRIGHT_WHITE, descTrunc, ANSI_RESET,
+                ANSI_ORANGE, ANSI_BOLD, "Max Wind", ANSI_RESET, ANSI_BRIGHT_WHITE, maxWindSpeed, ANSI_RESET
         );
+    }
+
+    private String truncate(String text, int maxLength) {
+        if (text == null) return "";
+        return text.length() > maxLength ? text.substring(0, maxLength - 3) + "..." : text;
     }
 }
