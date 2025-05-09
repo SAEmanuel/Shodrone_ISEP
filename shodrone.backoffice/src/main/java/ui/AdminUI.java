@@ -1,8 +1,11 @@
 package ui;
 
 
+import u.ListUserUI;
+import ui.menu.ManageUserUI;
 import ui.menu.MenuItem;
 import ui.menu.ShowTextUI;
+import ui.menu.SignUpUI;
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -18,9 +21,9 @@ public class AdminUI implements Runnable {
 
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
-        options.add(new MenuItem("Manage Users", new ShowTextUI("Not implemented yet.")));
-        options.add(new MenuItem("Option 3", new ShowTextUI("You have chosen Option 3.")));
-        options.add(new MenuItem("Option 4", new ShowTextUI("You have chosen Option 4.")));
+        options.add(new MenuItem("Manage Users", new ManageUserUI()));
+        options.add(new MenuItem("Register User", new SignUpUI()));
+        options.add(new MenuItem("List Users", new ListUserUI()));
 
         int option = 0;
         do {
