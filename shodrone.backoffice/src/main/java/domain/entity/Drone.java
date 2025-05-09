@@ -6,13 +6,14 @@ import domain.valueObjects.SerialNumber;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
 import jakarta.persistence.*;
+import more.ListDisplayable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Drone implements AggregateRoot<String>, Serializable {
+public class Drone implements AggregateRoot<String>, Serializable, ListDisplayable {
 
     @Id
     private SerialNumber serialNumber;
@@ -96,6 +97,17 @@ public class Drone implements AggregateRoot<String>, Serializable {
                 "\n📶 Status        : " + droneStatus +
                 "\n────────────────────────────";
 
+    }
+
+    /**
+     * Returns a concise string representation of the drone for list display.
+     *
+     * @return a string with serial number, model, and name of the drone
+     */
+    public String toListString() {
+        return "🔢 Serial Number: " + serialNumber +
+                " | 📄 Model: " + (droneModel != null ? droneModel.identity() : "N/A") +
+                " | 🏷️ Name: " + (droneModel != null ? droneModel.droneName().name() : "N/A");
     }
     
 }
