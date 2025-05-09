@@ -2,9 +2,11 @@ package utils;
 
 
 import domain.entity.Drone;
+import domain.entity.DroneModel;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import domain.valueObjects.NIF;
+import more.ListDisplayable;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -270,6 +272,16 @@ public class Utils {
         } while (true);
     }
 
+    static public boolean showDroneModelDetails(Optional<DroneModel> drone) {
+
+        if(drone.isEmpty()) {
+            return false;
+        }
+
+        System.out.println(drone.get());
+        return confirm("Is that the correct drone model? (y/n)");
+    }
+
     static public boolean showDroneDetails(Optional<Drone> drone) {
 
         if(drone.isEmpty()) {
@@ -278,6 +290,29 @@ public class Utils {
 
         System.out.println(drone.get());
        return confirm("Is that the correct drone? (y/n)");
+    }
+
+    static public int selectDroneModelIndex(List<DroneModel> droneModels) {
+        Utils.dropLines(1);
+
+        Utils.printCenteredSubtitleV2("Drone Model Selection");
+
+        int index = Utils.showAndSelectIndexPartially(droneModels, "Select the desired drone model:");
+        if (index < 0) {
+            Utils.printFailMessage("No drone model selected.");
+            Utils.silentExit();
+        }
+        return index;
+    }
+
+    static public int showSelectionMethodMenu(List<String> options) {
+
+        int option = Utils.showAndSelectIndexCustomOptions(options, "What do you want to do?");
+        if (option < 0) {
+            Utils.silentExit();
+        }
+
+        return option;
     }
 
 
@@ -462,16 +497,21 @@ public class Utils {
         System.out.printf("    %s(0)%s -  %-20s%n", COLOR_OPTIONS, ANSI_RESET, "Cancel");
     }
 
-    static public void showListElements(List<?> list, String header) {
+    public static void showListElements(List<?> list, String header) {
         if (!header.isEmpty())
             System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• ".concat(header).concat(":") + ANSI_RESET);
 
         for (Object o : list) {
-            System.out.printf("    %s  %s%-2s%s%n", "•", ANSI_BLUE, o.toString(), ANSI_RESET);
+            String display = (o instanceof ListDisplayable)
+                    ? ((ListDisplayable) o).toListString()
+                    : o.toString();
+
+            System.out.printf("    %s  %s%-2s%s%n", "•", ANSI_BLUE, display, ANSI_RESET);
         }
 
         dropLines(3);
     }
+
 
     static public Object selectsObject(List<?> list) {
         String input;
