@@ -89,5 +89,10 @@ public class CustomerRepresentative implements AggregateRoot<Long> {
     public void defineCostumer(Costumer costumer) {
         this.costumer = costumer;
     }
+
+    public Email getEmail() {
+        return this.email;
+    }
+
 }
 

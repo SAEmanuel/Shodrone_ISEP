@@ -219,7 +219,7 @@ public class RepositoryProvider {
     public static CustomerRepresentativeRepository customerRepresentativeRepository() {
         if (customerRepresentativeRepository == null) {
             if (isInMemory()) {
-                throw new UnsupportedOperationException("In-memory not implemented yet.");
+                customerRepresentativeRepository = new InMemoryCustomerRepresentativeRepository();
             } else {
                 customerRepresentativeRepository = new CustomerRepresentativeRepositoryJPAImpl();
             }
