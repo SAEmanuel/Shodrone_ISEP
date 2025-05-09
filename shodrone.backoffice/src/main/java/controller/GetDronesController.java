@@ -1,6 +1,7 @@
 package controller;
 
 import domain.entity.Drone;
+import domain.entity.DroneModel;
 import persistence.RepositoryProvider;
 import persistence.interfaces.DroneRepository;
 
@@ -21,6 +22,10 @@ public class GetDronesController {
 
     public Optional<Drone> getDroneBySN(String droneSN) {
         return repository.findByDroneSN(droneSN);
+    }
+
+    public Optional<List<Drone>> getDroneByModel(DroneModel droneModel) {
+        return repository.findByDroneModel(droneModel);
     }
 
 }

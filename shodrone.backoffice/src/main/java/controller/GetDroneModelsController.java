@@ -18,4 +18,8 @@ public class GetDroneModelsController {
         List<DroneModel> all = repository.findAll();
         return all.isEmpty() ? Optional.empty() : Optional.of(all);
     }
+
+    public Optional<DroneModel> getModelById(String droneModelId) {
+        return repository.findByDroneModelID(droneModelId);
+    }
 }
