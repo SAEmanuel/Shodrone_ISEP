@@ -1,16 +1,20 @@
 package persistence.inmemory;
 
+import authz.*;
 import persistence.interfaces.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.AuthFacade;
 import pt.isep.lei.esoft.auth.UserSession;
 import pt.isep.lei.esoft.auth.mappers.dto.UserDTO;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
-import java.util.List;
+import java.util.*;
 
 
-public class InMemoryAuthenticationRepository implements AuthenticationRepository {
+public class InMemoryAuthenticationRepository implements AuthenticationRepository, UserRepository {
     private AuthFacade authenticationFacade;
+    private final Map<String, Boolean> userActivationState = new HashMap<>();
+    private final Map<Email, User> userStore = new HashMap<>();
+
 
     public InMemoryAuthenticationRepository() {
         authenticationFacade = new AuthFacade();
@@ -19,8 +23,21 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
 
     @Override
     public boolean doLogin(String email, String pwd) {
-        return authenticationFacade.doLogin(email, pwd).isLoggedIn();
+        UserSession session = authenticationFacade.doLogin(email, pwd);
+
+        if (!session.isLoggedIn()) {
+            return false;
+        }
+
+        Boolean active = userActivationState.getOrDefault(email.toLowerCase(), true);
+        if (!active) {
+            authenticationFacade.doLogout();
+            throw new IllegalStateException("User is disabled.");
+        }
+
+        return true;
     }
+
 
     @Override
     public void doLogout() {
@@ -53,8 +70,19 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
 
 
     public boolean addUserWithRole(String name, String email, String pwd, String roleId) {
-        return authenticationFacade.addUserWithRole(name, email, pwd, roleId);
+        boolean added = authenticationFacade.addUserWithRole(name, email, pwd, roleId);
+        if (added) {
+            Email userEmail = new Email(email);
+            Password password = new Password(pwd);
+            User user = new User(userEmail, password, name);
+            user.activate();
+            save(user);
+            userActivationState.put(email.toLowerCase(), true);
+        }
+        return added;
     }
+
+
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -64,4 +92,25 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
     public void reset() {
         this.authenticationFacade = new AuthFacade();
     }
+
+    public void setUserActive(String email, boolean active) {
+        userActivationState.put(email.toLowerCase(), active);
+    }
+
+    @Override
+    public Optional<User> ofIdentity(Email id) {
+        return Optional.ofNullable(userStore.get(id));
+    }
+
+    @Override
+    public void save(User user) {
+        userStore.put(user.getId(), user);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return new ArrayList<>(userStore.values());
+    }
+
+
 }

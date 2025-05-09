@@ -15,6 +15,9 @@ public class User {
 
     private String name;
 
+    @Column(name = "ACTIVE")
+    private boolean active = true;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
@@ -32,6 +35,7 @@ public class User {
         this.id = id;
         this.password = password;
         this.name = name.trim();
+        this.active = true;
     }
 
     public Email getId() {
@@ -91,6 +95,18 @@ public class User {
         this.roles.clear();
         this.roles.addAll(roles);
         return this.roles.containsAll(roles);
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void activate() {
+        this.active = true;
+    }
+
+    public void deactivate() {
+        this.active = false;
     }
 
     @Override

@@ -25,6 +25,11 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
         Email email = new Email(emailString);
         User user = findById(email);
         if (user != null && user.hasPassword(passwordString)) {
+
+            if (!user.isActive()) {
+                throw new IllegalStateException("❌ User is disabled.");
+            }
+
             this.loggedUser = user;
             return true;
         }

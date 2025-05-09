@@ -5,6 +5,7 @@ import domain.entity.Drone;
 import domain.entity.DroneModel;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
+import domain.valueObjects.Address;
 import domain.valueObjects.NIF;
 import more.ListDisplayable;
 
@@ -15,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 import java.util.function.Function;
 
 import static more.ColorfulOutput.*;
@@ -844,7 +846,32 @@ public class Utils {
         return BOX_BOTTOM_LEFT + BOX_BORDER_TOP.repeat(BOX_WIDTH - 2) + BOX_BOTTOM_RIGHT;
     }
 
+    public static Address promptForAddress() {
+        Scanner scanner = new Scanner(System.in);
 
+        System.out.print("Street: ");
+        String street = scanner.nextLine().trim();
+
+        String postalCode;
+        while (true) {
+            System.out.print("Postal Code (NNNN-NNN): ");
+            postalCode = scanner.nextLine().trim();
+
+            if (postalCode.matches("\\d{4}-\\d{3}")) {
+                break;
+            } else {
+                printFailMessage("❌ Postal code must match Portuguese format: NNNN-NNN");
+            }
+        }
+
+        System.out.print("City: ");
+        String city = scanner.nextLine().trim();
+
+        System.out.print("Country: ");
+        String country = scanner.nextLine().trim();
+
+        return new Address(street, city, postalCode, country);
+    }
 
 
 }

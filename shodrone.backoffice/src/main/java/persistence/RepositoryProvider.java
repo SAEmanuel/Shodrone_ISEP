@@ -1,5 +1,6 @@
 package persistence;
 
+import authz.UserRepository;
 import domain.history.AuditLoggerService;
 import lombok.Setter;
 import persistence.inmemory.*;
@@ -46,6 +47,9 @@ public class RepositoryProvider {
     private static AuthenticationRepository authenticationRepository;
     private static DroneModelRepository droneModelRepository;
     private static DroneRepository droneRepository;
+    private static UserRepository userRepository;
+    private static CustomerRepresentativeRepository customerRepresentativeRepository;
+
 
     private static AuditLoggerService auditLoggerService;
     private static AuditLogRepository auditLogRepository;
@@ -200,4 +204,27 @@ public class RepositoryProvider {
     public static void injectAuthenticationRepository(AuthenticationRepository mockRepo) {
         authenticationRepository = mockRepo;
     }
+
+    public static UserRepository userRepository() {
+        if (userRepository == null) {
+            if (isInMemory()) {
+                userRepository = (UserRepository) authenticationRepository();
+            } else {
+                userRepository = new UserRepositoryJPAImpl();
+            }
+        }
+        return userRepository;
+    }
+
+    public static CustomerRepresentativeRepository customerRepresentativeRepository() {
+        if (customerRepresentativeRepository == null) {
+            if (isInMemory()) {
+                throw new UnsupportedOperationException("In-memory not implemented yet.");
+            } else {
+                customerRepresentativeRepository = new CustomerRepresentativeRepositoryJPAImpl();
+            }
+        }
+        return customerRepresentativeRepository;
+    }
+
 }

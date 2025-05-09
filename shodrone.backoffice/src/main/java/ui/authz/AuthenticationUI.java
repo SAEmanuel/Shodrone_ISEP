@@ -57,25 +57,35 @@ public class AuthenticationUI implements Runnable {
 
     private boolean doLogin() {
         System.out.println("\n\n══════════════════════════════════════════");
-        System.out.println(ANSI_BRIGHT_WHITE+"                 LOGIN UI               "+ANSI_RESET);
-
+        System.out.println(ANSI_BRIGHT_WHITE + "                 LOGIN UI               " + ANSI_RESET);
 
         int maxAttempts = 3;
         boolean success = false;
+
         do {
             maxAttempts--;
             System.out.println("Enter:");
             String id = Utils.readLineFromConsole("    •UserId/Email");
             String pwd = Utils.readLineFromConsole("    •Password");
 
-            success = ctrl.doLogin(id, pwd);
-            if (!success) {
-                System.out.println(ANSI_LIGHT_RED+"Invalid UserId and/or Password - Attempt(s) left [" + maxAttempts + "]" + ANSI_RESET+"\n");
+            try {
+                success = ctrl.doLogin(id, pwd);
+                if (!success) {
+                    System.out.println(ANSI_LIGHT_RED + "Invalid UserId and/or Password - Attempt(s) left [" + maxAttempts + "]" + ANSI_RESET + "\n");
+                }
+            } catch (IllegalStateException ex) {
+                System.out.println(ANSI_LIGHT_RED + ex.getMessage() + ANSI_RESET + "\n");
+                return false;
+            } catch (Exception ex) {
+                System.out.println(ANSI_LIGHT_RED + "Login failed: " + ex.getMessage() + ANSI_RESET + "\n");
+                return false;
             }
 
         } while (!success && maxAttempts > 0);
+
         return success;
     }
+
 
     private void logout() {
         ctrl.doLogout();
