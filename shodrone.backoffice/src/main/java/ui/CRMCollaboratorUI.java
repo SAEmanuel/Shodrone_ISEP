@@ -1,5 +1,7 @@
 package ui;
 
+import controller.AuthenticationController;
+import ui.authz.RegisterUserUI;
 import ui.menu.MenuItem;
 import utils.Utils;
 
@@ -42,6 +44,7 @@ public class CRMCollaboratorUI implements Runnable {
         options.add(new MenuItem("Submit Show Request", new RegisterShowRequestUI()));
         options.add(new MenuItem("List Show Request of Clients", new ListShowRequestByCostumerUI()));
         options.add(new MenuItem("Edit Show Request", new EditShowRequestUI()));
+        options.add(new MenuItem("Register customer", new RegisterCustomerUI()));
 
         int option;
         do {

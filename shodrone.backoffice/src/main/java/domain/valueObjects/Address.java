@@ -41,14 +41,19 @@ public class Address implements ValueObject {
         if (isNullOrEmpty(street) || isNullOrEmpty(city) || isNullOrEmpty(postalCode) || isNullOrEmpty(country)) {
             throw new IllegalArgumentException("All address fields must be provided and non-empty.");
         }
-        if (!postalCode.matches("\\d{4}-\\d{3}")) {
+
+        String cleanedPostal = postalCode.replaceAll("[^\\d-]", "").trim();
+        if (!cleanedPostal.matches("\\d{4}-\\d{3}")) {
             throw new IllegalArgumentException("Postal code must match Portuguese format: NNNN-NNN");
         }
-        this.street = street;
-        this.city = city;
-        this.postalCode = postalCode;
-        this.country = country;
+
+        this.street = street.trim();
+        this.city = city.trim();
+        this.postalCode = cleanedPostal;
+        this.country = country.trim();
     }
+
+
 
     /**
      * Checks if a string is null or empty.

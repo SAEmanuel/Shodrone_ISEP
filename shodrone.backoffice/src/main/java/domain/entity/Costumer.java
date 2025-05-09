@@ -11,6 +11,8 @@ import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -30,7 +32,7 @@ public final class Costumer implements AggregateRoot<Long>, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long customerSystemID;
 
-    @Column(nullable = false, length = 100)
+    @Embedded
     private Name name;
 
     @Column(nullable = false, length = 100)
@@ -46,6 +48,10 @@ public final class Costumer implements AggregateRoot<Long>, Serializable {
 
     @Embedded
     private Address address;
+
+    @OneToMany(mappedBy = "costumer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CustomerRepresentative> representatives = new ArrayList<>();
+
 
     /**
      * Default constructor for JPA.
@@ -208,4 +214,14 @@ public final class Costumer implements AggregateRoot<Long>, Serializable {
                 address.toString()
         );
     }
+
+    public void addRepresentative(CustomerRepresentative rep) {
+        representatives.add(rep);
+        rep.defineCostumer(this);
+    }
+
+    public List<CustomerRepresentative> getRepresentatives() {
+        return representatives;
+    }
+
 }
