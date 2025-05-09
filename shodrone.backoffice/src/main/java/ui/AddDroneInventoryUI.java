@@ -9,7 +9,6 @@ import domain.valueObjects.DroneStatus;
 import domain.valueObjects.SerialNumber;
 import utils.Utils;
 
-import java.rmi.server.UID;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,31 +40,16 @@ public class AddDroneInventoryUI implements Runnable {
 
             showResultMessage(result);
 
-        } catch (RuntimeException e) {}
+        } catch (RuntimeException ignored) {}
     }
 
     private int showAddMethodMenu() {
-        List<String> options = List.of("Create a new Drone", "Add an existing Drone");
-
-        int option = Utils.showAndSelectIndexCustomOptions(options, "What do you want to do?");
-        if (option < 0) {
-            Utils.silentExit();
-        }
-
-        return option;
+        return Utils.showSelectionMethodMenu(List.of("Create a new Drone", "Add an existing Drone"));
     }
 
     private Optional<Drone> handleNewDrone(List<DroneModel> droneModels) {
-        Utils.dropLines(1);
-        Utils.printCenteredSubtitleV2("Drone Model Selection");
-
-        int index = Utils.showAndSelectIndexPartially(droneModels, "Select the desired drone model:");
-        if (index < 0) {
-            Utils.printFailMessage("No drone model selected.");
-            Utils.silentExit();
-        }
-
-        DroneModel chosenModel = droneModels.get(index);
+        int modelIndex = Utils.selectDroneModelIndex(droneModels);
+        DroneModel chosenModel = droneModels.get(modelIndex);
 
         Utils.printCenteredSubtitleV2("Drone Serial Number");
         Utils.showDroneSerialNumberRules();
@@ -76,12 +60,12 @@ public class AddDroneInventoryUI implements Runnable {
 
     private Optional<Drone> handleExistingDrone() {
         Optional<List<Drone>> dronesOptional = getDronesController.getAllDrones();
+
         if (dronesOptional.isEmpty()) {
             Utils.dropLines(1);
             Utils.printFailMessage("No drones in the system yet...");
             Utils.silentExit();
         }
-
 
         Utils.printCenteredSubtitleV2("Drone Serial Number");
         Utils.showDroneSerialNumberFormat();
