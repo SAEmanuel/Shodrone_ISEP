@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import domain.valueObjects.*;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
+import eapli.framework.validations.Preconditions;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 
@@ -48,27 +49,44 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
     protected DroneModel() {}
 
     public DroneModel (DroneModelID droneModelID, DroneName droneName, Description description, int maxWindSpeed) {
-        if (maxWindSpeed < 0) {
-            throw new IllegalArgumentException("Max Wind Speed cannot be negative");
-        }
 
-        this.droneModelID = droneModelID;
-        this.droneName = droneName;
-        this.description = description;
-        this.maxWindSpeed = maxWindSpeed;
-        this.windTolerances = null;
+       try {
+           Preconditions.nonEmpty(droneModelID.getModelID());
+           Preconditions.nonEmpty(droneName.name());
+           Preconditions.nonEmpty(description.toString());
+           Preconditions.nonNull(maxWindSpeed);
+           Preconditions.ensure(maxWindSpeed> 0);
+
+           this.droneModelID = droneModelID;
+           this.droneName = droneName;
+           this.description = description;
+           this.maxWindSpeed = maxWindSpeed;
+           this.windTolerances = null;
+
+       } catch (IllegalArgumentException e) {
+           throw e;
+       }
+
+
     }
 
     public DroneModel (DroneModelID droneModelID, DroneName droneName, int maxWindSpeed) {
-        if (maxWindSpeed < 0) {
-            throw new IllegalArgumentException("Max Wind Speed cannot be negative");
-        }
 
-        this.droneModelID = droneModelID;
-        this.droneName = droneName;
-        this.description = new Description("Description not provided!");
-        this.maxWindSpeed = maxWindSpeed;
-        this.windTolerances = new ArrayList<>();
+        try {
+            Preconditions.nonEmpty(droneModelID.getModelID());
+            Preconditions.nonEmpty(droneName.name());
+            Preconditions.nonNull(maxWindSpeed);
+            Preconditions.ensure(maxWindSpeed > 0);
+
+            this.droneModelID = droneModelID;
+            this.droneName = droneName;
+            this.description = new Description("Description not provided!");
+            this.maxWindSpeed = maxWindSpeed;
+            this.windTolerances = new ArrayList<>();
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
     }
 
 
