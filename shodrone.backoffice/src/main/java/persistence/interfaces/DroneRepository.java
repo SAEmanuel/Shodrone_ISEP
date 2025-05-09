@@ -10,6 +10,8 @@ public interface DroneRepository {
 
     Optional<Drone> save(Drone drone);
 
+    Optional<Drone> addExistingDroneInventory(Drone drone);
+
     Optional<Drone> findByDroneSN(String SN);
 
     Optional<Drone> removeDrone(Drone drone, DroneRemovalLog log);

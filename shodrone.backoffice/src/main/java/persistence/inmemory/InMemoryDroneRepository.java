@@ -44,6 +44,17 @@ public class InMemoryDroneRepository implements DroneRepository {
 
         return Optional.of(drone);
     }
+
+    @Override
+    public Optional<Drone> addExistingDroneInventory(Drone drone) {
+        if (drone == null) {
+            return Optional.empty();
+        }
+
+        drone.changeDroneStatusTo(DroneStatus.AVAILABLE);
+        return Optional.of(drone);
+    }
+
 }
 
 

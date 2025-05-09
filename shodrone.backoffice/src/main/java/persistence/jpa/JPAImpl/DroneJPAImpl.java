@@ -47,4 +47,16 @@ public class DroneJPAImpl extends JpaBaseRepository<Drone, Long> implements Dron
         return Optional.of(updatedDrone);
     }
 
+    @Override
+    public Optional<Drone> addExistingDroneInventory(Drone drone) {
+        if (drone == null) {
+            return Optional.empty();
+        }
+
+        drone.changeDroneStatusTo(DroneStatus.AVAILABLE);
+        Drone updatedDrone = update(drone);
+
+        return Optional.of(updatedDrone);
+    }
+
 }

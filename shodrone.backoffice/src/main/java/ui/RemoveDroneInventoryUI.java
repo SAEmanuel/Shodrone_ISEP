@@ -24,7 +24,7 @@ public class RemoveDroneInventoryUI implements Runnable {
             return;
         }
 
-        Utils.printCenteredSubtitleV2("Drone Model Serial Number");
+        Utils.printCenteredSubtitleV2("Drone Serial Number");
         Utils.showDroneSerialNumberFormat();
         Optional<Drone> selectedDrone = askForSerialNumber();
 

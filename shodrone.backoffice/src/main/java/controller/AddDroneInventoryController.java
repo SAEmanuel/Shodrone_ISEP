@@ -19,4 +19,8 @@ public class AddDroneInventoryController {
         Drone drone = new Drone(serialNumber, droneModel);
         return repository.save(drone);
     }
+
+    public Optional<Drone> addExistingDroneInventory(Optional<Drone> selectedDrone) {
+       return repository.addExistingDroneInventory(selectedDrone.get());
+    }
 }
