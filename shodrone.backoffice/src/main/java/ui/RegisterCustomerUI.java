@@ -1,26 +1,25 @@
 package ui;
 
-import authz.Email;
-import controller.AuthenticationController;
+import authz.*;
+import controller.RegisterCustomerAndRepresentativeController;
 import controller.RegisterUserController;
-import domain.entity.Costumer;
-import domain.entity.CustomerRepresentative;
 import domain.valueObjects.*;
-import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.RepositoryProvider;
 import persistence.interfaces.CostumerRepository;
+import persistence.interfaces.CustomerRepresentativeRepository;
 import utils.Utils;
-
-import java.util.Optional;
-import java.util.Scanner;
-import java.util.Arrays;
 
 public class RegisterCustomerUI implements Runnable {
 
     private final CostumerRepository costumerRepo = RepositoryProvider.costumerRepository();
+    private final CustomerRepresentativeRepository repRepo = RepositoryProvider.customerRepresentativeRepository();
     private final RegisterUserController userController = new RegisterUserController();
-    private final Scanner scanner = new Scanner(System.in);
+    private final RegisterCustomerAndRepresentativeController registerController;
+
+    public RegisterCustomerUI() {
+        this.registerController = new RegisterCustomerAndRepresentativeController(costumerRepo, repRepo, userController);
+    }
 
     @Override
     public void run() {
@@ -28,72 +27,37 @@ public class RegisterCustomerUI implements Runnable {
 
         // === CUSTOMER INFO ===
         Utils.showNameRules();
-        domain.valueObjects.Name rawCustomerName = Utils.rePromptWhileInvalid("Customer name:", domain.valueObjects.Name::new);
-        String[] custParts = rawCustomerName.name().trim().split(" ");
-        if (custParts.length < 2) {
-            Utils.printFailMessage("❌ Please provide both first and last name.");
-            return;
-        }
-        Name customerName = Name.valueOf(
-                custParts[0],
-                String.join(" ", Arrays.copyOfRange(custParts, 1, custParts.length))
-        );
+        domain.valueObjects.Name rawCustomerName = Utils.rePromptForName("Customer name:");
+        Name customerName = Utils.convertToName(rawCustomerName);
 
         Utils.showEmailRules();
-        Email rawEmail = Utils.rePromptWhileInvalid("Customer email:", Email::new);
-        EmailAddress customerEmail = EmailAddress.valueOf(rawEmail.getEmail());
+        Email customerEmail = Utils.rePromptForEmail("Customer email:");
 
-        PhoneNumber customerPhone = Utils.rePromptWhileInvalid("Customer phone number:", PhoneNumber::new);
-        NIF customerNif = Utils.rePromptWhileInvalid("Customer NIF:", NIF::new);
+        PhoneNumber customerPhone = Utils.rePromptForPhone("Customer phone number:");
 
-        Address customerAddress = null;
-        while (customerAddress == null) {
-            try {
-                customerAddress = Utils.promptForAddress();
-            } catch (IllegalArgumentException e) {
-                Utils.printFailMessage("❌ " + e.getMessage());
-            }
-        }
+        NIF customerNif = Utils.rePromptForNIF("Customer NIF:");
+
+        Address customerAddress = Utils.rePromptForAddress();
 
         // === REPRESENTATIVE INFO ===
-        Utils.printCenteredSubtitle("Representative Information");
+        Utils.showNameRules();
+        domain.valueObjects.Name rawRepName = Utils.rePromptForName("Representative name:");
+        Name repName = Utils.convertToName(rawRepName);
 
-        domain.valueObjects.Name rawRepName = Utils.rePromptWhileInvalid("Representative name:", domain.valueObjects.Name::new);
-        String[] repParts = rawRepName.name().trim().split(" ");
-        if (repParts.length < 2) {
-            Utils.printFailMessage("❌ Please provide both first and last name.");
-            return;
-        }
-        Name repName = Name.valueOf(
-                repParts[0],
-                String.join(" ", Arrays.copyOfRange(repParts, 1, repParts.length))
-        );
+        Utils.showEmailRules();
+        Email repEmail = Utils.rePromptForEmail("Representative email:");
 
-        domain.valueObjects.Name repLocalName = new domain.valueObjects.Name(repName.toString());
+        PhoneNumber repPhone = Utils.rePromptForPhone("Representative phone:");
 
-        Email repEmail = Utils.rePromptWhileInvalid("Representative email:", Email::new);
-        PhoneNumber repPhone = Utils.rePromptWhileInvalid("Representative phone:", PhoneNumber::new);
+        String repPosition = Utils.readLineFromConsole("Representative position:");
 
-        System.out.print("Representative position: ");
-        String repPosition = scanner.nextLine();
+        // === PASSWORD ===
+        Utils.showPasswordRules();
+        String password = Utils.rePromptForPassword("Choose a password: ");
 
-        // === Create Customer and Representative ===
-        Costumer costumer = new Costumer(customerName, customerEmail, customerPhone, customerNif, customerAddress);
-        CustomerRepresentative rep = new CustomerRepresentative(costumer, repLocalName, repEmail, repPhone, repPosition);
-        costumer.addRepresentative(rep); // 🔥 ADICIONADO ANTES DA PERSISTÊNCIA
-
-        Optional<Costumer> savedCostumer = costumerRepo.saveInStore(costumer, customerNif);
-
-        if (savedCostumer.isEmpty()) {
-            Utils.printFailMessage("❌ Failed to save customer.");
-            return;
-        }
-
-        // === USER CREATION ===
-        String password = "Temporary123!";
-        boolean success = userController.registerUser(
-                repName.toString(), repEmail.getEmail(), password,
-                AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE
+        boolean success = registerController.registerCustomerAndRepresentative(
+                customerName, customerEmail, customerPhone, customerNif, customerAddress,
+                repName, repEmail, repPhone, repPosition, password
         );
 
         if (success) {

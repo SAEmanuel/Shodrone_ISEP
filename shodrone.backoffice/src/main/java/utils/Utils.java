@@ -1,12 +1,15 @@
 package utils;
 
 
+import authz.Email;
+import authz.Password;
 import domain.entity.Drone;
 import domain.entity.DroneModel;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import domain.valueObjects.Address;
 import domain.valueObjects.NIF;
+import domain.valueObjects.PhoneNumber;
 import more.ListDisplayable;
 
 import java.io.BufferedReader;
@@ -14,6 +17,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -165,20 +169,6 @@ public class Utils {
 
     static public void printSubTitle(String prompt) {
         System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• ".concat(prompt).concat(ANSI_RESET).concat(":"));
-    }
-
-    static public String readLineFromConsole(String prompt) {
-        try {
-            System.out.printf("%s: ", prompt);
-
-            InputStreamReader converter = new InputStreamReader(System.in);
-            BufferedReader in = new BufferedReader(converter);
-
-            return in.readLine();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     static public int readIntegerFromConsole(String prompt) {
@@ -873,5 +863,44 @@ public class Utils {
         return new Address(street, city, postalCode, country);
     }
 
+    public static eapli.framework.infrastructure.authz.domain.model.Name convertToName(domain.valueObjects.Name customerName) {
+        String[] nameParts = customerName.name().split(" ");
+        String firstName = nameParts[0];
+        String lastName = nameParts.length > 1 ? String.join(" ", Arrays.copyOfRange(nameParts, 1, nameParts.length)) : "";
+        return eapli.framework.infrastructure.authz.domain.model.Name.valueOf(firstName, lastName);
+    }
 
+    public static domain.valueObjects.Name rePromptForName(String prompt) {
+        return rePromptWhileInvalid(prompt, domain.valueObjects.Name::new);
+    }
+
+    public static Email rePromptForEmail(String prompt) {
+        return rePromptWhileInvalid(prompt, Email::new);
+    }
+
+    public static PhoneNumber rePromptForPhone(String prompt) {
+        return rePromptWhileInvalid(prompt, PhoneNumber::new);
+    }
+
+    public static NIF rePromptForNIF(String prompt) {
+        return rePromptWhileInvalid(prompt, NIF::new);
+    }
+
+    public static Address rePromptForAddress() {
+        return promptForAddress();
+    }
+
+    public static String rePromptForPassword(String prompt) {
+        return Password.rePromptWhileInvalidPassword(prompt);
+    }
+
+    public static String readLineFromConsole(String prompt) {
+        try {
+            System.out.printf("%s: ", prompt);
+            return new BufferedReader(new InputStreamReader(System.in)).readLine();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }
