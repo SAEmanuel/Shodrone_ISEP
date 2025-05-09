@@ -1,6 +1,7 @@
 package persistence.interfaces;
 
 import domain.entity.Drone;
+import domain.entity.DroneModel;
 import domain.valueObjects.DroneRemovalLog;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public interface DroneRepository {
     Optional<Drone> addExistingDroneInventory(Drone drone);
 
     Optional<Drone> findByDroneSN(String SN);
+
+    Optional<List<Drone>> findByDroneModel(DroneModel droneModel);
 
     Optional<Drone> removeDrone(Drone drone, DroneRemovalLog log);
 

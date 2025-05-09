@@ -1,6 +1,7 @@
 package persistence.inmemory;
 
 import domain.entity.Drone;
+import domain.entity.DroneModel;
 import domain.valueObjects.DroneRemovalLog;
 import domain.valueObjects.DroneStatus;
 import persistence.interfaces.DroneRepository;
@@ -53,6 +54,20 @@ public class InMemoryDroneRepository implements DroneRepository {
 
         drone.changeDroneStatusTo(DroneStatus.AVAILABLE);
         return Optional.of(drone);
+    }
+
+    @Override
+    public Optional<List<Drone>> findByDroneModel(DroneModel droneModel) {
+        if (droneModel == null) return Optional.empty();
+
+        List<Drone> droneList = new ArrayList<>();
+        for (Drone drone : store.values()) {
+            if (droneModel.equals(drone.droneModel()) && DroneStatus.AVAILABLE.equals(drone.droneStatus())) {
+                droneList.add(drone);
+            }
+        }
+
+        return droneList.isEmpty() ? Optional.empty() : Optional.of(droneList);
     }
 
 }
