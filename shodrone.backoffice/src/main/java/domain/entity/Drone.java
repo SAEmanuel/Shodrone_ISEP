@@ -5,6 +5,7 @@ import domain.valueObjects.DroneStatus;
 import domain.valueObjects.SerialNumber;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntities;
+import eapli.framework.validations.Preconditions;
 import jakarta.persistence.*;
 import more.ListDisplayable;
 
@@ -30,13 +31,23 @@ public class Drone implements AggregateRoot<String>, Serializable, ListDisplayab
     private List<DroneRemovalLog> droneRemovalLogs;
 
 
-    protected Drone() {}
+    protected Drone() {
+    }
 
-    public Drone(SerialNumber serialNumber, DroneModel droneModel) {
-        this.serialNumber = serialNumber;
-        this.droneModel = droneModel;
-        this.droneStatus = DroneStatus.AVAILABLE;
-        this.droneRemovalLogs = new ArrayList<>();
+    public Drone(final SerialNumber serialNumber, final DroneModel droneModel) {
+
+        try {
+            Preconditions.nonEmpty(serialNumber.getSerialNumber(), "Model ID should neither be null nor empty");
+            Preconditions.nonEmpty(droneModel.identity(), "Drone Model ID should neither be null nor empty");
+
+            this.serialNumber = serialNumber;
+            this.droneModel = droneModel;
+            this.droneStatus = DroneStatus.AVAILABLE;
+            this.droneRemovalLogs = new ArrayList<>();
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
     }
 
     @Override
@@ -76,7 +87,6 @@ public class Drone implements AggregateRoot<String>, Serializable, ListDisplayab
     }
 
 
-
     @Override
     public int hashCode() {
         return DomainEntities.hashCode(this);
@@ -109,5 +119,5 @@ public class Drone implements AggregateRoot<String>, Serializable, ListDisplayab
                 " | 📄 Model: " + (droneModel != null ? droneModel.identity() : "N/A") +
                 " | 🏷️ Name: " + (droneModel != null ? droneModel.droneName().name() : "N/A");
     }
-    
+
 }
