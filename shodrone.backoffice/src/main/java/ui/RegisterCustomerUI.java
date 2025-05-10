@@ -27,8 +27,16 @@ public class RegisterCustomerUI implements Runnable {
 
         // === CUSTOMER INFO ===
         Utils.showNameRules();
-        domain.valueObjects.Name rawCustomerName = Utils.rePromptForName("Customer name:");
-        Name customerName = Utils.convertToName(rawCustomerName);
+        Name customerName = null;
+        while (customerName == null) {
+            try {
+                domain.valueObjects.Name rawCustomerName = Utils.rePromptForName("Customer name:");
+                customerName = Utils.convertToName(rawCustomerName);
+            } catch (IllegalArgumentException e) {
+                System.out.println("❌ Invalid name. Please try again.");
+            }
+        }
+
 
         Utils.showEmailRules();
         Email customerEmail = Utils.rePromptForEmail("Customer email:");
@@ -41,8 +49,15 @@ public class RegisterCustomerUI implements Runnable {
 
         // === REPRESENTATIVE INFO ===
         Utils.showNameRules();
-        domain.valueObjects.Name rawRepName = Utils.rePromptForName("Representative name:");
-        Name repName = Utils.convertToName(rawRepName);
+        Name repName = null;
+        while (repName == null) {
+            try {
+                domain.valueObjects.Name rawRepName = Utils.rePromptForName("Representative name:");
+                repName = Utils.convertToName(rawRepName);
+            } catch (IllegalArgumentException e) {
+                System.out.println("❌ Invalid name. Please try again.");
+            }
+        }
 
         Utils.showEmailRules();
         Email repEmail = Utils.rePromptForEmail("Representative email:");
