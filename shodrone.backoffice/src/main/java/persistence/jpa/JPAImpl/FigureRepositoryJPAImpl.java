@@ -77,14 +77,17 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         }
 
         add(figure);
-        System.out.println(figure);
+        //System.out.println(figure);
         return Optional.of(figure);
     }
 
     @Override
     public List<Figure> findByCostumer(Costumer costumer) {
         return entityManager()
-                .createQuery("SELECT f FROM Figure f WHERE f.costumer.id = costumer.id ORDER BY f.costumer.id ASC", Figure.class)
+                .createQuery("SELECT f FROM Figure f WHERE (f.costumer.id = :costumerid and f.status = :status) or (f.status = :status and f.availability = :availability) ORDER BY f.costumer.id ASC", Figure.class)
+                .setParameter("costumerid",costumer.identity())
+                .setParameter("status", FigureStatus.ACTIVE)
+                .setParameter("availability", FigureAvailability.PUBLIC)
                 .getResultList();
     }
 

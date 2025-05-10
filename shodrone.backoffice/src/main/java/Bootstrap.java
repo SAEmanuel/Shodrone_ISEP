@@ -17,7 +17,7 @@ public class Bootstrap implements Runnable {
         addUsers();
         addCategories();
         addCustomers();
-        //addFigures();
+        addFigures();
     }
 
     // --- User Setup -----------------------------------------------------
@@ -92,7 +92,7 @@ public class Bootstrap implements Runnable {
     );
 
     private final Costumer customer2 = new Costumer(
-            Name.valueOf("Romeu", "Mendes"),
+            Name.valueOf("Maria", "Silva"),
             EmailAddress.valueOf("maria.silva@shodrone.app"),
             new PhoneNumber("923456789"),
             new NIF("286500850"),
@@ -100,7 +100,7 @@ public class Bootstrap implements Runnable {
     );
 
     private final Costumer customer3 = new Costumer(
-            Name.valueOf("Paulo", "Xu"),
+            Name.valueOf("Carlos", "Ferreira"),
             EmailAddress.valueOf("carlos.ferreira@shodrone.app"),
             new PhoneNumber("934567890"),
             new NIF("248367080"),
@@ -121,6 +121,6 @@ public class Bootstrap implements Runnable {
     );
 
     private final Figure figure4 = new Figure("Rectangle", new Description("Rectangular figure"), (long) 1.2,
-            category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1
+            category3, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, customer1
     );
 }

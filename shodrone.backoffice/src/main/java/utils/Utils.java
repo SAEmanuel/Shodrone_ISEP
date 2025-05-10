@@ -485,7 +485,6 @@ public class Utils {
             index++;
             System.out.printf("    %s(%d)%s -  %-28s%n", COLOR_OPTIONS, index, ANSI_RESET, o.toString());
         }
-        Utils.dropLines(1);
         System.out.printf("    %s(0)%s -  %-20s%n", COLOR_OPTIONS, ANSI_RESET, "Cancel");
     }
 

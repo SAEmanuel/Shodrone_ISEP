@@ -82,7 +82,7 @@ public class ShowRequest extends DomainEntityBase<Long> implements AggregateRoot
      */
     @Setter
     @Getter
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name = "show_request_id")
     private List<Figure> figures;
 

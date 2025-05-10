@@ -94,7 +94,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     public boolean sameAs(Object other) {
         if (!(other instanceof Figure)) return false;
         Figure that = (Figure) other;
-        return Objects.equals(figureId, that.figureId);
+        return figureId.equals(that.figureId);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
         if (this == o) return true;
         if (!(o instanceof Figure)) return false;
         Figure that = (Figure) o;
-        return Objects.equals(figureId, that.figureId);
+        return figureId.equals(that.figureId);
     }
 
     @Override
