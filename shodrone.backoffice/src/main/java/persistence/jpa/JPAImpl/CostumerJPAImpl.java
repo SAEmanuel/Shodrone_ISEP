@@ -42,7 +42,7 @@ public class CostumerJPAImpl extends JpaAutoTxRepository<Costumer, Long, Long> i
     public Optional<Costumer> saveInStore(Costumer entity, NIF costumerNIF) {
         Optional<Costumer> existing = findByNIF(costumerNIF);
         if (existing.isPresent()) {
-            System.out.println("❗ Cliente com o mesmo NIF já existe.");
+            //System.out.println("❗ Cliente com o mesmo NIF já existe.");
             return Optional.empty();
         }
 
