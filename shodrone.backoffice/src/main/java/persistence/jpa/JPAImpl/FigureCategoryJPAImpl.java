@@ -18,7 +18,8 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
 
 
     private final AuditLoggerService auditLoggerService;
-    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description", "available");
+    private static final Set<String> AUDIT_FIELDS_CHANGE = Set.of("name", "description", "available");
+    private static final Set<String> AUDIT_FIELDS_CREATION = Set.of("name", "description");
 
     public FigureCategoryJPAImpl(AuditLoggerService auditLoggerService) {
         super();
@@ -30,7 +31,8 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         Optional<FigureCategory> checkExistence = findByName(category.identity());
         if (checkExistence.isEmpty()) {
             FigureCategory saved = this.add(category);
-            return Optional.ofNullable(saved);
+            auditLoggerService.logCreation(saved, saved.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CREATION);
+            return Optional.of(saved);
         }
         return Optional.empty();
     }
@@ -87,7 +89,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
             managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
             entityManager().getTransaction().commit();
 
-            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
+            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
 
             return Optional.of(managed);
         } catch (Exception e) {
@@ -118,7 +120,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
             managed.toggleState();
             entityManager().getTransaction().commit();
 
-            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
+            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
 
             return Optional.of(managed);
         } catch (Exception e) {

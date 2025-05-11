@@ -20,22 +20,22 @@ public class AuditLogEntry {
     private String fieldName;
     private String oldValue;
     private String newValue;
-    private String changedBy;
-    private LocalDateTime changedAt;
+    private String author;
+    private LocalDateTime timestamp;
 
     protected AuditLogEntry() {
         // For ORM
     }
 
     public AuditLogEntry(String entityName, String entityId, String fieldName,
-                         String oldValue, String newValue, String changedBy) {
+                         String oldValue, String newValue, String author) {
         this.entityName = entityName;
         this.entityId = entityId;
         this.fieldName = fieldName;
         this.oldValue = oldValue;
         this.newValue = newValue;
-        this.changedBy = changedBy;
-        this.changedAt = LocalDateTime.now();
+        this.author = author;
+        this.timestamp = LocalDateTime.now();
     }
 
     public Long id() {
@@ -62,19 +62,19 @@ public class AuditLogEntry {
         return newValue;
     }
 
-    public String changedBy() {
-        return changedBy;
+    public String author() {
+        return author;
     }
 
-    public LocalDateTime changedAt() {
-        return changedAt;
+    public LocalDateTime timestamp() {
+        return timestamp;
     }
 
     @Override
     public String toString() {
         return String.format(
-                "AuditLogEntry [Entity: %s, ID: %s, Field: %s, Old: %s, New: %s, By: %s, At: %s]",
-                entityName, entityId, fieldName, oldValue, newValue, changedBy, changedAt
+                "AuditLogEntry [Entity: %s, ID: %s, Field: %s, Old: %s, New: %s, Author: %s, At: %s]",
+                entityName, entityId, fieldName, oldValue, newValue, author, timestamp
         );
     }
 

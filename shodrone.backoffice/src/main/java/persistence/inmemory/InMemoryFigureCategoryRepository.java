@@ -13,7 +13,8 @@ import java.util.*;
 public class InMemoryFigureCategoryRepository implements FigureCategoryRepository {
     private final Map<String, FigureCategory> store = new HashMap<>();
     private final AuditLoggerService auditLoggerService;
-    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description", "available");
+    private static final Set<String> AUDIT_FIELDS_CHANGE = Set.of("name", "description", "available");
+    private static final Set<String> AUDIT_FIELDS_CREATION = Set.of("name", "description");
 
     public InMemoryFigureCategoryRepository(AuditLoggerService auditLoggerService) {
         super();
@@ -28,6 +29,7 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
             return Optional.empty();
         } else {
             store.put(key, category);
+            auditLoggerService.logCreation(category, category.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CREATION);
             return Optional.of(category);
         }
     }
@@ -79,7 +81,7 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
             existing.changeDescriptionTo(newDescription);
         }
 
-        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
+        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
 
         return Optional.of(existing);
     }
@@ -101,7 +103,7 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         existing.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
         existing.toggleState();
 
-        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
+        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
 
         return Optional.of(existing);
     }

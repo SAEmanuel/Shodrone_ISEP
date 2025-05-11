@@ -45,4 +45,28 @@ public class AuditLoggerService {
         }
     }
 
+    public void logCreation(Object newObj, String entityId, String user, Set<String> auditFields) {
+        for (Field field : newObj.getClass().getDeclaredFields()) {
+            if (!auditFields.contains(field.getName())) continue;
+            field.setAccessible(true);
+            try {
+                Object newVal = field.get(newObj);
+                if (newVal != null) {
+                    AuditLogEntry entry = new AuditLogEntry(
+                            newObj.getClass().getSimpleName(),
+                            entityId,
+                            field.getName(),
+                            null,
+                            String.valueOf(newVal),
+                            user
+                    );
+                    repository.save(entry);
+                }
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
 }
