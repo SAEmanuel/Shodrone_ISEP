@@ -12,7 +12,6 @@ import persistence.interfaces.CostumerRepository;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.FigureRepository;
 import domain.history.AuditLoggerService;
-import utils.Utils;
 
 import java.util.*;
 
@@ -33,7 +32,7 @@ public class InMemoryFigureRepository implements FigureRepository {
         if (figure.identity() == null) {
             figure.setFigureId(LAST_FIGURE_ID++);
         }
-    
+
         // Persist or reuse figure category
         Optional<FigureCategory> category = Optional.ofNullable(figure.category());
         FigureCategoryRepository categoryRepository = RepositoryProvider.figureCategoryRepository();

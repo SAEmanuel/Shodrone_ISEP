@@ -43,11 +43,21 @@ activate name
 name -> UI: name
 deactivate name
 
+UI --> SD : ask if want's to add description
+deactivate UI
+SD -> UI: provide description
+activate UI
+
 UI -> desc**: Utils.rePromptWhileInvalid()
 activate desc
 
 desc -> UI: description
 deactivate desc
+
+UI --> SD : ask if want's to add version
+deactivate UI
+SD -> UI: provide version
+activate UI
 
 UI -> version**: Utils.rePromptWhileInvalid()
 activate version
@@ -101,11 +111,22 @@ deactivate figureCategoryControler
   SD -> UI : FigureCategorySelected
 activate UI
 
+
+UI --> SD : ask if want's to add figureAvailability
+deactivate UI
+SD -> UI: provide figureAvailability (if not provided default Public)
+activate UI
+
 UI -> figureAvailability**: Utils.rePromptWhileInvalid()
 activate figureAvailability
 
 figureAvailability -> UI: figureAvailability
 deactivate figureAvailability
+
+UI --> SD : ask if want's to add figureStatus
+deactivate UI
+SD -> UI: provide figureStatus (if not provided default Active)
+activate UI
 
 UI -> figureStatus**: Utils.rePromptWhileInvalid()
 activate figureStatus
@@ -173,7 +194,6 @@ deactivate provider
 alt Repository is InMemoryFigureRepository
     CTRL -> inMem: save(figure)
     activate inMem
-    inMem -> inMem: containsKey(figure.identity())
     inMem --> CTRL: Optional<Figure>
     deactivate inMem
 
@@ -181,12 +201,11 @@ else Repository is FigureRepositoryJPAImpl
     CTRL -> jpa: save(figure)
     activate jpa
 
-    jpa -> jpa: findByID(figure.identity())
     jpa --> CTRL: Optional<Figure>
     deactivate jpa
 end
 
-CTRL --> UI: Optional<FigureCategory>
+CTRL --> UI: Optional<Figure>
 deactivate CTRL
 
 alt Figure saved successfully

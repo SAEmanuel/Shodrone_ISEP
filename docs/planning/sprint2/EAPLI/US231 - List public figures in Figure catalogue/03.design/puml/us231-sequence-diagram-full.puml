@@ -44,17 +44,16 @@ activate showDesigner
 
         deactivate CTRL
 
-        UI -> CTRL: displayPublicFigures(page, pagesize)
+        UI -> CTRL: listPublicFigures()
                 CTRL -> catRepo: findAllPublicFigures()
                 activate catRepo
 
                     catRepo --> CTRL: listOfPublicFigures
                 deactivate catRepo
                 CTRL -> UI: listOfPublicFigures
-
             deactivate CTRL
 
-            UI -> showDesigner : shows list of Public Figures
+            UI -> showDesigner : shows list of Public Figures by pages
 
 deactivate UI
 deactivate showDesigner
