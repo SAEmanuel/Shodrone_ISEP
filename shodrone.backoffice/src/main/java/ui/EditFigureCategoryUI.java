@@ -1,8 +1,6 @@
 package ui;
 
-
 import controller.EditFigureCategoryController;
-
 import controller.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
@@ -12,11 +10,20 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * UI for editing an existing Figure Category.
+ * Allows the user to select an active category and update its name and/or description.
+ */
 public class EditFigureCategoryUI implements Runnable {
 
     private final EditFigureCategoryController editFigureCategoryController = new EditFigureCategoryController();
     private final GetFigureCategoriesController getFigureCategoriesController = new GetFigureCategoriesController();
+    private static final int EXIT = -1;
 
+    /**
+     * Runs the UI flow for editing a figure category.
+     * Guides the user through selecting a category and updating its fields.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("Edit Figure Category");
@@ -26,8 +33,8 @@ public class EditFigureCategoryUI implements Runnable {
             Utils.printCenteredSubtitleV2("Figure Category selection");
             int index = Utils.showAndSelectIndexPartially(activeCategoriesOptional.get(), "Select the desired category to edit");
 
-            if (index < 0) {
-                Utils.printFailMessage("No category selected.");
+            if (index == EXIT) {
+                Utils.printFailMessage("No category selected...");
                 return;
             }
 
