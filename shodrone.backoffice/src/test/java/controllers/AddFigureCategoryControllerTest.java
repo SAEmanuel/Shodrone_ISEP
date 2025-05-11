@@ -1,7 +1,7 @@
 package controllers;
 
 import authz.Email;
-import controller.AddFigureCategoryController;
+import controller.category.AddFigureCategoryController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;

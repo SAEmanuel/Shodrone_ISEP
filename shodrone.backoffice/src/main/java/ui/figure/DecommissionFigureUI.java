@@ -1,7 +1,7 @@
 package ui.figure;
 
-import controller.DecommissionFigureController;
-import controller.GetAllActiveFiguresController;
+import controller.figure.DecommissionFigureController;
+import controller.figure.GetAllActiveFiguresController;
 import domain.entity.Figure;
 import utils.Utils;
 

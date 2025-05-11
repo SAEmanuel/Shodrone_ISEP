@@ -1,4 +1,4 @@
-package controller;
+package controller.figure;
 
 import domain.entity.Costumer;
 import domain.entity.Figure;

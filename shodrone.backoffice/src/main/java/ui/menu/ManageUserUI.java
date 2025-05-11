@@ -1,7 +1,7 @@
 package ui.menu;
 
 import authz.UserDisplayDTO;
-import controller.ManageUserController;
+import controller.user.ManageUserController;
 import pt.isep.lei.esoft.auth.mappers.dto.UserDTO;
 import utils.Utils;
 

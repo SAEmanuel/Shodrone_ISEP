@@ -1,4 +1,4 @@
-package controller;
+package controller.figure;
 
 import domain.entity.Figure;
 import persistence.RepositoryProvider;

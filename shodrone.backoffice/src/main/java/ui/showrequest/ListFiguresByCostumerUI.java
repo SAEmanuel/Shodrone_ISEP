@@ -1,6 +1,6 @@
 package ui.showrequest;
 
-import controller.ListFiguresByCostumerController;
+import controller.showrequest.ListFiguresByCostumerController;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import utils.Utils;

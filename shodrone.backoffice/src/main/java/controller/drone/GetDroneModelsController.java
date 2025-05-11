@@ -1,4 +1,4 @@
-package controller;
+package controller.drone;
 
 import domain.entity.DroneModel;
 import persistence.RepositoryProvider;

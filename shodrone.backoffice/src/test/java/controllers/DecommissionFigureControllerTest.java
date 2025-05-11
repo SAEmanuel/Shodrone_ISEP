@@ -1,9 +1,7 @@
 package controllers;
 
 import authz.Email;
-import controller.AddFigureController;
-import controller.DecommissionFigureController;
-import controller.EditFigureCategoryController;
+import controller.figure.DecommissionFigureController;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
@@ -12,7 +10,6 @@ import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.FigureRepository;
 
 import java.util.Optional;

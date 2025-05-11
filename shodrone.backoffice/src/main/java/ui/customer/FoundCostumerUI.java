@@ -1,6 +1,6 @@
 package ui.customer;
 
-import controller.ListCostumersController;
+import controller.showrequest.ListCostumersController;
 import domain.entity.Costumer;
 import utils.Utils;
 import utils.Validations;

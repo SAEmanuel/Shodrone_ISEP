@@ -1,4 +1,4 @@
-package controller;
+package controller.user;
 
 import persistence.RepositoryProvider;
 import persistence.interfaces.AuthenticationRepository;

@@ -1,9 +1,9 @@
 package controllers;
 
 import authz.Email;
-import controller.AuthenticationController;
+import controller.authz.AuthenticationController;
 import controller.RegisterCustomerAndRepresentativeController;
-import controller.RegisterUserController;
+import controller.user.RegisterUserController;
 import domain.entity.Costumer;
 import domain.valueObjects.*;
 import eapli.framework.infrastructure.authz.domain.model.Name;

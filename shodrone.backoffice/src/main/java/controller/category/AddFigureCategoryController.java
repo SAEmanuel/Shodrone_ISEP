@@ -1,4 +1,4 @@
-package controller;
+package controller.category;
 
 import authz.Email;
 import domain.entity.FigureCategory;

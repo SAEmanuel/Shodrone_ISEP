@@ -3,7 +3,7 @@ package ui.authz;
 import authz.Email;
 
 import authz.Password;
-import controller.RegisterUserController;
+import controller.user.RegisterUserController;
 import utils.Utils;
 import domain.valueObjects.Name;
 

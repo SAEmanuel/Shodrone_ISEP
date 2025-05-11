@@ -1,6 +1,6 @@
 package controllers;
 
-import controller.RemoveDroneInventoryController;
+import controller.drone.RemoveDroneInventoryController;
 import domain.entity.Drone;
 import domain.entity.DroneModel;
 import domain.valueObjects.*;

@@ -1,10 +1,9 @@
-package controller;
+package controller.drone;
 
 import domain.entity.DroneModel;
 import domain.valueObjects.Description;
 import domain.valueObjects.DroneModelID;
 import domain.valueObjects.DroneName;
-import domain.valueObjects.Name;
 import persistence.RepositoryProvider;
 import persistence.interfaces.DroneModelRepository;
 

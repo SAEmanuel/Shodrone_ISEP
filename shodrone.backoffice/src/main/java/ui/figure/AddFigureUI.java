@@ -1,8 +1,8 @@
 package ui.figure;
 
-import controller.AddFigureController;
-import controller.GetFigureCategoriesController;
-import controller.ListCostumersController;
+import controller.figure.AddFigureController;
+import controller.category.GetFigureCategoriesController;
+import controller.showrequest.ListCostumersController;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;

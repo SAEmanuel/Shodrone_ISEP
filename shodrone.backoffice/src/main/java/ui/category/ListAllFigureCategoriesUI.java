@@ -1,6 +1,6 @@
 package ui.category;
 
-import controller.GetFigureCategoriesController;
+import controller.category.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
 import utils.Utils;
 

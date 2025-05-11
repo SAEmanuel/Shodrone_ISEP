@@ -1,7 +1,7 @@
 package ui.category;
 
-import controller.EditFigureCategoryController;
-import controller.GetFigureCategoriesController;
+import controller.category.EditFigureCategoryController;
+import controller.category.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;

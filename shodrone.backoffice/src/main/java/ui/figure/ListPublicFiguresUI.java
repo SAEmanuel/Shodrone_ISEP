@@ -1,6 +1,6 @@
 package ui.figure;
 
-import controller.ListPublicFiguresController;
+import controller.figure.ListPublicFiguresController;
 import domain.entity.Figure;
 import utils.Utils;
 

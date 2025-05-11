@@ -1,4 +1,4 @@
-package controller;
+package controller.drone;
 
 import domain.entity.Drone;
 import domain.valueObjects.DroneRemovalLog;

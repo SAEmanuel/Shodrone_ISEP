@@ -2,7 +2,7 @@ package ui.customer;
 
 import authz.*;
 import controller.RegisterCustomerAndRepresentativeController;
-import controller.RegisterUserController;
+import controller.user.RegisterUserController;
 import domain.valueObjects.*;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.RepositoryProvider;

@@ -1,7 +1,7 @@
 package ui.drone;
 
-import controller.GetDronesController;
-import controller.RemoveDroneInventoryController;
+import controller.drone.GetDronesController;
+import controller.drone.RemoveDroneInventoryController;
 import domain.entity.Drone;
 import domain.valueObjects.DroneRemovalLog;
 import domain.valueObjects.DroneStatus;

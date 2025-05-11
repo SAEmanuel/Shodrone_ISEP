@@ -1,4 +1,4 @@
-import controller.AuthenticationController;
+import controller.authz.AuthenticationController;
 import domain.entity.*;
 import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;

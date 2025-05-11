@@ -1,20 +1,19 @@
-package controller;
+package controller.figure;
 
 import domain.entity.Figure;
 import persistence.RepositoryProvider;
 import persistence.interfaces.FigureRepository;
 
-import java.util.List;
 import java.util.Optional;
 
-public class GetAllActiveFiguresController {
+public class DecommissionFigureController {
     private final FigureRepository repository;
 
-    public GetAllActiveFiguresController() {
+    public DecommissionFigureController() {
         repository = RepositoryProvider.figureRepository();
     }
 
-    public Optional<List<Figure>> getAllActiveFigures () {
-        return Optional.ofNullable(repository.findAllActive());
+    public Optional<Figure> editChosenFigure(Figure figure) {
+        return repository.editChosenFigure(figure);
     }
 }

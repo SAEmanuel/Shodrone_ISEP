@@ -1,4 +1,4 @@
-package controller;
+package controller.showrequest;
 
 import domain.entity.ShowRequest;
 import domain.history.HistoryLogger;

@@ -1,6 +1,6 @@
 package ui.authz;
 
-import controller.AuthenticationController;
+import controller.authz.AuthenticationController;
 import ui.menu.MenuItem;
 import ui.users.*;
 import utils.*;

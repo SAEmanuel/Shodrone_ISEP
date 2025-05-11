@@ -1,7 +1,7 @@
 package authz;
 
-import controller.AuthenticationController;
-import controller.ManageUserController;
+import controller.authz.AuthenticationController;
+import controller.user.ManageUserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;

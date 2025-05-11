@@ -1,4 +1,4 @@
-package controller;
+package controller.user;
 
 import authz.Email;
 import authz.User;

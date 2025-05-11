@@ -1,6 +1,8 @@
 package controller;
 
 import authz.Email;
+import controller.authz.AuthenticationController;
+import controller.user.RegisterUserController;
 import domain.entity.Costumer;
 import domain.entity.CustomerRepresentative;
 import domain.valueObjects.*;

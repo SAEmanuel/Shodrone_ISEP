@@ -1,6 +1,6 @@
 package ui.menu;
 
-import controller.AuthenticationController;
+import controller.authz.AuthenticationController;
 import ui.authz.RegisterUserUI;
 import utils.Utils;
 

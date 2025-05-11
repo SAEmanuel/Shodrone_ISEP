@@ -1,7 +1,7 @@
 package ui.showrequest;
 
-import controller.EditShowRequestController;
-import controller.ListShowRequestByCostumerController;
+import controller.showrequest.EditShowRequestController;
+import controller.showrequest.ListShowRequestByCostumerController;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import domain.valueObjects.Description;

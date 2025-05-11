@@ -1,6 +1,6 @@
 package ui.showrequest;
 
-import controller.RegisterShowRequestController;
+import controller.showrequest.RegisterShowRequestController;
 import domain.entity.ShowRequest;
 import utils.Utils;
 

@@ -1,6 +1,6 @@
 package controllers;
 
-import controller.CreateDroneModelController;
+import controller.drone.CreateDroneModelController;
 import domain.entity.DroneModel;
 import domain.valueObjects.Description;
 import domain.valueObjects.DroneModelID;

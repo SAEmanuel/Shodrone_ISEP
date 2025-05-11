@@ -1,4 +1,4 @@
-package controller;
+package controller.user;
 
 import java.util.List;
 import authz.Email;

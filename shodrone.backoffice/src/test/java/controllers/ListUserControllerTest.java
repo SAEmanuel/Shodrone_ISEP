@@ -1,8 +1,8 @@
 package controllers;
 
 import authz.*;
-import controller.AuthenticationController;
-import controller.ListUserController;
+import controller.authz.AuthenticationController;
+import controller.user.ListUserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.interfaces.AuthenticationRepository;

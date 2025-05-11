@@ -1,4 +1,4 @@
-package controller;
+package controller.category;
 
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
