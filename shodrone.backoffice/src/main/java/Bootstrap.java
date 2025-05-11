@@ -1,7 +1,5 @@
 import controller.AuthenticationController;
-import domain.entity.Costumer;
-import domain.entity.Figure;
-import domain.entity.FigureCategory;
+import domain.entity.*;
 import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
@@ -18,6 +16,8 @@ public class Bootstrap implements Runnable {
         addCategories();
         addCustomers();
         addFigures();
+        addDroneModels();
+        addDrones();
     }
 
     // --- User Setup -----------------------------------------------------
@@ -62,6 +62,24 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.figureRepository().save(figure3);
         RepositoryProvider.figureRepository().save(figure4);
     }
+
+    // --- Drone Model Setup ---------------------------------------------------
+    private void addDroneModels() {
+        RepositoryProvider.droneModelRepository().save(droneModel1);
+        RepositoryProvider.droneModelRepository().save(droneModel2);
+        RepositoryProvider.droneModelRepository().save(droneModel3);
+    }
+
+    // --- Drone Setup ---------------------------------------------------
+    private void addDrones() {
+        RepositoryProvider.droneRepository().save(drone1);
+        RepositoryProvider.droneRepository().save(drone2);
+        RepositoryProvider.droneRepository().save(drone3);
+        RepositoryProvider.droneRepository().save(drone4);
+        RepositoryProvider.droneRepository().save(drone5);
+    }
+
+
 
     // --- Categories -----------------------------------------------------
     private final FigureCategory category1 = new FigureCategory(
@@ -123,4 +141,53 @@ public class Bootstrap implements Runnable {
     private final Figure figure4 = new Figure("Rectangle", new Description("Rectangular figure"), (long) 1.2,
             category3, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, customer1
     );
+
+    // --- Drone Models ------------------------------------------------------
+    private final DroneModel droneModel1 = new DroneModel(
+            new DroneModelID("Mavic3Classic"),
+            new DroneName("DJI Mavic 3 Classic"),
+            new Description("Flagship drone with Hasselblad camera, 46 minutes of flight time, wind resistance up to 12 m/s."),
+            12
+    );
+
+    private final DroneModel droneModel2 = new DroneModel(
+            new DroneModelID("Mini4Pro"),
+            new DroneName("DJI Mini 4 Pro"),
+            new Description("Compact and lightweight drone with omnidirectional sensors, 31 minutes of flight, ideal for creators on the move."),
+            10
+    );
+
+    private final DroneModel droneModel3 = new DroneModel(
+            new DroneModelID("Air3"),
+            new DroneName("DJI Air 3"),
+            new Description("Dual-camera system with 48MP photos, 46 minutes of flight, transmission range up to 20 km."),
+            15
+    );
+
+    // --- Drones -----------------------------------------------------------
+    private final Drone drone1 = new Drone(
+            new SerialNumber("SN-00001"),
+            droneModel1
+    );
+
+    private final Drone drone2 = new Drone(
+            new SerialNumber("SN-00002"),
+            droneModel2
+    );
+
+    private final Drone drone3 = new Drone(
+            new SerialNumber("SN-00003"),
+            droneModel3
+    );
+
+    private final Drone drone4 = new Drone(
+            new SerialNumber("SN-00004"),
+            droneModel1
+    );
+
+    private final Drone drone5 = new Drone(
+            new SerialNumber("SN-00005"),
+            droneModel2
+    );
+
 }
