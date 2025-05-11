@@ -196,6 +196,10 @@ public class RepositoryProvider {
         figureCategoryRepository = mockRepo;
     }
 
+    public static void injectFigureRepository(FigureRepository mockRepo) {
+        figureRepository = mockRepo;
+    }
+
     /**
      * Dependency injection for the authentication repository (for testing purposes).
      *
