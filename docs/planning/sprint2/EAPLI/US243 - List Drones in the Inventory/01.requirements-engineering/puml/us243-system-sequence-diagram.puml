@@ -17,17 +17,54 @@ activate System
 System --> DT: droneModelsList
 deactivate System
 
-DT -> System: requestListDrones(selectedDroneModelId)
-activate System
+alt droneModelsList is empty
+    DT -> System: receiveError("No drone models in the system yet...")
+    deactivate System
+    deactivate DT
+else
+    DT -> System: selectMethod()
+    activate System
+    System --> DT: methodOption
+    deactivate System
 
-System -> System: fetchAllDrones()
-System -> System: filterByDroneModel(selectedDroneModelId)
-System -> System: filterByStatus(available)
-System -> System: excludeRemovedDrones()
-System -> System: sortDronesBySerialNumber()
-System -> DT: displayDrones(listOfDrones)
+    alt option is "Select a Drone Model"
+        DT -> System: selectDroneModel()
+        activate System
+        System --> DT: chosenModel
+        deactivate System
 
-deactivate System
+    else option is "Enter a Drone Model"
+        DT -> System: provideModelID()
+        activate System
+        System -> System: fetchDroneModelByID(modelID)
+        alt model not found
+            System --> DT: errorMessage("No drone model with that ID found in the system!")
+            deactivate System
+        else model found
+            System --> DT: showDroneModelDetails()
+            activate System
+            DT -> System: confirmSelection()
+            alt confirmed
+                System --> DT: chosenModel
+            else
+                note right : loops back to provideModelID
+            end
+            deactivate System
+        end
+        deactivate System
+    end
+
+    DT -> System: requestDronesByModel(chosenModel)
+    activate System
+    System -> System: fetchDronesByModel(chosenModel)
+    alt no drones found
+        System --> DT: errorMessage("There are no drones of this model available in the system.")
+    else drones found
+        System --> DT: displayDronesList(dronesList)
+    end
+    deactivate System
+end
+
 deactivate DT
 
 @enduml
