@@ -46,7 +46,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
     @XmlElement
     @JsonProperty
     @Column(nullable = false)
-    private int maxWindSpeed;
+    private double maxWindSpeed;
 
     /**
      * Default constructor required for JPA.
@@ -64,7 +64,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
      * @param maxWindSpeed the maximum wind speed the drone model can handle (in m/s)
      * @return void
      */
-    public DroneModel(DroneModelID droneModelID, DroneName droneName, Description description, int maxWindSpeed) {
+    public DroneModel(DroneModelID droneModelID, DroneName droneName, Description description, double maxWindSpeed) {
         try {
             Preconditions.nonEmpty(droneModelID.getModelID());
             Preconditions.nonEmpty(droneName.name());
@@ -91,7 +91,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
      * @param maxWindSpeed the maximum wind speed the drone model can handle (in m/s)
      * @return void
      */
-    public DroneModel(DroneModelID droneModelID, DroneName droneName, int maxWindSpeed) {
+    public DroneModel(DroneModelID droneModelID, DroneName droneName, double maxWindSpeed) {
         try {
             Preconditions.nonEmpty(droneModelID.getModelID());
             Preconditions.nonEmpty(droneName.name());
@@ -194,7 +194,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
      *
      * @return the maximum wind speed (in m/s)
      */
-    public int maxWindSpeed() {
+    public double maxWindSpeed() {
         return this.maxWindSpeed;
     }
 
@@ -267,7 +267,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
         String descTrunc = truncate(description.toString(), DESC_LIMIT);
 
         return String.format(
-                "%s%s%-2s%s: %s%-20s%s | %s%s%-4s%s: %s%-25s%s | %s%s%-11s%s: %s%-35s%s | %s%s%-8s%s: %s%3dm/s%s",
+                "%s%s%-2s%s: %s%-20s%s | %s%s%-4s%s: %s%-25s%s | %s%s%-11s%s: %s%-35s%s | %s%s%-8s%s: %s%3.2f m/s%s",
                 ANSI_ORANGE, ANSI_BOLD, "ID", ANSI_RESET, ANSI_BRIGHT_WHITE, idTrunc, ANSI_RESET,
                 ANSI_ORANGE, ANSI_BOLD, "Name", ANSI_RESET, ANSI_BRIGHT_WHITE, nameTrunc, ANSI_RESET,
                 ANSI_ORANGE, ANSI_BOLD, "Description", ANSI_RESET, ANSI_BRIGHT_WHITE, descTrunc, ANSI_RESET,

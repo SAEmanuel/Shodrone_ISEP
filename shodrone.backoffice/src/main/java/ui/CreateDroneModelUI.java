@@ -53,7 +53,7 @@ public class CreateDroneModelUI implements Runnable {
 
         Utils.printCenteredSubtitleV2("Operational Wind Limit");
         Utils.showMaxWindRule();
-        int maxWindSpeed = Utils.readPositiveIntegerFromConsole("Enter the operational wind limit " + ANSI_ORANGE + "(in m/s)" + ANSI_RESET);
+        double maxWindSpeed = Utils.readDoubleFromConsole("Enter the operational wind limit " + ANSI_ORANGE + "(in m/s)" + ANSI_RESET);
 
         if (hasDescription) {
             result = controller.createDroneModelWithDescription(modelID, name, description, maxWindSpeed);

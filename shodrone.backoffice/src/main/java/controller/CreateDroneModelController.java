@@ -38,7 +38,7 @@ public class CreateDroneModelController {
      * @param maxWindSpeed the maximum wind speed the drone model can handle (in m/s)
      * @return an Optional containing the created DroneModel, or empty if the ID already exists
      */
-    public Optional<DroneModel> createDroneModelWithDescription(DroneModelID droneModelID, DroneName name, Description description, int maxWindSpeed) {
+    public Optional<DroneModel> createDroneModelWithDescription(DroneModelID droneModelID, DroneName name, Description description, double maxWindSpeed) {
         DroneModel model = new DroneModel(droneModelID, name, description, maxWindSpeed);
         return repository.save(model);
     }
@@ -51,7 +51,7 @@ public class CreateDroneModelController {
      * @param maxWindSpeed the maximum wind speed the drone model can handle (in m/s)
      * @return an Optional containing the created DroneModel, or empty if the ID already exists
      */
-    public Optional<DroneModel> createDroneModelNoDescription(DroneModelID droneModelID, DroneName name, int maxWindSpeed) {
+    public Optional<DroneModel> createDroneModelNoDescription(DroneModelID droneModelID, DroneName name, double maxWindSpeed) {
         DroneModel model = new DroneModel(droneModelID, name, maxWindSpeed);
         return repository.save(model);
     }

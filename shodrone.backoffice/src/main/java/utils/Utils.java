@@ -213,6 +213,7 @@ public class Utils {
                 return Double.parseDouble(input);
             } catch (NumberFormatException ex) {
                 printAlterMessage("Invalid number. Please enter a valid decimal number.");
+                Utils.dropLines(1);
             }
         } while (true);
     }
