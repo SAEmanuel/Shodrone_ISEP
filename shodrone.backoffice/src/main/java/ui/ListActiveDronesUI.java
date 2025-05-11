@@ -4,7 +4,6 @@ import controller.GetDroneModelsController;
 import controller.GetDronesController;
 import domain.entity.Drone;
 import domain.entity.DroneModel;
-import domain.valueObjects.DroneStatus;
 import utils.Utils;
 
 import java.util.List;

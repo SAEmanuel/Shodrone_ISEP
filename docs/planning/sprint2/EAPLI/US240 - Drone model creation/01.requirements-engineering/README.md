@@ -42,6 +42,9 @@ As a Drone Tech, I want to create a drone model in the system, including its beh
 **Input Data:**
 - Drone model identifier (unique, case-sensitive string, e.g., "DJI-Mavic-Pro").
 - Wind tolerance data (step-based mapping of wind speed to positional deviation for x, y, z directions, e.g., {wind <= 5 m/s: 0 m, 5 < wind <= 7 m/s: 0.3 m, ..., wind > 15 m/s: not safe}).
+- Drone name
+- Drone description
+- Max Wind Speed
 
 **Output Data:**
 - Confirmation of successful creation (success message and drone model details, e.g., identifier and wind tolerance summary).
