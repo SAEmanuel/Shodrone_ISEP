@@ -7,9 +7,15 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * UI for listing all figure categories in the system.
+ */
 public class ListAllFigureCategoriesUI implements Runnable {
     private final GetFigureCategoriesController controller = new GetFigureCategoriesController();
 
+    /**
+     * Runs the UI flow to display all figure categories.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("All Figure Categories");
@@ -23,7 +29,5 @@ public class ListAllFigureCategoriesUI implements Runnable {
             List<FigureCategory> allCategories = allFigureCategoriesOptional.get();
             Utils.showListPartially(allCategories, "");
         }
-
-
     }
 }
