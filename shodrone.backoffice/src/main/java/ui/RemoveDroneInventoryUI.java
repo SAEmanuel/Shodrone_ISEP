@@ -22,36 +22,38 @@ public class RemoveDroneInventoryUI implements Runnable {
      */
     @Override
     public void run() {
-        Utils.printDroneCenteredTitle("Remove Drone from Inventory");
+        try {
+            Utils.printDroneCenteredTitle("Remove Drone from Inventory");
 
-        Optional<List<Drone>> dronesOptional = getDronesController.getAllDrones();
+            Optional<List<Drone>> dronesOptional = getDronesController.getAllDrones();
 
-        if (dronesOptional.isEmpty()) {
-            Utils.printFailMessage("No drones in the system yet...");
-            return;
-        }
+            if (dronesOptional.isEmpty()) {
+                Utils.printFailMessage("No drones in the system yet...");
+                return;
+            }
 
-        Utils.printCenteredSubtitleV2("Drone Serial Number");
-        Utils.showDroneSerialNumberFormat();
-        Optional<Drone> selectedDrone = askForSerialNumber();
+            Utils.printCenteredSubtitleV2("Drone Serial Number");
+            Utils.showDroneSerialNumberFormat();
+            Optional<Drone> selectedDrone = askForSerialNumber();
 
-        if (selectedDrone.isEmpty()) {
-            return;
-        }
+            if (selectedDrone.isEmpty()) {
+                return;
+            }
 
-        Utils.printCenteredSubtitleV2("Removal Reason");
-        Utils.showDroneRemovalRules();
-        DroneRemovalLog log = Utils.rePromptWhileInvalid("Enter removal justification: ", DroneRemovalLog::new);
+            Utils.printCenteredSubtitleV2("Removal Reason");
+            Utils.showDroneRemovalRules();
+            DroneRemovalLog log = Utils.rePromptWhileInvalid("Enter removal justification: ", DroneRemovalLog::new);
 
-        Optional<Drone> removedDrone = controller.removeDrone(selectedDrone.get(), log);
+            Optional<Drone> removedDrone = controller.removeDrone(selectedDrone.get(), log);
 
-        Utils.dropLines(1);
+            Utils.dropLines(1);
 
-        if (removedDrone.isEmpty()) {
-            Utils.printFailMessage("Removal failed!");
-        } else {
-            Utils.printSuccessMessage("Drone removed successfully!");
-        }
+            if (removedDrone.isEmpty()) {
+                Utils.printFailMessage("Removal failed!");
+            } else {
+                Utils.printSuccessMessage("Drone removed successfully!");
+            }
+        } catch (RuntimeException ignored) {}
     }
 
     /**
