@@ -46,6 +46,23 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.figureCategoryRepository().save(category1);
         RepositoryProvider.figureCategoryRepository().save(category2);
         RepositoryProvider.figureCategoryRepository().save(category3);
+        RepositoryProvider.figureCategoryRepository().save(category4);
+        RepositoryProvider.figureCategoryRepository().save(category5);
+        RepositoryProvider.figureCategoryRepository().save(category6);
+        RepositoryProvider.figureCategoryRepository().save(category7);
+        RepositoryProvider.figureCategoryRepository().save(category8);
+        RepositoryProvider.figureCategoryRepository().save(category9);
+        RepositoryProvider.figureCategoryRepository().save(category10);
+        RepositoryProvider.figureCategoryRepository().save(category11);
+        RepositoryProvider.figureCategoryRepository().save(category12);
+        RepositoryProvider.figureCategoryRepository().save(category13);
+        RepositoryProvider.figureCategoryRepository().save(category14);
+        RepositoryProvider.figureCategoryRepository().save(category15);
+        RepositoryProvider.figureCategoryRepository().save(category16);
+        RepositoryProvider.figureCategoryRepository().save(category17);
+        RepositoryProvider.figureCategoryRepository().save(category18);
+        RepositoryProvider.figureCategoryRepository().save(category19);
+        RepositoryProvider.figureCategoryRepository().save(category20);
     }
 
     // --- Customer Setup -------------------------------------------------
@@ -61,6 +78,52 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.figureRepository().save(figure2);
         RepositoryProvider.figureRepository().save(figure3);
         RepositoryProvider.figureRepository().save(figure4);
+        RepositoryProvider.figureRepository().save(figure5);
+        RepositoryProvider.figureRepository().save(figure6);
+        RepositoryProvider.figureRepository().save(figure7);
+        RepositoryProvider.figureRepository().save(figure8);
+        RepositoryProvider.figureRepository().save(figure9);
+        RepositoryProvider.figureRepository().save(figure10);
+        RepositoryProvider.figureRepository().save(figure11);
+        RepositoryProvider.figureRepository().save(figure12);
+        RepositoryProvider.figureRepository().save(figure13);
+        RepositoryProvider.figureRepository().save(figure14);
+        RepositoryProvider.figureRepository().save(figure15);
+        RepositoryProvider.figureRepository().save(figure16);
+        RepositoryProvider.figureRepository().save(figure17);
+        RepositoryProvider.figureRepository().save(figure18);
+        RepositoryProvider.figureRepository().save(figure19);
+        RepositoryProvider.figureRepository().save(figure20);
+        RepositoryProvider.figureRepository().save(figure21);
+        RepositoryProvider.figureRepository().save(figure22);
+        RepositoryProvider.figureRepository().save(figure23);
+        RepositoryProvider.figureRepository().save(figure24);
+        RepositoryProvider.figureRepository().save(figure25);
+        RepositoryProvider.figureRepository().save(figure26);
+        RepositoryProvider.figureRepository().save(figure27);
+        RepositoryProvider.figureRepository().save(figure28);
+        RepositoryProvider.figureRepository().save(figure29);
+        RepositoryProvider.figureRepository().save(figure30);
+        RepositoryProvider.figureRepository().save(figure31);
+        RepositoryProvider.figureRepository().save(figure32);
+        RepositoryProvider.figureRepository().save(figure33);
+        RepositoryProvider.figureRepository().save(figure34);
+        RepositoryProvider.figureRepository().save(figure35);
+        RepositoryProvider.figureRepository().save(figure36);
+        RepositoryProvider.figureRepository().save(figure37);
+        RepositoryProvider.figureRepository().save(figure38);
+        RepositoryProvider.figureRepository().save(figure39);
+        RepositoryProvider.figureRepository().save(figure40);
+        RepositoryProvider.figureRepository().save(figure41);
+        RepositoryProvider.figureRepository().save(figure42);
+        RepositoryProvider.figureRepository().save(figure43);
+        RepositoryProvider.figureRepository().save(figure44);
+        RepositoryProvider.figureRepository().save(figure45);
+        RepositoryProvider.figureRepository().save(figure46);
+        RepositoryProvider.figureRepository().save(figure47);
+        RepositoryProvider.figureRepository().save(figure48);
+        RepositoryProvider.figureRepository().save(figure49);
+        RepositoryProvider.figureRepository().save(figure50);
     }
 
     // --- Drone Model Setup ---------------------------------------------------
@@ -68,6 +131,8 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.droneModelRepository().save(droneModel1);
         RepositoryProvider.droneModelRepository().save(droneModel2);
         RepositoryProvider.droneModelRepository().save(droneModel3);
+        RepositoryProvider.droneModelRepository().save(droneModel4);
+        RepositoryProvider.droneModelRepository().save(droneModel5);
     }
 
     // --- Drone Setup ---------------------------------------------------
@@ -77,28 +142,46 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.droneRepository().save(drone3);
         RepositoryProvider.droneRepository().save(drone4);
         RepositoryProvider.droneRepository().save(drone5);
+        RepositoryProvider.droneRepository().save(drone6);
+        RepositoryProvider.droneRepository().save(drone7);
+        RepositoryProvider.droneRepository().save(drone8);
+        RepositoryProvider.droneRepository().save(drone9);
+        RepositoryProvider.droneRepository().save(drone10);
+        RepositoryProvider.droneRepository().save(drone11);
+        RepositoryProvider.droneRepository().save(drone12);
+        RepositoryProvider.droneRepository().save(drone13);
+        RepositoryProvider.droneRepository().save(drone14);
+        RepositoryProvider.droneRepository().save(drone15);
+        RepositoryProvider.droneRepository().save(drone16);
+        RepositoryProvider.droneRepository().save(drone17);
+        RepositoryProvider.droneRepository().save(drone18);
+        RepositoryProvider.droneRepository().save(drone19);
+        RepositoryProvider.droneRepository().save(drone20);
     }
 
 
 
     // --- Categories -----------------------------------------------------
-    private final FigureCategory category1 = new FigureCategory(
-            new domain.valueObjects.Name("Geometry"),
-            new Description("Common geometric shapes"),
-            new Email("show_designer@shodrone.app")
-    );
-
-    private final FigureCategory category2 = new FigureCategory(
-            new domain.valueObjects.Name("Aviation"),
-            new Description("Aircraft-related models"),
-            new Email("show_designer@shodrone.app")
-    );
-
-    private final FigureCategory category3 = new FigureCategory(
-            new domain.valueObjects.Name("Miscellaneous"),
-            new Description("Other varied models"),
-            new Email("show_designer@shodrone.app")
-    );
+    private final FigureCategory category1 = new FigureCategory(new domain.valueObjects.Name("Geometry"), new Description("Geometric shapes"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category2 = new FigureCategory(new domain.valueObjects.Name("Aviation"), new Description("Aircraft and flying objects"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category3 = new FigureCategory(new domain.valueObjects.Name("Nature"), new Description("Natural elements and landscapes"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category4 = new FigureCategory(new domain.valueObjects.Name("Technology"), new Description("Tech and gadgets"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category5 = new FigureCategory(new domain.valueObjects.Name("Abstract"), new Description("Abstract forms"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category6 = new FigureCategory(new domain.valueObjects.Name("Animals"), new Description("Animal shapes"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category7 = new FigureCategory(new domain.valueObjects.Name("Music"), new Description("Musical symbols and instruments"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category8 = new FigureCategory(new domain.valueObjects.Name("Sports"), new Description("Sports-related figures"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category9 = new FigureCategory(new domain.valueObjects.Name("Space"), new Description("Space and astronomy"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category10 = new FigureCategory(new domain.valueObjects.Name("Transport"), new Description("Vehicles and means of transport"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category11 = new FigureCategory(new domain.valueObjects.Name("Food"), new Description("Food and drink"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category12 = new FigureCategory(new domain.valueObjects.Name("People"), new Description("Human figures and actions"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category13 = new FigureCategory(new domain.valueObjects.Name("Buildings"), new Description("Buildings and architecture"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category14 = new FigureCategory(new domain.valueObjects.Name("Symbols"), new Description("Common symbols"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category15 = new FigureCategory(new domain.valueObjects.Name("Weather"), new Description("Weather phenomena"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category16 = new FigureCategory(new domain.valueObjects.Name("Plants"), new Description("Plant life"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category17 = new FigureCategory(new domain.valueObjects.Name("Fantasy"), new Description("Fantasy and mythical creatures"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category18 = new FigureCategory(new domain.valueObjects.Name("Holiday"), new Description("Holiday and festive shapes"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category19 = new FigureCategory(new domain.valueObjects.Name("Ocean"), new Description("Sea and ocean life"), new Email("show_designer@shodrone.app"));
+    private final FigureCategory category20 = new FigureCategory(new domain.valueObjects.Name("Emojis"), new Description("Emoji-inspired figures"), new Email("show_designer@shodrone.app"));
 
     // --- Customers ------------------------------------------------------
     private final Costumer customer1 = new Costumer(
@@ -126,21 +209,60 @@ public class Bootstrap implements Runnable {
     );
 
     // --- Figures --------------------------------------------------------
-    private final Figure figure1 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2
-    );
+    private final Figure figure1 = new Figure("Circle", new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure2 = new Figure("Airplane", new Description("A fixed-wing flying vehicle"), 2L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure3 = new Figure("Tree", new Description("A tall plant with a trunk"), 3L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure4 = new Figure("Robot", new Description("A programmable machine"), 4L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure5 = new Figure("Spiral", new Description("A curve that winds around a center point"), 5L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure6 = new Figure("Cat", new Description("A domestic feline animal"), 6L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure7 = new Figure("Guitar", new Description("A stringed musical instrument"), 7L, category7, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure8 = new Figure("Football", new Description("A classic soccer ball"), 8L, category8, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure9 = new Figure("Rocket", new Description("A vehicle propelled by rocket engines"), 9L, category9, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure10 = new Figure("Car", new Description("A four-wheeled motor vehicle"), 10L, category10, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure11 = new Figure("Pizza", new Description("A slice of Italian pizza"), 11L, category11, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure12 = new Figure("Runner", new Description("A person running"), 12L, category12, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure13 = new Figure("House", new Description("A simple house with a roof"), 13L, category13, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure14 = new Figure("Heart", new Description("A classic symbol of love"), 14L, category14, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure15 = new Figure("Cloud", new Description("A visible mass of condensed water vapor"), 15L, category15, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure16 = new Figure("Flower", new Description("A colorful part of a plant"), 16L, category16, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure17 = new Figure("Dragon", new Description("A mythical fire-breathing creature"), 17L, category17, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure18 = new Figure("Christmas Tree", new Description("A decorated pine for Christmas"), 18L, category18, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure19 = new Figure("Fish", new Description("A typical sea fish"), 19L, category19, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure20 = new Figure("Smiley", new Description("A classic smiling emoji face"), 20L, category20, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
 
-    private final Figure figure2 = new Figure("Circle", new Description("Circular figure"), (long) 1.2,
-            category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer1
-    );
 
-    private final Figure figure3 = new Figure("Square", new Description("Square figure"), (long) 1.2,
-            category1, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer1
-    );
+    private final Figure figure21 = new Figure("Square", new Description("A figure with four equal sides"), 21L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure22 = new Figure("Helicopter", new Description("A rotary-wing aircraft"), 22L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure23 = new Figure("Mountain", new Description("A large natural elevation"), 23L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure24 = new Figure("Laptop", new Description("A portable personal computer"), 24L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure25 = new Figure("Wave", new Description("A smooth, repetitive oscillation"), 25L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure26 = new Figure("Dog", new Description("A loyal canine companion"), 26L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure27 = new Figure("Piano", new Description("A large keyboard instrument"), 27L, category7, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure28 = new Figure("Basketball", new Description("An orange basketball"), 28L, category8, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure29 = new Figure("Planet", new Description("A planet with rings"), 29L, category9, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure30 = new Figure("Bicycle", new Description("A two-wheeled vehicle"), 30L, category10, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure31 = new Figure("Burger", new Description("A hamburger with cheese"), 31L, category11, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure32 = new Figure("Dancer", new Description("A person dancing"), 32L, category12, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure33 = new Figure("Skyscraper", new Description("A tall city building"), 33L, category13, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure34 = new Figure("Star", new Description("A five-pointed geometric figure"), 34L, category14, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure35 = new Figure("Rain", new Description("Water falling from clouds"), 35L, category15, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure36 = new Figure("Leaf", new Description("A flat green plant part"), 36L, category16, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure37 = new Figure("Unicorn", new Description("A mythical horse with a horn"), 37L, category17, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure38 = new Figure("Pumpkin", new Description("A carved Halloween pumpkin"), 38L, category18, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure39 = new Figure("Octopus", new Description("A sea animal with eight arms"), 39L, category19, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure40 = new Figure("Winking Face", new Description("An emoji with a wink"), 40L, category20, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
 
-    private final Figure figure4 = new Figure("Rectangle", new Description("Rectangular figure"), (long) 1.2,
-            category3, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, customer1
-    );
+    private final Figure figure41 = new Figure("Triangle", new Description("A three-sided polygon"), 41L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure42 = new Figure("Glider", new Description("An engineless aircraft"), 42L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure43 = new Figure("River", new Description("A large natural stream of water"), 43L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure44 = new Figure("Smartphone", new Description("A handheld communication device"), 44L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure45 = new Figure("Diamond", new Description("A rhombus-shaped figure"), 45L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure46 = new Figure("Horse", new Description("A strong animal used for riding"), 46L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure47 = new Figure("Violin", new Description("A bowed string instrument"), 47L, category7, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure48 = new Figure("Tennis Ball", new Description("A green tennis ball"), 48L, category8, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure49 = new Figure("Astronaut", new Description("A human in a space suit"), 49L, category9, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure50 = new Figure("Train", new Description("A railway vehicle"), 50L, category10, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+
 
     // --- Drone Models ------------------------------------------------------
     private final DroneModel droneModel1 = new DroneModel(
@@ -149,45 +271,51 @@ public class Bootstrap implements Runnable {
             new Description("Flagship drone with Hasselblad camera, 46 minutes of flight time, wind resistance up to 12 m/s."),
             12
     );
-
     private final DroneModel droneModel2 = new DroneModel(
             new DroneModelID("Mini4Pro"),
             new DroneName("DJI Mini 4 Pro"),
             new Description("Compact and lightweight drone with omnidirectional sensors, 31 minutes of flight, ideal for creators on the move."),
             10
     );
-
     private final DroneModel droneModel3 = new DroneModel(
             new DroneModelID("Air3"),
             new DroneName("DJI Air 3"),
             new Description("Dual-camera system with 48MP photos, 46 minutes of flight, transmission range up to 20 km."),
             15
     );
+    private final DroneModel droneModel4 = new DroneModel(
+            new DroneModelID("Phantom4Pro"),
+            new DroneName("DJI Phantom 4 Pro"),
+            new Description("Professional drone with mechanical shutter, 30 minutes of flight, wind resistance up to 10 m/s."),
+            10
+    );
+    private final DroneModel droneModel5 = new DroneModel(
+            new DroneModelID("Shahed136"),
+            new DroneName("Shahed 136"),
+            new Description("Iranian loitering munition drone, used in military operations, long range and endurance."),
+            20
+    );
 
     // --- Drones -----------------------------------------------------------
-    private final Drone drone1 = new Drone(
-            new SerialNumber("SN-00001"),
-            droneModel1
-    );
-
-    private final Drone drone2 = new Drone(
-            new SerialNumber("SN-00002"),
-            droneModel2
-    );
-
-    private final Drone drone3 = new Drone(
-            new SerialNumber("SN-00003"),
-            droneModel3
-    );
-
-    private final Drone drone4 = new Drone(
-            new SerialNumber("SN-00004"),
-            droneModel1
-    );
-
-    private final Drone drone5 = new Drone(
-            new SerialNumber("SN-00005"),
-            droneModel2
-    );
+    private final Drone drone1 = new Drone(new SerialNumber("SN-00001"), droneModel1);
+    private final Drone drone2 = new Drone(new SerialNumber("SN-00002"), droneModel1);
+    private final Drone drone3 = new Drone(new SerialNumber("SN-00003"), droneModel1);
+    private final Drone drone4 = new Drone(new SerialNumber("SN-00004"), droneModel1);
+    private final Drone drone5 = new Drone(new SerialNumber("SN-00005"), droneModel2);
+    private final Drone drone6 = new Drone(new SerialNumber("SN-00006"), droneModel2);
+    private final Drone drone7 = new Drone(new SerialNumber("SN-00007"), droneModel2);
+    private final Drone drone8 = new Drone(new SerialNumber("SN-00008"), droneModel2);
+    private final Drone drone9 = new Drone(new SerialNumber("SN-00009"), droneModel3);
+    private final Drone drone10 = new Drone(new SerialNumber("SN-00010"), droneModel3);
+    private final Drone drone11 = new Drone(new SerialNumber("SN-00011"), droneModel3);
+    private final Drone drone12 = new Drone(new SerialNumber("SN-00012"), droneModel3);
+    private final Drone drone13 = new Drone(new SerialNumber("SN-00013"), droneModel4);
+    private final Drone drone14 = new Drone(new SerialNumber("SN-00014"), droneModel4);
+    private final Drone drone15 = new Drone(new SerialNumber("SN-00015"), droneModel4);
+    private final Drone drone16 = new Drone(new SerialNumber("SN-00016"), droneModel4);
+    private final Drone drone17 = new Drone(new SerialNumber("SN-00017"), droneModel5);
+    private final Drone drone18 = new Drone(new SerialNumber("SN-00018"), droneModel5);
+    private final Drone drone19 = new Drone(new SerialNumber("SN-00019"), droneModel5);
+    private final Drone drone20 = new Drone(new SerialNumber("SN-00020"), droneModel5);
 
 }

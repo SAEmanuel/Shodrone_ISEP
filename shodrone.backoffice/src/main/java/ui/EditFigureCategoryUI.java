@@ -16,6 +16,7 @@ public class EditFigureCategoryUI implements Runnable {
 
     private final EditFigureCategoryController editFigureCategoryController = new EditFigureCategoryController();
     private final GetFigureCategoriesController getFigureCategoriesController = new GetFigureCategoriesController();
+    private static final int EXIT = -1;
 
     @Override
     public void run() {
@@ -26,8 +27,8 @@ public class EditFigureCategoryUI implements Runnable {
             Utils.printCenteredSubtitleV2("Figure Category selection");
             int index = Utils.showAndSelectIndexPartially(activeCategoriesOptional.get(), "Select the desired category to edit");
 
-            if (index < 0) {
-                Utils.printFailMessage("No category selected.");
+            if (index == EXIT) {
+                Utils.printFailMessage("No category selected...");
                 return;
             }
 

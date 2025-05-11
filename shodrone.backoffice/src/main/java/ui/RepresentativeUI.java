@@ -24,7 +24,7 @@ public class RepresentativeUI implements Runnable {
 
         int option = 0;
         do {
-            String menu = "\n╔═════════"+ANSI_BRIGHT_WHITE+" REPRESENTATIVE MENU "+ANSI_RESET+"══════════╗";
+            String menu = "\n╔═════════" + ANSI_BRIGHT_WHITE + " REPRESENTATIVE MENU " + ANSI_RESET + "══════════╗";
             option = Utils.showAndSelectIndex(options, menu);
 
             if ((option >= 0) && (option < options.size())) {

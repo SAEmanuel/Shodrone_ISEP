@@ -12,6 +12,7 @@ public class ChangeFigureCategoryStatusUI implements Runnable {
 
     private final GetFigureCategoriesController getFigureCategoriesController = new GetFigureCategoriesController();
     private final ChangeFigureCategoryStatusController changeFigureCategoryStatusController = new ChangeFigureCategoryStatusController();
+    private static final int EXIT = -1;
 
 
     @Override
@@ -27,13 +28,18 @@ public class ChangeFigureCategoryStatusUI implements Runnable {
             Utils.printAlterMessage("The current status will change when selected");
             int index = Utils.showAndSelectIndexPartially(categoriesOptional.get(), "Select the desired category to enable/disable");
 
-            FigureCategory selectedCategory = categoriesOptional.get().get(index);
-            Optional<FigureCategory> optionalCategory = changeFigureCategoryStatusController.changeStatus(selectedCategory);
+            if (index != EXIT) {
+                FigureCategory selectedCategory = categoriesOptional.get().get(index);
+                Optional<FigureCategory> optionalCategory = changeFigureCategoryStatusController.changeStatus(selectedCategory);
 
-            if (optionalCategory.isEmpty()) {
-                Utils.printFailMessage("Failed to change category status");
+                if (optionalCategory.isEmpty()) {
+                    Utils.printFailMessage("Failed to change category status");
+                } else {
+                    Utils.printSuccessMessage("Category status changed");
+                }
+
             } else {
-                Utils.printSuccessMessage("Category status changed");
+                Utils.printFailMessage("Operation canceled...");
             }
 
         }

@@ -26,7 +26,6 @@ public class ShowDesignerUI implements Runnable {
         options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
         options.add(new MenuItem("Add Figures", new AddFigureUI()) );
         options.add(new MenuItem("Decommission Figure", new DecommissionFigureUI()) );
-        options.add(new MenuItem("Option x", new ShowTextUI("You have chosen Option x.")));
 
         int option = 0;
         do {
