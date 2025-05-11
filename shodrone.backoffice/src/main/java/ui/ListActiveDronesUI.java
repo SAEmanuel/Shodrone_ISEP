@@ -9,14 +9,29 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * A user interface class responsible for listing active drones in the inventory.
+ */
 public class ListActiveDronesUI implements Runnable {
 
+    /**
+     * The controller for retrieving drones.
+     */
     private final GetDronesController controller = new GetDronesController();
+
+    /**
+     * The controller for retrieving drone models.
+     */
     private final GetDroneModelsController getModelController = new GetDroneModelsController();
 
+    /**
+     * Executes the process of listing active drones in the inventory.
+     *
+     * @return void
+     */
+    @Override
     public void run() {
         try {
-
             Utils.printDroneCenteredTitle("List Drones in the Inventory");
 
             Optional<List<DroneModel>> droneModelsOptional = getModelController.getAllModels();
@@ -32,26 +47,40 @@ public class ListActiveDronesUI implements Runnable {
 
             if (option == 0) {
                 dronesOptional = showListDroneModel(droneModelsOptional.get());
-
             } else {
                 dronesOptional = enterDroneModel();
             }
 
             showResultMessage(dronesOptional);
 
-        }catch (RuntimeException ignored) {}
+        } catch (RuntimeException ignored) {}
     }
 
-
+    /**
+     * Displays a menu to select the method for listing drones.
+     *
+     * @return the selected option as an integer
+     */
     private int showSelectionMethodMenu() {
         return Utils.showSelectionMethodMenu(List.of("Select a Drone Model", "Enter a Drone Model"));
     }
 
+    /**
+     * Lists drones by selecting a drone model from a list.
+     *
+     * @param droneModelsOptional the list of available drone models
+     * @return an Optional containing a list of matching drones, or empty if none found
+     */
     private Optional<List<Drone>> showListDroneModel(List<DroneModel> droneModelsOptional) {
         int modelIndex = Utils.selectDroneModelIndex(droneModelsOptional);
-        return controller.getDroneByModel(droneModelsOptional.get(modelIndex)) ;
+        return controller.getDroneByModel(droneModelsOptional.get(modelIndex));
     }
 
+    /**
+     * Lists drones by manually entering a drone model ID.
+     *
+     * @return an Optional containing a list of matching drones, or empty if none found
+     */
     private Optional<List<Drone>> enterDroneModel() {
         Utils.printCenteredSubtitleV2("Drone Model");
         Utils.showModelIDRules();
@@ -60,6 +89,11 @@ public class ListActiveDronesUI implements Runnable {
         return controller.getDroneByModel(dronesModelOptional.get());
     }
 
+    /**
+     * Prompts the user for a drone model ID and retrieves the corresponding model.
+     *
+     * @return an Optional containing the selected drone model, or empty if not found
+     */
     private Optional<DroneModel> askDroneModel() {
         while (true) {
             String modelID = Utils.readLineFromConsole("Enter the Drone Model");
@@ -80,6 +114,12 @@ public class ListActiveDronesUI implements Runnable {
         }
     }
 
+    /**
+     * Displays the result message based on the list of active drones.
+     *
+     * @param result the Optional containing the list of active drones, or empty if none found
+     * @return void
+     */
     private void showResultMessage(Optional<List<Drone>> result) {
         System.out.println();
 
