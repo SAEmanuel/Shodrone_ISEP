@@ -10,18 +10,33 @@ import utils.AuthUtils;
 
 import java.util.*;
 
+/**
+ * In-memory implementation of the FigureCategoryRepository.
+ * Supports creation, editing, status change, and auditing of figure categories.
+ */
 public class InMemoryFigureCategoryRepository implements FigureCategoryRepository {
     private final Map<String, FigureCategory> store = new HashMap<>();
     private final AuditLoggerService auditLoggerService;
     private static final Set<String> AUDIT_FIELDS_CHANGE = Set.of("name", "description", "available");
     private static final Set<String> AUDIT_FIELDS_CREATION = Set.of("name", "description");
 
+    /**
+     * Constructs the repository with the given audit logger service.
+     *
+     * @param auditLoggerService the service used for auditing changes
+     */
     public InMemoryFigureCategoryRepository(AuditLoggerService auditLoggerService) {
         super();
         this.auditLoggerService = auditLoggerService;
     }
 
-
+    /**
+     * Saves a new figure category if it does not already exist.
+     * Audits the creation event.
+     *
+     * @param category the category to save
+     * @return an Optional containing the saved category, or empty if it already exists
+     */
     @Override
     public Optional<FigureCategory> save(FigureCategory category) {
         String key = category.identity().toLowerCase();
@@ -34,11 +49,22 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         }
     }
 
+    /**
+     * Finds a figure category by its name (case-insensitive).
+     *
+     * @param name the name to search for
+     * @return an Optional containing the found category, or empty if not found
+     */
     @Override
     public Optional<FigureCategory> findByName(String name) {
         return Optional.ofNullable(store.get(name.toLowerCase()));
     }
 
+    /**
+     * Returns all figure categories, sorted by identity.
+     *
+     * @return a list of all categories
+     */
     @Override
     public List<FigureCategory> findAll() {
         List<FigureCategory> allCategories = new ArrayList<>(store.values());
@@ -46,6 +72,11 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         return allCategories;
     }
 
+    /**
+     * Returns all active (available) figure categories, sorted by identity.
+     *
+     * @return a list of active categories
+     */
     @Override
     public List<FigureCategory> findActiveCategories() {
         List<FigureCategory> activeCategories = new ArrayList<>();
@@ -53,11 +84,19 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
             if (category.isAvailable())
                 activeCategories.add(category);
         }
-
         activeCategories.sort(Comparator.comparing(FigureCategory::identity));
         return activeCategories;
     }
 
+    /**
+     * Edits the selected figure category, updating its name and/or description.
+     * Audits the changes.
+     *
+     * @param category      the category to edit
+     * @param newName       the new name, or null to keep current
+     * @param newDescription the new description, or null to keep current
+     * @return an Optional containing the updated category, or empty if not found
+     */
     @Override
     public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
         Optional<FigureCategory> categoryOptional = findByName(category.identity());
@@ -86,6 +125,13 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         return Optional.of(existing);
     }
 
+    /**
+     * Changes the status (available/unavailable) of the selected figure category.
+     * Audits the change.
+     *
+     * @param category the category to change status
+     * @return an Optional containing the updated category, or empty if not found
+     */
     @Override
     public Optional<FigureCategory> changeStatus(FigureCategory category) {
         Optional<FigureCategory> categoryOptional = findByName(category.identity());

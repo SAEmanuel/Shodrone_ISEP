@@ -13,19 +13,34 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * JPA implementation of the FigureCategoryRepository.
+ * Supports creation, editing, status change, and auditing of figure categories.
+ */
 public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Long>
         implements FigureCategoryRepository {
-
 
     private final AuditLoggerService auditLoggerService;
     private static final Set<String> AUDIT_FIELDS_CHANGE = Set.of("name", "description", "available");
     private static final Set<String> AUDIT_FIELDS_CREATION = Set.of("name", "description");
 
+    /**
+     * Constructs the repository with the given audit logger service.
+     *
+     * @param auditLoggerService the service used for auditing changes
+     */
     public FigureCategoryJPAImpl(AuditLoggerService auditLoggerService) {
         super();
         this.auditLoggerService = auditLoggerService;
     }
 
+    /**
+     * Saves a new figure category if it does not already exist.
+     * Audits the creation event.
+     *
+     * @param category the category to save
+     * @return an Optional containing the saved category, or empty if it already exists
+     */
     @Override
     public Optional<FigureCategory> save(FigureCategory category) {
         Optional<FigureCategory> checkExistence = findByName(category.identity());
@@ -37,7 +52,12 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         return Optional.empty();
     }
 
-
+    /**
+     * Finds a figure category by its name (case-insensitive).
+     *
+     * @param name the name to search for
+     * @return an Optional containing the found category, or empty if not found
+     */
     @Override
     public Optional<FigureCategory> findByName(String name) {
         List<FigureCategory> results = entityManager()
@@ -52,6 +72,11 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         }
     }
 
+    /**
+     * Returns all figure categories, sorted by name.
+     *
+     * @return a list of all categories
+     */
     @Override
     public List<FigureCategory> findAll() {
         return entityManager()
@@ -59,6 +84,11 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                 .getResultList();
     }
 
+    /**
+     * Returns all active (available) figure categories, sorted by name.
+     *
+     * @return a list of active categories
+     */
     @Override
     public List<FigureCategory> findActiveCategories() {
         return entityManager()
@@ -66,6 +96,15 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                 .getResultList();
     }
 
+    /**
+     * Edits the selected figure category, updating its name and/or description.
+     * Audits the changes.
+     *
+     * @param category      the category to edit
+     * @param newName       the new name, or null to keep current
+     * @param newDescription the new description, or null to keep current
+     * @return an Optional containing the updated category, or empty if not found
+     */
     @Override
     public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
         try {
@@ -101,6 +140,13 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         }
     }
 
+    /**
+     * Changes the status (available/unavailable) of the selected figure category.
+     * Audits the change.
+     *
+     * @param category the category to change status
+     * @return an Optional containing the updated category, or empty if not found
+     */
     @Override
     public Optional<FigureCategory> changeStatus(FigureCategory category) {
         try {
