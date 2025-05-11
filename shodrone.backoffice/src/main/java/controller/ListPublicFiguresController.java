@@ -14,7 +14,8 @@ public class ListPublicFiguresController {
         repository = RepositoryProvider.figureRepository();
     }
 
-    public List<Figure> listPublicFigures() {
-        return repository.findAllPublicFigures();
+    public Optional<List<Figure>> listPublicFigures() {
+        List<Figure> allPublicFigures = repository.findAllPublicFigures();
+        return allPublicFigures.isEmpty() ? Optional.empty() : Optional.of(allPublicFigures);
     }
 }

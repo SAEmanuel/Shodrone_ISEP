@@ -65,11 +65,7 @@ SD -> UI : select figure
 UI -> CTRL : editChosenFigure(figure)
 activate CTRL
 
-CTRL -> Provider : figureRepository()
-activate Provider
 
-Provider --> CTRL : FigureRepository
-deactivate Provider
 
 CTRL -> Repo : editChosenFigure(figure)
 activate Repo
@@ -78,7 +74,7 @@ alt InMemoryFigureRepository
     Repo -> InMemRepo : editChosenFigure()
     activate InMemRepo
 
-    InMemRepo -> Entity : changeFigureStatusTo()
+    InMemRepo -> Entity : decommissionFigureStatus()
     activate Entity
 
     Entity -> InMemRepo : Figure
@@ -90,7 +86,7 @@ else FigureJPAImpl
     Repo -> JpaRepo : editChosenFigure()
     activate JpaRepo
     JpaRepo -> JpaRepo : entityManager().find()
-    JpaRepo -> Entity : changeFigureStatusTo()
+    JpaRepo -> Entity : decommissionFigureStatus()
 
     activate Entity
 

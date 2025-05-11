@@ -19,12 +19,9 @@ public class DecommissionFigureUI implements Runnable {
 
         Optional<Figure> result = Optional.empty();
 
-        Optional<Figure> figure = Optional.empty();
-        FigureStatus newStatus = null;
-
         Optional<List<Figure>> listOfFigures = getAllFiguresController.getAllActiveFigures();
         if (listOfFigures.isPresent() && !listOfFigures.get().isEmpty()) {
-            figure = (Optional<Figure>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfFigures, "Figure");
+            Optional<Figure> figure = (Optional<Figure>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfFigures, "Figure");
 
             result = controller.editChosenFigure(figure.get());
         }

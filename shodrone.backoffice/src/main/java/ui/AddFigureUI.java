@@ -60,16 +60,19 @@ public class AddFigureUI implements Runnable {
         Optional<FigureStatus> statusOpt = refurseOrAcceptValueObjectEnum(option,"Status", FigureStatus::valueOf, FigureStatus.class);
         FigureStatus status = statusOpt.orElse(FigureStatus.ACTIVE);
 
+        Optional<Figure> result;
+
         System.out.println();
         Optional<List<Costumer>> listOfCostumers = listCostumersController.getAllCustomer();
         Optional<Costumer> costumer = Optional.empty();
         if (listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty()) {
-            costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromList((Optional<List<?>>)(Optional<?>) listOfCostumers, "Costumer");
+            costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
+
+            result = controller.addFigure(name, description, version, figureCategory.get(), availability, status, costumer.get());
+        }else{
+            result = Optional.empty();
+            Utils.printFailMessage("The are no costumers to add to figure!");
         }
-
-        Optional<Figure> result;
-
-        result = controller.addFigure(name, description, version, figureCategory.get(), availability, status, costumer.get());
 
         if (result.isPresent()) {
             Utils.printSuccessMessage("Figure added successfully!");

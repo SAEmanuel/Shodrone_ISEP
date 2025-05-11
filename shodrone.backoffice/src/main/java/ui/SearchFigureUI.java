@@ -58,8 +58,11 @@ public class SearchFigureUI implements Runnable {
             Optional<List<FigureCategory>> listOfFigureCategories = figureCategorycontroller.getActiveFigureCategories();
             if (listOfFigureCategories.isPresent() && !listOfFigureCategories.get().isEmpty()) {
                 figureCategory = (Optional<FigureCategory>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfFigureCategories, "Figure Category");
+            }else{
+                Utils.printAlterMessage("Didn't found any Figure Categories!");
             }
         }
+
         option = Utils.confirm("Do you want to add a Availability to the search? (y/n)");
         Utils.showAvailabilityRules();
         Optional<FigureAvailability> availabilityOpt = refurseOrAcceptValueObjectEnum(option,"Availability", FigureAvailability::valueOf, FigureAvailability.class);
@@ -77,16 +80,17 @@ public class SearchFigureUI implements Runnable {
             Optional<List<Costumer>> listOfCostumers = listCostumersController.getAllCustomer();
             if (listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty()) {
                 costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
+            }else{
+                Utils.printAlterMessage("Didn't found any Costumer!");
             }
         }
-        Optional<List<Figure>> result;
 
-        result = controller.searchFigure(figureId, name, description, version, figureCategory.orElse(null), availability, status, costumer.orElse(null));
-
-        if (result.isPresent()) {
+        Optional<List<Figure>> result = controller.searchFigure(figureId, name, description, version, figureCategory.orElse(null), availability, status, costumer.orElse(null));
+        
+        if (result.isPresent() && !result.get().isEmpty()) {
             Utils.showListElements(result.get(), "Figure List Found");
         } else {
-            Utils.printFailMessage("Search didn't found Figures!");
+            Utils.printFailMessage("Search didn't found any Figures!");
         }
     }
 
