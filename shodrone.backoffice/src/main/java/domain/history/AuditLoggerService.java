@@ -14,11 +14,14 @@ public class AuditLoggerService {
         this.repository = repository;
     }
 
-    public void logChanges(Object oldObj, Object newObj, String entityId, String user, Set<String> camposAuditados) {
-        if (!oldObj.getClass().equals(newObj.getClass())) throw new IllegalArgumentException();
+    public void logChanges(Object oldObj, Object newObj, String entityId, String user, Set<String> auditFields) {
+        if (!oldObj.getClass().equals(newObj.getClass()))
+            throw new IllegalArgumentException();
 
         for (Field field : oldObj.getClass().getDeclaredFields()) {
-            if (!camposAuditados.contains(field.getName())) continue;
+            if (!auditFields.contains(field.getName())) {
+                continue;
+            }
 
             field.setAccessible(true);
             try {

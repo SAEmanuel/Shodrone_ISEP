@@ -19,7 +19,7 @@ class FigureCategoryTest {
     void testCreationWithValidValues() {
         FigureCategory category = new FigureCategory(new Name("Test Category"), new Description("Valid description"), creator);
         assertEquals("Test Category", category.identity());
-        assertTrue(category.isActive());
+        assertTrue(category.isAvailable());
         assertEquals("Valid description", category.description().toString());
     }
 
@@ -28,7 +28,7 @@ class FigureCategoryTest {
         FigureCategory category = new FigureCategory(new Name("Minimal Category"), creator);
         assertEquals("Minimal Category", category.identity());
         assertEquals("Description not provided!", category.description().toString());
-        assertTrue(category.isActive());
+        assertTrue(category.isAvailable());
     }
 
     @Test
@@ -43,11 +43,11 @@ class FigureCategoryTest {
     @Test
     void testToggleStateChangesActiveStatus() {
         FigureCategory category = new FigureCategory(new Name("Switchable"), new Description("Toggle state test"), creator);
-        assertTrue(category.isActive());
+        assertTrue(category.isAvailable());
         category.toggleState();
-        assertFalse(category.isActive());
+        assertFalse(category.isAvailable());
         category.toggleState();
-        assertTrue(category.isActive());
+        assertTrue(category.isAvailable());
     }
 
     // ---- Update Methods ----

@@ -13,7 +13,7 @@ import java.util.*;
 public class InMemoryFigureCategoryRepository implements FigureCategoryRepository {
     private final Map<String, FigureCategory> store = new HashMap<>();
     private final AuditLoggerService auditLoggerService;
-    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description");
+    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description", "available");
 
     public InMemoryFigureCategoryRepository(AuditLoggerService auditLoggerService) {
         super();
@@ -48,7 +48,7 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
     public List<FigureCategory> findActiveCategories() {
         List<FigureCategory> activeCategories = new ArrayList<>();
         for (FigureCategory category : store.values()) {
-            if (category.isActive())
+            if (category.isAvailable())
                 activeCategories.add(category);
         }
 

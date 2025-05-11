@@ -18,7 +18,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
 
 
     private final AuditLoggerService auditLoggerService;
-    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description");
+    private static final Set<String> AUDIT_FIELDS = Set.of("name", "description", "available");
 
     public FigureCategoryJPAImpl(AuditLoggerService auditLoggerService) {
         super();
@@ -60,7 +60,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
     @Override
     public List<FigureCategory> findActiveCategories() {
         return entityManager()
-                .createQuery("SELECT f FROM FigureCategory f WHERE f.active = true ORDER BY f.name.name ASC", FigureCategory.class)
+                .createQuery("SELECT f FROM FigureCategory f WHERE f.available = true ORDER BY f.name.name ASC", FigureCategory.class)
                 .getResultList();
     }
 

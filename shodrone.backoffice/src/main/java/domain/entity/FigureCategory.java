@@ -43,7 +43,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
     @XmlElement
     @JsonProperty
     @Column(nullable = false)
-    private boolean active;
+    private boolean available;
 
     @XmlElement
     @JsonProperty
@@ -85,7 +85,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
         this.name = name;
         this.description = description;
-        this.active = true;
+        this.available = true;
         this.createdOn = LocalDateTime.now();
         this.createdBy = createdBy;
         this.updatedOn = null;
@@ -120,12 +120,12 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
         this.name = newCategoryName;
     }
 
-    public boolean isActive() {
-        return this.active;
+    public boolean isAvailable() {
+        return this.available;
     }
 
     public void toggleState() {
-        this.active = !this.active;
+        this.available = !this.available;
     }
 
     public Description description() {
@@ -169,7 +169,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
     @Override
     public boolean sameAs(Object other) {
         final FigureCategory figureCategory = (FigureCategory) other;
-        return this.equals(figureCategory) && description().equals(figureCategory.description()) && isActive() == figureCategory.isActive();
+        return this.equals(figureCategory) && description().equals(figureCategory.description()) && isAvailable() == figureCategory.isAvailable();
     }
 
     @Override
@@ -203,7 +203,7 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 
     @Override
     public String toString() {
-        if (isActive()) {
+        if (isAvailable()) {
             return String.format("[%s -> %s] %s(%s)%s", name, description, ANSI_FOREST_GREEN, "ACTIVE", ANSI_RESET);
         }
         return String.format("[%s -> %s] %s(%s)%s" , name, description, ANSI_BRIGHT_BLACK, "INACTIVE", ANSI_RESET);
