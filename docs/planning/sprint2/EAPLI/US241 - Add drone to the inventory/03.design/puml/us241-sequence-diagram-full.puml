@@ -7,130 +7,168 @@ title UI Sequence Diagram (SD) - Add Drones to Inventory
 
 autonumber
 
-actor "Drone Tech" as droneTech
-participant ":AddDronesToInventoryUI" as UI
-participant ":AddDronesToInventoryController" as CTRL
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "droneModelRepository\n:DroneModelRepository" as dmRepo
-participant "droneRepository\n:DroneRepository" as dRepo
+actor "Drone Tech" as DT
+participant ":AddDroneInventoryUI" as UI
+participant ":GetDroneModelsController" as getModelCtrl
+participant ":GetDronesController" as getDronesCtrl
+participant "SerialNumber" as sn
+participant ":AddDroneInventoryController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as provider
+participant "DroneModelRepository\n:DroneModelRepository" as dmRepo
+participant "DroneRepository\n:DroneRepository" as dRepo
+participant "InMemoryDroneRepository" as inMem
+participant "DroneJPAImpl" as jpa
+participant "Drone" as drone
 
-participant "factoryProvider\n:FactoryProvider" as factProv
-participant "droneFactoryImpl\n:DroneFactoryImpl" as dFactImpl
-participant "drone\n:Drone" as drone
-participant "droneJPAImpl\n:DroneJPAImpl" as dJPA
-participant "inMemoryDroneRepository\n:InMemoryDroneRepository" as dMem
+activate DT
 
-activate droneTech
+DT -> UI : requests to add a drone to inventory
+activate UI
 
-    droneTech -> UI : request to list drone models
-    activate UI
+UI -> getModelCtrl ** : create
+UI -> getModelCtrl : getAllModels()
+activate getModelCtrl
+getModelCtrl -> provider ** : droneModelRepository()
+activate provider
+provider --> getModelCtrl : repository
+deactivate provider
+getModelCtrl -> dmRepo : findAll()
+activate dmRepo
+dmRepo --> getModelCtrl : droneModelsList
+deactivate dmRepo
+getModelCtrl --> UI : Optional<droneModelsList>
+deactivate getModelCtrl
 
-    UI -> CTRL : getDroneModels()
-    activate CTRL
+alt droneModelsList is empty
+    UI --> DT : error message ("No drone models in the system yet...")
+    deactivate UI
+    deactivate DT
+else
+    UI -> DT : showAddMethodMenu()
+    DT -> UI : selectAddMethod()
+    alt option is "Create a new Drone"
+        UI -> DT : selectDroneModel()
+        DT -> UI : chosenModel
+        UI -> sn ** : Utils.rePromptWhileInvalid()
+        activate sn
+        sn -> UI : serialNumber
+        deactivate sn
 
-    CTRL -> CTRL : getDroneModelRepository()
-    activate CTRL
+        UI -> CTRL ** : create
+        UI -> CTRL : addDroneInventory(chosenModel, serialNumber)
+        activate CTRL
 
-        CTRL -> RepositorySingleton : getInstance()
-        activate RepositorySingleton
+        CTRL -> drone ** : new Drone(serialNumber, chosenModel)
+        activate drone
+        drone --> CTRL : Drone instance
+        deactivate drone
 
-            RepositorySingleton --> CTRL: repositories
-        deactivate RepositorySingleton
+        CTRL -> provider ** : droneRepository()
+        activate provider
+        provider --> CTRL : repository (dynamic: inMem or jpa)
+        deactivate provider
 
-        CTRL -> PLAT : getDroneModelRepository()
-        activate PLAT
+        alt Repository is InMemoryDroneRepository
+            CTRL -> inMem : save(drone)
+            activate inMem
+            inMem -> inMem : containsKey(drone.serialNumber())
+            inMem --> CTRL : Optional<Drone>
+            deactivate inMem
+        else Repository is DroneJPAImpl
+            CTRL -> jpa : save(drone)
+            activate jpa
+            jpa -> jpa : findByDroneSN(drone.serialNumber())
+            jpa --> CTRL : Optional<Drone>
+            deactivate jpa
+        end
 
-            PLAT --> CTRL: droneModelRepository
-        deactivate PLAT
-        CTRL --> CTRL : droneModelRepository
+        CTRL --> UI : Optional<Drone>
+        deactivate CTRL
 
-    deactivate CTRL
+    else option is "Add an existing Drone"
+        UI -> getDronesCtrl ** : create
+        UI -> getDronesCtrl : getAllDrones()
+        activate getDronesCtrl
+        getDronesCtrl -> provider ** : droneRepository()
+        activate provider
+        provider --> getDronesCtrl : repository
+        deactivate provider
+        getDronesCtrl -> dRepo : findAll()
+        activate dRepo
+        dRepo --> getDronesCtrl : dronesList
+        deactivate dRepo
+        getDronesCtrl --> UI : Optional<dronesList>
+        deactivate getDronesCtrl
 
-    CTRL -> dmRepo : findAll()
-    activate dmRepo
-
-        dmRepo --> CTRL : droneModelsList
-    deactivate dmRepo
-
-    CTRL -> UI : droneModelsList
-    deactivate CTRL
-
-    UI -> droneTech : display drone models list
-    droneTech -> UI : select drone model and provide serial numbers
-
-    UI -> CTRL : addDrones(selectedDroneModelId, serialNumbers)
-    activate CTRL
-
-    CTRL -> CTRL : getDroneRepository()
-    activate CTRL
-
-        CTRL -> RepositorySingleton : getInstance()
-        activate RepositorySingleton
-
-            RepositorySingleton --> CTRL: repositories
-        deactivate RepositorySingleton
-
-        CTRL -> PLAT : getDroneRepository()
-        activate PLAT
-
-            PLAT --> CTRL: droneRepository
-        deactivate PLAT
-        CTRL --> CTRL : droneRepository
-
-    deactivate CTRL
-
-    CTRL -> factProv : getDroneFactory()
-    activate factProv
-
-        factProv --> CTRL : droneFactory
-    deactivate factProv
-
-    loop for each serialNumber in serialNumbers
-        CTRL -> dFactImpl : createDrone(serialNumber, selectedDroneModelId)
-        activate dFactImpl
-
-            dFactImpl --> dFactImpl : validateSerialNumber(serialNumber)
-            dFactImpl -> dRepo : existsBySerialNumber(serialNumber)
+        alt dronesList is empty
+            UI --> DT : error message ("No drones in the system yet...")
+            deactivate UI
+            deactivate DT
+        else
+            UI -> DT : provideSerialNumber()
+            DT -> UI : serialNumber
+            UI -> getDronesCtrl ** : create
+            UI -> getDronesCtrl : getDroneBySN(serialNumber)
+            activate getDronesCtrl
+            getDronesCtrl -> dRepo : findByDroneSN(serialNumber)
             activate dRepo
-
-                dRepo --> dFactImpl : exists
+            dRepo --> getDronesCtrl : Optional<Drone>
             deactivate dRepo
+            getDronesCtrl --> UI : Optional<selectedDrone>
+            deactivate getDronesCtrl
 
-            alt invalid or duplicate serial number
-                dFactImpl --> CTRL : error("Invalid or duplicate serial number: " + serialNumber)
-                CTRL -> UI : error("Invalid or duplicate serial number: " + serialNumber)
-                deactivate CTRL
+            alt selectedDrone is empty
+                UI --> DT : error message ("No drone with that Serial Number found in the system!")
                 deactivate UI
-                deactivate droneTech
-                return
-            else valid serial number
-                dFactImpl -> drone** : create
-                dFactImpl -> drone : setStatus(available)
-                dFactImpl --> CTRL : droneObject
-                activate CTRL
+                deactivate DT
+            else
+                UI -> UI : checkDroneStatus(selectedDrone)
+                alt drone status is AVAILABLE
+                    UI --> DT : error message ("This drone is already in the inventory")
+                    deactivate UI
+                    deactivate DT
+                else
+                    UI -> DT : showDroneDetails()
+                    DT -> UI : confirmSelection()
+                    alt confirmed
+                        UI -> CTRL ** : create
+                        UI -> CTRL : addExistingDroneInventory(selectedDrone)
+                        activate CTRL
+                        CTRL -> provider ** : droneRepository()
+                        activate provider
+                        provider --> CTRL : repository (dynamic: inMem or jpa)
+                        deactivate provider
+
+                        alt Repository is InMemoryDroneRepository
+                            CTRL -> inMem : addExistingDroneInventory(selectedDrone)
+                            activate inMem
+                            inMem --> CTRL : Optional<Drone>
+                            deactivate inMem
+                        else Repository is DroneJPAImpl
+                            CTRL -> jpa : addExistingDroneInventory(selectedDrone)
+                            activate jpa
+                            jpa --> CTRL : Optional<Drone>
+                            deactivate jpa
+                        end
+
+                        CTRL --> UI : Optional<Drone>
+                        deactivate CTRL
+                    else
+                        note right : loops back to provideSerialNumber
+                    end
+                end
             end
-        deactivate dFactImpl
-
-        CTRL -> dJPA : add(droneObject)
-        activate dJPA
-
-            dJPA --> CTRL : confirmation
-        deactivate dJPA
-
-        CTRL -> dMem : add(droneObject)
-        activate dMem
-
-            dMem --> CTRL : confirmation
-        deactivate dMem
+        end
     end
 
-    CTRL -> UI : serialNumbers
-    deactivate CTRL
-
-    UI -> droneTech : shows operation (in)success
+    alt Drone added successfully
+        UI --> DT : success message ("Drone added successfully!")
+    else Add failed (duplicate serialNumber)
+        UI --> DT : error message ("A Drone with that Serial Number already exists in the system!")
+    end
+end
 
 deactivate UI
-deactivate droneTech
+deactivate DT
 
 @enduml
