@@ -3,90 +3,86 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title UI Sequence Diagram (SD) - Drone Model Creation
+title UI Sequence Diagram (SD) - Create Drone Model
 
 autonumber
 
-actor "Drone Tech" as droneTech
-participant ":AddDroneModelUI" as UI
-participant ":AddDroneModelController" as CTRL
-participant "droneModelController\n:DroneModelController" as dmCtrl
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "droneModelRepository\n:DroneModelRepository" as dmRepo
+actor "Drone Tech" as DT
+participant ":CreateDroneModelUI" as UI
+participant "DroneModelID" as modelID
+participant "DroneName" as name
+participant "Description" as desc
+participant ":CreateDroneModelController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as provider
+participant "DroneModelRepository\n:DroneModelRepository" as interface
+participant "InMemoryDroneModelRepository" as inMem
+participant "CreateDroneModelJPAImpl" as jpa
+participant "DroneModel" as model
 
-participant "factoryProvider\n:FactoryProvider" as factProv
-participant "droneModelFactoryImpl\n:DroneModelFactoryImpl" as dmFactImpl
-participant "droneModel\n:DroneModel" as droneModel
+activate DT
 
-participant "droneModelJPAImpl\n:DroneModelJPAImpl" as dmJPA
-participant "inMemoryDroneModelRepository\n:InMemoryDroneModelRepository" as dmMem
+DT -> UI : requests to create a new Drone Model with valid inputs
+activate UI
 
+UI -> modelID **: Utils.rePromptWhileInvalid()
+activate modelID
+modelID -> UI : modelID
+deactivate modelID
 
-activate droneTech
+UI -> name **: Utils.rePromptWhileInvalid()
+activate name
+name -> UI : name
+deactivate name
 
-    droneTech -> UI : ask to create a Drone Model
-    activate UI
+UI -> UI : promptForDescription()
+alt hasDescription is true
+    UI -> desc **: Utils.rePromptWhileInvalid()
+    activate desc
+    desc -> UI : description
+    deactivate desc
+else
+    note right : skips description
+end
 
-    UI -> droneTech : ask for drone model data (identifier, windToleranceData)
-    droneTech -> UI : provides drone model data
+UI -> UI : promptForMaxWindSpeed()
+UI -> CTRL **: create
+UI -> CTRL : createDroneModel(modelID, name, hasDescription, description, maxWindSpeed)
+activate CTRL
 
-    UI -> CTRL** : create
+CTRL -> model **: new DroneModel(modelID, name, description, maxWindSpeed)
+activate model
+model --> CTRL : DroneModel instance
+deactivate model
 
-    activate CTRL
+CTRL -> provider ** : droneModelRepository()
+activate provider
+provider --> CTRL : repository (dynamic: inMem or jpa)
+deactivate provider
 
-        CTRL -> CTRL : getDroneModelRepository()
-        activate CTRL
+alt Repository is InMemoryDroneModelRepository
+    CTRL -> inMem : save(model)
+    activate inMem
+    inMem -> inMem : containsKey(model.identity().toLowerCase())
+    inMem --> CTRL : Optional<DroneModel>
+    deactivate inMem
+else Repository is CreateDroneModelJPAImpl
+    CTRL -> jpa : save(model)
+    activate jpa
+    jpa -> jpa : findByDroneModelID(model.identity().toLowerCase())
+    jpa --> CTRL : Optional<DroneModel>
+    deactivate jpa
+end
 
-            CTRL -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
+CTRL --> UI : Optional<DroneModel>
+deactivate CTRL
 
-                RepositorySingleton --> CTRL: repositories
-            deactivate RepositorySingleton
-
-            CTRL -> PLAT : getDroneModelRepository()
-            activate PLAT
-
-                PLAT --> CTRL: droneModelRepository
-            deactivate PLAT
-            CTRL --> CTRL : droneModelRepository
-
-        deactivate CTRL
-
-        CTRL -> factProv : getDroneModelFactory()
-        activate factProv
-
-            factProv --> CTRL : droneModelFactory
-        deactivate factProv
-
-        CTRL -> dmFactImpl : createDroneModel(identifier, windToleranceData)
-        activate dmFactImpl
-            dmFactImpl --> dmFactImpl : validateIdentifier(identifier)
-            dmFactImpl --> dmFactImpl : validateWindToleranceData(windToleranceData)
-
-                dmFactImpl --> CTRL : droneModelObject
-                activate CTRL
-
-        deactivate dmFactImpl
-
-        CTRL -> dmJPA : add(droneModelObject)
-        activate dmJPA
-
-            dmJPA --> CTRL : confirmation
-        deactivate dmJPA
-
-        CTRL -> dmMem : add(droneModelObject)
-        activate dmMem
-
-            dmMem --> CTRL : confirmation
-        deactivate dmMem
-
-        CTRL -> UI : droneModelObject
-    deactivate CTRL
-
-    UI -> droneTech : shows operation (in)success
+alt Model saved successfully
+    UI --> DT : success message ("Drone Model created successfully!")
+else Save failed (duplicate modelID)
+    UI --> DT : error message ("A Drone Model with that ID already exists!")
+end
 
 deactivate UI
-deactivate droneTech
+deactivate DT
 
 @enduml
