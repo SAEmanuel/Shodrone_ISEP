@@ -10,10 +10,17 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * User interface for removing drones from the inventory system.
+ */
 public class RemoveDroneInventoryUI implements Runnable {
     private final RemoveDroneInventoryController controller = new RemoveDroneInventoryController();
     private final GetDronesController getDronesController = new GetDronesController();
 
+    /**
+     * Executes the drone removal process, including drone selection and removal reason input.
+     */
+    @Override
     public void run() {
         Utils.printDroneCenteredTitle("Remove Drone from Inventory");
 
@@ -47,6 +54,11 @@ public class RemoveDroneInventoryUI implements Runnable {
         }
     }
 
+    /**
+     * Prompts the user to enter a drone serial number and validates it.
+     *
+     * @return an Optional containing the selected Drone if valid, empty otherwise
+     */
     private Optional<Drone> askForSerialNumber() {
         while (true) {
             String serialNumber = Utils.readLineFromConsole("Enter the Drone Serial Number");
@@ -68,6 +80,4 @@ public class RemoveDroneInventoryUI implements Runnable {
             Utils.dropLines(1);
         }
     }
-
-
 }
