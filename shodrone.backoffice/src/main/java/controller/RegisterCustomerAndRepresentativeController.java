@@ -1,7 +1,6 @@
 package controller;
 
 import authz.Email;
-import authz.Password;
 import domain.entity.Costumer;
 import domain.entity.CustomerRepresentative;
 import domain.valueObjects.*;
@@ -9,8 +8,6 @@ import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.interfaces.CostumerRepository;
 import persistence.interfaces.CustomerRepresentativeRepository;
-
-import java.util.Arrays;
 import java.util.Optional;
 
 public class RegisterCustomerAndRepresentativeController {
