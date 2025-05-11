@@ -1,8 +1,8 @@
 package ui.authz;
 
-import ui.*;
 import controller.AuthenticationController;
 import ui.menu.MenuItem;
+import ui.users.*;
 import utils.*;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 

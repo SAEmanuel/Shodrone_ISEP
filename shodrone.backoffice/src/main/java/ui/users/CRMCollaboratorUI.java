@@ -1,7 +1,9 @@
-package ui;
+package ui.users;
 
-import controller.AuthenticationController;
-import ui.authz.RegisterUserUI;
+import ui.EditShowRequestUI;
+import ui.ListShowRequestByCostumerUI;
+import ui.RegisterCustomerUI;
+import ui.RegisterShowRequestUI;
 import ui.menu.MenuItem;
 import utils.Utils;
 

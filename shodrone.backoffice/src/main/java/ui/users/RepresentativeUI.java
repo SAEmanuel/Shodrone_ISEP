@@ -1,4 +1,4 @@
-package ui;
+package ui.users;
 
 
 import ui.menu.MenuItem;

@@ -1,10 +1,9 @@
-package ui;
+package ui.users;
 
 
 import u.ListUserUI;
 import ui.menu.ManageUserUI;
 import ui.menu.MenuItem;
-import ui.menu.ShowTextUI;
 import ui.menu.SignUpUI;
 import utils.Utils;
 

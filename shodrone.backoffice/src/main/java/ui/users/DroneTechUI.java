@@ -1,7 +1,10 @@
-package ui;
+package ui.users;
 
+import ui.AddDroneInventoryUI;
+import ui.CreateDroneModelUI;
+import ui.ListActiveDronesUI;
+import ui.RemoveDroneInventoryUI;
 import ui.menu.MenuItem;
-import ui.menu.ShowTextUI;
 import utils.Utils;
 
 import java.util.ArrayList;

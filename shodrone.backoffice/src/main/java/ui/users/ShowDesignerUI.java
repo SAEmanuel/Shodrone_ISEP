@@ -1,8 +1,8 @@
-package ui;
+package ui.users;
 
 
+import ui.*;
 import ui.menu.MenuItem;
-import ui.menu.ShowTextUI;
 import utils.Utils;
 
 import java.util.ArrayList;
