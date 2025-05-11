@@ -11,10 +11,22 @@ import java.util.Optional;
 
 import static more.ColorfulOutput.*;
 
+/**
+ * A user interface class responsible for guiding the user through the process of creating a new Drone Model.
+ * This class implements the {@link Runnable} interface to allow execution as a standalone task.
+ */
 public class CreateDroneModelUI implements Runnable {
 
+    /**
+     * The controller responsible for handling the business logic of creating a Drone Model.
+     */
     private final CreateDroneModelController controller = new CreateDroneModelController();
 
+    /**
+     * Executes the process of creating a new Drone Model based on user input.
+     *
+     */
+    @Override
     public void run() {
         Utils.printDroneCenteredTitle("Create Drone Model");
 
@@ -56,7 +68,5 @@ public class CreateDroneModelUI implements Runnable {
             System.out.println();
             Utils.printFailMessage("A Drone Model with that ID already exists!");
         }
-
     }
-
 }

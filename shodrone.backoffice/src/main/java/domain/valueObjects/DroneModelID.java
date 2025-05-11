@@ -13,10 +13,18 @@ public class DroneModelID implements ValueObject {
     private static final int MIN_LENGTH = 3;
     private static final int MAX_LENGTH = 50;
 
+    /**
+     * The model ID string of the DroneModelID.
+     */
     final String modelID;
 
+    /**
+     * Constructs a DroneModelID with the specified model ID string.
+     *
+     * @param modelID the model ID string to set
+     * @return void
+     */
     public DroneModelID(final String modelID) {
-
         try {
             Preconditions.nonEmpty(modelID, "Model ID should neither be null nor empty");
 
@@ -33,19 +41,40 @@ public class DroneModelID implements ValueObject {
         }
     }
 
+    /**
+     * Default constructor required for JPA.
+     *
+     * @return void
+     */
     protected DroneModelID() {
         modelID = null;
     }
 
+    /**
+     * Retrieves the model ID of the DroneModelID.
+     *
+     * @return the model ID as a String
+     */
     public String getModelID() {
         return modelID;
     }
 
+    /**
+     * Returns the string representation of the DroneModelID.
+     *
+     * @return the model ID as a String
+     */
     @Override
     public String toString() {
         return this.modelID;
     }
 
+    /**
+     * Checks if this DroneModelID is equal to another object.
+     *
+     * @param o the object to compare with
+     * @return true if the objects are equal, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -54,9 +83,13 @@ public class DroneModelID implements ValueObject {
         return modelID.equals(id.modelID);
     }
 
+    /**
+     * Computes the hash code of the DroneModelID.
+     *
+     * @return the hash code value for this DroneModelID
+     */
     @Override
     public int hashCode() {
         return modelID.hashCode();
     }
-
 }
