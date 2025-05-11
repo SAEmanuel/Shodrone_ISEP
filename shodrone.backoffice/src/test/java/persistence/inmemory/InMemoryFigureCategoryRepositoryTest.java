@@ -1,4 +1,4 @@
-package persistence;
+package persistence.inmemory;
 
 import authz.Email;
 import domain.entity.FigureCategory;
@@ -7,7 +7,6 @@ import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.inmemory.InMemoryFigureCategoryRepository;
 
 import java.util.List;
 import java.util.Optional;
