@@ -8,13 +8,20 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * UI for inactivating or activating a Figure Category.
+ * Allows the user to select a category and toggle its status.
+ */
 public class ChangeFigureCategoryStatusUI implements Runnable {
 
     private final GetFigureCategoriesController getFigureCategoriesController = new GetFigureCategoriesController();
     private final ChangeFigureCategoryStatusController changeFigureCategoryStatusController = new ChangeFigureCategoryStatusController();
     private static final int EXIT = -1;
 
-
+    /**
+     * Runs the UI flow for changing the status of a figure category.
+     * Displays all categories, lets the user select one, and toggles its status.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("Inactivate/Activate a Figure Category");
