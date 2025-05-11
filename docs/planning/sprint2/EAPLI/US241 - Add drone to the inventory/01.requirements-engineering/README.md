@@ -34,7 +34,8 @@ As a Drone Tech, I want to add drones of an existing type to the inventory, so t
 **Input Data:**
 - Selected drone model identifier (chosen from a list of existing `DroneModel` types, e.g., "DJI Phantom X").
 - Serial number (each unique, case-sensitive, e.g., ["SN-001"] for individual addition.
-**Output Data:**
+
+- **Output Data:**
 - Confirmation of successful addition (success message and list of serial numbers added, e.g., ["SN-001", "SN-002", ..., "SN-005"]).
 - Error message indicating reason for failure (e.g., "Duplicate serial number: SN-001").
 
