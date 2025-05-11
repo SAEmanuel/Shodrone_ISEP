@@ -3,248 +3,133 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title UI Sequence Diagram (SSD) - Requister Show Request
+title UI Sequence Diagram (SSD) - Register Show Request
 
 autonumber
 
 actor "CRM Collaborator" as crmColl
 participant ":RegisterShowRequestUI" as UI
 participant ":RegisterShowRequestController" as CTRL
-participant "authenticationController\n:AuthenticationController" as authcot
-participant "figureController\n:FigureController" as figctrl
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "authenticationRepository\n:AuthenticationRepository" as authenticationRepository
-participant "figureRepository\n:FigureRepository" as fgrrepo
-
-participant "userSession\n:UserSession" as UserSession
-participant "email\n:Email" as Email
-
-participant "localDateTime\n: LocalDateTime" as localTime
-participant "factoryProvider\n:FactoyProvider" as factprov
-participant "showRequestFactoryImpl\n:ShowRequestFactoryImpl" as factImpl
-
+participant "authenticationController\n:AuthenticationController" as authCtrl
+participant "figureController\n:FigureController" as figCtrl
+participant "repositoryProvider\n:RepositoryProvider" as repoProvider
+participant "authenticationRepositoryInterface\n:AuthenticationRepositoryInterface" as authRepoInt
+participant "figureRepositoryInterface\n:FigureRepositoryInterface" as figRepoInt
+participant "userSession\n:UserSession" as userSession
+participant "email\n:Email" as email
+participant "localDateTime\n:LocalDateTime" as localTime
+participant "factoryProvider\n:FactoryProvider" as factoryProvider
+participant "showRequestFactoryInterface\n:ShowRequestFactoryInterface" as factory
 participant "showRequest\n:ShowRequest" as showRequest
-participant "showRequestJPAImpl\n:ShowRequestJPAImpl" as jpa
-participant "inMemoryShowRequestRepository\n:InMemoryShowRequestRepository" as mmry
-
+participant "showRequestRepositoryInterface\n:ShowRequestRepositoryInterface" as showReqRepoInt
 
 activate crmColl
 
-    crmColl -> UI : ask to register a Show Request
-    activate UI
+crmColl -> UI : ask to register a Show Request
+activate UI
 
-    UI -> CTRL** : create
-    activate CTRL
-        CTRL -> CTRL : getShowRequestRepository()
-        activate CTRL
+UI -> CTRL ** : create
+UI -> CTRL : getShowRequestRepository()
+activate CTRL
 
+CTRL -> repoProvider : getShowRequestRepository()
+activate repoProvider
+repoProvider --> CTRL : showRequestRepositoryInterface
+deactivate repoProvider
 
-        CTRL -> RepositorySingleton : getInstance()
-        activate RepositorySingleton
-
-        RepositorySingleton --> CTRL: repositories
-        deactivate RepositorySingleton
-
-
-        CTRL -> PLAT : getShowRequestRepository()
-        activate PLAT
-
-        PLAT --> CTRL: showRequestRepository
-        deactivate PLAT
-        CTRL -->CTRL : showRequestRepository
-
-        deactivate CTRL
-
-
-        UI -> authcot** : getMyActiveCustomers()
 deactivate CTRL
-        activate authcot
-            authcot --> authcot : getAuthenticationRepository()
-            activate authcot
 
-                authcot -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
+UI -> authCtrl ** : create
+UI -> authCtrl : getMyActiveCustomers()
+activate authCtrl
 
-                RepositorySingleton --> authcot : repositories
-                deactivate RepositorySingleton
+authCtrl -> repoProvider : getAuthenticationRepository()
+activate repoProvider
+repoProvider --> authCtrl : authenticationRepositoryInterface
+deactivate repoProvider
 
-                authcot -> PLAT : getAuthenticationRepository()
-                activate PLAT
+authCtrl -> authRepoInt : getMyActiveCustomers()
+activate authRepoInt
+authRepoInt --> authCtrl : listActiveCustomers
+deactivate authRepoInt
 
-                    PLAT --> authcot : authenticationRepository
-                deactivate PLAT
-                    authcot --> authcot : authenticationRepository
-                    |||
-            deactivate authcot
+authCtrl --> UI : listActiveCustomers
+deactivate authCtrl
 
-            authcot -> authenticationRepository : getMyActiveCustomers()
-            activate authenticationRepository
+UI --> crmColl : options to select customer
+deactivate UI
 
-                authenticationRepository --> authcot : listActiveCustomers
-            deactivate authenticationRepository
+crmColl -> UI : customer selected
+activate UI
 
-            authcot --> UI : listActiveCustomers
+UI -> figCtrl ** : create
+UI -> figCtrl : getAvailableFiguresForCustomer(customerID)
+activate figCtrl
 
-        deactivate authcot
+figCtrl -> repoProvider : getFigureRepository()
+activate repoProvider
+repoProvider --> figCtrl : figureRepositoryInterface
+deactivate repoProvider
 
-    UI --> crmColl : optionsToSelectCustomer()
-    deactivate UI
+figCtrl -> figRepoInt : getAvailableFiguresForCustomer(customerID)
+activate figRepoInt
+figRepoInt --> figCtrl : listWithAvailableFiguresForCustomer
+deactivate figRepoInt
 
+figCtrl --> UI : listWithAvailableFiguresForCustomer
+deactivate figCtrl
 
+UI --> crmColl : options to select figures
+deactivate UI
 
+crmColl -> UI : figures selected
+activate UI
 
+UI --> crmColl : request data (location, date, numDrones, duration, description)
+deactivate UI
 
-    crmColl -> UI : CustumerSelected
-    activate UI
+crmColl -> UI : provide requested data
+activate UI
 
-        UI -> figctrl** : getAvailableFiguresForCostumer(CostumerID identification)
+UI --> crmColl : show all data registered + confirmation menu
+crmColl -> UI : submit data
+UI -> CTRL : registerShowRequest(location, date, numDrones, duration, description, listFigures, customer)
+activate CTRL
 
+CTRL -> repoProvider : getAuthenticationRepository()
+activate repoProvider
+repoProvider --> CTRL : authenticationRepositoryInterface
+deactivate repoProvider
 
-        activate figctrl
+CTRL -> authRepoInt : getCurrentUserSession()
+activate authRepoInt
+authRepoInt --> CTRL : userSession
+deactivate authRepoInt
 
-        figctrl --> figctrl : getFigureRepository()
+CTRL -> userSession : getUserId()
+userSession --> CTRL : userId
 
-        activate figctrl
+CTRL -> email : getEmail()
+email --> CTRL : email
 
-            figctrl -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
+CTRL -> localTime : now()
+localTime --> CTRL : currentTime
 
-                RepositorySingleton --> figctrl : repositories
-            deactivate RepositorySingleton
+CTRL -> factoryProvider : getShowRequestFactory()
+activate factoryProvider
+factoryProvider --> CTRL : showRequestFactoryInterface
+deactivate factoryProvider
 
-            figctrl -> PLAT : getFigureRepository()
+CTRL -> factory : registerShowRequest(all params...)
+activate factory
+factory --> CTRL : showRequestObject
+deactivate factory
 
-            activate PLAT
+CTRL -> showReqRepoInt : add(showRequestObject)
+CTRL --> UI : showRequestObject
+deactivate CTRL
 
-                PLAT --> figctrl : figureRepository
-            deactivate PLAT
-
-                figctrl --> figctrl: figureRepository
-        deactivate figctrl
-
-            figctrl -> fgrrepo** : getAvailableFiguresForCostumer(CostumerID identification)
-
-            activate fgrrepo
-
-            fgrrepo --> figctrl : listWithAvailableFiguresForCostumer
-
-            deactivate fgrrepo
-            figctrl --> UI : listWithAvailableFiguresForCostumer
-        deactivate figctrl
-
-        UI --> crmColl : optionsToSelectFigures
-    deactivate UI
-
-
-
-        crmColl -> UI : FiguresSelected
-    activate UI
-
-    UI --> crmColl : request data (location,date,numDrones,duration,description)
-    deactivate UI
-
-    deactivate UI
-    crmColl -> UI : types requested data
-    activate UI
-
-
-
-    UI --> crmColl : show all data registered\n and the confirmation menu
-    deactivate UI
-
-    crmColl -> UI : submits data
-    activate UI
-
-    UI -> CTRL : registerShowRequest(location,date,numDrones,duration,description,listFigures,customer)
-    activate CTRL
-
-
-
-
-
-        CTRL -> CTRL : getResponsible()
-                    activate CTRL
-
-                        CTRL -> PLAT  : getAuthenticationRepository()
-                        activate PLAT
-
-                        PLAT --> CTRL : authenticationRepository
-                        deactivate PLAT
-
-                        CTRL -> authenticationRepository : getCurrentUserSession()
-                        activate authenticationRepository
-
-                            authenticationRepository --> CTRL : currentUserSession
-                        deactivate authenticationRepository
-
-                        CTRL -> UserSession : getUserId()
-                        activate UserSession
-
-                            UserSession --> CTRL : userSession
-                        deactivate UserSession
-
-                        CTRL -> Email : getEmail()
-                        activate Email
-
-                            Email --> CTRL : email
-                        deactivate Email
-                    CTRL --> CTRL : author
-
-                    deactivate CTRL
-
-                    |||
-
-                    CTRL --> CTRL : getThisTime()
-
-                    activate CTRL
-
-                        CTRL -> localTime** : now()
-                        activate localTime
-
-                            localTime --> CTRL : Time
-                        deactivate localTime
-                        CTRL --> CTRL : registrationTime
-
-                    deactivate CTRL
-
-    |||
-
-            CTRL -> factprov : getShowRequestFactory()
-
-            activate factprov
-
-            factprov --> CTRL : showRequestFactory
-
-            deactivate factprov
-            |||
-            CTRL -> factImpl : registerShowRequest(location,date,numDrones,duration,description,listFigures,customer,registrationTime,author)
-
-            activate factImpl
-                factImpl --> factImpl : build()
-
-                activate factImpl
-                    factImpl --> factImpl : validations()
-                    activate factImpl
-
-                    deactivate factImpl
-
-                    factImpl -> showRequest**: create
-
-                factImpl --> factImpl : showRequestObject
-
-                deactivate factImpl
-
-                factImpl --> CTRL : showRequestObject
-            deactivate factImpl
-
-            CTRL -> jpa** : add(showRequestObject)
-            CTRL -> mmry** : add(showRequestObject)
-            CTRL --> UI : showRequestObject
-    deactivate CTRL
-
-
-        UI --> crmColl : shows operation (in)success
-    deactivate UI
-
+UI --> crmColl : show operation success/failure
+deactivate UI
+deactivate crmColl
 @enduml
