@@ -1,7 +1,14 @@
 package ui.users;
 
 
-import ui.*;
+import ui.category.AddFigureCategoryUI;
+import ui.category.ChangeFigureCategoryStatusUI;
+import ui.category.EditFigureCategoryUI;
+import ui.category.ListAllFigureCategoriesUI;
+import ui.figure.AddFigureUI;
+import ui.figure.DecommissionFigureUI;
+import ui.figure.ListPublicFiguresUI;
+import ui.figure.SearchFigureUI;
 import ui.menu.MenuItem;
 import utils.Utils;
 

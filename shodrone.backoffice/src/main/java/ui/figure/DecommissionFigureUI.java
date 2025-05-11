@@ -1,9 +1,8 @@
-package ui;
+package ui.figure;
 
 import controller.DecommissionFigureController;
 import controller.GetAllActiveFiguresController;
 import domain.entity.Figure;
-import domain.valueObjects.FigureStatus;
 import utils.Utils;
 
 import java.util.List;

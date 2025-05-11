@@ -1,4 +1,4 @@
-package u;
+package ui.users;
 
 import controller.ListUserController;
 

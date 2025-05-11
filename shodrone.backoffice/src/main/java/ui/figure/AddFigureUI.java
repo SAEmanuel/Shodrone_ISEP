@@ -1,4 +1,4 @@
-package ui;
+package ui.figure;
 
 import controller.AddFigureController;
 import controller.GetFigureCategoriesController;

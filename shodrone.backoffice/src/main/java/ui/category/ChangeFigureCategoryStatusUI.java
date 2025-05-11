@@ -1,4 +1,4 @@
-package ui;
+package ui.category;
 
 import controller.ChangeFigureCategoryStatusController;
 import controller.GetFigureCategoriesController;

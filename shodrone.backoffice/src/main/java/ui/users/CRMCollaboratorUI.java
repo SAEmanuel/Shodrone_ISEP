@@ -1,9 +1,9 @@
 package ui.users;
 
-import ui.EditShowRequestUI;
-import ui.ListShowRequestByCostumerUI;
-import ui.RegisterCustomerUI;
-import ui.RegisterShowRequestUI;
+import ui.showrequest.EditShowRequestUI;
+import ui.showrequest.ListShowRequestByCostumerUI;
+import ui.customer.RegisterCustomerUI;
+import ui.showrequest.RegisterShowRequestUI;
 import ui.menu.MenuItem;
 import utils.Utils;
 

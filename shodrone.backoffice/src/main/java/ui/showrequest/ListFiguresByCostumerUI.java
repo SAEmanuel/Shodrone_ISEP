@@ -1,4 +1,4 @@
-package ui;
+package ui.showrequest;
 
 import controller.ListFiguresByCostumerController;
 import domain.entity.Costumer;

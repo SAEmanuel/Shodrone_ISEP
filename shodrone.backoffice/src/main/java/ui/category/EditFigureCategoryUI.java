@@ -1,4 +1,4 @@
-package ui;
+package ui.category;
 
 import controller.EditFigureCategoryController;
 import controller.GetFigureCategoriesController;

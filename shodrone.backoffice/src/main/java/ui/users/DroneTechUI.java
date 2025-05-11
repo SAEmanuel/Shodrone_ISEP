@@ -1,9 +1,9 @@
 package ui.users;
 
-import ui.AddDroneInventoryUI;
-import ui.CreateDroneModelUI;
-import ui.ListActiveDronesUI;
-import ui.RemoveDroneInventoryUI;
+import ui.drone.AddDroneInventoryUI;
+import ui.drone.CreateDroneModelUI;
+import ui.drone.ListActiveDronesUI;
+import ui.drone.RemoveDroneInventoryUI;
 import ui.menu.MenuItem;
 import utils.Utils;
 

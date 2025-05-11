@@ -3,7 +3,7 @@ package controller;
 import domain.entity.Costumer;
 import domain.entity.ShowRequest;
 import persistence.RepositoryProvider;
-import ui.FoundCostumerUI;
+import ui.customer.FoundCostumerUI;
 
 import java.util.List;
 import java.util.Optional;

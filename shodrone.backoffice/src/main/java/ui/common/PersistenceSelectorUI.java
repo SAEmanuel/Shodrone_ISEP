@@ -1,4 +1,4 @@
-package ui;
+package ui.common;
 
 import utils.Utils;
 import java.util.Scanner;

@@ -1,4 +1,4 @@
-package ui;
+package ui.drone;
 
 import controller.AddDroneInventoryController;
 import controller.GetDroneModelsController;

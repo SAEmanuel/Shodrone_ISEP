@@ -1,4 +1,4 @@
-package ui;
+package ui.category;
 
 import controller.GetFigureCategoriesController;
 import domain.entity.FigureCategory;

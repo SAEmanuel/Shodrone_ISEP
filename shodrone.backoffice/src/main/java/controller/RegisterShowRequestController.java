@@ -8,8 +8,8 @@ import domain.valueObjects.Location;
 import factories.FactoryProvider;
 import domain.valueObjects.Description;
 import persistence.RepositoryProvider;
-import ui.FoundCostumerUI;
-import ui.ListFiguresByCostumerUI;
+import ui.customer.FoundCostumerUI;
+import ui.showrequest.ListFiguresByCostumerUI;
 import utils.AuthUtils;
 import utils.Utils;
 

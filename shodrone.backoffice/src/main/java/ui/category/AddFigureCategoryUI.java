@@ -1,4 +1,4 @@
-package ui;
+package ui.category;
 
 import authz.Email;
 import controller.AddFigureCategoryController;

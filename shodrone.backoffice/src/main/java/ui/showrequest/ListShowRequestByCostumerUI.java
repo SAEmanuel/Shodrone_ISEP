@@ -1,4 +1,4 @@
-package ui;
+package ui.showrequest;
 
 import controller.ListShowRequestByCostumerController;
 import domain.entity.ShowRequest;

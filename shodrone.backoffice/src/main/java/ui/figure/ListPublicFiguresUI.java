@@ -1,4 +1,4 @@
-package ui;
+package ui.figure;
 
 import controller.ListPublicFiguresController;
 import domain.entity.Figure;

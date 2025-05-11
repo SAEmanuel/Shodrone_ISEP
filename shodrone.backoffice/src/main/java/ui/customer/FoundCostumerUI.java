@@ -1,4 +1,4 @@
-package ui;
+package ui.customer;
 
 import controller.ListCostumersController;
 import domain.entity.Costumer;

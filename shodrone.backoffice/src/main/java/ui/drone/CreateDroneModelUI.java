@@ -1,4 +1,4 @@
-package ui;
+package ui.drone;
 
 import domain.entity.DroneModel;
 import domain.valueObjects.Description;

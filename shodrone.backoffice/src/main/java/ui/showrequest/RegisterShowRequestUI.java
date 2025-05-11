@@ -1,12 +1,8 @@
-package ui;
+package ui.showrequest;
 
 import controller.RegisterShowRequestController;
-import domain.entity.Figure;
 import domain.entity.ShowRequest;
-import domain.valueObjects.Location;
 import utils.Utils;
-
-import java.time.format.DateTimeFormatter;
 
 import static more.ColorfulOutput.ANSI_BRIGHT_BLACK;
 import static more.ColorfulOutput.ANSI_RESET;

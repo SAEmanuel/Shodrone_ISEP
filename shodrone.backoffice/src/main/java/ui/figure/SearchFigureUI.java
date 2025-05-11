@@ -1,6 +1,5 @@
-package ui;
+package ui.figure;
 
-import controller.AddFigureController;
 import controller.GetFigureCategoriesController;
 import controller.ListCostumersController;
 import controller.SearchFigureController;
