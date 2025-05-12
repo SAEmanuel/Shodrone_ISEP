@@ -6,6 +6,7 @@ import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import domain.valueObjects.Description;
 import factories.FactoryProvider;
+import ui.customer.FoundCostumerUI;
 import utils.Utils;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,7 @@ public class EditShowRequestUI implements Runnable {
     private EditShowRequestController controller;
     private ListShowRequestByCostumerController listShowRequestByCostumerController;
     private ListFiguresByCostumerUI listFiguresByCostumerUI;
+    private final FoundCostumerUI foundCostumerUI;
 
     /**
      * Constructs the EditShowRequestUI and initializes its controllers.
@@ -36,6 +38,7 @@ public class EditShowRequestUI implements Runnable {
         controller = getEditShowRequestController();
         listShowRequestByCostumerController = new ListShowRequestByCostumerController();
         listFiguresByCostumerUI = new ListFiguresByCostumerUI();
+        foundCostumerUI = new FoundCostumerUI();
     }
 
     /**
@@ -58,7 +61,7 @@ public class EditShowRequestUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("EDIT SHOW REQUEST");
         try {
-            List<ShowRequest> listShowRequestBySelectedCostumer = listShowRequestByCostumerController.listShowRequestByCostumer();
+            List<ShowRequest> listShowRequestBySelectedCostumer = listShowRequestByCostumerController.listShowRequestByCostumer(foundCostumerUI.foundCustomersUI());
             int showIndexSelectedByUser = Utils.showAndSelectIndexCustomOptions(listShowRequestBySelectedCostumer, "Select the show you want to edit");
 
             ShowRequest oldShowRequest = listShowRequestBySelectedCostumer.get(showIndexSelectedByUser);

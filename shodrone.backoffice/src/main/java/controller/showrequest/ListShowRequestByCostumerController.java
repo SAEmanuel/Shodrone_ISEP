@@ -14,18 +14,10 @@ import java.util.Optional;
  */
 public class ListShowRequestByCostumerController {
 
-    // User interface component for fetching customer data
-    private final FoundCostumerUI foundCostumerUI;
-
-    // Data of the selected customer
-    private Costumer costumerSelected;
-
     /**
      * Constructor of the controller, initializing the user interface component.
      */
-    public ListShowRequestByCostumerController() {
-        this.foundCostumerUI = new FoundCostumerUI();
-    }
+    public ListShowRequestByCostumerController() {}
 
     /**
      * Lists all show requests associated with the selected customer.
@@ -34,12 +26,13 @@ public class ListShowRequestByCostumerController {
      * @return A list of show requests associated with the selected customer.
      * @throws IllegalArgumentException If no show requests are found for the customer.
      */
-    public List<ShowRequest> listShowRequestByCostumer() {
-        // Find the customer based on user input
-        foundCostumerForRegistration();
+    public List<ShowRequest> listShowRequestByCostumer(Optional<Costumer> costumerSelected) {
+        if(costumerSelected.isEmpty()) {
+            throw new IllegalArgumentException("No customer selected.");
+        }
 
         // Fetch the show requests from the repository
-        Optional<List<ShowRequest>> showRequestList = RepositoryProvider.showRequestRepository().findByCostumer(costumerSelected);
+        Optional<List<ShowRequest>> showRequestList = RepositoryProvider.showRequestRepository().findByCostumer(costumerSelected.get());
 
         // If show requests are found, return them; otherwise, throw an exception
         if (showRequestList.isPresent()) {
@@ -47,18 +40,5 @@ public class ListShowRequestByCostumerController {
         } else {
             throw new IllegalArgumentException("No show requests found for the given customer.");
         }
-    }
-
-    /**
-     * Finds and selects a customer for listing their show requests.
-     * If no customer is selected, an exception is thrown.
-     */
-    private void foundCostumerForRegistration() {
-        // Fetch the customer data through the UI
-        Optional<Costumer> result = foundCostumerUI.foundCustomersUI();
-        if(result.isEmpty()) {
-            throw new IllegalArgumentException("No customer selected.");
-        }
-        costumerSelected = result.get();
     }
 }

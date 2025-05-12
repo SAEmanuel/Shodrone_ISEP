@@ -2,6 +2,7 @@ package ui.showrequest;
 
 import controller.showrequest.ListShowRequestByCostumerController;
 import domain.entity.ShowRequest;
+import ui.customer.FoundCostumerUI;
 import utils.Utils;
 
 import java.util.List;
@@ -16,12 +17,13 @@ public class ListShowRequestByCostumerUI implements Runnable {
 
     /** Controller responsible for retrieving show requests by customer. */
     private final ListShowRequestByCostumerController controller;
-
+    private final FoundCostumerUI foundCostumerUI;
     /**
      * Constructs the UI with a new instance of {@link ListShowRequestByCostumerController}.
      */
     public ListShowRequestByCostumerUI() {
         controller = new ListShowRequestByCostumerController();
+        foundCostumerUI = new FoundCostumerUI();
     }
 
     /**
@@ -45,7 +47,7 @@ public class ListShowRequestByCostumerUI implements Runnable {
         Utils.printCenteredTitle("LIST SHOW REQUEST OF COSTUMER");
         try {
             Utils.printCenteredSubtitle("Costumer information");
-            List<ShowRequest> showRequestListByCostumer = getRegisterShowcontroller().listShowRequestByCostumer();
+            List<ShowRequest> showRequestListByCostumer = getRegisterShowcontroller().listShowRequestByCostumer(foundCostumerUI.foundCustomersUI());
 
             Utils.printCenteredSubtitle("Show's information");
             for (ShowRequest showRequest : showRequestListByCostumer) {
