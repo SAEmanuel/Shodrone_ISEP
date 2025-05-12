@@ -84,8 +84,7 @@ public class RegisterShowRequestController {
      * Finds and selects a customer for the show request.
      * If no customer is selected, an exception is thrown.
      */
-    public void foundCostumerForRegistration(){
-        Optional<Costumer> result = foundCostumerUI.foundCustomersUI();
+    public void foundCostumerForRegistration(Optional<Costumer> result){
         if(result.isEmpty()){
             throw new IllegalArgumentException("No customer selected.");
         }
@@ -96,9 +95,8 @@ public class RegisterShowRequestController {
      * Finds and selects the figures associated with the selected customer.
      * If no figures are selected, an exception is thrown.
      */
-    public void foundFiguresForRegistration(){
-        List<Figure> figures = listFiguresByCostumerUI.getListFiguresUI(costumerSelected);
-        if(figures.isEmpty()){
+    public void foundFiguresForRegistration(List<Figure> figures){
+         if(figures.isEmpty()){
             throw new IllegalArgumentException("No figures selected.");
         }
         figuresSelected = figures;
@@ -116,29 +114,29 @@ public class RegisterShowRequestController {
     /**
      * Creates a location object for the show.
      */
-    public void getLocationOfShow(){
-        this.locationOfShow = FactoryProvider.getLocationFactoryImpl().createLocationObject();
+    public void getLocationOfShow(Location locationOfShow){
+        this.locationOfShow = locationOfShow;
     }
 
     /**
      * Sets the show date.
      * The expected input format is: yyyy-MM-dd HH:mm
      */
-    public void getDateForShow(){
-        this.showDate = Utils.readDateFromConsole("Enter the show date (yyyy-MM-dd HH:mm)");
+    public void getDateForShow(LocalDateTime dateOfShow){
+        this.showDate = dateOfShow;
     }
 
     /**
      * Sets the number of drones to be used in the show.
      */
-    public void getNumberOfDrones(){
-        this.numberOfDrones = Utils.readIntegerFromConsole("Enter the number of drones");
+    public void getNumberOfDrones(int numberOfDrones){
+        this.numberOfDrones = numberOfDrones;
     }
 
     /**
      * Sets the show duration in minutes.
      */
-    public void getShowDuration(){
-        this.showDuration = Duration.ofMinutes(Utils.readIntegerFromConsole("Enter the show duration (minutes)"));
+    public void getShowDuration(int duration){
+        this.showDuration = Duration.ofMinutes(duration);
     }
 }

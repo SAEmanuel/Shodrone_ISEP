@@ -1,8 +1,13 @@
 package ui.showrequest;
 
 import controller.showrequest.RegisterShowRequestController;
+import domain.entity.Costumer;
 import domain.entity.ShowRequest;
+import factories.FactoryProvider;
+import ui.customer.FoundCostumerUI;
 import utils.Utils;
+
+import java.util.Optional;
 
 import static more.ColorfulOutput.ANSI_BRIGHT_BLACK;
 import static more.ColorfulOutput.ANSI_RESET;
@@ -22,12 +27,17 @@ public class RegisterShowRequestUI implements Runnable {
 
     /** The controller responsible for handling the show request registration logic. */
     private final RegisterShowRequestController registerShowcontroller;
+    private final FoundCostumerUI foundCostumerUI;
+    private final ListFiguresByCostumerUI listFiguresByCostumerUI;
+
 
     /**
      * Constructs a new {@code RegisterShowRequestUI} instance and initializes its controller.
      */
     public RegisterShowRequestUI() {
         registerShowcontroller = new RegisterShowRequestController();
+        foundCostumerUI = new FoundCostumerUI();
+        listFiguresByCostumerUI = new ListFiguresByCostumerUI();
     }
 
     /**
@@ -59,10 +69,11 @@ public class RegisterShowRequestUI implements Runnable {
         Utils.printCenteredTitle("REGISTER SHOW REQUEST");
         try {
             Utils.printCenteredSubtitle("Costumer information");
-            getRegisterShowcontroller().foundCostumerForRegistration();
+            Optional<Costumer> costumerSelected = foundCostumerUI.foundCustomersUI();
+            getRegisterShowcontroller().foundCostumerForRegistration(costumerSelected);
 
             Utils.printCenteredSubtitle("Figures selection for show");
-            getRegisterShowcontroller().foundFiguresForRegistration();
+            getRegisterShowcontroller().foundFiguresForRegistration(listFiguresByCostumerUI.getListFiguresUI(costumerSelected.get()));
 
             Utils.printCenteredSubtitle("Show description");
             getRegisterShowcontroller().getDescriptionsForRegistration(
@@ -73,13 +84,13 @@ public class RegisterShowRequestUI implements Runnable {
             requestLocationInformation();
 
             Utils.printCenteredSubtitle("Show date");
-            getRegisterShowcontroller().getDateForShow();
+            getRegisterShowcontroller().getDateForShow(Utils.readDateFromConsole("Enter the show date (yyyy-MM-dd HH:mm)"));
 
             Utils.printCenteredSubtitle("Drone information");
-            getRegisterShowcontroller().getNumberOfDrones();
+            getRegisterShowcontroller().getNumberOfDrones(Utils.readIntegerFromConsolePositive("Enter the number of drones"));
 
             Utils.printCenteredSubtitle("Show duration");
-            getRegisterShowcontroller().getShowDuration();
+            getRegisterShowcontroller().getShowDuration(Utils.readIntegerFromConsolePositive("Enter the show duration (minutes)"));
 
             ShowRequest registeredShowRequest = getRegisterShowcontroller().registerShowRequest();
             Utils.printShowRequestResume(registeredShowRequest);
@@ -96,6 +107,6 @@ public class RegisterShowRequestUI implements Runnable {
      */
     private void requestLocationInformation() {
         Utils.printSubTitle("Location information");
-        getRegisterShowcontroller().getLocationOfShow();
+        getRegisterShowcontroller().getLocationOfShow(FactoryProvider.getLocationFactoryImpl().createLocationObject());
     }
 }

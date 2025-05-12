@@ -94,36 +94,6 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.figureRepository().save(figure18);
         RepositoryProvider.figureRepository().save(figure19);
         RepositoryProvider.figureRepository().save(figure20);
-        RepositoryProvider.figureRepository().save(figure21);
-        RepositoryProvider.figureRepository().save(figure22);
-        RepositoryProvider.figureRepository().save(figure23);
-        RepositoryProvider.figureRepository().save(figure24);
-        RepositoryProvider.figureRepository().save(figure25);
-        RepositoryProvider.figureRepository().save(figure26);
-        RepositoryProvider.figureRepository().save(figure27);
-        RepositoryProvider.figureRepository().save(figure28);
-        RepositoryProvider.figureRepository().save(figure29);
-        RepositoryProvider.figureRepository().save(figure30);
-        RepositoryProvider.figureRepository().save(figure31);
-        RepositoryProvider.figureRepository().save(figure32);
-        RepositoryProvider.figureRepository().save(figure33);
-        RepositoryProvider.figureRepository().save(figure34);
-        RepositoryProvider.figureRepository().save(figure35);
-        RepositoryProvider.figureRepository().save(figure36);
-        RepositoryProvider.figureRepository().save(figure37);
-        RepositoryProvider.figureRepository().save(figure38);
-        RepositoryProvider.figureRepository().save(figure39);
-        RepositoryProvider.figureRepository().save(figure40);
-        RepositoryProvider.figureRepository().save(figure41);
-        RepositoryProvider.figureRepository().save(figure42);
-        RepositoryProvider.figureRepository().save(figure43);
-        RepositoryProvider.figureRepository().save(figure44);
-        RepositoryProvider.figureRepository().save(figure45);
-        RepositoryProvider.figureRepository().save(figure46);
-        RepositoryProvider.figureRepository().save(figure47);
-        RepositoryProvider.figureRepository().save(figure48);
-        RepositoryProvider.figureRepository().save(figure49);
-        RepositoryProvider.figureRepository().save(figure50);
     }
 
     // --- Drone Model Setup ---------------------------------------------------
@@ -209,59 +179,26 @@ public class Bootstrap implements Runnable {
     );
 
     // --- Figures --------------------------------------------------------
-    private final Figure figure1 = new Figure("Circle", new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure2 = new Figure("Airplane", new Description("A fixed-wing flying vehicle"), 2L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure3 = new Figure("Tree", new Description("A tall plant with a trunk"), 3L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure4 = new Figure("Robot", new Description("A programmable machine"), 4L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure5 = new Figure("Spiral", new Description("A curve that winds around a center point"), 5L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure6 = new Figure("Cat", new Description("A domestic feline animal"), 6L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure7 = new Figure("Guitar", new Description("A stringed musical instrument"), 7L, category7, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure8 = new Figure("Football", new Description("A classic soccer ball"), 8L, category8, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure9 = new Figure("Rocket", new Description("A vehicle propelled by rocket engines"), 9L, category9, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure10 = new Figure("Car", new Description("A four-wheeled motor vehicle"), 10L, category10, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure11 = new Figure("Pizza", new Description("A slice of Italian pizza"), 11L, category11, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure12 = new Figure("Runner", new Description("A person running"), 12L, category12, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure13 = new Figure("House", new Description("A simple house with a roof"), 13L, category13, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure14 = new Figure("Heart", new Description("A classic symbol of love"), 14L, category14, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure15 = new Figure("Cloud", new Description("A visible mass of condensed water vapor"), 15L, category15, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure16 = new Figure("Flower", new Description("A colorful part of a plant"), 16L, category16, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure17 = new Figure("Dragon", new Description("A mythical fire-breathing creature"), 17L, category17, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure18 = new Figure("Christmas Tree", new Description("A decorated pine for Christmas"), 18L, category18, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure19 = new Figure("Fish", new Description("A typical sea fish"), 19L, category19, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure20 = new Figure("Smiley", new Description("A classic smiling emoji face"), 20L, category20, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-
-
-    private final Figure figure21 = new Figure("Square", new Description("A figure with four equal sides"), 21L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure22 = new Figure("Helicopter", new Description("A rotary-wing aircraft"), 22L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure23 = new Figure("Mountain", new Description("A large natural elevation"), 23L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure24 = new Figure("Laptop", new Description("A portable personal computer"), 24L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure25 = new Figure("Wave", new Description("A smooth, repetitive oscillation"), 25L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure26 = new Figure("Dog", new Description("A loyal canine companion"), 26L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure27 = new Figure("Piano", new Description("A large keyboard instrument"), 27L, category7, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure28 = new Figure("Basketball", new Description("An orange basketball"), 28L, category8, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure29 = new Figure("Planet", new Description("A planet with rings"), 29L, category9, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure30 = new Figure("Bicycle", new Description("A two-wheeled vehicle"), 30L, category10, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure31 = new Figure("Burger", new Description("A hamburger with cheese"), 31L, category11, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure32 = new Figure("Dancer", new Description("A person dancing"), 32L, category12, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure33 = new Figure("Skyscraper", new Description("A tall city building"), 33L, category13, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure34 = new Figure("Star", new Description("A five-pointed geometric figure"), 34L, category14, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure35 = new Figure("Rain", new Description("Water falling from clouds"), 35L, category15, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure36 = new Figure("Leaf", new Description("A flat green plant part"), 36L, category16, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure37 = new Figure("Unicorn", new Description("A mythical horse with a horn"), 37L, category17, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure38 = new Figure("Pumpkin", new Description("A carved Halloween pumpkin"), 38L, category18, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure39 = new Figure("Octopus", new Description("A sea animal with eight arms"), 39L, category19, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure40 = new Figure("Winking Face", new Description("An emoji with a wink"), 40L, category20, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-
-    private final Figure figure41 = new Figure("Triangle", new Description("A three-sided polygon"), 41L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure42 = new Figure("Glider", new Description("An engineless aircraft"), 42L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure43 = new Figure("River", new Description("A large natural stream of water"), 43L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure44 = new Figure("Smartphone", new Description("A handheld communication device"), 44L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure45 = new Figure("Diamond", new Description("A rhombus-shaped figure"), 45L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure46 = new Figure("Horse", new Description("A strong animal used for riding"), 46L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure47 = new Figure("Violin", new Description("A bowed string instrument"), 47L, category7, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure48 = new Figure("Tennis Ball", new Description("A green tennis ball"), 48L, category8, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure49 = new Figure("Astronaut", new Description("A human in a space suit"), 49L, category9, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
-    private final Figure figure50 = new Figure("Train", new Description("A railway vehicle"), 50L, category10, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+    private final Figure figure1 = new Figure("Circle", new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure2 = new Figure("Airplane", new Description("A fixed-wing flying vehicle"), 2L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure3 = new Figure("Tree", new Description("A tall plant with a trunk"), 3L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure4 = new Figure("Robot", new Description("A programmable machine"), 4L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure5 = new Figure("Spiral", new Description("A curve that winds around a center point"), 5L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure6 = new Figure("Cat", new Description("A domestic feline animal"), 6L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure7 = new Figure("Guitar", new Description("A stringed musical instrument"), 7L, category7, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure8 = new Figure("Football", new Description("A classic soccer ball"), 8L, category8, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer1);
+    private final Figure figure9 = new Figure("Rocket", new Description("A vehicle propelled by rocket engines"), 9L, category9, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2);
+    private final Figure figure10 = new Figure("Car", new Description("A four-wheeled motor vehicle"), 10L, category10, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2);
+    private final Figure figure11 = new Figure("Pizza", new Description("A slice of Italian pizza"), 11L, category11, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2);
+    private final Figure figure12 = new Figure("Runner", new Description("A person running"), 12L, category12, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2);
+    private final Figure figure13 = new Figure("House", new Description("A simple house with a roof"), 13L, category13, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2);
+    private final Figure figure14 = new Figure("Heart", new Description("A classic symbol of love"), 14L, category14, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2);
+    private final Figure figure15 = new Figure("Cloud", new Description("A visible mass of condensed water vapor"), 15L, category15, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer2);
+    private final Figure figure16 = new Figure("Flower", new Description("A colorful part of a plant"), 16L, category16, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer3);
+    private final Figure figure17 = new Figure("Dragon", new Description("A mythical fire-breathing creature"), 17L, category17, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer3);
+    private final Figure figure18 = new Figure("Christmas Tree", new Description("A decorated pine for Christmas"), 18L, category18, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer3);
+    private final Figure figure19 = new Figure("Fish", new Description("A typical sea fish"), 19L, category19, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer3);
+    private final Figure figure20 = new Figure("Smiley", new Description("A classic smiling emoji face"), 20L, category20, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer3);
 
 
     // --- Drone Models ------------------------------------------------------

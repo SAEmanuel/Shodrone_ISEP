@@ -185,6 +185,24 @@ public class Utils {
         } while (true);
     }
 
+    public static int readIntegerFromConsolePositive(String prompt) {
+        do {
+            try {
+                String input = readLineFromConsole(prompt);
+                int value = Integer.parseInt(input);
+
+                if (value <= 0) {
+                    printAlterMessage("Please enter a positive integer greater than zero.");
+                    continue;
+                }
+
+                return value;
+            } catch (NumberFormatException ex) {
+                printAlterMessage("Invalid number. Please enter a valid integer value.");
+            }
+        } while (true);
+    }
+
     static public int readPositiveIntegerFromConsole(String prompt) {
         do {
             try {
