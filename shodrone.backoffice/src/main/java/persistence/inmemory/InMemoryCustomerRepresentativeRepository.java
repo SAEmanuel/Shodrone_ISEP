@@ -2,17 +2,34 @@ package persistence.inmemory;
 
 import authz.Email;
 import domain.entity.CustomerRepresentative;
-import eapli.framework.domain.repositories.DomainRepository;
 import persistence.interfaces.CustomerRepresentativeRepository;
 
 import java.util.*;
 
+/**
+ * In-memory implementation of the {@link CustomerRepresentativeRepository} interface.
+ * Stores and manages {@link CustomerRepresentative} entities using local data structures.
+ * Useful for testing or temporary scenarios without requiring database persistence.
+ */
 public class InMemoryCustomerRepresentativeRepository implements CustomerRepresentativeRepository {
 
+    /** Internal map to store representatives by ID. */
     private final Map<Long, CustomerRepresentative> idMap = new HashMap<>();
+
+    /** Internal map to store representatives by email. */
     private final Map<Email, CustomerRepresentative> emailMap = new HashMap<>();
+
+    /** Auto-incrementing ID counter for new entities. */
     private long nextId = 1L;
 
+    /**
+     * Saves the given customer representative entity in memory.
+     * If it doesn't have an ID, one is automatically assigned using reflection.
+     *
+     * @param entity The representative to save.
+     * @return The saved entity.
+     * @throws RuntimeException if the ID cannot be set via reflection.
+     */
     @Override
     public CustomerRepresentative save(CustomerRepresentative entity) {
         if (entity.identity() == null) {
@@ -29,27 +46,53 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
         return entity;
     }
 
+    /**
+     * Retrieves a representative by its ID.
+     *
+     * @param id The ID of the representative.
+     * @return An {@link Optional} containing the entity, if found.
+     */
     @Override
     public Optional<CustomerRepresentative> ofIdentity(Long id) {
         return Optional.ofNullable(idMap.get(id));
     }
 
+    /**
+     * Returns all stored customer representatives.
+     *
+     * @return A collection of all entities.
+     */
     @Override
     public Iterable<CustomerRepresentative> findAll() {
         return idMap.values();
     }
 
+    /**
+     * Removes the given representative from memory.
+     *
+     * @param entity The entity to remove.
+     */
     @Override
     public void delete(CustomerRepresentative entity) {
         idMap.remove(entity.identity());
         emailMap.remove(entity.getEmail());
     }
 
+    /**
+     * Deletes a representative by its ID.
+     *
+     * @param entityId The ID of the entity to delete.
+     */
     @Override
     public void deleteOfIdentity(Long entityId) {
         ofIdentity(entityId).ifPresent(this::delete);
     }
 
+    /**
+     * Returns the total number of stored representatives.
+     *
+     * @return Number of stored entities.
+     */
     @Override
     public long count() {
         return idMap.size();
