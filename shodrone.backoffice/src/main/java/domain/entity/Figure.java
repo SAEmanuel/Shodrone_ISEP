@@ -35,7 +35,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     private Long version;
 
     @ManyToOne //(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private FigureCategory category;
 
     @Enumerated(EnumType.STRING)
@@ -47,7 +47,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     private FigureStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "costumer_id")
+    @JoinColumn(name = "costumer_id", nullable = false)
     private Costumer costumer;
 
     protected Figure() {}
