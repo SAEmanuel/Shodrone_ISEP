@@ -34,7 +34,7 @@ class RegisterShowRequestControllerTest {
                 new NIF("123456789"),
                 new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
         );
-        Figure figure = new Figure("Circle", new Description("A perfect round shape"), 1L, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, realCostumer);
+        Figure figure = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), 1L, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, realCostumer);
         List<Figure> figures = List.of(figure);
 
         controller.foundCostumerForRegistration(Optional.of(realCostumer));

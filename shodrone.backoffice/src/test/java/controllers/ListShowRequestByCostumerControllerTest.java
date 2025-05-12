@@ -42,8 +42,8 @@ class ListShowRequestByCostumerControllerTest {
 
         assertTrue(costumer.isPresent(), "Customer 'Jorge Ubaldo' must exist in test DB");
 
-        Figure figure1  = new Figure("Circle",         new Description("A perfect round shape"),                 1L,  null,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, costumer.get());
-        Figure figure2  = new Figure("Airplane",       new Description("A fixed-wing flying vehicle"),           2L,  null,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, costumer.get());
+        Figure figure1  = new Figure(new domain.valueObjects.Name("Circle"),         new Description("A perfect round shape"),                 1L,  null,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, costumer.get());
+        Figure figure2  = new Figure(new domain.valueObjects.Name("Airplane"),       new Description("A fixed-wing flying vehicle"),           2L,  null,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, costumer.get());
         List<Figure> figureList = new ArrayList<>();
         figureList.add(figure1);
         figureList.add(figure2);

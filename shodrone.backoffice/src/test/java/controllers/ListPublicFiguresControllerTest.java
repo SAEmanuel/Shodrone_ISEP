@@ -47,7 +47,7 @@ class ListPublicFiguresControllerTest {
     );
 
     private final Figure figure3 = new Figure(new Name("Airplane"), new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, null, customer
+            category, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, null, new domain.valueObjects.Name(customer
     );
 
     @BeforeEach

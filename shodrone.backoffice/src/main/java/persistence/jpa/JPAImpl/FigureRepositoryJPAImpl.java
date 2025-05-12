@@ -74,8 +74,11 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
             figure.UpdateFigureCostumer(costumer.get());
         }
 
-        if(findFigures(null, figure.name, null, null, figure.category(), null, null, null, figure.costumer()) != null) {}
-
+        Optional<List<Figure>> findExistentFigure = findFigures(null, figure.name, null, null, figure.category(),
+                null, null, null, figure.costumer());
+        if( findExistentFigure.isPresent() && !findExistentFigure.get().isEmpty()) {
+            return Optional.empty();
+        }
         add(figure);
         //System.out.println(figure);
         return Optional.of(figure);
