@@ -2,11 +2,9 @@ package domain.entity;
 
 import authz.Email;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import domain.valueObjects.FigureAvailability;
-import domain.valueObjects.FigureStatus;
+import domain.valueObjects.*;
 import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.domain.model.AggregateRoot;
-import domain.valueObjects.Description;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -28,6 +26,10 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Column(name = "Name", nullable = false)
     private String name;
 
+    /*@Embedded
+    @Column(name = "Name", nullable = false)
+    public Name name;*/
+
     @Embedded
     public Description description;
 
@@ -46,12 +48,16 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Column(nullable = false)
     private FigureStatus status;
 
+    /*@Embedded
+    public DSL dsl;*/
+
     @ManyToOne
     @JoinColumn(name = "costumer_id", nullable = false)
     private Costumer costumer;
 
     protected Figure() {}
-    
+
+                 //Name name
     public Figure(String name, Description description,
                   Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
 
@@ -66,6 +72,8 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     @Override
     public Long identity() { return figureId; }
+
+    /*    public Name name() { return name; }*/
 
     public String name() { return name; }
 
