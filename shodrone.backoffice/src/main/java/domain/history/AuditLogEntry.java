@@ -24,7 +24,6 @@ public class AuditLogEntry {
     private LocalDateTime timestamp;
 
     protected AuditLogEntry() {
-        // For ORM
     }
 
     public AuditLogEntry(String entityName, String entityId, String fieldName,

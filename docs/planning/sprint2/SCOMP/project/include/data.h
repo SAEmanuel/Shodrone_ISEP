@@ -4,6 +4,9 @@
 #include "report.h"
 
 int get_drone_number_from_file(char* file_name);
-int load_script_data(char* filename, ShowProposal* proposal, Drone** drones);
+int get_total_ticks_from_file(const char* filename);
+void trim(char* str);
+
+
 
 #endif

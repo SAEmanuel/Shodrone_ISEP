@@ -2,10 +2,30 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <ctype.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include "data.h"
 #include "report.h"
+
+
+void trim(char* str) {
+    if (str == NULL) 
+        return;
+
+    char* start = str;
+    while (isspace((unsigned char)*start)) 
+        start++;
+
+    char* end = str + strlen(str) - 1;
+    while (end > start && isspace((unsigned char)*end)) 
+        end--;
+
+    *(end + 1) = '\0';
+
+    memmove(str, start, end - start + 2);
+}
+
 
 int get_drone_number_from_file(char* file_name) {
     int n;
@@ -21,86 +41,39 @@ int get_drone_number_from_file(char* file_name) {
     }
 }
 
-int load_script_data(char* filename, ShowProposal* proposal, Drone** drones) {
-    int num_drones = get_drone_number_from_file(filename);
-    if (num_drones <= 0) return -1;
 
+int get_total_ticks_from_file(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (!file) {
-        perror("Failed to open script file");
+        fprintf(stderr, "Could not open file: %s\n", filename);
         return -1;
     }
 
-    proposal->num_drones = num_drones;
-    proposal->collisions = 0;
-    proposal->passed = 1;
-    proposal->total_ticks = 0;
-
-    *drones = calloc(num_drones, sizeof(Drone));
-    if (!*drones) {
-        perror("Failed to allocate drone array");
-        fclose(file);
-        return -1;
-    }
-
-    int current_id = -1;
-    int pos = 0;
+    int max_steps = 0;
+    int steps = 0;
+    int in_drone_section = 0;
     char line[128];
 
     while (fgets(line, sizeof(line), file)) {
-        if (strlen(line) < 2) continue;
+        trim(line);
+        if (strlen(line) == 0) continue;
 
-        int id_test;
-        if (sscanf(line, "%d", &id_test) == 1 && strspn(line, "0123456789\n") == strlen(line)) {
-            current_id = id_test;
-
-            if (current_id < 0 || current_id >= num_drones) {
-                fprintf(stderr, "Invalid drone ID: %d\n", current_id);
-                fclose(file);
-                return -1;
+        int id, x, y, z;
+        if (sscanf(line, "%d", &id) == 1 && sscanf(line, "%d %d %d", &x, &y, &z) != 3) {
+            if (in_drone_section && steps > max_steps) {
+                max_steps = steps;
             }
-
-            Drone* d = &(*drones)[pos++];
-            d->id = current_id;
-            d->current_step = 0;
-            d->active = 1;
-            d->collided = 0;
-            d->total_steps = 0;
-
-            int capacity = 10;
-            d->script = malloc(sizeof(Position) * capacity);
-            if (!d->script) {
-                perror("Failed to allocate script");
-                fclose(file);
-                return -1;
-            }
-
-            while (fgets(line, sizeof(line), file)) {
-                int x, y, z;
-                if (sscanf(line, "%d %d %d", &x, &y, &z) == 3) {
-                    if (d->total_steps >= capacity) {
-                        capacity *= 2;
-                        d->script = realloc(d->script, sizeof(Position) * capacity);
-                        if (!d->script) {
-                            perror("realloc failed");
-                            fclose(file);
-                            return -1;
-                        }
-                    }
-                    d->script[d->total_steps++] = (Position){x, y, z};
-                } else {
-                    fseek(file, -strlen(line), SEEK_CUR);
-                    break;
-                }
-            }
-
-            if (d->total_steps > proposal->total_ticks) {
-                proposal->total_ticks = d->total_steps;
-            }
+            steps = 0;
+            in_drone_section = 1;
+        } else if (sscanf(line, "%d %d %d", &x, &y, &z) == 3) {
+            steps++;
         }
+    }
+    if (in_drone_section && steps > max_steps) {
+        max_steps = steps;
     }
 
     fclose(file);
-    proposal->drones = *drones;
-    return 0;
+    return max_steps;
 }
+
