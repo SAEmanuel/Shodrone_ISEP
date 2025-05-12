@@ -83,8 +83,8 @@ public class ListFiguresByCostumerUI implements Runnable {
             } else {
                 for (int i = 0; i < selectedFigureList.size(); i++) {
                     Figure selectedFigure = selectedFigureList.get(i);
-                    System.out.printf("    %s(%d)%s -  %sID: %-3d | Name: %-10s | Availability: %s%s%n",
-                            ANSI_BRIGHT_BLACK, i + 1, ANSI_RESET, ANSI_BRIGHT_WHITE,
+                    System.out.printf("    %s(%-2d)%s -  ID: %-3d | Name: %-15s | Availability: %-9s%s%n",
+                            ANSI_BRIGHT_BLACK, i + 1, ANSI_RESET,
                             selectedFigure.identity(), selectedFigure.name(), selectedFigure.availability(), ANSI_RESET);
                 }
             }
@@ -92,11 +92,12 @@ public class ListFiguresByCostumerUI implements Runnable {
             Utils.dropLines(1);
 
             System.out.println(ANSI_BRIGHT_BLACK + BOLD + "• Figures:" + ANSI_RESET);
-            System.out.printf("    %s(0)%s -  Finish selection%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+            System.out.printf("    %s(0)%s  -  Finish selection%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
             for (int i = 0; i < figureList.size(); i++) {
                 Figure f = figureList.get(i);
-                System.out.printf("    %s(%d)%s -  ID: %-3d | Name: %-10s | Availability: %s%n",
-                        ANSI_BRIGHT_BLACK, i + 1, ANSI_RESET, f.identity(), f.name(), f.availability());
+                System.out.printf("    %s(%-2d)%s -  ID: %-3d | Costumer: %-18s | Name: %-15s | Availability: %-9s%s%n",
+                        ANSI_BRIGHT_BLACK, i + 1, ANSI_RESET,
+                        f.identity(), f.costumer().name(), f.name(), f.availability(), ANSI_RESET);
             }
 
             String input = Utils.readLineFromConsole("Select a figure by number (or press ENTER to finish)").trim();
@@ -128,9 +129,9 @@ public class ListFiguresByCostumerUI implements Runnable {
             selectedFigureList.add(selectedFigure);
             figureList.remove(selectedFigure);
 
-            System.out.printf("%s✔ Added ->%s ID: %-3d | Name: %-10s%s%n",
-                    ANSI_GREEN, ANSI_BRIGHT_BLACK, selectedFigure.identity(),
-                    selectedFigure.name(), ANSI_RESET);
+            System.out.printf("%s✔ Added ->%s ID: %-3d | Name: %-15s%s%n",
+                    ANSI_GREEN, ANSI_BRIGHT_BLACK,
+                    selectedFigure.identity(), selectedFigure.name(), ANSI_RESET);
 
             Utils.dropLines(2);
         }
