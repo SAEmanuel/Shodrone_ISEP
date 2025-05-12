@@ -102,7 +102,7 @@ public class InMemoryFigureRepository implements FigureRepository {
             return figures;
 
         for (Figure figure : store.values()) {
-            if (figure.costumer().equals(costumer)) {
+            if ((figure.costumer().equals(costumer) && figure.status().equals(FigureStatus.ACTIVE)) || (figure.status().equals(FigureStatus.ACTIVE) && figure.availability().equals(FigureAvailability.PUBLIC)) ) {
                 figures.add(figure);
             }
         }
