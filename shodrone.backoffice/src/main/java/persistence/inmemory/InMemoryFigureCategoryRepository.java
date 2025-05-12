@@ -68,7 +68,7 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
     @Override
     public List<FigureCategory> findAll() {
         List<FigureCategory> allCategories = new ArrayList<>(store.values());
-        allCategories.sort(Comparator.comparing(FigureCategory::identity));
+        allCategories.sort(Comparator.comparing(c -> c.identity().toLowerCase()));
         return allCategories;
     }
 
@@ -84,7 +84,7 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
             if (category.isAvailable())
                 activeCategories.add(category);
         }
-        activeCategories.sort(Comparator.comparing(FigureCategory::identity));
+        activeCategories.sort(Comparator.comparing(c -> c.identity().toLowerCase()));
         return activeCategories;
     }
 
