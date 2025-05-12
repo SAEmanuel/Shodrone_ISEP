@@ -38,16 +38,16 @@ class SearchFigureControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
-    private final Figure figure1 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer
+    private final Figure figure1 = new Figure(new Name("Airplane"), new Description("Airplane figure"), (long) 1.2,
+            category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, customer
     );
 
-    private final Figure figure2 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, customer
+    private final Figure figure2 = new Figure(new Name("Airplane"), new Description("Airplane figure"), (long) 1.2,
+            category, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, null, customer
     );
 
-    private final Figure figure3 = new Figure("Helicopter", new Description("Helicopter figure"), (long) 2.0,
-            category, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer
+    private final Figure figure3 = new Figure(new Name("Helicopter"), new Description("Helicopter figure"), (long) 2.0,
+            category, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, null, customer
     );
 
     @BeforeEach
@@ -60,7 +60,7 @@ class SearchFigureControllerTest {
         allFigures.add(figure3);
 
         when(mockRepository.findFigures(null, null, null, null,
-                null, null, null, null))
+                null, null, null, null, null))
                 .thenReturn(Optional.of(allFigures));
 
         RepositoryProvider.injectFigureRepository(mockRepository);
@@ -72,11 +72,11 @@ class SearchFigureControllerTest {
     void testSearchByFigureId() {
         // Assuming you're searching for the figure with a specific ID (e.g., figure1's ID)
         when(mockRepository.findFigures(figure1.identity(), null, null,
-                null, null, null, null, null))
+                null, null, null, null, null, null))
                 .thenReturn(Optional.of(List.of(figure1)));
 
         Optional<List<Figure>> result = controller.searchFigure(figure1.identity(), null, null,
-                null, null, null, null, null);
+                null, null, null, null, null, null);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));
@@ -87,10 +87,10 @@ class SearchFigureControllerTest {
         List<Figure> expectedList = new ArrayList<>();
         expectedList.add(figure1);
 
-        when(mockRepository.findFigures(null, "Airplane", null, null, null, null, null, null))
+        when(mockRepository.findFigures(null, new Name("Airplane"), null, null, null, null, null, null, null))
                 .thenReturn(Optional.of(expectedList));
 
-        Optional<List<Figure>> result = controller.searchFigure(null, "Airplane", null, null, null, null, null, null);
+        Optional<List<Figure>> result = controller.searchFigure(null, new Name("Airplane"), null, null, null, null, null, null, null);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));
@@ -101,10 +101,10 @@ class SearchFigureControllerTest {
         List<Figure> expectedList = new ArrayList<>();
         expectedList.add(figure1);
 
-        when(mockRepository.findFigures(null, null, new Description("Airplane figure"), null, null, null, null, null))
+        when(mockRepository.findFigures(null, null, new Description("Airplane figure"), null, null, null, null, null, null))
                 .thenReturn(Optional.of(expectedList));
 
-        Optional<List<Figure>> result = controller.searchFigure(null, null, new Description("Airplane figure"), null, null, null, null, null);
+        Optional<List<Figure>> result = controller.searchFigure(null, null, new Description("Airplane figure"), null, null, null, null, null, null);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));
@@ -115,10 +115,10 @@ class SearchFigureControllerTest {
         List<Figure> expectedList = new ArrayList<>();
         expectedList.add(figure1);
 
-        when(mockRepository.findFigures(null, null, null, (long) 1.2, null, null, null, null))
+        when(mockRepository.findFigures(null, null, null, (long) 1.2, null, null, null, null, null))
                 .thenReturn(Optional.of(expectedList));
 
-        Optional<List<Figure>> result = controller.searchFigure(null, null, null, (long) 1.2, null, null, null, null);
+        Optional<List<Figure>> result = controller.searchFigure(null, null, null, (long) 1.2, null, null, null, null, null);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));
@@ -129,10 +129,10 @@ class SearchFigureControllerTest {
         List<Figure> expectedList = new ArrayList<>();
         expectedList.add(figure1);
 
-        when(mockRepository.findFigures(null, null, null, null, category, null, null, null))
+        when(mockRepository.findFigures(null, null, null, null, category, null, null, null, null))
                 .thenReturn(Optional.of(expectedList));
 
-        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, category, null, null, null);
+        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, category, null, null, null, null);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));
@@ -143,10 +143,10 @@ class SearchFigureControllerTest {
         List<Figure> expectedList = new ArrayList<>();
         expectedList.add(figure1);
 
-        when(mockRepository.findFigures(null, null, null, null, null, FigureAvailability.PUBLIC, null, null))
+        when(mockRepository.findFigures(null, null, null, null, null, FigureAvailability.PUBLIC, null, null, null))
                 .thenReturn(Optional.of(expectedList));
 
-        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, null, FigureAvailability.PUBLIC, null, null);
+        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, null, FigureAvailability.PUBLIC, null, null, null);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));
@@ -157,10 +157,10 @@ class SearchFigureControllerTest {
         List<Figure> expectedList = new ArrayList<>();
         expectedList.add(figure1);
 
-        when(mockRepository.findFigures(null, null, null, null, null, null, FigureStatus.ACTIVE, null))
+        when(mockRepository.findFigures(null, null, null, null, null, null, FigureStatus.ACTIVE, null, null))
                 .thenReturn(Optional.of(expectedList));
 
-        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, null, null, FigureStatus.ACTIVE, null);
+        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, null, null, FigureStatus.ACTIVE, null, null);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));
@@ -171,10 +171,10 @@ class SearchFigureControllerTest {
         List<Figure> expectedList = new ArrayList<>();
         expectedList.add(figure1);
 
-        when(mockRepository.findFigures(null, null, null, null, null, null, null, customer))
+        when(mockRepository.findFigures(null, null, null, null, null, null, null, null, customer))
                 .thenReturn(Optional.of(expectedList));
 
-        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, null, null, null, customer);
+        Optional<List<Figure>> result = controller.searchFigure(null, null, null, null, null, null, null, null, customer);
 
         assertTrue(result.isPresent());
         assertTrue(result.get().contains(figure1));

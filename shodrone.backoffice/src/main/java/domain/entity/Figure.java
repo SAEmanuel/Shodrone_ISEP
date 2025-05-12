@@ -23,12 +23,10 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long figureId;
 
-    @Column(name = "Name", nullable = false)
-    private String name;
 
-    /*@Embedded
+    @Embedded
     @Column(name = "Name", nullable = false)
-    public Name name;*/
+    public Name name;
 
     @Embedded
     public Description description;
@@ -48,8 +46,8 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Column(nullable = false)
     private FigureStatus status;
 
-    /*@Embedded
-    public DSL dsl;*/
+    @Embedded
+    public DSL dsl;
 
     @ManyToOne
     @JoinColumn(name = "costumer_id", nullable = false)
@@ -57,9 +55,8 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     protected Figure() {}
 
-                 //Name name
-    public Figure(String name, Description description,
-                  Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
+    public Figure(Name name, Description description,
+                  Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
 
         this.name = name;
         this.description = description;
@@ -67,15 +64,14 @@ public class Figure implements AggregateRoot<Long>, Serializable {
         this.category = category;
         this.availability = availability;
         this.status = status;
+        this.dsl = dsl;
         this.costumer = costumer;
     }
 
     @Override
     public Long identity() { return figureId; }
 
-    /*    public Name name() { return name; }*/
-
-    public String name() { return name; }
+    public Name name() { return name; }
 
     public Description description() { return description; }
 
@@ -86,6 +82,8 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     public FigureAvailability availability() { return availability; }
 
     public FigureStatus status() { return status; }
+
+    public DSL dsl() { return dsl; }
 
     public Costumer costumer() { return costumer; }
 
@@ -121,7 +119,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Override
     public String toString() {
         return String.format(
-                "ID: %-3s | Name: %-20s | Description: %-30s | Version: %-6s | Category: %-20s | Status: %-6s | Availability: %-10s | Costumer: %-20s",
+                "ID: %-3s | Name: %-20s | Description: %-30s | Version: %-6s | Category: %-20s | Status: %-6s | Availability: %-10s | DSL: %-20s | Costumer: %-20s",
                 figureId != null ? figureId : "N/A",
                 name != null ? name : "N/A",
                 description != null ? description : "N/A",
@@ -129,6 +127,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
                 category != null ? category.identity() : "N/A",
                 status != null ? status : "N/A",
                 availability != null ? availability : "N/A",
+                dsl != null ? dsl: "N/A",
                 costumer != null ? costumer.name() : "N/A"
         );
     }

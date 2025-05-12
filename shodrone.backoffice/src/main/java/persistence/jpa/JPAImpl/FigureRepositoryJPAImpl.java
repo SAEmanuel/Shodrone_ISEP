@@ -5,9 +5,7 @@ import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
 import domain.entity.ShowRequest;
-import domain.valueObjects.Description;
-import domain.valueObjects.FigureAvailability;
-import domain.valueObjects.FigureStatus;
+import domain.valueObjects.*;
 import jakarta.persistence.EntityTransaction;
 import persistence.RepositoryProvider;
 import persistence.interfaces.CostumerRepository;
@@ -76,6 +74,8 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
             figure.UpdateFigureCostumer(costumer.get());
         }
 
+        if(findFigures(null, figure.name, null, null, figure.category(), null, null, null, figure.costumer()) != null) {}
+
         add(figure);
         //System.out.println(figure);
         return Optional.of(figure);
@@ -100,7 +100,7 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
     }
 
     @Override
-    public Optional<List<Figure>> findFigures(Long figureId, String name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
+    public Optional<List<Figure>> findFigures(Long figureId, Name name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
         List<Figure> figures = entityManager()
                 .createQuery("SELECT f FROM Figure f", Figure.class)
                 .getResultList();
@@ -123,7 +123,7 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         int searching = 1;
         List<Figure> searchFigures = new ArrayList<>(figures);
 
-        while (searching <= 7) {
+        while (searching <= 8) {
             figures = new ArrayList<>();
             for (Figure figure : searchFigures) {
                 switch (searching) {
@@ -176,6 +176,14 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                         }
                         break;
                     case 7:
+                        if (dsl != null) {
+                            if (figure.dsl().equals(dsl))
+                                figures.add(figure);
+                        } else {
+                            figures.add(figure);
+                        }
+                        break;
+                    case 8:
                         if (costumer != null) {
                             if (figure.costumer().equals(costumer))
                                 figures.add(figure);

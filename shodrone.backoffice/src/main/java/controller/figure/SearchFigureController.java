@@ -3,9 +3,7 @@ package controller.figure;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
-import domain.valueObjects.Description;
-import domain.valueObjects.FigureAvailability;
-import domain.valueObjects.FigureStatus;
+import domain.valueObjects.*;
 import persistence.RepositoryProvider;
 import persistence.interfaces.FigureRepository;
 
@@ -19,7 +17,7 @@ public class SearchFigureController {
         repository = RepositoryProvider.figureRepository();
     }
 
-    public Optional<List<Figure>> searchFigure (Long figureId, String name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
-        return repository.findFigures(figureId, name, description, version, category, availability, status, costumer);
+    public Optional<List<Figure>> searchFigure (Long figureId, Name name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
+        return repository.findFigures(figureId, name, description, version, category, availability, status, dsl, costumer);
     }
 }

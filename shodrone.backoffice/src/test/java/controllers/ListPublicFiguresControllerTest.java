@@ -38,16 +38,16 @@ class ListPublicFiguresControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
-    private final Figure figure1 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer
+    private final Figure figure1 = new Figure(new Name("Airplane") , new Description("Airplane figure"), (long) 1.2,
+            category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, customer
     );
 
-    private final Figure figure2 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, customer
+    private final Figure figure2 = new Figure(new Name("Airplane"), new Description("Airplane figure"), (long) 1.2,
+            category, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, null, customer
     );
 
-    private final Figure figure3 = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, customer
+    private final Figure figure3 = new Figure(new Name("Airplane"), new Description("Airplane figure"), (long) 1.2,
+            category, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, null, customer
     );
 
     @BeforeEach

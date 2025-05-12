@@ -4,9 +4,7 @@ import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
 import domain.history.AuditLoggerService;
-import domain.valueObjects.Description;
-import domain.valueObjects.FigureAvailability;
-import domain.valueObjects.FigureStatus;
+import domain.valueObjects.*;
 import persistence.RepositoryProvider;
 import persistence.interfaces.CostumerRepository;
 import persistence.interfaces.FigureCategoryRepository;
@@ -64,7 +62,14 @@ public class InMemoryFigureRepository implements FigureRepository {
             }
             figure.UpdateFigureCostumer(costumer.get());
         }
-        
+
+
+        Optional<List<Figure>> findExistentFigure = findFigures(null, figure.name, null, null, figure.category(),
+                null, null, null, figure.costumer());
+        if( findExistentFigure.isPresent() && !findExistentFigure.get().isEmpty()) {
+            return Optional.empty();
+        }
+
         store.put(figure.identity(), figure);
         return Optional.of(figure);
         
@@ -106,7 +111,7 @@ public class InMemoryFigureRepository implements FigureRepository {
     }
 
     @Override
-    public Optional<List<Figure>> findFigures(Long figureId, String name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, Costumer costumer) {
+    public Optional<List<Figure>> findFigures(Long figureId, Name name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
         ArrayList<Figure> figures = new ArrayList();
         if(store.values().isEmpty())
             return Optional.ofNullable(figures);
@@ -122,7 +127,7 @@ public class InMemoryFigureRepository implements FigureRepository {
         int searching = 1;
         ArrayList<Figure> searchFigures = new ArrayList<>(store.values());
 
-        while(searching <= 7) {
+        while(searching <= 8) {
             figures = new ArrayList<>();
             for (Figure figure : searchFigures) {
 
@@ -176,7 +181,15 @@ public class InMemoryFigureRepository implements FigureRepository {
                         }
                         break;
                     case 7:
-                        if(availability != null){
+                        if(dsl != null){
+                            if( figure.dsl.toString().equals(dsl.toString()) )
+                                figures.add(figure);
+                        }else{
+                            figures.add(figure);
+                        }
+                        break;
+                    case 8:
+                        if(costumer != null){
                             if(figure.costumer().equals(costumer))
                                 figures.add(figure);
                         }else{

@@ -24,7 +24,7 @@ class AddFigureControllerTest {
     private AddFigureController controller;
     private FigureRepository mockRepository;
 
-    private final String name = new String("Test Figure");
+    private final Name name = new Name("Test Figure");
     private final Description description = new Description("Test description");
     private final Long version = 1L;
     private final FigureCategory category = new FigureCategory(
@@ -52,10 +52,10 @@ class AddFigureControllerTest {
 
     @Test
     void testAddFigureSuccess() {
-        Figure fakeFigure = new Figure(name, description, version, category, figureAvailability, figureStatus, customer);
+        Figure fakeFigure = new Figure(name, description, version, category, figureAvailability, figureStatus, null, customer);
         when(mockRepository.save(any(Figure.class))).thenReturn(Optional.of(fakeFigure));
 
-        Optional<Figure> result = controller.addFigure(name, description, version, category, figureAvailability, figureStatus, customer);
+        Optional<Figure> result = controller.addFigure(name, description, version, category, figureAvailability, figureStatus, null, customer);
 
         assertTrue(result.isPresent());
         assertEquals(fakeFigure, result.get());
@@ -65,11 +65,11 @@ class AddFigureControllerTest {
     @Test
     void testAddFigureWithNameCategoryAndCostumerOnly_Success() {
         //Added manually the default Availability and Status
-        Figure fakeFigure = new Figure(name, null, null, category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer);
+        Figure fakeFigure = new Figure(name, null, null, category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, customer);
         when(mockRepository.save(any(Figure.class))).thenReturn(Optional.of(fakeFigure));
 
         //Added manually the default Availability and Status
-        Optional<Figure> result = controller.addFigure(name, null, null, category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer);
+        Optional<Figure> result = controller.addFigure(name, null, null, category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, customer);
 
         assertTrue(result.isPresent());
         assertEquals(fakeFigure, result.get());
@@ -80,7 +80,7 @@ class AddFigureControllerTest {
     void testAddFigure_SaveFails_ReturnsEmpty() {
         when(mockRepository.save(any(Figure.class))).thenReturn(Optional.empty());
 
-        Optional<Figure> result = controller.addFigure(name, null,null, null, null, null, null);
+        Optional<Figure> result = controller.addFigure(name, null,null, null, null, null, null, null);
 
         assertTrue(result.isEmpty());
     }

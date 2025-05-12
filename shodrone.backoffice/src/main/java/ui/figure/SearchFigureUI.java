@@ -6,9 +6,7 @@ import controller.figure.SearchFigureController;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
-import domain.valueObjects.Description;
-import domain.valueObjects.FigureAvailability;
-import domain.valueObjects.FigureStatus;
+import domain.valueObjects.*;
 import utils.Utils;
 
 import java.util.List;
@@ -32,10 +30,10 @@ public class SearchFigureUI implements Runnable {
         Long figureId = figureIdOpt.orElse(null);
 
         option = Utils.confirm("Do you want to add a name to the search? (y/n)");
-        String name = null;
+        Name name = null;
         if(option) {
             Utils.showNameRules();
-            name = Utils.rePromptWhileInvalid("Enter the Name", String::new);
+            name = Utils.rePromptWhileInvalid("Enter the Name", Name::new);
         }
 
         Utils.dropLines(1);
@@ -72,6 +70,8 @@ public class SearchFigureUI implements Runnable {
         Optional<FigureStatus> statusOpt = refurseOrAcceptValueObjectEnum(option,"Status", FigureStatus::valueOf, FigureStatus.class);
         FigureStatus status = statusOpt.orElse(null);
 
+        DSL dsl = null;
+
         System.out.println();
         option = Utils.confirm("Do you want to add a Costumer to the search? (y/n)");
         Optional<Costumer> costumer = Optional.empty();
@@ -84,7 +84,7 @@ public class SearchFigureUI implements Runnable {
             }
         }
 
-        Optional<List<Figure>> result = controller.searchFigure(figureId, name, description, version, figureCategory.orElse(null), availability, status, costumer.orElse(null));
+        Optional<List<Figure>> result = controller.searchFigure(figureId, name, description, version, figureCategory.orElse(null), availability, status, dsl, costumer.orElse(null));
         
         if (result.isPresent() && !result.get().isEmpty()) {
             Utils.showListElements(result.get(), "Figure List Found");

@@ -6,9 +6,7 @@ import controller.showrequest.ListCostumersController;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
-import domain.valueObjects.Description;
-import domain.valueObjects.FigureAvailability;
-import domain.valueObjects.FigureStatus;
+import domain.valueObjects.*;
 import utils.Utils;
 
 import java.util.List;
@@ -29,7 +27,7 @@ public class AddFigureUI implements Runnable {
         boolean option = false;
 
         Utils.showNameRules();
-        String name = Utils.rePromptWhileInvalid("Enter the Name", String::new);
+        Name name = Utils.rePromptWhileInvalid("Enter the Name", Name::new);
 
         Utils.dropLines(1);
 
@@ -60,6 +58,8 @@ public class AddFigureUI implements Runnable {
         Optional<FigureStatus> statusOpt = refurseOrAcceptValueObjectEnum(option,"Status", FigureStatus::valueOf, FigureStatus.class);
         FigureStatus status = statusOpt.orElse(FigureStatus.ACTIVE);
 
+        DSL dsl = null;
+
         Optional<Figure> result;
 
         System.out.println();
@@ -68,7 +68,7 @@ public class AddFigureUI implements Runnable {
         if (listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty()) {
             costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
 
-            result = controller.addFigure(name, description, version, figureCategory.get(), availability, status, costumer.get());
+            result = controller.addFigure(name, description, version, figureCategory.get(), availability, status, dsl, costumer.get());
         }else{
             result = Optional.empty();
             Utils.printFailMessage("The are no costumers to add to figure!");
@@ -77,7 +77,7 @@ public class AddFigureUI implements Runnable {
         if (result.isPresent()) {
             Utils.printSuccessMessage("Figure added successfully!");
         } else {
-            Utils.printFailMessage("Error Figure not added!");
+            Utils.printFailMessage("Error Figure already exist! Same : (name, category and costumer not allowed)");
         }
     }
 

@@ -1,8 +1,6 @@
 package domain.entity;
 
-import domain.valueObjects.Description;
-import domain.valueObjects.FigureAvailability;
-import domain.valueObjects.FigureStatus;
+import domain.valueObjects.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +23,7 @@ class FigureTest {
         mockDescription = mock(Description.class);
 
         // Initialize the figure object
-        figure = new Figure("Airplane", mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, mockCostumer);
+        figure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
     }
 
     // ---- Creation Tests ----
@@ -90,7 +88,7 @@ class FigureTest {
 
     @Test
     void testDiference() {
-        Figure sameFigure = new Figure("Airplane", mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, mockCostumer);
+        Figure sameFigure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
         figure.setFigureId(1L);
         sameFigure.setFigureId(2L);
         assertFalse(figure.equals(sameFigure));
@@ -98,7 +96,7 @@ class FigureTest {
 
     @Test
     void testEquality() {
-        Figure sameFigure = new Figure("Airplane", mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, mockCostumer);
+        Figure sameFigure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
         figure.setFigureId(1L);
         sameFigure.setFigureId(1L);
         assertTrue(figure.equals(sameFigure));

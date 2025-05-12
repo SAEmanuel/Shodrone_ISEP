@@ -46,7 +46,7 @@ class InMemoryShowRequestRepositoryTest {
 
         Description description = new Description("Amazing drone show!");
         Location location = new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid");
-        Figure figure = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+        Figure figure = new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, null);
 
         request1 = new ShowRequest(1L,
                 LocalDateTime.now(),

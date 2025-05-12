@@ -39,7 +39,7 @@ class ShowRequestTest {
 
         description = new Description("Amazing drone show!");
         location = new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid");
-        figure = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null);
+        figure = new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), null);
 
         showRequest = new ShowRequest(2L,
                 LocalDateTime.now(),
@@ -97,7 +97,7 @@ class ShowRequestTest {
                 ShowRequestStatus.PENDING,
                 "Jane Doe",
                 customer2, // Atualizado para customer2
-                Arrays.asList(new Figure("Airplane", new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null)),
+        Arrays.asList(new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), null)),
                 new Description("Another Show!"),
                 new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid"),
                 LocalDateTime.now().plusHours(2),
@@ -115,7 +115,7 @@ class ShowRequestTest {
                 ShowRequestStatus.PENDING,
                 "Jane Doe",
                 customer2, // Atualizado para customer2
-                Arrays.asList(new Figure("Airplane", new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null)),
+                Arrays.asList(new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), null)),
                 new Description("Another Show!"),
                 new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid"),
                 LocalDateTime.now().plusHours(2),

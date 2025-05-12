@@ -37,8 +37,8 @@ class DecommissionFigureControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
-    private final Figure figure = new Figure("Airplane", new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, customer
+    private final Figure figure = new Figure(new Name("Airplane") , new Description("Airplane figure"), (long) 1.2,
+            category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null,customer
     );
 
     @BeforeEach
