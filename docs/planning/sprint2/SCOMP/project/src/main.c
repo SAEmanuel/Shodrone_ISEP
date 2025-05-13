@@ -77,14 +77,15 @@ int main(int argc, char* argv[]) {
             }
         
             Radar radarOfDrone = {
+                .droneInformation = drones_info[childNumber],
                 .timeStamp = timeStamp,
                 .position = current_pos
             };
-
+            
             historyOfRadar[childNumber][timeStamp] = radarOfDrone;
         }
         
-        collisionDetection();
+        collisionDetection(historyOfRadar,timeStamp,num_drones);
     }
 
    
