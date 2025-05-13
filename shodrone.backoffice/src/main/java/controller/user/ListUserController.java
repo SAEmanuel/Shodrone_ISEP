@@ -9,8 +9,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Controller responsible for listing users along with their active status.
+ * Combines user DTOs from the authentication repository with domain data
+ * to display whether each user is active or inactive.
+ */
 public class ListUserController {
 
+    /**
+     * Retrieves all users and returns formatted strings containing their ID, name, and active status.
+     *
+     * @return A list of user information strings, each formatted as "email | name | ACTIVE/INACTIVE".
+     */
     public List<String> getAllUsersWithStatus() {
         List<UserDTO> allUsers = RepositoryProvider.authenticationRepository().getAllUsers();
 
