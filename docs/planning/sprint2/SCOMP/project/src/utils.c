@@ -77,7 +77,41 @@ int get_total_ticks_from_file(const char* filename) {
     return max_steps;
 }
 
-int * get_drones_ids_from_file(const char* filename){
+void fill_ids(const char* filename, int* dronesIDs, int num_drones) {
+    FILE* file = fopen(filename, "r");
+    if (!file) {
+        perror("Failed to open script file");
+        return;
+    }
 
+    char line[128];
+    int current_id;
+    int count = 0;
+    int ids_found = 0;
+
+    while (fgets(line, sizeof(line), file) && ids_found < num_drones) {
+        trim(line);
+        if (strlen(line) == 0) 
+            continue;
+
+        if (sscanf(line, "%d", &current_id) == 1) {
+            int x, y, z;
+            if (sscanf(line, "%d %d %d", &x, &y, &z) != 3) {
+                int exists = 0;
+                for (int i = 0; i < ids_found; i++) {
+                    if (dronesIDs[i] == current_id) {
+                        exists = 1;
+                        break;
+                    }
+                }
+                
+                if (!exists) {
+                    dronesIDs[ids_found++] = current_id;
+                }
+            }
+        }
+    }
+
+    fclose(file);
 }
 

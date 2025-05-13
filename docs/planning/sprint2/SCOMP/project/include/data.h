@@ -6,6 +6,7 @@
 int get_drone_number_from_file(char* file_name);
 int get_total_ticks_from_file(const char* filename);
 void trim(char* str);
+void fill_ids(const char* filename, int* dronesIDs, int num_drones);
 
 
 
