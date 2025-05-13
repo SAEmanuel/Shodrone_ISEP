@@ -5,12 +5,12 @@
 #include <sys/wait.h>
 #include <sys/select.h>
 #include <math.h>
+#include <signal.h>
 #include "data.h"
 #include "report.h"
 #include "drone.h"
 
-// Raio adicional que pode ser ajustado facilmente
-const float COLLISION_RADIUS_EXTRA = 3.0f; 
+const float COLLISION_RADIUS_EXTRA = 0.5f; 
 
 float calculateDistance(Position a, Position b) {
     float dx = a.x - b.x;
@@ -22,21 +22,33 @@ float calculateDistance(Position a, Position b) {
 int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp) {
     for (int i = 0; i < numberOfDrones; i++) {
         Radar droneA = historyOfRadar[i][timeStamp];
-        float radiusA = (droneA.droneInformation.biggestDimension / 2.0f) + COLLISION_RADIUS_EXTRA;
+        if(timeStamp > 0 && historyOfRadar[i][timeStamp - 1].terminated) {continue;}
+        
+        float radiusA = (droneA.droneInformation.biggestDimension / (2.0f * 100)) + COLLISION_RADIUS_EXTRA;
 
         for (int j = i + 1; j < numberOfDrones; j++) {
             Radar droneB = historyOfRadar[j][timeStamp];
-            float radiusB = (droneB.droneInformation.biggestDimension / 2.0f) + COLLISION_RADIUS_EXTRA;
+            if(timeStamp > 0 && historyOfRadar[j][timeStamp - 1].terminated) {continue;}
+            
+            float radiusB = (droneB.droneInformation.biggestDimension / (2.0f * 100)) + COLLISION_RADIUS_EXTRA;
 
             float distance = calculateDistance(droneA.position, droneB.position);
             float combinedRadius = radiusA + radiusB;
 
-            //Enviar sinais TODO 
+            
             if (distance < combinedRadius) {
                 printf("Collision detected between drone %d and %d at time %d\n", 
                        droneA.droneInformation.id, 
                        droneB.droneInformation.id, 
                        timeStamp);
+                       
+                       
+                       for (int t = timeStamp; t < total_ticks; t++) {
+                            historyOfRadar[i][t].terminated = 1;
+                            historyOfRadar[j][t].terminated = 1;
+                        }
+                       //kill(historyOfRadar[i][timeStamp].position.pid, SIGUSR1);
+                       //kill(historyOfRadar[j][timeStamp].position.pid, SIGUSR1);
                 return 1;
             }
         }

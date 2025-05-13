@@ -8,7 +8,15 @@
 #include "data.h"
 
 
-void simulate_drone(const char* filename, int drone_id, int pipe_fd) {
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
+#include "drone.h"
+
+// Supondo que já tens a função trim(char*) implementada
+
+void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) {
     FILE* file = fopen(filename, "r");
     if (!file) {
         perror("Drone failed to open script file");
@@ -27,14 +35,14 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd) {
     int found_section = 0;
     int capacity = 10;
 
-    // 1. Procura a seção do drone no arquivo
+    // 1. Procura o cabeçalho do drone no ficheiro
     while (fgets(line, sizeof(line), file)) {
         trim(line);
-        if (strlen(line) == 0) 
+        if (strlen(line) == 0)
             continue;
 
-        int current_id;
-        if (sscanf(line, "%d", &current_id) == 1 && current_id == drone.id) {
+        int id, dim1, dim2, dim3;
+        if (sscanf(line, "%d - %dx%dx%d", &id, &dim1, &dim2, &dim3) == 4 && id == drone.id) {
             found_section = 1;
             break;
         }
@@ -54,15 +62,15 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd) {
         exit(EXIT_FAILURE);
     }
 
-    // 3. Lê todas as posições do script
+    // 3. Lê todas as posições do script até ao próximo cabeçalho ou EOF
     while (fgets(line, sizeof(line), file)) {
         trim(line);
-        if (strlen(line) == 0) 
+        if (strlen(line) == 0)
             continue;
 
-        // Verifica se é um novo cabeçalho de drone
-        int test_id;
-        if (sscanf(line, "%d", &test_id) == 1) 
+        // Se encontrar um novo cabeçalho, termina o bloco deste drone
+        int id, dim1, dim2, dim3;
+        if (sscanf(line, "%d - %dx%dx%d", &id, &dim1, &dim2, &dim3) == 4)
             break;
 
         // Expande o array se necessário
@@ -79,21 +87,20 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd) {
         }
 
         // Lê e armazena a posição
-        if (sscanf(line, "%d %d %d", 
-            &drone.script[drone.total_steps].x,
-            &drone.script[drone.total_steps].y,
-            &drone.script[drone.total_steps].z) != 3) {
+        if (sscanf(line, "%d %d %d",
+                   &drone.script[drone.total_steps].x,
+                   &drone.script[drone.total_steps].y,
+                   &drone.script[drone.total_steps].z) != 3) {
             fprintf(stderr, "Drone %d: Invalid coordinate line: %s\n", drone.id, line);
             continue;
         }
         drone.total_steps++;
-
     }
 
-    // 4. Executa o script e envia posições via pipe
+    // 4. Envia as posições via pipe
     for (drone.current_step = 0; drone.current_step < drone.total_steps; drone.current_step++) {
         Position current_pos = drone.script[drone.current_step];
-        
+        current_pos.pid = pid;
         ssize_t bytes_written = write(pipe_fd, &current_pos, sizeof(Position));
         if (bytes_written == -1) {
             perror("Drone failed to write to pipe");
@@ -101,9 +108,8 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd) {
             fclose(file);
             exit(EXIT_FAILURE);
         }
-        
-        raise(SIGSTOP);
-        usleep(100000); // 100ms entre passos
+        //raise(SIGSTOP);
+        usleep(100000); // 100ms entre passos (opcional)
     }
 
     // 5. Limpeza final
@@ -112,3 +118,4 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd) {
     close(pipe_fd);
     exit(EXIT_SUCCESS);
 }
+
