@@ -10,7 +10,7 @@ typedef struct {
     int id;
     Position* script; 
     int total_steps;  
-    int current_step;     
+    int current_step;  
 } Drone;
 
 

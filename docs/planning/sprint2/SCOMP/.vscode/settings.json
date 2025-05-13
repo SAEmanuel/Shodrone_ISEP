@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "data.h": "c",
+        "drone.h": "c",
+        "unistd.h": "c"
+    }
+}

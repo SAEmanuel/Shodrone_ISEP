@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         if(pids[droneNumber] == 0){
             close(pipes[droneNumber][0]);
 
-            simulate_drone(filename,NULL,pipes[droneNumber][0]);
+            simulate_drone(filename,dronesIDs[droneNumber],pipes[droneNumber][0]);
 
             close(pipes[droneNumber][1]);
             exit(EXIT_SUCCESS);
@@ -60,9 +60,33 @@ int main(int argc, char* argv[]) {
         close(pipes[droneNumber][1]);
     }
 
-    for(int childNumber = 0; childNumber < num_drones; childNumber++){
-        wait(NULL); //rever
+    int status;
+    Radar historyOfRadar[num_drones][total_ticks];
+
+    for(int timeStamp = 0; timeStamp < total_ticks; timeStamp++){
+        
+        for(int childNumber = 0; childNumber < num_drones; childNumber++){
+            waitpid(pids[childNumber],&status,WUNTRACED);
+            
+            Position current_pos;
+            ssize_t bytes_read = read(pipes[childNumber][0],&current_pos,sizeof(current_pos));
+            
+            if (bytes_read == -1) {
+                perror("Father failed to read from pipe\n");
+                exit(EXIT_FAILURE);
+            }
+        
+            Radar radarOfDrone = {
+                .timeStamp = timeStamp,
+                .position = current_pos
+            };
+
+            historyOfRadar[childNumber][timeStamp] = radarOfDrone;
+        }
+        
+        collisionDetection();
     }
+
    
 
     return 0;

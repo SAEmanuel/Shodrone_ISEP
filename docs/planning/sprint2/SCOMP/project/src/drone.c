@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 #include <ctype.h>
 #include "drone.h"
 #include "data.h"
@@ -101,6 +102,7 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd) {
             exit(EXIT_FAILURE);
         }
         
+        raise(SIGSTOP);
         usleep(100000); // 100ms entre passos
     }
 
