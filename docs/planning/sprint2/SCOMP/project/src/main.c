@@ -8,7 +8,8 @@
 #include "report.h"
 #include "drone.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[])
+{
     if (argc < 2) {
         fprintf(stderr, "Usage: %s <script_x_drones.txt>\n", argv[0]);
         return 1;
@@ -38,6 +39,7 @@ int main(int argc, char* argv[]) {
     int pipes[num_drones][2];
     pid_t pids[num_drones];
 
+
     for (int droneNumber = 0; droneNumber < num_drones; droneNumber++) {
         if (pipe(pipes[droneNumber]) == -1) {
             perror("Error creating pipe");
@@ -51,52 +53,55 @@ int main(int argc, char* argv[]) {
         }
 
         if (pids[droneNumber] == 0) {
-           
-            close(pipes[droneNumber][0]); 
+
+            close(pipes[droneNumber][0]);
             simulate_drone(filename, drones_info[droneNumber].id, pipes[droneNumber][1], getpid());
-            close(pipes[droneNumber][1]); 
+            close(pipes[droneNumber][1]);
             exit(EXIT_SUCCESS);
         }
 
-        
-        close(pipes[droneNumber][1]); 
+
+        close(pipes[droneNumber][1]);
     }
-   
+
     Radar historyOfRadar[num_drones][total_ticks];
+
 
     for (int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
         for (int childNumber = 0; childNumber < num_drones; childNumber++) {
             Position current_pos;
             ssize_t bytes_read = read(pipes[childNumber][0], &current_pos, sizeof(current_pos));
-            //printf("x: %d || y: %d || z: %d\n", current_pos.x, current_pos.y, current_pos.z);
+
             if (bytes_read == -1) {
                 perror("Father failed to read from pipe\n");
                 exit(EXIT_FAILURE);
             }
 
+            if (bytes_read == sizeof(Position)) {
+                int is_terminated = (timeStamp > 0)
+                    ? historyOfRadar[childNumber][timeStamp - 1].terminated
+                    : 0;
 
-        if (bytes_read == sizeof(Position)) {
-            int is_terminated = (timeStamp > 0) ? historyOfRadar[childNumber][timeStamp - 1].terminated : 0;
-        
-            Radar radarOfDrone = {
-                .droneInformation = drones_info[childNumber],
-                .timeStamp = timeStamp,
-                .position = current_pos,
-                .terminated = is_terminated
-                
-            };
+                Radar radarOfDrone = {
+                    .droneInformation = drones_info[childNumber],
+                    .timeStamp = timeStamp,
+                    .position = current_pos,
+                    .terminated = is_terminated
+                };
 
-            historyOfRadar[childNumber][timeStamp] = radarOfDrone;
+                historyOfRadar[childNumber][timeStamp] = radarOfDrone;
+            }
         }
-        }
-        
+
         if (collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp)) {
             collision_counter++;
         }
-        if(collision_counter >= max_collisions) {
-            //enviar sinal a todos para terminar
+
+        if (collision_counter >= max_collisions) {
+            // TODO: Send termination signal to all drones
         }
     }
+
 
     for (int i = 0; i < num_drones; i++) {
         waitpid(pids[i], NULL, 0);
