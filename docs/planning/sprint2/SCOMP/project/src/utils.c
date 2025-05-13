@@ -77,3 +77,7 @@ int get_total_ticks_from_file(const char* filename) {
     return max_steps;
 }
 
+int * get_drones_ids_from_file(const char* filename){
+
+}
+
