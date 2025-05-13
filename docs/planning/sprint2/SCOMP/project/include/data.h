@@ -6,13 +6,13 @@
 typedef struct{
     int id;
     int biggestDimension;
-}DroneInformation;
+} DroneInformation;
 
 typedef struct{
     DroneInformation droneInformation;
     int timeStamp;
     Position position;
-}Radar;
+} Radar;
 
 
 int get_drone_number_from_file(char* file_name);

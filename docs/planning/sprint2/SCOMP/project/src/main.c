@@ -35,7 +35,6 @@ int main(int argc, char* argv[]) {
     int pipes[num_drones][2];
     pid_t pids[num_drones];
 
-    // Criar pipes e forks
     for (int droneNumber = 0; droneNumber < num_drones; droneNumber++) {
         if (pipe(pipes[droneNumber]) == -1) {
             perror("Error creating pipe");
@@ -49,20 +48,19 @@ int main(int argc, char* argv[]) {
         }
 
         if (pids[droneNumber] == 0) {
-            // Processo filho (drone)
-            close(pipes[droneNumber][0]); // Fecha leitura
+           
+            close(pipes[droneNumber][0]); 
             simulate_drone(filename, drones_info[droneNumber].id, pipes[droneNumber][1]);
-            close(pipes[droneNumber][1]); // Fecha escrita depois de enviar tudo
+            close(pipes[droneNumber][1]); 
             exit(EXIT_SUCCESS);
         }
 
-        // Processo pai
-        close(pipes[droneNumber][1]); // Fecha escrita
+        
+        close(pipes[droneNumber][1]); 
     }
 
     Radar historyOfRadar[num_drones][total_ticks];
 
-    // Para cada tick, lê a posição de cada drone
     for (int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
         for (int childNumber = 0; childNumber < num_drones; childNumber++) {
             Position current_pos;
@@ -81,7 +79,6 @@ int main(int argc, char* argv[]) {
         collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp);
     }
 
-    // Espera pelo término dos filhos
     for (int i = 0; i < num_drones; i++) {
         waitpid(pids[i], NULL, 0);
         close(pipes[i][0]);
