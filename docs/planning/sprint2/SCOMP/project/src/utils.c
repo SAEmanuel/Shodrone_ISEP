@@ -58,17 +58,23 @@ int get_total_ticks_from_file(const char* filename) {
         trim(line);
         if (strlen(line) == 0) continue;
 
-        int id, x, y, z;
-        if (sscanf(line, "%d", &id) == 1 && sscanf(line, "%d %d %d", &x, &y, &z) != 3) {
+
+        int id, dim1, dim2, dim3;
+        if (sscanf(line, "%d - %dx%dx%d", &id, &dim1, &dim2, &dim3) == 4) {
+
             if (in_drone_section && steps > max_steps) {
                 max_steps = steps;
             }
             steps = 0;
             in_drone_section = 1;
-        } else if (sscanf(line, "%d %d %d", &x, &y, &z) == 3) {
-            steps++;
+        } else {
+            int x, y, z;
+            if (sscanf(line, "%d %d %d", &x, &y, &z) == 3) {
+                steps++;
+            }
         }
     }
+
     if (in_drone_section && steps > max_steps) {
         max_steps = steps;
     }
