@@ -25,8 +25,8 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    int *dronesIDs = calloc(num_drones,sizeof(int));
-    fill_ids(filename, dronesIDs, num_drones);
+    DroneInformation *drones_info = calloc(num_drones,sizeof(DroneInformation));
+    fill_info(filename, drones_info, num_drones);
     
 
     int total_ticks = get_total_ticks_from_file(filename);
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
         if(pids[droneNumber] == 0){
             close(pipes[droneNumber][0]);
 
-            simulate_drone(filename,dronesIDs[droneNumber],pipes[droneNumber][0]);
+            simulate_drone(filename,drones_info[droneNumber].id,pipes[droneNumber][0]);
 
             close(pipes[droneNumber][1]);
             exit(EXIT_SUCCESS);
