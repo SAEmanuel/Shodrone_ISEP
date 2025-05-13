@@ -5,9 +5,12 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <math.h>
 #include "data.h"
 #include "report.h"
 
+
+#define PERCENTAGE 0.05f
 
 void trim(char* str) {
     if (str == NULL) 
@@ -113,5 +116,9 @@ void fill_info(const char* filename, DroneInformation* dronesIDs, int num_drones
     }
 
     fclose(file);
+}
+
+int calculate_acceptable_collision_number(int numberOfDrones) {
+    return (int) floor(numberOfDrones * PERCENTAGE);
 }
 

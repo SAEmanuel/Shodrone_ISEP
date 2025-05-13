@@ -18,6 +18,9 @@ int main(int argc, char* argv[]) {
     snprintf(filename, sizeof(filename), "scripts/%s", argv[1]);
 
     int num_drones = get_drone_number_from_file(filename);
+    int max_collisions = calculate_acceptable_collision_number(num_drones);
+    int collision_counter = 0;
+
     if (num_drones <= 0) {
         fprintf(stderr, "Invalid or unreadable script file: %s\n", filename);
         return 1;
@@ -76,7 +79,12 @@ int main(int argc, char* argv[]) {
             };
             historyOfRadar[childNumber][timeStamp] = radarOfDrone;
         }
-        collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp);
+        if (collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp)) {
+            collision_counter++;
+        }
+        if(collision_counter >= max_collisions) {
+            //enviar sinal a todos para terminar
+        }
     }
 
     for (int i = 0; i < num_drones; i++) {
