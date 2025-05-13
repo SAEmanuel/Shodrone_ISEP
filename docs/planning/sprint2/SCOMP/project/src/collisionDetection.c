@@ -19,7 +19,7 @@ float calculateDistance(Position a, Position b) {
     return sqrtf(dx * dx + dy * dy + dz * dz);
 }
 
-int collisionDetection(Radar **historyOfRadar, int timeStamp, int numberOfDrones) {
+int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp) {
     for (int i = 0; i < numberOfDrones; i++) {
         Radar droneA = historyOfRadar[i][timeStamp];
         float radiusA = (droneA.droneInformation.biggestDimension / 2.0f) + COLLISION_RADIUS_EXTRA;
@@ -39,10 +39,8 @@ int collisionDetection(Radar **historyOfRadar, int timeStamp, int numberOfDrones
                        timeStamp);
                 return 1;
             }
-
         }
     }
-
     return 0; // No collision detected
 }
 
