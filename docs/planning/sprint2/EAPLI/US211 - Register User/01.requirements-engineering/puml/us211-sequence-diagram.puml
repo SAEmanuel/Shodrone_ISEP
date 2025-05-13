@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US211 - Register User
+
+autonumber
+
+actor "Admin" as Admin
+participant ":System" as System
+
+activate Admin
+
+    Admin -> System : registerUser(name, email, phone, role)
+    activate System
+
+        System -> System : validateEmailFormat(email)
+        System -> System : checkEmailDomain(email)
+        System -> System : checkDuplicateEmail(email)
+
+        alt email is valid and not used
+            System -> System : createUser(name, email, phone, role)
+            System -> System : persistUser(user)
+            System --> Admin : registration successful
+        else invalid email or already used
+            System --> Admin : registration failed (reason)
+        end
+
+    deactivate System
+
+deactivate Admin
+@enduml

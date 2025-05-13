@@ -1,0 +1,64 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "usermanagement.domain" {
+    class User {
+        - Email id
+        - Password password
+        - String name
+        - String phoneNumber
+        - boolean active
+        - UserRole role
+        + activate()
+        + deactivate()
+    }
+
+    class UserRole {
+        - String id
+        - String description
+    }
+
+    class Email {
+        - String value
+    }
+
+    class Password {
+        - String hashedValue
+        + verify(input): boolean
+    }
+
+    User --> Email
+    User --> Password
+    User --> UserRole
+}
+
+package "usermanagement.application" {
+    class RegisterUserController {
+        - UserRepository userRepo
+        - UserRoleRepository roleRepo
+        + registerUser(name, email, phone, pwd, roleId): boolean
+    }
+
+    interface UserRepository {
+        + save(user): void
+        + existsByEmail(email): boolean
+    }
+
+    interface UserRoleRepository {
+        + findById(roleId): UserRole
+    }
+}
+
+package "usermanagement.bootstrap" {
+    class BootstrapUsers {
+        - RegisterUserController controller
+        + execute(): void
+    }
+}
+
+RegisterUserController --> UserRepository
+RegisterUserController --> UserRoleRepository
+RegisterUserController --> User : creates >
+BootstrapUsers --> RegisterUserController
+
+@enduml
