@@ -1,0 +1,45 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Disable/Enable User - Domain Model (US212)
+
+hide circles
+hide methods
+
+package "User Management Subsystem" {
+
+    class User {
+        Email: id
+        String: name
+        String: phoneNumber
+        Password: password
+        boolean: active
+    }
+
+    class Email {
+        String: value
+    }
+
+    class Password {
+        String: hashedValue
+    }
+
+    class UserStatusService {
+        +toggleUserStatus(userId, desiredStatus)
+    }
+
+    class AuthorizationService {
+        +isAdmin(userId): boolean
+        +isSelfOperation(adminId, targetUserId): boolean
+    }
+
+    UserStatusService --> User : updates >
+    User "1" --> "1" Email
+    User "1" --> "1" Password
+    UserStatusService --> AuthorizationService : uses >
+}
+
+@enduml

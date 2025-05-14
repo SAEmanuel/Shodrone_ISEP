@@ -1,0 +1,47 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "usermanagement.domain" {
+    class User {
+        - Email id
+        - Password password
+        - String name
+        - String phoneNumber
+        - boolean active
+        - UserRole role
+        + activate(): void
+        + deactivate(): void
+        + isActive(): boolean
+        + isSameAs(otherId: Email): boolean
+    }
+
+    class Email {
+        - String value
+    }
+
+    User --> Email
+}
+
+package "usermanagement.application" {
+    class ToggleUserStatusController {
+        - UserRepository userRepo
+        - AuthorizationService authService
+        + toggleUserStatus(targetEmail: String, enable: boolean): boolean
+    }
+
+    interface UserRepository {
+        + findByEmail(email: String): User
+        + save(user: User): void
+    }
+
+    class AuthorizationService {
+        + isAdmin(currentUserEmail: Email): boolean
+        + isSelf(currentUserEmail: Email, targetEmail: Email): boolean
+    }
+}
+
+ToggleUserStatusController --> UserRepository
+ToggleUserStatusController --> AuthorizationService
+ToggleUserStatusController --> User : modifies >
+
+@enduml
