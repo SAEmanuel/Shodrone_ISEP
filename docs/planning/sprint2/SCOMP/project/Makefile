@@ -22,7 +22,7 @@ compile: $(BIN)
 
 # Build the binary
 $(BIN): $(OBJS)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -lm
 
 # Compile each source file to object file
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
