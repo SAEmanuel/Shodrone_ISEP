@@ -8,22 +8,32 @@
 #include "data.h"
 
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include "drone.h"
+static volatile sig_atomic_t terminated = 0;
 
-// Supondo que já tens a função trim(char*) implementada
+
+void handle_sigusr1(int sig) {
+    terminated = 1; 
+}
 
 void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) {
+
+    struct sigaction sa;
+    memset(&sa, 0, sizeof(sa));
+    sa.sa_handler = handle_sigusr1;
+    sa.sa_flags = SA_RESTART;
+    sigemptyset(&sa.sa_mask);
+
+    if (sigaction(SIGUSR1, &sa, NULL) == -1) {
+        perror("Failed to set up SIGUSR1 handler");
+        exit(EXIT_FAILURE);
+    }
+
     FILE* file = fopen(filename, "r");
     if (!file) {
         perror("Drone failed to open script file");
         exit(EXIT_FAILURE);
     }
 
-    // Inicializa a struct Drone
     Drone drone = {
         .id = drone_id,
         .script = NULL,
@@ -35,12 +45,11 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
     int found_section = 0;
     int capacity = 10;
 
-    // 1. Procura o cabeçalho do drone no ficheiro
+    // 1. Procurar cabeçalho do drone
     while (fgets(line, sizeof(line), file)) {
         trim(line);
         if (strlen(line) == 0)
             continue;
-
         int id, dim1, dim2, dim3;
         if (sscanf(line, "%d - %dx%dx%d", &id, &dim1, &dim2, &dim3) == 4 && id == drone.id) {
             found_section = 1;
@@ -54,7 +63,7 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
         exit(EXIT_FAILURE);
     }
 
-    // 2. Aloca memória inicial para o script
+    // 2. Alocar memória para o script
     drone.script = malloc(sizeof(Position) * capacity);
     if (!drone.script) {
         perror("Failed to allocate initial script");
@@ -62,18 +71,16 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
         exit(EXIT_FAILURE);
     }
 
-    // 3. Lê todas as posições do script até ao próximo cabeçalho ou EOF
+    // 3. Ler todas as posições do script até ao próximo cabeçalho ou EOF
     while (fgets(line, sizeof(line), file)) {
         trim(line);
         if (strlen(line) == 0)
             continue;
 
-        // Se encontrar um novo cabeçalho, termina o bloco deste drone
         int id, dim1, dim2, dim3;
         if (sscanf(line, "%d - %dx%dx%d", &id, &dim1, &dim2, &dim3) == 4)
             break;
 
-        // Expande o array se necessário
         if (drone.total_steps >= capacity) {
             capacity *= 2;
             Position* new_script = realloc(drone.script, sizeof(Position) * capacity);
@@ -86,7 +93,6 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
             drone.script = new_script;
         }
 
-        // Lê e armazena a posição
         if (sscanf(line, "%d %d %d",
                    &drone.script[drone.total_steps].x,
                    &drone.script[drone.total_steps].y,
@@ -97,8 +103,8 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
         drone.total_steps++;
     }
 
-    // 4. Envia as posições via pipe
-    for (drone.current_step = 0; drone.current_step < drone.total_steps; drone.current_step++) {
+    // 4. Enviar posições via pipe, parar se receber sinal
+    for (drone.current_step = 0; drone.current_step < drone.total_steps && !terminated; drone.current_step++) {
         Position current_pos = drone.script[drone.current_step];
         current_pos.pid = pid;
         ssize_t bytes_written = write(pipe_fd, &current_pos, sizeof(Position));
@@ -108,11 +114,19 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
             fclose(file);
             exit(EXIT_FAILURE);
         }
-        //raise(SIGSTOP);
-        usleep(100000); // 100ms entre passos (opcional)
+        usleep(100000); 
+
+        if (terminated) {
+            break;
+        }
     }
 
-    // 5. Limpeza final
+    if (terminated) {
+        char buffer[100];
+        int len = snprintf(buffer, sizeof(buffer), "Drone %d: Leaving the show due to collision\n", drone.id);
+        write(STDOUT_FILENO, buffer, len);
+    }
+
     free(drone.script);
     fclose(file);
     close(pipe_fd);

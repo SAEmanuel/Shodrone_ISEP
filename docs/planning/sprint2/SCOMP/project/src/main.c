@@ -94,7 +94,7 @@ int main(int argc, char* argv[])
         }
 
         if (collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp)) {
-            collision_counter++;
+            collision_counter+=2;
         }
 
         if (collision_counter >= max_collisions) {
