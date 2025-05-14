@@ -7,16 +7,12 @@
 #include "data.h"
 #include "report.h"
 #include "drone.h"
+#include "simulation.h"
 
-int main(int argc, char* argv[])
+int run_simulation(char* argv)
 {
-    if (argc < 2) {
-        fprintf(stderr, "Usage: %s <script_x_drones.txt>\n", argv[0]);
-        return 1;
-    }
-
     char filename[256];
-    snprintf(filename, sizeof(filename), "scripts/%s", argv[1]);
+    snprintf(filename, sizeof(filename), "scripts/%s", argv);
 
     int num_drones = get_drone_number_from_file(filename);
     int max_collisions = calculate_acceptable_collision_number(num_drones);
