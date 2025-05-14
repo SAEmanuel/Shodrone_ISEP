@@ -123,7 +123,7 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
 
     if (terminated) {
         char buffer[100];
-        int len = snprintf(buffer, sizeof(buffer), "Drone %d: Leaving the show due to collision\n", drone.id);
+        int len = snprintf(buffer, sizeof(buffer), "⛔ Drone [%d] leaving the show due to collision\n", drone.id);
         write(STDOUT_FILENO, buffer, len);
     }
 

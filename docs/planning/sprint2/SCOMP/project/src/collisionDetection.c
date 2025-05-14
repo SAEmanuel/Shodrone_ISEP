@@ -11,6 +11,7 @@
 #include "drone.h"
 
 const float COLLISION_RADIUS_EXTRA = 0.5f;
+volatile sig_atomic_t number_of_collision = 0;
 
 float calculateDistance(Position a, Position b) {
     float dx = a.x - b.x;
@@ -22,7 +23,7 @@ float calculateDistance(Position a, Position b) {
 int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks],int timeStamp) {
     for (int i = 0; i < numberOfDrones; i++) {
         Radar droneA = historyOfRadar[i][timeStamp];
-        if (timeStamp > 0 && historyOfRadar[i][timeStamp - 1].terminated) {
+        if (historyOfRadar[i][timeStamp].terminated) {
             continue;
         }
 
@@ -30,7 +31,7 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
 
         for (int j = i + 1; j < numberOfDrones; j++) {
             Radar droneB = historyOfRadar[j][timeStamp];
-            if (timeStamp > 0 && historyOfRadar[j][timeStamp - 1].terminated) {
+            if (historyOfRadar[j][timeStamp].terminated) {
                 continue;
             }
 
@@ -39,22 +40,15 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
             float combinedRadius = radiusA + radiusB;
 
             if (distance < combinedRadius) {
-                printf(
-                    "Collision detected between drone %d and %d at time %d\n",
-                    droneA.droneInformation.id,
-                    droneB.droneInformation.id,
-                    timeStamp
-                );
+                char collisionMSG[100];
+                int len = snprintf(collisionMSG,sizeof(collisionMSG),"💥 Collision detected between drone [%d] and [%d] at time - %d\n",droneA.droneInformation.id,droneB.droneInformation.id,timeStamp);
+                write(STDOUT_FILENO,collisionMSG,len);
 
-                for (int t = timeStamp; t < total_ticks; t++) {
-                    historyOfRadar[i][t].terminated = 1;
-                    historyOfRadar[j][t].terminated = 1;
-                }
                 kill(historyOfRadar[i][timeStamp].position.pid, SIGUSR1);
                 kill(historyOfRadar[j][timeStamp].position.pid, SIGUSR1);
-                return 1;
+                number_of_collision+=1;
             }
         }
     }
-    return 0; // No collision detected
+    return number_of_collision; 
 }

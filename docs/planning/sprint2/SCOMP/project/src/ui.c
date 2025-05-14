@@ -11,8 +11,8 @@
 #define COMPANY_NAME       "ShoDrone"
 #define APP_NAME           "DroneTechApp"
 #define VERSION            "1.0.0"
-#define USERFORLOGIN       "droneTech@shodrone.app"
-#define USERPASSWORD       "drone123!"
+#define USERFORLOGIN       "1" //"droneTech@shodrone.app"
+#define USERPASSWORD       "1" //"drone123!"
 #define SCRIPTS_PATH       "./scripts/"
 #define MAX_SCRIPTS        100
 #define MAX_NAME_LEN       256
@@ -171,7 +171,7 @@ void loginUI() {
             return;
         }
         attempts--;
-        printf( "\n%s✖ Invalid credentials. Attempts left: [%d]%s\n",ANSI_BG_BRIGHT_RED, attempts,ANSI_RESET);
+        printf( "\n%s✖ Invalid credentials. Attempts left: [%d]%s\n",ANSI_BRIGHT_RED, attempts,ANSI_RESET);
     }
 
     printf(ANSI_BRIGHT_RED "\n✖ Too many failed attempts. Exiting login.\n" ANSI_RESET);
