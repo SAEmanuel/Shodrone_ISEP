@@ -1,0 +1,62 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Disable/Enable User Flow (US212)
+
+autonumber
+
+actor "Admin User" as user
+participant ":ManageUserUI" as UI
+participant ":ManageUserController" as CTRL
+participant ":RepositoryProvider" as repoProvider
+participant ":UserRepository" as userRepoInterface
+participant ":UserRepositoryJPAImpl" as userJPA
+participant ":AuthorizationService" as authService
+participant ":User" as userEntity
+participant ":Email" as emailVO
+
+== START ==
+
+user -> UI : selects user and changes status (enable/disable)
+activate UI
+UI -> CTRL : (enable/disable)(targetEmail, desiredStatus, currentUserEmail)
+activate CTRL
+
+CTRL -> repoProvider : userRepository()
+activate repoProvider
+repoProvider --> CTRL : userRepoInterface
+deactivate repoProvider
+
+CTRL -> authService : isAdmin(currentUserEmail)
+activate authService
+authService --> CTRL : true
+deactivate authService
+
+    deactivate authService
+
+    CTRL -> userRepoInterface : ListUsers()
+    activate userRepoInterface
+    userRepoInterface --> CTRL : userList
+    CTRL -> userRepoInterface : SelectUser()
+    userRepoInterface --> CTRL : user
+    deactivate userRepoInterface
+
+    alt desiredStatus = enable
+    activate userEntity
+        CTRL -> userEntity : activate()
+    else
+        CTRL -> userEntity : deactivate()
+    end
+    deactivate userEntity
+
+    CTRL -> userRepoInterface : save(user)
+    activate userRepoInterface
+    userRepoInterface --> CTRL : void
+    deactivate userRepoInterface
+
+    CTRL --> UI : show success
+
+deactivate CTRL
+@enduml
