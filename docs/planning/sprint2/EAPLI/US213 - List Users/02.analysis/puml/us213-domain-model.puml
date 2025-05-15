@@ -1,0 +1,39 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title List Users - Domain Model (US213)
+
+hide circles
+hide methods
+
+package "User Management Subsystem" {
+
+    class User {
+        Email: id
+        String: name
+        String: phoneNumber
+        Password: password
+        boolean: active
+    }
+
+    class Email {
+        String: value
+    }
+
+    class Password {
+        String: hashedValue
+    }
+
+    class UserListingService {
+        +listAllUsers(): List<User>
+    }
+
+    UserListingService --> User : reads >
+    User "1" --> "1" Email
+    User "1" --> "1" Password
+}
+
+@enduml

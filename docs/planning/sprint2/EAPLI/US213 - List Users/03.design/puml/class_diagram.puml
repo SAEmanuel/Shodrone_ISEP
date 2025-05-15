@@ -1,0 +1,44 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+title Class Diagram - US213 - List Users
+
+package "usermanagement.domain" {
+    class User {
+        - Email id
+        - Password password
+        - String name
+        - String phoneNumber
+        - boolean active
+        - UserRole role
+        + isActive(): boolean
+        + email(): Email
+        + name(): String
+    }
+
+    class Email {
+        - String value
+    }
+
+    class Password {
+        - String hashedValue
+    }
+
+    User --> Email
+    User --> Password
+}
+
+package "usermanagement.application" {
+    class ListUsersController {
+        - UserRepository userRepo
+        + listAllUsers(): List<User>
+    }
+
+    interface UserRepository {
+        + findAll(): List<User>
+    }
+}
+
+ListUsersController --> UserRepository
+ListUsersController --> User : returns >
+@enduml

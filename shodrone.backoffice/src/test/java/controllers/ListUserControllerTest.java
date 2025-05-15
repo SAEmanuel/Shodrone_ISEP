@@ -23,7 +23,6 @@ public class ListUserControllerTest {
 
     @BeforeEach
     void setUp() {
-        // Cria um mock que implementa tanto AuthenticationRepository como UserRepository
         mockAuthRepo = mock(AuthenticationRepository.class, withSettings().extraInterfaces(UserRepository.class));
         RepositoryProvider.injectAuthenticationRepository(mockAuthRepo);
         controller = new ListUserController();
@@ -42,7 +41,6 @@ public class ListUserControllerTest {
 
         when(mockAuthRepo.getAllUsers()).thenReturn(List.of(user1, user2));
 
-        // Faz cast para UserRepository pois é suportado via extraInterfaces
         UserRepository mockUserRepo = (UserRepository) mockAuthRepo;
         when(mockUserRepo.ofIdentity(new Email("john@shodrone.app"))).thenReturn(Optional.of(domainUser1));
         when(mockUserRepo.ofIdentity(new Email("jane@shodrone.app"))).thenReturn(Optional.of(domainUser2));
