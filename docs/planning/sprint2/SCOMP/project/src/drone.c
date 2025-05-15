@@ -16,7 +16,7 @@ void handle_sigusr1(int sig) {
 }
 
 
-void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) {
+Drone simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) {
 
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
@@ -131,6 +131,6 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
     free(drone.script);
     fclose(file);
     close(pipe_fd);
-    exit(EXIT_SUCCESS);
+    return drone;
 }
 

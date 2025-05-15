@@ -25,7 +25,7 @@ public class SignUpUI implements Runnable {
         int option = 0;
         do {
             System.out.println("\n\n╔════════════════════════════════════════╗");
-            option = Utils.showAndSelectIndex(options, "║"+ANSI_BRIGHT_WHITE+"               SIGN UP                 "+ANSI_RESET +" ║");
+            option = Utils.showAndSelectIndex(options, "║"+ANSI_BRIGHT_WHITE+"               Register                "+ANSI_RESET +" ║");
 
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();

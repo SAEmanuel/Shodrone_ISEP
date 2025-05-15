@@ -39,7 +39,6 @@ public class MainMenuUI implements Runnable {
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Login", new AuthenticationUI()));
-        options.add(new MenuItem("Sign-Up", new SignUpUI()));
         options.add(new MenuItem("Development Team", new DevTeamUI()));
 
         int option;
