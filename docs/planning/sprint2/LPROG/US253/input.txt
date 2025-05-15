@@ -1,0 +1,18 @@
+Position aPosition = (0, 1, 1.5);
+Vector aDirection = (0,0,1)-(0,1,0);
+
+LinearVelocity aVelocity = 6.2;
+AngularVelocity rotVelocity = PI/10;
+
+Position arrayOfPositions =((0, 0, 0), (0, 0, 20), (0, 20, 20), (0, 30, 20), (-10, 50, 25));
+
+takeOff(<height>, <velocity>);
+land(<velocity>);
+move(<final position>, <velocity>);
+move(<vector>, <velocity>, <duration>);
+movePath(<array of positions>, <velocity>);
+hoover(<time>);
+
+lightsOn();
+lightsOff();
+blink(<period>);
