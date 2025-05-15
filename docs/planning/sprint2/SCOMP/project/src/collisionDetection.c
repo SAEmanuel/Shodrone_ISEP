@@ -21,6 +21,7 @@ float calculateDistance(Position a, Position b) {
 }
 
 int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks],int timeStamp) {
+    int collisions_in_tick = 0;
     for (int i = 0; i < numberOfDrones; i++) {
         Radar droneA = historyOfRadar[i][timeStamp];
         if (historyOfRadar[i][timeStamp].terminated) {
@@ -40,6 +41,7 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
             float combinedRadius = radiusA + radiusB;
 
             if (distance < combinedRadius) {
+                collisions_in_tick++;
                 char collisionMSG[100];
                 int len = snprintf(collisionMSG,sizeof(collisionMSG),"💥 Collision detected between drone [%d] and [%d] at time - %d\n",droneA.droneInformation.id,droneB.droneInformation.id,timeStamp);
                 write(STDOUT_FILENO,collisionMSG,len);
@@ -50,5 +52,5 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
             }
         }
     }
-    return number_of_collision; 
+    return collisions_in_tick; 
 }

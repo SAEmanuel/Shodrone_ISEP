@@ -155,6 +155,20 @@ int simulatorUI() {
 void loginUI() {
     printf("\n\n══════════════════════════════════════════\n");
     printf(ANSI_BRIGHT_WHITE "                  LOGIN MENU\n\n" ANSI_RESET);
+
+    char user[] = "1";
+    char password[] = "1";
+
+    printf(ANSI_BRIGHT_GREEN "\n✔ Auto-login enabled (testing mode)\n" ANSI_RESET);
+
+    if (checkUserCredentials(user, password)) {
+        printf(ANSI_BRIGHT_GREEN "\n✔ Login successful! Welcome back.\n" ANSI_RESET);
+        simulatorUI();
+        return;
+    }
+    printf(ANSI_BRIGHT_RED "\n✖ Critical error in test setup.\n" ANSI_RESET);
+
+    /*
     int attempts = 3;
     char user[100], password[100];
 
@@ -175,7 +189,11 @@ void loginUI() {
     }
 
     printf(ANSI_BRIGHT_RED "\n✖ Too many failed attempts. Exiting login.\n" ANSI_RESET);
+    */
 }
+
+
+
 
 void pause_and_clear() {
     printf("\nPressione Enter para continuar...");

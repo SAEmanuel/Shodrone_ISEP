@@ -15,6 +15,7 @@ void handle_sigusr1(int sig) {
     terminated = 1; 
 }
 
+
 void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) {
 
     struct sigaction sa;

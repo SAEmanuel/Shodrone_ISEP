@@ -98,13 +98,22 @@ int run_simulation(char* argv)
                 };
 
                 historyOfRadar[childNumber][timeStamp] = radarOfDrone;
+
+            } else if (bytes_read == 0) {
+                historyOfRadar[childNumber][timeStamp].terminated = 1;
             }
         }
 
-        collision_counter += collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp);
+        int collisions_in_tick = collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp);
+        collision_counter+= collisions_in_tick;
 
-        if (collision_counter >= max_collisions) {
-            // TODO: Send termination signal to all drones
+        if (collision_counter > max_collisions) {
+            printf("\n⚠️ Maximum number of collisions reached! [%d collisions allowed] ⚠️\nAll drones will now be immediately shut down to ensure the safety of the show.\n", max_collisions);
+
+            for (int i = 0; i < num_drones; i++) {
+                kill(pids[i], SIGUSR1);
+            }
+            break;
         }
     }
 
