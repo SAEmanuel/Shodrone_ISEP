@@ -45,7 +45,12 @@ int run_simulation(char* argv)
         .total_ticks = total_ticks,
         .collisions = 0,
         .passed = 1,
+        .max_collisions = max_collisions
     };
+
+    Collision_Stamp *stamps = NULL;
+    int stamps_capacity = 0;
+    int stamps_count = 0;
 
     strncpy(report_of_simulation.simulation_name, argv, sizeof(report_of_simulation.simulation_name));
 
@@ -127,7 +132,12 @@ int run_simulation(char* argv)
             }
         }
 
-        int collisions_in_tick = collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp);
+        int collisions_in_tick = collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp, &stamps, &stamps_capacity, &stamps_count);
+        report_of_simulation.stamps = stamps;
+        report_of_simulation.stamps_count = stamps_count;
+
+
+        
         collision_counter+= collisions_in_tick;
 
         if (collision_counter > max_collisions) {
@@ -164,6 +174,7 @@ int run_simulation(char* argv)
     for (int i = 0; i < total_ticks; i++) {
         free(report_of_simulation.timeline[i]);
     }
+    free(report_of_simulation.stamps);
     free(report_of_simulation.timeline);
 
 

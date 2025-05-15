@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <time.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "report.h"
 #include "data.h"
 
@@ -29,13 +31,21 @@ void generate_report(Report* proposal, const char* filename) {
 
     fprintf(file, "─── Detailed Timeline ───\n");
     for (int tick = 0; tick < proposal->total_ticks; tick++) {
-        fprintf(file, "\nTick %d:\n", tick + 1);
+        fprintf(file, "\nTick %d:\n", tick);
         for (int i = 0; i < proposal->num_drones; i++) {
             Position pos = proposal->timeline[tick][i];
+            int inactive = (pos.x == -1 && pos.y == -1 && pos.z == -1);
             fprintf(file, "  🚁 Drone %d: (%d, %d, %d)%s\n", 
                 i, pos.x, pos.y, pos.z, 
-                (pos.x == -1) ? " (INACTIVE)" : ""
+                inactive ? " (INACTIVE)" : ""
             );
+        }
+
+        for (int x = 0; x < proposal->stamps_count; x++) {
+            if (proposal->stamps[x].collision_time == tick) {   
+                fprintf(file, "  💥 Collision detected between drone [%d] and [%d]\n",
+                           proposal->stamps[x].id_drone1, proposal->stamps[x].id_drone2);
+            }
         }
     }
 

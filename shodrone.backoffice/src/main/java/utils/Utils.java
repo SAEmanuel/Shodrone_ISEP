@@ -591,7 +591,7 @@ public class Utils {
             } catch (NumberFormatException ex) {
                 value = -1;
             }
-        } while (value < 0 || value > list.size());
+        } while (value < 0 || value > STEP);
         //dropLines(1);
         return (value - 1) + (cycle * STEP);
     }

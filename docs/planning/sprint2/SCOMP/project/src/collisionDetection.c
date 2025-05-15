@@ -12,6 +12,7 @@
 
 pid_t *add_drone_to_list(pid_t drone, pid_t *drones_that_collied, int *size);
 int exist_in_array(pid_t drone, pid_t *drones_that_collied, int size);
+void fill_stamp_moment(Radar droneA, Radar droneB, int timeStamp, Collision_Stamp** stamps, int *stamps_capacity, int *stamps_count);
 
 const float COLLISION_RADIUS_EXTRA = 0.5f;
 volatile sig_atomic_t number_of_collision = 0;
@@ -23,7 +24,7 @@ float calculateDistance(Position a, Position b) {
     return sqrtf(dx * dx + dy * dy + dz * dz);
 }
 
-int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp) {
+int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp,  Collision_Stamp **stamps, int *stamps_capacity, int *stamps_count) {
     int array_size = 0;
     pid_t *drones_that_collied = NULL;
 
@@ -42,6 +43,7 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
             float combinedRadius = radiusA + radiusB;
 
             if (distance < combinedRadius) {
+                fill_stamp_moment(droneA, droneB, timeStamp, stamps, stamps_capacity, stamps_count);
                 number_of_collision++;
 
                 char msg[100];
@@ -99,3 +101,22 @@ int exist_in_array(pid_t drone, pid_t *drones_that_collied, int size) {
     }
     return 0;
 }
+
+void fill_stamp_moment(Radar droneA, Radar droneB, int timeStamp, Collision_Stamp** stamps, int *stamps_capacity, int *stamps_count) {
+   if (*stamps_count >= *stamps_capacity) {
+        int new_capacity = (*stamps_capacity == 0) ? 10 : *stamps_capacity * 2;
+        Collision_Stamp *temp = realloc(*stamps, new_capacity * sizeof(Collision_Stamp));
+        if (!temp) {
+            perror("Erro ao realocar stamps");
+            exit(EXIT_FAILURE);
+        }
+        *stamps = temp;
+        *stamps_capacity = new_capacity;
+    }
+
+    (*stamps)[*stamps_count].id_drone1 = droneA.droneInformation.id;
+    (*stamps)[*stamps_count].id_drone2 = droneB.droneInformation.id;
+    (*stamps)[*stamps_count].collision_time = timeStamp;
+    (*stamps_count)++;
+ }
+
