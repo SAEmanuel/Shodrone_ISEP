@@ -4,6 +4,7 @@
         "drone.h": "c",
         "unistd.h": "c",
         "report.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "select.h": "c"
     }
 }

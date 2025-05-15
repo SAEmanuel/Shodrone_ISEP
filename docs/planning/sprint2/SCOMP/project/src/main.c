@@ -10,8 +10,7 @@
 #include "simulation.h"
 #include "ui.h"
 
-void printTimeOfSimulation(int timeStamp);
-void printPositionDrone(Position, int id);
+
 
 int run_simulation(char* argv)
 {
