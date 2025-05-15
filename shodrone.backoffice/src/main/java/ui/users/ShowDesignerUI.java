@@ -29,7 +29,7 @@ public class ShowDesignerUI implements Runnable {
         options.add(new MenuItem("Edit Figure Category", new EditFigureCategoryUI()));
         options.add(new MenuItem("List Figure Categories", new ListAllFigureCategoriesUI()));
         options.add(new MenuItem("Inactivate/Activate a Figure Category", new ChangeFigureCategoryStatusUI()));
-        options.add(new MenuItem("List All Active & Public Figures", new ListPublicFiguresUI()) );
+        options.add(new MenuItem("List All Public Figures", new ListPublicFiguresUI()) );
         options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
         options.add(new MenuItem("Add Figures", new AddFigureUI()) );
         options.add(new MenuItem("Decommission Figure", new DecommissionFigureUI()) );

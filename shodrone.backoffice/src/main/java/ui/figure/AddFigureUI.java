@@ -29,50 +29,58 @@ public class AddFigureUI implements Runnable {
         Utils.showNameRules();
         Name name = Utils.rePromptWhileInvalid("Enter the Name", Name::new);
 
-        Utils.dropLines(1);
-
-        option = Utils.confirm("Do you want to add a Description? (y/n)");
+        Utils.dropLines(3);
         Utils.showDescriptionRules();
+        option = Utils.confirm("Do you want to add a Description? (y/n)");
         Optional<Description> descriptionOpt = refurseOrAcceptValueObject(option, "Description", Description::new, Description.class);
         Description description = descriptionOpt.orElse(null);
 
-        Utils.dropLines(1);
+        Utils.dropLines(3);
         option = Utils.confirm("Do you want to add a Version? (y/n)");
         Optional<Long> versionOpt = refurseOrAcceptValueObject(option,"Version", Long::valueOf, Long.class);
         Long version = versionOpt.orElse(null);
 
-        System.out.println();
+        Utils.dropLines(3);
         Optional<List<FigureCategory>> listOfFigureCategories = figureCategorycontroller.getActiveFigureCategories();
         Optional<FigureCategory> figureCategory = Optional.empty();
         if (listOfFigureCategories.isPresent() && !listOfFigureCategories.get().isEmpty()) {
-            figureCategory = (Optional<FigureCategory>) Utils.showAndSelectObjectFromList((Optional<List<?>>)(Optional<?>) listOfFigureCategories, "Figure Category");
+            figureCategory = (Optional<FigureCategory>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>)(Optional<?>) listOfFigureCategories, "Figure Category");
+        }else{
+            Utils.printFailMessage("The are no categories to add to figure! Added it first and try again!");
+            return;
         }
 
-        option = Utils.confirm("Do you want to add a Availability? (y/n)");
+        Utils.dropLines(3);
         Utils.showAvailabilityRules();
+        option = Utils.confirm("Do you want to add a Availability? (y/n)");
         Optional<FigureAvailability> availabilityOpt = refurseOrAcceptValueObjectEnum(option,"Availability", FigureAvailability::valueOf, FigureAvailability.class);
         FigureAvailability availability = availabilityOpt.orElse(FigureAvailability.PUBLIC);
 
-        option = Utils.confirm("Do you want to add a Status? (y/n)");
+        Utils.dropLines(3);
         Utils.showStatusRules();
+        option = Utils.confirm("Do you want to add a Status? (y/n)");
         Optional<FigureStatus> statusOpt = refurseOrAcceptValueObjectEnum(option,"Status", FigureStatus::valueOf, FigureStatus.class);
         FigureStatus status = statusOpt.orElse(FigureStatus.ACTIVE);
 
-        DSL dsl = null;
+        Utils.dropLines(3);
+        Utils.showDSLRules();
+        option = Utils.confirm("Do you want to add a DSL File? (y/n)");
+        Optional<DSL> DSLOpt = refurseOrAcceptValueObject(option,"DSL", DSL::new, DSL.class);
+        DSL dsl = DSLOpt.orElse(null);
+
+        Utils.dropLines(3);
+        Optional<List<Costumer>> listOfCostumers = listCostumersController.getAllCustomer();
+        Optional<Costumer> costumer = Optional.empty();
+        if ( listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty() ) {
+            costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
+        }else{
+            Utils.printFailMessage("The are no costumers to add to figure! Added it first and try again!");
+            return;
+        }
 
         Optional<Figure> result;
 
-        System.out.println();
-        Optional<List<Costumer>> listOfCostumers = listCostumersController.getAllCustomer();
-        Optional<Costumer> costumer = Optional.empty();
-        if (listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty()) {
-            costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
-
-            result = controller.addFigure(name, description, version, figureCategory.get(), availability, status, dsl, costumer.get());
-        }else{
-            result = Optional.empty();
-            Utils.printFailMessage("The are no costumers to add to figure!");
-        }
+        result = controller.addFigure(name, description, version, figureCategory.get(), availability, status, dsl, costumer.get());
 
         if (result.isPresent()) {
             Utils.printSuccessMessage("Figure added successfully!");

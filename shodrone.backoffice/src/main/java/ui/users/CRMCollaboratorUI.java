@@ -1,5 +1,7 @@
 package ui.users;
 
+import ui.figure.ListPublicFiguresUI;
+import ui.figure.SearchFigureUI;
 import ui.showrequest.EditShowRequestUI;
 import ui.showrequest.ListShowRequestByCostumerUI;
 import ui.customer.RegisterCustomerUI;
@@ -47,6 +49,8 @@ public class CRMCollaboratorUI implements Runnable {
         options.add(new MenuItem("List Show Request of Clients", new ListShowRequestByCostumerUI()));
         options.add(new MenuItem("Edit Show Request", new EditShowRequestUI()));
         options.add(new MenuItem("Register customer", new RegisterCustomerUI()));
+        options.add(new MenuItem("List All Active & Public Figures", new ListPublicFiguresUI()) );
+        options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
 
         int option;
         do {

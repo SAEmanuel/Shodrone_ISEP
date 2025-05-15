@@ -24,72 +24,88 @@ public class SearchFigureUI implements Runnable {
 
         boolean option = false;
 
+        Utils.showFigureIDRules();
         option = Utils.confirm("Do you want to add a Figure ID to the search? (y/n)");
-        Utils.showDescriptionRules();
-        Optional<Long> figureIdOpt = refurseOrAcceptValueObject(option, "Figure ID", Long::valueOf, Long.class);
-        Long figureId = figureIdOpt.orElse(null);
-
-        option = Utils.confirm("Do you want to add a name to the search? (y/n)");
-        Name name = null;
-        if(option) {
-            Utils.showNameRules();
-            name = Utils.rePromptWhileInvalid("Enter the Name", Name::new);
+        Optional<Long> figureIdOpt = Optional.empty();
+        if (option) {
+            while (figureIdOpt.isEmpty() || figureIdOpt.get() < 1) {
+                figureIdOpt = Optional.ofNullable(Utils.rePromptWhileInvalid("Enter the Figure ID", Long::valueOf));
+                if (figureIdOpt.get() < 1) {
+                    Utils.printFailMessage("Figure ID lower than 1");
+                }
+            }
+        }else{
+            Utils.printAlterMessage("Skipped...");
+            figureIdOpt.isEmpty();
         }
+        Long figureID = figureIdOpt.orElse(null);
 
-        Utils.dropLines(1);
+        Utils.dropLines(3);
+        Utils.showNameRules();
+        option = Utils.confirm("Do you want to add a name to the search? (y/n)");
+        Optional<Name> nameOpt = refurseOrAcceptValueObject(option, "Name", Name::new, Name.class);
+        Name name = nameOpt.orElse(null);
 
-        option = Utils.confirm("Do you want to add a Description to the search? (y/n)");
+        Utils.dropLines(3);
         Utils.showDescriptionRules();
+        option = Utils.confirm("Do you want to add a Description to the search? (y/n)");
         Optional<Description> descriptionOpt = refurseOrAcceptValueObject(option, "Description", Description::new, Description.class);
         Description description = descriptionOpt.orElse(null);
 
-        Utils.dropLines(1);
+        Utils.dropLines(3);
         option = Utils.confirm("Do you want to add a Version to the search? (y/n)");
         Optional<Long> versionOpt = refurseOrAcceptValueObject(option,"Version", Long::valueOf, Long.class);
         Long version = versionOpt.orElse(null);
 
-        option = Utils.confirm("Do you want to add a Figure Category to the search? (y/n)");
+        Utils.dropLines(3);
         Optional<FigureCategory> figureCategory = Optional.empty();
+        option = Utils.confirm("Do you want to add a Figure Category to the search? (y/n)");
         if(option) {
             System.out.println();
             Optional<List<FigureCategory>> listOfFigureCategories = figureCategorycontroller.getActiveFigureCategories();
             if (listOfFigureCategories.isPresent() && !listOfFigureCategories.get().isEmpty()) {
-                figureCategory = (Optional<FigureCategory>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfFigureCategories, "Figure Category");
+                figureCategory = (Optional<FigureCategory>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>) (Optional<?>) listOfFigureCategories, "Figure Category");
             }else{
-                Utils.printAlterMessage("Didn't found any Figure Categories!");
+                Utils.printAlterMessage("Didn't found any Figure Categories!\n");
             }
         }
 
-        option = Utils.confirm("Do you want to add a Availability to the search? (y/n)");
+        Utils.dropLines(3);
         Utils.showAvailabilityRules();
+        option = Utils.confirm("Do you want to add a Availability to the search? (y/n)");
         Optional<FigureAvailability> availabilityOpt = refurseOrAcceptValueObjectEnum(option,"Availability", FigureAvailability::valueOf, FigureAvailability.class);
         FigureAvailability availability = availabilityOpt.orElse(null);
 
-        option = Utils.confirm("Do you want to add a Status to the search? (y/n)");
+        Utils.dropLines(3);
         Utils.showStatusRules();
+        option = Utils.confirm("Do you want to add a Status to the search? (y/n)");
         Optional<FigureStatus> statusOpt = refurseOrAcceptValueObjectEnum(option,"Status", FigureStatus::valueOf, FigureStatus.class);
         FigureStatus status = statusOpt.orElse(null);
 
-        DSL dsl = null;
+        Utils.dropLines(3);
+        Utils.showDSLRules();
+        option = Utils.confirm("Do you want to add a DSL File? (y/n)");
+        Optional<DSL> DSLOpt = refurseOrAcceptValueObject(option,"DSL", DSL::new, DSL.class);
+        DSL dsl = DSLOpt.orElse(null);
 
-        System.out.println();
+        Utils.dropLines(3);
         option = Utils.confirm("Do you want to add a Costumer to the search? (y/n)");
         Optional<Costumer> costumer = Optional.empty();
         if(option) {
             Optional<List<Costumer>> listOfCostumers = listCostumersController.getAllCustomer();
             if (listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty()) {
-                costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
+                costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
             }else{
-                Utils.printAlterMessage("Didn't found any Costumer!");
+                Utils.printAlterMessage("Didn't found any Costumer!\n");
             }
         }
 
-        Optional<List<Figure>> result = controller.searchFigure(figureId, name, description, version, figureCategory.orElse(null), availability, status, dsl, costumer.orElse(null));
-        
+        Optional<List<Figure>> result = controller.searchFigure(figureID, name, description, version, figureCategory.orElse(null), availability, status, dsl, costumer.orElse(null));
+
         if (result.isPresent() && !result.get().isEmpty()) {
             Utils.showListElements(result.get(), "Figure List Found");
         } else {
-            Utils.printFailMessage("Search didn't found any Figures!");
+            Utils.printFailMessage("\nSearch didn't found any Figures!");
         }
     }
 

@@ -15,13 +15,23 @@ public class ListPublicFiguresUI implements Runnable {
         Utils.printCenteredTitle("List Public Figures");
 
         boolean page = Utils.confirm("Do you want to select a page number? (y/n)");
-        int newpage = page ? Utils.readIntegerFromConsole("Enter the page number: ") : 1;
-
+        int newpage = 0;
+        while(newpage <= 0) {
+            newpage = page ? Utils.readIntegerFromConsole("Enter the page number: ") : 1;
+            if(newpage <= 0){
+                Utils.printFailMessage("Page number below 1!");
+            }
+        }
         Utils.dropLines(1);
 
         boolean pageSize = Utils.confirm("Do you want to select a page size? (y/n)");
-        int newPageSize = pageSize ? Utils.readIntegerFromConsole("Enter the page size: ") : 20;
-
+        int newPageSize = 0;
+        while(newPageSize <= 0) {
+            newPageSize = pageSize ? Utils.readIntegerFromConsole("Enter the page size: ") : 20;
+            if(newPageSize <= 0){
+                Utils.printFailMessage("Page number below 1!");
+            }
+    }
         Utils.dropLines(2);
 
 
@@ -30,8 +40,7 @@ public class ListPublicFiguresUI implements Runnable {
             Utils.showPagedElementListByStartingPage(allPublicFigures.get(), newpage, newPageSize, "List Public Figures");
 
             Utils.dropLines(1);
-            System.out.println("....... Paused to read press ENTER key to continue ........");
-            new java.util.Scanner(System.in).nextLine();
+            Utils.waitForUser();
         } else {
             Utils.printFailMessage("Error: No public figures found!");
         }

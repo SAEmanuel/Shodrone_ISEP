@@ -116,23 +116,23 @@ public class InMemoryFigureRepository implements FigureRepository {
         if(store.values().isEmpty())
             return Optional.ofNullable(figures);
 
-        if (figureId != null) {
-            Figure figure = store.get(figureId);
-            if (figure != null) {
-                return Optional.of(List.of(figure));
-            }
-        }
-
-
         int searching = 1;
         ArrayList<Figure> searchFigures = new ArrayList<>(store.values());
 
-        while(searching <= 8) {
+        while(searching <= 9) {
             figures = new ArrayList<>();
             for (Figure figure : searchFigures) {
 
                 switch (searching) {
                     case 1:
+                        if(figureId != null) {
+                            if(figure.identity().equals(figureId))
+                                figures.add(figure);
+                        }else{
+                            figures.add(figure);
+                        }
+                        break;
+                    case 2:
                         if(name != null) {
                             if(figure.name().equals(name))
                                 figures.add(figure);
@@ -140,7 +140,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                             figures.add(figure);
                         }
                         break;
-                    case 2:
+                    case 3:
                         if(description != null) {
                             if(figure.description().equals(description))
                                 figures.add(figure);
@@ -148,7 +148,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                             figures.add(figure);
                         }
                         break;
-                    case 3:
+                    case 4:
                         if(version != null) {
                             if (figure.version().equals(version))
                                 figures.add(figure);
@@ -156,7 +156,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                             figures.add(figure);
                         }
                         break;
-                    case 4:
+                    case 5:
                         if(category != null) {
                             if(figure.category().equals(category))
                                 figures.add(figure);
@@ -164,7 +164,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                             figures.add(figure);
                         }
                         break;
-                    case 5:
+                    case 6:
                         if(availability != null){
                             if( figure.availability().toString().equals(availability.toString()) )
                                 figures.add(figure);
@@ -172,7 +172,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                             figures.add(figure);
                         }
                         break;
-                    case 6:
+                    case 7:
                         if(status != null){
                             if( figure.status().toString().equals(status.toString()) )
                                 figures.add(figure);
@@ -180,7 +180,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                             figures.add(figure);
                         }
                         break;
-                    case 7:
+                    case 8:
                         if(dsl != null){
                             if( figure.dsl.toString().equals(dsl.toString()) )
                                 figures.add(figure);
@@ -188,7 +188,7 @@ public class InMemoryFigureRepository implements FigureRepository {
                             figures.add(figure);
                         }
                         break;
-                    case 8:
+                    case 9:
                         if(costumer != null){
                             if(figure.costumer().equals(costumer))
                                 figures.add(figure);

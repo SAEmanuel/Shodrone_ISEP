@@ -468,10 +468,15 @@ public class Utils {
             }
 
             String input;
-            do {
-                input = Utils.readLineFromConsole(COLOR_OPTIONS + "│    " + "(y/n)" + ANSI_RESET + " - Do you want to list one more page? ");
-            } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
+            if (page < totalPages){
+                do {
+                    input = Utils.readLineFromConsole(COLOR_OPTIONS + "│    " + "(y/n)" + ANSI_RESET + " - Do you want to list one more page? ");
+                } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
 
+                if (input.equalsIgnoreCase("n")) {
+                    break;
+                }
+            }
             //----------------------------------
             System.out.print(ANSI_BRIGHT_BLACK);
             System.out.print("╰");
@@ -482,9 +487,7 @@ public class Utils {
             System.out.println(ANSI_RESET);
 
 
-            if (input.equalsIgnoreCase("n")) {
-                break;
-            }
+
         }
     }
 
@@ -538,6 +541,28 @@ public class Utils {
             }
         } catch (IllegalArgumentException e) {
             return null;
+        }
+    }
+
+    static public Object selectsObjectStartingOnOne(List<?> list) {
+        String input;
+        int value;
+        int maxValue = list.size();
+        do {
+            input = Utils.readLineFromConsole("Type your option");
+            value = Integer.valueOf(input);
+            if(value<1)
+                Utils.printFailMessage("Value lower then 1");
+
+            if(value>maxValue)
+                Utils.printFailMessage("Value higher then " + maxValue);
+
+        } while (value < 1 || value > list.size());
+
+        if (value == 0) {
+            return null;
+        } else {
+            return list.get(value - 1);
         }
     }
 
@@ -598,7 +623,7 @@ public class Utils {
             try {
                 result = parseFunction.apply(input.toUpperCase());
             } catch (Exception e) {
-                Utils.printFailMessage(e.getMessage());
+                Utils.printFailMessage("Invalid input!");
                 System.out.println();
                 redo = true;
             }
@@ -629,6 +654,20 @@ public class Utils {
         if (obj != null)
             result = Optional.of(list);
 
+        return result;
+    }
+
+    public static Optional<?> showAndSelectObjectFromListStartingOnOne(Optional<List<?>> optionalResult, String header) {
+        Optional<?> result = Optional.empty();
+        List<?> list = optionalResult.get();
+
+        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("• Available ".concat(header).concat(" :")).concat(ANSI_RESET));
+
+        int index = 1;
+        for (Object obj : list) {
+            System.out.printf("    %s(%d)%s -  %s%n", ANSI_BRIGHT_BLACK, index++, ANSI_RESET, obj.toString());
+        }
+        result = Optional.ofNullable(selectsObjectStartingOnOne(list));
         return result;
     }
 
@@ -755,6 +794,14 @@ public class Utils {
                 """);
     }
 
+    public static void showFigureIDRules() {
+        Utils.silentWarning("""
+          The ID must follow these rules:
+           • Only numbers
+           • Higher than 0
+        """);
+    }
+
     public static void showEmailRules() {
         Utils.silentWarning("""
                   The email must:
@@ -802,9 +849,19 @@ public class Utils {
         Utils.silentWarning("""
                   The status must be:
                     • ACTIVE
-                    • NOTACTIVE
+                    • INACTIVE
                 """);
     }
+
+    public static void showDSLRules() {
+        Utils.silentWarning("""
+            The DSL file name must:
+              • Not be null or empty
+              • Be a valid file name with an extension (e.g., input.txt)
+              • Contain only letters, numbers, dashes, underscores, dots, and spaces
+            """);
+    }
+
 
     public static void waitForUser() {
         dropLines(2);
