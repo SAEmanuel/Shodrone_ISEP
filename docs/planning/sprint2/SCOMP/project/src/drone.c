@@ -22,7 +22,7 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
     memset(&sa, 0, sizeof(sa));
     sa.sa_handler = handle_sigusr1;
     sa.sa_flags = SA_RESTART;
-    sigemptyset(&sa.sa_mask);
+    sigfillset(&sa.sa_mask);
 
     if (sigaction(SIGUSR1, &sa, NULL) == -1) {
         perror("Failed to set up SIGUSR1 handler");
