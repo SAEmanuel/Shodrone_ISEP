@@ -17,10 +17,7 @@ import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Function;
 
 import static more.ColorfulOutput.*;
@@ -82,7 +79,7 @@ public class Utils {
         int lineLength = 30;
 
         // Linha superior decorativa
-        System.out.print("\n"+ANSI_BRIGHT_BLACK);
+        System.out.print("\n" + ANSI_BRIGHT_BLACK);
         for (int i = 0; i < lineLength; i++) {
             System.out.print("─");
         }
@@ -98,7 +95,7 @@ public class Utils {
         for (int i = 0; i < lineLength; i++) {
             System.out.print("─");
         }
-        System.out.println(ANSI_RESET+"\n");
+        System.out.println(ANSI_RESET + "\n");
     }
 
     public static void printDroneCenteredTitle(String title) {
@@ -164,7 +161,6 @@ public class Utils {
         }
         System.out.println(ANSI_RESET);
     }
-
 
 
     static public void printSubTitle(String prompt) {
@@ -285,7 +281,7 @@ public class Utils {
 
     static public boolean showDroneModelDetails(Optional<DroneModel> drone) {
 
-        if(drone.isEmpty()) {
+        if (drone.isEmpty()) {
             return false;
         }
 
@@ -295,12 +291,12 @@ public class Utils {
 
     static public boolean showDroneDetails(Optional<Drone> drone) {
 
-        if(drone.isEmpty()) {
+        if (drone.isEmpty()) {
             return false;
         }
 
         System.out.println(drone.get());
-       return confirm("Is that the correct drone? (y/n)");
+        return confirm("Is that the correct drone? (y/n)");
     }
 
     static public int selectDroneModelIndex(List<DroneModel> droneModels) {
@@ -325,7 +321,6 @@ public class Utils {
 
         return option;
     }
-
 
 
     static public boolean confirm(String message) {
@@ -406,15 +401,15 @@ public class Utils {
 
     static public void showPagedElementList(List<?> list, int sizeOfObjectsPerPage, String header) {
         int totalItems = list.size();
-        int totalPages = (int) Math.ceil( (double) totalItems / sizeOfObjectsPerPage);
+        int totalPages = (int) Math.ceil((double) totalItems / sizeOfObjectsPerPage);
 
         int lineLength = 30;
         for (int page = 0; page <= totalPages; page++) {
 
-            if (page <= totalPages){
+            if (page <= totalPages) {
                 Utils.dropLines(2);
                 Utils.printCenteredSubtitle(header);
-                System.out.printf("%s│    Page (%d)  │%s%n", COLOR_OPTIONS,(page),ANSI_RESET);
+                System.out.printf("%s│    Page (%d)  │%s%n", COLOR_OPTIONS, (page), ANSI_RESET);
             }
 
             int startIndex = (page - 1) * sizeOfObjectsPerPage;
@@ -422,7 +417,7 @@ public class Utils {
             List<?> pageItems = list.subList(startIndex, endIndex);
 
             for (Object o : pageItems) {
-                System.out.printf(COLOR_OPTIONS + "│" + ANSI_RESET + "%sFigure -> %-28s%s%n", ANSI_BLUE, o.toString(), ANSI_RESET );
+                System.out.printf(COLOR_OPTIONS + "│" + ANSI_RESET + "%sFigure -> %-28s%s%n", ANSI_BLUE, o.toString(), ANSI_RESET);
             }
 
             String input;
@@ -439,13 +434,15 @@ public class Utils {
             System.out.print("╯");
             System.out.println(ANSI_RESET);
 
-            if(input.equalsIgnoreCase("n")) { break; }
+            if (input.equalsIgnoreCase("n")) {
+                break;
+            }
         }
     }
 
     static public void showPagedElementListByStartingPage(List<?> list, int startingPage, int sizeOfObjectsPerPage, String header) {
         int totalItems = list.size();
-        int totalPages = (int) Math.ceil( (double) totalItems / sizeOfObjectsPerPage);
+        int totalPages = (int) Math.ceil((double) totalItems / sizeOfObjectsPerPage);
 
         if (startingPage < 1 || startingPage > totalPages) {
             Utils.printFailMessage("No elements found starting at page " + startingPage + " with " + sizeOfObjectsPerPage + " per page -> total list size : " + list.size());
@@ -456,10 +453,10 @@ public class Utils {
 
         for (int page = startingPage; page <= totalPages; page++) {
 
-            if (page <= totalPages){
+            if (page <= totalPages) {
                 Utils.dropLines(2);
                 Utils.printCenteredSubtitle(header);
-                System.out.printf("%s│    Page (%d)  │%s%n", COLOR_OPTIONS,(page),ANSI_RESET);
+                System.out.printf("%s│    Page (%d)  │%s%n", COLOR_OPTIONS, (page), ANSI_RESET);
             }
 
             int startIndex = (page - 1) * sizeOfObjectsPerPage;
@@ -467,7 +464,7 @@ public class Utils {
             List<?> pageItems = list.subList(startIndex, endIndex);
 
             for (Object o : pageItems) {
-                System.out.printf(COLOR_OPTIONS + "│" + ANSI_RESET + "%sFigure -> %-28s%s%n", ANSI_BLUE, o.toString(), ANSI_RESET );
+                System.out.printf(COLOR_OPTIONS + "│" + ANSI_RESET + "%sFigure -> %-28s%s%n", ANSI_BLUE, o.toString(), ANSI_RESET);
             }
 
             String input;
@@ -485,7 +482,9 @@ public class Utils {
             System.out.println(ANSI_RESET);
 
 
-            if(input.equalsIgnoreCase("n")) { break; }
+            if (input.equalsIgnoreCase("n")) {
+                break;
+            }
         }
     }
 
@@ -524,17 +523,21 @@ public class Utils {
 
 
     static public Object selectsObject(List<?> list) {
-        String input;
-        int value;
-        do {
-            input = Utils.readLineFromConsole("Type your option");
-            value = Integer.valueOf(input);
-        } while (value < 0 || value > list.size());
+        try {
+            String input;
+            int value;
+            do {
+                input = Utils.readLineFromConsole("Type your option");
+                value = Integer.valueOf(input);
+            } while (value < 0 || value > list.size());
 
-        if (value == 0) {
+            if (value == 0) {
+                return null;
+            } else {
+                return list.get(value - 1);
+            }
+        } catch (IllegalArgumentException e) {
             return null;
-        } else {
-            return list.get(value - 1);
         }
     }
 
@@ -622,10 +625,12 @@ public class Utils {
         for (Object obj : list) {
             System.out.printf("    %s(%d)%s -  %s%n", ANSI_BRIGHT_BLACK, index++, ANSI_RESET, obj.toString());
         }
-        result = Optional.ofNullable(selectsObject(list));
+        Object obj = selectsObject(list);
+        if (obj != null)
+            result = Optional.of(list);
+
         return result;
     }
-
 
 
     static public void printShowRequestResume(ShowRequest registeredShowRequest) {
@@ -701,109 +706,109 @@ public class Utils {
 
     public static void showNameRules() {
         Utils.silentWarning("""
-              The name must follow these rules:
-               • Minimum 3 and maximum 80 characters
-               • Only letters, spaces, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
-               • Must not start with a space or special character
-            """);
+                  The name must follow these rules:
+                   • Minimum 3 and maximum 80 characters
+                   • Only letters, spaces, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
+                   • Must not start with a space or special character
+                """);
     }
 
     public static void showDroneNameRules() {
         Utils.silentWarning("""
-              The name must follow these rules:
-               • Minimum 3 and maximum 80 characters
-               • Only letters, spaces, numbers, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
-               • Must not start with a space or special character
-            """);
+                  The name must follow these rules:
+                   • Minimum 3 and maximum 80 characters
+                   • Only letters, spaces, numbers, apostrophes ('), commas, periods (.) and hyphens (-) are allowed
+                   • Must not start with a space or special character
+                """);
     }
 
     public static void showDroneSerialNumberRules() {
         Utils.silentWarning("""
-          The serial number must follow these rules:
-           • Must start with 'SN-' prefix
-           • Must contain exactly 5 digits after the prefix (e.g., SN-00123)
-           • Only numbers (0-9) are allowed after the prefix
-           • No spaces or special characters allowed
-           • Each serial number must be unique in the system
-        """);
+                  The serial number must follow these rules:
+                   • Must start with 'SN-' prefix
+                   • Must contain exactly 5 digits after the prefix (e.g., SN-00123)
+                   • Only numbers (0-9) are allowed after the prefix
+                   • No spaces or special characters allowed
+                   • Each serial number must be unique in the system
+                """);
     }
 
     public static void showDroneRemovalRules() {
         Utils.silentWarning("""
-        The drone removal must follow these rules:
-         • Reason must be between 5 and 100 characters long
-         • Reason cannot be empty or null
-        """);
+                The drone removal must follow these rules:
+                 • Reason must be between 5 and 100 characters long
+                 • Reason cannot be empty or null
+                """);
     }
 
     public static void showDroneSerialNumberFormat() {
         Utils.silentWarning("""
-        Drone Serial Number must be in the format SN-XXXXX.
-        """);
+                Drone Serial Number must be in the format SN-XXXXX.
+                """);
     }
 
     public static void showDescriptionRules() {
         Utils.silentWarning("""
-          The description must follow these rules:
-           • Minimum 5 and maximum 300 characters
-           • Cannot be null, empty or only whitespace
-        """);
+                  The description must follow these rules:
+                   • Minimum 5 and maximum 300 characters
+                   • Cannot be null, empty or only whitespace
+                """);
     }
 
     public static void showEmailRules() {
         Utils.silentWarning("""
-              The email must:
-               • Be a valid email format (e.g., user@shodrone.app)
-               • Use the domain '@shodrone.app'
-            """);
+                  The email must:
+                   • Be a valid email format (e.g., user@shodrone.app)
+                   • Use the domain '@shodrone.app'
+                """);
     }
 
     public static void showPasswordRules() {
         Utils.silentWarning("""
-              The password must:
-               • Contain at least one uppercase letter
-               • Contain at least three digits
-               • Include at least one special character (e.g., !@#$%^&)
-               • Not be blank
-            """);
+                  The password must:
+                   • Contain at least one uppercase letter
+                   • Contain at least three digits
+                   • Include at least one special character (e.g., !@#$%^&)
+                   • Not be blank
+                """);
     }
 
     public static void showModelIDRules() {
         Utils.silentWarning("""
-          The Drone Model ID must follow these rules:
-           • Minimum 3 and maximum 50 characters
-           • Only letters (a–z, A–Z), digits (0–9) and underscores (_) are allowed
-           • Must not be empty or contain only whitespace
-           • No spaces or special characters like @, #, $, etc.
-        """);
+                  The Drone Model ID must follow these rules:
+                   • Minimum 3 and maximum 50 characters
+                   • Only letters (a–z, A–Z), digits (0–9) and underscores (_) are allowed
+                   • Must not be empty or contain only whitespace
+                   • No spaces or special characters like @, #, $, etc.
+                """);
     }
 
     public static void showMaxWindRule() {
         Utils.silentWarning("""
-          The Operational Wind Limit must follow this rule:
-           • The value must be positive.
-        """);
+                  The Operational Wind Limit must follow this rule:
+                   • The value must be positive.
+                """);
     }
 
     public static void showAvailabilityRules() {
         Utils.silentWarning("""
-          The availability must be:
-            • PUBLIC
-            • EXCLUSIVE
-        """);
+                  The availability must be:
+                    • PUBLIC
+                    • EXCLUSIVE
+                """);
     }
 
     public static void showStatusRules() {
         Utils.silentWarning("""
-          The status must be:
-            • ACTIVE
-            • NOTACTIVE
-        """);
+                  The status must be:
+                    • ACTIVE
+                    • NOTACTIVE
+                """);
     }
 
     public static void waitForUser() {
         dropLines(2);
-        System.out.printf("%s%s───────> %sPress ENTER to continue%s <───────%s%n",ANSI_BRIGHT_BLACK,BOLD,ANSI_BRIGHT_WHITE,ANSI_BRIGHT_BLACK,ANSI_RESET);
+        System.out.printf("%s%s───────> %sPress ENTER to continue%s <───────%s%n", ANSI_BRIGHT_BLACK, BOLD, ANSI_BRIGHT_WHITE, ANSI_BRIGHT_BLACK, ANSI_RESET);
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             reader.readLine();

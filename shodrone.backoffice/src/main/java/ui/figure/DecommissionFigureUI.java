@@ -21,11 +21,11 @@ public class DecommissionFigureUI implements Runnable {
         Optional<List<Figure>> listOfFigures = getAllFiguresController.getAllActiveFigures();
         if (listOfFigures.isPresent() && !listOfFigures.get().isEmpty()) {
             Optional<Figure> figure = (Optional<Figure>) Utils.showAndSelectObjectFromList((Optional<List<?>>) (Optional<?>) listOfFigures, "Figure");
-
-            result = controller.editChosenFigure(figure.get());
+            if (figure.isPresent())
+                result = controller.editChosenFigure(figure.get());
         }
 
-        if (!result.isEmpty()) {
+        if (result.isPresent()) {
             Utils.printSuccessMessage("Decommission Figure successfully");
         } else {
             Utils.printFailMessage("Error: may haven't found any figure to decommission or decommitting failed!");

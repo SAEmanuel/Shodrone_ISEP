@@ -1,4 +1,4 @@
-package ui.menu;
+package ui.users;
 
 import authz.UserDisplayDTO;
 import controller.user.ManageUserController;

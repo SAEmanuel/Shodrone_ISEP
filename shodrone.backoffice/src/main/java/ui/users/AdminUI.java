@@ -1,6 +1,5 @@
 package ui.users;
 
-import ui.menu.ManageUserUI;
 import ui.menu.MenuItem;
 import ui.menu.SignUpUI;
 import utils.Utils;
