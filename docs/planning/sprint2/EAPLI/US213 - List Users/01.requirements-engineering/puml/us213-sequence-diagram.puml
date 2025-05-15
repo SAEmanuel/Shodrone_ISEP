@@ -1,0 +1,32 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US213 - List Users
+
+autonumber
+
+actor "Admin" as Admin
+participant ":System" as System
+
+activate Admin
+
+    Admin -> System : listAllUsers()
+    activate System
+
+        System -> System : verifyAdminPermissions()
+        System -> System : checkPersistenceMode()
+
+        alt persistence = "database"
+            System -> System : repository.findAllUsersFromDB()
+        else persistence = "in-memory"
+            System -> System : repository.findAllUsersFromMemory()
+        end
+
+        System --> Admin : list of users (name, email, status)
+
+    deactivate System
+
+deactivate Admin
+@enduml
