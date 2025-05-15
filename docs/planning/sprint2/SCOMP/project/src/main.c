@@ -4,6 +4,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/select.h>
+#include <string.h>
+#include <time.h>
 #include "data.h"
 #include "report.h"
 #include "drone.h"
@@ -38,6 +40,25 @@ int run_simulation(char* argv)
     int pipes[num_drones][2];
     pid_t pids[num_drones];
 
+    Report report_of_simulation={
+        .num_drones = num_drones,
+        .total_ticks = total_ticks,
+        .collisions = 0,
+        .passed = 1,
+    };
+
+    strncpy(report_of_simulation.simulation_name, argv, sizeof(report_of_simulation.simulation_name));
+
+    report_of_simulation.timeline = malloc(total_ticks * sizeof(Position*));
+    for (int i = 0; i < total_ticks; i++) {
+        report_of_simulation.timeline[i] = malloc(num_drones * sizeof(Position));
+        for (int j = 0; j < num_drones; j++) {
+            report_of_simulation.timeline[i][j].x = -1;
+            report_of_simulation.timeline[i][j].y = -1;
+            report_of_simulation.timeline[i][j].z = -1;
+        }
+    }   
+
 
     for (int droneNumber = 0; droneNumber < num_drones; droneNumber++) {
         if (pipe(pipes[droneNumber]) == -1) {
@@ -68,11 +89,11 @@ int run_simulation(char* argv)
 
 
     for (int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
-        // Output purposes, not for synchronization
-        usleep(800000);
         printTimeOfSimulation(timeStamp);
 
         for (int childNumber = 0; childNumber < num_drones; childNumber++) {
+            // Output purposes, not for synchronization
+            usleep(800000);
             Position current_pos;
             ssize_t bytes_read = read(pipes[childNumber][0], &current_pos, sizeof(current_pos));
 
@@ -81,6 +102,7 @@ int run_simulation(char* argv)
                 exit(EXIT_FAILURE);
             }
             
+            report_of_simulation.timeline[timeStamp][childNumber] = current_pos;
 
             if (bytes_read == sizeof(Position)) {
                 int is_terminated = (timeStamp > 0)
@@ -110,6 +132,7 @@ int run_simulation(char* argv)
 
         if (collision_counter > max_collisions) {
             printf("\n⚠️ Maximum number of collisions reached! [%d collisions allowed] ⚠️\nAll drones will now be immediately shut down to ensure the safety of the show.\n", max_collisions);
+            report_of_simulation.passed = 0;
 
             for (int i = 0; i < num_drones; i++) {
                 kill(pids[i], SIGUSR1);
@@ -125,8 +148,27 @@ int run_simulation(char* argv)
     }
 
     free(drones_info);
+
+
+
+    report_of_simulation.collisions = collision_counter;
+    char output_filename[128];
+    snprintf(output_filename, sizeof(output_filename), "./reports/report_%s_%d.txt", argv, collision_counter);
+    generate_report(&report_of_simulation, output_filename);
+
+    // Libertar memória do report
+    for (int i = 0; i < total_ticks; i++) {
+        free(report_of_simulation.timeline[i]);
+    }
+    free(report_of_simulation.timeline);
+
+
+
+
     return 0;
 }
+
+
 
 void printTimeOfSimulation(int timeStamp){
     char simulationTimeMSG[100];

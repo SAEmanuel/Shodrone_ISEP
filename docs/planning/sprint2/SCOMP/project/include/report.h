@@ -3,12 +3,13 @@
 #include "drone.h"
 
 typedef struct {
-    Drone* drones;          
     int num_drones;         
     int total_ticks;        
-    Position** timeline;    
     int collisions;         
-    int passed;             
+    int passed; 
+    Drone* drones;          
+    Position** timeline;  
+    char simulation_name[64];          
 } Report;
 
 void generate_report(Report* proposal, const char* filename);
