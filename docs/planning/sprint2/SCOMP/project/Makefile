@@ -27,7 +27,7 @@ $(BIN): $(OBJS)
 # Compile each source file to object file
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@ -lm
 
 # Clean up
 clean:
