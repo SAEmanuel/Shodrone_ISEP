@@ -1,13 +1,13 @@
 ╔══════════════════════════════════════════════════╗
 ║                DRONE SIMULATION REPORT           ║
 ╠══════════════════════════════════════════════════╣
-║ Date & Time:  2025-05-15 18:48:56
+║ Date & Time:  2025-05-15 20:40:45
 ║ Simulation:   script_20_drones.txt
 ╠══════════════════════════════════════════════════╣
 ║ Drones:         20
 ║ Total Ticks:    10
-║ Collisions:     1
-║ Final Status:   ✅ APPROVED
+║ Collisions:     3
+║ Final Status:   ❌ REJECTED
 ╚══════════════════════════════════════════════════╝
 
 ─── Detailed Timeline ───
@@ -206,28 +206,28 @@ Tick 9:
   🚁 Drone 14: (10, 27, 32)
   🚁 Drone 15: (14, 22, 34)
   🚁 Drone 16: (11, 21, 10)
-  🚁 Drone 17: (16, 27, 34)
+  🚁 Drone 17: (11, 21, 32)
   🚁 Drone 18: (11, 21, 32)
   🚁 Drone 19: (11, 21, 32)
 
 Tick 10:
-  🚁 Drone 0: (5, 10, 2)
-  🚁 Drone 1: (8, 7, 3)
-  🚁 Drone 2: (1, 10, 5)
-  🚁 Drone 3: (9, 4, 2)
-  🚁 Drone 4: (4, 2, 4)
-  🚁 Drone 5: (6, 5, 4)
-  🚁 Drone 6: (5, 2, 5)
-  🚁 Drone 7: (8, 1, 4)
-  🚁 Drone 8: (8, 3, 3)
-  🚁 Drone 9: (6, 8, 3)
-  🚁 Drone 10: (15, 20, 32)
-  🚁 Drone 11: (18, 27, 33)
-  🚁 Drone 12: (11, 10, 35)
-  🚁 Drone 13: (19, 24, 32)
-  🚁 Drone 14: (14, 22, 34)
-  🚁 Drone 15: (16, 25, 34)
-  🚁 Drone 16: (15, 22, 35)
-  🚁 Drone 17: (18, 21, 34)
-  🚁 Drone 18: (18, 21, 34)
-  🚁 Drone 19: (18, 21, 34)
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 10: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 11: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 12: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 13: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 14: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 15: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 16: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 17: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 18: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 19: (-1, -1, -1) (INACTIVE)

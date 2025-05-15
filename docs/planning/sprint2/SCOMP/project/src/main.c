@@ -93,7 +93,7 @@ int run_simulation(char* argv)
 
         for (int childNumber = 0; childNumber < num_drones; childNumber++) {
             // Output purposes, not for synchronization
-            usleep(800000);
+            //usleep(800000);
             Position current_pos;
             ssize_t bytes_read = read(pipes[childNumber][0], &current_pos, sizeof(current_pos));
 
@@ -131,19 +131,23 @@ int run_simulation(char* argv)
         collision_counter+= collisions_in_tick;
 
         if (collision_counter > max_collisions) {
-            printf("\n⚠️ Maximum number of collisions reached! [%d collisions allowed] ⚠️\nAll drones will now be immediately shut down to ensure the safety of the show.\n", max_collisions);
+            char maxCollisionMSG[408];
+            int len = snprintf(maxCollisionMSG,sizeof(maxCollisionMSG),"\n%s      ⚠️  Maximum number of collisions reached! [%d collisions allowed] ⚠️\nAll drones will now be immediately shut down to ensure the safety of the show.%s\n──────────────────────────────────────────────────────────────────────────────\n\n",ANSI_BRIGHT_RED ,max_collisions,ANSI_RESET);
+            write(STDOUT_FILENO,maxCollisionMSG,len);
+
             report_of_simulation.passed = 0;
 
             for (int i = 0; i < num_drones; i++) {
                 kill(pids[i], SIGUSR1);
+                waitpid(pids[i],NULL,WUNTRACED);
             }
             break;
         }
     }
 
-
     for (int i = 0; i < num_drones; i++) {
-        waitpid(pids[i], NULL, 0);
+        kill(pids[i],SIGCONT);
+        waitpid(pids[i],NULL,0);
         close(pipes[i][0]);
     }
 

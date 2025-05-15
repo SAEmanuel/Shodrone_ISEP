@@ -1,0 +1,133 @@
+╔══════════════════════════════════════════════════╗
+║                DRONE SIMULATION REPORT           ║
+╠══════════════════════════════════════════════════╣
+║ Date & Time:  2025-05-15 20:38:37
+║ Simulation:   script_10_drones.txt
+╠══════════════════════════════════════════════════╣
+║ Drones:         10
+║ Total Ticks:    10
+║ Collisions:     3
+║ Final Status:   ❌ REJECTED
+╚══════════════════════════════════════════════════╝
+
+─── Detailed Timeline ───
+
+Tick 1:
+  🚁 Drone 0: (8, 5, 5)
+  🚁 Drone 1: (9, 4, 4)
+  🚁 Drone 2: (7, 0, 2)
+  🚁 Drone 3: (2, 8, 2)
+  🚁 Drone 4: (1, 5, 5)
+  🚁 Drone 5: (1, 0, 4)
+  🚁 Drone 6: (6, 1, 4)
+  🚁 Drone 7: (10, 8, 9)
+  🚁 Drone 8: (1, 7, 1)
+  🚁 Drone 9: (3, 4, 2)
+
+Tick 2:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 3:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 4:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 5:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 6:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 7:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 8:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 9:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
+
+Tick 10:
+  🚁 Drone 0: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 1: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 2: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 3: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 4: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 5: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 6: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 7: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 8: (-1, -1, -1) (INACTIVE)
+  🚁 Drone 9: (-1, -1, -1) (INACTIVE)
