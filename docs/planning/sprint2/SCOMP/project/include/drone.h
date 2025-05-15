@@ -17,7 +17,7 @@ typedef struct {
 } Drone;
 
 
-void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid);
+Drone simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid);
 void handle_sigusr1(int sig);
 
 #endif

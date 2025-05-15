@@ -68,6 +68,8 @@ int run_simulation(char* argv)
 
 
     for (int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
+        // Output purposes, not for synchronization
+        usleep(800000);
         printTimeOfSimulation(timeStamp);
 
         for (int childNumber = 0; childNumber < num_drones; childNumber++) {
