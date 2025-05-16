@@ -24,6 +24,7 @@ public class SearchFigureUI implements Runnable {
     private final SearchFigureController controller = new SearchFigureController();
     private final GetFigureCategoriesController figureCategorycontroller = new GetFigureCategoriesController();
     private final ListCostumersController listCostumersController = new ListCostumersController();
+    private static final int EXIT = -1;
 
     /**
      * Runs the interactive UI to prompt user for search criteria,
@@ -76,7 +77,14 @@ public class SearchFigureUI implements Runnable {
             System.out.println();
             Optional<List<FigureCategory>> listOfFigureCategories = figureCategorycontroller.getActiveFigureCategories();
             if (listOfFigureCategories.isPresent() && !listOfFigureCategories.get().isEmpty()) {
-                figureCategory = (Optional<FigureCategory>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>) (Optional<?>) listOfFigureCategories, "Figure Category");
+                int index = Utils.showAndSelectIndexPartially(listOfFigureCategories.get(), "Figure Category");
+
+                if (index == EXIT) {
+                    Utils.printFailMessage("No figure category selected...");
+                    return;
+                }
+
+                figureCategory = Optional.ofNullable(listOfFigureCategories.get().get(index));
             }else{
                 Utils.printAlterMessage("Didn't found any Figure Categories!\n");
             }
@@ -106,7 +114,14 @@ public class SearchFigureUI implements Runnable {
         if(option) {
             Optional<List<Costumer>> listOfCostumers = listCostumersController.getAllCustomer();
             if (listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty()) {
-                costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
+                int index = Utils.showAndSelectIndexPartially(listOfCostumers.get(), "Costumer");
+
+                if (index == EXIT) {
+                    Utils.printFailMessage("No costumer selected...");
+                    return;
+                }
+
+                costumer = Optional.ofNullable(listOfCostumers.get().get(index));
             }else{
                 Utils.printAlterMessage("Didn't found any Costumer!\n");
             }

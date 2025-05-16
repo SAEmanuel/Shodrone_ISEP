@@ -3,6 +3,7 @@ package ui.figure;
 import controller.figure.DecommissionFigureController;
 import controller.figure.GetAllActiveFiguresController;
 import domain.entity.Figure;
+import domain.entity.FigureCategory;
 import utils.Utils;
 
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.Optional;
 public class DecommissionFigureUI implements Runnable {
     private final DecommissionFigureController controller = new DecommissionFigureController();
     private final GetAllActiveFiguresController getAllFiguresController = new GetAllActiveFiguresController();
-
+    private static final int EXIT = -1;
     /**
      * Runs the interactive console UI flow to decommission a Figure.
      * Displays active figures, prompts the user to select one,
@@ -32,7 +33,14 @@ public class DecommissionFigureUI implements Runnable {
 
         Optional<List<Figure>> listOfFigures = getAllFiguresController.getAllActiveFigures();
         if (listOfFigures.isPresent() && !listOfFigures.get().isEmpty()) {
-            Optional<Figure> figure = (Optional<Figure>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>) (Optional<?>) listOfFigures, "Figure");
+            int index = Utils.showAndSelectIndexPartially(listOfFigures.get(), "Figure");
+
+            if (index == EXIT) {
+                Utils.printFailMessage("No figure selected...");
+                return;
+            }
+
+            Optional<Figure> figure = Optional.ofNullable(listOfFigures.get().get(index));
 
             result = controller.editChosenFigure(figure.orElse(null));
         }else{
@@ -40,7 +48,7 @@ public class DecommissionFigureUI implements Runnable {
             return;
         }
 
-        if ( result.isPresent() ) {
+        if (result.isPresent() && !result.isEmpty()) {
             Utils.printSuccessMessage("Decommission Figure successfully");
         } else {
             Utils.printFailMessage("Error: Decommitting failed! Figure already decommissioned!");
