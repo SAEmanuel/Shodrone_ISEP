@@ -145,13 +145,13 @@ int simulatorUI() {
         do {
             printf("\nEnter the maximum percentage of drones that can collide (0-100): ");
             if (scanf("%d", &temp) != 1) {
-                printf("Invalid input. Please enter a number.\n");
+                printf(ANSI_BRIGHT_RED "✖ Invalid input. Please enter a number.\n" ANSI_RESET);
                 while (getchar() != '\n'); // Limpa o buffer
                 valid_input = 0;
             } else {
                 while (getchar() != '\n'); // Limpa o buffer após entrada válida
                 if (temp < 0 || temp > 100) {
-                    printf("Percentage must be between 0 and 100.\n");
+                    printf(ANSI_BRIGHT_RED "Percentage must be between 0 and 100.\n" ANSI_RESET);
                     valid_input = 0;
                 } else {
                     valid_input = 1; // Entrada válida
