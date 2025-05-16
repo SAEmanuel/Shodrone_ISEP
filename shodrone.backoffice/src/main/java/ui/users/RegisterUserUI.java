@@ -1,4 +1,4 @@
-package ui.authz;
+package ui.users;
 
 import authz.Email;
 import authz.Password;

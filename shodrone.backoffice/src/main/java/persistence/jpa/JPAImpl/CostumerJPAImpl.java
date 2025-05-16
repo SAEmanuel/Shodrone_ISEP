@@ -81,9 +81,8 @@ public class CostumerJPAImpl extends JpaAutoTxRepository<Costumer, Long, Long> i
         try {
             return Optional.of(super.save(entity));
         } catch (Exception e) {
-            System.err.println("❌ Erro ao guardar o cliente:");
-            e.printStackTrace();
             return Optional.empty();
         }
     }
+
 }

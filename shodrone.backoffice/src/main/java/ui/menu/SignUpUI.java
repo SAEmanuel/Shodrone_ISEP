@@ -1,7 +1,7 @@
 package ui.menu;
 
 import controller.authz.AuthenticationController;
-import ui.authz.RegisterUserUI;
+import ui.users.RegisterUserUI;
 import utils.Utils;
 
 import java.util.ArrayList;

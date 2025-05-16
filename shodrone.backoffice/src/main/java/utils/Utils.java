@@ -10,6 +10,7 @@ import domain.entity.ShowRequest;
 import domain.valueObjects.Address;
 import domain.valueObjects.NIF;
 import domain.valueObjects.PhoneNumber;
+import eapli.framework.general.domain.model.EmailAddress;
 import more.ListDisplayable;
 
 import java.io.BufferedReader;
@@ -1270,7 +1271,12 @@ public class Utils {
      * @return A valid domain Name object.
      */
     public static domain.valueObjects.Name rePromptForName(String prompt) {
-        return rePromptWhileInvalid(prompt, domain.valueObjects.Name::new);
+        return rePromptWhileInvalid(prompt, input -> {
+            if (!input.trim().contains(" ")) {
+                throw new IllegalArgumentException("⚠️ Please enter at least a first and last name.");
+            }
+            return new domain.valueObjects.Name(input);
+        });
     }
 
     /**
@@ -1314,8 +1320,17 @@ public class Utils {
      * @return A valid password string.
      */
     public static String rePromptForPassword(String prompt) {
-        return Password.rePromptWhileInvalidPassword(prompt);
+        while (true) {
+            String input = readLineFromConsole(prompt);
+            try {
+                new Password(input);
+                return input;
+            } catch (IllegalArgumentException e) {
+                printFailMessage("⚠️ " + e.getMessage());
+            }
+        }
     }
+
 
     /**
      * Reads a line of text from the console with a prompt message.
@@ -1353,6 +1368,22 @@ public class Utils {
      */
     public static void printSubTitleNoColon(String prompt) {
         System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• " + prompt + ANSI_RESET);
+    }
+
+
+    public static EmailAddress rePromptForValidEmailAddress(String promptLabel) {
+        while (true) {
+            String input = readLineFromConsole(promptLabel);
+            try {
+                return EmailAddress.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                printWarningMessage("⚠️ Invalid email format. Please try again.");
+            }
+        }
+    }
+
+    public static void printWarningMessage(String message) {
+        System.out.println(ANSI_RED + message + ANSI_RESET);
     }
 
 }
