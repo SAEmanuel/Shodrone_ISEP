@@ -983,4 +983,19 @@ public class Utils {
             return null;
         }
     }
+
+    public static void printBoxTitle(String title) {
+        int boxWidth = 42;
+        int innerWidth = boxWidth - 2;
+        int paddingLeft = (innerWidth - title.length()) / 2;
+        int paddingRight = innerWidth - title.length() - paddingLeft;
+
+        System.out.println("╔" + "═".repeat(innerWidth) + "╗");
+        System.out.print("║" + " ".repeat(paddingLeft) + title + " ".repeat(paddingRight) + "║");
+    }
+
+    public static void printSubTitleNoColon(String prompt) {
+        System.out.println(ANSI_BRIGHT_BLACK + ITALIC + "• " + prompt + ANSI_RESET);
+    }
+
 }

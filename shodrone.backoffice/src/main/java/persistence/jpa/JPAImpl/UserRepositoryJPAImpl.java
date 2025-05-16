@@ -30,6 +30,6 @@ public class UserRepositoryJPAImpl extends JpaBaseRepository<User, Email> implem
      */
     @Override
     public void save(User user) {
-        add(user);
+        update(user);
     }
 }

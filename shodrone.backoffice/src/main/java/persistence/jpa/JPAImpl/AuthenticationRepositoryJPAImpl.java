@@ -43,6 +43,9 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
     public boolean doLogin(String emailString, String passwordString) {
         Email email = new Email(emailString);
         User user = findById(email);
+        if (user != null) {
+            entityManager().refresh(user);
+        }
         if (user != null && user.hasPassword(passwordString)) {
 
             if (!user.isActive()) {
