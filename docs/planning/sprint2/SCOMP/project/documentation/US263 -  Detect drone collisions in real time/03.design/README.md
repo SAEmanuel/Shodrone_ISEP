@@ -19,7 +19,7 @@ The system is designed to be extensible, allowing for future enhancements such a
 #### 3.2.1. Collision Detection Process
 The following PlantUML diagram illustrates the sequence of actions when the system detects a collision:
 
-![System Sequence Diagram](svg/us263-sequence-diagram-Collision_Detection_Sequence_Diagram___US263.svg)
+![System Sequence Diagram](svg/us263-sequence-diagram-Collision_Detection.svg)
 
 ##### Explanation
 - **Actors and Participants**:
@@ -38,7 +38,7 @@ The following PlantUML diagram illustrates the sequence of actions when the syst
 #### 3.2.2. Initialization and Cleanup
 The following PlantUML diagram illustrates the initialization and cleanup process:
 
-![System Sequence Diagram](svg/us263-ssd-Initialization_and_Cleanup_Sequence_Diagram___US263.svg)
+![System Sequence Diagram](svg/us263-Initialization_and_Cleanup_Sequence_Diagram.svg)
 
 ##### Explanation
 - **Actors and Participants**:

@@ -6,7 +6,7 @@
 
 The domain model for detecting drone collisions in real time involves entities that capture drone information, their positions, radar data, and collision events. Below is the PlantUML representation of the relevant domain model excerpt:
 
-![Domain Model](svg/us263-domain-model-Domain_Model_Excerpt___US263_Detect_Drone_Collisions_in_Real_Time.svg)
+![Domain Model](svg/us263-domain-model_Detect_Drone_Collisions_in_Real_Time.svg)
 
 
 #### Explanation of the Domain Model
