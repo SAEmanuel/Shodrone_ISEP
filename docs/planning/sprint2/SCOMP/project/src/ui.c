@@ -139,13 +139,34 @@ int simulatorUI() {
 
     } while (choice < 1 || choice > scriptCount);
 
+    float percentage;
+        int temp;
+        int valid_input = 0;
+        do {
+            printf("\nEnter the maximum percentage of drones that can collide (0-100): ");
+            if (scanf("%d", &temp) != 1) {
+                printf("Invalid input. Please enter a number.\n");
+                while (getchar() != '\n'); // Limpa o buffer
+                valid_input = 0;
+            } else {
+                while (getchar() != '\n'); // Limpa o buffer após entrada válida
+                if (temp < 0 || temp > 100) {
+                    printf("Percentage must be between 0 and 100.\n");
+                    valid_input = 0;
+                } else {
+                    valid_input = 1; // Entrada válida
+                }
+            }
+        } while (!valid_input); // Continua enquanto a entrada não for válida
+        percentage = (temp == 0) ? 0.0f : (float)temp / 100.0f;
+
     // Caminho completo do script selecionado
     char selectedScriptName[MAX_NAME_LEN];
     snprintf(selectedScriptName, sizeof(selectedScriptName), "%s", scriptNames[choice - 1]);
 
     printf(ANSI_BRIGHT_GREEN "\n✔ You selected: %s\n\n" ANSI_RESET, selectedScriptName);
 
-    run_simulation(selectedScriptName);
+    run_simulation(selectedScriptName, percentage);
     
     printf(ANSI_BRIGHT_GREEN"\n✔ Simulation terminated!"ANSI_RESET);
     return 0;

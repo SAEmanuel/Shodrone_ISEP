@@ -14,13 +14,13 @@
 
 
 
-int run_simulation(char* argv)
+int run_simulation(char* argv, float percentage)
 {
     char filename[256];
     snprintf(filename, sizeof(filename), "scripts/%s", argv);
 
     int num_drones = get_drone_number_from_file(filename);
-    int max_collisions = calculate_acceptable_collision_number(num_drones);
+    int max_collisions = calculate_acceptable_collision_number(num_drones, percentage);
     int collision_counter = 0;
 
     if (num_drones <= 0) {
