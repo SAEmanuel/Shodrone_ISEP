@@ -14,21 +14,29 @@ The code is organized into modules:
 
 ```
 scomp_project/
-├── include/         # Header files (.h)
+├── documentation/         # Documentation - Following ESOFT pattern designs
+│   ├── US261
+│   ├── US261
+│   ├── US263
+│   ├── US264
+│   ├── US265
+├── include/                # Header files (.h)
 │   ├── drone.h
 │   ├── data.h
 │   ├── report.h
-├── obj/             # Compiled object files (.o) used during build
+├── obj/                    # Compiled object files (.o) used during build
 │   ├── drone.o
 │   ├── main.o
 │   ├── report.o
 │   ├── sync.o
 │   ├── utils.o
-├── scripts/         # Input scripts for figures
+├── reports/                # Compiled object files (.o) used during build
+│   ├── ...
+├── scripts/                # Input scripts for figures
 │   ├── script_x_drones.txt
 │   ├── script_y_drones.txt
 │   ├── ...
-├── src/             # Source code (.c)
+├── src/                    # Source code (.c)
 │   ├── drone.c
 │   ├── main.c
 │   ├── report.c
@@ -40,21 +48,22 @@ scomp_project/
 
 ---
 
-## Core Structures
+### Core Structures
 
-### `Position`
+#### `Position`
 
 Represents a point in 3D space:
 
 ```c
 typedef struct {
     int x, y, z;
+    pid_t pid;  // Added for collision detection to track drone PIDs
 } Position;
 ```
 
 ---
 
-### `Drone`
+#### `Drone`
 
 Represents an individual drone in the simulation:
 
@@ -73,7 +82,7 @@ typedef struct {
 
 ---
 
-### `ShowProposal`
+#### `ShowProposal`
 
 Holds information about the entire drone figure:
 
@@ -90,15 +99,57 @@ typedef struct {
 
 ---
 
+#### `Radar`
+
+Represents a drone’s state at a specific timestamp, used in collision detection:
+
+```c
+typedef struct {
+    DroneInformation droneInformation;
+    Position position;
+    int timeStamp;
+    int terminated;
+} Radar;
+```
+
+---
+
+#### `DroneInformation`
+
+Stores drone-specific information for collision detection:
+
+```c
+typedef struct {
+    int id;
+    int biggestDimension;
+} DroneInformation;
+```
+
+---
+
+#### `Collision_Stamp`
+
+Logs collision events:
+
+```c
+typedef struct {
+    int id_drone1;
+    int id_drone2;
+    int collision_time;
+} Collision_Stamp;
+```
+
+---
+
 ## Current Status
 
 - [x] File reading and parsing of drone scripts
 - [x] Dynamic allocation of drones and their movements
 - [x] Initialization of the `ShowProposal` structure
 - [x] CLI file path handling
-- [ ] Simulation logic (forks, pipes, signals)
-- [ ] Collision detection
-- [ ] Reporting system
+- [x] Simulation logic (forks, pipes, signals)
+- [x] Collision detection
+- [x] Reporting system
 
 ---
 
@@ -113,7 +164,7 @@ make compile
 Run the simulation manually by providing the script file name:
 
 ```bash
-./simulator script_x_drones.txt
+./simulator
 ```
 
 > Note: The program looks for scripts inside the `scripts/` directory.
@@ -122,11 +173,7 @@ Run the simulation manually by providing the script file name:
 
 ## To Do (Next Steps)
 
-- Implement drone simulation logic using `fork()`
-- Create inter-process communication with `pipe()`
-- Detect and signal collisions
-- Synchronize drones by simulation ticks
-- Generate simulation result reports
+- None
 
 ---
 
