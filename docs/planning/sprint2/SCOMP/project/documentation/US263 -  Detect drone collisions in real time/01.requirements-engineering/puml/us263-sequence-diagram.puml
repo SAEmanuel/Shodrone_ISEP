@@ -1,0 +1,33 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US263 Detect Drone Collisions in Real Time
+
+autonumber
+
+actor "Drone Operator" as Operator
+participant ":System" as System
+
+activate Operator
+
+Operator -> System: start show monitoring
+activate System
+
+loop every xms
+System -> System: process GPS and velocity data
+alt collision detected
+System --> Operator: alert (visual)
+System -> System: log collision event
+else no collision
+System --> Operator: update drone positions (normal status)
+end alt
+end loop
+
+Operator -> System: stop show monitoring
+deactivate System
+
+deactivate Operator
+
+@enduml
