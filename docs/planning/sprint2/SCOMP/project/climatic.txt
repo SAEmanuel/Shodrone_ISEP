@@ -1,0 +1,10 @@
+wind x: 1
+wind x intensity: 2 
+wind y: 1
+wind y intensity: 0
+wind z: 1
+wind z intensity: 0
+
+rain intensity: 2
+
+lightning frequency: 3
