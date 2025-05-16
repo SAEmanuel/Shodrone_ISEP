@@ -93,7 +93,7 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
             }
             drone.script = new_script;
         }
-
+        
         if (sscanf(line, "%d %d %d",
                    &drone.script[drone.total_steps].x,
                    &drone.script[drone.total_steps].y,
@@ -103,7 +103,7 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
         }
         drone.total_steps++;
     }
-
+    
     // 4. Enviar posições via pipe, parar se receber sinal
     for (drone.current_step = 0; drone.current_step < drone.total_steps && !terminated; drone.current_step++) {
         Position current_pos = drone.script[drone.current_step];

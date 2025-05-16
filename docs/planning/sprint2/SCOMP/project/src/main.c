@@ -53,7 +53,7 @@ int run_simulation(char* argv)
     int stamps_count = 0;
 
     strncpy(report_of_simulation.simulation_name, argv, sizeof(report_of_simulation.simulation_name));
-
+    
     report_of_simulation.timeline = malloc(total_ticks * sizeof(Position*));
     for (int i = 0; i < total_ticks; i++) {
         report_of_simulation.timeline[i] = malloc(num_drones * sizeof(Position));

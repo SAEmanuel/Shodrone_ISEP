@@ -723,9 +723,17 @@ public class Utils {
         try {
             String input;
             int value;
+            int maxValue = list.size();
             do {
                 input = Utils.readLineFromConsole("Type your option");
                 value = Integer.valueOf(input);
+
+                if(value<0)
+                    Utils.printFailMessage("Value lower then 0");
+
+                if(value>maxValue)
+                    Utils.printFailMessage("Value higher then " + maxValue);
+
             } while (value < 0 || value > list.size());
 
             if (value == 0) {
@@ -735,35 +743,6 @@ public class Utils {
             }
         } catch (IllegalArgumentException e) {
             return null;
-        }
-    }
-
-    /**
-     * Prompts the user to select an object from the list by entering its index,
-     * where valid inputs start at 1 (no cancel option).
-     * Ensures the input is within valid range, showing error messages otherwise.
-     * @param list The list of objects to choose from.
-     * @return The selected object.
-     */
-    static public Object selectsObjectStartingOnOne(List<?> list) {
-        String input;
-        int value;
-        int maxValue = list.size();
-        do {
-            input = Utils.readLineFromConsole("Type your option");
-            value = Integer.valueOf(input);
-            if(value<1)
-                Utils.printFailMessage("Value lower then 1");
-
-            if(value>maxValue)
-                Utils.printFailMessage("Value higher then " + maxValue);
-
-        } while (value < 1 || value > list.size());
-
-        if (value == 0) {
-            return null;
-        } else {
-            return list.get(value - 1);
         }
     }
 
@@ -903,28 +882,6 @@ public class Utils {
 
         return result;
     }
-
-    /**
-     * Shows a list of objects contained inside an Optional and prompts the user to select one,
-     * with selection indices starting at 1.
-     * @param optionalResult An Optional containing the list of objects.
-     * @param header The header text to display before the list.
-     * @return An Optional containing the selected object, or empty if none selected.
-     */
-    public static Optional<?> showAndSelectObjectFromListStartingOnOne(Optional<List<?>> optionalResult, String header) {
-        Optional<?> result = Optional.empty();
-        List<?> list = optionalResult.get();
-
-        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("• Available ".concat(header).concat(" :")).concat(ANSI_RESET));
-
-        int index = 1;
-        for (Object obj : list) {
-            System.out.printf("    %s(%d)%s -  %s%n", ANSI_BRIGHT_BLACK, index++, ANSI_RESET, obj.toString());
-        }
-        result = Optional.ofNullable(selectsObjectStartingOnOne(list));
-        return result;
-    }
-
 
     /**
      * Prints a detailed summary of a ShowRequest object in a nicely formatted style.

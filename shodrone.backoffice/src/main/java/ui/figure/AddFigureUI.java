@@ -23,6 +23,7 @@ public class AddFigureUI implements Runnable {
     private final AddFigureController controller = new AddFigureController();
     private final GetFigureCategoriesController figureCategorycontroller = new GetFigureCategoriesController();
     private final ListCostumersController listCostumersController = new ListCostumersController();
+    private static final int EXIT = -1;
 
     /**
      * Runs the interactive console UI flow for adding a new Figure.
@@ -55,7 +56,15 @@ public class AddFigureUI implements Runnable {
         Optional<List<FigureCategory>> listOfFigureCategories = figureCategorycontroller.getActiveFigureCategories();
         Optional<FigureCategory> figureCategory = Optional.empty();
         if (listOfFigureCategories.isPresent() && !listOfFigureCategories.get().isEmpty()) {
-            figureCategory = (Optional<FigureCategory>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>)(Optional<?>) listOfFigureCategories, "Figure Category");
+            int index = Utils.showAndSelectIndexPartially(listOfFigureCategories.get(), "Figure Category");
+
+            if (index == EXIT) {
+                Utils.printFailMessage("No figure category selected...");
+                return;
+            }
+
+            figureCategory = Optional.ofNullable(listOfFigureCategories.get().get(index));
+
         }else{
             Utils.printFailMessage("The are no categories to add to figure! Added it first and try again!");
             return;
@@ -83,7 +92,14 @@ public class AddFigureUI implements Runnable {
         Optional<List<Costumer>> listOfCostumers = listCostumersController.getAllCustomer();
         Optional<Costumer> costumer = Optional.empty();
         if ( listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty() ) {
-            costumer = (Optional<Costumer>) Utils.showAndSelectObjectFromListStartingOnOne((Optional<List<?>>) (Optional<?>) listOfCostumers, "Costumer");
+            int index = Utils.showAndSelectIndexPartially(listOfCostumers.get(), "Costumer");
+
+            if (index == EXIT) {
+                Utils.printFailMessage("No Costumer selected...");
+                return;
+            }
+
+            costumer = Optional.ofNullable(listOfCostumers.get().get(index));
         }else{
             Utils.printFailMessage("The are no costumers to add to figure! Added it first and try again!");
             return;
@@ -93,7 +109,7 @@ public class AddFigureUI implements Runnable {
 
         result = controller.addFigure(name, description, version, figureCategory.orElse(null), availability, status, dsl, costumer.orElse(null));
 
-        if (result.isPresent()) {
+        if (result.isPresent() && !result.isEmpty()) {
             Utils.printSuccessMessage("Figure added successfully!");
         } else {
             Utils.printFailMessage("Error Figure already exist! Same : (name, category and costumer not allowed)");
