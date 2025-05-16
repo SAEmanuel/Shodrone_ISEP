@@ -106,8 +106,8 @@ public class EditShowRequestUI implements Runnable {
             option = Utils.readIntegerFromConsole("• Option (0 to finish): ");
             switch (option) {
                 case 1 -> {
-                    String desc = Utils.readLineFromConsole("New description: ");
-                    newRequest.setDescription(Description.valueOf(desc));
+                    Description desc = Utils.rePromptWhileInvalid("New description: ",Description::new);
+                    newRequest.setDescription(desc);
                 }
                 case 2 -> {
                     LocalDateTime date = Utils.readDateFromConsole("New show date (yyyy-MM-dd HH:mm): ");

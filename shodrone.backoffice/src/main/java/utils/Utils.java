@@ -883,6 +883,21 @@ public class Utils {
         return result;
     }
 
+    public static Optional<?> showAndSelectObjectFromList2(Optional<List<?>> optionalResult, String header) {
+        Optional<?> result = Optional.empty();
+        List<?> list = optionalResult.get();
+
+        System.out.println(ANSI_BRIGHT_BLACK.concat(BOLD).concat("• Available ".concat(header).concat(" :")).concat(ANSI_RESET));
+
+        int index = 1;
+        for (Object obj : list) {
+            System.out.printf("    %s(%d)%s -  %s%n", ANSI_BRIGHT_BLACK, index++, ANSI_RESET, obj.toString());
+        }
+        result = Optional.ofNullable(selectsObject(list));
+        return result;
+    }
+
+
     /**
      * Prints a detailed summary of a ShowRequest object in a nicely formatted style.
      * @param registeredShowRequest The ShowRequest object to print.

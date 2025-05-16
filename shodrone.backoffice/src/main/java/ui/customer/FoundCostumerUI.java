@@ -77,7 +77,7 @@ public class FoundCostumerUI implements Runnable {
                 break;
             case 2:
                 optionalResult = foundListCostumerUI(option);
-                optionalResult = Utils.showAndSelectObjectFromList((Optional<List<?>>) optionalResult,"Costumers");
+                optionalResult = Utils.showAndSelectObjectFromList2((Optional<List<?>>) optionalResult,"Costumers");
                 break;
             default:
                 Utils.exitImmediately("Cannot register a show request without a customer.");
