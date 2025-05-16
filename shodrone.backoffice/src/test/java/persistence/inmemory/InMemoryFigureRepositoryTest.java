@@ -21,6 +21,9 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * Unit tests for InMemoryFigureRepository, verifying CRUD operations and filtered queries.
+ */
 class InMemoryFigureRepositoryTest {
 
     private InMemoryFigureRepository figureRepository;
@@ -30,7 +33,6 @@ class InMemoryFigureRepositoryTest {
     private FigureCategoryRepository mockFigureCategoryRepository;
 
     private final Email creator = new Email("test@shodrone.app");
-
 
     @BeforeEach
     void setUp() {
@@ -44,21 +46,22 @@ class InMemoryFigureRepositoryTest {
         mockCostumer = mock(Costumer.class);
     }
 
+    // ---------------------------
+    // Save Tests
+    // ---------------------------
 
-    // ---- Save Tests ----
     @Test
     void testSaveFigureWithValidData() {
-        Figure figure = new Figure(new Name("Test Figure"), new Description("A test figure"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure figure = new Figure(new Name("Test Figure"), new Description("A test figure"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
         figure.setFigureId(10L);
 
         Optional<Figure> savedFigure = figureRepository.save(figure);
+
         assertTrue(savedFigure.isPresent());
-
         assertEquals(10L, savedFigure.get().identity());
-        assertEquals("Test Figure", savedFigure.get().name());
+        assertEquals(new Name("Test Figure"), savedFigure.get().name());
     }
-
-
 
     @Test
     void testSaveFigureWithNull() {
@@ -68,8 +71,11 @@ class InMemoryFigureRepositoryTest {
 
     @Test
     void testSaveFigureWithNullCategory() {
-        Figure figure = new Figure(new Name("Test Figure"), new Description("A test figure"), 1L, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure figure = new Figure(new Name("Test Figure"), new Description("A test figure"), 1L,
+                null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+
         Optional<Figure> savedFigure = figureRepository.save(figure);
+
         assertTrue(savedFigure.isPresent());
     }
 
@@ -101,14 +107,16 @@ class InMemoryFigureRepositoryTest {
         assertEquals(sharedCategory, savedFigure.get().category());
     }
 
-
-
-    // ---- Find All Tests ----
+    // ---------------------------
+    // Find All Tests
+    // ---------------------------
 
     @Test
     void testFindAll() {
-        Figure figure1 = new Figure(new Name("Test Figure 1"), new Description("Description 1"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
-        Figure figure2 = new Figure(new Name("Test Figure 2"), new Description("Description 2"), 2L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure figure1 = new Figure(new Name("Figure One"), new Description("Description 1"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure figure2 = new Figure(new Name("Figure Two"), new Description("Description 2"), 2L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
 
         figureRepository.save(figure1);
         figureRepository.save(figure2);
@@ -119,24 +127,30 @@ class InMemoryFigureRepositoryTest {
 
     @Test
     void testFindAllActive() {
-        Figure activeFigure = new Figure(new Name("Active Figure"), new Description("Active status"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
-        Figure inactiveFigure = new Figure(new Name("Inactive Figure"), new Description("Inactive status"), 2L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, null, mockCostumer);
+        Figure activeFigure = new Figure(new Name("Active Figure"), new Description("Active"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure inactiveFigure = new Figure(new Name("Inactive Figure"), new Description("Inactive"), 2L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, null, mockCostumer);
 
         figureRepository.save(activeFigure);
         figureRepository.save(inactiveFigure);
 
         List<Figure> activeFigures = figureRepository.findAllActive();
         assertEquals(1, activeFigures.size());
-        assertEquals("Active Figure", activeFigures.get(0).name());
+        assertEquals(new Name("Active Figure"), activeFigures.get(0).name());
     }
 
-    // ---- Find By Costumer Tests ----
+    // ---------------------------
+    // Find by Costumer
+    // ---------------------------
 
     @Test
     void testFindByCostumer() {
         Costumer costumer = mock(Costumer.class);
-        Figure figure1 = new Figure(new Name("Test Figure 1"), new Description("Description 1"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null,costumer);
-        Figure figure2 = new Figure(new Name("Test Figure 2"), new Description("Description 2"), 2L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, costumer);
+        Figure figure1 = new Figure(new Name("Figure A"), new Description("Description A"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, costumer);
+        Figure figure2 = new Figure(new Name("Figure B"), new Description("Description B"), 2L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, costumer);
 
         figureRepository.save(figure1);
         figureRepository.save(figure2);
@@ -145,65 +159,84 @@ class InMemoryFigureRepositoryTest {
         assertEquals(2, figures.size());
     }
 
-    // ---- Find Figures By Various Attributes Tests ----
+    // ---------------------------
+    // Filtered Search Tests
+    // ---------------------------
 
     @Test
     void testFindFiguresByCategory() {
-        Figure figure1 = new Figure(new Name("Test Figure 1"), new Description("Description 1"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
-        figureRepository.save(figure1);
+        Figure figure = new Figure(new Name("CatFigure"), new Description("Description"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        figureRepository.save(figure);
 
-        List<Figure> figures = figureRepository.findFigures(null, null, null, null, mockCategory, null, null, null, null).orElse(new ArrayList<>());
-        assertEquals(1, figures.size());
-        assertEquals("Test Figure 1", figures.get(0).name().toString());
+        List<Figure> result = figureRepository
+                .findFigures(null, null, null, null, mockCategory, null, null, null, null)
+                .orElse(new ArrayList<>());
+
+        assertEquals(1, result.size());
+        assertEquals("CatFigure", result.get(0).name().toString());
     }
 
     @Test
     void testFindFiguresByStatus() {
-        Figure figure1 = new Figure(new Name("Active Figure"), new Description("Description 1"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
-        Figure figure2 = new Figure(new Name("Inactive Figure"), new Description("Description 2"), 2L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, null, mockCostumer);
+        Figure active = new Figure(new Name("Active F"), new Description("Description"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure inactive = new Figure(new Name("Inactive F"), new Description("Description"), 2L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.INACTIVE, null, mockCostumer);
 
-        figureRepository.save(figure1);
-        figureRepository.save(figure2);
+        figureRepository.save(active);
+        figureRepository.save(inactive);
 
-        List<Figure> activeFigures = figureRepository.findFigures(null, null, null, null, null, null, FigureStatus.ACTIVE, null, null).orElse(new ArrayList<>());
-        assertEquals(1, activeFigures.size());
-        assertEquals("Active Figure", activeFigures.get(0).name().toString());
+        List<Figure> result = figureRepository
+                .findFigures(null, null, null, null, null, null, FigureStatus.ACTIVE, null, null)
+                .orElse(new ArrayList<>());
+
+        assertEquals(1, result.size());
+        assertEquals("Active F", result.get(0).name().toString());
     }
 
-    // ---- Edit Figure Test ----
+    // ---------------------------
+    // Edit Tests
+    // ---------------------------
 
     @Test
     void testEditChosenFigure() {
-        Figure figure = new Figure(new Name("Test Figure"), new Description("Description"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure figure = new Figure(new Name("Editable"), new Description("Edit me"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
         figureRepository.save(figure);
 
         figure.decommissionFigureStatus();
-        Optional<Figure> editedFigure = figureRepository.editChosenFigure(figure);
+        Optional<Figure> edited = figureRepository.editChosenFigure(figure);
 
-        assertTrue(editedFigure.isPresent());
-        assertEquals(FigureStatus.INACTIVE, editedFigure.get().status());
+        assertTrue(edited.isPresent());
+        assertEquals(FigureStatus.INACTIVE, edited.get().status());
     }
 
     @Test
     void testEditNonExistentFigure() {
-        Figure figure = new Figure(new Name("Non Existent"), new Description("Description"), 999L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure figure = new Figure(new Name("Ghost"), new Description("Description"), 999L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
 
-        Optional<Figure> editedFigure = figureRepository.editChosenFigure(figure);
-        assertFalse(editedFigure.isPresent());
+        Optional<Figure> edited = figureRepository.editChosenFigure(figure);
+        assertFalse(edited.isPresent());
     }
 
-    // ---- Find All Public Figures Tests ----
+    // ---------------------------
+    // Public Figures
+    // ---------------------------
 
     @Test
     void testFindAllPublicFigures() {
-        Figure publicFigure = new Figure(new Name("Public Figure"), new Description("Description"), 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
-        Figure privateFigure = new Figure(new Name("Private Figure"), new Description("Description"), 2L, mockCategory, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure publicF = new Figure(new Name("PublicOne"), new Description("Description"), 1L,
+                mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, mockCostumer);
+        Figure privateF = new Figure(new Name("PrivateOne"), new Description("Description"), 2L,
+                mockCategory, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, null, mockCostumer);
 
-        figureRepository.save(publicFigure);
-        figureRepository.save(privateFigure);
+        figureRepository.save(publicF);
+        figureRepository.save(privateF);
 
         List<Figure> publicFigures = figureRepository.findAllPublicFigures();
         assertEquals(1, publicFigures.size());
-        assertEquals("Public Figure", publicFigures.get(0).name());
+        assertEquals(new Name("PublicOne"), publicFigures.get(0).name());
     }
 }
