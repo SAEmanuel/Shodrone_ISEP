@@ -13,13 +13,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-
+/**
+ * User Interface class responsible for the interactive process of adding a new Figure.
+ * Implements Runnable to be executed in a thread or as a standalone UI operation.
+ * Uses controllers to retrieve necessary data and perform operations.
+ */
 public class AddFigureUI implements Runnable {
 
     private final AddFigureController controller = new AddFigureController();
     private final GetFigureCategoriesController figureCategorycontroller = new GetFigureCategoriesController();
     private final ListCostumersController listCostumersController = new ListCostumersController();
 
+    /**
+     * Runs the interactive console UI flow for adding a new Figure.
+     * Guides the user through entering all necessary attributes with validation,
+     * offers optional input for several attributes,
+     * retrieves necessary reference data (categories, costumers),
+     * and submits the figure for persistence through the controller.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("Add Figure");
@@ -80,7 +91,7 @@ public class AddFigureUI implements Runnable {
 
         Optional<Figure> result;
 
-        result = controller.addFigure(name, description, version, figureCategory.get(), availability, status, dsl, costumer.get());
+        result = controller.addFigure(name, description, version, figureCategory.orElse(null), availability, status, dsl, costumer.orElse(null));
 
         if (result.isPresent()) {
             Utils.printSuccessMessage("Figure added successfully!");
@@ -89,6 +100,18 @@ public class AddFigureUI implements Runnable {
         }
     }
 
+    /**
+     * Helper method to optionally accept or skip input for a value object.
+     * If user chooses to skip, returns empty Optional.
+     * Otherwise, prompts repeatedly until valid input is entered.
+     *
+     * @param option boolean indicating whether the user wants to provide the value
+     * @param prompt label of the input requested
+     * @param parser function that converts String input into the target value object
+     * @param clazz class of the target value object (not used here but kept for signature consistency)
+     * @param <T> type of value object
+     * @return Optional containing the parsed value or empty if skipped
+     */
     private <T> Optional<T> refurseOrAcceptValueObject(Boolean option, String prompt, Function<String, T> parser, Class<T> clazz) {
         if (!option) {
             Utils.printAlterMessage("Skipped...");
@@ -99,6 +122,17 @@ public class AddFigureUI implements Runnable {
         }
     }
 
+    /**
+     * Helper method to optionally accept or skip input for an enum-based value object.
+     * Similar to refurseOrAcceptValueObject but uses enum-specific validation.
+     *
+     * @param option boolean indicating whether the user wants to provide the value
+     * @param prompt label of the input requested
+     * @param parser function that converts String input into the target enum value
+     * @param clazz class of the target enum
+     * @param <T> type of enum
+     * @return Optional containing the parsed enum value or empty if skipped
+     */
     private <T> Optional<T> refurseOrAcceptValueObjectEnum(Boolean option, String prompt, Function<String, T> parser, Class<T> clazz) {
         if (!option) {
             Utils.printAlterMessage("Skipped...");

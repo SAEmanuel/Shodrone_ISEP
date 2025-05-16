@@ -13,11 +13,24 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
+/**
+ * User Interface class responsible for searching Figures based on multiple optional criteria.
+ * Implements Runnable for interactive console usage or threading.
+ * Collects user inputs for various search filters such as Figure ID, Name, Description, Version,
+ * Category, Availability, Status, DSL, and Costumer.
+ * Uses the SearchFigureController to perform the search and displays the results.
+ */
 public class SearchFigureUI implements Runnable {
     private final SearchFigureController controller = new SearchFigureController();
     private final GetFigureCategoriesController figureCategorycontroller = new GetFigureCategoriesController();
     private final ListCostumersController listCostumersController = new ListCostumersController();
 
+    /**
+     * Runs the interactive UI to prompt user for search criteria,
+     * validates and collects optional parameters,
+     * invokes the controller to perform the search,
+     * and displays the results or failure message.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("Search Figure");
@@ -36,7 +49,6 @@ public class SearchFigureUI implements Runnable {
             }
         }else{
             Utils.printAlterMessage("Skipped...");
-            figureIdOpt.isEmpty();
         }
         Long figureID = figureIdOpt.orElse(null);
 
@@ -109,6 +121,17 @@ public class SearchFigureUI implements Runnable {
         }
     }
 
+    /**
+     * Helper method to prompt user for input of a value object type if opted in.
+     * Prints skipped message if user declines.
+     *
+     * @param option whether the user wants to enter the value
+     * @param prompt text to prompt user
+     * @param parser function to parse input String to type T
+     * @param clazz Class object of type T (not used in this method but kept for signature consistency)
+     * @param <T> the type of the value object
+     * @return Optional of the parsed value or empty if skipped
+     */
     private <T> Optional<T> refurseOrAcceptValueObject(Boolean option, String prompt, Function<String, T> parser, Class<T> clazz) {
         if (!option) {
             Utils.printAlterMessage("Skipped...");
@@ -119,6 +142,17 @@ public class SearchFigureUI implements Runnable {
         }
     }
 
+    /**
+     * Helper method to prompt user for input of an enum value if opted in.
+     * Prints skipped message if user declines.
+     *
+     * @param option whether the user wants to enter the enum value
+     * @param prompt text to prompt user
+     * @param parser function to parse input String to enum type T
+     * @param clazz Class object of enum type T (not used here but kept for signature)
+     * @param <T> the enum type
+     * @return Optional of the parsed enum value or empty if skipped
+     */
     private <T> Optional<T> refurseOrAcceptValueObjectEnum(Boolean option, String prompt, Function<String, T> parser, Class<T> clazz) {
         if (!option) {
             Utils.printAlterMessage("Skipped...");

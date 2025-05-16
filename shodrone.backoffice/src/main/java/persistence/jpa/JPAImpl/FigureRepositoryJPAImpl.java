@@ -1,23 +1,23 @@
 package persistence.jpa.JPAImpl;
 
-import authz.Email;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
-import domain.entity.ShowRequest;
 import domain.valueObjects.*;
-import jakarta.persistence.EntityTransaction;
 import persistence.RepositoryProvider;
 import persistence.interfaces.CostumerRepository;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.interfaces.FigureRepository;
 import persistence.jpa.JpaBaseRepository;
-import utils.AuthUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * JPA implementation of the FigureRepository interface.
+ * Provides persistence and query operations for Figure entities using JPA.
+ */
 public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         implements FigureRepository {
 
@@ -38,7 +38,14 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         return Optional.empty();
     }*/
 
-
+    /**
+     * Saves a new Figure entity if it does not already exist.
+     * Also persists or reuses the associated category and costumer entities.
+     * Checks for duplicate figures before saving.
+     *
+     * @param figure The Figure entity to save.
+     * @return Optional containing the saved Figure if successful, or empty if duplicate or already exists.
+     */
     @Override
     public Optional<Figure> save(Figure figure) {
         if (figure.identity() != null && findById(figure.identity()) != null) {
@@ -84,6 +91,12 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         return Optional.of(figure);
     }
 
+    /**
+     * Retrieves all active figures owned by the specified costumer or publicly available figures.
+     *
+     * @param costumer The costumer to filter by.
+     * @return List of figures matching the criteria.
+     */
     @Override
     public List<Figure> findByCostumer(Costumer costumer) {
         return entityManager()
@@ -94,6 +107,11 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                 .getResultList();
     }
 
+    /**
+     * Retrieves all figures with status ACTIVE.
+     *
+     * @return List of active figures.
+     */
     @Override
     public List<Figure> findAllActive() {
         return entityManager()
@@ -102,6 +120,21 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                 .getResultList();
     }
 
+    /**
+     * Searches for figures matching a combination of optional filters.
+     * Applies filters successively by each attribute.
+     *
+     * @param figureId     Filter by figure ID.
+     * @param name         Filter by figure name.
+     * @param description  Filter by description.
+     * @param version      Filter by version.
+     * @param category     Filter by figure category.
+     * @param availability Filter by availability status.
+     * @param status       Filter by figure status.
+     * @param dsl          Filter by DSL.
+     * @param costumer     Filter by costumer.
+     * @return Optional containing list of matching figures or empty if none found.
+     */
     @Override
     public Optional<List<Figure>> findFigures(Long figureId, Name name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
         List<Figure> figures = entityManager()
@@ -204,6 +237,11 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
     }
 
 
+    /**
+     * Retrieves all figures that are active and publicly available.
+     *
+     * @return List of public active figures.
+     */
     @Override
     public List<Figure> findAllPublicFigures() {
         return entityManager()
@@ -213,6 +251,12 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                 .getResultList();
     }
 
+    /**
+     * Marks a given figure as inactive (decommissioned) and updates it in the database.
+     *
+     * @param figure The figure to edit.
+     * @return Optional containing the updated figure if successful, or empty if the figure does not exist.
+     */
     @Override
     public Optional<Figure> editChosenFigure(Figure figure) {
         if (figure == null || figure.identity() == null) {

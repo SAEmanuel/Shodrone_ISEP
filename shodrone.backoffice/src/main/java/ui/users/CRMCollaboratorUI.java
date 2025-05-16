@@ -38,6 +38,9 @@ public class CRMCollaboratorUI implements Runnable {
      *     <li>Submit a show request</li>
      *     <li>List show requests of clients</li>
      *     <li>Edit an existing show request</li>
+     *     <li>Register a new customer</li>
+     *     <li>List all active and public figures</li>
+     *     <li>Search figures</li>
      * </ul>
      * The menu loop continues until the user selects the exit option.
      * </p>
@@ -49,7 +52,7 @@ public class CRMCollaboratorUI implements Runnable {
         options.add(new MenuItem("List Show Request of Clients", new ListShowRequestByCostumerUI()));
         options.add(new MenuItem("Edit Show Request", new EditShowRequestUI()));
         options.add(new MenuItem("Register customer", new RegisterCustomerUI()));
-        options.add(new MenuItem("List All Active & Public Figures", new ListPublicFiguresUI()) );
+        options.add(new MenuItem("List All Public Figures", new ListPublicFiguresUI()) );
         options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
 
         int option;

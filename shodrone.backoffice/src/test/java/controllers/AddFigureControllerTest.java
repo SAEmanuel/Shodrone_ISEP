@@ -19,11 +19,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
+
+/**
+ * Unit tests for AddFigureController.
+ * Uses Mockito to mock the FigureRepository and verify controller behavior.
+ */
 class AddFigureControllerTest {
 
     private AddFigureController controller;
     private FigureRepository mockRepository;
 
+    // Sample valid test data
     private final Name name = new Name("Test Figure");
     private final Description description = new Description("Test description");
     private final Long version = 1L;
@@ -35,6 +41,7 @@ class AddFigureControllerTest {
     private final FigureAvailability figureAvailability = FigureAvailability.PUBLIC;
     private final FigureStatus figureStatus = FigureStatus.ACTIVE;
 
+    // Sample customer used to associate with the figure
     private final Costumer customer = new Costumer(
             eapli.framework.infrastructure.authz.domain.model.Name.valueOf("Jorge", "Ubaldo"),
             EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
@@ -43,6 +50,11 @@ class AddFigureControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
+    /**
+     * Setup method called before each test.
+     * Initializes the mock repository and injects it into the RepositoryProvider.
+     * Instantiates the controller to be tested.
+     */
     @BeforeEach
     void setUp() {
         mockRepository = mock(FigureRepository.class);
@@ -50,6 +62,11 @@ class AddFigureControllerTest {
         controller = new AddFigureController();
     }
 
+    /**
+     * Tests successful addition of a Figure with all parameters.
+     * Mocks repository save to return an Optional containing the figure.
+     * Asserts the controller returns the figure wrapped in Optional and that repository save was called.
+     */
     @Test
     void testAddFigureSuccess() {
         Figure fakeFigure = new Figure(name, description, version, category, figureAvailability, figureStatus, null, customer);
@@ -62,6 +79,11 @@ class AddFigureControllerTest {
         verify(mockRepository).save(any(Figure.class));
     }
 
+    /**
+     * Tests adding a Figure with only name, category, and customer, relying on default availability and status.
+     * Mocks repository save to return an Optional containing the figure.
+     * Asserts correct Optional result and repository interaction.
+     */
     @Test
     void testAddFigureWithNameCategoryAndCostumerOnly_Success() {
         //Added manually the default Availability and Status
@@ -76,6 +98,10 @@ class AddFigureControllerTest {
         verify(mockRepository).save(any(Figure.class));
     }
 
+    /**
+     * Tests the case where saving a Figure fails (repository returns empty Optional).
+     * Asserts that the controller returns an empty Optional to indicate failure.
+     */
     @Test
     void testAddFigure_SaveFails_ReturnsEmpty() {
         when(mockRepository.save(any(Figure.class))).thenReturn(Optional.empty());

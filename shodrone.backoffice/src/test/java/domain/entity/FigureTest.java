@@ -7,14 +7,23 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
+/**
+ * Unit test class for the Figure entity.
+ * Tests creation, updates, equality, identity, and string representation.
+ */
 class FigureTest {
 
     private FigureCategory mockCategory;
     private Costumer mockCostumer;
     private Description mockDescription;
 
+    // Instance of Figure to be tested
     private Figure figure;
 
+    /**
+     * Setup method executed before each test.
+     * Initializes mocks and creates a new Figure instance with mocked dependencies.
+     */
     @BeforeEach
     void setUp() {
         // Mock dependencies
@@ -27,7 +36,9 @@ class FigureTest {
     }
 
     // ---- Creation Tests ----
-
+    /**
+     * Verifies that the Figure is correctly created with valid initial values.
+     */
     @Test
     void testCreationWithValidValues() {
         assertEquals("Airplane", figure.name());
@@ -40,7 +51,9 @@ class FigureTest {
     }
 
     // ---- Update Methods ----
-
+    /**
+     * Tests updating the Figure's category and verifies it changes accordingly.
+     */
     @Test
     void testUpdateFigureCategory() {
         FigureCategory newCategory = mock(FigureCategory.class);
@@ -48,6 +61,9 @@ class FigureTest {
         assertEquals(newCategory, figure.category());
     }
 
+    /**
+     * Tests updating the Figure's costumer (owner) and verifies it changes accordingly.
+     */
     @Test
     void testUpdateFigureCostumer() {
         Costumer newCostumer = mock(Costumer.class);
@@ -55,6 +71,9 @@ class FigureTest {
         assertEquals(newCostumer, figure.costumer());
     }
 
+    /**
+     * Tests decommissioning the Figure by setting its status to INACTIVE.
+     */
     @Test
     void testDecommissionFigureStatus() {
         assertEquals(FigureStatus.ACTIVE, figure.status());
@@ -63,22 +82,33 @@ class FigureTest {
     }
 
     // ---- Equality and Identity Tests ----
-
+    /**
+     * Verifies that a Figure equals itself.
+     */
     @Test
     void testEqualsWithItself() {
         assertTrue(figure.equals(figure));
     }
 
+    /**
+     * Verifies that a Figure is not equal to null.
+     */
     @Test
     void testEqualsWithNull() {
         assertFalse(figure.equals(null));
     }
 
+    /**
+     * Verifies that a Figure is not equal to an object of a different class.
+     */
     @Test
     void testEqualsWithDifferentClass() {
         assertFalse(figure.equals("not a figure"));
     }
 
+    /**
+     * Verifies that the hashCode method returns consistent values.
+     */
     @Test
     void testHashCodeConsistency() {
         int hash1 = figure.hashCode();
@@ -86,6 +116,9 @@ class FigureTest {
         assertEquals(hash1, hash2);
     }
 
+    /**
+     * Verifies that Figures with different IDs are not equal.
+     */
     @Test
     void testDiference() {
         Figure sameFigure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
@@ -94,6 +127,9 @@ class FigureTest {
         assertFalse(figure.equals(sameFigure));
     }
 
+    /**
+     * Verifies that Figures with the same ID are equal.
+     */
     @Test
     void testEquality() {
         Figure sameFigure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
@@ -103,7 +139,9 @@ class FigureTest {
     }
 
     // ---- toString Tests ----
-
+    /**
+     * Tests that the toString method returns the expected formatted string.
+     */
     @Test
     void testToString() {
         String expectedString = String.format(

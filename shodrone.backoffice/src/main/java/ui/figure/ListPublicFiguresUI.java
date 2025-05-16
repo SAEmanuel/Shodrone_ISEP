@@ -7,9 +7,22 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * User Interface class responsible for listing public Figures.
+ * Implements Runnable for standalone execution or threading.
+ * Prompts the user for pagination preferences (page number and page size),
+ * retrieves public figures through the controller,
+ * and displays them in a paginated format.
+ */
 public class ListPublicFiguresUI implements Runnable {
     private final ListPublicFiguresController controller = new ListPublicFiguresController();
 
+    /**
+     * Runs the interactive console UI to list public figures.
+     * Asks the user if they want to specify page number and size,
+     * validates inputs, retrieves the list of public figures,
+     * then shows the figures with pagination and waits for user input to finish.
+     */
     @Override
     public void run() {
         Utils.printCenteredTitle("List Public Figures");

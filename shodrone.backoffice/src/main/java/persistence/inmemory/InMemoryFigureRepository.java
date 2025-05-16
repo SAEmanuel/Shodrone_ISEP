@@ -13,6 +13,11 @@ import domain.history.AuditLoggerService;
 
 import java.util.*;
 
+
+/**
+ * In-memory implementation of the FigureRepository interface.
+ * Used for temporary data storage, typically in testing or prototyping environments.
+ */
 public class InMemoryFigureRepository implements FigureRepository {
     private final Map<Long, Figure> store = new HashMap<>();
     private final AuditLoggerService auditLoggerService;
@@ -23,6 +28,13 @@ public class InMemoryFigureRepository implements FigureRepository {
         this.auditLoggerService = auditLoggerService;
     }
 
+    /**
+     * Saves a new figure to the repository.
+     * If the figure already exists, it may not be saved.
+     *
+     * @param figure The figure to be saved.
+     * @return An Optional containing the saved figure, or empty if saving failed.
+     */
     @Override
     public Optional<Figure> save(Figure figure) {
         if (figure == null) return Optional.empty();
@@ -75,11 +87,21 @@ public class InMemoryFigureRepository implements FigureRepository {
         
     }
 
+    /**
+     * Returns all stored figures.
+     *
+     * @return A list of all figures.
+     */
     @Override
     public List<Figure> findAll() {
         return new ArrayList<>(store.values());
     }
 
+    /**
+           * Returns only figures marked as ACTIVE.
+            *
+            * @return A list of active figures.
+     */
     @Override
     public List<Figure> findAllActive() {
         ArrayList<Figure> figures = new ArrayList<Figure>();
@@ -95,6 +117,13 @@ public class InMemoryFigureRepository implements FigureRepository {
         return figures;
     }
 
+    /**
+     * Returns all active figures associated with a specific costumer,
+     * or any public figures regardless of costumer.
+     *
+     * @param costumer The costumer used for filtering.
+     * @return A list of figures matching the costumer or marked as public.
+     */
     @Override
     public List<Figure> findByCostumer(Costumer costumer) {
         ArrayList<Figure> figures = new ArrayList<Figure>();
@@ -110,6 +139,21 @@ public class InMemoryFigureRepository implements FigureRepository {
         return figures;
     }
 
+    /**
+     * Searches for figures using a combination of optional parameters.
+     * Filters are applied sequentially by each field.
+     *
+     * @param figureId      Optional figure ID to match.
+     * @param name          Optional name to match.
+     * @param description   Optional description to match.
+     * @param version       Optional version to match.
+     * @param category      Optional category to match.
+     * @param availability  Optional availability to match.
+     * @param status        Optional status to match.
+     * @param dsl           Optional DSL to match.
+     * @param costumer      Optional costumer to match.
+     * @return An Optional list of matching figures, or an empty list if none found.
+     */
     @Override
     public Optional<List<Figure>> findFigures(Long figureId, Name name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
         ArrayList<Figure> figures = new ArrayList();
@@ -205,7 +249,11 @@ public class InMemoryFigureRepository implements FigureRepository {
         return Optional.of(figures);
     }
 
-
+    /**
+     * Returns all figures that are both active and public.
+     *
+     * @return A list of public, active figures.
+     */
     @Override
     public List<Figure> findAllPublicFigures() {
         ArrayList<Figure> figures = new ArrayList<Figure>();
@@ -222,6 +270,13 @@ public class InMemoryFigureRepository implements FigureRepository {
         return figures;
     }
 
+    /**
+     * Edits a figure by decommissioning it (marking it as INACTIVE).
+     * Only applies if the figure exists in the repository.
+     *
+     * @param figure The figure to be edited.
+     * @return An Optional containing the updated figure, or empty if not found.
+     */
     @Override
     public Optional<Figure> editChosenFigure(Figure figure) {
         Figure myFigure = null;

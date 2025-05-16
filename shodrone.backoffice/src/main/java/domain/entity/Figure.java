@@ -18,11 +18,11 @@ import java.util.Objects;
 @Table(name = "figure")
 public class Figure implements AggregateRoot<Long>, Serializable {
 
+    // Primary key for the Figure entity, auto-generated
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long figureId;
-
 
     @Embedded
     @Column(name = "Name", nullable = false)
@@ -53,8 +53,22 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @JoinColumn(name = "costumer_id", nullable = false)
     private Costumer costumer;
 
+
+
     protected Figure() {}
 
+    /**
+     * Constructs a new Figure entity with all required attributes.
+     *
+     * @param name          The name of the figure.
+     * @param description   The description of the figure.
+     * @param version       The version number of the figure.
+     * @param category      The category to which the figure belongs.
+     * @param availability  The availability status of the figure.
+     * @param status        The current status of the figure.
+     * @param dsl           The DSL associated with the figure.
+     * @param costumer      The costumer associated with the figure.
+     */
     public Figure(Name name, Description description,
                   Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
 
@@ -68,6 +82,12 @@ public class Figure implements AggregateRoot<Long>, Serializable {
         this.costumer = costumer;
     }
 
+
+    /**
+     * Returns the unique identifier of this Figure entity.
+     *
+     * @return The figure's identity (primary key).
+     */
     @Override
     public Long identity() { return figureId; }
 
@@ -88,12 +108,21 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     public Costumer costumer() { return costumer; }
 
 
-
+    /**
+     * Updates the category of the figure.
+     * @param category new category to assign
+     */
     public void UpdateFigureCategory (FigureCategory category) { this.category = category; }
 
+    /**
+     * Updates the costumer (owner/client) of the figure.
+     * @param costumer new costumer to assign
+     */
     public void UpdateFigureCostumer (Costumer costumer) { this.costumer = costumer; }
 
-
+    /**
+     * Marks the figure as inactive (decommissioned).
+     */
     public void decommissionFigureStatus() { this.status = FigureStatus.INACTIVE; }
 
     @Override
