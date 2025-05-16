@@ -98,7 +98,7 @@ int run_simulation(char* argv)
 
         for (int childNumber = 0; childNumber < num_drones; childNumber++) {
             // Output purposes, not for synchronization
-            //usleep(800000);
+            usleep(800000);
             Position current_pos;
             ssize_t bytes_read = read(pipes[childNumber][0], &current_pos, sizeof(current_pos));
 

@@ -5,6 +5,8 @@
         "unistd.h": "c",
         "report.h": "c",
         "stdlib.h": "c",
-        "select.h": "c"
+        "select.h": "c",
+        "assert.h": "c",
+        "math.h": "c"
     }
 }
