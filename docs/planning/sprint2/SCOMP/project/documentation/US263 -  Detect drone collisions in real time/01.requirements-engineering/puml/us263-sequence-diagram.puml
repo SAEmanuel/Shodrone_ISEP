@@ -15,11 +15,12 @@ activate Operator
 Operator -> System: start show monitoring
 activate System
 
-loop every xms
-System -> System: process GPS and velocity data
-alt collision detected
-System --> Operator: alert (visual)
-System -> System: log collision event
+loop for each timestamp
+System -> System: process drone positions
+alt collision detected (distance < combined radius)
+System --> Operator: alert (visual: "💥 Collision detected...")
+System -> System: log collision event in Collision_Stamp
+System -> System: send SIGUSR1 to involved drones
 else no collision
 System --> Operator: update drone positions (normal status)
 end alt
@@ -29,5 +30,7 @@ Operator -> System: stop show monitoring
 deactivate System
 
 deactivate Operator
+
+note right: Updated as of 11:12 AM WEST on Friday, May 16, 2025.\n- Collision detection uses distance < (biggestDimension/200 + 0.5m).\n- Drones marked as terminated are excluded.\n- Visual alert is a terminal message.
 
 @enduml
