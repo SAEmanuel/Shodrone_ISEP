@@ -1,6 +1,7 @@
 #ifndef REPORT_H
 #define REPORT_H
 #include "drone.h"
+#include "environment.h"
 
 
 typedef struct {
@@ -17,6 +18,7 @@ typedef struct {
     int max_collisions;       
     Position** timeline;
     Collision_Stamp* stamps;  
+    Environment* environment;
     int stamps_count;
     char simulation_name[64];          
 } Report;

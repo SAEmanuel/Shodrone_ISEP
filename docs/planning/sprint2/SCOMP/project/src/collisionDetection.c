@@ -27,16 +27,47 @@ float calculateDistance(Position a, Position b) {
 int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp,  Collision_Stamp **stamps, int *stamps_capacity, int *stamps_count) {
     int array_size = 0;
     pid_t *drones_that_collied = NULL;
+    int number_of_collision = 0;
 
     for (int i = 0; i < numberOfDrones; i++) {
         Radar droneA = historyOfRadar[i][timeStamp];
+        // Ignorar drones terminados
         if (droneA.terminated) continue;
+
+        // Ignorar drones inativos (todas as coordenadas -1)
+        if (droneA.position.x == -1 && droneA.position.y == -1 && droneA.position.z == -1)
+            continue;
+
+        // Colisão com o chão
+        if (droneA.position.z <= 0) {
+            Radar ground = {
+                .droneInformation = {.id = -1, .biggestDimension = 0},
+                .timeStamp = timeStamp,
+                .position = {.x = droneA.position.x, .y = droneA.position.y, .z = 0, .pid = 0},
+                .terminated = 1
+            };
+            fill_stamp_moment(droneA, ground, timeStamp, stamps, stamps_capacity, stamps_count);
+
+            char msg[150];
+            int len = snprintf(msg, sizeof(msg),"❗ Drone [%d] collided with the ground\n",droneA.droneInformation.id);
+            write(STDOUT_FILENO, msg, len);
+
+            pid_t drone1 = droneA.position.pid;
+            kill(drone1, SIGUSR1);
+
+            drones_that_collied = add_drone_to_list(drone1, drones_that_collied, &array_size);
+
+            number_of_collision++;
+            continue; 
+        }
 
         float radiusA = (droneA.droneInformation.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
 
         for (int j = i + 1; j < numberOfDrones; j++) {
             Radar droneB = historyOfRadar[j][timeStamp];
             if (droneB.terminated) continue;
+            if (droneB.position.x == -1 && droneB.position.y == -1 && droneB.position.z == -1)
+                continue;
 
             float radiusB = (droneB.droneInformation.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
             float distance = calculateDistance(droneA.position, droneB.position);
@@ -47,8 +78,8 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
                 number_of_collision++;
 
                 char msg[100];
-                int len = snprintf(msg, sizeof(msg), "💥 Collision detected between drone [%d] and [%d] at time - %d\n",
-                                   droneA.droneInformation.id, droneB.droneInformation.id, timeStamp);
+                int len = snprintf(msg, sizeof(msg), "💥 Collision detected between drone [%d] and [%d]\n",
+                                   droneA.droneInformation.id, droneB.droneInformation.id);
                 write(STDOUT_FILENO, msg, len);
 
                 pid_t drone1 = droneA.position.pid;
@@ -72,11 +103,11 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
     }
 
     free(drones_that_collied);
-    
-    int collision_copy = number_of_collision;
-    number_of_collision = 0;
-    return collision_copy;
+
+    return number_of_collision;
 }
+
+
 
 pid_t *add_drone_to_list(pid_t drone, pid_t *drones_that_collied, int *size) {
     if (!exist_in_array(drone, drones_that_collied, *size)) {

@@ -1,0 +1,68 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Register Customer Flow (US220)
+
+autonumber
+
+actor "CRM Collaborator" as user
+participant ":RegisterCustomerUI" as UI
+participant ":RegisterCustomerController" as customerController
+participant ":RegisterRepresentativeController" as repController
+participant ":RepositoryProvider" as repoProvider
+participant ":CostumerRepository" as costumerRepo
+participant ":CustomerRepresentativeRepository" as repRepo
+participant ":RegisterUserController" as userController
+
+== START ==
+
+user -> UI : run()
+activate UI
+
+UI -> customerController : registerCustomer(customerData)
+activate customerController
+
+customerController -> repoProvider : costumerRepository()
+activate repoProvider
+repoProvider --> customerController : costumerRepo
+deactivate repoProvider
+
+customerController -> costumerRepo : saveInStore(customer, nif)
+activate costumerRepo
+costumerRepo --> customerController : Optional<Costumer>
+deactivate costumerRepo
+
+customerController --> UI : Optional<Costumer>
+deactivate customerController
+
+alt Customer created successfully
+    UI -> repController : registerRepresentative(customer, repData)
+    activate repController
+
+    repController -> repoProvider : customerRepresentativeRepository()
+    activate repoProvider
+    repoProvider --> repController : repRepo
+    deactivate repoProvider
+
+    repController -> repRepo : save(representative)
+    activate repRepo
+    repRepo --> repController : void
+    deactivate repRepo
+
+    repController -> userController : registerUser(name, email, password, role)
+    activate userController
+    userController --> repController : boolean
+    deactivate userController
+
+    repController --> UI : success/failure
+    deactivate repController
+
+else Customer already exists
+    UI --> user : show error message
+end
+
+UI --> user : show success/failure
+deactivate UI
+@enduml

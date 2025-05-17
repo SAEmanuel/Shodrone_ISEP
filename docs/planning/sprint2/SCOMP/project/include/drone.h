@@ -1,13 +1,8 @@
 #ifndef DRONE_H
 #define DRONE_H
 #include <signal.h>
-
-
-typedef struct {
-    int x, y, z;
-    pid_t pid;
-} Position;
-
+#include "environment.h"
+#include "position.h"
 
 typedef struct {
     int id;
@@ -17,7 +12,7 @@ typedef struct {
 } Drone;
 
 
-void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid);
+void simulate_drone(const char* filename, int drone_id, int position_pipes, pid_t pid, int environment_pipes, int total_ticks);
 void handle_sigusr1(int sig);
 
 #endif
