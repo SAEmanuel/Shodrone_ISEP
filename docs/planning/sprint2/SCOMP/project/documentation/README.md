@@ -4,7 +4,7 @@
 
 ## 2. Example of a script used by drones
 
-### Script for 10 drones (example)
+### Script for 10 drones (example start)
 
 ```
 0 - 3x4x5
@@ -30,93 +30,7 @@
 3 10 4
 8 7 3
 2 - 3x4x5
-7 0 2
-4 9 4
-7 9 1
-0 5 5
-8 8 1
-4 8 1
-7 4 1
-4 0 5
-9 9 2
-1 10 5
-3 - 4x3x1
-2 8 2
-3 6 1
-6 2 2
-6 7 1
-0 5 6
-1 7 1
-9 7 2
-6 1 9
-9 5 1
-9 4 2
-4 - 1x4x6
-1 5 5
-7 0 5
-4 3 1
-3 3 1
-4 4 1
-10 8 3
-1 7 8
-9 0 4
-10 7 2
-4 2 4
-5 - 6x1x4
-1 0 4
-3 8 5
-6 9 2
-8 7 5
-0 4 4
-6 6 4
-8 4 2
-2 1 3
-4 2 4
-6 5 4
-6 - 5x7x5
-6 1 4
-2 6 5
-10 10 2
-0 9 3
-8 3 8
-1 2 5
-7 6 1
-2 5 2
-1 1 10
-5 2 5
-7 - 8x2x1
-10 8 9
-5 7 5
-1 10 5
-8 3 1
-8 5 5
-8 1 1
-4 6 1
-5 8 1
-6 7 4
-8 1 4
-8 - 3x4x2
-1 7 1
-8 2 1
-10 9 5
-4 4 2
-7 1 1
-10 6 2
-3 9 1
-2 3 2
-3 5 3
-8 3 3
-9 - 2x3x4
-3 4 2
-6 9 1
-3 4 2
-6 0 4
-8 2 1
-1 3 1
-3 0 5
-10 1 4
-1 1 2
-6 8 3
+...
 ```
 
 ### Explanation of the Script Format
@@ -196,14 +110,17 @@ pipe(pipes[droneNumber]);
 pids[droneNumber] = fork();
 
 if (pids[droneNumber] == 0) {  // Child process (drone)
-    close(pipes[droneNumber]);
-    simulate_drone(filename, ..., pipes[droneNumber]);
+    close(position_pipes[droneNumber]);
+    close(environment_pipes[droneNumber]);
+    simulate_drone(filename, ..., position_pipes[droneNumber], environment_pipes[droneNumber]);
     exit(EXIT_SUCCESS);
 }
-close(pipes[droneNumber]);  // Parent closes write end
+close(position_pipes[droneNumber]);  // Parent closes write end for positions
+close(environment_pipes[droneNumber]);  // Parent closes read end for environment
 
 ```
-- Creates pipe for each drone
+
+- Creates two pipes per drone: one for position data and one for environmental conditions
 - Forks child processes for parallel drone simulation
 
 **3. Timeline Initialization**
@@ -214,11 +131,17 @@ report_of_simulation.timeline = malloc(total_ticks * sizeof(Position*));
 for (int i = 0; i < total_ticks; i++) {
 report_of_simulation.timeline[i] = malloc(num_drones * sizeof(Position));
 // Initialize to (-1, -1, -1) for inactive state
+for (int j = 0; j < num_drones; j++) {
+report_of_simulation.timeline[i][j].x = -1;
+report_of_simulation.timeline[i][j].y = -1;
+report_of_simulation.timeline[i][j].z = -1;
+}
 }
 ```
 
 - Pre-allocates memory for storing drone positions
 - Uses (-1, -1, -1) to mark inactive drones
+
 
 **4. Position Reading and Tracking**
 ```
@@ -239,7 +162,23 @@ ssize_t bytes_read = read(pipes[childNumber], &current_pos, sizeof(Position));
 - Updates timeline matrix
 - Provides real-time terminal output
 
-**5. Utility Functions (`utils.c`)**
+**5. Environmental Conditions Transmission**
+```
+// main.c
+Environment environment;
+read_enviroment_info(&environment);
+for (int droneNumber = 0; droneNumber < num_drones; droneNumber++) {
+// After fork, in parent process
+transfer_environmental_effects(&environment, environment_pipes[droneNumber]);
+close(environment_pipes[droneNumber]); // Close after sending
+}
+```
+
+- Reads environmental conditions (wind and rain) from a configuration source
+- Sends environmental data to each drone process via dedicated pipes immediately after process creation
+- Ensures drones apply environmental effects to their movement paths
+
+**6. Utility Functions (`utils.c`)**
 
 ```
 int get_total_ticks_from_file(const char* filename) {
@@ -252,18 +191,24 @@ int calculate_acceptable_collision_number(int numberOfDrones) {
 return (int)floor(numberOfDrones * 0.05f); // 5% threshold
 }
 ```
+
 - Handles script content parsing
-- Calculates safety thresholds
+- Calculates safety thresholds for collisions
 
 #### Process Flow
 1. User selects script via terminal UI
 2. System validates and parses script file
 3. Parent process creates:
-    - Communication pipes
+    - Communication pipes for positions and environmental conditions
     - Timeline data structure
     - Child processes (one per drone)
-4. Drones execute movement scripts in parallel
-5. Parent aggregates positions and manages synchronization
+4. Parent sends environmental conditions to each drone via dedicated pipes
+5. Drones execute movement scripts in parallel, applying environmental effects
+6. Parent aggregates positions and manages synchronization
+
+#### Summary
+The initiation of the simulation involves parsing the script to determine the number of drones and ticks, creating child processes for each drone with dedicated communication channels, and ensuring environmental conditions are transmitted to influence drone behavior. This setup enables parallel execution of drone movements while maintaining centralized control and monitoring through the parent process.
+
 
 ---
 
@@ -310,9 +255,90 @@ This is achieved via pipes for inter-process communication and a matrix for orga
 
 ---
 
-### US263 - Detect drone collisions in real time
+### US263 - Detect Drone Collisions in Real Time
 
-Collision detection is performed after collecting all drones’ positions for each simulation tick. A collision is detected if the Euclidean distance between two active drones is less than the sum of their calculated safety radii. The safety radius is based on the largest drone dimension and a constant buffer. If a collision is found, both drones are sent a `SIGUSR1` signal, captured in a `Collision_Stamp`, and temporarily halted. Drones are resumed later with `SIGCONT`. The simulation is aborted if the number of collisions exceeds a dynamic threshold (5% of total drones).
+Collision detection is performed after collecting all drones’ positions for each simulation tick. A collision is detected if the Euclidean distance between two active drones is less than the sum of their calculated safety radii. The safety radius is based on the largest drone dimension and a constant buffer. Additionally, a collision with the ground is detected if a drone's z-coordinate is less than or equal to zero. If a collision is found, the involved drones are sent a `SIGUSR1` signal, the event is captured in a `Collision_Stamp` structure, and the drones are temporarily halted. Drones are resumed later with `SIGCONT`. The simulation is aborted if the number of collisions exceeds a dynamic threshold.
+
+#### Key Collision Detection Mechanism
+```
+// collisionDetection.c (Parent Process)
+int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp, Collision_Stamp **stamps, int *stamps_capacity, int *stamps_count) {
+int array_size = 0;
+pid_t *drones_that_collied = NULL;
+int number_of_collision = 0;
+
+for (int i = 0; i < numberOfDrones; i++) {
+    Radar droneA = historyOfRadar[i][timeStamp];
+    if (droneA.terminated) continue;
+    if (droneA.position.x == -1 && droneA.position.y == -1 && droneA.position.z == -1) continue;
+
+    // Collision with ground
+    if (droneA.position.z <= 0) {
+        Radar ground = {
+            .droneInformation = {.id = -1, .biggestDimension = 0},
+            .timeStamp = timeStamp,
+            .position = {.x = droneA.position.x, .y = droneA.position.y, .z = 0, .pid = 0},
+            .terminated = 1
+        };
+        fill_stamp_moment(droneA, ground, timeStamp, stamps, stamps_capacity, stamps_count);
+        // ... notify and handle ground collision ...
+        pid_t drone1 = droneA.position.pid;
+        kill(drone1, SIGUSR1);
+        drones_that_collied = add_drone_to_list(drone1, drones_that_collied, &array_size);
+        number_of_collision++;
+        continue;
+    }
+
+    float radiusA = (droneA.droneInformation.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
+
+    for (int j = i + 1; j < numberOfDrones; j++) {
+        Radar droneB = historyOfRadar[j][timeStamp];
+        if (droneB.terminated) continue;
+        if (droneB.position.x == -1 && droneB.position.y == -1 && droneB.position.z == -1) continue;
+
+        float radiusB = (droneB.droneInformation.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
+        float distance = calculateDistance(droneA.position, droneB.position);
+        float combinedRadius = radiusA + radiusB;
+
+        if (distance < combinedRadius) {
+            fill_stamp_moment(droneA, droneB, timeStamp, stamps, stamps_capacity, stamps_count);
+            number_of_collision++;
+            // ... notify collision ...
+            pid_t drone1 = droneA.position.pid;
+            pid_t drone2 = droneB.position.pid;
+            kill(drone1, SIGUSR1);
+            kill(drone2, SIGUSR1);
+            drones_that_collied = add_drone_to_list(drone1, drones_that_collied, &array_size);
+            drones_that_collied = add_drone_to_list(drone2, drones_that_collied, &array_size);
+        }
+    }
+}
+// ... handle post-collision actions ...
+return number_of_collision;
+}
+```
+
+#### How It Works
+
+1. **Position Analysis per Tick**:  
+   After collecting positions for all drones in the current tick, the `collisionDetection` function iterates through each pair of active drones in the `historyOfRadar` array to analyze potential overlaps. Drones marked as terminated or inactive (positions -1, -1, -1) are skipped.
+
+2. **Ground Collision Detection**:  
+   For each active drone, the system checks if its z-coordinate is less than or equal to zero. If true, a collision with the ground is recorded using a dummy `Radar` structure (ID -1), a `Collision_Stamp` is created, a `SIGUSR1` signal is sent to the drone process, and the event is logged with a message.
+
+3. **Drone-to-Drone Collision Detection**:  
+   For each pair of active drones, the Euclidean distance between their positions is calculated using `calculateDistance`. The safety radius for each drone is derived from its largest dimension divided by 200, plus a constant buffer (`COLLISION_RADIUS_EXTRA = 0.5f`). If the distance is less than the sum of their radii, a collision is detected, a `Collision_Stamp` is recorded, `SIGUSR1` signals are sent to both drones, and the event is logged.
+
+4. **Collision Handling and Termination**:  
+   After detecting collisions, the parent process temporarily halts the affected drones using `waitpid` with `WUNTRACED`, resumes them with `SIGCONT`, and waits for their termination. Unique drone PIDs are stored in a dynamic array (`drones_that_collied`) to avoid duplicate handling. If the total number of collisions exceeds a dynamic threshold (5% of total drones), the simulation is aborted by sending termination signals to all drones.
+
+5. **Real-Time Notification**:  
+   Collision events are logged to `STDOUT` in real time with descriptive messages (e.g., "❗ Drone [X] collided with the ground" or "💥 Collision detected between drone [X] and [Y]"). These events are also stored in the `Collision_Stamp` array for inclusion in the final simulation report.
+
+#### Result
+
+The system continuously monitors drone positions for overlaps in real time, identifying and reporting collisions as they occur during each tick. Upon detection, it notifies the involved drone processes via `SIGUSR1` signals, logs the event for user visibility, and ensures proper handling of drone termination and simulation abortion if necessary, aligning with safety and validation requirements for drone figures.
+
 
 ---
 
@@ -320,45 +346,71 @@ Collision detection is performed after collecting all drones’ positions for ea
 
 The simulation enforces step-by-step synchronization using **blocking I/O operations** on pipes. The parent process iterates through each tick and waits for all drones to report their positions before advancing to the next time unit.
 
-**Key Synchronization Mechanism:**
+#### Key Synchronization Mechanism
 
 ```
-// main.c (Parent Process)
+// run_simulation.c (Parent Process)
 for (int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
-for (int childNumber = 0; childNumber < num_drones; childNumber++) {
-Position current_pos;
-ssize_t bytes_read = read(pipes[childNumber], &current_pos, sizeof(Position)); // Blocks until data is available
-// ... store position ...
+    printTimeOfSimulation(timeStamp);
+    for (int childNumber = 0; childNumber < num_drones; childNumber++) {
+    Position current_pos;
+    ssize_t bytes_read = read(position_pipes[childNumber], &current_pos, sizeof(current_pos)); // Blocks until data is available
+    if (bytes_read == -1) {
+        perror("Father failed to read from pipe\n");
+        exit(EXIT_FAILURE);
+    }
+report_of_simulation.timeline[timeStamp][childNumber] = current_pos;
+// ... store position and handle termination status ...
 }
-// Process collisions / advance to next tick ONLY after all positions are received
-}
-```
-
-**Drone Behavior:**
-
-```
-// drone.c
-for (drone.current_step = 0; drone.current_step < drone.total_steps; drone.current_step++) {
-write(pipe_fd, &current_pos, sizeof(Position)); // Send position
-usleep(100000); // 100ms delay (optional pacing)
+// Process collisions and advance to next tick ONLY after all positions are received
+int collisions_in_tick = collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp, &stamps, &stamps_capacity, &stamps_count);
+// ... handle collision results ...
 }
 ```
 
-#### How It Works:
+#### Drone Behavior
+
+```
+// simulate_drone.c (Drone Process)
+for (int tick = 0; tick < total_ticks && !terminated; tick++) {
+    Position current_pos;
+    if (tick < drone.total_steps) {
+        current_pos = drone.script[tick];
+    } else {
+        current_pos.x = -1;
+        current_pos.y = -1;
+        current_pos.z = -1;
+}
+current_pos.pid = pid;
+ssize_t bytes_written = write(position_pipes, &current_pos, sizeof(Position)); // Send position
+if (bytes_written == -1) {
+    perror("Drone failed to write to pipe");
+break;
+}
+usleep(100000); // 100ms delay for pacing between ticks
+if (terminated) break;
+}
+```
+
+#### How It Works
+
 1. **Tick-Centric Loop**:  
-   The parent process iterates through ticks sequentially. For each tick:
-    - It reads positions from **all** drones' pipes.
-    - The `read()` system call **blocks** until data is available, ensuring the parent waits for slower drones.
+   The parent process iterates through ticks sequentially using a loop over `total_ticks`. For each tick:
+    - It reads positions from **all** drones' pipes using `read()` on `position_pipes[childNumber]`.
+    - The `read()` system call **blocks** until data is available from each drone, ensuring the parent waits for slower drones to send their positions before proceeding.
 
 2. **Implicit Synchronization**:
-    - Drones send positions as fast as they can, but the parent **never processes a new tick** until it has read all positions from the previous one.
-    - This creates a "virtual barrier" between ticks.
+    - Drones send their positions for each tick via `write()` to their respective pipes, iterating up to `total_ticks` or until terminated.
+    - The parent **never processes a new tick** until it has read all positions for the current tick from every drone, creating a "virtual barrier" between ticks.
+    - This ensures that all active drones are synchronized at each time step, as the parent only advances after collecting all data.
 
-3. **No Drone Left Behind**:  
-   If a drone crashes or terminates early, the pipe returns `EOF` (read returns 0), and the parent marks it as inactive. The simulation continues with active drones only.
+3. **No Drone Left Behind**:
+    - If a drone terminates early (e.g., due to a collision or completing its script), it either sends positions as (-1, -1, -1) or the pipe returns `EOF` (read returns 0), and the parent marks it as inactive in `historyOfRadar[childNumber][timeStamp].terminated`.
+    - The simulation continues with active drones only, ensuring that inactive drones do not disrupt the synchronization.
 
-**Result**:  
-All drones progress through the simulation at the same pace, with the parent guaranteeing lockstep execution via controlled I/O blocking.
+#### Result
+
+All drones progress through the simulation at the same pace, with the parent guaranteeing lockstep execution via controlled I/O blocking on pipes. The `usleep(100000)` in the drone process adds a small delay to simulate real-time pacing, preventing overwhelming the parent with rapid writes, while the blocking `read()` ensures the parent waits for all updates before advancing to the next tick.
 
 ---
 
@@ -375,43 +427,21 @@ At the end of each simulation run (whether completed or aborted due to excessive
     - Maximum allowed collisions and actual number of collisions
     - Final status: approved (no excessive collisions) or rejected
 
+- **Environmental Conditions:**
+    - Status of wind in each direction (North, South, East, West) with intensity if active
+    - Status of rain with intensity if active
+    - Indication if no wind or rain is active or if environmental data is unavailable
+
 - **Detailed Timeline:**
-    - For each tick, the report lists the position of every drone.
-    - If a drone is inactive (e.g., due to collision), it is marked as such.
+    - For each tick, the report lists the position of every active drone.
+    - Inactive drones (those with positions -1, -1, -1) are not listed in the position output.
+    - When a drone becomes inactive for the first time (without a collision), a message indicates it has returned to base.
+    - Collision events are listed with timestamps, including collisions with the ground or between drones, followed by a crash notification for ground collisions.
 
-- **Collision Events:**
-    - Every collision is explicitly listed with the IDs of the drones involved and the tick when it occurred.
-
-#### Example Report Output
-
-```
-╔══════════════════════════════════════════════════╗
-║ DRONE SIMULATION REPORT ║
-╠══════════════════════════════════════════════════╣
-║ Date & Time: 2025-05-16 16:00:00
-║ Simulation: script_10_drones.txt
-╠══════════════════════════════════════════════════╣
-║ Drones: 10
-║ Total Ticks: 12
-║ Collisions: 2
-║ Final Status: ❌ REJECTED
-╚══════════════════════════════════════════════════╝
-─── Detailed Timeline ───
-Tick 1:
-🚁 Drone 0: (8, 5, 5)
-🚁 Drone 1: (9, 4, 4)
-...
-Tick 2:
-🚁 Drone 0: (7, 0, 1)
-...
-💥 Collision detected between drone and 
-...
-```
 
 #### Implementation Details
 
 - The report is generated by the `generate_report` function at the end of the simulation:
-
 ```
 char output_filename;
 snprintf(output_filename, sizeof(output_filename), "./reports/report_%s_%d.txt", argv, collision_counter);
@@ -419,15 +449,174 @@ generate_report(&report_of_simulation, output_filename);
 ```
 - The function writes all simulation data in a structured, human-readable format.
 - The timeline and collision events are iterated and formatted for clarity.
+- Environmental conditions are extracted from the `Environment` structure in the `Report` and displayed in the summary section.
+- Drones returning to base are identified by the first occurrence of (-1, -1, -1) in their positions, triggering a specific message.
+- Collision events, including ground collisions followed by crash notifications, are logged per tick.
+- Audio feedback is provided based on simulation outcome using `play_sound` to play success or failure sounds.
 - The report can be used for validation, debugging, and as a formal record of the simulation outcome.
 
 #### Summary
 
-This reporting mechanism ensures transparency and traceability for every simulation, making it easy to verify if a drone figure is safe for real-world execution and to analyze any issues or collisions that occurred during the test.
+This reporting mechanism ensures transparency and traceability for every simulation, making it easy to verify if a drone figure is safe for real-world execution and to analyze any issues or collisions that occurred during the test. It aligns with the project's quality and safety commitments by providing comprehensive feedback on drone behavior under various environmental conditions.
 
 
 
-### US266 - Integrate environmental influences into simulation
+### US266 - Integrate Environmental Influences into Simulation
+
+The simulation system incorporates environmental factors such as wind and rain to make drone flight paths more realistic and adaptive to dynamic conditions. These factors are loaded from an external configuration file, transmitted to drone processes, and applied to modify drone movements during the simulation.
+
+#### Key Implementation Mechanism
+
+**1. Loading Environmental Data**
+```
+// environment.c (Parent Process)
+void read_enviroment_info(Environment* environment) {
+FILE* file = fopen("environment/environment.txt", "r");
+if (!file) {
+perror("Failed to open environment.txt");
+exit(EXIT_FAILURE);
+}
+
+char line;
+int wind_status = {-1, -1, -1, -1}; 
+int rain_on = 0; 
+
+while (fgets(line, sizeof(line), file)) {
+    line[strcspn(line, "\n")] = 0;
+
+    if (strstr(line, "Wind direction:")) {
+        char dir;
+        char status;
+        if (sscanf(line, "Wind direction: %c [%7]", &dir, status) == 2) {
+            int index = -1;
+            if (dir == 'N') index = 0;
+            else if (dir == 'S') index = 1;
+            else if (dir == 'E') index = 2;
+            else if (dir == 'W') index = 3;
+
+            if (index != -1 && strcmp(status, "ON") == 0) {
+                wind_status[index] = 0; 
+            }
+        }
+    }
+
+    if (strstr(line, "Wind speed")) {
+        char dir;
+        int speed;
+        if (sscanf(line, "Wind speed %c: %d", &dir, &speed) == 2) {
+            if (dir == 'N' && wind_status == 0) environment->north = speed;
+            else if (dir == 'S' && wind_status[1] == 0) environment->south = speed;
+            else if (dir == 'E' && wind_status[2] == 0) environment->east = speed;
+            else if (dir == 'W' && wind_status == 0) environment->west = speed;
+        }
+    }
+
+    if (strstr(line, "Rain:")) {
+        char rain_status;
+        if (sscanf(line, "Rain: [%7]", rain_status) == 1) {
+            if (strcmp(rain_status, "ON") == 0) {
+                rain_on = 1;
+            } else {
+                rain_on = 0;
+                environment->rain = -1;
+            }
+        }
+    }
+
+    if (strstr(line, "Rain intensity:")) {
+        int intensity;
+        if (sscanf(line, "Rain intensity: %d", &intensity) == 1 && rain_on) {
+            environment->rain = intensity;
+        }
+    }
+}
+
+if (wind_status != 0) environment->north = -1;
+if (wind_status[1] != 0) environment->south = -1;
+if (wind_status[2] != 0) environment->east = -1;
+if (wind_status != 0) environment->west = -1;
+
+fclose(file);
+
+```
+
+
+- Reads environmental data from a configuration file (`environment/environment.txt`) at the start of the simulation.
+- Parses wind direction and speed for North, South, East, and West, setting values to -1 if inactive.
+- Parses rain status and intensity, setting intensity to -1 if rain is off.
+
+**2. Transmitting Environmental Data to Drones**
+
+```
+// environment.c (Parent Process)
+void transfer_environmental_effects(Environment* environment, int pipe_fd) {
+ssize_t bytes_written = write(pipe_fd, environment, sizeof(Environment));
+if (bytes_written == -1) {
+perror("Father failed to write to pipe");
+exit(EXIT_FAILURE);
+}
+if (bytes_written != sizeof(Environment)) {
+    fprintf(stderr, "Incomplete write to pipe (expected %zu, got %zd bytes)\n",
+            sizeof(Environment), bytes_written);
+    exit(EXIT_FAILURE);
+}
+}
+```
+
+
+- Sends the `Environment` structure containing wind and rain data to each drone process via a dedicated pipe immediately after process creation.
+- Ensures reliable transmission by checking for write errors or incomplete data transfer.
+
+**3. Applying Environmental Effects to Drone Movements**
+
+```
+// environment.c (Drone Process)
+void apply_environment_effects(Environment* env, Position* pos) {
+if (env->north > 0)
+pos->y += rand_inclusive(env->north);
+
+if (env->south > 0)
+    pos->y -= rand_inclusive(env->south);
+
+if (env->east > 0)
+    pos->x += rand_inclusive(env->east);
+
+if (env->west > 0)
+    pos->x -= rand_inclusive(env->west);
+
+if (env->rain > 0)
+    pos->z -= rand_inclusive(env->rain);
+}
+
+int rand_inclusive(int max) {
+if (max <= 0) return 0;
+return rand() % (max + 1);
+}
+
+```
+
+- Each drone process applies environmental effects to its position before sending updates to the parent.
+- Wind from North increases the y-coordinate, South decreases y, East increases x, and West decreases x, with random variation up to the specified intensity.
+- Rain decreases the z-coordinate (altitude) with random variation up to the specified intensity.
+- Effects are only applied if the respective intensity value is greater than 0.
+
+#### How It Works
+
+1. **Loading Configuration**:  
+   At the start of the simulation, the parent process reads environmental data (wind speeds for each direction and rain intensity) from an external file (`environment/environment.txt`) into an `Environment` structure.
+
+2. **Data Transmission**:  
+   The parent process transmits the `Environment` structure to each drone process via dedicated pipes immediately after forking, ensuring all drones have the same environmental context before starting movement.
+
+3. **Movement Adjustment**:  
+   Each drone process, upon receiving the environmental data, applies the effects to its scripted positions during execution. Wind influences horizontal movement (x and y axes), while rain impacts vertical movement (z axis), introducing randomness within the intensity limits to simulate real-world variability.
+
+4. **Collision Detection Integration**:  
+   The collision detection mechanism, running in the parent process, considers the modified positions resulting from environmental influences. This ensures that potential collisions due to deviations caused by wind or rain are detected and reported in real time.
+
+#### Result
+
+The integration of environmental influences enhances the realism of the drone simulation by dynamically adjusting flight paths based on wind and rain conditions. Drones adapt their movements to these factors, and the collision detection system accounts for resulting trajectory deviations, ensuring a more accurate safety assessment of drone figures under varying environmental conditions.
 
 ---
 
