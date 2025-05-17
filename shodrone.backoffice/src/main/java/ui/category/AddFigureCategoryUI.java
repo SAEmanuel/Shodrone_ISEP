@@ -27,7 +27,7 @@ public class AddFigureCategoryUI implements Runnable {
 
         Utils.printCenteredSubtitleV2("Name");
         Utils.showNameRules();
-        Name name = Utils.rePromptWhileInvalid("Enter the Category name: ", Name::new);
+        Name name = Utils.rePromptWhileInvalid("Enter the Category name", Name::new);
         Description description;
 
         Utils.printCenteredSubtitleV2("Description");
@@ -42,7 +42,7 @@ public class AddFigureCategoryUI implements Runnable {
 
         } else {
             Utils.showDescriptionRules();
-            description = Utils.rePromptWhileInvalid("Enter the Category description: ", Description::new);
+            description = Utils.rePromptWhileInvalid("Enter the Category description", Description::new);
             result = controller.addFigureCategoryWithNameAndDescription(name, description, createdBy);
         }
 
