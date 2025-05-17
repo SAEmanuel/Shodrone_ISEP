@@ -13,7 +13,7 @@ The process follows these high-level steps:
 
 The implementation follows a layered architecture, consistent with DDD principles:
 - UI Layer: Presents the list of users with actions to enable/disable, using the EAPLI console framework or backoffice UI.
-- Application Layer: The ToggleUserStatusController orchestrates the operation, interacting with the domain model and checking access permissions.
+- Application Layer: The UserStatusController orchestrates the operation, interacting with the domain model and checking access permissions.
 - Domain Layer: Includes business rules for access control (Admin-only), self-deactivation protection, and status toggling.
 - Persistence Layer: Provides access to user data through the UserRepository.
 - Infrastructure Layer: Handles repository implementation and integration with authentication/authorization mechanisms.
@@ -43,7 +43,7 @@ UserRepository abstracts data access, allowing decoupling from the persistence m
 - Aggregate Root
 The User aggregate encapsulates user data and manages its own status, exposing intent-revealing methods like disable() and enable().
 
-- Domain Service (AuthorizationService)
+- Domain Service
 A stateless service responsible for enforcing access control logic such as Admin role validation and self-disable prevention.
 
 - Value Object

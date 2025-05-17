@@ -8,40 +8,55 @@ package "usermanagement.domain" {
         - String name
         - String phoneNumber
         - boolean active
-        - UserRole role
         + activate(): void
         + deactivate(): void
         + isActive(): boolean
-        + isSameAs(otherId: Email): boolean
+        + getId(): Email
     }
 
     class Email {
         - String value
     }
 
+    class Password {
+        - String hashedValue
+    }
+
     User --> Email
+    User --> Password
 }
 
 package "usermanagement.application" {
-    class ToggleUserStatusController {
-        - UserRepository userRepo
-        - AuthorizationService authService
-        + toggleUserStatus(targetEmail: String, enable: boolean): boolean
+    class FilterUsersController {
+        + getUsersByFilter(filterIndex: int): List<User>
     }
 
-    interface UserRepository {
-        + findByEmail(email: String): User
-        + save(user: User): void
+    class CheckUserStatusController {
+        + isUserActive(user: User): boolean
     }
 
-    class AuthorizationService {
-        + isAdmin(currentUserEmail: Email): boolean
-        + isSelf(currentUserEmail: Email, targetEmail: Email): boolean
+    class UserStatusController {
+        + changeUserStatus(user: User, activate: boolean): boolean
+        + activateUser(user: User): boolean
+        + deactivateUser(user: User): boolean
     }
 }
 
-ToggleUserStatusController --> UserRepository
-ToggleUserStatusController --> AuthorizationService
-ToggleUserStatusController --> User : modifies >
+package "usermanagement.persistence" {
+    interface UserRepository {
+        + save(user: User): void
+        + findAll(): List<User>
+    }
+
+    interface AuthenticationRepository {
+        + setUserActive(userId: String, active: boolean): void
+    }
+}
+
+FilterUsersController --> UserRepository
+CheckUserStatusController --> User
+UserStatusController --> User
+UserStatusController --> UserRepository
+UserStatusController --> AuthenticationRepository
 
 @enduml

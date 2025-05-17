@@ -8,55 +8,49 @@ title UI Sequence Diagram (SSD) - Disable/Enable User Flow (US212)
 autonumber
 
 actor "Admin User" as user
-participant ":ManageUserUI" as UI
-participant ":ManageUserController" as CTRL
-participant ":RepositoryProvider" as repoProvider
-participant ":UserRepository" as userRepoInterface
-participant ":UserRepositoryJPAImpl" as userJPA
-participant ":AuthorizationService" as authService
-participant ":User" as userEntity
-participant ":Email" as emailVO
+participant "ManageUserUI" as UI
+participant "FilterUsersController" as filterCtrl
+participant "CheckUserStatusController" as checkCtrl
+participant "UserStatusController" as statusCtrl
+participant "User" as userEntity
+participant "UserRepository" as userRepo
+participant "AuthenticationRepository" as authRepo
 
 == START ==
 
-user -> UI : selects user and changes status (enable/disable)
+user -> UI : run()
+
 activate UI
-UI -> CTRL : (enable/disable)(targetEmail, desiredStatus, currentUserEmail)
-activate CTRL
+    UI -> filterCtrl : getUsersByFilter(filterIndex)
+    activate filterCtrl
+        filterCtrl -> userRepo : getAllUsers()
+    activate userRepo
+        userRepo --> filterCtrl : List<User>
+    deactivate userRepo
+    deactivate filterCtrl
 
-CTRL -> repoProvider : userRepository()
-activate repoProvider
-repoProvider --> CTRL : userRepoInterface
-deactivate repoProvider
+    UI -> UI : show list and get selection
 
-CTRL -> authService : isAdmin(currentUserEmail)
-activate authService
-authService --> CTRL : true
-deactivate authService
+    UI -> checkCtrl : isUserActive(user)
+    activate checkCtrl
+    checkCtrl --> UI : boolean
+    deactivate checkCtrl
 
-    deactivate authService
+    UI -> statusCtrl : changeUserStatus(user, !user.isActive())
+    activate statusCtrl
+        alt activating
+            statusCtrl -> userEntity : activate()
+            activate userEntity
+        else deactivating
+            statusCtrl -> userEntity : deactivate()
+        end
+        deactivate userEntity
+        statusCtrl -> userRepo : save(user)
+        statusCtrl -> authRepo : setUserActive(userId, status)
 
-    CTRL -> userRepoInterface : ListUsers()
-    activate userRepoInterface
-    userRepoInterface --> CTRL : userList
-    CTRL -> userRepoInterface : SelectUser()
-    userRepoInterface --> CTRL : user
-    deactivate userRepoInterface
+    deactivate statusCtrl
 
-    alt desiredStatus = enable
-    activate userEntity
-        CTRL -> userEntity : activate()
-    else
-        CTRL -> userEntity : deactivate()
-    end
-    deactivate userEntity
+    UI -> user : show success/fail message
 
-    CTRL -> userRepoInterface : save(user)
-    activate userRepoInterface
-    userRepoInterface --> CTRL : void
-    deactivate userRepoInterface
-
-    CTRL --> UI : show success
-
-deactivate CTRL
+deactivate UI
 @enduml
