@@ -5,6 +5,7 @@ import domain.history.AuditLoggerService;
 import lombok.Setter;
 import persistence.inmemory.*;
 import persistence.interfaces.*;
+import controller.user.*;
 import persistence.jpa.JPAImpl.*;
 /**
  * The {@code RepositoryProvider} class is responsible for providing access to persistence repositories
@@ -49,6 +50,7 @@ public class RepositoryProvider {
     private static DroneRepository droneRepository;
     private static UserRepository userRepository;
     private static CustomerRepresentativeRepository customerRepresentativeRepository;
+    private static ListUserController listUserController;
 
 
     private static AuditLoggerService auditLoggerService;
@@ -237,6 +239,39 @@ public class RepositoryProvider {
             }
         }
         return customerRepresentativeRepository;
+    }
+
+    /**
+     * Dependency injection for the user repository (for testing purposes).
+     *
+     * @param mockRepo The mock repository to inject.
+     */
+    public static void injectUserRepository(UserRepository mockRepo) {
+        userRepository = mockRepo;
+    }
+
+    public static ListUserController listUserController() {
+        if (listUserController == null) {
+            listUserController = new ListUserController();
+        }
+        return listUserController;
+    }
+
+    public static void injectListUserController(ListUserController mockController) {
+        listUserController = mockController;
+    }
+
+    /**
+     * Dependency injection for the costumer repository (for testing purposes).
+     *
+     * @param mockRepo The mock repository to inject.
+     */
+    public static void injectCostumerRepository(CostumerRepository mockRepo) {
+        costumerRepository = mockRepo;
+    }
+
+    public static void injectCustomerRepresentativeRepository(CustomerRepresentativeRepository mockRepo) {
+        customerRepresentativeRepository = mockRepo;
     }
 
 }

@@ -19,6 +19,12 @@ public class RegisterRepresentativeController {
         this.userController = new RegisterUserController();
     }
 
+    public RegisterRepresentativeController(CustomerRepresentativeRepository representativeRepository,
+                                            RegisterUserController userController) {
+        this.representativeRepository = representativeRepository;
+        this.userController = userController;
+    }
+
     public boolean registerRepresentative(Costumer costumer, Name name, Email email,
                                           PhoneNumber phone, String position, String password) {
         CustomerRepresentative representative = new CustomerRepresentative(costumer, name, email, phone, position);

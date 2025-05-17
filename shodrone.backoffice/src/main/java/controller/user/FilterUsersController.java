@@ -2,6 +2,7 @@ package controller.user;
 
 import authz.User;
 import controller.authz.AuthenticationController;
+import persistence.RepositoryProvider;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public class FilterUsersController {
 
-    private final ListUserController listController = new ListUserController();
+    private final ListUserController listController = RepositoryProvider.listUserController();
 
     public List<User> getUsersByFilter(int filterIndex) {
         return listController.getAllUsers().stream()
