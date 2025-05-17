@@ -5,6 +5,8 @@
 #include "report.h"
 #include "data.h"
 
+void play_sound(const char* path);
+
 void generate_report(Report* proposal, const char* filename) {
     FILE* file = fopen(filename, "w");
     if (!file) {
@@ -64,15 +66,28 @@ void generate_report(Report* proposal, const char* filename) {
     fprintf(file, "╚══════════════════════════════════════════════════╝\n\n");
 
     fprintf(file, "─── Detailed Timeline ───\n");
+
+    int* base_printed = calloc(proposal->num_drones, sizeof(int));
+
     for (int tick = 0; tick < proposal->total_ticks; tick++) {
         fprintf(file, "\nTick %d:\n", tick);
         for (int i = 0; i < proposal->num_drones; i++) {
             Position pos = proposal->timeline[tick][i];
-            int inactive = (pos.x == -1 && pos.y == -1 && pos.z == -1);
-            fprintf(file, "  🚁 Drone %d: (%d, %d, %d)%s\n", 
-                i, pos.x, pos.y, pos.z, 
-                inactive ? " (INACTIVE)" : ""
-            );
+            fprintf(file, "  🚁 Drone %d: (%d, %d, %d)\n", i, pos.x, pos.y, pos.z);
+
+
+            if (!base_printed[i] && pos.x == -1 && pos.y == -1 && pos.z == -1) {
+                int prev_inactive = 0;
+                if (tick > 0) {
+                    Position prev = proposal->timeline[tick-1][i];
+                    prev_inactive = (prev.x == -1 && prev.y == -1 && prev.z == -1);
+                }
+
+                if (!prev_inactive) {
+                    fprintf(file, "  🏠 Drone %d has returned to base\n", i);
+                    base_printed[i] = 1;
+                }
+            }
         }
 
         for (int x = 0; x < proposal->stamps_count; x++) {
@@ -87,9 +102,30 @@ void generate_report(Report* proposal, const char* filename) {
             }
         }
     }
+    free(base_printed);
+
+    if (proposal->passed) {
+        play_sound("sounds/success2.mp3");
+    } else {
+        play_sound("sounds/fail.mp3");
+    }
 
     fclose(file);
 }
 
 
+
+void play_sound(const char* path) {
+#ifdef __APPLE__
+    char command[256];
+    snprintf(command, sizeof(command), "afplay %s &", path);
+    system(command);
+#elif __linux__
+    char command[256];
+    snprintf(command, sizeof(command), "mpg123 \"%s\" > /dev/null 2>&1 &", path);;
+    system(command);
+#else
+    printf("⚠️ Sound not supported on this OS.\n");
+#endif
+}
 

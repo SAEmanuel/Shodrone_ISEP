@@ -25,6 +25,7 @@ int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar
 int calculate_acceptable_collision_number(int numberOfDrones, float percentage);
 void printTimeOfSimulation(int timeStamp);
 void printPositionDrone(Position, int id);
+void printDroneInBase(int id);
 
 
 

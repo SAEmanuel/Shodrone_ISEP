@@ -267,22 +267,22 @@ public class Utils {
      * @param prompt The prompt message displayed to the user.
      * @return The non-negative integer entered.
      */
-    static public int readPositiveIntegerFromConsole(String prompt) {
+    static public double readPositiveDoubleFromConsole(String prompt) {
         do {
             try {
                 String input = readLineFromConsole(prompt);
 
-                int value = Integer.parseInt(input);
+                double value = Double.parseDouble(input);
 
                 if (value < 0) {
-                    printFailMessage("Invalid number. Please enter a positive integer value.");
+                    printFailMessage("Invalid number. Please enter a positive value.");
                     System.out.println();
                     continue;
                 }
 
                 return value;
             } catch (NumberFormatException ex) {
-                printFailMessage("Invalid number. Please enter a valid integer value.");
+                printFailMessage("Invalid input. Please enter a valid value.");
                 System.out.println();
             }
         } while (true);

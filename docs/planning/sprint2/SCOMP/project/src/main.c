@@ -92,7 +92,7 @@ int run_simulation(char* argv, float percentage)
             close(position_pipes[droneNumber][0]);     
             close(environment_pipes[droneNumber][1]);  
 
-            simulate_drone(filename,drones_info[droneNumber].id,position_pipes[droneNumber][1],getpid(),environment_pipes[droneNumber][0]);
+            simulate_drone(filename,drones_info[droneNumber].id,position_pipes[droneNumber][1],getpid(),environment_pipes[droneNumber][0], total_ticks);
 
             close(position_pipes[droneNumber][1]);
             close(environment_pipes[droneNumber][0]);
@@ -127,8 +127,19 @@ int run_simulation(char* argv, float percentage)
                     ? historyOfRadar[childNumber][timeStamp - 1].terminated
                     : 0;
 
-                if (!is_terminated) {
+                int returned_to_base = (timeStamp > 0 &&
+                    current_pos.x == -1 &&
+                    current_pos.y == -1 &&
+                    current_pos.z == -1) ? 1 : 0;
+
+                 if (current_pos.x == -1 && current_pos.y == -1 && current_pos.z == -1) {
+                    historyOfRadar[childNumber][timeStamp].terminated = 1;
+                }
+
+                if (!is_terminated && !returned_to_base) {
                     printPositionDrone(current_pos, drones_info[childNumber].id);
+                } else if (returned_to_base) {
+                    printDroneInBase(drones_info[childNumber].id);
                 }
 
                 Radar radarOfDrone = {
@@ -167,6 +178,7 @@ int run_simulation(char* argv, float percentage)
                 waitpid(pids[i], NULL, WUNTRACED);
             }
             break;
+            
         }
     }
 
@@ -221,3 +233,14 @@ void printPositionDrone(Position position, int id) {
         write(STDOUT_FILENO, dronePositionMSG, len);
     }
 }
+
+void printDroneInBase(int id) {
+    char droneBaseMSG[100];
+    int len = snprintf(
+        droneBaseMSG, sizeof(droneBaseMSG),
+        "🚁 Drone with ID [%d] has returned to base 🏠\n",
+        id
+    );
+    write(STDOUT_FILENO, droneBaseMSG, len);
+}
+
