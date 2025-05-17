@@ -1265,6 +1265,13 @@ public class Utils {
         return eapli.framework.infrastructure.authz.domain.model.Name.valueOf(firstName, lastName);
     }
 
+
+    public static domain.valueObjects.Name convertName(eapli.framework.infrastructure.authz.domain.model.Name name) {
+        String firstName = name.firstName();
+        String lastName = name.lastName();
+        return new domain.valueObjects.Name(firstName + " " + lastName);
+    }
+
     /**
      * Prompts repeatedly for a valid domain Name using rePromptWhileInvalid utility.
      * @param prompt The prompt text.
