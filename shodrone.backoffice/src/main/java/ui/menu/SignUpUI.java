@@ -20,7 +20,6 @@ public class SignUpUI implements Runnable {
         options.add(new MenuItem("Register as CRM Collaborator", new RegisterUserUI(AuthenticationController.ROLE_CRM_COLLABORATOR)));
         options.add(new MenuItem("Register as Show Designer", new RegisterUserUI(AuthenticationController.ROLE_SHOW_DESIGNER)));
         options.add(new MenuItem("Register as Drone Technician", new RegisterUserUI(AuthenticationController.ROLE_DRONE_TECH)));
-        options.add(new MenuItem("Register as Costumer", new ShowTextUI("Not implemented yet")));
 
         int option = 0;
         do {
