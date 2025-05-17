@@ -20,13 +20,47 @@ void generate_report(Report* proposal, const char* filename) {
     fprintf(file, "╔══════════════════════════════════════════════════╗\n");
     fprintf(file, "║                DRONE SIMULATION REPORT           ║\n");
     fprintf(file, "╠══════════════════════════════════════════════════╣\n");
-    fprintf(file, "║ Date & Time:  %s\n", datetime);
-    fprintf(file, "║ Simulation:   %s\n", proposal->simulation_name);
+    fprintf(file, "║ Date & Time:    %s\n", datetime);
+    fprintf(file, "║ Simulation:     %s\n", proposal->simulation_name);
     fprintf(file, "╠══════════════════════════════════════════════════╣\n");
     fprintf(file, "║ Drones:         %d\n", proposal->num_drones);
     fprintf(file, "║ Total Ticks:    %d\n", proposal->total_ticks);
+    fprintf(file, "║ Max Collisions: %d\n", proposal->max_collisions);
     fprintf(file, "║ Collisions:     %d\n", proposal->collisions);
     fprintf(file, "║ Final Status:   %s\n", proposal->passed ? "✅ APPROVED" : "❌ REJECTED");
+    fprintf(file, "╠══════════════════════════════════════════════════╣\n");
+
+    fprintf(file, "║ Environmental Conditions:\n");
+    Environment* env = proposal->environment;
+    int any_wind = 0;
+    if (env) {
+        if (env->north > 0) {
+            fprintf(file, "║   Wind North:  ON  (Intensity: %d)\n", env->north);
+            any_wind = 1;
+        }
+        if (env->south > 0) {
+            fprintf(file, "║   Wind South:  ON  (Intensity: %d)\n", env->south);
+            any_wind = 1;
+        }
+        if (env->east > 0) {
+            fprintf(file, "║   Wind East:   ON  (Intensity: %d)\n", env->east);
+            any_wind = 1;
+        }
+        if (env->west > 0) {
+            fprintf(file, "║   Wind West:   ON  (Intensity: %d)\n", env->west);
+            any_wind = 1;
+        }
+        if (!any_wind) {
+            fprintf(file, "║   Wind:        OFF\n");
+        }
+        if (env->rain > 0) {
+            fprintf(file, "║   Rain:        ON  (Intensity: %d)\n", env->rain);
+        } else {
+            fprintf(file, "║   Rain:        OFF\n");
+        }
+    } else {
+        fprintf(file, "║   No environment data available\n");
+    }
     fprintf(file, "╚══════════════════════════════════════════════════╝\n\n");
 
     fprintf(file, "─── Detailed Timeline ───\n");
@@ -42,12 +76,20 @@ void generate_report(Report* proposal, const char* filename) {
         }
 
         for (int x = 0; x < proposal->stamps_count; x++) {
-            if (proposal->stamps[x].collision_time == tick) {   
-                fprintf(file, "  💥 Collision detected between drone [%d] and [%d]\n",
-                           proposal->stamps[x].id_drone1, proposal->stamps[x].id_drone2);
+            if (proposal->stamps[x].collision_time == tick) {
+                if (proposal->stamps[x].id_drone2 == -1) {
+                    fprintf(file, "  ❗ Drone [%d] collided with the ground\n",
+                            proposal->stamps[x].id_drone1);
+                } else {
+                    fprintf(file, "  💥 Collision detected between drone [%d] and [%d]\n",
+                            proposal->stamps[x].id_drone1, proposal->stamps[x].id_drone2);
+                }
             }
         }
     }
 
     fclose(file);
 }
+
+
+

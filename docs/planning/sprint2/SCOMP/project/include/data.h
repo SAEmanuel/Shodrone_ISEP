@@ -1,12 +1,13 @@
 #ifndef DATA_H
 #define DATA_H
-#include "drone.h"
 #include "report.h"
+#include "position.h"
 
 typedef struct{
     int id;
     int biggestDimension;
 } DroneInformation;
+
 
 typedef struct{
     DroneInformation droneInformation;

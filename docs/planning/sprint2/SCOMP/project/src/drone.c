@@ -6,7 +6,9 @@
 #include <ctype.h>
 #include "drone.h"
 #include "data.h"
-
+#include "environment.h"
+#include "position.h"
+#include <time.h>
 
 static volatile sig_atomic_t terminated = 0;
 
@@ -16,7 +18,7 @@ void handle_sigusr1(int sig) {
 }
 
 
-void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) {
+void simulate_drone(const char* filename, int drone_id, int position_pipes, pid_t pid, int environment_pipes) {
 
     struct sigaction sa;
     memset(&sa, 0, sizeof(sa));
@@ -46,7 +48,6 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
     int found_section = 0;
     int capacity = 10;
 
-    // 1. Procurar cabeçalho do drone
     while (fgets(line, sizeof(line), file)) {
         trim(line);
         if (strlen(line) == 0)
@@ -64,7 +65,6 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
         exit(EXIT_FAILURE);
     }
 
-    // 2. Alocar memória para o script
     drone.script = malloc(sizeof(Position) * capacity);
     if (!drone.script) {
         perror("Failed to allocate initial script");
@@ -72,7 +72,6 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
         exit(EXIT_FAILURE);
     }
 
-    // 3. Ler todas as posições do script até ao próximo cabeçalho ou EOF
     while (fgets(line, sizeof(line), file)) {
         trim(line);
         if (strlen(line) == 0)
@@ -103,12 +102,25 @@ void simulate_drone(const char* filename, int drone_id, int pipe_fd, pid_t pid) 
         }
         drone.total_steps++;
     }
-    
-    // 4. Enviar posições via pipe, parar se receber sinal
+
+    Environment environment_recived;
+    ssize_t bytes_read = read(environment_pipes, &environment_recived, sizeof(Environment));
+    if (bytes_read == -1) {
+            perror("Drone failed to read from pipe");
+            free(drone.script);
+            fclose(file);
+            exit(EXIT_FAILURE);
+    }
+
+    for (int i = 0; i < drone.total_steps; i++) {
+        apply_environment_effects(&environment_recived, &drone.script[i]);
+    }
+
+
     for (drone.current_step = 0; drone.current_step < drone.total_steps && !terminated; drone.current_step++) {
         Position current_pos = drone.script[drone.current_step];
         current_pos.pid = pid;
-        ssize_t bytes_written = write(pipe_fd, &current_pos, sizeof(Position));
+        ssize_t bytes_written = write(position_pipes, &current_pos, sizeof(Position));
         if (bytes_written == -1) {
             perror("Drone failed to write to pipe");
             free(drone.script);

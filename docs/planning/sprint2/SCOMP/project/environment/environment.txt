@@ -1,0 +1,12 @@
+Wind direction: N [OFF]
+Wind direction: S [OFF]
+Wind direction: E [OFF]
+Wind direction: W [OFF]
+
+Wind speed N: 7
+Wind speed S: 4
+Wind speed E: 2
+Wind speed W: 5
+
+Rain: [OFF]
+Rain intensity: 10
