@@ -66,27 +66,23 @@ void generate_report(Report* proposal, const char* filename) {
     fprintf(file, "╚══════════════════════════════════════════════════╝\n\n");
 
     fprintf(file, "─── Detailed Timeline ───\n");
-    // Array para garantir que só imprime uma vez por drone
+
     int* base_printed = calloc(proposal->num_drones, sizeof(int));
 
     for (int tick = 0; tick < proposal->total_ticks; tick++) {
         fprintf(file, "\nTick %d:\n", tick);
         for (int i = 0; i < proposal->num_drones; i++) {
             Position pos = proposal->timeline[tick][i];
-            int inactive = (pos.x == -1 && pos.y == -1 && pos.z == -1);
+            fprintf(file, "  🚁 Drone %d: (%d, %d, %d)\n", i, pos.x, pos.y, pos.z);
 
-            // Só imprime a posição se o drone estiver ativo
-            if (!inactive) {
-                fprintf(file, "  🚁 Drone %d: (%d, %d, %d)\n", i, pos.x, pos.y, pos.z);
-            }
 
-            // Verifica se o drone acabou de voltar à base (primeira vez que fica inativo)
-            if (!base_printed[i] && inactive) {
+            if (!base_printed[i] && pos.x == -1 && pos.y == -1 && pos.z == -1) {
                 int prev_inactive = 0;
                 if (tick > 0) {
                     Position prev = proposal->timeline[tick-1][i];
                     prev_inactive = (prev.x == -1 && prev.y == -1 && prev.z == -1);
                 }
+
                 if (!prev_inactive) {
                     fprintf(file, "  🏠 Drone %d has returned to base\n", i);
                     base_printed[i] = 1;
@@ -106,7 +102,6 @@ void generate_report(Report* proposal, const char* filename) {
             }
         }
     }
-
     free(base_printed);
 
     if (proposal->passed) {
