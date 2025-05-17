@@ -8,36 +8,33 @@ title UI Sequence Diagram (SSD) - List Users Flow (US213)
 autonumber
 
 actor "Admin User" as user
-participant ":ManageUserUI" as UI
-participant ":ListUsersController" as CTRL
+participant ":ListUserUI" as UI
+participant ":ListUserController" as Controller
 participant ":RepositoryProvider" as repoProvider
-participant ":UserRepository" as userRepoInterface
-participant ":AuthorizationService" as authService
+participant ":UserRepository" as userRepo
 
 == START ==
 
-user -> UI : requests user list
+user -> UI : run()
 activate UI
-UI -> CTRL : listAllUsers(currentUserEmail)
-activate CTRL
 
-CTRL -> repoProvider : userRepository()
+UI -> Controller : getAllUsersWithStatus()
+activate Controller
+
+Controller -> repoProvider : userRepository()
 activate repoProvider
-repoProvider --> CTRL : userRepoInterface
+repoProvider --> Controller : userRepo
 deactivate repoProvider
 
-CTRL -> authService : isAdmin(currentUserEmail)
-activate authService
-authService --> CTRL : true
-deactivate authService
+Controller -> userRepo : findAll()
+activate userRepo
+userRepo --> Controller : List<User>
+deactivate userRepo
 
-CTRL -> userRepoInterface : findAll()
-activate userRepoInterface
-userRepoInterface --> CTRL : List<User>
-deactivate userRepoInterface
+Controller --> UI : List<String> (formatted)
+deactivate Controller
 
-CTRL --> UI : show user list (name, email, status)
-deactivate CTRL
+UI --> user : displays user list
 deactivate UI
 
 @enduml

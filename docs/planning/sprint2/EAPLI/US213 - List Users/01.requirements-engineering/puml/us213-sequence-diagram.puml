@@ -8,25 +8,28 @@ title System Sequence Diagram (SSD) - US213 - List Users
 autonumber
 
 actor "Admin" as Admin
-participant ":System" as System
+participant ":ListUserUI" as UI
+participant ":ListUserController" as Controller
+participant ":UserRepository" as Repo
 
-activate Admin
+== Start ==
 
-    Admin -> System : listAllUsers()
-    activate System
+Admin -> UI : run()
+activate UI
 
-        System -> System : verifyAdminPermissions()
-        System -> System : checkPersistenceMode()
+UI -> Controller : getAllUsersWithStatus()
+activate Controller
 
-        alt persistence = "database"
-            System -> System : repository.findAllUsersFromDB()
-        else persistence = "in-memory"
-            System -> System : repository.findAllUsersFromMemory()
-        end
+Controller -> Repo : findAll()
+activate Repo
+Repo --> Controller : List<User>
+deactivate Repo
 
-        System --> Admin : list of users (name, email, status)
+Controller --> UI : List<String> (formatted user data)
+deactivate Controller
 
-    deactivate System
+UI --> Admin : displays user list
+deactivate UI
 
 deactivate Admin
 @enduml

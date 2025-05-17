@@ -27,11 +27,18 @@ package "User Management Subsystem" {
         String: hashedValue
     }
 
-    class UserListingService {
-        +listAllUsers(): List<User>
+    interface UserRepository {
+        +findAll(): List<User>
     }
 
-    UserListingService --> User : reads >
+    class ListUserController {
+        +getAllUsersWithStatus(): List<String>
+        +getAllUsers(): List<User>
+    }
+
+    ListUserController --> UserRepository : uses >
+    ListUserController --> User : formats >
+
     User "1" --> "1" Email
     User "1" --> "1" Password
 }

@@ -12,8 +12,8 @@ package "usermanagement.domain" {
         - boolean active
         - UserRole role
         + isActive(): boolean
-        + email(): Email
-        + name(): String
+        + getId(): Email
+        + getName(): String
     }
 
     class Email {
@@ -29,9 +29,9 @@ package "usermanagement.domain" {
 }
 
 package "usermanagement.application" {
-    class ListUsersController {
-        - UserRepository userRepo
-        + listAllUsers(): List<User>
+    class ListUserController {
+        + getAllUsers(): List<User>
+        + getAllUsersWithStatus(): List<String>
     }
 
     interface UserRepository {
@@ -39,6 +39,6 @@ package "usermanagement.application" {
     }
 }
 
-ListUsersController --> UserRepository
-ListUsersController --> User : returns >
+ListUserController --> UserRepository
+ListUserController --> User : reads >
 @enduml
