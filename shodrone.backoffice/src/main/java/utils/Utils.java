@@ -31,6 +31,7 @@ public class Utils {
 
     /**
      * Immediately exits the application with a given error message.
+     *
      * @param message The error message to display before exiting.
      */
     public static void exitImmediately(String message) {
@@ -47,6 +48,7 @@ public class Utils {
 
     /**
      * Prints the specified number of empty lines.
+     *
      * @param nLines Number of lines to drop.
      */
     public static void dropLines(int nLines) {
@@ -57,7 +59,8 @@ public class Utils {
 
     /**
      * Prints a message with the content of an Optional if the message is non-null and not empty.
-     * @param message The label/message to print.
+     *
+     * @param message         The label/message to print.
      * @param optionalMessage The Optional containing the content to print.
      */
     public static void printOptionalValidMessage(String message, Optional<?> optionalMessage) {
@@ -69,6 +72,7 @@ public class Utils {
     /**
      * Prints a centered title with a decorative border and colored formatting.
      * Adds a "MENU" subtitle centered below the main title.
+     *
      * @param title The title text to print.
      */
     public static void printCenteredTitle(String title) {
@@ -99,6 +103,7 @@ public class Utils {
 
     /**
      * Prints a centered subtitle with decorative lines.
+     *
      * @param subtitle The subtitle string to print.
      */
     public static void printCenteredSubtitle(String subtitle) {
@@ -127,6 +132,7 @@ public class Utils {
     /**
      * Prints a drone-themed centered title with decorative lines and side markers.
      * Adds a centered "MENU" subtitle with same styling.
+     *
      * @param title The title text to print.
      */
     public static void printDroneCenteredTitle(String title) {
@@ -168,6 +174,7 @@ public class Utils {
     /**
      * Prints a centered subtitle with decorative lines and side '*' markers,
      * styled with teal color and bold text.
+     *
      * @param subtitle The subtitle text.
      */
     public static void printCenteredSubtitleV2(String subtitle) {
@@ -200,6 +207,7 @@ public class Utils {
 
     /**
      * Prints a subtitle line with a bullet point, styled italic and bright black.
+     *
      * @param prompt The subtitle text.
      */
     static public void printSubTitle(String prompt) {
@@ -209,6 +217,7 @@ public class Utils {
     /**
      * Reads an integer input from the console with a prompt.
      * Keeps retrying until a valid integer is entered.
+     *
      * @param prompt The prompt message displayed to the user.
      * @return The integer entered by the user.
      */
@@ -229,6 +238,7 @@ public class Utils {
     /**
      * Reads a strictly positive integer (> 0) from the console with prompt.
      * Keeps retrying until the user inputs a positive integer.
+     *
      * @param prompt The prompt message displayed to the user.
      * @return The positive integer entered by the user.
      */
@@ -253,6 +263,7 @@ public class Utils {
     /**
      * Reads a non-negative integer (≥ 0) from the console with prompt.
      * Keeps retrying if the input is invalid or negative.
+     *
      * @param prompt The prompt message displayed to the user.
      * @return The non-negative integer entered.
      */
@@ -280,6 +291,7 @@ public class Utils {
     /**
      * Reads a double (decimal number) input from the console with prompt.
      * Retries until valid input is given.
+     *
      * @param prompt The prompt message displayed to the user.
      * @return The double value entered.
      */
@@ -297,6 +309,7 @@ public class Utils {
 
     /**
      * Reads a single line of text from the console after displaying the prompt.
+     *
      * @param prompt The prompt message displayed to the user.
      * @return The string entered by the user.
      */
@@ -314,6 +327,7 @@ public class Utils {
     /**
      * Reads a NIF (some kind of ID) from the console after prompting the user.
      * Keeps retrying until a valid NIF is entered (validated by NIF constructor).
+     *
      * @param prompt The prompt message to display to the user.
      * @return A valid NIF object created from user input.
      */
@@ -332,6 +346,7 @@ public class Utils {
      * Reads a date and time from the console in the format "yyyy-MM-dd HH:mm".
      * The date/time must be at least 72 hours ahead of the current time.
      * Keeps retrying until a valid date/time meeting this criteria is entered.
+     *
      * @param prompt The prompt message to display to the user.
      * @return The LocalDateTime object parsed from user input.
      */
@@ -360,6 +375,7 @@ public class Utils {
 
     /**
      * Displays details of a drone model if present and asks user to confirm correctness.
+     *
      * @param drone Optional containing the drone model to show.
      * @return true if user confirms the model, false if empty or user declines.
      */
@@ -375,6 +391,7 @@ public class Utils {
 
     /**
      * Displays details of a drone if present and asks user to confirm correctness.
+     *
      * @param drone Optional containing the drone to show.
      * @return true if user confirms the drone, false if empty or user declines.
      */
@@ -391,6 +408,7 @@ public class Utils {
     /**
      * Shows a subtitle and lists drone models to the user, then lets them select one by index.
      * Exits silently if no selection is made.
+     *
      * @param droneModels List of drone models to select from.
      * @return The index of the selected drone model.
      */
@@ -410,6 +428,7 @@ public class Utils {
     /**
      * Shows a menu with custom options to the user and lets them select one.
      * Exits silently if no valid option is chosen.
+     *
      * @param options List of option strings to display.
      * @return The index of the selected option.
      */
@@ -427,6 +446,7 @@ public class Utils {
     /**
      * Asks the user for a yes/no confirmation for the given message.
      * Keeps asking until the user inputs 'y' or 'n' (case-insensitive).
+     *
      * @param message The confirmation message prompt.
      * @return true if user inputs 'y', false if 'n'.
      */
@@ -441,7 +461,8 @@ public class Utils {
 
     /**
      * Displays a list of objects with a header, lets the user select one, and returns the selected object.
-     * @param list The list of objects to show.
+     *
+     * @param list   The list of objects to show.
      * @param header The header message for the list.
      * @return The selected object.
      */
@@ -452,7 +473,8 @@ public class Utils {
 
     /**
      * Displays a list of objects with a header, lets the user select by index.
-     * @param list The list of objects to show.
+     *
+     * @param list   The list of objects to show.
      * @param header The header message.
      * @return The selected index.
      */
@@ -464,7 +486,8 @@ public class Utils {
 
     /**
      * Similar to showAndSelectIndex but displays the list with a bigger format.
-     * @param list The list to show.
+     *
+     * @param list   The list to show.
      * @param header The header message.
      * @return The selected index.
      */
@@ -476,7 +499,8 @@ public class Utils {
     /**
      * Displays a larger formatted list with a decorative border.
      * Shows each object numbered and a cancel option at the end.
-     * @param list The list to display.
+     *
+     * @param list   The list to display.
      * @param header The header message.
      */
     private static void showListBigger(List<?> list, String header) {
@@ -495,7 +519,8 @@ public class Utils {
 
     /**
      * Shows a custom formatted list with a header and lets the user select by index.
-     * @param list The list of options to show.
+     *
+     * @param list   The list of options to show.
      * @param header The header message.
      * @return The selected index.
      */
@@ -507,7 +532,8 @@ public class Utils {
     /**
      * Displays a list in a database-style formatted view with a header,
      * then prompts the user to select an item by its index.
-     * @param list The list of items to display.
+     *
+     * @param list   The list of items to display.
      * @param header The header text shown before the list.
      * @return The index of the selected item from the list.
      */
@@ -518,7 +544,8 @@ public class Utils {
 
     /**
      * Shows a database-style formatted list with a header.
-     * @param list The list of entries to display.
+     *
+     * @param list   The list of entries to display.
      * @param header The header message.
      */
     static public void showListDataBase(List<?> list, String header) {
@@ -537,7 +564,8 @@ public class Utils {
 
     /**
      * Shows a simple formatted list with a header.
-     * @param list The list to display.
+     *
+     * @param list   The list to display.
      * @param header The header message.
      */
     static public void showList(List<?> list, String header) {
@@ -557,9 +585,10 @@ public class Utils {
     /**
      * Displays a paged list of elements with a specified number of items per page.
      * After each page, asks the user if they want to continue to the next page.
-     * @param list The list of elements to display.
+     *
+     * @param list                 The list of elements to display.
      * @param sizeOfObjectsPerPage Number of elements to show per page.
-     * @param header The header text to show above the list.
+     * @param header               The header text to show above the list.
      */
     static public void showPagedElementList(List<?> list, int sizeOfObjectsPerPage, String header) {
         int totalItems = list.size();
@@ -605,10 +634,11 @@ public class Utils {
     /**
      * Displays a paged list of elements starting from a specific page.
      * After each page, asks the user if they want to continue to the next page.
-     * @param list The list of elements to display.
-     * @param startingPage The page number to start displaying from (1-based).
+     *
+     * @param list                 The list of elements to display.
+     * @param startingPage         The page number to start displaying from (1-based).
      * @param sizeOfObjectsPerPage Number of elements to show per page.
-     * @param header The header text to show above the list.
+     * @param header               The header text to show above the list.
      */
     static public void showPagedElementListByStartingPage(List<?> list, int startingPage, int sizeOfObjectsPerPage, String header) {
         int totalItems = list.size();
@@ -638,7 +668,7 @@ public class Utils {
             }
 
             String input;
-            if (page < totalPages){
+            if (page < totalPages) {
                 do {
                     input = Utils.readLineFromConsole(COLOR_OPTIONS + "│    " + "(y/n)" + ANSI_RESET + " - Do you want to list one more page? ");
                 } while (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n"));
@@ -657,12 +687,12 @@ public class Utils {
             System.out.println(ANSI_RESET);
 
 
-
         }
     }
 
     /**
      * Prints an alert message in bright red color.
+     *
      * @param message The alert message text.
      */
     static public void printAlterMessage(String message) {
@@ -671,6 +701,7 @@ public class Utils {
 
     /**
      * Prints a warning message with a standard options color.
+     *
      * @param message The warning message text.
      */
     static public void silentWarning(String message) {
@@ -680,7 +711,8 @@ public class Utils {
     /**
      * Displays a custom formatted list with a header.
      * Each item is shown with a numbered option and an option to cancel (0).
-     * @param list The list of items to display.
+     *
+     * @param list   The list of items to display.
      * @param header The header text to show above the list.
      */
     static public void showListCustom(List<?> list, String header) {
@@ -696,7 +728,8 @@ public class Utils {
     /**
      * Displays a list of elements with an optional header.
      * If elements implement ListDisplayable, uses their toListString() method for display.
-     * @param list The list of elements to display.
+     *
+     * @param list   The list of elements to display.
      * @param header The header text to show above the list; if empty, no header is printed.
      */
     public static void showListElements(List<?> list, String header) {
@@ -717,6 +750,7 @@ public class Utils {
     /**
      * Prompts the user to select an object from the list by entering its index.
      * Valid inputs are 0 (to cancel) or 1 to list.size().
+     *
      * @param list The list of objects to choose from.
      * @return The selected object, or null if canceled or invalid input.
      */
@@ -729,10 +763,10 @@ public class Utils {
                 input = Utils.readLineFromConsole("Type your option");
                 value = Integer.valueOf(input);
 
-                if(value<0)
+                if (value < 0)
                     Utils.printFailMessage("Value lower then 0");
 
-                if(value>maxValue)
+                if (value > maxValue)
                     Utils.printFailMessage("Value higher then " + maxValue);
 
             } while (value < 0 || value > list.size());
@@ -751,6 +785,7 @@ public class Utils {
      * Prompts the user to select an index from the list by entering a number.
      * Accepts 0 (cancel) or any number from 1 to list.size().
      * Returns the selected index (0-based) or -1 if canceled.
+     *
      * @param list The list to select from.
      * @return The zero-based selected index, or -1 if canceled.
      */
@@ -773,7 +808,8 @@ public class Utils {
      * Prompts the user to select an index from the list with pagination support.
      * The valid input range is between 0 and STEP.
      * Returns the calculated global index considering the current pagination cycle.
-     * @param list The list from which to select.
+     *
+     * @param list  The list from which to select.
      * @param cycle The current page or cycle index (zero-based).
      * @return The selected index relative to the whole list.
      */
@@ -788,7 +824,9 @@ public class Utils {
                 value = -1;
             }
         } while (value < 0 || value > STEP);
-        //dropLines(1);
+        if (cycle > 0 && value == 0) {
+            return -1;
+        }
         return (value - 1) + (cycle * STEP);
     }
 
@@ -796,9 +834,10 @@ public class Utils {
      * Prompts the user repeatedly until a valid input is given,
      * parsing the input string with the provided function.
      * If parsing throws an exception, prints the failure message and re-prompts.
-     * @param prompt The prompt message to show.
+     *
+     * @param prompt        The prompt message to show.
      * @param parseFunction A function that converts String input to the desired type.
-     * @param <T> The type to parse the input into.
+     * @param <T>           The type to parse the input into.
      * @return The successfully parsed input.
      */
     public static <T> T rePromptWhileInvalid(String prompt, Function<String, T> parseFunction) {
@@ -822,9 +861,10 @@ public class Utils {
     /**
      * Similar to rePromptWhileInvalid but converts input to uppercase before parsing,
      * designed specifically for enums or case-insensitive input.
-     * @param prompt The prompt message to show.
+     *
+     * @param prompt        The prompt message to show.
      * @param parseFunction A function that converts String input to the desired type.
-     * @param <T> The type to parse the input into.
+     * @param <T>           The type to parse the input into.
      * @return The successfully parsed input.
      */
     public static <T> T rePromptEnumWhileInvalid(String prompt, Function<String, T> parseFunction) {
@@ -847,6 +887,7 @@ public class Utils {
 
     /**
      * Prints a success message in bright green color.
+     *
      * @param message The success message text.
      */
     public static void printSuccessMessage(String message) {
@@ -855,6 +896,7 @@ public class Utils {
 
     /**
      * Prints a failure message in bright red color.
+     *
      * @param message The failure message text.
      */
     public static void printFailMessage(String message) {
@@ -863,8 +905,9 @@ public class Utils {
 
     /**
      * Shows a list of objects contained inside an Optional and prompts the user to select one.
+     *
      * @param optionalResult An Optional containing the list of objects.
-     * @param header The header text to display before the list.
+     * @param header         The header text to display before the list.
      * @return An Optional containing the entire list if an object is selected, otherwise empty.
      */
     public static Optional<?> showAndSelectObjectFromList(Optional<List<?>> optionalResult, String header) {
@@ -901,6 +944,7 @@ public class Utils {
 
     /**
      * Prints a detailed summary of a ShowRequest object in a nicely formatted style.
+     *
      * @param registeredShowRequest The ShowRequest object to print.
      */
     static public void printShowRequestResume(ShowRequest registeredShowRequest) {
@@ -932,7 +976,8 @@ public class Utils {
      * Shows the list in segments (pages) of size STEP with a header, asking the user if they want to see more.
      * Continues paging until user declines or the list ends.
      * Finally prompts the user to select an index across the entire list considering the paging cycles.
-     * @param list The full list to paginate and display.
+     *
+     * @param list   The full list to paginate and display.
      * @param header The header text to show for each segment.
      * @return The selected index relative to the full list, or -1 if none selected.
      */
@@ -953,7 +998,6 @@ public class Utils {
                 boolean seeMore = Utils.confirm("Do you want to see more items? (y/n)");
                 if (seeMore) {
                     cycle++;
-                    System.out.println(cycle);
                     continue;
                 }
             }
@@ -968,7 +1012,8 @@ public class Utils {
      * Displays a list in paginated chunks of size STEP with a header.
      * After each chunk, asks the user if they want to see more items.
      * Stops displaying if user declines or all items are shown.
-     * @param list The full list to display.
+     *
+     * @param list   The full list to display.
      * @param header The header text to show above each chunk.
      */
     public static void showListPartially(List<?> list, String header) {
@@ -1064,10 +1109,10 @@ public class Utils {
      */
     public static void showFigureIDRules() {
         Utils.silentWarning("""
-          The ID must follow these rules:
-           • Only numbers
-           • Higher than 0
-        """);
+                  The ID must follow these rules:
+                   • Only numbers
+                   • Higher than 0
+                """);
     }
 
     /**
@@ -1145,11 +1190,11 @@ public class Utils {
      */
     public static void showDSLRules() {
         Utils.silentWarning("""
-            The DSL file name must:
-              • Not be null or empty
-              • Be a valid file name with an extension (e.g., input.txt)
-              • Contain only letters, numbers, dashes, underscores, dots, and spaces
-            """);
+                The DSL file name must:
+                  • Not be null or empty
+                  • Be a valid file name with an extension (e.g., input.txt)
+                  • Contain only letters, numbers, dashes, underscores, dots, and spaces
+                """);
     }
 
     /**
@@ -1203,6 +1248,7 @@ public class Utils {
 
     /**
      * Returns a centered title string enclosed in a box top line for console display.
+     *
      * @param title The title text to center.
      * @return The formatted title line.
      */
@@ -1215,6 +1261,7 @@ public class Utils {
 
     /**
      * Returns the bottom line of a box for console display.
+     *
      * @return The formatted bottom box line.
      */
     public static String bottomBoxLine() {
@@ -1223,6 +1270,7 @@ public class Utils {
 
     /**
      * Prompts the user to enter an address interactively, validating the postal code format.
+     *
      * @return A new Address object created from user input.
      */
     public static Address promptForAddress() {
@@ -1255,6 +1303,7 @@ public class Utils {
     /**
      * Converts a domain Name object into the framework's Name object,
      * splitting the full name into first and last names.
+     *
      * @param customerName The domain Name object.
      * @return The framework Name object.
      */
@@ -1274,6 +1323,7 @@ public class Utils {
 
     /**
      * Prompts repeatedly for a valid domain Name using rePromptWhileInvalid utility.
+     *
      * @param prompt The prompt text.
      * @return A valid domain Name object.
      */
@@ -1288,6 +1338,7 @@ public class Utils {
 
     /**
      * Prompts repeatedly for a valid Email using rePromptWhileInvalid utility.
+     *
      * @param prompt The prompt message shown to the user.
      * @return A valid Email object.
      */
@@ -1297,6 +1348,7 @@ public class Utils {
 
     /**
      * Prompts repeatedly for a valid PhoneNumber using rePromptWhileInvalid utility.
+     *
      * @param prompt The prompt message shown to the user.
      * @return A valid PhoneNumber object.
      */
@@ -1306,6 +1358,7 @@ public class Utils {
 
     /**
      * Prompts repeatedly for a valid NIF (tax ID) using rePromptWhileInvalid utility.
+     *
      * @param prompt The prompt message shown to the user.
      * @return A valid NIF object.
      */
@@ -1315,6 +1368,7 @@ public class Utils {
 
     /**
      * Prompts for an Address by calling promptForAddress method.
+     *
      * @return A valid Address object entered by the user.
      */
     public static Address rePromptForAddress() {
@@ -1323,6 +1377,7 @@ public class Utils {
 
     /**
      * Prompts repeatedly for a valid password by delegating to Password class method.
+     *
      * @param prompt The prompt message shown to the user.
      * @return A valid password string.
      */
@@ -1341,6 +1396,7 @@ public class Utils {
 
     /**
      * Reads a line of text from the console with a prompt message.
+     *
      * @param prompt The message prompting user input.
      * @return The entered string, or null if an error occurs.
      */
@@ -1356,6 +1412,7 @@ public class Utils {
 
     /**
      * Prints a box-like title to the console, centered within a fixed-width box.
+     *
      * @param title The title text to print inside the box.
      */
     public static void printBoxTitle(String title) {
@@ -1371,6 +1428,7 @@ public class Utils {
     /**
      * Prints a subtitle line prefixed with a bullet point, styled in bright black italic text.
      * Does not append a colon at the end.
+     *
      * @param prompt The subtitle text to print.
      */
     public static void printSubTitleNoColon(String prompt) {
