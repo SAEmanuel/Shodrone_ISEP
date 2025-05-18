@@ -1274,31 +1274,34 @@ public class Utils {
      * @return A new Address object created from user input.
      */
     public static Address promptForAddress() {
-        Scanner scanner = new Scanner(System.in);
+        String street, city, postalCode, country;
 
-        System.out.print("Street: ");
-        String street = scanner.nextLine().trim();
+        do {
+            street = readLineFromConsole("Street").trim();
+            if (street.isEmpty()) printFailMessage("❌ Street cannot be empty.");
+        } while (street.isEmpty());
 
-        String postalCode;
-        while (true) {
-            System.out.print("Postal Code (NNNN-NNN): ");
-            postalCode = scanner.nextLine().trim();
-
-            if (postalCode.matches("\\d{4}-\\d{3}")) {
-                break;
-            } else {
+        do {
+            postalCode = readLineFromConsole("Postal Code (NNNN-NNN)").trim();
+            if (!postalCode.matches("\\d{4}-\\d{3}")) {
                 printFailMessage("❌ Postal code must match Portuguese format: NNNN-NNN");
+                postalCode = "";
             }
-        }
+        } while (postalCode.isEmpty());
 
-        System.out.print("City: ");
-        String city = scanner.nextLine().trim();
+        do {
+            city = readLineFromConsole("City").trim();
+            if (city.isEmpty()) printFailMessage("❌ City cannot be empty.");
+        } while (city.isEmpty());
 
-        System.out.print("Country: ");
-        String country = scanner.nextLine().trim();
+        do {
+            country = readLineFromConsole("Country").trim();
+            if (country.isEmpty()) printFailMessage("❌ Country cannot be empty.");
+        } while (country.isEmpty());
 
         return new Address(street, city, postalCode, country);
     }
+
 
     /**
      * Converts a domain Name object into the framework's Name object,
@@ -1449,6 +1452,17 @@ public class Utils {
 
     public static void printWarningMessage(String message) {
         System.out.println(ANSI_RED + message + ANSI_RESET);
+    }
+
+    public static String rePromptForNonEmptyLine(String prompt) {
+        String input;
+        do {
+            input = readLineFromConsole(prompt).trim();
+            if (input.isEmpty()) {
+                printFailMessage("❌ This field cannot be empty.");
+            }
+        } while (input.isEmpty());
+        return input;
     }
 
 }

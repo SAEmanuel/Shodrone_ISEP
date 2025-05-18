@@ -25,6 +25,7 @@ public class RegisterCustomerUI implements Runnable {
             EmailAddress customerEmail = Utils.rePromptForValidEmailAddress("Customer Email");
             PhoneNumber customerPhone = Utils.rePromptForPhone("Customer Phone");
             NIF nif = Utils.rePromptForNIF("Customer NIF");
+            //aqui
             Address address = Utils.rePromptForAddress();
 
             Utils.showNameRules();
@@ -33,7 +34,8 @@ public class RegisterCustomerUI implements Runnable {
             Utils.showEmailRules();
             Email repEmail = Utils.rePromptForEmail("Representative Email");
             PhoneNumber repPhone = Utils.rePromptForPhone("Representative Phone");
-            String repPosition = Utils.readLineFromConsole("Representative Position");
+            //aqui
+            String repPosition = Utils.rePromptForNonEmptyLine("Representative Position");
 
             Utils.showPasswordRules();
             String repPassword = Utils.rePromptForPassword("Representative Password");
