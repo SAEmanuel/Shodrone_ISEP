@@ -672,3 +672,157 @@ The integration of environmental influences enhances the realism of the drone si
 
 All group members contributed equally to the implementation, testing, and documentation of the
 solution, ensuring full commitment and balanced participation throughout the project.
+
+---
+
+### 5. Core Structures
+
+#### `Position`
+
+Represents a point in 3D space:
+
+```c
+typedef struct {
+    int x, y, z;
+    pid_t pid;
+} Position;
+```
+
+---
+
+#### `Drone`
+
+Represents an individual drone in the simulation:
+
+```c
+typedef struct {
+    int id;
+    Position* script; 
+    int total_steps;  
+    int current_step;  
+} Drone;
+```
+
+---
+
+#### `ShowProposal`
+
+Holds information about the entire drone figure:
+
+```c
+typedef struct {
+    Drone* drones;         // All drones involved
+    int num_drones;
+    int total_ticks;       // Maximum number of steps across all drones
+    Position*** timeline;  // [tick][drone_id] = Position (used during simulation)
+    int collisions;        // Total number of detected collisions
+    int passed;            // 1 = approved, 0 = failed
+} ShowProposal;
+```
+
+---
+
+#### `Radar`
+
+Represents a drone’s state at a specific timestamp, used in collision detection:
+
+```c
+typedef struct{
+    DroneInformation droneInformation;
+    int timeStamp;
+    Position position;
+    int terminated;
+} Radar;
+```
+
+---
+
+#### `DroneInformation`
+
+Stores drone-specific information for collision detection:
+
+```c
+typedef struct{
+    int id;
+    int biggestDimension;
+} DroneInformation;
+```
+
+---
+
+#### `Collision_Stamp`
+
+Logs collision events:
+
+```c
+typedef struct {
+    int id_drone1;
+    int id_drone2;
+    int collision_time;
+} Collision_Stamp;
+```
+
+#### `Report`
+
+Report for final simulation analysis:
+```c
+typedef struct {
+    int num_drones;         
+    int total_ticks;        
+    int collisions;         
+    int passed; 
+    int max_collisions;       
+    Position** timeline;
+    Collision_Stamp* stamps;  
+    Environment* environment;
+    int stamps_count;
+    char simulation_name[64];          
+} Report;
+```
+
+#### `Environment`
+
+Environmental conditions:
+```c
+typedef struct {
+    int north;
+    int south;
+    int east;
+    int west;
+    int rain;
+} Environment;
+```
+
+---
+
+## 6. Compilation
+
+Use `make compile` to compile the project:
+
+```bash
+cd ..
+make compile
+```
+
+Use `make clean` to clean the .o files from project:
+
+```bash
+cd ..
+make clean
+```
+
+Run the simulation manually by providing the script file name:
+
+```bash
+.././simulator
+```
+---
+
+**Optional**:
+ - If you want to use the project's sounds run (on linux):
+
+```bash
+sudo apt install mpg 123
+```
+
+- If you're using macOS, nothing needs to be done :)
