@@ -23,9 +23,9 @@ void trim(char* str);
 void fill_info(const char* filename, DroneInformation* dronesIDs, int num_drones);
 int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp,  Collision_Stamp **stamps, int *stamps_capacity, int *stamps_count);
 int calculate_acceptable_collision_number(int numberOfDrones, float percentage);
-void printTimeOfSimulation(int timeStamp);
+void printTimeOfSimulation(int timeStamp,int);
 void printPositionDrone(Position, int id);
-void printDroneInBase(int id);
+void printDroneInEnd(int id);
 
 
 

@@ -14,6 +14,8 @@
 #include "environment.h"
 #include "position.h"
 
+const int EXTRA_TICK_FOR_END = 1;
+
 int run_simulation(char* argv, float percentage)
 {
     Environment environment;
@@ -108,52 +110,58 @@ int run_simulation(char* argv, float percentage)
 
     Radar historyOfRadar[num_drones][total_ticks];
 
-    for (int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
-        printTimeOfSimulation(timeStamp);
+    for (int timeStamp = 0; timeStamp < total_ticks + EXTRA_TICK_FOR_END; timeStamp++) {
+        printTimeOfSimulation(timeStamp,total_ticks);
 
         for (int childNumber = 0; childNumber < num_drones; childNumber++) {
-            Position current_pos;
-            ssize_t bytes_read = read(position_pipes[childNumber][0], &current_pos, sizeof(current_pos));
 
-            if (bytes_read == -1) {
-                perror("Father failed to read from pipe\n");
-                exit(EXIT_FAILURE);
-            }
-            
-            report_of_simulation.timeline[timeStamp][childNumber] = current_pos;
-
-            if (bytes_read == sizeof(Position)) {
-                int is_terminated = (timeStamp > 0)
-                    ? historyOfRadar[childNumber][timeStamp - 1].terminated
-                    : 0;
-
-                int returned_to_base = (timeStamp > 0 &&
-                    current_pos.x == -1 &&
-                    current_pos.y == -1 &&
-                    current_pos.z == -1) ? 1 : 0;
-
-                 if (current_pos.x == -1 && current_pos.y == -1 && current_pos.z == -1) {
+            if(total_ticks > timeStamp){
+                Position current_pos;
+                ssize_t bytes_read = read(position_pipes[childNumber][0], &current_pos, sizeof(current_pos));
+    
+                if (bytes_read == -1) {
+                    perror("Father failed to read from pipe\n");
+                    exit(EXIT_FAILURE);
+                }
+                
+                report_of_simulation.timeline[timeStamp][childNumber] = current_pos;
+    
+                if (bytes_read == sizeof(Position)) {
+                    int is_terminated = (timeStamp > 0)
+                        ? historyOfRadar[childNumber][timeStamp - 1].terminated
+                        : 0;
+    
+                    int returned_to_base = (timeStamp > 0 &&
+                        current_pos.x == -1 &&
+                        current_pos.y == -1 &&
+                        current_pos.z == -1) ? 1 : 0;
+    
+                     if (current_pos.x == -1 && current_pos.y == -1 && current_pos.z == -1) {
+                        historyOfRadar[childNumber][timeStamp].terminated = 1;
+                    }
+    
+                    if (!is_terminated && !returned_to_base) {
+                        printPositionDrone(current_pos, drones_info[childNumber].id);
+                    } else if (returned_to_base) {
+                        printDroneInEnd(drones_info[childNumber].id);
+                    }
+    
+                    Radar radarOfDrone = {
+                        .droneInformation = drones_info[childNumber],
+                        .timeStamp = timeStamp,
+                        .position = current_pos,
+                        .terminated = is_terminated
+                    };
+    
+                    historyOfRadar[childNumber][timeStamp] = radarOfDrone;
+    
+                } else if (bytes_read == 0) {
                     historyOfRadar[childNumber][timeStamp].terminated = 1;
                 }
-
-                if (!is_terminated && !returned_to_base) {
-                    printPositionDrone(current_pos, drones_info[childNumber].id);
-                } else if (returned_to_base) {
-                    printDroneInBase(drones_info[childNumber].id);
-                }
-
-                Radar radarOfDrone = {
-                    .droneInformation = drones_info[childNumber],
-                    .timeStamp = timeStamp,
-                    .position = current_pos,
-                    .terminated = is_terminated
-                };
-
-                historyOfRadar[childNumber][timeStamp] = radarOfDrone;
-
-            } else if (bytes_read == 0) {
-                historyOfRadar[childNumber][timeStamp].terminated = 1;
+            }else{
+                printDroneInEnd(drones_info[childNumber].id);
             }
+            
         }
 
         int collisions_in_tick = collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp,&stamps, &stamps_capacity, &stamps_count);
@@ -205,14 +213,26 @@ int run_simulation(char* argv, float percentage)
     return 0;
 }
 
-void printTimeOfSimulation(int timeStamp) {
+void printTimeOfSimulation(int timeStamp,int totalTicks) {
     char simulationTimeMSG[100];
-    int len = snprintf(
-        simulationTimeMSG, sizeof(simulationTimeMSG),
-        "\n%s═════| %sSIMULATION TIME - %d time units %s|═════%s\n\n",
-        ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, timeStamp, ANSI_BRIGHT_BLACK, ANSI_RESET
-    );
-    write(STDOUT_FILENO, simulationTimeMSG, len);
+    if(timeStamp < totalTicks){
+        int len = snprintf(
+            simulationTimeMSG, sizeof(simulationTimeMSG),
+            "\n%s═════| %sSIMULATION TIME - %d time units %s|═════%s\n\n",
+            ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, timeStamp, ANSI_BRIGHT_BLACK, ANSI_RESET
+        );
+        write(STDOUT_FILENO, simulationTimeMSG, len);
+    }else{
+        int len = snprintf(
+            simulationTimeMSG, sizeof(simulationTimeMSG),
+
+            "\n%s═════| %s        END OF SIMULATION       %s|═════%s\n\n",
+            ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, ANSI_BRIGHT_BLACK, ANSI_RESET
+        );
+        write(STDOUT_FILENO, simulationTimeMSG, len);
+    }
+
+    
 }
 
 void printPositionDrone(Position position, int id) {
@@ -234,12 +254,12 @@ void printPositionDrone(Position position, int id) {
     }
 }
 
-void printDroneInBase(int id) {
+void printDroneInEnd(int id) {
     char droneBaseMSG[100];
     int len = snprintf(
         droneBaseMSG, sizeof(droneBaseMSG),
-        "🚁 Drone with ID [%d] has returned to base 🏠\n",
-        id
+        "🚁 Drone with ID [%d] - %s%s📍Has arrived to his final destination!%s\n",
+        id,ANSI_BRIGHT_BLUE,ANSI_BOLD,ANSI_RESET
     );
     write(STDOUT_FILENO, droneBaseMSG, len);
 }
