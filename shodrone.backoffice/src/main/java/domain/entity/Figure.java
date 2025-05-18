@@ -50,7 +50,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     public DSL dsl;
 
     @ManyToOne
-    @JoinColumn(name = "costumer_id", nullable = false)
+    @JoinColumn(name = "costumer_id")
     private Costumer costumer;
 
 

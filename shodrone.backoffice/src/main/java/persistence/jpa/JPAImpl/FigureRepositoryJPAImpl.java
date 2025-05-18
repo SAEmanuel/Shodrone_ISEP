@@ -11,6 +11,7 @@ import persistence.interfaces.FigureRepository;
 import persistence.jpa.JpaBaseRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -164,74 +165,56 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
 
         while (searching <= 8) {
             figures = new ArrayList<>();
+
             for (Figure figure : searchFigures) {
                 switch (searching) {
                     case 1:
-                        if (name != null) {
-                            if (figure.name().equals(name))
-                                figures.add(figure);
-                        } else {
+                        if (name == null || figure.name().equals(name)) {
                             figures.add(figure);
                         }
                         break;
                     case 2:
-                        if (description != null) {
-                            if (figure.description() != null && figure.description().equals(description))
-                                figures.add(figure);
-                        } else {
+                        if (description == null || figure.description().equals(description)) {
                             figures.add(figure);
                         }
                         break;
                     case 3:
-                        if (version != null) {
-                            if (figure.version() != null && figure.version().equals(version))
-                                figures.add(figure);
-                        } else {
+                        if (version == null || figure.version().equals(version)) {
                             figures.add(figure);
                         }
                         break;
                     case 4:
-                        if (category != null) {
-                            if (figure.category().equals(category))
-                                figures.add(figure);
-                        } else {
+                        if (category == null || figure.category().equals(category)) {
                             figures.add(figure);
                         }
                         break;
                     case 5:
-                        if (availability != null) {
-                            if (figure.availability().equals(availability))
-                                figures.add(figure);
-                        } else {
+                        if (availability == null || figure.availability().toString().equals(availability.toString())) {
                             figures.add(figure);
                         }
                         break;
                     case 6:
-                        if (status != null) {
-                            if (figure.status().equals(status))
-                                figures.add(figure);
-                        } else {
+                        if (status == null || figure.status().toString().equals(status.toString())) {
                             figures.add(figure);
                         }
                         break;
                     case 7:
-                        if (dsl != null) {
-                            if (figure.dsl().equals(dsl))
-                                figures.add(figure);
-                        } else {
+                        if (dsl == null || figure.dsl().toString().equals(dsl.toString())) {
                             figures.add(figure);
                         }
                         break;
                     case 8:
-                        if (costumer != null) {
-                            if (figure.costumer().equals(costumer))
-                                figures.add(figure);
-                        } else {
+                        if (costumer == null || figure.costumer().equals(costumer)) {
                             figures.add(figure);
                         }
                         break;
                 }
             }
+
+            if (figures.isEmpty()) {
+                break;
+            }
+
             searchFigures = figures;
             searching++;
         }
