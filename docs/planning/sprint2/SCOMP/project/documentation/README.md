@@ -1,6 +1,8 @@
 ## 1. Diagram of solution components
 
-Below is a high-level diagram representing the key components of the Shodrone simulation system, illustrating how they interact to fulfill the requirements outlined in the project specifications. This diagram focuses on the architecture for the simulation-related user stories (US261 to US266) implemented in Sprint 2 and 3, as described in the provided documentation.
+Below is a high-level diagram representing the key components of the Shodrone simulation system, illustrating how they interact to fulfill the requirements outlined in the project specifications. This diagram focuses on the architecture for the simulation-related user stories (US261 to US266) implemented in Sprint 2, as described in the provided documentation.
+
+![Simulation Diagram](../img/simulation_diagram.jpg)
 
 ### Explanation of Components
 

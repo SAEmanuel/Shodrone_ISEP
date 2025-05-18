@@ -1,6 +1,6 @@
 Wind direction: N [OFF]
 Wind direction: S [OFF]
-Wind direction: E [OFF]
+Wind direction: E [ON]
 Wind direction: W [OFF]
 
 Wind speed N: 7

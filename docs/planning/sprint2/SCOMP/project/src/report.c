@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include "report.h"
 #include "data.h"
+#include "ui.h"
 
 void play_sound(const char* path);
 
@@ -84,7 +85,7 @@ void generate_report(Report* proposal, const char* filename) {
                 }
 
                 if (!prev_inactive) {
-                    fprintf(file, "  🏠 Drone %d has returned to base\n", i);
+                    fprintf(file, "🚁 Drone with ID [%d] -📍Has arrived to his final destination!\n", i);
                     base_printed[i] = 1;
                 }
             }
