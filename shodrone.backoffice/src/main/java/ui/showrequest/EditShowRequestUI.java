@@ -103,7 +103,7 @@ public class EditShowRequestUI implements Runnable {
             System.out.printf("    %s5 %s- %sDuration%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             System.out.printf("    %s6 %s- %sFigures%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             System.out.printf("    %s0 %s- %sFinish editing%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
-            option = Utils.readIntegerFromConsole("• Option (0 to finish): ");
+            option = Utils.readIntegerFromConsole("• Option (0 to finish) ");
             switch (option) {
                 case 1 -> {
                     Description desc = Utils.rePromptWhileInvalid("New description: ",Description::new);
@@ -118,10 +118,26 @@ public class EditShowRequestUI implements Runnable {
                 }
                 case 4 -> {
                     int drones = Utils.readIntegerFromConsole("New number of drones: ");
+                    do {
+                        if (drones < 1) {
+                            Utils.printAlterMessage("Number of drones must be greater than 0.");
+                            drones = Utils.readIntegerFromConsole("New number of drones: ");
+                        } else {
+                            break;
+                        }
+                    }while (true);
                     newRequest.setNumberOfDrones(drones);
                 }
                 case 5 -> {
                     int minutes = Utils.readIntegerFromConsole("New show duration in minutes: ");
+                    do {
+                        if (minutes < 1) {
+                            Utils.printAlterMessage("Show duration must be greater than 0.");
+                            minutes = Utils.readIntegerFromConsole("New show duration in minutes: ");
+                        } else {
+                            break;
+                        }
+                    }while (true);
                     newRequest.setShowDuration(Duration.ofMinutes(minutes));
                 }
                 case 6 -> {
