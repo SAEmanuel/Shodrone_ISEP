@@ -26,6 +26,7 @@ int calculate_acceptable_collision_number(int numberOfDrones, float percentage);
 void printTimeOfSimulation(int timeStamp,int);
 void printPositionDrone(Position, int id);
 void printDroneInEnd(int id);
+void play_sound(const char* path);
 
 
 

@@ -116,17 +116,5 @@ void generate_report(Report* proposal, const char* filename) {
 
 
 
-void play_sound(const char* path) {
-#ifdef __APPLE__
-    char command[256];
-    snprintf(command, sizeof(command), "afplay %s &", path);
-    system(command);
-#elif __linux__
-    char command[256];
-    snprintf(command, sizeof(command), "mpg123 \"%s\" > /dev/null 2>&1 &", path);;
-    system(command);
-#else
-    printf("⚠️ Sound not supported on this OS.\n");
-#endif
-}
+
 

@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include "../include/ui.h"
 #include "simulation.h"
+#include "../include/data.h"
 
 #define BORDER_WIDTH       60
 #define COMPANY_NAME       "ShoDrone"
@@ -84,6 +85,8 @@ void show_development_team() {
     printf("  Jorge Ubaldo      - 1231274@isep.ipp.pt\n");
     printf("  Paulo Mendes      - 1231498@isep.ipp.pt\n");
     printf("  Romeu Xu          - 1230444@isep.ipp.pt\n");
+
+    play_sound("sounds/applause.mp3");
 }
 
 int checkUserCredentials(char * user, char * password) {
