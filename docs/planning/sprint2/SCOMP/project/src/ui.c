@@ -34,8 +34,8 @@ void center_text(const char *text, int width) {
 }
 
 void print_header() {
-    const char *border = "============================================================";
-    const char *separator = "------------------------------------------------------------";
+    const char *border = "=================================================================";
+    const char *separator = "-----------------------------------------------------------------";
 
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
@@ -48,9 +48,11 @@ void print_header() {
     center_text(COMPANY_NAME " - Innovating Drone Shows", BORDER_WIDTH);
     printf(ANSI_RESET);
 
-    printf("Application        : " ANSI_BLUE "%s" ANSI_RESET "\n", APP_NAME);
-    printf("Version            : " ANSI_BRIGHT_CYAN "%s" ANSI_RESET "\n", VERSION);
-    printf("Session started on : " ANSI_BLUE "%s" ANSI_RESET "\n", formattedDate);
+    printf("Application         : " ANSI_BLUE "%s" ANSI_RESET "\n", APP_NAME);
+    printf("Version             : " ANSI_BRIGHT_CYAN "%s" ANSI_RESET "\n", VERSION);
+    printf("Session started on  : " ANSI_BLUE "%s" ANSI_RESET "\n", formattedDate);
+    printf("SOUND FEATURE (inf) : " ANSI_BRIGHT_YELLOW "%s" ANSI_RESET "\n", "For sound output: 'sudo apt install mpg123'");
+
 
     print_separator(separator);
 
