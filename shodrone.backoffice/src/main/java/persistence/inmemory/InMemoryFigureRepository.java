@@ -56,6 +56,8 @@ public class InMemoryFigureRepository implements FigureRepository {
                 category = Optional.of(existingCategory.get());
             }
             figure.UpdateFigureCategory(category.get()); 
+        }else{
+            return Optional.empty();
         }
 
         
@@ -157,91 +159,71 @@ public class InMemoryFigureRepository implements FigureRepository {
     @Override
     public Optional<List<Figure>> findFigures(Long figureId, Name name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
         ArrayList<Figure> figures = new ArrayList();
-        if(store.values().isEmpty())
+        if(store.values().isEmpty()) {
             return Optional.ofNullable(figures);
+        }
+
+        if (figureId != null) {
+            if (store.containsKey(figureId)) {
+                return Optional.of(Collections.singletonList(store.get(figureId)));
+            }
+        }
 
         int searching = 1;
         ArrayList<Figure> searchFigures = new ArrayList<>(store.values());
 
-        while(searching <= 9) {
+        while (searching <= 8) {
             figures = new ArrayList<>();
-            for (Figure figure : searchFigures) {
 
+            for (Figure figure : searchFigures) {
                 switch (searching) {
                     case 1:
-                        if(figureId != null) {
-                            if(figure.identity().equals(figureId))
-                                figures.add(figure);
-                        }else{
+                        if (name == null || figure.name().equals(name)) {
                             figures.add(figure);
                         }
                         break;
                     case 2:
-                        if(name != null) {
-                            if(figure.name().equals(name))
-                                figures.add(figure);
-                        }else{
+                        if (description == null || figure.description().equals(description)) {
                             figures.add(figure);
                         }
                         break;
                     case 3:
-                        if(description != null) {
-                            if(figure.description().equals(description))
-                                figures.add(figure);
-                        }else{
+                        if (version == null || figure.version().equals(version)) {
                             figures.add(figure);
                         }
                         break;
                     case 4:
-                        if(version != null) {
-                            if (figure.version().equals(version))
-                                figures.add(figure);
-                        }else{
+                        if (category == null || figure.category().equals(category)) {
                             figures.add(figure);
                         }
                         break;
                     case 5:
-                        if(category != null) {
-                            if(figure.category().equals(category))
-                                figures.add(figure);
-                        }else {
+                        if (availability == null || figure.availability().toString().equals(availability.toString())) {
                             figures.add(figure);
                         }
                         break;
                     case 6:
-                        if(availability != null){
-                            if( figure.availability().toString().equals(availability.toString()) )
-                                figures.add(figure);
-                        }else{
+                        if (status == null || figure.status().toString().equals(status.toString())) {
                             figures.add(figure);
                         }
                         break;
                     case 7:
-                        if(status != null){
-                            if( figure.status().toString().equals(status.toString()) )
-                                figures.add(figure);
-                        }else{
+                        if (dsl == null || figure.dsl().toString().equals(dsl.toString())) {
                             figures.add(figure);
                         }
                         break;
                     case 8:
-                        if(dsl != null){
-                            if( figure.dsl.toString().equals(dsl.toString()) )
-                                figures.add(figure);
-                        }else{
-                            figures.add(figure);
-                        }
-                        break;
-                    case 9:
-                        if(costumer != null){
-                            if(figure.costumer().equals(costumer))
-                                figures.add(figure);
-                        }else{
+                        if (costumer == null || figure.costumer().equals(costumer)) {
                             figures.add(figure);
                         }
                         break;
                 }
             }
+
+            if (figures.isEmpty()) {
+                break;
+            }
+
             searchFigures = figures;
             searching++;
         }

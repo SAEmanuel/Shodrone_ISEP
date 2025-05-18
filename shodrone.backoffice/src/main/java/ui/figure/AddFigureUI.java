@@ -94,15 +94,11 @@ public class AddFigureUI implements Runnable {
         if ( listOfCostumers.isPresent() && !listOfCostumers.get().isEmpty() ) {
             int index = Utils.showAndSelectIndexPartially(listOfCostumers.get(), "Costumer");
 
-            if (index == EXIT) {
-                Utils.printFailMessage("No Costumer selected...");
-                return;
+            if (index != EXIT) {
+                costumer = Optional.ofNullable(listOfCostumers.get().get(index));
+            }else{
+                Utils.printAlterMessage("Skipped...");
             }
-
-            costumer = Optional.ofNullable(listOfCostumers.get().get(index));
-        }else{
-            Utils.printFailMessage("The are no costumers to add to figure! Added it first and try again!");
-            return;
         }
 
         Optional<Figure> result;

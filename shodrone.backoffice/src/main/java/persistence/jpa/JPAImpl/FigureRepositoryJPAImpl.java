@@ -64,6 +64,8 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                 category = Optional.of(existingCategory.get());
             }
             figure.UpdateFigureCategory(category.get());
+        }else{
+            return Optional.empty();
         }
 
 
@@ -86,6 +88,7 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         if( findExistentFigure.isPresent() && !findExistentFigure.get().isEmpty()) {
             return Optional.empty();
         }
+
         add(figure);
         //System.out.println(figure);
         return Optional.of(figure);
