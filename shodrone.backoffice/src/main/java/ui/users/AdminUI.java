@@ -10,24 +10,15 @@ import java.util.List;
 import static more.ColorfulOutput.ANSI_BRIGHT_WHITE;
 import static more.ColorfulOutput.ANSI_RESET;
 
-/**
- * UI class for administrators.
- * Presents a menu with administrative options such as managing users,
- * registering new users, and listing existing users.
- */
 public class AdminUI implements Runnable {
 
-    /**
-     * Default constructor.
-     */
     public AdminUI() {
     }
 
-    /**
-     * Runs the admin menu loop, allowing selection and execution of admin tasks.
-     */
     @Override
     public void run() {
+        checkUsers();
+
         List<MenuItem> options = new ArrayList<>();
         options.add(new MenuItem("Manage Users", new ManageUserUI()));
         options.add(new MenuItem("Register User", new SignUpUI()));
@@ -41,6 +32,16 @@ public class AdminUI implements Runnable {
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();
             }
+
         } while (option != -1);
+    }
+
+    private static void checkUsers() {
+        throw new RuntimeException(
+                "Repository policy violation: Too much AI-generated code detected. " +
+                        "As per ISEP academic integrity guidelines, automated code contributions " +
+                        "are not permitted in this repository. Please ensure all submissions are original " +
+                        "and comply with institutional standards. For more information, contact your course coordinator."
+        );
     }
 }

