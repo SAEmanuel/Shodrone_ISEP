@@ -1,0 +1,118 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SD) - List Drones in the Inventory
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":ListActiveDronesUI" as UI
+participant ":GetDroneModelsController" as getModelCtrl
+participant ":GetDronesController" as getDronesCtrl
+participant "repositoryProvider\n:RepositoryProvider" as provider
+participant "DroneModelRepository\n:DroneModelRepository" as dmRepo
+participant "DroneRepository\n:DroneRepository" as dRepo
+participant "InMemoryDroneModelRepository" as inMemModel
+participant "CreateDroneModelJPAImpl" as jpaModel
+participant "InMemoryDroneRepository" as inMemDrone
+participant "DroneJPAImpl" as jpaDrone
+
+activate DT
+
+DT -> UI : requests to list drones in the inventory
+activate UI
+
+UI -> getModelCtrl ** : create
+UI -> getModelCtrl : getAllModels()
+activate getModelCtrl
+getModelCtrl -> provider ** : droneModelRepository()
+activate provider
+provider --> getModelCtrl : repository (dynamic: inMem or jpa)
+deactivate provider
+alt Repository is InMemoryDroneModelRepository
+    getModelCtrl -> inMemModel : findAll()
+    activate inMemModel
+    inMemModel --> getModelCtrl : droneModelsList
+    deactivate inMemModel
+else Repository is CreateDroneModelJPAImpl
+    getModelCtrl -> jpaModel : findAll()
+    activate jpaModel
+    jpaModel --> getModelCtrl : droneModelsList
+    deactivate jpaModel
+end
+getModelCtrl --> UI : Optional<droneModelsList>
+deactivate getModelCtrl
+
+alt droneModelsList is empty
+    UI --> DT : error message ("No drone models in the system yet...")
+    deactivate UI
+    deactivate DT
+else
+    UI -> DT : showSelectionMethodMenu()
+    DT -> UI : selectMethod()
+    alt option is "Select a Drone Model"
+        UI -> DT : selectDroneModel()
+        DT -> UI : chosenModel
+
+    else option is "Enter a Drone Model"
+        UI -> DT : provideModelID()
+        DT -> UI : modelID
+        UI -> getModelCtrl ** : create
+        UI -> getModelCtrl : getModelById(modelID)
+        activate getModelCtrl
+        getModelCtrl -> dmRepo : findByDroneModelID(modelID)
+        activate dmRepo
+        dmRepo --> getModelCtrl : Optional<DroneModel>
+        deactivate dmRepo
+        getModelCtrl --> UI : Optional<selectedDroneModel>
+        deactivate getModelCtrl
+
+        alt selectedDroneModel is empty
+            UI --> DT : error message ("No drone model with that ID found in the system!")
+            deactivate UI
+            deactivate DT
+        else
+            UI -> DT : showDroneModelDetails()
+            DT -> UI : confirmSelection()
+            alt confirmed
+                UI -> UI : chosenModel = selectedDroneModel.get()
+            else
+                note right : loops back to provideModelID
+            end
+        end
+    end
+
+    UI -> getDronesCtrl ** : create
+    UI -> getDronesCtrl : getDroneByModel(chosenModel)
+    activate getDronesCtrl
+    getDronesCtrl -> provider ** : droneRepository()
+    activate provider
+    provider --> getDronesCtrl : repository (dynamic: inMem or jpa)
+    deactivate provider
+    alt Repository is InMemoryDroneRepository
+        getDronesCtrl -> inMemDrone : findByDroneModel(chosenModel)
+        activate inMemDrone
+        inMemDrone --> getDronesCtrl : Optional<List<Drone>>
+        deactivate inMemDrone
+    else Repository is DroneJPAImpl
+        getDronesCtrl -> jpaDrone : findByDroneModel(chosenModel)
+        activate jpaDrone
+        jpaDrone --> getDronesCtrl : Optional<List<Drone>>
+        deactivate jpaDrone
+    end
+    getDronesCtrl --> UI : Optional<dronesList>
+    deactivate getDronesCtrl
+
+    alt dronesList is empty
+        UI --> DT : error message ("There are no drones of this model available in the system.")
+    else
+        UI --> DT : displayDronesList(dronesList)
+    end
+end
+
+deactivate UI
+deactivate DT
+
+@enduml

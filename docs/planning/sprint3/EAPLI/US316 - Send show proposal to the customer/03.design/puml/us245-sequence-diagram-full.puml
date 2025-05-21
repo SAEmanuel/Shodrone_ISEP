@@ -1,0 +1,76 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Add Figure Category
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":AddFigureCategoryUI" as UI
+participant "Name" as name
+participant "Description" as desc
+participant ":AddFigureCategoryController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as provider
+participant "FigureCategoryRepository\n:FigureCategoryRepository" as interface
+participant "InMemoryFigureCategoryRepository" as inMem
+participant "FigureCategoryJPAImpl" as jpa
+participant "FigureCategory" as category
+
+activate SD
+
+SD -> UI : requests to add a new Figure Category with valid name and description
+activate UI
+
+UI -> name**: Utils.rePromptWhileInvalid()
+activate name
+name -> UI: name
+deactivate name
+
+UI -> desc**: Utils.rePromptWhileInvalid()
+activate desc
+desc -> UI: description
+deactivate desc
+
+UI -> CTRL **: create
+UI -> CTRL : addFigureCategoryWithNameAndDescription(name, description, createdBy)
+activate CTRL
+
+CTRL -> category : new FigureCategory(name, description, createdBy)
+activate category
+category --> CTRL : FigureCategory instance
+deactivate category
+
+CTRL -> provider ** : figureCategoryRepository()
+activate provider
+provider --> CTRL : repository (dynamic: inMem or jpa)
+deactivate provider
+
+alt Repository is InMemoryFigureCategoryRepository
+    CTRL -> inMem: save(category)
+    activate inMem
+    inMem -> inMem: containsKey(category.identity())
+    inMem --> CTRL: Optional<FigureCategory>
+    deactivate inMem
+
+else Repository is FigureCategoryJPAImpl
+    CTRL -> jpa: save(category)
+    activate jpa
+    jpa -> jpa: findByName(category.identity())
+    jpa --> CTRL: Optional<FigureCategory>
+    deactivate jpa
+end
+
+CTRL --> UI: Optional<FigureCategory>
+deactivate CTRL
+
+alt Category saved successfully
+    UI --> SD: success message
+else Save failed (duplicate name)
+    UI --> SD: error message
+end
+
+deactivate UI
+deactivate SD
+@enduml

@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US213 - List Users
+
+autonumber
+
+actor "Admin" as Admin
+participant ":ListUserUI" as UI
+participant ":ListUserController" as Controller
+participant ":UserRepository" as Repo
+
+== Start ==
+
+Admin -> UI : run()
+activate UI
+
+UI -> Controller : getAllUsersWithStatus()
+activate Controller
+
+Controller -> Repo : findAll()
+activate Repo
+Repo --> Controller : List<User>
+deactivate Repo
+
+Controller --> UI : List<String> (formatted user data)
+deactivate Controller
+
+UI --> Admin : displays user list
+deactivate UI
+
+deactivate Admin
+@enduml

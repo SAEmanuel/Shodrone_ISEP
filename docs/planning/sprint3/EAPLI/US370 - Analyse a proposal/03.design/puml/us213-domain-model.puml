@@ -1,0 +1,40 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - List Users Flow (US213)
+
+autonumber
+
+actor "Admin User" as user
+participant ":ListUserUI" as UI
+participant ":ListUserController" as Controller
+participant ":RepositoryProvider" as repoProvider
+participant ":UserRepository" as userRepo
+
+== START ==
+
+user -> UI : run()
+activate UI
+
+UI -> Controller : getAllUsersWithStatus()
+activate Controller
+
+Controller -> repoProvider : userRepository()
+activate repoProvider
+repoProvider --> Controller : userRepo
+deactivate repoProvider
+
+Controller -> userRepo : findAll()
+activate userRepo
+userRepo --> Controller : List<User>
+deactivate userRepo
+
+Controller --> UI : List<String> (formatted)
+deactivate Controller
+
+UI --> user : displays user list
+deactivate UI
+
+@enduml

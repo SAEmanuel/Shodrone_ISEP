@@ -1,0 +1,222 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Add Figure
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":AddFigureUI" as UI
+participant "Name" as name
+participant "Description" as desc
+participant "Version" as version
+
+
+participant "figureCategoryController\n:FigureCategoryController" as figureCategoryControler
+participant ":AddFigureController" as CTRL
+participant "authenticationController\n:AuthenticationController" as authcot
+participant ":Repositories" as RepositorySingleton
+participant "repositories\n:Repositories" as PLAT
+participant "figureCategoryRepository\n:FigureCategoryRepository" as figureCategoryRepository
+
+
+participant "FigureAvailability" as figureAvailability
+participant "FigureStatus" as figureStatus
+participant "authenticationRepository\n:AuthenticationRepository" as authenticationRepository
+
+
+participant "Figure" as figure
+participant "InMemoryFigureRepository" as inMem
+participant "FigurerRepositoryJPAImpl" as jpa
+participant "repositoryProvider\n:RepositoryProvider" as provider
+
+activate SD
+
+SD -> UI : requests to add a new Figure
+activate UI
+
+UI -> name**: Utils.rePromptWhileInvalid()
+activate name
+
+name -> UI: name
+deactivate name
+
+UI --> SD : ask if want's to add description
+deactivate UI
+SD -> UI: provide description
+activate UI
+
+UI -> desc**: Utils.rePromptWhileInvalid()
+activate desc
+
+desc -> UI: description
+deactivate desc
+
+UI --> SD : ask if want's to add version
+deactivate UI
+SD -> UI: provide version
+activate UI
+
+UI -> version**: Utils.rePromptWhileInvalid()
+activate version
+
+version -> UI: version
+deactivate version
+
+
+
+
+        UI -> figureCategoryControler** : getActiveFigureCategories()
+
+
+                activate figureCategoryControler
+
+                figureCategoryControler --> figureCategoryControler : getFigureCategoryRepository()
+
+                activate figureCategoryControler
+
+                    figureCategoryControler -> RepositorySingleton : getInstance()
+                    activate RepositorySingleton
+
+                        RepositorySingleton --> figureCategoryControler : repositories
+                    deactivate RepositorySingleton
+
+                    figureCategoryControler -> PLAT : getFigureCategoryRepository()
+
+                    activate PLAT
+
+                        PLAT --> figureCategoryControler : figureCategoryRepository
+                    deactivate PLAT
+
+                        figureCategoryControler --> figureCategoryControler: figureCategoryRepository
+                deactivate figureCategoryControler
+
+                    figureCategoryControler -> figureCategoryRepository : getActiveFigureCategories(CostumerID identification)
+
+
+                    activate figureCategoryRepository
+
+                    figureCategoryRepository --> figureCategoryControler : listWithActiveFigureCategories
+
+        deactivate figureCategoryRepository
+        figureCategoryControler --> UI : listWithActiveFigureCategories
+
+deactivate figureCategoryControler
+
+  UI --> SD : optionsToSelectFigureCategory()
+  deactivate UI
+
+  SD -> UI : FigureCategorySelected
+activate UI
+
+
+UI --> SD : ask if want's to add figureAvailability
+deactivate UI
+SD -> UI: provide figureAvailability (if not provided default Public)
+activate UI
+
+UI -> figureAvailability**: Utils.rePromptWhileInvalid()
+activate figureAvailability
+
+figureAvailability -> UI: figureAvailability
+deactivate figureAvailability
+
+UI --> SD : ask if want's to add figureStatus
+deactivate UI
+SD -> UI: provide figureStatus (if not provided default Active)
+activate UI
+
+UI -> figureStatus**: Utils.rePromptWhileInvalid()
+activate figureStatus
+
+figureStatus -> UI: figureStatus
+deactivate figureStatus
+
+UI -> authcot ** : getMyActiveCustomers()
+deactivate CTRL
+        activate authcot
+            authcot --> authcot : getAuthenticationRepository()
+            activate authcot
+
+                authcot -> RepositorySingleton : getInstance()
+                activate RepositorySingleton
+
+                RepositorySingleton --> authcot : repositories
+                deactivate RepositorySingleton
+
+                authcot -> PLAT : getAuthenticationRepository()
+                activate PLAT
+
+                    PLAT --> authcot  : authenticationRepository
+                deactivate PLAT
+                    authcot --> authcot : authenticationRepository
+                    |||
+            deactivate authcot
+
+            authcot -> authenticationRepository  : getMyActiveCustomers()
+            activate authenticationRepository
+
+                authenticationRepository --> authcot : listActiveCustomers
+            deactivate authenticationRepository
+
+            authcot --> UI : listActiveCustomers
+
+        deactivate authcot
+
+  UI --> SD : optionsToSelectCustomer()
+  deactivate UI
+
+  SD -> UI : CustumerSelected
+activate UI
+
+UI -> CTRL** : create
+
+
+
+UI -> CTRL : addFigure(name, description, version, figureCategory, figureAvailability, figureStatus, costumer)
+activate CTRL
+
+
+CTRL -> figure ** : new Figure(name, description, version, figureCategory, figureAvailability, figureStatus, costumer)
+activate figure
+
+figure --> CTRL : Figure instance
+deactivate figure
+
+CTRL -> provider ** : FigureRepository()
+activate provider
+
+provider --> CTRL : repository (dynamic: inMem or jpa)
+deactivate provider
+
+alt Repository is InMemoryFigureRepository
+    CTRL -> inMem: save(figure)
+    activate inMem
+    inMem --> CTRL: Optional<Figure>
+    deactivate inMem
+
+else Repository is FigureRepositoryJPAImpl
+    CTRL -> jpa: save(figure)
+    activate jpa
+
+    jpa --> CTRL: Optional<Figure>
+    deactivate jpa
+end
+
+CTRL --> UI: Optional<Figure>
+deactivate CTRL
+
+alt Figure saved successfully
+    UI --> SD: success message
+else Save failed
+    UI --> SD: error message
+end
+
+deactivate UI
+
+deactivate UI
+
+deactivate SD
+@enduml

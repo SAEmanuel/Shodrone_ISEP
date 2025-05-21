@@ -1,0 +1,88 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SD) - Create Drone Model
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":CreateDroneModelUI" as UI
+participant "DroneModelID" as modelID
+participant "DroneName" as name
+participant "Description" as desc
+participant ":CreateDroneModelController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as provider
+participant "DroneModelRepository\n:DroneModelRepository" as interface
+participant "InMemoryDroneModelRepository" as inMem
+participant "CreateDroneModelJPAImpl" as jpa
+participant "DroneModel" as model
+
+activate DT
+
+DT -> UI : requests to create a new Drone Model with valid inputs
+activate UI
+
+UI -> modelID **: Utils.rePromptWhileInvalid()
+activate modelID
+modelID -> UI : modelID
+deactivate modelID
+
+UI -> name **: Utils.rePromptWhileInvalid()
+activate name
+name -> UI : name
+deactivate name
+
+UI -> UI : promptForDescription()
+alt hasDescription is true
+    UI -> desc **: Utils.rePromptWhileInvalid()
+    activate desc
+    desc -> UI : description
+    deactivate desc
+else
+    note right : skips description
+end
+
+UI -> UI : promptForMaxWindSpeed()
+UI -> CTRL **: create
+UI -> CTRL : createDroneModel(modelID, name, hasDescription, description, maxWindSpeed)
+activate CTRL
+
+CTRL -> model **: new DroneModel(modelID, name, description, maxWindSpeed)
+activate model
+model --> CTRL : DroneModel instance
+deactivate model
+
+CTRL -> provider ** : droneModelRepository()
+activate provider
+provider --> CTRL : repository (dynamic: inMem or jpa)
+deactivate provider
+
+alt Repository is InMemoryDroneModelRepository
+    CTRL -> inMem : save(model)
+    activate inMem
+    inMem -> inMem : containsKey(model.identity().toLowerCase())
+    inMem --> CTRL : Optional<DroneModel>
+    deactivate inMem
+else Repository is CreateDroneModelJPAImpl
+    CTRL -> jpa : save(model)
+    activate jpa
+    jpa -> jpa : findByDroneModelID(model.identity().toLowerCase())
+    jpa --> CTRL : Optional<DroneModel>
+    deactivate jpa
+end
+
+CTRL --> UI : Optional<DroneModel>
+deactivate CTRL
+
+alt Model saved successfully
+    UI --> DT : success message ("Drone Model created successfully!")
+else Save failed (duplicate modelID)
+    UI --> DT : error message ("A Drone Model with that ID already exists!")
+end
+
+deactivate UI
+deactivate DT
+
+@enduml

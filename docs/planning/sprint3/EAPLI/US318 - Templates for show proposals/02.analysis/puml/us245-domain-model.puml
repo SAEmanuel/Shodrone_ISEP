@@ -1,0 +1,50 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Figure and Category domain model section
+
+hide circles
+hide methods
+
+package "Category Aggregate" {
+
+    class FigureCategory <<AggregateRoot>> {
+    - pk <<Long>>
+    - version <<Long>>
+    - createdOn <<LocalDateTime>>
+    - updatedOn <<LocalDateTime>>
+    - active <<boolean>>
+    }
+
+    class Name <<ValueObject>> {
+    }
+
+    class Description <<ValueObject>> {
+    }
+
+    class Email <<ValueObject>> {
+    - createdBy
+    - updatedBy
+    }
+
+}
+
+
+package "Figure Aggregate" {
+    class Figure <<AggregateRoot>> {
+    }
+}
+
+
+    Figure "*" --- "1 *" FigureCategory : >
+    FigureCategory "1" --- "1" Name: >
+    FigureCategory "1" --- "1" Description: >
+    FigureCategory "1" --- "1" Email: >
+
+
+
+@enduml

@@ -1,0 +1,112 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Edit Figure Status
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":EditFigureStatusUI" as UI
+participant ":DecommissionFigureController" as CTRL
+participant ":GetAllActiveFiguresController" as FetchCtrl
+participant "RepositoryProvider" as Provider
+participant "FigureRepository" as Repo
+participant "InMemoryFigurRepository" as InMemRepo
+participant "FigureJPAImpl" as JpaRepo
+participant "Figure" as Entity
+
+
+
+activate SD
+
+SD -> UI : request to edit a Figure Status
+activate UI
+
+UI -> FetchCtrl : getAllActiveFigures()
+activate FetchCtrl
+
+FetchCtrl -> Provider** : figureRepository()
+activate Provider
+
+Provider --> FetchCtrl : FigureCategoryRepository
+deactivate Provider
+
+
+FetchCtrl -> Repo : findAllActive()
+activate Repo
+
+alt using InMemoryFigureRepository
+    Repo -> InMemRepo : findAllActive()
+    activate InMemRepo
+
+    InMemRepo --> Repo : List<Figure>
+    deactivate InMemRepo
+else using FigureJPAImpl
+    Repo -> JpaRepo : findAllActive()
+    activate JpaRepo
+
+    JpaRepo --> Repo : List<Figure>
+    deactivate JpaRepo
+end
+
+
+Repo -> FetchCtrl: Optional<List<Figure>>
+deactivate Repo
+
+
+FetchCtrl --> UI : Optional<List<Figure>>
+deactivate FetchCtrl
+
+UI -> SD : show figures to choose from
+
+SD -> UI : select figure
+UI -> CTRL : editChosenFigure(figure)
+activate CTRL
+
+
+
+CTRL -> Repo : editChosenFigure(figure)
+activate Repo
+
+alt InMemoryFigureRepository
+    Repo -> InMemRepo : editChosenFigure()
+    activate InMemRepo
+
+    InMemRepo -> Entity : decommissionFigureStatus()
+    activate Entity
+
+    Entity -> InMemRepo : Figure
+    deactivate Entity
+
+    InMemRepo --> Repo : Optional<Figure>
+else FigureJPAImpl
+    deactivate InMemRepo
+    Repo -> JpaRepo : editChosenFigure()
+    activate JpaRepo
+    JpaRepo -> JpaRepo : entityManager().find()
+    JpaRepo -> Entity : decommissionFigureStatus()
+
+    activate Entity
+
+    Entity -> JpaRepo : Figure
+    deactivate Entity
+    JpaRepo --> Repo : Optional<Figure>
+    deactivate JpaRepo
+end
+    Repo -> CTRL : Optional<Figure>
+    deactivate Repo
+
+CTRL --> UI : Optional<Figure>
+deactivate CTRL
+
+alt success
+    UI -> SD : success message
+else failure
+    UI -> SD : error message
+end
+
+deactivate UI
+deactivate SD
+@enduml

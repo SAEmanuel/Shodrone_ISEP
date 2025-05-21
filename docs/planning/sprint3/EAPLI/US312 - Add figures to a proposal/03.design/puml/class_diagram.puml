@@ -1,0 +1,90 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getShowRequestRepository() : ShowRequestRepository
+    + getAuthenticationRepository() : AuthenticationRepository
+    + getFigureRepository() : FigureRepository
+}
+
+class AuthenticationController {
+    + getMyActiveCustomers() : List<Customer>
+}
+
+class FigureController {
+    + getAvailableFiguresForCustomer(CustomerID identification) : List<Figure>
+}
+
+class RegisterShowRequestController {
+    + RegisterShowRequestController()
+    + registerShowRequest(location, date, numDrones, duration, description, listFigures, customer)
+    + getResponsible() : Email
+    + getThisTime() : LocalDateTime
+}
+
+class RegisterShowRequestUI {
+    + askToRegisterShowRequest()
+    + optionsToSelectCustomer(List<Customer> customers)
+    + optionsToSelectFigures(List<Figure> figures)
+    + requestData()
+    + showConfirmation()
+    + showsOperationSuccess()
+}
+
+class ShowRequestFactory {
+    + registerShowRequest(location, date, numDrones, duration, description, listFigures, customer, registrationTime, author) : ShowRequest
+}
+
+class ShowRequest {
+    + create(...)
+}
+
+class AuthenticationRepository {
+    + getMyActiveCustomers() : List<Customer>
+    + getCurrentUserSession() : UserSession
+}
+
+class FigureRepository {
+    + getAvailableFiguresForCustomer(CustomerID id) : List<Figure>
+}
+
+class ShowRequestRepository {
+    + add(ShowRequest showRequest)
+}
+
+class UserSession {
+    + getUserId() : Email
+}
+
+class Email {
+    + getEmail() : String
+}
+
+class LocalDateTime {
+    + now() : LocalDateTime
+}
+
+RegisterShowRequestUI ..> RegisterShowRequestController
+RegisterShowRequestController ..> Repositories : repositories
+Repositories --> "1" ShowRequestRepository
+Repositories --> "1" AuthenticationRepository
+Repositories --> "1" FigureRepository
+
+RegisterShowRequestController ..> AuthenticationRepository
+AuthenticationController ..> AuthenticationRepository
+AuthenticationRepository --> UserSession
+UserSession --> Email
+
+RegisterShowRequestController ..> ShowRequestFactory
+ShowRequestFactory --> ShowRequest
+
+RegisterShowRequestController ..> LocalDateTime
+
+FigureController ..> FigureRepository
+
+@enduml

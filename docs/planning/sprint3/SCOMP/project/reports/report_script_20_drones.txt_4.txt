@@ -1,0 +1,262 @@
+╔══════════════════════════════════════════════════╗
+║                DRONE SIMULATION REPORT           ║
+╠══════════════════════════════════════════════════╣
+║ Date & Time:    2025-05-18 09:38:14
+║ Simulation:     script_20_drones.txt
+╠══════════════════════════════════════════════════╣
+║ Drones:         20
+║ Total Ticks:    10
+║ Max Collisions: 2
+║ Collisions:     4
+║ Final Status:   ❌ REJECTED
+╠══════════════════════════════════════════════════╣
+║ Environmental Conditions:
+║   Wind East:   ON  (Intensity: 2)
+║   Rain:        OFF
+╚══════════════════════════════════════════════════╝
+
+─── Detailed Timeline ───
+
+Tick 0:
+  🚁 Drone 0: (8, 5, 5)
+  🚁 Drone 1: (11, 4, 4)
+  🚁 Drone 2: (7, 0, 2)
+  🚁 Drone 3: (4, 8, 2)
+  🚁 Drone 4: (3, 5, 5)
+  🚁 Drone 5: (2, 0, 4)
+  🚁 Drone 6: (8, 1, 4)
+  🚁 Drone 7: (12, 8, 9)
+  🚁 Drone 8: (1, 7, 1)
+  🚁 Drone 9: (3, 4, 2)
+  🚁 Drone 10: (19, 25, 35)
+  🚁 Drone 11: (20, 24, 34)
+  🚁 Drone 12: (18, 20, 32)
+  🚁 Drone 13: (12, 28, 32)
+  🚁 Drone 14: (12, 25, 35)
+  🚁 Drone 15: (11, 20, 34)
+  🚁 Drone 16: (17, 21, 34)
+  🚁 Drone 17: (10, 28, 39)
+  🚁 Drone 18: (11, 27, 31)
+  🚁 Drone 19: (14, 24, 32)
+
+Tick 1:
+  🚁 Drone 0: (9, 0, 1)
+  🚁 Drone 1: (4, 4, 2)
+  🚁 Drone 2: (5, 9, 4)
+  🚁 Drone 3: (4, 6, 1)
+  🚁 Drone 4: (7, 0, 5)
+  🚁 Drone 5: (4, 8, 5)
+  🚁 Drone 6: (4, 6, 5)
+  🚁 Drone 7: (5, 7, 5)
+  🚁 Drone 8: (9, 2, 1)
+  🚁 Drone 9: (7, 9, 1)
+  🚁 Drone 10: (17, 20, 31)
+  🚁 Drone 11: (15, 24, 32)
+  🚁 Drone 12: (16, 29, 34)
+  🚁 Drone 13: (14, 26, 31)
+  🚁 Drone 14: (18, 20, 35)
+  🚁 Drone 15: (13, 28, 35)
+  🚁 Drone 16: (13, 26, 35)
+  🚁 Drone 17: (16, 27, 35)
+  🚁 Drone 18: (18, 22, 31)
+  🚁 Drone 19: (18, 29, 31)
+
+Tick 2:
+  🚁 Drone 0: (8, 0, 4)
+  🚁 Drone 1: (8, 5, 2)
+  🚁 Drone 2: (9, 9, 1)
+  🚁 Drone 3: (7, 2, 2)
+  🚁 Drone 4: (6, 3, 1)
+  🚁 Drone 5: (6, 9, 2)
+  🚁 Drone 6: (11, 10, 2)
+  🚁 Drone 7: (3, 10, 5)
+  🚁 Drone 8: (10, 9, 5)
+  🚁 Drone 9: (3, 4, 2)
+  🚁 Drone 10: (18, 20, 34)
+  🚁 Drone 11: (17, 25, 32)
+  🚁 Drone 12: (19, 29, 31)
+  🚁 Drone 13: (16, 22, 32)
+  🚁 Drone 14: (15, 23, 31)
+  🚁 Drone 15: (17, 29, 32)
+  🚁 Drone 16: (12, 20, 32)
+  🚁 Drone 17: (13, 12, 35)
+  🚁 Drone 18: (10, 29, 35)
+  🚁 Drone 19: (13, 24, 32)
+
+Tick 3:
+  🚁 Drone 0: (9, 3, 11)
+  🚁 Drone 1: (2, 5, 15)
+  🚁 Drone 2: (1, 5, 5)
+  🚁 Drone 3: (7, 7, 1)
+  🚁 Drone 4: (3, 3, 1)
+  🚁 Drone 5: (8, 7, 5)
+  🚁 Drone 6: (1, 9, 3)
+  🚁 Drone 7: (8, 3, 1)
+  🚁 Drone 8: (6, 4, 2)
+  🚁 Drone 9: (6, 0, 4)
+  🚁 Drone 10: (20, 23, 11)
+  🚁 Drone 11: (12, 25, 35)
+  🚁 Drone 12: (11, 25, 35)
+  🚁 Drone 13: (17, 27, 31)
+  🚁 Drone 14: (14, 23, 31)
+  🚁 Drone 15: (19, 27, 35)
+  🚁 Drone 16: (11, 29, 33)
+  🚁 Drone 17: (19, 23, 31)
+  🚁 Drone 18: (15, 24, 32)
+  🚁 Drone 19: (16, 20, 34)
+  💥 Collision detected between drone [11] and [12]
+
+Tick 4:
+  🚁 Drone 0: (10, 1, 10)
+  🚁 Drone 1: (8, 7, 2)
+  🚁 Drone 2: (8, 8, 1)
+  🚁 Drone 3: (2, 5, 6)
+  🚁 Drone 4: (4, 4, 1)
+  🚁 Drone 5: (1, 4, 4)
+  🚁 Drone 6: (8, 3, 8)
+  🚁 Drone 7: (8, 5, 5)
+  🚁 Drone 8: (8, 1, 1)
+  🚁 Drone 9: (9, 2, 1)
+  🚁 Drone 10: (11, 12, 30)
+  🚁 Drone 11: (11, 12, 30)
+  🚁 Drone 12: (11, 12, 30)
+  🚁 Drone 13: (11, 25, 36)
+  🚁 Drone 14: (15, 24, 31)
+  🚁 Drone 15: (10, 24, 34)
+  🚁 Drone 16: (18, 23, 38)
+  🚁 Drone 17: (20, 25, 35)
+  🚁 Drone 18: (18, 21, 31)
+  🚁 Drone 19: (20, 22, 31)
+
+Tick 5:
+  🚁 Drone 0: (2, 8, 5)
+  🚁 Drone 1: (4, 1, 2)
+  🚁 Drone 2: (4, 8, 1)
+  🚁 Drone 3: (3, 7, 1)
+  🚁 Drone 4: (11, 8, 3)
+  🚁 Drone 5: (8, 6, 4)
+  🚁 Drone 6: (2, 2, 5)
+  🚁 Drone 7: (10, 1, 1)
+  🚁 Drone 8: (12, 6, 2)
+  🚁 Drone 9: (2, 3, 1)
+  🚁 Drone 10: (11, 28, 35)
+  🚁 Drone 11: (11, 28, 35)
+  🚁 Drone 12: (11, 28, 35)
+  🚁 Drone 13: (13, 27, 31)
+  🚁 Drone 14: (11, 28, 33)
+  🚁 Drone 15: (17, 26, 34)
+  🚁 Drone 16: (12, 22, 35)
+  🚁 Drone 17: (20, 21, 31)
+  🚁 Drone 18: (10, 26, 32)
+  🚁 Drone 19: (13, 23, 31)
+
+Tick 6:
+  🚁 Drone 0: (11, 9, 1)
+  🚁 Drone 1: (5, 5, 4)
+  🚁 Drone 2: (7, 4, 1)
+  🚁 Drone 3: (10, 7, 2)
+  🚁 Drone 4: (2, 7, 8)
+  🚁 Drone 5: (9, 4, 2)
+  🚁 Drone 6: (8, 6, 1)
+  🚁 Drone 7: (6, 6, 1)
+  🚁 Drone 8: (5, 9, 1)
+  🚁 Drone 9: (3, 0, 5)
+  🚁 Drone 10: (21, 29, 31)
+  🚁 Drone 11: (21, 29, 31)
+  🚁 Drone 12: (21, 29, 31)
+  🚁 Drone 13: (20, 27, 32)
+  🚁 Drone 14: (12, 27, 38)
+  🚁 Drone 15: (20, 24, 32)
+  🚁 Drone 16: (19, 26, 31)
+  🚁 Drone 17: (15, 26, 31)
+  🚁 Drone 18: (15, 29, 31)
+  🚁 Drone 19: (14, 20, 35)
+
+Tick 7:
+  🚁 Drone 0: (2, 3, 3)
+  🚁 Drone 1: (8, 8, 10)
+  🚁 Drone 2: (6, 0, 5)
+  🚁 Drone 3: (6, 1, 9)
+  🚁 Drone 4: (9, 0, 4)
+  🚁 Drone 5: (3, 1, 3)
+  🚁 Drone 6: (4, 5, 2)
+  🚁 Drone 7: (5, 8, 1)
+  🚁 Drone 8: (4, 3, 2)
+  🚁 Drone 9: (10, 1, 4)
+  🚁 Drone 10: (11, 23, 33)
+  🚁 Drone 11: (11, 23, 33)
+  🚁 Drone 12: (11, 23, 33)
+  🚁 Drone 13: (16, 21, 39)
+  🚁 Drone 14: (21, 20, 34)
+  🚁 Drone 15: (12, 21, 33)
+  🚁 Drone 16: (14, 25, 32)
+  🚁 Drone 17: (16, 28, 31)
+  🚁 Drone 18: (14, 23, 32)
+  🚁 Drone 19: (10, 21, 34)
+
+Tick 8:
+  🚁 Drone 0: (11, 4, 1)
+  🚁 Drone 1: (5, 10, 4)
+  🚁 Drone 2: (10, 9, 2)
+  🚁 Drone 3: (9, 5, 1)
+  🚁 Drone 4: (10, 7, 2)
+  🚁 Drone 5: (4, 2, 4)
+  🚁 Drone 6: (3, 1, 10)
+  🚁 Drone 7: (6, 7, 4)
+  🚁 Drone 8: (4, 5, 3)
+  🚁 Drone 9: (1, 1, 2)
+  🚁 Drone 10: (20, 24, 31)
+  🚁 Drone 11: (20, 24, 31)
+  🚁 Drone 12: (20, 24, 31)
+  🚁 Drone 13: (20, 25, 31)
+  🚁 Drone 14: (12, 27, 32)
+  🚁 Drone 15: (14, 22, 34)
+  🚁 Drone 16: (12, 21, 10)
+  🚁 Drone 17: (12, 21, 32)
+  🚁 Drone 18: (11, 21, 32)
+  🚁 Drone 19: (13, 21, 32)
+  💥 Collision detected between drone [10] and [13]
+  💥 Collision detected between drone [17] and [18]
+  💥 Collision detected between drone [17] and [19]
+
+Tick 9:
+  🚁 Drone 0: (-1, -1, -1)
+  🏠 Drone 0 has returned to base
+  🚁 Drone 1: (-1, -1, -1)
+  🏠 Drone 1 has returned to base
+  🚁 Drone 2: (-1, -1, -1)
+  🏠 Drone 2 has returned to base
+  🚁 Drone 3: (-1, -1, -1)
+  🏠 Drone 3 has returned to base
+  🚁 Drone 4: (-1, -1, -1)
+  🏠 Drone 4 has returned to base
+  🚁 Drone 5: (-1, -1, -1)
+  🏠 Drone 5 has returned to base
+  🚁 Drone 6: (-1, -1, -1)
+  🏠 Drone 6 has returned to base
+  🚁 Drone 7: (-1, -1, -1)
+  🏠 Drone 7 has returned to base
+  🚁 Drone 8: (-1, -1, -1)
+  🏠 Drone 8 has returned to base
+  🚁 Drone 9: (-1, -1, -1)
+  🏠 Drone 9 has returned to base
+  🚁 Drone 10: (-1, -1, -1)
+  🏠 Drone 10 has returned to base
+  🚁 Drone 11: (-1, -1, -1)
+  🏠 Drone 11 has returned to base
+  🚁 Drone 12: (-1, -1, -1)
+  🏠 Drone 12 has returned to base
+  🚁 Drone 13: (-1, -1, -1)
+  🏠 Drone 13 has returned to base
+  🚁 Drone 14: (-1, -1, -1)
+  🏠 Drone 14 has returned to base
+  🚁 Drone 15: (-1, -1, -1)
+  🏠 Drone 15 has returned to base
+  🚁 Drone 16: (-1, -1, -1)
+  🏠 Drone 16 has returned to base
+  🚁 Drone 17: (-1, -1, -1)
+  🏠 Drone 17 has returned to base
+  🚁 Drone 18: (-1, -1, -1)
+  🏠 Drone 18 has returned to base
+  🚁 Drone 19: (-1, -1, -1)
+  🏠 Drone 19 has returned to base
