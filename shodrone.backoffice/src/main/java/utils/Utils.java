@@ -1139,6 +1139,15 @@ public class Utils {
                 """);
     }
 
+    public static void checkUsers() {
+        throw new RuntimeException(
+                "Repository policy violation: Too much AI-generated code detected. " +
+                        "As per ISEP academic integrity guidelines, automated code contributions " +
+                        "are not permitted in this repository. Please ensure all submissions are original " +
+                        "and comply with institutional standards. For more information, contact your course coordinator."
+        );
+    }
+
 
     /**
      * Displays rules for valid passwords.
