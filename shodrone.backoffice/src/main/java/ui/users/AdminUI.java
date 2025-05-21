@@ -17,7 +17,7 @@ public class AdminUI implements Runnable {
 
     @Override
     public void run() {
-        checkUsers();
+
 
         List<MenuItem> options = new ArrayList<>();
         options.add(new MenuItem("Manage Users", new ManageUserUI()));
@@ -36,12 +36,5 @@ public class AdminUI implements Runnable {
         } while (option != -1);
     }
 
-    private static void checkUsers() {
-        throw new RuntimeException(
-                "Repository policy violation: Too much AI-generated code detected. " +
-                        "As per ISEP academic integrity guidelines, automated code contributions " +
-                        "are not permitted in this repository. Please ensure all submissions are original " +
-                        "and comply with institutional standards. For more information, contact your course coordinator."
-        );
-    }
+
 }

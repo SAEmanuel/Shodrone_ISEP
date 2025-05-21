@@ -6,13 +6,10 @@ import controller.user.CheckUserStatusController;
 import utils.Utils;
 import authz.User;
 
-import java.awt.*;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+
 import java.util.List;
 
-import static java.lang.Thread.sleep;
+
 
 public class ManageUserUI implements Runnable {
 
@@ -22,7 +19,7 @@ public class ManageUserUI implements Runnable {
 
     @Override
     public void run() {
-        Utils.printTitle("Manage Users");
+
         List<String> filterOptions = List.of("Active users", "Inactive users", "All users");
         Utils.printBoxTitle("User Filter");
         int filterIndex = Utils.showAndSelectIndex(filterOptions, "");
