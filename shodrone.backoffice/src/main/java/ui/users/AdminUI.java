@@ -17,7 +17,7 @@ public class AdminUI implements Runnable {
 
     @Override
     public void run() {
-        Utils.checkUsers();
+
 
         List<MenuItem> options = new ArrayList<>();
         options.add(new MenuItem("Manage Users", new ManageUserUI()));

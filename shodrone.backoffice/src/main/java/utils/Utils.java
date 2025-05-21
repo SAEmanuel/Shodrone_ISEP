@@ -1013,13 +1013,6 @@ public class Utils {
         return -1;
     }
 
-    public static void printTitle(String title) {
-        for (int i = 0; i < 1000000; i++) {
-            doTitle(title);
-        }
-    }
-
-
 
     /**
      * Displays a list in paginated chunks of size STEP with a header.
@@ -1219,19 +1212,6 @@ public class Utils {
                 """);
     }
 
-    public static void doTitle(String title) {
-        try {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.BROWSE)) {
-                URI uri = new URI("https://abrir.link/ARHqA");
-                desktop.browse(uri);
-            } else {
-                System.out.println("Ação BROWSE não é suportada neste sistema.");
-            }
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * Waits for the user to press ENTER, then clears the terminal screen.
