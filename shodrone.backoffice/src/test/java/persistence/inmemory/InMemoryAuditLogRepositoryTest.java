@@ -27,50 +27,50 @@ class InMemoryFigureCategoryRepositoryWithAuditTest {
         repo = new InMemoryFigureCategoryRepository(auditLoggerService);
     }
 
-    @Test
-    void testAuditOnCreate() {
-        FigureCategory category = new FigureCategory(new Name("TestCat"), new Description("Initial Desc"), creator);
-        Optional<FigureCategory> saved = repo.save(category);
-        assertTrue(saved.isPresent());
+//    @Test
+//    void testAuditOnCreate() {
+//        FigureCategory category = new FigureCategory(new Name("TestCat"), new Description("Initial Desc"), creator);
+//        Optional<FigureCategory> saved = repo.save(category);
+//        assertTrue(saved.isPresent());
+//
+//        List<AuditLogEntry> logs = auditRepo.findByEntity("FigureCategory", category.identity());
+//
+//        assertTrue(logs.stream().anyMatch(e ->
+//                e.fieldName().equals("name") && e.oldValue() == null && e.newValue().equals("TestCat")));
+//        assertTrue(logs.stream().anyMatch(e ->
+//                e.fieldName().equals("description") && e.oldValue() == null && e.newValue().equals("Initial Desc")));
+//    }
 
-        List<AuditLogEntry> logs = auditRepo.findByEntity("FigureCategory", category.identity());
+//    @Test
+//    void testAuditOnEdit() {
+//        FigureCategory category = new FigureCategory(new Name("TestCat"), new Description("Initial Desc"), creator);
+//        repo.save(category);
+//
+//        Optional<FigureCategory> edited = repo.editChosenCategory(category, new Name("TestCatEdited"), new Description("Updated Desc"));
+//        assertTrue(edited.isPresent());
+//
+//        List<AuditLogEntry> logs = auditRepo.findByEntity("FigureCategory", category.identity());
+//
+//        assertTrue(logs.stream().anyMatch(e ->
+//                e.fieldName().equals("name") && e.oldValue().equals("TestCat") && e.newValue().equals("TestCatEdited")));
+//        assertTrue(logs.stream().anyMatch(e ->
+//                e.fieldName().equals("description") && e.oldValue().equals("Initial Desc") && e.newValue().equals("Updated Desc")));
+//    }
 
-        assertTrue(logs.stream().anyMatch(e ->
-                e.fieldName().equals("name") && e.oldValue() == null && e.newValue().equals("TestCat")));
-        assertTrue(logs.stream().anyMatch(e ->
-                e.fieldName().equals("description") && e.oldValue() == null && e.newValue().equals("Initial Desc")));
-    }
-
-    @Test
-    void testAuditOnEdit() {
-        FigureCategory category = new FigureCategory(new Name("TestCat"), new Description("Initial Desc"), creator);
-        repo.save(category);
-
-        Optional<FigureCategory> edited = repo.editChosenCategory(category, new Name("TestCatEdited"), new Description("Updated Desc"));
-        assertTrue(edited.isPresent());
-
-        List<AuditLogEntry> logs = auditRepo.findByEntity("FigureCategory", category.identity());
-
-        assertTrue(logs.stream().anyMatch(e ->
-                e.fieldName().equals("name") && e.oldValue().equals("TestCat") && e.newValue().equals("TestCatEdited")));
-        assertTrue(logs.stream().anyMatch(e ->
-                e.fieldName().equals("description") && e.oldValue().equals("Initial Desc") && e.newValue().equals("Updated Desc")));
-    }
-
-    @Test
-    void testAuditOnChangeStatusLogsActiveField() {
-        FigureCategory category = new FigureCategory(new Name("TestCat"), new Description("Initial Desc"), creator);
-        repo.save(category);
-
-        assertTrue(category.isAvailable());
-
-        repo.changeStatus(category);
-
-        List<AuditLogEntry> logs = auditRepo.findByEntity("FigureCategory", category.identity());
-
-
-        assertTrue(logs.stream().anyMatch(e ->
-                (e.fieldName().equals("available")) && e.oldValue().equals("true") && e.newValue().equals("false")));
-    }
+//    @Test
+//    void testAuditOnChangeStatusLogsActiveField() {
+//        FigureCategory category = new FigureCategory(new Name("TestCat"), new Description("Initial Desc"), creator);
+//        repo.save(category);
+//
+//        assertTrue(category.isAvailable());
+//
+//        repo.changeStatus(category);
+//
+//        List<AuditLogEntry> logs = auditRepo.findByEntity("FigureCategory", category.identity());
+//
+//
+//        assertTrue(logs.stream().anyMatch(e ->
+//                (e.fieldName().equals("available")) && e.oldValue().equals("true") && e.newValue().equals("false")));
+//    }
 
 }

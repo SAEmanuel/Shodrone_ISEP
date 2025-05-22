@@ -1,17 +1,15 @@
 package persistence.jpa.JPAImpl;
 
-import authz.Email;
+
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
-import domain.valueObjects.Description;
-import domain.valueObjects.Name;
+import domain.entity.ShowRequest;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.jpa.JpaBaseRepository;
-import utils.AuthUtils;
+
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+
 
 /**
  * JPA implementation of the FigureCategoryRepository.
@@ -20,18 +18,12 @@ import java.util.Set;
 public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Long>
         implements FigureCategoryRepository {
 
-    private final AuditLoggerService auditLoggerService;
-    private static final Set<String> AUDIT_FIELDS_CHANGE = Set.of("name", "description", "available");
-    private static final Set<String> AUDIT_FIELDS_CREATION = Set.of("name", "description");
 
     /**
-     * Constructs the repository with the given audit logger service.
-     *
-     * @param auditLoggerService the service used for auditing changes
+     * Constructs the repository .
      */
-    public FigureCategoryJPAImpl(AuditLoggerService auditLoggerService) {
+    public FigureCategoryJPAImpl() {
         super();
-        this.auditLoggerService = auditLoggerService;
     }
 
     /**
@@ -46,7 +38,6 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
         Optional<FigureCategory> checkExistence = findByName(category.identity());
         if (checkExistence.isEmpty()) {
             FigureCategory saved = this.add(category);
-            auditLoggerService.logCreation(saved, saved.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CREATION);
             return Optional.of(saved);
         }
         return Optional.empty();
@@ -96,85 +87,20 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                 .getResultList();
     }
 
-    /**
-     * Edits the selected figure category, updating its name and/or description.
-     * Audits the changes.
-     *
-     * @param category      the category to edit
-     * @param newName       the new name, or null to keep current
-     * @param newDescription the new description, or null to keep current
-     * @return an Optional containing the updated category, or empty if not found
-     */
     @Override
-    public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
-        try {
-            FigureCategory managed = entityManager().find(FigureCategory.class, category.id());
-
-            if (managed == null) {
-                return Optional.empty();
-            }
-
-            FigureCategory oldState = new FigureCategory(managed.name(), managed.description(), managed.createdBy());
-            oldState.setUpdatedBy(managed.updatedBy());
-
-            entityManager().getTransaction().begin();
-            if (newName != null) {
-                managed.changeCategoryNameTo(newName);
-            }
-            if (newDescription != null) {
-                managed.changeDescriptionTo(newDescription);
-            }
-            managed.updateTime();
-            managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-            entityManager().getTransaction().commit();
-
-            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
-
-            return Optional.of(managed);
-        } catch (Exception e) {
-            if (entityManager().getTransaction().isActive()) {
-                entityManager().getTransaction().rollback();
-            }
-            e.printStackTrace();
+    public Optional<FigureCategory> updateFigureCategory(FigureCategory category) {
+        if (category == null || category.identity() == null) {
             return Optional.empty();
         }
-    }
 
-    /**
-     * Changes the status (available/unavailable) of the selected figure category.
-     * Audits the change.
-     *
-     * @param category the category to change status
-     * @return an Optional containing the updated category, or empty if not found
-     */
-    @Override
-    public Optional<FigureCategory> changeStatus(FigureCategory category) {
-        try {
-            FigureCategory managed = entityManager().find(FigureCategory.class, category.id());
-
-            if (managed == null) {
-                return Optional.empty();
-            }
-
-            FigureCategory oldState = new FigureCategory(managed.name(), managed.description(), managed.createdBy());
-            oldState.setUpdatedBy(managed.updatedBy());
-
-            entityManager().getTransaction().begin();
-
-            managed.updateTime();
-            managed.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-            managed.toggleState();
-            entityManager().getTransaction().commit();
-
-            auditLoggerService.logChanges(oldState, managed, managed.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
-
-            return Optional.of(managed);
-        } catch (Exception e) {
-            if (entityManager().getTransaction().isActive()) {
-                entityManager().getTransaction().rollback();
-            }
-            e.printStackTrace();
+        Optional<FigureCategory> existing = Optional.ofNullable(findById(category.id()));
+        if (existing.isEmpty()) {
             return Optional.empty();
         }
+
+        FigureCategory updated = update(category);
+        return Optional.ofNullable(updated);
     }
 }
+
+

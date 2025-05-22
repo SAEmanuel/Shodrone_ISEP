@@ -81,6 +81,10 @@ public class RepositoryProvider {
         }
         auditLoggerService = new AuditLoggerService(auditLogRepository);
     }
+
+    public static AuditLoggerService auditLoggerService() {
+        return auditLoggerService;
+    }
     /**
      * Retrieves the figure category repository.
      *
@@ -91,7 +95,7 @@ public class RepositoryProvider {
             if (isInMemory()) {
                 figureCategoryRepository = new InMemoryFigureCategoryRepository(auditLoggerService);
             } else {
-                figureCategoryRepository = new FigureCategoryJPAImpl(auditLoggerService);
+                figureCategoryRepository = new FigureCategoryJPAImpl();
             }
         }
         return figureCategoryRepository;

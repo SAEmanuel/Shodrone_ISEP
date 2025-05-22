@@ -1,12 +1,11 @@
 package persistence.inmemory;
 
-import authz.Email;
+
 import domain.entity.FigureCategory;
 import domain.history.AuditLoggerService;
-import domain.valueObjects.Description;
-import domain.valueObjects.Name;
+
 import persistence.interfaces.FigureCategoryRepository;
-import utils.AuthUtils;
+
 
 import java.util.*;
 
@@ -16,9 +15,6 @@ import java.util.*;
  */
 public class InMemoryFigureCategoryRepository implements FigureCategoryRepository {
     private final Map<String, FigureCategory> store = new HashMap<>();
-    private final AuditLoggerService auditLoggerService;
-    private static final Set<String> AUDIT_FIELDS_CHANGE = Set.of("name", "description", "available");
-    private static final Set<String> AUDIT_FIELDS_CREATION = Set.of("name", "description");
 
     /**
      * Constructs the repository with the given audit logger service.
@@ -27,7 +23,6 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
      */
     public InMemoryFigureCategoryRepository(AuditLoggerService auditLoggerService) {
         super();
-        this.auditLoggerService = auditLoggerService;
     }
 
     /**
@@ -44,7 +39,6 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
             return Optional.empty();
         } else {
             store.put(key, category);
-            auditLoggerService.logCreation(category, category.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CREATION);
             return Optional.of(category);
         }
     }
@@ -88,69 +82,8 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
         return activeCategories;
     }
 
-    /**
-     * Edits the selected figure category, updating its name and/or description.
-     * Audits the changes.
-     *
-     * @param category      the category to edit
-     * @param newName       the new name, or null to keep current
-     * @param newDescription the new description, or null to keep current
-     * @return an Optional containing the updated category, or empty if not found
-     */
     @Override
-    public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
-        Optional<FigureCategory> categoryOptional = findByName(category.identity());
-
-        if (categoryOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        FigureCategory existing = categoryOptional.get();
-
-        FigureCategory oldState = new FigureCategory(existing.name(), existing.description(), existing.createdBy());
-        oldState.setUpdatedBy(existing.updatedBy());
-
-        existing.updateTime();
-        existing.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-
-        if (newName != null) {
-            existing.changeCategoryNameTo(newName);
-        }
-        if (newDescription != null) {
-            existing.changeDescriptionTo(newDescription);
-        }
-
-        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
-
-        return Optional.of(existing);
-    }
-
-    /**
-     * Changes the status (available/unavailable) of the selected figure category.
-     * Audits the change.
-     *
-     * @param category the category to change status
-     * @return an Optional containing the updated category, or empty if not found
-     */
-    @Override
-    public Optional<FigureCategory> changeStatus(FigureCategory category) {
-        Optional<FigureCategory> categoryOptional = findByName(category.identity());
-
-        if (categoryOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        FigureCategory existing = categoryOptional.get();
-
-        FigureCategory oldState = new FigureCategory(existing.name(), existing.description(), existing.createdBy());
-        oldState.setUpdatedBy(existing.updatedBy());
-
-        existing.updateTime();
-        existing.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-        existing.toggleState();
-
-        auditLoggerService.logChanges(oldState, existing, existing.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS_CHANGE);
-
-        return Optional.of(existing);
+    public Optional<FigureCategory> updateFigureCategory(FigureCategory category) {
+        return Optional.empty();
     }
 }
