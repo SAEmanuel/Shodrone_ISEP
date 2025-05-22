@@ -39,12 +39,12 @@ public class EditFigureCategoryController {
      * @return an Optional containing the updated FigureCategory, or empty if the operation failed
      */
     public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
-        AtomicReference<FigureCategory> oldState = new AtomicReference<>(category);
+        FigureCategory oldState = category.copy();
         if (newName != null)
             category.changeCategoryNameTo(newName);
         if (newDescription != null)
             category.changeDescriptionTo(newDescription);
-        auditLoggerService.logChanges(oldState.get(), category, category.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
+        auditLoggerService.logChanges(oldState, category, category.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
         return repository.updateFigureCategory(category);
     }
 }

@@ -33,9 +33,9 @@ public class ChangeFigureCategoryStatusController {
      * @return an Optional containing the updated FigureCategory, or empty if the operation failed
      */
     public Optional<FigureCategory> changeStatus(FigureCategory selectedCategory) {
-        AtomicReference<FigureCategory> oldState = new AtomicReference<>(selectedCategory);
+        FigureCategory oldState = selectedCategory.copy();
         selectedCategory.toggleState();
-        auditLoggerService.logChanges(oldState.get(), selectedCategory, selectedCategory.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
+        auditLoggerService.logChanges(oldState, selectedCategory, selectedCategory.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
         return repository.updateFigureCategory(selectedCategory);
     }
 }

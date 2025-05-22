@@ -52,6 +52,7 @@ public class AddFigureCategoryController {
      */
     public Optional<FigureCategory> addFigureCategoryWithName(Name name, Email createdBy) {
         FigureCategory category = new FigureCategory(name, createdBy);
+        auditLoggerService.logCreation(category, category.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
         return repository.save(category);
     }
 }
