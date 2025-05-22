@@ -16,7 +16,7 @@ public interface FigureCategoryRepository {
 
     List<FigureCategory> findActiveCategories();
 
-    Optional<FigureCategory> updateFigureCategory(FigureCategory category);
+    Optional<FigureCategory> updateFigureCategory(FigureCategory category, String oldKey);
 
 
 

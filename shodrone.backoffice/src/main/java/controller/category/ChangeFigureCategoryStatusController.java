@@ -33,9 +33,10 @@ public class ChangeFigureCategoryStatusController {
      * @return an Optional containing the updated FigureCategory, or empty if the operation failed
      */
     public Optional<FigureCategory> changeStatus(FigureCategory selectedCategory) {
+        String oldKey = selectedCategory.identity();
         FigureCategory oldState = selectedCategory.copy();
         selectedCategory.toggleState();
         auditLoggerService.logChanges(oldState, selectedCategory, selectedCategory.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
-        return repository.updateFigureCategory(selectedCategory);
+        return repository.updateFigureCategory(selectedCategory, oldKey);
     }
 }

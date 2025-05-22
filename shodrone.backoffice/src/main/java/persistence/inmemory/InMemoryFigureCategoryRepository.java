@@ -83,7 +83,10 @@ public class InMemoryFigureCategoryRepository implements FigureCategoryRepositor
     }
 
     @Override
-    public Optional<FigureCategory> updateFigureCategory(FigureCategory category) {
-        return Optional.empty();
+    public Optional<FigureCategory> updateFigureCategory(FigureCategory category, String oldKey) {
+        String newKey = category.identity().toLowerCase();
+        store.remove(oldKey.toLowerCase());
+        store.put(newKey, category);
+        return Optional.of(category);
     }
 }

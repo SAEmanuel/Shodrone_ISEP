@@ -40,11 +40,12 @@ public class EditFigureCategoryController {
      */
     public Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription) {
         FigureCategory oldState = category.copy();
+        String oldValue = category.identity();
         if (newName != null)
             category.changeCategoryNameTo(newName);
         if (newDescription != null)
             category.changeDescriptionTo(newDescription);
         auditLoggerService.logChanges(oldState, category, category.identity(), AuthUtils.getCurrentUserEmail(), AUDIT_FIELDS);
-        return repository.updateFigureCategory(category);
+        return repository.updateFigureCategory(category,oldValue);
     }
 }

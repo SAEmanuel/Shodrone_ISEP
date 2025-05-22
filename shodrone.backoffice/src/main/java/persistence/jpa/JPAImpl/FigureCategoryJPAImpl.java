@@ -88,7 +88,7 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
     }
 
     @Override
-    public Optional<FigureCategory> updateFigureCategory(FigureCategory category) {
+    public Optional<FigureCategory> updateFigureCategory(FigureCategory category, String oldKey) {
         if (category == null || category.identity() == null) {
             return Optional.empty();
         }
