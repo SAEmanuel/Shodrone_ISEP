@@ -4,23 +4,16 @@
 #include <time.h>
 #include <unistd.h>
 #include <environment.h>
+#include <semaphore.h>
 #include "drone.h"
-#include "position.h"
+#include "data.h"
 
 
-void transfer_environmental_effects(Environment* environment, int pipe_fd) {
-    ssize_t bytes_written = write(pipe_fd, environment, sizeof(Environment));
-    if (bytes_written == -1) {
-        perror("Father failed to write to pipe");
-        exit(EXIT_FAILURE);
-    }
 
-    if (bytes_written != sizeof(Environment)) {
-        fprintf(stderr, "Incomplete write to pipe (expected %zu, got %zd bytes)\n",
-                sizeof(Environment), bytes_written);
-        exit(EXIT_FAILURE);
-    }
+void transfer_environmental_effects(Environment* environment, Shared_data* shared_mem) {
+    shared_mem->environment = *environment;
 }
+
 
 
 void read_enviroment_info(Environment* environment) {
@@ -93,9 +86,25 @@ void read_enviroment_info(Environment* environment) {
 }
 
 
+
 int rand_inclusive(int max) {
     if (max <= 0) return 0;
-    return rand() % (max + 1);
+
+    uint32_t random_value;
+    int fd = open("/dev/urandom", O_RDONLY);
+    if (fd < 0) {
+        perror("Error opening /dev/urandom");
+        return 0;
+    }
+
+    if (read(fd, &random_value, sizeof(random_value)) != sizeof(random_value)) {
+        perror("Error reading /dev/urandom");
+        close(fd);
+        return 0;
+    }
+
+    close(fd);
+    return random_value % (max + 1); 
 }
 
 void apply_environment_effects(Environment* env, Position* pos) {

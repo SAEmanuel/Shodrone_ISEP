@@ -6,261 +6,210 @@
 #include <sys/select.h>
 #include <string.h>
 #include <time.h>
+#include <semaphore.h>
+#include <sys/mman.h>
+#include <pthread.h>
 #include "data.h"
 #include "report.h"
 #include "drone.h"
 #include "simulation.h"
 #include "ui.h"
 #include "environment.h"
-#include "position.h"
 
-const int EXTRA_TICK_FOR_END = 1;
 
 int run_simulation(char* argv, float percentage)
 {
     Environment environment;
     read_enviroment_info(&environment);
 
+
     char filename[256];
     snprintf(filename, sizeof(filename), "scripts/%s", argv);
 
-    int num_drones = get_drone_number_from_file(filename);
-    int max_collisions = calculate_acceptable_collision_number(num_drones, percentage);
+    int total_drones = get_drone_number_from_file(filename);
+    int max_collisions = calculate_acceptable_collision_number(total_drones, percentage);
     int collision_counter = 0;
 
-    if (num_drones <= 0) {
+    if (total_drones <= 0) {
         fprintf(stderr, "Invalid or unreadable script file: %s\n", filename);
         return 1;
     }
 
-    DroneInformation *drones_info = calloc(num_drones, sizeof(DroneInformation));
-    fill_info(filename, drones_info, num_drones);
+    DroneInformation *drones_info = calloc(total_drones, sizeof(DroneInformation));
+    fill_info(filename, drones_info, total_drones);
 
     int total_ticks = get_total_ticks_from_file(filename);
     if (total_ticks <= 0) {
         fprintf(stderr, "Failed to determine total ticks\n");
-        free(drones_info);
         return 1;
     }
 
-    int position_pipes[num_drones][2];
-    int environment_pipes[num_drones][2];
-    pid_t pids[num_drones];
+    int fd;
+    Shared_data* shared_mem;
+    init_shared_zone(&fd, &shared_mem);
 
-    Report report_of_simulation = {
-        .num_drones = num_drones,
-        .total_ticks = total_ticks,
-        .collisions = 0,
-        .passed = 1,
-        .max_collisions = max_collisions
-    };
+    sem_t* sem_child[total_drones];
+    sem_t* sem_parent;
 
+    char sem_name[32];
+
+    sem_unlink("/sem_parent");
+
+    if ((sem_parent = sem_open("/sem_parent", O_CREAT | O_EXCL, 0666, 0)) == SEM_FAILED) {
+        perror("sem_open (parent)");
+        exit(1);
+    }
+
+    for (int i = 0; i < total_drones; i++) {
+        snprintf(sem_name, sizeof(sem_name), "/sem_child_%d", i);
+
+        sem_unlink(sem_name);
+
+        sem_child[i] = sem_open(sem_name, O_CREAT | O_EXCL, 0666, 0);
+        if (sem_child[i] == SEM_FAILED) {
+            perror("sem_open (child)");
+            exit(1);
+        }
+    }
+ 
+    pid_t pids[total_drones];
     Collision_Stamp *stamps = NULL;
     int stamps_capacity = 0;
     int stamps_count = 0;
 
-    strncpy(report_of_simulation.simulation_name, argv, sizeof(report_of_simulation.simulation_name));
-    
-    report_of_simulation.timeline = malloc(total_ticks * sizeof(Position*));
-    for (int i = 0; i < total_ticks; i++) {
-        report_of_simulation.timeline[i] = malloc(num_drones * sizeof(Position));
-        for (int j = 0; j < num_drones; j++) {
-            report_of_simulation.timeline[i][j].x = -1;
-            report_of_simulation.timeline[i][j].y = -1;
-            report_of_simulation.timeline[i][j].z = -1;
-        }
-    }   
+    for(int drone_number = 0; drone_number < total_drones; drone_number++) {
+        pids[drone_number] = fork();
 
-    for (int droneNumber = 0; droneNumber < num_drones; droneNumber++) {
-        if (pipe(position_pipes[droneNumber]) == -1) {
-            perror("Error creating position pipe");
+        if(pids[drone_number] == -1) {
+            perror("Error forking");
             exit(EXIT_FAILURE);
         }
 
-        if (pipe(environment_pipes[droneNumber]) == -1) {
-            perror("Error creating environment pipe");
-            exit(EXIT_FAILURE);
-        }
+        if (pids[drone_number] == 0) {
 
-        pids[droneNumber] = fork();
-        if (pids[droneNumber] == -1) {
-            perror("Error forking!");
-            exit(EXIT_FAILURE);
-        }
-
-        if (pids[droneNumber] == 0) {
-          
-            srand(time(NULL) + getpid()); 
-            close(position_pipes[droneNumber][0]);     
-            close(environment_pipes[droneNumber][1]);  
-
-            simulate_drone(filename,drones_info[droneNumber].id,position_pipes[droneNumber][1],getpid(),environment_pipes[droneNumber][0], total_ticks);
-
-            close(position_pipes[droneNumber][1]);
-            close(environment_pipes[droneNumber][0]);
-            free(drones_info);
+            srand(time(NULL) ^ getpid());
+            simulate_drone(filename, drones_info[drone_number].id, total_ticks, shared_mem, sem_child[drone_number], sem_parent);
             exit(EXIT_SUCCESS);
         }
-
-        close(position_pipes[droneNumber][1]);      
-        close(environment_pipes[droneNumber][0]);   
-        transfer_environmental_effects(&environment, environment_pipes[droneNumber][1]);
-        close(environment_pipes[droneNumber][1]);   
     }
 
-    Radar historyOfRadar[num_drones][total_ticks];
+    DroneInformation* drones_terminated = NULL;
+    int drones_terminated_size = 0;
+    int drones_terminated_capacity = 0;
+    int* drone_crash_printed = calloc(total_drones, sizeof(int));
 
-    for (int timeStamp = 0; timeStamp < total_ticks + EXTRA_TICK_FOR_END; timeStamp++) {
-        printTimeOfSimulation(timeStamp,total_ticks);
+    
+    pthread_t collision_thread;
+    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_cond_t cond_tick = PTHREAD_COND_INITIALIZER;
+    pthread_cond_t cond_done = PTHREAD_COND_INITIALIZER;
+    int stop_simulation = 0;
+    int collision_tick_ready = 0;
+    int collision_tick_done = 0;
 
-        for (int childNumber = 0; childNumber < num_drones; childNumber++) {
+    CollisionThreadArgs collision_args = {
+        .total_drones = total_drones,
+        .shared_mem = shared_mem,
+        .drones_terminated = &drones_terminated,
+        .drones_terminated_size = &drones_terminated_size,
+        .drones_terminated_capacity = &drones_terminated_capacity,
+        .stamps = &stamps,
+        .stamps_capacity = &stamps_capacity,
+        .stamps_count = &stamps_count,
+        .collision_counter = &collision_counter,
+        .stop_simulation = &stop_simulation,
+        .mutex = &mutex,
+        .cond_tick = &cond_tick,
+        .cond_done = &cond_done,
+        .collision_tick_ready = &collision_tick_ready,
+        .collision_tick_done = &collision_tick_done
+    };
 
-            if(total_ticks > timeStamp){
-                Position current_pos;
-                ssize_t bytes_read = read(position_pipes[childNumber][0], &current_pos, sizeof(current_pos));
-    
-                if (bytes_read == -1) {
-                    perror("Father failed to read from pipe\n");
-                    exit(EXIT_FAILURE);
-                }
-                
-                report_of_simulation.timeline[timeStamp][childNumber] = current_pos;
-    
-                if (bytes_read == sizeof(Position)) {
-                    int is_terminated = (timeStamp > 0)
-                        ? historyOfRadar[childNumber][timeStamp - 1].terminated
-                        : 0;
-    
-                    int returned_to_base = (timeStamp > 0 &&
-                        current_pos.x == -1 &&
-                        current_pos.y == -1 &&
-                        current_pos.z == -1) ? 1 : 0;
-    
-                     if (current_pos.x == -1 && current_pos.y == -1 && current_pos.z == -1) {
-                        historyOfRadar[childNumber][timeStamp].terminated = 1;
-                    }
-    
-                    if (!is_terminated && !returned_to_base) {
-                        printPositionDrone(current_pos, drones_info[childNumber].id);
-                    } else if (returned_to_base) {
-                        printDroneInEnd(drones_info[childNumber].id);
-                    }
-    
-                    Radar radarOfDrone = {
-                        .droneInformation = drones_info[childNumber],
-                        .timeStamp = timeStamp,
-                        .position = current_pos,
-                        .terminated = is_terminated
-                    };
-    
-                    historyOfRadar[childNumber][timeStamp] = radarOfDrone;
-    
-                } else if (bytes_read == 0) {
-                    historyOfRadar[childNumber][timeStamp].terminated = 1;
-                }
-            }else{
-                printDroneInEnd(drones_info[childNumber].id);
-            }
-            
+    pthread_create(&collision_thread, NULL, collision_thread_func, &collision_args);
+
+
+    for(int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
+        printTimeOfSimulation(timeStamp, total_ticks);
+        shared_mem->tick = timeStamp;
+
+        transfer_environmental_effects(&environment, shared_mem);
+
+        for (int i = 0; i < total_drones; i++) {
+            sem_post(sem_child[i]);
         }
 
-        int collisions_in_tick = collisionDetection(num_drones, total_ticks, historyOfRadar, timeStamp,&stamps, &stamps_capacity, &stamps_count);
-        report_of_simulation.stamps = stamps;
-        report_of_simulation.stamps_count = stamps_count;
+        for (int i = 0; i < total_drones; i++) {
+            sem_wait(sem_parent);
+        }
 
-        collision_counter += collisions_in_tick;
+        pthread_mutex_lock(&mutex);
+        collision_tick_ready = 1;
+        collision_tick_done = 0;
+        pthread_cond_signal(&cond_tick);
+
+    
+        while (!collision_tick_done) {
+            pthread_cond_wait(&cond_done, &mutex);
+        }
+        pthread_mutex_unlock(&mutex);
+
+        for (int i = 0; i < total_drones; i++) {
+            if (!is_drone_crashed(shared_mem->drones_state[i].drone_info.id, drones_terminated, drones_terminated_size)
+            && !in_final_position(shared_mem->drones_state[i].position.x, shared_mem->drones_state[i].position.y, shared_mem->drones_state[i].position.z)) {
+                printPositionDrone(shared_mem->drones_state[i].position, shared_mem->drones_state[i].drone_info.id);
+            }
+        }
+
+        for (int i = 0; i < total_drones; i++) {
+            if (!is_drone_crashed(shared_mem->drones_state[i].drone_info.id, drones_terminated, drones_terminated_size) 
+            && in_final_position(shared_mem->drones_state[i].position.x, shared_mem->drones_state[i].position.y, shared_mem->drones_state[i].position.z)) {
+                printDroneInEnd(shared_mem->drones_state[i].drone_info.id);
+
+            } else if (is_drone_crashed(shared_mem->drones_state[i].drone_info.id, drones_terminated, drones_terminated_size) 
+            && not_showed_yet(shared_mem->drones_state[i].drone_info.id, drone_crash_printed)) {
+                printDroneCrash(shared_mem->drones_state[i].drone_info.id);
+                drone_crash_printed[shared_mem->drones_state[i].drone_info.id] = 1;
+            }
+        }
 
         if (collision_counter > max_collisions) {
-            char maxCollisionMSG[408];
-            int len = snprintf(
-                maxCollisionMSG, sizeof(maxCollisionMSG),
-                "\n%s      ⚠️  Maximum number of collisions reached! [%d collisions allowed] ⚠️\nAll drones will now be immediately shut down to ensure the safety of the show.%s\n──────────────────────────────────────────────────────────────────────────────\n\n",
-                ANSI_BRIGHT_RED, max_collisions, ANSI_RESET
-            );
-            write(STDOUT_FILENO, maxCollisionMSG, len);
-
-            report_of_simulation.passed = 0;
-
-            for (int i = 0; i < num_drones; i++) {
-                kill(pids[i], SIGUSR1);
-                waitpid(pids[i], NULL, WUNTRACED);
-            }
+            print_max_collisions_reached(max_collisions);
             break;
-            
         }
     }
 
-    for (int i = 0; i < num_drones; i++) {
-        kill(pids[i], SIGCONT);
-        waitpid(pids[i], NULL, 0);
-        close(position_pipes[i][0]);
-    }
+    pthread_mutex_lock(&mutex);
+    stop_simulation = 1;
+    pthread_cond_signal(&cond_tick);
+    pthread_mutex_unlock(&mutex);
+
+    pthread_join(collision_thread, NULL);
+
 
     free(drones_info);
+    free(drones_terminated);
+    free(drone_crash_printed);
+    free(stamps);
 
-    report_of_simulation.collisions = collision_counter;
-    report_of_simulation.environment = &environment;
-    char output_filename[128];
-    snprintf(output_filename, sizeof(output_filename), "./reports/report_%s_%d.txt", argv, collision_counter);
-    generate_report(&report_of_simulation, output_filename);
+    munmap(shared_mem, sizeof(Shared_data));
+    close(fd);
 
-    for (int i = 0; i < total_ticks; i++) {
-        free(report_of_simulation.timeline[i]);
+    sem_close(sem_parent);
+    for (int i = 0; i < total_drones; i++) {
+        sem_close(sem_child[i]);
     }
-    free(report_of_simulation.stamps);
-    free(report_of_simulation.timeline);
+
+    shm_unlink("/shm");
+    sem_unlink("/sem_parent");
+    for (int i = 0; i < total_drones; i++) {
+        char sem_name[32];
+        snprintf(sem_name, sizeof(sem_name), "/sem_child_%d", i);
+        sem_unlink(sem_name);
+    }
 
     return 0;
 }
 
-void printTimeOfSimulation(int timeStamp,int totalTicks) {
-    char simulationTimeMSG[100];
-    if(timeStamp < totalTicks){
-        int len = snprintf(
-            simulationTimeMSG, sizeof(simulationTimeMSG),
-            "\n%s═════| %sSIMULATION TIME - %d time units %s|═════%s\n\n",
-            ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, timeStamp, ANSI_BRIGHT_BLACK, ANSI_RESET
-        );
-        write(STDOUT_FILENO, simulationTimeMSG, len);
-    }else{
-        int len = snprintf(
-            simulationTimeMSG, sizeof(simulationTimeMSG),
 
-            "\n%s═════| %s        END OF SIMULATION       %s|═════%s\n\n",
-            ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, ANSI_BRIGHT_BLACK, ANSI_RESET
-        );
-        write(STDOUT_FILENO, simulationTimeMSG, len);
-    }
 
-    
-}
-
-void printPositionDrone(Position position, int id) {
-    char dronePositionMSG[150];
-    if (position.z <= 0) {
-        int len = snprintf(
-            dronePositionMSG, sizeof(dronePositionMSG),
-            "🚁 Drone with ID [%d] - 📍Located in coordinates (x = %d, y = %d, z = %s%d%s)\n",
-            id, position.x, position.y, ANSI_BRIGHT_RED, position.z, ANSI_RESET
-        );
-        write(STDOUT_FILENO, dronePositionMSG, len);
-    } else {
-        int len = snprintf(
-            dronePositionMSG, sizeof(dronePositionMSG),
-            "🚁 Drone with ID [%d] - 📍Located in coordinates (x = %d, y = %d, z = %d)\n",
-            id, position.x, position.y, position.z
-        );
-        write(STDOUT_FILENO, dronePositionMSG, len);
-    }
-}
-
-void printDroneInEnd(int id) {
-    char droneBaseMSG[100];
-    int len = snprintf(
-        droneBaseMSG, sizeof(droneBaseMSG),
-        "🚁 Drone with ID [%d] - %s%s📍Has arrived to his final destination!%s\n",
-        id,ANSI_BRIGHT_BLUE,ANSI_BOLD,ANSI_RESET
-    );
-    write(STDOUT_FILENO, droneBaseMSG, len);
-}
 

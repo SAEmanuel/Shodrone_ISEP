@@ -170,7 +170,6 @@ int simulatorUI() {
     snprintf(selectedScriptName, sizeof(selectedScriptName), "%s", scriptNames[choice - 1]);
 
     printf(ANSI_BRIGHT_GREEN "\n✔ You selected: %s\n\n" ANSI_RESET, selectedScriptName);
-
     run_simulation(selectedScriptName, percentage);
     
     printf(ANSI_BRIGHT_GREEN"\n✔ Simulation terminated!"ANSI_RESET);

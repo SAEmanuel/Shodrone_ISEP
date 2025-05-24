@@ -2,7 +2,6 @@ package persistence.jpa.JPAImpl;
 
 
 import domain.entity.FigureCategory;
-import domain.entity.ShowRequest;
 import persistence.interfaces.FigureCategoryRepository;
 import persistence.jpa.JpaBaseRepository;
 
@@ -87,6 +86,13 @@ public class FigureCategoryJPAImpl extends JpaBaseRepository<FigureCategory, Lon
                 .getResultList();
     }
 
+    /**
+     * Updates a figure category, replacing the previous entry identified by {@code oldKey}.
+     *
+     * @param category The updated figure category.
+     * @param oldKey The previous identifier of the category.
+     * @return An {@code Optional} with the updated category, or empty if not found.
+     */
     @Override
     public Optional<FigureCategory> updateFigureCategory(FigureCategory category, String oldKey) {
         if (category == null || category.identity() == null) {

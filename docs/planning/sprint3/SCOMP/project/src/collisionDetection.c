@@ -10,10 +10,6 @@
 #include "report.h"
 #include "drone.h"
 
-pid_t *add_drone_to_list(pid_t drone, pid_t *drones_that_collied, int *size);
-int exist_in_array(pid_t drone, pid_t *drones_that_collied, int size);
-void fill_stamp_moment(Radar droneA, Radar droneB, int timeStamp, Collision_Stamp** stamps, int *stamps_capacity, int *stamps_count);
-
 const float COLLISION_RADIUS_EXTRA = 0.5f;
 volatile sig_atomic_t number_of_collision = 0;
 
@@ -24,116 +20,76 @@ float calculateDistance(Position a, Position b) {
     return sqrtf(dx * dx + dy * dy + dz * dz);
 }
 
-int collisionDetection(int numberOfDrones, int total_ticks, Radar historyOfRadar[numberOfDrones][total_ticks], int timeStamp,  Collision_Stamp **stamps, int *stamps_capacity, int *stamps_count) {
-    int array_size = 0;
-    pid_t *drones_that_collied = NULL;
+int collisionDetection(int total_drones, Collision_Stamp** stamps, int* stamps_capacity, int* stamps_count, Shared_data* shared_mem, DroneInformation** drones_terminated, int* drones_terminated_size, int* capacity) {
     int number_of_collision = 0;
+   
 
-    for (int i = 0; i < numberOfDrones; i++) {
-        Radar droneA = historyOfRadar[i][timeStamp];
-        // Ignorar drones terminados
-        if (droneA.terminated) continue;
+    int timeStamp = shared_mem->tick;
+
+    for (int i = 0; i < total_drones; i++) {
+        Drone_state posA = shared_mem->drones_state[i];
+
+        if (is_drone_crashed(posA.drone_info.id, *drones_terminated, *drones_terminated_size))
+            continue;
 
         // Ignorar drones inativos (todas as coordenadas -1)
-        if (droneA.position.x == -1 && droneA.position.y == -1 && droneA.position.z == -1)
+        if (posA.position.x == -1 && posA.position.y == -1 && posA.position.z == -1)
             continue;
 
         // Colisão com o chão
-        if (droneA.position.z <= 0) {
-            Radar ground = {
-                .droneInformation = {.id = -1, .biggestDimension = 0},
-                .timeStamp = timeStamp,
-                .position = {.x = droneA.position.x, .y = droneA.position.y, .z = 0, .pid = 0},
-                .terminated = 1
-            };
-            fill_stamp_moment(droneA, ground, timeStamp, stamps, stamps_capacity, stamps_count);
+        if (posA.position.z <= 0) {
+            posA.drone_info.has_crashed = 1;
+            add_terminated_drone(posA.drone_info.id, 1, drones_terminated, drones_terminated_size, capacity);
+
+            // Preenche stamp de colisão com o chão
+            fill_stamp_moment(posA, posA, timeStamp, stamps, stamps_capacity, stamps_count);
 
             char msg[150];
-            int len = snprintf(msg, sizeof(msg),"❗ Drone [%d] collided with the ground\n",droneA.droneInformation.id);
+            int len = snprintf(msg, sizeof(msg), "❗ Drone [%d] collided with the ground\n", i);
             write(STDOUT_FILENO, msg, len);
 
-            pid_t drone1 = droneA.position.pid;
-            kill(drone1, SIGUSR1);
-
-            drones_that_collied = add_drone_to_list(drone1, drones_that_collied, &array_size);
-
+            
             number_of_collision++;
-            continue; 
+            continue;
         }
 
-        float radiusA = (droneA.droneInformation.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
+        float radiusA = (posA.drone_info.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
 
-        for (int j = i + 1; j < numberOfDrones; j++) {
-            Radar droneB = historyOfRadar[j][timeStamp];
-            if (droneB.terminated) continue;
-            if (droneB.position.x == -1 && droneB.position.y == -1 && droneB.position.z == -1)
+        for (int j = i + 1; j < total_drones; j++) {
+            Drone_state posB = shared_mem->drones_state[j];
+
+            if (is_drone_crashed(posB.drone_info.id, *drones_terminated, *drones_terminated_size))
                 continue;
 
-            float radiusB = (droneB.droneInformation.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
-            float distance = calculateDistance(droneA.position, droneB.position);
+            if (posB.position.x == -1 && posB.position.y == -1 && posB.position.z == -1)
+                continue;
+
+            float radiusB = (posB.drone_info.biggestDimension / 200.0f) + COLLISION_RADIUS_EXTRA;
+            float distance = calculateDistance(posA.position, posB.position);
             float combinedRadius = radiusA + radiusB;
 
             if (distance < combinedRadius) {
-                fill_stamp_moment(droneA, droneB, timeStamp, stamps, stamps_capacity, stamps_count);
+                add_terminated_drone(posA.drone_info.id, 1, drones_terminated, drones_terminated_size, capacity);
+                add_terminated_drone(posB.drone_info.id, 1, drones_terminated, drones_terminated_size, capacity);
+
+                fill_stamp_moment(posA, posB, timeStamp, stamps, stamps_capacity, stamps_count);
                 number_of_collision++;
 
                 char msg[100];
-                int len = snprintf(msg, sizeof(msg), "💥 Collision detected between drone [%d] and [%d]\n",
-                                   droneA.droneInformation.id, droneB.droneInformation.id);
+                int len = snprintf(msg, sizeof(msg), "💥 Collision detected between drone [%d] and [%d]\n", i, j);
                 write(STDOUT_FILENO, msg, len);
 
-                pid_t drone1 = droneA.position.pid;
-                pid_t drone2 = droneB.position.pid;
 
-                kill(drone1, SIGUSR1);
-                kill(drone2, SIGUSR1);
-
-                drones_that_collied = add_drone_to_list(drone1, drones_that_collied, &array_size);
-                drones_that_collied = add_drone_to_list(drone2, drones_that_collied, &array_size);
             }
         }
     }
-
-    if (number_of_collision > 0) {
-        for (int i = 0; i < array_size; i++) {
-            waitpid(drones_that_collied[i], NULL, WUNTRACED);
-            kill(drones_that_collied[i], SIGCONT);
-            waitpid(drones_that_collied[i], NULL, 0);
-        }
-    }
-
-    free(drones_that_collied);
 
     return number_of_collision;
 }
 
 
 
-pid_t *add_drone_to_list(pid_t drone, pid_t *drones_that_collied, int *size) {
-    if (!exist_in_array(drone, drones_that_collied, *size)) {
-        pid_t *temp = realloc(drones_that_collied, sizeof(pid_t) * (*size + 1));
-        if (!temp) {
-            perror("Failed to realloc drones_that_collied array");
-            free(drones_that_collied);
-            exit(EXIT_FAILURE);
-        }
-        temp[*size] = drone;
-        (*size)++;
-        return temp;
-    }
-    return drones_that_collied;
-}
-
-int exist_in_array(pid_t drone, pid_t *drones_that_collied, int size) {
-    for (int i = 0; i < size; i++) {
-        if (drones_that_collied[i] == drone) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void fill_stamp_moment(Radar droneA, Radar droneB, int timeStamp, Collision_Stamp** stamps, int *stamps_capacity, int *stamps_count) {
+void fill_stamp_moment(Drone_state droneA, Drone_state droneB, int timeStamp, Collision_Stamp** stamps, int *stamps_capacity, int *stamps_count) {
    if (*stamps_count >= *stamps_capacity) {
         int new_capacity = (*stamps_capacity == 0) ? 10 : *stamps_capacity * 2;
         Collision_Stamp *temp = realloc(*stamps, new_capacity * sizeof(Collision_Stamp));
@@ -145,9 +101,63 @@ void fill_stamp_moment(Radar droneA, Radar droneB, int timeStamp, Collision_Stam
         *stamps_capacity = new_capacity;
     }
 
-    (*stamps)[*stamps_count].id_drone1 = droneA.droneInformation.id;
-    (*stamps)[*stamps_count].id_drone2 = droneB.droneInformation.id;
+    (*stamps)[*stamps_count].id_drone1 = droneA.drone_info.id;
+    (*stamps)[*stamps_count].id_drone2 = droneB.drone_info.id;
     (*stamps)[*stamps_count].collision_time = timeStamp;
     (*stamps_count)++;
  }
+
+
+int is_drone_crashed(int id, DroneInformation* drones_terminated, int size) {
+    for (int i = 0; i < size; i++) {
+        if (drones_terminated[i].id == id && drones_terminated[i].has_crashed)
+            return 1;
+    }
+    return 0;
+}
+
+
+void add_terminated_drone(int id, int crashed, DroneInformation** drones_terminated, int* size, int* capacity) {
+    for (int i = 0; i < *size; i++) {
+        if ((*drones_terminated)[i].id == id) {
+            if (crashed)
+                (*drones_terminated)[i].has_crashed = 1;
+            return;
+        }
+    }
+
+    if (*size >= *capacity) {
+        *capacity = (*capacity == 0) ? 10 : *capacity * 2;
+        *drones_terminated = realloc(*drones_terminated, *capacity * sizeof(DroneInformation));
+        if (!*drones_terminated) {
+            perror("realloc");
+            exit(EXIT_FAILURE);
+        }
+    }
+    (*drones_terminated)[*size].id = id;
+    (*drones_terminated)[*size].has_crashed = crashed ? 1 : 0;
+    (*size)++;
+}
+
+
+void printDroneCrash(int id) {
+    char buffer[100];
+    int len = snprintf(buffer, sizeof(buffer), "⛔ Drone [%d] leaving the show due to collision\n", id);
+    write(STDOUT_FILENO, buffer, len);
+}
+
+int in_final_position(int pos_x, int pos_y, int pos_z) {
+    if (pos_x == -1 && pos_y == -1 && pos_z == -1)
+        return 1;
+
+    return 0;
+}
+
+int not_showed_yet(int drone_id, int* drone_crash_printed) {
+    return !drone_crash_printed[drone_id];
+}
+
+
+
+
 
