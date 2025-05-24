@@ -3,6 +3,7 @@ package controllers;
 import authz.Email;
 import controller.category.AddFigureCategoryController;
 import domain.entity.FigureCategory;
+import domain.history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ class AddFigureCategoryControllerTest {
 
     private AddFigureCategoryController controller;
     private FigureCategoryRepository mockRepository;
+    private AuditLoggerService mockAuditLoggerService;
 
     private final Name name = new Name("Test Category");
     private final Description description = new Description("Test description");
@@ -27,8 +29,23 @@ class AddFigureCategoryControllerTest {
     @BeforeEach
     void setUp() {
         mockRepository = mock(FigureCategoryRepository.class);
+        mockAuditLoggerService = mock(AuditLoggerService.class);
+
         RepositoryProvider.injectFigureCategoryRepository(mockRepository);
+        // injeta o mock de auditoria
+        injectAuditLoggerService(mockAuditLoggerService);
+
         controller = new AddFigureCategoryController();
+    }
+
+    private void injectAuditLoggerService(AuditLoggerService mock) {
+        try {
+            var field = RepositoryProvider.class.getDeclaredField("auditLoggerService");
+            field.setAccessible(true);
+            field.set(null, mock);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Test
@@ -41,6 +58,7 @@ class AddFigureCategoryControllerTest {
         assertTrue(result.isPresent());
         assertEquals(fakeCategory, result.get());
         verify(mockRepository).save(any(FigureCategory.class));
+        verify(mockAuditLoggerService).logCreation(any(), any(), any(), any());
     }
 
     @Test
@@ -53,6 +71,7 @@ class AddFigureCategoryControllerTest {
         assertTrue(result.isPresent());
         assertEquals(fakeCategory, result.get());
         verify(mockRepository).save(any(FigureCategory.class));
+        verify(mockAuditLoggerService).logCreation(any(), any(), any(), any());
     }
 
     @Test
@@ -62,5 +81,6 @@ class AddFigureCategoryControllerTest {
         Optional<FigureCategory> result = controller.addFigureCategoryWithNameAndDescription(name, description, createdBy);
 
         assertTrue(result.isEmpty());
+        verify(mockAuditLoggerService).logCreation(any(), any(), any(), any());
     }
 }

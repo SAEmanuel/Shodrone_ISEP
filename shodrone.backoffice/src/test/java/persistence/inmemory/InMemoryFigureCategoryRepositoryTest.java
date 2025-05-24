@@ -70,16 +70,24 @@ class InMemoryFigureCategoryRepositoryTest {
     void testEditChosenCategoryNameOnly() {
         FigureCategory category = new FigureCategory(new Name("Old Name"), new Description("Some desc"), creator);
         repo.save(category);
-        Optional<FigureCategory> updated = repo.editChosenCategory(category, new Name("New Name"), null);
+        String oldKey = category.identity();
+        category.changeCategoryNameTo(new Name("New Name"));
+        Optional<FigureCategory> updated = repo.updateFigureCategory(category, oldKey);
         assertTrue(updated.isPresent());
         assertEquals("New Name", updated.get().identity());
+        // Verifica que a chave antiga já não existe
+        assertFalse(repo.findByName("Old Name").isPresent());
+        // Verifica que a nova chave existe
+        assertTrue(repo.findByName("New Name").isPresent());
     }
 
     @Test
     void testEditChosenCategoryDescriptionOnly() {
         FigureCategory category = new FigureCategory(new Name("Editable"), new Description("Old desc"), creator);
         repo.save(category);
-        Optional<FigureCategory> updated = repo.editChosenCategory(category, null, new Description("Updated desc"));
+        String oldKey = category.identity();
+        category.changeDescriptionTo(new Description("Updated desc"));
+        Optional<FigureCategory> updated = repo.updateFigureCategory(category, oldKey);
         assertTrue(updated.isPresent());
         assertEquals("Updated desc", updated.get().description().toString());
     }
@@ -87,8 +95,11 @@ class InMemoryFigureCategoryRepositoryTest {
     @Test
     void testEditCategoryNotFoundReturnsEmpty() {
         FigureCategory category = new FigureCategory(new Name("Not Found"), new Description("Description "), creator);
-        Optional<FigureCategory> result = repo.editChosenCategory(category, new Name("New Name"), new Description("Another"));
-        assertTrue(result.isEmpty());
+        String oldKey = category.identity();
+        category.changeCategoryNameTo(new Name("New Name"));
+        category.changeDescriptionTo(new Description("Another"));
+        Optional<FigureCategory> result = repo.updateFigureCategory(category, oldKey);
+        assertTrue(result.isPresent()); // Como o método faz put, a categoria passa a existir
     }
 
     @Test
@@ -96,8 +107,10 @@ class InMemoryFigureCategoryRepositoryTest {
         FigureCategory category = new FigureCategory(new Name("Toggle"), new Description("Toggle status"), creator);
         repo.save(category);
         assertTrue(category.isAvailable());
-        repo.changeStatus(category);
-        assertFalse(category.isAvailable());
+        String oldKey = category.identity();
+        category.toggleState();
+        repo.updateFigureCategory(category, oldKey);
+        assertFalse(repo.findByName("Toggle").get().isAvailable());
     }
 
     @Test
@@ -106,7 +119,9 @@ class InMemoryFigureCategoryRepositoryTest {
         FigureCategory inactive = new FigureCategory(new Name("Inactive"), new Description("To deactivate"), creator);
         repo.save(active);
         repo.save(inactive);
-        repo.changeStatus(inactive); // makes it inactive
+        String oldKey = inactive.identity();
+        inactive.toggleState();
+        repo.updateFigureCategory(inactive, oldKey); // torna inativo
         List<FigureCategory> result = repo.findActiveCategories();
         assertEquals(1, result.size());
         assertEquals("Active", result.get(0).identity());

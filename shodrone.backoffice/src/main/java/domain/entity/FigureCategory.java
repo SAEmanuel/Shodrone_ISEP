@@ -201,6 +201,12 @@ public class FigureCategory implements AggregateRoot<String>, Serializable {
 //        return sb.toString();
 //    }
 
+    public FigureCategory copy() {
+        FigureCategory copy = new FigureCategory(this.name(), this.description(), this.createdBy);
+        copy.available = this.available;
+        return copy;
+    }
+
     @Override
     public String toString() {
         if (isAvailable()) {

@@ -1,8 +1,7 @@
 package persistence.interfaces;
 
 import domain.entity.FigureCategory;
-import domain.valueObjects.Description;
-import domain.valueObjects.Name;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -17,9 +16,8 @@ public interface FigureCategoryRepository {
 
     List<FigureCategory> findActiveCategories();
 
-    Optional<FigureCategory> editChosenCategory(FigureCategory category, Name newName, Description newDescription);
+    Optional<FigureCategory> updateFigureCategory(FigureCategory category, String oldKey);
 
-    Optional<FigureCategory> changeStatus(FigureCategory category);
 
 
 }
