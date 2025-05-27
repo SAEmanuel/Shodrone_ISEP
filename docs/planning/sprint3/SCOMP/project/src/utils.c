@@ -8,6 +8,13 @@
 #include <math.h>
 #include "data.h"
 #include "report.h"
+#include<fcntl.h>
+#include<sys/mman.h>
+#include<sys/stat.h>
+#include "ui.h"
+
+
+
 
 void trim(char* str) {
     if (str == NULL) 
@@ -83,6 +90,30 @@ int get_total_ticks_from_file(const char* filename) {
     return max_steps;
 }
 
+void init_shared_zone(int *fd, Shared_data **shared_data) {
+
+    shm_unlink("/shm");
+    *fd = shm_open("/shm",O_CREAT | O_EXCL | O_RDWR, S_IRUSR | S_IWUSR);
+    if (*fd == -1) {
+        perror("shm_open");
+        exit(1);
+    }
+
+    if (ftruncate(*fd, sizeof(Shared_data)) == -1) {
+        perror("ftruncate");
+        exit(2);
+    }
+
+    *shared_data = (Shared_data *)mmap(NULL, sizeof(Shared_data),PROT_READ | PROT_WRITE, MAP_SHARED, *fd, 0);
+    if (*shared_data == MAP_FAILED) {
+        perror("mmap");
+        exit(3);
+    }
+
+    memset(*shared_data, 0, sizeof(Shared_data));
+    
+}
+
 void fill_info(const char* filename, DroneInformation* dronesIDs, int num_drones) {
     FILE* file = fopen(filename, "r");
     if (!file) {
@@ -115,8 +146,155 @@ void fill_info(const char* filename, DroneInformation* dronesIDs, int num_drones
     fclose(file);
 }
 
+
 int calculate_acceptable_collision_number(int numberOfDrones, float percentage) {
     return (int) floor(numberOfDrones * percentage);
+}
+
+void printTimeOfSimulation(int timeStamp,int totalTicks) {
+    char simulationTimeMSG[100];
+    if(timeStamp < totalTicks){
+        int len = snprintf(
+            simulationTimeMSG, sizeof(simulationTimeMSG),
+            "\n%s═════| %sSIMULATION TIME - %d time units %s|═════%s\n\n",
+            ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, timeStamp, ANSI_BRIGHT_BLACK, ANSI_RESET
+        );
+        write(STDOUT_FILENO, simulationTimeMSG, len);
+    }else{
+        int len = snprintf(
+            simulationTimeMSG, sizeof(simulationTimeMSG),
+
+            "\n%s═════| %s        END OF SIMULATION       %s|═════%s\n\n",
+            ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, ANSI_BRIGHT_BLACK, ANSI_RESET
+        );
+        write(STDOUT_FILENO, simulationTimeMSG, len);
+    }
+
+}
+
+void printPositionDrone(Position position, int id) {
+    char dronePositionMSG[150];
+    if (position.z <= 0) {
+        int len = snprintf(
+            dronePositionMSG, sizeof(dronePositionMSG),
+            "🚁 Drone with ID [%d] - 📍Located in coordinates (x = %d, y = %d, z = %s%d%s)\n",
+            id, position.x, position.y, ANSI_BRIGHT_RED, position.z, ANSI_RESET
+        );
+        write(STDOUT_FILENO, dronePositionMSG, len);
+    } else {
+        int len = snprintf(
+            dronePositionMSG, sizeof(dronePositionMSG),
+            "🚁 Drone with ID [%d] - 📍Located in coordinates (x = %d, y = %d, z = %d)\n",
+            id, position.x, position.y, position.z
+        );
+        write(STDOUT_FILENO, dronePositionMSG, len);
+    }
+}
+
+void* collision_thread_func(void* arg) {
+    CollisionThreadArgs* args = (CollisionThreadArgs*)arg;
+    while (1) {
+        pthread_mutex_lock(args->mutex);
+        while (!*(args->collision_tick_ready) && !*(args->stop_simulation)) {
+            pthread_cond_wait(args->cond_tick, args->mutex);
+        }
+        if (*(args->stop_simulation)) {
+            pthread_mutex_unlock(args->mutex);
+            break;
+        }
+        
+        int collisions_in_tick = collisionDetection(args->total_drones, args->stamps, args->stamps_capacity, args->stamps_count,
+            args->shared_mem, args->drones_terminated, args->drones_terminated_size, args->drones_terminated_capacity);
+
+        *(args->collision_counter) += collisions_in_tick;
+
+        *(args->collision_tick_ready) = 0;
+        *(args->collision_tick_done) = 1;
+        pthread_cond_signal(args->cond_done);
+        pthread_mutex_unlock(args->mutex);
+    }
+    return NULL;
+}
+
+void* environment_thread_func(void* arg) {
+    EnvironmentThreadArgs* args = (EnvironmentThreadArgs*)arg;
+    while(1) {
+        pthread_mutex_lock(args->mutex);
+        while(!*(args->environment_tick_ready) && !*(args->stop_simulation)) {
+            pthread_cond_wait(args->cond_tick, args->mutex);
+        }
+
+        if(*(args->stop_simulation)) {
+            pthread_mutex_unlock(args->mutex);
+            break;
+        }
+
+        transfer_environmental_effects(args->environment, args->shared_mem);
+        *(args->environment_tick_ready) = 0;
+        *(args->environment_tick_done) = 1;
+        pthread_cond_signal(args->cond_done);
+        pthread_mutex_unlock(args->mutex);
+    }
+
+    return NULL;
+}
+
+void* report_thread_func(void* arg) {
+    ReportThreadArgs* args = (ReportThreadArgs*) arg;
+    while(1) {
+        pthread_mutex_lock(args->mutex);
+        while(!*(args->report_tick_ready) && !*(args->stop_simulation)) {
+            pthread_cond_wait(args->cond_tick, args->mutex);
+        }
+
+        args->report->environment = args->environment;
+        args->report->max_collisions = *(args->max_collisions);
+        args->report->num_drones = *(args->num_drones);
+        args->report->total_ticks = *(args->total_ticks);
+        args->report->stamps = *(args->stamps);
+        args->report->stamps_count = *(args->stamps_count);
+        args->report->collisions = *(args->collisions);
+
+        
+        for(int drone_id = 0; drone_id < *(args->num_drones); drone_id++) {
+            if (args->shared_mem->tick < args->report->total_ticks && drone_id < args->report->num_drones) {
+                args->report->timeline[args->shared_mem->tick][drone_id] = args->shared_mem->drones_state[drone_id].position;
+            }
+        }  
+
+        if (*(args->stop_simulation)) {
+            args->report->passed = *(args->passed);
+            generate_report(args->report, args->output_filename);
+            pthread_mutex_unlock(args->mutex);
+            break;
+        }
+
+        *(args->report_tick_ready) = 0;
+        *(args->report_tick_done) = 1;
+        pthread_cond_signal(args->cond_done);
+        pthread_mutex_unlock(args->mutex);
+    }
+    return NULL;
+}
+
+
+
+void printDroneInEnd(int id) {
+    char droneBaseMSG[100];
+    int len = snprintf(
+        droneBaseMSG, sizeof(droneBaseMSG),
+        "🚁 Drone with ID [%d] - %s%s📍Has arrived to his final destination!%s\n",
+        id,ANSI_BRIGHT_BLUE,ANSI_BOLD,ANSI_RESET
+    );
+    write(STDOUT_FILENO, droneBaseMSG, len);
+}
+
+void print_max_collisions_reached(int max_collisions) {
+    char maxCollisionMSG[408];
+    int len = snprintf(maxCollisionMSG, sizeof(maxCollisionMSG),
+                "\n%s      ⚠️  Maximum number of collisions reached! [%d collisions allowed] ⚠️\nAll drones will now be immediately shut down to ensure the safety of the show.%s\n──────────────────────────────────────────────────────────────────────────────\n\n",
+                ANSI_BRIGHT_RED, max_collisions, ANSI_RESET);
+    write(STDOUT_FILENO, maxCollisionMSG, len);
 }
 
 void play_sound(const char* path) {

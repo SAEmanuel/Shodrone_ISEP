@@ -158,7 +158,7 @@ int run_simulation(char* argv, float percentage)
                 } else if (bytes_read == 0) {
                     historyOfRadar[childNumber][timeStamp].terminated = 1;
                 }
-            }else{
+            } else{
                 printDroneInEnd(drones_info[childNumber].id);
             }
             

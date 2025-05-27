@@ -7,6 +7,7 @@
 #include "ui.h"
 
 void play_sound(const char* path);
+int drone_not_collided(int id, int* collided_drones);
 
 void generate_report(Report* proposal, const char* filename) {
     FILE* file = fopen(filename, "w");
@@ -36,6 +37,8 @@ void generate_report(Report* proposal, const char* filename) {
     fprintf(file, "║ Environmental Conditions:\n");
     Environment* env = proposal->environment;
     int any_wind = 0;
+    int* collided_drones = calloc(proposal->num_drones, sizeof(int));
+
     if (env) {
         if (env->north > 0) {
             fprintf(file, "║   Wind North:  ON  (Intensity: %d)\n", env->north);
@@ -72,33 +75,51 @@ void generate_report(Report* proposal, const char* filename) {
 
     for (int tick = 0; tick < proposal->total_ticks; tick++) {
         fprintf(file, "\nTick %d:\n", tick);
+
+        
         for (int i = 0; i < proposal->num_drones; i++) {
             Position pos = proposal->timeline[tick][i];
-            fprintf(file, "  🚁 Drone %d: (%d, %d, %d)\n", i, pos.x, pos.y, pos.z);
+            if(drone_not_collided(i, collided_drones))
+                fprintf(file, "  🚁 Drone %d: (%d, %d, %d)\n", i, pos.x, pos.y, pos.z);
+        }
 
-
-            if (!base_printed[i] && pos.x == -1 && pos.y == -1 && pos.z == -1) {
-                int prev_inactive = 0;
-                if (tick > 0) {
-                    Position prev = proposal->timeline[tick-1][i];
-                    prev_inactive = (prev.x == -1 && prev.y == -1 && prev.z == -1);
-                }
-
-                if (!prev_inactive) {
-                    fprintf(file, "🚁 Drone with ID [%d] -📍Has arrived to his final destination!\n", i);
-                    base_printed[i] = 1;
+        
+        if (proposal->stamps && proposal->stamps_count > 0) {
+            for (int x = 0; x < proposal->stamps_count; x++) {
+                if (proposal->stamps[x].collision_time == tick) {
+                    if (proposal->stamps[x].id_drone2 == -1) {
+                        fprintf(file, "  ❗ Drone [%d] collided with the ground\n",
+                                proposal->stamps[x].id_drone1);
+                    } else {
+                        fprintf(file, "  💥 Collision detected between drone [%d] and [%d]\n",
+                                proposal->stamps[x].id_drone1, proposal->stamps[x].id_drone2);
+                                collided_drones[proposal->stamps[x].id_drone1] = 1;
+                                collided_drones[proposal->stamps[x].id_drone2] = 1;
+                    }
                 }
             }
         }
 
-        for (int x = 0; x < proposal->stamps_count; x++) {
-            if (proposal->stamps[x].collision_time == tick) {
-                if (proposal->stamps[x].id_drone2 == -1) {
-                    fprintf(file, "  ❗ Drone [%d] collided with the ground\n",
-                            proposal->stamps[x].id_drone1);
-                } else {
-                    fprintf(file, "  💥 Collision detected between drone [%d] and [%d]\n",
-                            proposal->stamps[x].id_drone1, proposal->stamps[x].id_drone2);
+        
+        if (proposal->passed) {
+            for (int i = 0; i < proposal->num_drones; i++) {
+                Position pos = proposal->timeline[tick][i];
+                if (!base_printed[i] && pos.x == -1 && pos.y == -1 && pos.z == -1) {
+                    
+                    int colidiu = 0;
+                    if (proposal->stamps && proposal->stamps_count > 0) {
+                        for (int x = 0; x < proposal->stamps_count; x++) {
+                            if (proposal->stamps[x].collision_time == tick &&
+                                (proposal->stamps[x].id_drone1 == i || proposal->stamps[x].id_drone2 == i)) {
+                                colidiu = 1;
+                                break;
+                            }
+                        }
+                    }
+                    if (!colidiu) {
+                        fprintf(file, "🚁 Drone with ID [%d] -📍Has arrived to his final destination!\n", i);
+                        base_printed[i] = 1;
+                    }
                 }
             }
         }
@@ -113,6 +134,14 @@ void generate_report(Report* proposal, const char* filename) {
 
     fclose(file);
 }
+
+int drone_not_collided(int id, int* collided_drones) {
+    if(collided_drones[id] == 0)
+        return 1;
+
+    return 0;
+}
+
 
 
 
