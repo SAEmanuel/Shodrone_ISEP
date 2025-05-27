@@ -32,16 +32,13 @@ int collisionDetection(int total_drones, Collision_Stamp** stamps, int* stamps_c
         if (is_drone_crashed(posA.drone_info.id, *drones_terminated, *drones_terminated_size))
             continue;
 
-        // Ignorar drones inativos (todas as coordenadas -1)
         if (posA.position.x == -1 && posA.position.y == -1 && posA.position.z == -1)
             continue;
 
-        // Colisão com o chão
         if (posA.position.z <= 0) {
             posA.drone_info.has_crashed = 1;
             add_terminated_drone(posA.drone_info.id, 1, drones_terminated, drones_terminated_size, capacity);
 
-            // Preenche stamp de colisão com o chão
             fill_stamp_moment(posA, posA, timeStamp, stamps, stamps_capacity, stamps_count);
 
             char msg[150];

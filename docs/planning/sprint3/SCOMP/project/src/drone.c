@@ -12,7 +12,6 @@
 
 
 
-
 void simulate_drone(const char* filename, int drone_id, int total_ticks, Shared_data* shared_mem, sem_t* sem_child, sem_t* sem_parent) {
     FILE* file = fopen(filename, "r");
     if (!file) {

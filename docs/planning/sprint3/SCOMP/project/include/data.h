@@ -12,6 +12,8 @@ void fill_info(const char* filename, DroneInformation* dronesIDs, int num_drones
 void init_shared_zone(int *fd, Shared_data **shared_data);
 int collisionDetection(int total_drones, Collision_Stamp** stamps, int* stamps_capacity, int* stamps_count, Shared_data* shared_mem, DroneInformation** drones_terminated, int* drones_terminated_size, int* capacity);
 void* collision_thread_func(void* arg);
+void* environment_thread_func(void* arg);
+void* report_thread_func(void* arg);
 void add_terminated_drone(int id, int crashed, DroneInformation** drones_terminated, int* size, int* capacity);
 int is_drone_crashed(int id, DroneInformation* drones_terminated, int size);
 int in_final_position(int pos_x, int pos_y, int pos_z);

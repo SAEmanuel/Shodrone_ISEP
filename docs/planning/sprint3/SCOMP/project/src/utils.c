@@ -216,6 +216,68 @@ void* collision_thread_func(void* arg) {
     return NULL;
 }
 
+void* environment_thread_func(void* arg) {
+    EnvironmentThreadArgs* args = (EnvironmentThreadArgs*)arg;
+    while(1) {
+        pthread_mutex_lock(args->mutex);
+        while(!*(args->environment_tick_ready) && !*(args->stop_simulation)) {
+            pthread_cond_wait(args->cond_tick, args->mutex);
+        }
+
+        if(*(args->stop_simulation)) {
+            pthread_mutex_unlock(args->mutex);
+            break;
+        }
+
+        transfer_environmental_effects(args->environment, args->shared_mem);
+        *(args->environment_tick_ready) = 0;
+        *(args->environment_tick_done) = 1;
+        pthread_cond_signal(args->cond_done);
+        pthread_mutex_unlock(args->mutex);
+    }
+
+    return NULL;
+}
+
+void* report_thread_func(void* arg) {
+    ReportThreadArgs* args = (ReportThreadArgs*) arg;
+    while(1) {
+        pthread_mutex_lock(args->mutex);
+        while(!*(args->report_tick_ready) && !*(args->stop_simulation)) {
+            pthread_cond_wait(args->cond_tick, args->mutex);
+        }
+
+        args->report->environment = args->environment;
+        args->report->max_collisions = *(args->max_collisions);
+        args->report->num_drones = *(args->num_drones);
+        args->report->total_ticks = *(args->total_ticks);
+        args->report->stamps = *(args->stamps);
+        args->report->stamps_count = *(args->stamps_count);
+        args->report->collisions = *(args->collisions);
+
+        
+        for(int drone_id = 0; drone_id < *(args->num_drones); drone_id++) {
+            if (args->shared_mem->tick < args->report->total_ticks && drone_id < args->report->num_drones) {
+                args->report->timeline[args->shared_mem->tick][drone_id] = args->shared_mem->drones_state[drone_id].position;
+            }
+        }  
+
+        if (*(args->stop_simulation)) {
+            args->report->passed = *(args->passed);
+            generate_report(args->report, args->output_filename);
+            pthread_mutex_unlock(args->mutex);
+            break;
+        }
+
+        *(args->report_tick_ready) = 0;
+        *(args->report_tick_done) = 1;
+        pthread_cond_signal(args->cond_done);
+        pthread_mutex_unlock(args->mutex);
+    }
+    return NULL;
+}
+
+
 
 void printDroneInEnd(int id) {
     char droneBaseMSG[100];

@@ -82,6 +82,39 @@ typedef struct {
     int* collision_tick_done;
 } CollisionThreadArgs;
 
+typedef struct {
+    Environment* environment;
+    Shared_data* shared_mem;
+    int number_of_collisions;
+    pthread_mutex_t* mutex;
+    pthread_cond_t* cond_tick;
+    pthread_cond_t* cond_done;
+    int* stop_simulation;
+    int* environment_tick_ready;
+    int* environment_tick_done;
+} EnvironmentThreadArgs;
+
+typedef struct {
+    Report* report;
+    char output_filename[128];
+    Shared_data* shared_mem;
+    Collision_Stamp** stamps;
+    int* stamps_count;
+    int* collisions;
+    int* max_collisions;
+    int* num_drones;
+    int* total_ticks;
+    Environment* environment;
+    pthread_mutex_t* mutex;
+    pthread_cond_t* cond_tick;
+    pthread_cond_t* cond_done;
+    int* passed;
+    int* stop_simulation;
+    int* report_tick_ready;
+    int* report_tick_done;
+} ReportThreadArgs;
+
+
 
 
 
