@@ -1,0 +1,36 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US344 - Generation of a Drone Program
+
+autonumber
+
+actor "Drone Tech" as User
+participant ":System" as System
+
+activate User
+
+User -> System : generateDronePrograms(figureId/showId)
+activate System
+
+System -> System : getDSLDescription(figureId/showId)
+System -> System : getDroneModelConfigs()
+
+loop For each drone type in mapping
+    System -> System : getDroneModel(droneType)
+    System -> System : generateDroneCode(droneType, DSL)
+    alt Generation successful
+        System -> System : storeGeneratedCode(droneType, code)
+    else Generation failed
+        System -> System : abortProcess()
+        System --> User : error("Generation failed for droneType")
+    end
+end
+
+System --> User : confirmation("All drone code generated successfully")
+
+deactivate System
+deactivate User
+@enduml

@@ -1,59 +1,60 @@
-# US212 - Disable/enable users
+# US344 - Generation of a Drone Program
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As an Administrator, I want to be able to disable or enable users of the backoffice, so that I can manage who has access to the system at any given time.
+As a Drone Tech, I want the system to use the figure/show high-level description code to generate the code of the drones to be used in the simulation/test.
 
 ### 1.2. Customer Specifications and Clarifications
 
-- A user can either be active or inactive.
-- An inactive user cannot access the system (login attempts must be rejected).
-- The active/inactive status must be persisted in the system's database.
-- Only users with the "Admin" role can perform this action.
-- An Admin cannot disable themselves.
-- Users can be re-enabled at any time.
-- Physical deletion of users is not allowed; only logical deactivation is supported.
+- The high-level description is written in a DSL (Domain Specific Language).
+- The system must translate the high-level DSL into drone-specific executable code for each drone involved in a figure/show.
+- The generation of the program depends on:
+-  **The drone’s model (different models may use different programming languages).**
+-  **The mapping between drone types and drone models in the figure/show.**
+- The generated code must be stored and associated with the figure/show and each drone involved.
+- Validation of the generated code is handled in a separate user story (US346).
 
 **Clarifications**
 
-Q: Can inactive users be listed?
-A: Yes, their status must be clearly shown (see US213).
-
-Q: Can users be disabled automatically?
-A: No. This must be a manual action performed by an Admin.
+Q: Can different drones in the same figure use different models?
+A: Yes, the same figure may map drone types to different drone models.
 
 ### 1.3. Acceptance Criteria
 
-* AC1: Only Admins can enable/disable users.
-* AC2: The system must allow toggling a user's status between active and inactive.
-* AC3: The user's status must be stored in the relational database.
-* AC4: Inactive users must not be allowed to log in.
-* AC5: The system must provide clear feedback (success/error messages) to the Admin.
+* AC1: Only Drone Techs can trigger code generation.
+* AC2: The DSL description and drone-model must exist and be valid.
+* AC3: The system must use the plugin to generate drone-specific code for each drone in the figure/show.
+* AC4: If generation fails for any drone, the entire process must be aborted and an error message returned.
+* AC5: Generated code must be stored and associated with the corresponding drone and figure/show.
 
 ### 1.4. Found out Dependencies
 
-* Depends on US210 – Authentication and authorization (login must honor user status).
-* Related to US211 – User registration.
-* Related to US213 – User listing (must reflect status).
-* NFR08: Role-based access control must be enforced.
+* US341 – The figure DSL must be syntactically validated before code generation.
+* US345 – Plugins for each drone language must be configured and registered.
+* US348 – Show-level code generation may require combining outputs from multiple figures.
+* NFR11 – ANTLR-based processing and plugin use are required.
+* NFR07 – Persistence of generated code is mandatory.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
-* User ID to be enabled/disabled.
-* Action: enable or disable.
+* Figure/show DSL description
+* DSL version
+* Drone type to model
+* Drone model language configuration
+* Registered plugins
 
 **Output Data:**
 
-* Success message with updated user status.
-* Error message if the action is not allowed.
+* Errors if generation fails
+* Success confirmation if all code is generated
 
 ### 1.6. System Sequence Diagram (SSD)
 
-![System Sequence Diagram](svg/us212-system-sequence-diagram.svg)
+![System Sequence Diagram](svg/us344-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
