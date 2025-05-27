@@ -1,58 +1,44 @@
-# US213 - List users
+# US370 - Analyse a Proposal
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As an Administrator, I want to be able to list the users of the backoffice, including their status, so that I can view all registered users and manage access.
+As a Customer, I want to have access to a show proposal of mine. I received a link/code.
 
 ### 1.2. Customer Specifications and Clarifications
 
-- The list must include all users, regardless of whether they are active or inactive.
-- The list must clearly indicate the status of each user ("Active" or "Inactive").
-- Only Admins can access this feature.
+- The customer must be able to access a specific proposal using a link or a unique code previously shared.
 
 **Clarifications**
 
-Q: Are disabled users shown in the list?
-A: Yes, and their status must be clearly visible.
-
-Q: Can non-Admin users access the user list?
-A: No, access is restricted to Admins only.
-
-Q: Can this list be filtered or searched?
-A: Filtering and search features are optional but encouraged for usability.
-
 ### 1.3. Acceptance Criteria
 
-* AC1: Only Admin users can access the user listing.
-* AC2: The system must display all users in the backoffice.
-* AC3: Each user’s information must include name, email, role, and status (active/inactive).
-* AC4: The user data must be retrieved from the database.
-* AC5: The UI must provide clear visibility of each user's status.
+* AC1: A customer can access a proposal using a valid link or code.
+* AC2: The system must display the proposal content in a readable and structured format.
+* AC3: The page must be read-only — no actions like acceptance or editing are allowed here.
 
 ### 1.4. Found out Dependencies
 
-* Depends on US210 – Authentication and authorization (to restrict access to Admins).
-* Depends on US212 – Enable/disable users (status info).
-* Related to US211 – Register users (source of the users to be listed).
-* NFR08 – Role-based access control must be enforced.
+* US316 – The proposal must have been previously sent and made available to the customer.
+* US315 – If available, the simulation video should be shown.
+* US371 – The customer may proceed to accept or reject the proposal afterward.
+* NFR07 – Proposal data and sharing links must be persisted.
+* NFR08 – Proposal access must enforce secure code validation.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
-* Request to access user listing (triggered by Admin).
+* Proposal access code
 
 **Output Data:**
 
-* Name
-* Email
-* Status
+* Proposal details
 
 ### 1.6. System Sequence Diagram (SSD)
 
-![System Sequence Diagram](svg/us213-system-sequence-diagram.svg)
+![System Sequence Diagram](svg/us370-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 

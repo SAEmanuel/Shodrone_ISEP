@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US370 - Analyse a Proposal
+
+autonumber
+
+actor "Customer" as User
+participant ":System" as System
+
+activate User
+
+User -> System : accessProposal(proposalAccessCode)
+activate System
+
+System -> System : validateAccessCode(proposalAccessCode)
+alt code is valid
+    System -> System : retrieveProposalDetails(code)
+    System -> System : retrieveSimulationVideoLink(code)
+    System --> User : displayProposal(details, videoLink)
+else code is invalid
+    System --> User : error("Invalid")
+end
+
+deactivate System
+deactivate User
+@enduml
