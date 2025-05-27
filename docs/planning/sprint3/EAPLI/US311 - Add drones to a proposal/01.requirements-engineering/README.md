@@ -1,62 +1,54 @@
-# US211 - Register users
+# US311 - Add Drones to a Proposal
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As an Administrator, I want to be able to register users of the backoffice, so that they can access the system with the correct role and credentials.
+As a CRM Collaborator, I want to configure the list of drone models (number of drones and model) of a show proposal.
+
 ### 1.2. Customer Specifications and Clarifications
 
-- Each user must have a unique email from the Shodrone domain (@showdrone.com), a name, and a phone number.
-
-- The user must be assigned one of the available roles: Admin, CRM Manager, CRM Collaborator, Show Designer, Drone Tech, or Customer.
-
-- Each user may only have one role (multiple roles may be supported in the future).
-
-- The system must prevent registration of users with duplicate emails.
-
-- A user can be registered manually via the backoffice by an Admin or automatically via a bootstrap process (initialization script or seed data).
+- The user must be able to select existing drone models already registered in the system.
+- The user must specify the quantity of each drone model to be used in the proposal.
+- The drones in the proposal must be compatible with the drone models in the Shodrone inventory.
 
 **Clarifications**
 
-Q: Can users be registered with emails from other domains?
-A: No. Only valid Shodrone emails (ending in @showdrone.com) are accepted.
-
-Q: Can a user be registered without a role?
-A: No. Every user must have a role assigned at the time of registration.
+Q: Can the user assign a drone model that is not in the system?
+A: No. Only registered drone models (created in US240) can be selected.
 
 ### 1.3. Acceptance Criteria
 
-* AC1: Admins can register users by providing name, email, phone number, and role.
-* AC2: The system must validate that the email is in the correct domain (@showdrone.com).
-* AC3: The system must reject duplicate emails.
-* AC4: The user must be persisted in the system's RDBMS with their role and status set to active.
-* AC5: The system must support user creation via a bootstrap script.
-* AC6: Only Admins can access the user registration functionality via the backoffice.
+* AC1: Only CRM Collaborators can add drones to a proposal.
+* AC2: The drone model must already exist in the system.
+* AC3: The number of drones per model must be a positive integer.
+* AC4: The system must reject duplicate entries for the same drone model in the same proposal.
+* AC5: The configuration must be persisted and linked to the correct proposal.
+* AC6: Only proposals in editable state can be modified.
 
 ### 1.4. Found out Dependencies
 
-* Depends on US210 – Authentication and authorization (users must be able to log in after being registered).
-* Related to US212 (enabling/disabling users) and US213 (listing users).
-* NFR08: Role-based access control must be enforced.
-
+* US310 – A proposal must exist before drones can be added to it.
+* US240 – Drone models must exist in the system.
+* NFR07 – Persistence of configuration data must be ensured.
+* NFR08 – Authorization must be enforced based on user role.
+* 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
-* Name
-* Email (must end in @showdrone.com)
-* Phone number
-* Role (predefined set)
+* Proposal ID
+* Drone model ID
+* Quantity of drones
 
 **Output Data:**
 
-* Success message and user ID if registration is successful
-* Error message if email is invalid or already used
+* Confirmation of configuration saved
+* Error messages if validation fails
 
 ### 1.6. System Sequence Diagram (SSD)
 
-![System Sequence Diagram](svg/us211-system-sequence-diagram.svg)
+![System Sequence Diagram](svg/us311-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
