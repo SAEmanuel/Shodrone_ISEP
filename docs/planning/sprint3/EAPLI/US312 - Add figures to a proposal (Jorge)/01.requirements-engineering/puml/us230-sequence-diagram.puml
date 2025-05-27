@@ -1,0 +1,42 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Alternative One
+
+autonumber
+
+actor "CRM Collaborator" as Actor
+participant "System" as System
+
+
+activate Actor
+
+Actor -> System : Ask to add a figure to a proposal
+    activate System
+
+        System --> Actor : list all figures for selection (valid figures)
+    deactivate System
+
+    Actor -> System : select figures in the sequence to be shown
+
+
+
+activate System
+System -> System: Add Figure to Proposal(...)
+System -> System: Validations Result's
+alt Figure Inactive or Incompatible
+else Consecutive Repetition
+    System --> Actor: Error "Consecutive repetition of the same figure is not allowed"
+else Inventory Exceeded
+    System --> Actor: Error "Drone model count exceeds inventory"
+else Success
+    System -> System: Update ShowProposal(figureId, droneTypeMapping, author, timestamp)
+    System -> System: Persist ShowProposal
+    System --> Actor: Success "Figure [figureId] added to proposal [proposalId]"
+deactivate System
+end
+
+deactivate Actor
+@enduml
