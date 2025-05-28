@@ -1,29 +1,32 @@
-# US230 - Register Show request
+# US312 - Add Figure to a Proposal
 
 ## 2. Analysis
 
-### 2.1. Relevant Domain Model Excerpt 
+### 2.1. Relevant Domain Model Excerpt
+
+O modelo de domínio relevante para US312 inclui as entidades e relações envolvidas na adição de figuras a uma proposta de espetáculo. Abaixo está o PlantUML que representa o trecho atualizado do modelo de domínio para esta user story.
 
 ![Domain Model](./puml/us230-domain-model-Register_Show_Request_Domain_Model_Template.svg)
 
 ### 2.2. Other Remarks
 
 - **Implementation Considerations**:
-    - The registration of a `ShowRequest` should leverage the domain-driven design patterns, such as Entities, Value Objects, and Repositories. For example, the `ShowRequest` entity should be persisted using a `ShowRequestRepository`, which supports both in-memory and RDBMS modes (NFR07).
-    - Input validation is critical to ensure data integrity. The system must enforce constraints like non-empty `place`, valid `time` format ("YYYY-MM-DD HH:MM"), positive `numberOfDrones`, and valid `duration`. These validations should be implemented in the application layer (e.g., `RegisterShowRequestService`) before persisting the `ShowRequest`.
-    - The `ShowRequestAuthor` should automatically capture the authenticated CRM Collaborator’s details (e.g., `userId`, `username`) using the authentication context provided by US210 (EAPLI’s `AuthFacade`).
+  - A adição de uma figura a uma `ShowProposal` deve utilizar padrões de Domain-Driven Design (DDD), como Entidades (`ShowProposal`, `FigureExecution`, `Figure`), Objetos de Valor (`DroneTypeMapping`, `ShowProposalAuthor`), e Repositórios (`ShowProposalRepository`, `FigureRepository`, `InventoryRepository`). O `ShowProposalRepository` deve suportar persistência em memória e RDBMS (NFR07).
+  - A validação de entrada é essencial para garantir a integridade dos dados. O sistema deve verificar se a figura selecionada é ativa (`Figure.isActive = true`), se é pública ou exclusiva ao cliente, se não há repetição consecutiva na sequência de figuras (`FigureExecution.sequencePosition`), e se o mapeamento de tipos de drones para modelos é compatível com o inventário (US311).
+  - O `ShowProposalAuthor` deve capturar automaticamente os detalhes do CRM Collaborator autenticado (e.g., `userId`, `username`) usando o contexto de autenticação fornecido por US210 (EAPLI’s `AuthFacade`).
 
 - **Business Rule Enforcement**:
-    - The system must validate that the selected `Customer` has a `status` of "active" or "VIP" (Section 3.1.2, Page 9). This check should be performed in the application layer, querying the `CustomerRepository` to retrieve the `Customer` entity.
+  - O sistema deve validar que a figura selecionada é ativa e disponível para o cliente (`Figure.isPublic = true` ou `Figure.exclusivity` corresponde ao cliente da proposta, per Section 3.1.3, Page 9). Isso deve ser feito na camada de aplicação, consultando o `FigureRepository`.
+  - Deve ser garantido que a figura adicionada não seja a mesma que a última na sequência, evitando repetições consecutivas (e.g., "Circle -> Circle" é inválido, mas "Circle -> Spiral -> Circle" é válido).
+  - O mapeamento de tipos de drones para modelos deve assegurar que o número total de drones por modelo não exceda o inventário ativo (`DroneModelAssignment.quantity`), verificado através do `InventoryRepository` (US311).
 
 - **Future Considerations**:
-    - The `ShowRequest`’s `status` will need to support transitions beyond "Created" (e.g., "Under Review", "Proposed"), as seen in US236 and the proposed US237 (Create Show Proposal). The `ShowRequestStatus` entity is designed to handle this, but future user stories may require additional status values.
-    - A notification mechanism (e.g., email to the customer) after registration could enhance the workflow. This could be addressed in a future user story (e.g., US240 in Sprint 3), as noted in the requirements document.
+  - A sequência de figuras (`FigureExecution`) será usada em user stories futuras, como US315 (Add video of simulation to the proposal), onde a simulação dependerá das figuras adicionadas. Isso pode exigir validações adicionais, como verificar colisões entre figuras consecutivas durante a simulação.
+  - Um recurso de visualização ou reordenação da sequência de figuras pode ser útil para o CRM Collaborator, o que pode ser abordado em uma user story futura (e.g., "Reorder Figures in Proposal").
 
 - **Alignment with Non-Functional Requirements**:
-    - **NFR02 (Documentation)**: The domain model (`us230-domain-model-Register_Show_Request_Domain_Model_Template.svg`) and this analysis document are part of the required documentation, stored in the repository.
-    - **NFR03 (Test-Driven Development)**: Unit tests should be written for the `RegisterShowRequestService`, covering validation of customer status, figure exclusivity, and persistence. End-to-end tests should verify the entire workflow, including the confirmation message.
-    - **NFR08 (Role-Based Access)**: The system must ensure that only authenticated CRM Collaborators can register a show request, enforced via EAPLI’s authentication module (US210).
-
-
+  - **NFR02 (Documentation)**: O modelo de domínio (`us312-domain-model-Add_Figure_To_Proposal_Domain_Model.svg`) e este documento de análise são parte da documentação exigida, armazenados no repositório GitHub na pasta "docs".
+  - **NFR03 (Test-Driven Development)**: Devem ser escritos testes unitários para o serviço `AddFigureToProposalService`, cobrindo validações como o status da figura, repetição consecutiva, e compatibilidade com o inventário. Testes de integração devem verificar a persistência e o workflow completo, incluindo a mensagem de confirmação.
+  - **NFR08 (Role-Based Access)**: O sistema deve garantir que apenas CRM Collaborators autenticados podem adicionar figuras a uma proposta, utilizando o módulo de autenticação do EAPLI (US210).
+  - **NFR07 (Database by Configuration)**: A persistência da `ShowProposal` atualizada deve ser configurável para suportar ambos os modos (in-memory e RDBMS), utilizando o `ShowProposalRepository`.
 

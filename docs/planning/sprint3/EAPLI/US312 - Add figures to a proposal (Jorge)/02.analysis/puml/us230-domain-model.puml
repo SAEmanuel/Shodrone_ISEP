@@ -4,87 +4,73 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title Register Show Request Domain Model Template
+title Add Figure to Proposal - Domain Model (US312)
 
 hide circles
 hide methods
 
-package "CRM Collaborator Subsystem" {
+package "Show Proposal Subsystem" {
 
-    entity "Customer" as Customer {
-      * id : String <<generated>>
-      --
-      * name : String
-      * status : String <<enum>> {active, VIP, inactive}
+    class ShowProposal {
+        String: id
+        Integer: totalDrones
+        List<DroneModelAssignment>: droneModels
+        List<FigureExecution>: figureExecutions
+        ShowProposalAuthor: author
+        DateTime: creationDate
     }
 
-    entity "ShowRequest" as ShowRequest {
-      * id : String <<generated>>
-      --
-      * numberOfDrones : Integer
-      * duration : Integer
-      * creationDate : DateTime
-      * status : String
+    class FigureExecution {
+        String: id
+        Figure: figure
+        Integer: sequencePosition
+        List<DroneTypeMapping>: droneTypeMappings
     }
 
-    entity "ShowProposal" as ShowProposal {
-      * id : String <<generated>>
-      --
-      * proposalDate : DateTime
-      * status : String <<enum>> {Draft, Sent, Approved, Rejected}
-      * costEstimate : Decimal
-      * feasibilityNotes : String
+    class Figure {
+        String: id
+        String: code
+        Boolean: isActive
+        Boolean: isPublic
+        Customer: exclusivity
+        List<DroneType>: droneTypes
     }
 
-    entity "ShowDescription" as ShowDescription {
-      * place : String
-      * latitude : Double
-      * longitude : Double
-      * time : DateTime
+    class DroneTypeMapping {
+        DroneType: droneType
+        DroneModel: droneModel
     }
 
-    entity "FigureExecution" as FigureExecution {
-      * order : Integer
+    class DroneModelAssignment {
+        DroneModel: droneModel
+        Integer: quantity
     }
 
-    entity "Figure" as Figure {
-      * id : String <<generated>>
-      --
-      * name : String
-      * isPublic : Boolean
-      * exclusivity : String
+    class DroneModel {
+        String: id
+        String: modelName
+        String: capabilities
     }
 
-    entity "ShowRequestAuthor" as ShowRequestAuthor {
-      * userId : String
-      * username : String
+    class DroneType {
+        String: id
+        String: typeName
     }
 
-    entity "ShowRequestStatus" as ShowRequestStatus {
-      * status : String
-      * timestamp : DateTime
-      * changedBy : String
+    class ShowProposalAuthor {
+        String: userId
+        String: username
     }
 
-    ' Relationships
-    Customer ||--o{ ShowRequest : requests
-    ShowRequest ||--o| ShowDescription : describes
-    ShowDescription ||--o{ FigureExecution : includes
-    FigureExecution ||--o{ Figure : performs
-    ShowRequest ||--o| ShowRequestAuthor : createdBy
-    ShowRequest ||--o{ ShowRequestStatus : hasStatus
-    ShowRequest ||--o| ShowProposal : proposedAs
-
-    ' Notes on constraints
-    note right of Customer: Must be active or VIP for new requests
-    note right of Figure: Must be public or exclusive to customer
-    note right of ShowRequestStatus: Initialized with "Created" status
-    note right of ShowProposal: Created with "Draft" status
-    note right of ShowRequest: Cannot be edited once a ShowProposal exists
-    note right of ShowDescription: Latitude: [-90.0, 90.0]\nLongitude: [-180.0, 180.0]
-
+    ShowProposal "1" --> "0..*" FigureExecution : contains >
+    FigureExecution "1" --> "1" Figure : refers >
+    FigureExecution "1" --> "1..*" DroneTypeMapping : includes >
+    DroneTypeMapping "1" --> "1" DroneType : maps >
+    DroneTypeMapping "1" --> "1" DroneModel : to >
+    ShowProposal "1" --> "1..*" DroneModelAssignment : assigns >
+    DroneModelAssignment "1" --> "1" DroneModel : refers >
+    ShowProposal "1" --> "1" ShowProposalAuthor : created by >
+    Figure "1" --> "1..*" DroneType : requires >
 }
 
 @enduml
-
-stes ou quiser prosseguir com outra seção (como a implementação de US235), posso ajudar!
