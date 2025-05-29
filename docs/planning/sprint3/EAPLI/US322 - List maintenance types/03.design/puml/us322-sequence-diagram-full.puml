@@ -1,0 +1,59 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Sequence Diagram (SD) - List Maintenance Types
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":ListMaintenanceTypesUI" as UI
+participant ":ListMaintenanceTypesController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as Provider
+participant "MaintenanceTypeRepository\n:MaintenanceTypeRepository" as Repo
+participant "MaintenanceTypeJPAImpl" as JPA
+participant "MaintenanceTypeInMemory" as InMem
+
+activate DT
+
+DT -> UI: requestListMaintenanceTypes()
+activate UI
+UI -> CTRL **: create
+UI -> CTRL: listMaintenanceTypes()
+activate CTRL
+
+CTRL -> Provider **: maintenanceTypeRepository()
+activate Provider
+Provider --> CTRL: repository (dynamic: JPA or InMem)
+deactivate Provider
+
+CTRL -> Repo: findAll()
+activate Repo
+alt Repository is MaintenanceTypeJPAImpl
+    Repo -> JPA: findAll()
+    activate JPA
+    JPA --> Repo: maintenanceTypesList
+    deactivate JPA
+else Repository is MaintenanceTypeInMemory
+    Repo -> InMem: findAll()
+    activate InMem
+    InMem --> Repo: maintenanceTypesList
+    deactivate InMem
+end
+Repo --> CTRL: maintenanceTypesList
+deactivate Repo
+
+CTRL --> UI: maintenanceTypesList
+deactivate CTRL
+
+alt maintenanceTypesList is empty
+    UI --> DT: displayMessage("No maintenance types found in the system")
+else maintenanceTypesList is not empty
+    UI --> DT: displayMaintenanceTypes(maintenanceTypesList)
+end
+
+deactivate UI
+deactivate DT
+
+@enduml

@@ -1,58 +1,47 @@
-# US240 - Drone Model Creation
+## US322 - List Maintenance Types
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As a Drone Tech, I want to create a drone model in the system, including its behavior under varying wind conditions, so that drones of this model can be used in simulations and inventory management. The drone model must include a unique identifier and positional tolerance (x, y, z) as a function of wind speed (x, y, z), defined in steps.
+As a Drone Tech, I want to list all maintenance types in the system. The system must present all maintenance types with their relevant details, such as name or identifier, in a clear and accessible format.
 
 ### 1.2. Customer Specifications and Clarifications
 
-- **From Project Document (Sem4PI_Project_Requirements_v02b.pdf, Page 14)**:
-    - "A drone model includes its behaviour under wind as a tolerance of the drone's position (x, y, z) as a function of the wind speed (x, y, z). In a first crude approach, this can be done in steps. Here is an example in a given direction (wind in m/s): wind <= 5 → 0, 5 < wind <= 7 → 0.3 m, 7 < wind <= 10 → 0.5 m, 10 < wind <= 15 → 0.8 m, 15 < wind → not safe to fly."
-    - "This must also be achieved by a bootstrap process."
-
-- **Additional Specifications**:
-    - The drone model identifier must be unique and case-sensitive to avoid ambiguity.
-    - Wind tolerance data must be provided for all three axes (x, y, z) or as a combined vector, with consistent step-based ranges.
-    - Only authenticated users with the Drone Tech role can create drone models.
-    - The system must provide clear feedback if invalid data is entered (e.g., duplicate identifier, invalid wind tolerance ranges).
-
+- **From Project Document (Sem4PI_Project_Requirements_v03a.pdf, Page 18)**:
+  - "As a Drone Tech, I want to list all maintenance types in the system."
+  - Maintenance types are used to categorize maintenance records and apply to all drone models (related to US321 and US326).
+  - Implied requirement: The list should be retrieved from persistent storage to ensure consistency with maintenance type creation (US321) and usage (US326).
 
 ### 1.3. Acceptance Criteria
 
-- [ ] The system allows a Drone Tech to create a drone model with a unique, case-sensitive identifier.
-- [ ] The system validates wind tolerance data to ensure logical consistency (e.g., increasing deviations, no negative values, "not safe to fly" for wind > 15 m/s).
-- [ ] The system prevents creation of a drone model with a duplicate identifier.
-- [ ] The system supports a bootstrap process to initialize at least one default drone model during system startup.
-- [ ] Only users with the Drone Tech role can create drone models.
-- [ ] The drone model is immediately available for inventory management after creation.
-- [ ] A success or error message is shown after the operation (e.g., "Drone model created successfully" or "Invalid wind tolerance data").
+- [ ] The system allows a Drone Tech to retrieve a list of all maintenance types stored in the system.
+- [ ] The list includes at least the name or identifier of each maintenance type.
+- [ ] Only users with the Drone Tech role can access the list, as per authentication and authorization requirements (US210).
+- [ ] The list is retrieved from persistent storage (relational database, as per NFR07) and displayed efficiently.
+- [ ] If no maintenance types exist, the system displays an appropriate message (e.g., "No maintenance types found in the system").
+- [ ] The list is presented in a sorted order (e.g., alphabetically by name) for user convenience (pending clarification with LAPR4 RUC).
 
 > **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
 
 ### 1.4. Found out Dependencies
 
-- **US210 (Authentication and Authorization)**: Creation of drone models requires authentication and role-based authorization for Drone Tech users.
-- **NFR07 (Database by Configuration)**: Drone model data must be persisted in a relational database or in-memory database, depending on configuration.
-- **NFR08 (Authentication and Authorization)**: The system must enforce role-based access control for this operation.
+- **US210 (Authentication and Authorization)**: Listing maintenance types requires authentication and role-based authorization for Drone Tech users.
+- **US321 (Add Maintenance Type)**: Maintenance types must be created and stored in the system before they can be listed.
+- **US110 (Domain Model)**: The domain model must define the `MaintenanceType` entity to support this functionality.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
-- Drone model identifier (unique, case-sensitive string, e.g., "DJI-Mavic-Pro").
-- Wind tolerance data (step-based mapping of wind speed to positional deviation for x, y, z directions, e.g., {wind <= 5 m/s: 0 m, 5 < wind <= 7 m/s: 0.3 m, ..., wind > 15 m/s: not safe}).
-- Drone name
-- Drone description
-- Max Wind Speed
+- None (the Drone Tech simply requests the list of maintenance types).
 
 **Output Data:**
-- Confirmation of successful creation (success message and drone model details, e.g., identifier and wind tolerance summary).
-- Error message indicating reason for failure (e.g., "Duplicate drone model identifier", "Invalid wind tolerance data").
+- List of maintenance types, including at least the name or identifier for each (e.g., ["Battery Replacement", "Motor Calibration", "MT-003"]).
+- Message indicating no maintenance types exist (e.g., "No maintenance types found in the system") if the list is empty.
 
 ### 1.6. System Sequence Diagram (SSD)
 
-![System Sequence Diagram](svg/us240-system-sequence-diagram-System_Sequence_Diagram__SSD____Drone_Model_Creation.svg)  
+![System Sequence Diagram](svg/us322-system-sequence-diagram-System_Sequence_Diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
