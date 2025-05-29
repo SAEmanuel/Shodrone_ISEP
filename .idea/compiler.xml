@@ -19,6 +19,7 @@
         <module name="shodrone.customer_app_server" />
         <module name="backoffice" />
         <module name="shodrone.shared" />
+        <module name="shodrone.backoffice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
