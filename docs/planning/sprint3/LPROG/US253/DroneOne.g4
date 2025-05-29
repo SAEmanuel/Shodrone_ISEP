@@ -34,11 +34,11 @@ expression:
     | expression DIVIDE expression;
 
 timeExpression:
-    INT
-    | INT STAR timeExpression
-    | INT PLUS timeExpression
-    | INT MINUS timeExpression
-    | INT DIVIDE timeExpression;
+    VALUE
+    | timeExpression STAR timeExpression
+    | timeExpression PLUS timeExpression
+    | timeExpression MINUS timeExpression
+    | timeExpression DIVIDE timeExpression;
 
 tuple: LPAREN VALUE COMMA VALUE COMMA VALUE RPAREN;
 
