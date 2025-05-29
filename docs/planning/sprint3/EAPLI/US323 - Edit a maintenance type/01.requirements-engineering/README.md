@@ -1,53 +1,55 @@
-# US242 - Remove Drone from Inventory
+# US323 - Edit a Maintenance Type
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As a Drone Tech, I want to remove a specific drone from the inventory, so that it can be excluded from simulations and shows. The drone should be identified by its unique serial number, and its removal should update its status to "unavailable." The reason for removal and the date of removal must be stored for auditability.
+As a Drone Tech, I want to edit an existing maintenance type in the system, so that I can update its details to reflect changes in maintenance categorization needs. The system must allow editing of the maintenance type’s name or identifier, ensuring the updated details remain unique and are stored persistently.
 
 ### 1.2. Customer Specifications and Clarifications
 
-- **From Project Document (Sem4PI_Project_Requirements_v02b.pdf, Page 15, Lines 32-33)**:
-    - "The system must allow removing drones from the inventory."
-    - "The reason for removal and the date must be stored."
+- **From Project Document (Sem4PI_Project_Requirements_v03a.pdf, Page 18)**:
+  - "As a Drone Tech, I want to edit a maintenance type."
+  - Maintenance types apply to all drone models and are used to categorize maintenance activities.
+  - Implied requirement: The edited maintenance type name or identifier must remain unique to avoid ambiguity.
 
-- **Additional Specifications**:
-    - The drone to be removed must be identified by its unique, case-sensitive serial number, which must exist in the inventory.
-    - Upon removal, the drone’s status should be updated to "unavailable," rather than permanently deleting the record, to maintain auditability and historical data.
-    - The Drone Tech must provide a reason for removal (e.g., "Damaged in simulation"), which will be stored with the drone’s record.
-    - The system must automatically record the date of removal when the operation is performed.
-    - Only authenticated users with the Drone Tech role can remove drones from the inventory.
+- **Adaptations Due to Project Constraints**:
+  - The original requirement that "only maintenance types without stored maintenance records can be edited" is not applicable, as US326 (Add Maintenance Record to a Drone) and related user stories (US325, US327, US328) are not being implemented due to the group’s size limitation (five members).
+  - Therefore, any maintenance type can be edited without checking for associated maintenance records, simplifying the validation process.
+
 
 ### 1.3. Acceptance Criteria
 
-- [ ] The system allows a Drone Tech to remove a drone from the inventory by providing its unique, case-sensitive serial number and a reason for removal.
-- [ ] The system validates that the serial number corresponds to an existing drone in the inventory.
-- [ ] The system updates the drone’s status to "unavailable" upon removal, rather than deleting the record.
-- [ ] The system stores the reason for removal provided by the Drone Tech.
-- [ ] The system automatically records the date of removal.
-- [ ] Only users with the Drone Tech role can remove drones from the inventory.
-- [ ] A success or error message is shown after the operation (e.g., "Drone removed successfully" or "Serial number not found").
+- [ ] The system allows a Drone Tech to edit the name or identifier of an existing maintenance type.
+- [ ] The system validates that the updated name/identifier is unique (case-sensitive).
+- [ ] Only users with the Drone Tech role can edit maintenance types, as per authentication and authorization requirements (US210).
+- [ ] The edited maintenance type is stored persistently in the system (relational database, as per NFR07) and retrievable for subsequent operations.
+- [ ] A success or error message is shown after the operation (e.g., "Maintenance type 'Battery Replacement' updated successfully" or "Duplicate maintenance type name: Battery Replacement").
+- [ ] If the maintenance type does not exist, an appropriate error message is displayed (e.g., "Maintenance type not found").
 
 > **Note:** These acceptance criteria will be checked off as they are addressed and implemented during the development process.
 
 ### 1.4. Found out Dependencies
 
-- **US241 (Add Drone to Inventory)**: The ability to remove a drone depends on it being added to the inventory first, with a unique serial number.
-- **US210 (Authentication and Authorization)**: Removing a drone requires authentication and role-based authorization for Drone Tech users.
+- **US210 (Authentication and Authorization)**: Editing maintenance types requires authentication and role-based authorization for Drone Tech users.
+- **US321 (Add Maintenance Type)**: Maintenance types must be created and stored in the system before they can be edited.
+- **US322 (List Maintenance Types)**: The system should allow listing maintenance types to select one for editing.
+- **US110 (Domain Model)**: The domain model must define the `MaintenanceType` entity to support this functionality.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
-- Serial number (unique, case-sensitive string, e.g., "SN-001"), identifying the drone to be removed.
-- Removal reason (a string provided by the Drone Tech, e.g., "Damaged in simulation").
+- Maintenance type identifier (to select the maintenance type to edit, e.g., "Battery Replacement" or "MT-001").
+- Updated maintenance type name or identifier (unique, case-sensitive, e.g., "Battery Replacement V2").
+- Optional: Updated description or additional metadata (to be clarified with LAPR4 RUC if required).
 
 **Output Data:**
-- Confirmation of successful removal (success message and serial number, e.g., "Drone removed successfully: SN-001").
+- Confirmation of successful update (success message, e.g., "Maintenance type 'Battery Replacement V2' updated successfully").
+- Error message indicating reason for failure (e.g., "Duplicate maintenance type name: Battery Replacement V2", "Maintenance type not found").
 
 ### 1.6. System Sequence Diagram (SSD)
 
-![System Sequence Diagram](svg/us242-system-sequence-diagram-System_Sequence_Diagram__SSD____Drone_Model_Creation.svg)  
+![System Sequence Diagram](svg/us323-system-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
