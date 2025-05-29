@@ -2,6 +2,7 @@ package ui.users;
 
 import ui.figure.ListPublicFiguresUI;
 import ui.figure.SearchFigureUI;
+import ui.showproposal.AddFiguresToProposalUI;
 import ui.showrequest.EditShowRequestUI;
 import ui.showrequest.ListShowRequestByCostumerUI;
 import ui.customer.RegisterCustomerUI;
@@ -54,6 +55,7 @@ public class CRMCollaboratorUI implements Runnable {
         options.add(new MenuItem("Register customer", new RegisterCustomerUI()));
         options.add(new MenuItem("List All Public Figures", new ListPublicFiguresUI()) );
         options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
+        options.add(new MenuItem("Add Figures to Show Proposal", new AddFiguresToProposalUI()));
 
         int option;
         do {

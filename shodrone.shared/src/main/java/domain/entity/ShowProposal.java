@@ -3,7 +3,6 @@ package domain.entity;
 import domain.valueObjects.Description;
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowProposalStatus;
-import domain.valueObjects.ShowRequestStatus;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntityBase;
 import jakarta.persistence.*;
@@ -15,8 +14,12 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+
+import static java.lang.String.format;
+import static more.ColorfulOutput.*;
 
 
 public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoot<Long>, Serializable, IdentifiableEntity<Long> {
@@ -31,6 +34,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Column(name = "Show_Proposal_ID", nullable = false, unique = true)
     private Long showProposalID;
 
+    @Getter
     @Column(name = "Show_Request_Associated", nullable = false)
     private Long showRequestID;
 
@@ -121,6 +125,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
         this.video = video;
         this.creationAuthor = creationAuthor;
         this.creationDate = creationDate;
+        this.status = ShowProposalStatus.CREATED;
     }
 
     @Override
@@ -138,6 +143,23 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Override
     public int hashCode() {
         return Objects.hash(showProposalID);
+    }
+
+    @Override
+    public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return String.format(
+                "%s%sID_SP =%s %d %s| %s%sID_SR =%s %s %s| %s%sStatus =%s%s %s%s | %s%sDrones =%s %-4d %s| %s%sDuration =%s %-8s %s| %s%sAuthor =%s %s %s| %s%sCreation Date =%s %s %s| %s%sStart Date =%s %s %s| %s%sLocation =%s %s %s",
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, identity(), ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getShowRequestID() != null ? getShowRequestID() : "N/A", ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, ANSI_PURPLE, getStatus(), ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getNumberOfDrones(), ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getShowDuration().toMinutes() + " min", ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getCreationAuthor(), ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getCreationDate().format(formatter), ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getShowDate() != null ? getShowDate().format(formatter) : "N/A", ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getLocation() != null ? getLocation().toString() : "N/A", ANSI_RESET
+        );
     }
 
 }

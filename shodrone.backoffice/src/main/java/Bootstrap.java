@@ -6,6 +6,10 @@ import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Bootstrap implements Runnable {
@@ -18,7 +22,10 @@ public class Bootstrap implements Runnable {
         addFigures();
         addDroneModels();
         addDrones();
+        initLists();
+        addProposals();
     }
+
 
     // --- User Setup -----------------------------------------------------
     private void addUsers() {
@@ -128,6 +135,41 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.droneRepository().save(drone20);
     }
 
+    private void initLists() {
+        list1.add(figure1);
+
+        list2.add(figure2);
+        list2.add(figure3);
+
+        list3.add(figure4);
+        list3.add(figure5);
+        list3.add(figure6);
+
+        list4.add(figure7);
+        list4.add(figure8);
+        list4.add(figure9);
+        list4.add(figure10);
+
+        list5.add(figure11);
+        list5.add(figure12);
+        list5.add(figure13);
+        list5.add(figure14);
+        list5.add(figure15);
+
+        list6.add(figure16);
+        list6.add(figure17);
+        list6.add(figure18);
+        list6.add(figure19);
+        list6.add(figure20);
+    }
+
+    private void addProposals() {
+        RepositoryProvider.showProposalRepository().saveInStore(proposal1);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal2);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal3);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal4);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal5);
+    }
 
 
     // --- Categories -----------------------------------------------------
@@ -178,28 +220,36 @@ public class Bootstrap implements Runnable {
     );
 
     // --- Figures --------------------------------------------------------
-    private final Figure figure1  = new Figure(new domain.valueObjects.Name("Circle"),         new Description("A perfect round shape"),                   1L,  category1,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"),  customer1);
-    private final Figure figure2  = new Figure(new domain.valueObjects.Name("Tree"),           new Description("A tall plant with a trunk"),              3L,  category3,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer1);
-    private final Figure figure3  = new Figure(new domain.valueObjects.Name("Guitar"),         new Description("A stringed musical instrument"),           7L,  category7,  FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"),  customer1);
-    private final Figure figure4  = new Figure(new domain.valueObjects.Name("Rocket"),         new Description("A vehicle propelled by rocket engines"),   9L,  category9,  FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
-    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Heart"),          new Description("A classic symbol of love"),               14L, category14, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
-    private final Figure figure6 = new Figure(new domain.valueObjects.Name("Flower"),         new Description("A colorful part of a plant"),             16L, category16, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"),  customer1);
-    private final Figure figure7 = new Figure(new domain.valueObjects.Name("Fish"),           new Description("A typical sea fish"),                     19L, category19, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
+    private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
+    private final Figure figure2 = new Figure(new domain.valueObjects.Name("Tree"), new Description("A tall plant with a trunk"), 3L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer1);
+    private final Figure figure3 = new Figure(new domain.valueObjects.Name("Guitar"), new Description("A stringed musical instrument"), 7L, category7, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
+    private final Figure figure4 = new Figure(new domain.valueObjects.Name("Rocket"), new Description("A vehicle propelled by rocket engines"), 9L, category9, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
+    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Heart"), new Description("A classic symbol of love"), 14L, category14, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
+    private final Figure figure6 = new Figure(new domain.valueObjects.Name("Flower"), new Description("A colorful part of a plant"), 16L, category16, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
+    private final Figure figure7 = new Figure(new domain.valueObjects.Name("Fish"), new Description("A typical sea fish"), 19L, category19, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
 
-    private final Figure figure8  = new Figure(new domain.valueObjects.Name("Robot"),          new Description("A programmable machine"),                 4L,  category4,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"),  customer2);
-    private final Figure figure9  = new Figure(new domain.valueObjects.Name("Spiral"),         new Description("A curve that winds around a center point"), 5L,  category5,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
-    private final Figure figure10 = new Figure(new domain.valueObjects.Name("Car"),            new Description("A four-wheeled motor vehicle"),           10L, category10, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"),  customer2);
-    private final Figure figure11 = new Figure(new domain.valueObjects.Name("Pizza"),          new Description("A slice of Italian pizza"),               11L, category11, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
-    private final Figure figure12 = new Figure(new domain.valueObjects.Name("House"),          new Description("A simple house with a roof"),             13L, category13, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"),  customer2);
-    private final Figure figure13 = new Figure(new domain.valueObjects.Name("Dragon"),         new Description("A mythical fire-breathing creature"),     17L, category17, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
-    private final Figure figure14 = new Figure(new domain.valueObjects.Name("Smiley"),         new Description("A classic smiling emoji face"),           20L, category20, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
+    private final Figure figure8 = new Figure(new domain.valueObjects.Name("Robot"), new Description("A programmable machine"), 4L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
+    private final Figure figure9 = new Figure(new domain.valueObjects.Name("Spiral"), new Description("A curve that winds around a center point"), 5L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
+    private final Figure figure10 = new Figure(new domain.valueObjects.Name("Car"), new Description("A four-wheeled motor vehicle"), 10L, category10, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
+    private final Figure figure11 = new Figure(new domain.valueObjects.Name("Pizza"), new Description("A slice of Italian pizza"), 11L, category11, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
+    private final Figure figure12 = new Figure(new domain.valueObjects.Name("House"), new Description("A simple house with a roof"), 13L, category13, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
+    private final Figure figure13 = new Figure(new domain.valueObjects.Name("Dragon"), new Description("A mythical fire-breathing creature"), 17L, category17, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
+    private final Figure figure14 = new Figure(new domain.valueObjects.Name("Smiley"), new Description("A classic smiling emoji face"), 20L, category20, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
 
-    private final Figure figure15  = new Figure(new domain.valueObjects.Name("Airplane"),       new Description("A fixed-wing flying vehicle"),            2L,  category2,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
-    private final Figure figure16  = new Figure(new domain.valueObjects.Name("Cat"),            new Description("A domestic feline animal"),               6L,  category6,  FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
-    private final Figure figure17  = new Figure(new domain.valueObjects.Name("Football"),       new Description("A classic soccer ball"),                  8L,  category8,  FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer3);
-    private final Figure figure18 = new Figure(new domain.valueObjects.Name("Runner"),         new Description("A person running"),                       12L, category12, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
-    private final Figure figure19 = new Figure(new domain.valueObjects.Name("Christmas Tree"), new Description("A decorated pine for Christmas"),         18L, category18, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"),  customer3);
-    private final Figure figure20 = new Figure(new domain.valueObjects.Name("Cloud"),          new Description("A visible mass of condensed water vapor"),15L, category15, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer3);
+    private final Figure figure15 = new Figure(new domain.valueObjects.Name("Airplane"), new Description("A fixed-wing flying vehicle"), 2L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
+    private final Figure figure16 = new Figure(new domain.valueObjects.Name("Cat"), new Description("A domestic feline animal"), 6L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
+    private final Figure figure17 = new Figure(new domain.valueObjects.Name("Football"), new Description("A classic soccer ball"), 8L, category8, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer3);
+    private final Figure figure18 = new Figure(new domain.valueObjects.Name("Runner"), new Description("A person running"), 12L, category12, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
+    private final Figure figure19 = new Figure(new domain.valueObjects.Name("Christmas Tree"), new Description("A decorated pine for Christmas"), 18L, category18, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer3);
+    private final Figure figure20 = new Figure(new domain.valueObjects.Name("Cloud"), new Description("A visible mass of condensed water vapor"), 15L, category15, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer3);
+
+    // --- List Figures --------------------------------------------------------
+    private final List<Figure> list1 = new ArrayList<>();
+    private final List<Figure> list2 = new ArrayList<>();
+    private final List<Figure> list3 = new ArrayList<>();
+    private final List<Figure> list4 = new ArrayList<>();
+    private final List<Figure> list5 = new ArrayList<>();
+    private final List<Figure> list6 = new ArrayList<>();
 
     // --- Drone Models ------------------------------------------------------
     private final DroneModel droneModel1 = new DroneModel(
@@ -254,5 +304,37 @@ public class Bootstrap implements Runnable {
     private final Drone drone18 = new Drone(new SerialNumber("SN-00018"), droneModel5);
     private final Drone drone19 = new Drone(new SerialNumber("SN-00019"), droneModel5);
     private final Drone drone20 = new Drone(new SerialNumber("SN-00020"), droneModel5);
+
+
+    // --- Proposals -----------------------------------------------------------
+    private final ShowProposal proposal1 = new ShowProposal(1L, null,list1,
+            new Description("Description 1"),
+            new Location(new Address("Street1","City1","4444-000","Country1"),60,120,"Description"),
+            LocalDateTime.now().plusDays(3L),10, Duration.ofMinutes(60),null,
+            "crm_collaborator@shodrone.app",LocalDateTime.now());
+
+    private final ShowProposal proposal2 = new ShowProposal(2L, null, list2,
+            new Description("Description 2"),
+            new Location(new Address("Street2", "City2", "5555-111", "Country2"), 50, 100, "Another description"),
+            LocalDateTime.now().plusDays(5L), 15, Duration.ofMinutes(45), null,
+            "crm_collaborator@shodrone.app", LocalDateTime.now());
+
+    private final ShowProposal proposal3 = new ShowProposal(3L, null, list3,
+            new Description("Description 3"),
+            new Location(new Address("Street3", "City3", "6666-222", "Country3"), 45, 150, "Yet another description"),
+            LocalDateTime.now().plusDays(7L), 20, Duration.ofMinutes(90), null,
+            "crm_collaborator@shodrone.app", LocalDateTime.now());
+
+    private final ShowProposal proposal4 = new ShowProposal(4L, null, list4,
+            new Description("Description 4"),
+            new Location(new Address("Street4", "City4", "7777-333", "Country4"), 80, 130, "Different description"),
+            LocalDateTime.now().plusDays(10L), 12, Duration.ofMinutes(75), null,
+            "crm_collaborator@shodrone.app", LocalDateTime.now());
+
+    private final ShowProposal proposal5 = new ShowProposal(5L, null, list5,
+            new Description("Description 5"),
+            new Location(new Address("Street5", "City5", "8888-444", "Country5"), 80, 110, "Some description here"),
+            LocalDateTime.now().plusDays(12L), 18, Duration.ofMinutes(120), null,
+            "crm_collaborator@shodrone.app", LocalDateTime.now());
 
 }

@@ -5,7 +5,7 @@ public enum ShowProposalStatus {
     /**
      * Represents the status of a Show Request.
      */
-    SEND, APPROVED, REJECTED;
+    CREATED,SEND, APPROVED, REJECTED;
 
     /**
      * Returns the ShowRequestStatus corresponding to the given string.

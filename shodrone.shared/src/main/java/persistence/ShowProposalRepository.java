@@ -2,10 +2,12 @@ package persistence;
 
 import domain.entity.ShowProposal;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ShowProposalRepository {
 
-    public Optional<ShowProposal> saveInStore(Long showRequestID,ShowProposal entity);
+    public Optional<ShowProposal> saveInStore(ShowProposal entity);
 
+    public Optional<List<ShowProposal>> getAllProposals();
 }

@@ -48,6 +48,7 @@ public class RepositoryProvider {
     private static UserRepository userRepository;
     private static CustomerRepresentativeRepository customerRepresentativeRepository;
     private static ListUserController listUserController;
+    private static ShowProposalRepository showProposalRepository;
 
 
     private static AuditLoggerService auditLoggerService;
@@ -128,6 +129,23 @@ public class RepositoryProvider {
             }
         }
         return costumerRepository;
+    }
+
+
+    /**
+     * Retrieves the Show Proposal repository.
+     *
+     * @return The Show Proposal repository.
+     */
+    public static ShowProposalRepository showProposalRepository() {
+        if (showProposalRepository == null) {
+            if (isInMemory()) {
+                showProposalRepository = new InMemoryShowProposalRepository();
+            } else {
+                showProposalRepository = new ShowProposalJPAImpl();
+            }
+        }
+        return showProposalRepository;
     }
 
     /**
