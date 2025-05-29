@@ -1,0 +1,114 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Sequence Diagram (SD) - Edit Maintenance Type
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":EditMaintenanceTypeUI" as UI
+participant ":EditMaintenanceTypeController" as CTRL
+participant "Name" as NameVO
+participant "Description" as DescVO
+participant "MaintenanceType" as MT
+participant "repositoryProvider\n:RepositoryProvider" as Provider
+participant "MaintenanceTypeRepository\n:MaintenanceTypeRepository" as Repo
+participant "MaintenanceTypeJPAImpl" as JPA
+participant "MaintenanceTypeInMemory" as InMem
+
+activate DT
+
+DT -> UI: requestEditMaintenanceType()
+activate UI
+UI --> DT: requestMaintenanceTypeSelection()
+deactivate UI
+
+DT -> UI: selectMaintenanceType(identifier)
+activate UI
+UI -> CTRL **: create
+UI -> CTRL: getMaintenanceType(identifier)
+activate CTRL
+
+CTRL -> Provider **: maintenanceTypeRepository()
+activate Provider
+Provider --> CTRL: repository (dynamic: JPA or InMem)
+deactivate Provider
+
+CTRL -> Repo: findById(identifier)
+activate Repo
+Repo --> CTRL: Optional<MaintenanceType>
+deactivate Repo
+
+alt maintenance type not found
+    CTRL --> UI: errorMessage("Maintenance type not found")
+    UI --> DT: errorMessage("Maintenance type not found")
+    deactivate CTRL
+    deactivate UI
+else maintenance type found
+    CTRL --> UI: maintenanceType
+    UI --> DT: requestUpdatedDetails()
+    deactivate CTRL
+    DT -> UI: provideUpdatedDetails(newName, newDescription)
+    UI -> CTRL **: create
+    UI -> CTRL: updateMaintenanceType(identifier, newName, newDescription)
+    activate CTRL
+
+    CTRL -> NameVO **: create(newName)
+    activate NameVO
+    NameVO -> NameVO: isValid()
+    NameVO --> CTRL: Name instance
+    deactivate NameVO
+
+    CTRL -> DescVO **: create(newDescription)
+    activate DescVO
+    DescVO --> CTRL: Description instance
+    deactivate DescVO
+
+    CTRL -> Repo: findByName(newName)
+    activate Repo
+    Repo --> CTRL: Optional<MaintenanceType>
+    deactivate Repo
+
+    alt name is not unique
+        CTRL --> UI: errorMessage("Duplicate maintenance type name!")
+        UI --> DT: errorMessage("Duplicate maintenance type name!")
+        deactivate CTRL
+    else name is unique
+        CTRL -> MT: update(newName, newDescription)
+        activate MT
+        MT --> CTRL: updated MaintenanceType
+        deactivate MT
+
+        CTRL -> Repo: save(maintenanceType)
+        activate Repo
+        alt Repository is MaintenanceTypeJPAImpl
+            Repo -> JPA: save(maintenanceType)
+            activate JPA
+            JPA --> Repo: Optional<MaintenanceType>
+            deactivate JPA
+        else Repository is MaintenanceTypeInMemory
+            Repo -> InMem: save(maintenanceType)
+            activate InMem
+            InMem --> Repo: Optional<MaintenanceType>
+            deactivate InMem
+        end
+        Repo --> CTRL: Optional<MaintenanceType>
+        deactivate Repo
+
+        alt save failed
+            CTRL --> UI: errorMessage("Failed to update maintenance type!")
+            UI --> DT: errorMessage("Failed to update maintenance type!")
+        else save succeeded
+            CTRL --> UI: successMessage("Maintenance type updated successfully!")
+            UI --> DT: successMessage("Maintenance type updated successfully!")
+        end
+    end
+    deactivate CTRL
+end
+
+deactivate UI
+deactivate DT
+
+@enduml

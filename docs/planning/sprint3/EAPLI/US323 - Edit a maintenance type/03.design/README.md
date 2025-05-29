@@ -1,17 +1,17 @@
-# US242 - Remove Drone from Inventory
+# US323 - Edit a Maintenance Type
 
 ## 3. Design
 
-### 3.1. UI Sequence Diagram (SD)
+### 3.1. Sequence Diagram (SD)
 
-The following sequence diagram illustrates the process of removing a drone from the inventory by creating a `DroneRemovalRecord` with the removal details.
+The following sequence diagram illustrates the process of editing a maintenance type, including selecting a maintenance type, validating the updated name for uniqueness, and persisting the changes.
 
-![UI Sequence Diagram - Remove Drone from Inventory](svg/us242-sequence-diagram-full-UI_Sequence_Diagram__SD____Drone_Model_Creation.svg)
+![Sequence Diagram - Edit Maintenance Type](svg/us242-sequence-diagram-full.svg)
 
 #### Key Interactions:
-- **Drone Tech and UI**: The Drone Tech initiates the removal process via the `RemoveDroneFromInventoryUI`, providing the serial number and removal reason.
-- **Controller and Repositories**: The `RemoveDroneFromInventoryController` uses the `DroneRepository` to validate the serial number, and the `DroneRemovalRecordRepository` to persist the removal record.
-- **Controller and Factory**: The controller uses the `DroneRemovalRecordFactoryImpl` to create a `DroneRemovalRecord` with the serial number, removal reason, removal date, and the user who performed the removal.
-- **Audit Information**: The controller retrieves the `removalDate` from `LocalDateTime` and the `removedBy` user from `AuthService`.
-- **Persistence**: The `DroneRemovalRecord` is persisted in both the JPA (`DroneRemovalRecordJPAImpl`) and in-memory (`InMemoryDroneRemovalRecordRepository`) repositories, adhering to NFR07.
-- **Feedback**: The UI informs the Drone Tech of the operation’s success or failure, including the serial number.
+- **Drone Tech and UI**: The Drone Tech initiates the edit process via the `EditMaintenanceTypeUI`, selecting a maintenance type by its identifier and providing updated details (name and optional description).
+- **Controller and Domain**: The `EditMaintenanceTypeController` retrieves the existing `MaintenanceType` using the `MaintenanceTypeRepository`, validates the new name for uniqueness, and updates the `MaintenanceType` aggregate with the new `Name` and `Description` value objects.
+- **Controller and Repositories**: The controller uses the `RepositoryProvider` to obtain the `MaintenanceTypeRepository`, which checks for name uniqueness and persists the updated `MaintenanceType`. The repository supports both JPA (`MaintenanceTypeJPAImpl`) and in-memory (`MaintenanceTypeInMemory`) implementations, adhering to NFR07.
+- **Persistence**: The updated `MaintenanceType` is saved to the repository, ensuring changes are stored in the relational database (NFR07).
+- **Feedback**: The UI informs the Drone Tech of the operation’s success (e.g., "Maintenance type updated successfully!") or failure (e.g., "Duplicate maintenance type name!" or "Maintenance type not found").
+- **Error Handling**: The system validates the existence of the maintenance type and the uniqueness of the new name (case-sensitive), handling errors gracefully.
