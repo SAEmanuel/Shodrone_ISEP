@@ -1,0 +1,27 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - List Maintenance Types
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: requestListMaintenanceTypes()
+activate System
+System -> System: retrieveMaintenanceTypes()
+alt maintenance types exist
+    System --> DT: displayMaintenanceTypes(maintenanceTypesList)
+else no maintenance types
+    System --> DT: displayMessage("No maintenance types found in the system")
+end
+deactivate System
+
+deactivate DT
+
+@enduml
