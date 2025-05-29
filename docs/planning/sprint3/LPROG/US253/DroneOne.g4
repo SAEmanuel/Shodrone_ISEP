@@ -22,7 +22,6 @@ distance: 'Distance' IDENTIFIER EQUALS expression;
 time: 'Time' IDENTIFIER EQUALS timeExpression;
 
 tupleEpression :
-        tuple  tupleEpression
         | tuple MINUS tupleEpression
         | tuple PLUS tupleEpression
         | tuple;

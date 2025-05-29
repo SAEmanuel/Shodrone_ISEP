@@ -12,7 +12,7 @@ $(OUT_DIR):
 	mkdir -p $(OUT_DIR)
 
 antlr: $(OUT_DIR)
-	java -Xmx500M -cp $(CLASSPATH) org.antlr.v4.Tool -o $(OUT_DIR) $(GRAMMAR)
+	java -Xmx500M -cp $(CLASSPATH) org.antlr.v4.Tool -visitor -o $(OUT_DIR) $(GRAMMAR)
 
 compile: antlr
 	javac -cp $(CLASSPATH) -d $(OUT_DIR) $(OUT_DIR)/*.java Main.java
