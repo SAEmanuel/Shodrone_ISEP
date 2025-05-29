@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title  DroneMaintenanceType Domain Model Section
+
+hide circles
+hide methods
+
+package "DroneMaintenanceType Aggregate" {
+
+    class DroneMaintenanceType <<AggregateRoot>> {
+    }
+
+    class Name <<ValueObject>> {
+    }
+
+    class Description <<ValueObject>> {
+    }
+
+}
+
+DroneMaintenanceType "1" --- "1" Name : >
+DroneMaintenanceType "1" --- "1" Description : >
+
+
+@enduml
