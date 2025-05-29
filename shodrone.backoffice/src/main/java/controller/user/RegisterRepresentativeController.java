@@ -1,5 +1,6 @@
 package controller.user;
 
+import constants.Roles;
 import domain.entity.Costumer;
 import domain.entity.Email;
 import domain.entity.CustomerRepresentative;
@@ -33,7 +34,7 @@ public class RegisterRepresentativeController {
                 name.name(),
                 email.getEmail(),
                 password,
-                AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE
+                Roles.ROLE_CUSTOMER_REPRESENTATIVE
         );
     }
 }

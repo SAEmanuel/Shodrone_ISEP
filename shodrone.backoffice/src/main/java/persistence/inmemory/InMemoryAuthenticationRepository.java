@@ -200,4 +200,9 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
     public List<User> findAll() {
         return new ArrayList<>(userStore.values());
     }
+
+    @Override
+    public Optional<User> findCustomerRepresentativeByEmail(String email) {
+        return Optional.empty();
+    }
 }

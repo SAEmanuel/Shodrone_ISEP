@@ -1,5 +1,6 @@
 package authz;
 
+import constants.Roles;
 import controller.authz.AuthenticationController;
 import domain.entity.UserRole;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,26 +29,26 @@ public class RegisterUserTest {
             inmemoryRepo.reset();
         }
 
-        authRepo.addUserRole(AuthenticationController.ROLE_ADMIN, "Administrator");
-        authRepo.addUserRole(AuthenticationController.ROLE_CRM_MANAGER, "CRM Manager");
-        authRepo.addUserRole(AuthenticationController.ROLE_CRM_COLLABORATOR, "CRM Collaborator");
-        authRepo.addUserRole(AuthenticationController.ROLE_SHOW_DESIGNER, "Show Designer");
-        authRepo.addUserRole(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE, "Customer Representative");
-        authRepo.addUserRole(AuthenticationController.ROLE_DRONE_TECH, "Drone Technician");
+        authRepo.addUserRole(Roles.ROLE_ADMIN, "Administrator");
+        authRepo.addUserRole(Roles.ROLE_CRM_MANAGER, "CRM Manager");
+        authRepo.addUserRole(Roles.ROLE_CRM_COLLABORATOR, "CRM Collaborator");
+        authRepo.addUserRole(Roles.ROLE_SHOW_DESIGNER, "Show Designer");
+        authRepo.addUserRole(Roles.ROLE_CUSTOMER_REPRESENTATIVE, "Customer Representative");
+        authRepo.addUserRole(Roles.ROLE_DRONE_TECH, "Drone Technician");
 
-        authRepo.addUserWithRole("Administrator x", "admin@shodrone.app", "Admin123!", AuthenticationController.ROLE_ADMIN);
-        authRepo.addUserWithRole("CRM Manager x", "crm_manager@shodrone.app", "CrmMan456@", AuthenticationController.ROLE_CRM_MANAGER);
-        authRepo.addUserWithRole("CRM Collaborator x", "crm_collaborator@shodrone.app", "Colab789#", AuthenticationController.ROLE_CRM_COLLABORATOR);
-        authRepo.addUserWithRole("Show Designer x", "show_designer@shodrone.app", "Show321$", AuthenticationController.ROLE_SHOW_DESIGNER);
-        authRepo.addUserWithRole("Representative x", "representative@shodrone.app", "Repres654%", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
-        authRepo.addUserWithRole("Drone Technician x", "dronetech@shodrone.app", "Drone987^", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
-        authRepo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", AuthenticationController.ROLE_CRM_COLLABORATOR);
-        authRepo.addUserWithRole("Drone Technician - Staff", "xv@shodrone.app", "Xv1234!", AuthenticationController.ROLE_DRONE_TECH);
+        authRepo.addUserWithRole("Administrator x", "admin@shodrone.app", "Admin123!", Roles.ROLE_ADMIN);
+        authRepo.addUserWithRole("CRM Manager x", "crm_manager@shodrone.app", "CrmMan456@", Roles.ROLE_CRM_MANAGER);
+        authRepo.addUserWithRole("CRM Collaborator x", "crm_collaborator@shodrone.app", "Colab789#", Roles.ROLE_CRM_COLLABORATOR);
+        authRepo.addUserWithRole("Show Designer x", "show_designer@shodrone.app", "Show321$", Roles.ROLE_SHOW_DESIGNER);
+        authRepo.addUserWithRole("Representative x", "representative@shodrone.app", "Repres654%", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        authRepo.addUserWithRole("Drone Technician x", "dronetech@shodrone.app", "Drone987^", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        authRepo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", Roles.ROLE_CRM_COLLABORATOR);
+        authRepo.addUserWithRole("Drone Technician - Staff", "xv@shodrone.app", "Xv1234!", Roles.ROLE_DRONE_TECH);
     }
 
     @Test
     public void ensureUserIsCreatedSuccessfully() {
-        boolean result = authRepo.addUserWithRole("João Silva", "joao@shodrone.app", "Pass123@", AuthenticationController.ROLE_ADMIN);
+        boolean result = authRepo.addUserWithRole("João Silva", "joao@shodrone.app", "Pass123@", Roles.ROLE_ADMIN);
         assertTrue(result);
 
         List<UserDTO> users = authRepo.getAllUsers();
@@ -58,7 +59,7 @@ public class RegisterUserTest {
                 .orElseThrow(() -> new AssertionError("João Silva not found"));
 
         assertEquals("joao@shodrone.app", joao.getId());
-        assertEquals(AuthenticationController.ROLE_ADMIN, joao.getRoles().get(0).getId());
+        assertEquals(Roles.ROLE_ADMIN, joao.getRoles().get(0).getId());
     }
 
     @Test
@@ -70,7 +71,7 @@ public class RegisterUserTest {
 
     @Test
     public void ensureUserRoleIsAssignedCorrectly() {
-        authRepo.addUserWithRole("Carlos", "carlos@shodrone.app", "Carlos123!", AuthenticationController.ROLE_ADMIN);
+        authRepo.addUserWithRole("Carlos", "carlos@shodrone.app", "Carlos123!", Roles.ROLE_ADMIN);
 
         List<UserDTO> users = authRepo.getAllUsers();
 
@@ -79,14 +80,14 @@ public class RegisterUserTest {
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("User not found"));
 
-        assertEquals(AuthenticationController.ROLE_ADMIN, user.getRoles().get(0).getId());
+        assertEquals(Roles.ROLE_ADMIN, user.getRoles().get(0).getId());
     }
 
 
 
     @Test
     public void ensureUserIsActiveByDefault() {
-        authRepo.addUserWithRole("Rita", "rita@shodrone.app", "Xyz123$", AuthenticationController.ROLE_ADMIN);
+        authRepo.addUserWithRole("Rita", "rita@shodrone.app", "Xyz123$", Roles.ROLE_ADMIN);
 
         UserRepository userRepo = RepositoryProvider.userRepository();
         userRepo.ofIdentity(new Email("rita@shodrone.app"))
@@ -98,11 +99,11 @@ public class RegisterUserTest {
 
     @Test
     public void ensureUserOnlyHasOneRole() {
-        authRepo.addUserWithRole("Maria", "maria@shodrone.app", "Mariapass123!", AuthenticationController.ROLE_ADMIN);
+        authRepo.addUserWithRole("Maria", "maria@shodrone.app", "Mariapass123!", Roles.ROLE_ADMIN);
 
         UserRepository userRepo = RepositoryProvider.userRepository();
         userRepo.ofIdentity(new Email("maria@shodrone.app")).ifPresent(user -> {
-            user.addRole(new UserRole(AuthenticationController.ROLE_CRM_MANAGER, AuthenticationController.ROLE_CRM_MANAGER));
+            user.addRole(new UserRole(Roles.ROLE_CRM_MANAGER, Roles.ROLE_CRM_MANAGER));
             userRepo.save(user);
         });
 
@@ -116,7 +117,7 @@ public class RegisterUserTest {
 
     @Test
     public void ensureUserIsStoredCorrectlyInRepository() {
-        authRepo.addUserWithRole("Pedro", "pedro@shodrone.app", "Pedro321@", AuthenticationController.ROLE_DRONE_TECH);
+        authRepo.addUserWithRole("Pedro", "pedro@shodrone.app", "Pedro321@", Roles.ROLE_DRONE_TECH);
 
         UserRepository userRepo = RepositoryProvider.userRepository();
         boolean exists = userRepo.ofIdentity(new Email("pedro@shodrone.app")).isPresent();

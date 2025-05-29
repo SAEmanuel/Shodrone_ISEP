@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
+import constants.Roles;
 
 import static more.ColorfulOutput.*;
 
@@ -63,12 +64,12 @@ public class AuthenticationUI implements Runnable {
      */
     private List<MenuItem> getMenuItemForRoles() {
         List<MenuItem> rolesUI = new ArrayList<>();
-        rolesUI.add(new MenuItem(AuthenticationController.ROLE_ADMIN, new AdminUI()));
-        rolesUI.add(new MenuItem(AuthenticationController.ROLE_CRM_COLLABORATOR, new CRMCollaboratorUI()));
-        rolesUI.add(new MenuItem(AuthenticationController.ROLE_CRM_MANAGER, new CRMManagerUI()));
-        rolesUI.add(new MenuItem(AuthenticationController.ROLE_SHOW_DESIGNER, new ShowDesignerUI()));
-        rolesUI.add(new MenuItem(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE, new RepresentativeUI()));
-        rolesUI.add(new MenuItem(AuthenticationController.ROLE_DRONE_TECH, new DroneTechUI()));
+        rolesUI.add(new MenuItem(Roles.ROLE_ADMIN, new AdminUI()));
+        rolesUI.add(new MenuItem(Roles.ROLE_CRM_COLLABORATOR, new CRMCollaboratorUI()));
+        rolesUI.add(new MenuItem(Roles.ROLE_CRM_MANAGER, new CRMManagerUI()));
+        rolesUI.add(new MenuItem(Roles.ROLE_SHOW_DESIGNER, new ShowDesignerUI()));
+        rolesUI.add(new MenuItem(Roles.ROLE_CUSTOMER_REPRESENTATIVE, new RepresentativeUI()));
+        rolesUI.add(new MenuItem(Roles.ROLE_DRONE_TECH, new DroneTechUI()));
         // TODO: Add more roles and corresponding UI as needed
         return rolesUI;
     }

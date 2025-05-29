@@ -1,7 +1,7 @@
 package controller.user;
 
+import constants.Roles;
 import domain.entity.User;
-import controller.authz.AuthenticationController;
 import persistence.RepositoryProvider;
 
 import java.util.List;
@@ -16,7 +16,7 @@ public class FilterUsersController {
     public List<User> getUsersByFilter(int filterIndex) {
         return listController.getAllUsers().stream()
                 .filter(user -> {
-                    if (user.hasRole(AuthenticationController.ROLE_ADMIN)) return false;
+                    if (user.hasRole(Roles.ROLE_ADMIN)) return false;
                     boolean active = user.isActive();
                     return switch (filterIndex) {
                         case 0 -> active;

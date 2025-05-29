@@ -1,3 +1,4 @@
+import constants.Roles;
 import controller.authz.AuthenticationController;
 import domain.entity.*;
 import domain.valueObjects.*;
@@ -24,20 +25,20 @@ public class Bootstrap implements Runnable {
     private void addUsers() {
         AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
 
-        repo.addUserRole(AuthenticationController.ROLE_ADMIN, "Administrator");
-        repo.addUserRole(AuthenticationController.ROLE_CRM_MANAGER, "CRM Manager");
-        repo.addUserRole(AuthenticationController.ROLE_CRM_COLLABORATOR, "CRM Collaborator");
-        repo.addUserRole(AuthenticationController.ROLE_SHOW_DESIGNER, "Show Designer");
-        repo.addUserRole(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE, "Customer Representative");
-        repo.addUserRole(AuthenticationController.ROLE_DRONE_TECH, "Drone Technician");
+        repo.addUserRole(Roles.ROLE_ADMIN, "Administrator");
+        repo.addUserRole(Roles.ROLE_CRM_MANAGER, "CRM Manager");
+        repo.addUserRole(Roles.ROLE_CRM_COLLABORATOR, "CRM Collaborator");
+        repo.addUserRole(Roles.ROLE_SHOW_DESIGNER, "Show Designer");
+        repo.addUserRole(Roles.ROLE_CUSTOMER_REPRESENTATIVE, "Customer Representative");
+        repo.addUserRole(Roles.ROLE_DRONE_TECH, "Drone Technician");
 
-        repo.addUserWithRole("Administrator x", "admin@shodrone.app", "Admin123!", AuthenticationController.ROLE_ADMIN);
-        repo.addUserWithRole("CRM Manager x", "crm_manager@shodrone.app", "CrmMan456@", AuthenticationController.ROLE_CRM_MANAGER);
-        repo.addUserWithRole("CRM Collaborator x", "crm_collaborator@shodrone.app", "Colab789#", AuthenticationController.ROLE_CRM_COLLABORATOR);
-        repo.addUserWithRole("Show Designer x", "show_designer@shodrone.app", "Show321$", AuthenticationController.ROLE_SHOW_DESIGNER);
-        repo.addUserWithRole("Representative x", "representative@shodrone.app", "Repres654%", AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("Drone Technician x", "dt@shodrone.app", "Xv1234!", AuthenticationController.ROLE_DRONE_TECH);
-        repo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", AuthenticationController.ROLE_CRM_COLLABORATOR);
+        repo.addUserWithRole("Administrator x", "admin@shodrone.app", "Admin123!", Roles.ROLE_ADMIN);
+        repo.addUserWithRole("CRM Manager x", "crm_manager@shodrone.app", "CrmMan456@", Roles.ROLE_CRM_MANAGER);
+        repo.addUserWithRole("CRM Collaborator x", "crm_collaborator@shodrone.app", "Colab789#", Roles.ROLE_CRM_COLLABORATOR);
+        repo.addUserWithRole("Show Designer x", "show_designer@shodrone.app", "Show321$", Roles.ROLE_SHOW_DESIGNER);
+        repo.addUserWithRole("Representative x", "representative@shodrone.app", "Repres654%", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("Drone Technician x", "dt@shodrone.app", "Xv1234!", Roles.ROLE_DRONE_TECH);
+        repo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", Roles.ROLE_CRM_COLLABORATOR);
     }
 
     // --- Category Setup -------------------------------------------------

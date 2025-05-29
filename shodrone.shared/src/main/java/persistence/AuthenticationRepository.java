@@ -1,10 +1,12 @@
 package persistence;
 
+import domain.entity.User;
 import pt.isep.lei.esoft.auth.UserSession;
 import pt.isep.lei.esoft.auth.mappers.dto.UserDTO;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Interface defining authentication-related operations.
@@ -74,4 +76,7 @@ public interface AuthenticationRepository {
      * @return A list of {@link UserDTO} objects representing all users.
      */
     List<UserDTO> getAllUsers();
+
+    Optional<User> findCustomerRepresentativeByEmail(String email);
+
 }

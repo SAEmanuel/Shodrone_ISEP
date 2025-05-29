@@ -1,5 +1,6 @@
 package ui.menu;
 
+import constants.Roles;
 import controller.authz.AuthenticationController;
 import ui.users.RegisterUserUI;
 import utils.Utils;
@@ -16,10 +17,10 @@ public class SignUpUI implements Runnable {
     public void run() {
 
         List<MenuItem> options = new ArrayList<MenuItem>();
-        options.add(new MenuItem("Register as CRM Manager",new RegisterUserUI(AuthenticationController.ROLE_CRM_MANAGER)));
-        options.add(new MenuItem("Register as CRM Collaborator", new RegisterUserUI(AuthenticationController.ROLE_CRM_COLLABORATOR)));
-        options.add(new MenuItem("Register as Show Designer", new RegisterUserUI(AuthenticationController.ROLE_SHOW_DESIGNER)));
-        options.add(new MenuItem("Register as Drone Technician", new RegisterUserUI(AuthenticationController.ROLE_DRONE_TECH)));
+        options.add(new MenuItem("Register as CRM Manager",new RegisterUserUI(Roles.ROLE_CRM_MANAGER)));
+        options.add(new MenuItem("Register as CRM Collaborator", new RegisterUserUI(Roles.ROLE_CRM_COLLABORATOR)));
+        options.add(new MenuItem("Register as Show Designer", new RegisterUserUI(Roles.ROLE_SHOW_DESIGNER)));
+        options.add(new MenuItem("Register as Drone Technician", new RegisterUserUI(Roles.ROLE_DRONE_TECH)));
 
         int option = 0;
         do {

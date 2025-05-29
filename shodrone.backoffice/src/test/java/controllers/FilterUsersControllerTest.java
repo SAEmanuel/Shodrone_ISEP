@@ -1,5 +1,6 @@
 package controllers;
 
+import constants.Roles;
 import domain.entity.User;
 import controller.authz.AuthenticationController;
 import controller.user.FilterUsersController;
@@ -30,11 +31,11 @@ public class FilterUsersControllerTest {
     void testFilterOnlyActiveUsers() {
         User activeUser = mock(User.class);
         when(activeUser.isActive()).thenReturn(true);
-        when(activeUser.hasRole(AuthenticationController.ROLE_ADMIN)).thenReturn(false);
+        when(activeUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(false);
 
         User inactiveUser = mock(User.class);
         when(inactiveUser.isActive()).thenReturn(false);
-        when(inactiveUser.hasRole(AuthenticationController.ROLE_ADMIN)).thenReturn(false);
+        when(inactiveUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(false);
 
         when(mockListController.getAllUsers()).thenReturn(List.of(activeUser, inactiveUser));
 
@@ -47,11 +48,11 @@ public class FilterUsersControllerTest {
     void testFilterOnlyInactiveUsers() {
         User activeUser = mock(User.class);
         when(activeUser.isActive()).thenReturn(true);
-        when(activeUser.hasRole(AuthenticationController.ROLE_ADMIN)).thenReturn(false);
+        when(activeUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(false);
 
         User inactiveUser = mock(User.class);
         when(inactiveUser.isActive()).thenReturn(false);
-        when(inactiveUser.hasRole(AuthenticationController.ROLE_ADMIN)).thenReturn(false);
+        when(inactiveUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(false);
 
         when(mockListController.getAllUsers()).thenReturn(List.of(activeUser, inactiveUser));
 
@@ -64,10 +65,10 @@ public class FilterUsersControllerTest {
     void testFilterAllUsersExceptAdmins() {
         User normalUser = mock(User.class);
         when(normalUser.isActive()).thenReturn(true);
-        when(normalUser.hasRole(AuthenticationController.ROLE_ADMIN)).thenReturn(false);
+        when(normalUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(false);
 
         User adminUser = mock(User.class);
-        when(adminUser.hasRole(AuthenticationController.ROLE_ADMIN)).thenReturn(true);
+        when(adminUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(true);
 
         when(mockListController.getAllUsers()).thenReturn(List.of(normalUser, adminUser));
 

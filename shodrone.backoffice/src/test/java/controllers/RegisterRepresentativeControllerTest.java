@@ -1,5 +1,6 @@
 package controllers;
 
+import constants.Roles;
 import controller.authz.AuthenticationController;
 import controller.user.RegisterRepresentativeController;
 import controller.user.RegisterUserController;
@@ -60,7 +61,7 @@ public class RegisterRepresentativeControllerTest {
                 eq(name.name()),
                 eq(email.getEmail()),
                 eq(password),
-                eq(AuthenticationController.ROLE_CUSTOMER_REPRESENTATIVE)
+                eq(Roles.ROLE_CUSTOMER_REPRESENTATIVE)
         );
     }
 

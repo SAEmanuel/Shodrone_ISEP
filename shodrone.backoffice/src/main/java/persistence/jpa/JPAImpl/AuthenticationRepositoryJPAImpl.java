@@ -10,7 +10,10 @@ import persistence.jpa.JpaBaseRepository;
 import domain.entity.Email;
 import domain.entity.UserRole;
 import domain.entity.Password;
+import constants.Roles;
+
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -19,10 +22,14 @@ import java.util.stream.Collectors;
  */
 public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Email> implements AuthenticationRepository {
 
-    /** Currently logged-in user. Set on successful login, cleared on logout. */
+    /**
+     * Currently logged-in user. Set on successful login, cleared on logout.
+     */
     private User loggedUser;
 
-    /** Internal repository for managing user roles. */
+    /**
+     * Internal repository for managing user roles.
+     */
     private final UserRoleRepository roleRepository;
 
     /**
@@ -213,4 +220,17 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
                         .toList()))
                 .toList();
     }
+
+    public Optional<User> findCustomerRepresentativeByEmail(String email) {
+        String sql = "SELECT * FROM users u " +
+                "JOIN user_roles ur ON u.email = ur.user_email " +
+                "WHERE u.email = ? AND ur.role_id = ?";
+        List<User> result = entityManager().createNativeQuery(sql, User.class)
+                .setParameter(1, email)
+                .setParameter(2, Roles.ROLE_CUSTOMER_REPRESENTATIVE)
+                .getResultList();
+        return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
+    }
+
+
 }
