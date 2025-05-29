@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US345: Drone Language Plugin Deployment and Validation
+autonumber
+
+actor "Developer/User" as User
+participant ":Drone Language Plugin System" as System
+
+activate User
+
+    User -> System: submitDroneProgram(code, language)
+    activate System
+
+    System -> System: invokeLexerAndParser(code)
+    activate System
+
+    System -> System: parseProgram()
+    activate System
+
+        System -> System: buildParseTree()
+
+        System --> System: parseTree
+
+    deactivate System
+
+    System -> System: validateSemantics(parseTree)
+    activate System
+
+    System --> System: validationResult(success/failure)
+    deactivate System
+
+    System --> User: feedbackOnValidation(validationResult)
+deactivate User
+
+@enduml
