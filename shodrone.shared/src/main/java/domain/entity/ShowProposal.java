@@ -25,6 +25,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     private static final long serialVersionUID = 1L;
     private static final LocalDateTime DEFAULT_SENT_DATE = null;
 
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "Show_Proposal_ID", nullable = false, unique = true)
