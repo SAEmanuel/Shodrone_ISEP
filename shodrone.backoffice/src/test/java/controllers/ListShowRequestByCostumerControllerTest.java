@@ -11,8 +11,8 @@ import factories.FactoryProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.CostumerRepository;
-import persistence.interfaces.ShowRequestRepository;
+import persistence.CostumerRepository;
+import persistence.ShowRequestRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

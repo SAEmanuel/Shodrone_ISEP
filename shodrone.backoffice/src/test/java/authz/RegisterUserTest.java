@@ -1,12 +1,15 @@
 package authz;
 
 import controller.authz.AuthenticationController;
+import domain.entity.UserRole;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
+import persistence.UserRepository;
 import persistence.inmemory.InMemoryAuthenticationRepository;
-import persistence.interfaces.AuthenticationRepository;
+import persistence.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.mappers.dto.UserDTO;
+import domain.entity.Email;
 
 import java.util.List;
 

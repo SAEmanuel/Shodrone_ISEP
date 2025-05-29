@@ -1,8 +1,8 @@
 package persistence.inmemory;
 
-import authz.Email;
 import domain.entity.CustomerRepresentative;
-import persistence.interfaces.CustomerRepresentativeRepository;
+import domain.entity.Email;
+import persistence.CustomerRepresentativeRepository;
 
 import java.util.*;
 

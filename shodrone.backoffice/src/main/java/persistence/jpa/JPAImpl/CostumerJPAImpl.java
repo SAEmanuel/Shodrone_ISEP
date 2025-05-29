@@ -3,7 +3,7 @@ package persistence.jpa.JPAImpl;
 import domain.entity.Costumer;
 import domain.valueObjects.NIF;
 import jakarta.persistence.TypedQuery;
-import persistence.interfaces.CostumerRepository;
+import persistence.CostumerRepository;
 import eapli.framework.infrastructure.repositories.impl.jpa.JpaAutoTxRepository;
 
 import java.util.List;

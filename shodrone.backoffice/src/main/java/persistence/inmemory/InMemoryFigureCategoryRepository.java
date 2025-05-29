@@ -2,9 +2,9 @@ package persistence.inmemory;
 
 
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
 
 
 import java.util.*;

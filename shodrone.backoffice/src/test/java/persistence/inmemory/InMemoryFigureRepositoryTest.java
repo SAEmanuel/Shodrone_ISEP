@@ -1,17 +1,17 @@
 package persistence.inmemory;
 
-import authz.Email;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.FigureAvailability;
 import domain.valueObjects.FigureStatus;
 import domain.valueObjects.Name;
+import domain.entity.Email;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
 import persistence.RepositoryProvider;
 
 import java.util.ArrayList;

@@ -3,10 +3,13 @@ package controllers;
 import controller.drone.RemoveDroneInventoryController;
 import domain.entity.Drone;
 import domain.entity.DroneModel;
-import domain.valueObjects.*;
+import domain.valueObjects.DroneModelID;
+import domain.valueObjects.DroneName;
+import domain.valueObjects.DroneRemovalLog;
+import domain.valueObjects.SerialNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.interfaces.DroneRepository;
+import persistence.DroneRepository;
 import persistence.RepositoryProvider;
 
 import java.util.Optional;

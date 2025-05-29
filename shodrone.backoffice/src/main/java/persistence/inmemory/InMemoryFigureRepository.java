@@ -3,13 +3,12 @@ package persistence.inmemory;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import domain.valueObjects.*;
 import persistence.RepositoryProvider;
-import persistence.interfaces.CostumerRepository;
-import persistence.interfaces.FigureCategoryRepository;
-import persistence.interfaces.FigureRepository;
-import domain.history.AuditLoggerService;
+import persistence.CostumerRepository;
+import persistence.FigureCategoryRepository;
+import persistence.FigureRepository;
 
 import java.util.*;
 

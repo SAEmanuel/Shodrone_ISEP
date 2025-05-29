@@ -2,11 +2,11 @@ package domain.entity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import domain.valueObjects.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

@@ -9,7 +9,7 @@ import domain.valueObjects.SerialNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.DroneRepository;
+import persistence.DroneRepository;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

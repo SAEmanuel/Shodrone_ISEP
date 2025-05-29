@@ -2,7 +2,7 @@ package controller.category;
 
 import domain.entity.FigureCategory;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
 
 import java.util.List;
 import java.util.Optional;

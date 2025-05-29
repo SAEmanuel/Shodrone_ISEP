@@ -1,11 +1,14 @@
 package persistence.inmemory;
 
-import authz.*;
-import persistence.interfaces.AuthenticationRepository;
+import domain.entity.User;
+import persistence.AuthenticationRepository;
+import persistence.UserRepository;
 import pt.isep.lei.esoft.auth.AuthFacade;
 import pt.isep.lei.esoft.auth.UserSession;
 import pt.isep.lei.esoft.auth.mappers.dto.UserDTO;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
+import domain.entity.Email;
+import domain.entity.Password;
 
 import java.util.*;
 

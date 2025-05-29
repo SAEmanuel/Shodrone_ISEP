@@ -1,6 +1,5 @@
 package domain.entity;
 
-import authz.Email;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import org.junit.jupiter.api.Test;

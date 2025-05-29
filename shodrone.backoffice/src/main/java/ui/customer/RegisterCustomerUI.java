@@ -4,9 +4,9 @@ import controller.user.RegisterCustomerController;
 import controller.user.RegisterRepresentativeController;
 import domain.entity.Costumer;
 import domain.valueObjects.*;
+import domain.entity.Email;
 import eapli.framework.general.domain.model.EmailAddress;
 import utils.Utils;
-import authz.Email;
 
 import java.util.Optional;
 

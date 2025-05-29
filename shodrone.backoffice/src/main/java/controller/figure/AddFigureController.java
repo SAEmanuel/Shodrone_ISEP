@@ -5,7 +5,7 @@ import domain.entity.Figure;
 import domain.entity.FigureCategory;
 import domain.valueObjects.*;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureRepository;
+import persistence.FigureRepository;
 
 import java.util.Optional;
 

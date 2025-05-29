@@ -4,12 +4,12 @@ import controller.showrequest.RegisterShowRequestController;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
-import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.AuthUtils;
+import domain.valueObjects.*;
 
 import java.io.IOException;
 import java.time.Duration;

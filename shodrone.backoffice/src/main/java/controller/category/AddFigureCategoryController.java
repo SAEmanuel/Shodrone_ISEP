@@ -1,12 +1,12 @@
 package controller.category;
 
-import authz.Email;
+import domain.entity.Email;
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import persistence.RepositoryProvider;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
 import utils.AuthUtils;
 
 import java.util.Optional;

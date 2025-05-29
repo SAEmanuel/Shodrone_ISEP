@@ -1,16 +1,15 @@
 package controller.category;
 
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
 import utils.AuthUtils;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Controller responsible for editing an existing figure category.

@@ -1,12 +1,12 @@
 package controller.user;
 
-import authz.Email;
 import domain.entity.Costumer;
+import domain.entity.Email;
 import domain.entity.CustomerRepresentative;
 import domain.valueObjects.Name;
 import domain.valueObjects.PhoneNumber;
 import persistence.RepositoryProvider;
-import persistence.interfaces.CustomerRepresentativeRepository;
+import persistence.CustomerRepresentativeRepository;
 import controller.authz.AuthenticationController;
 
 public class RegisterRepresentativeController {

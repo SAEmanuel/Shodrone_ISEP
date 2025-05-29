@@ -9,12 +9,11 @@ import domain.valueObjects.Address;
 import domain.valueObjects.Name;
 import domain.valueObjects.NIF;
 import domain.valueObjects.PhoneNumber;
-import authz.Email;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.RepositoryProvider;
-import persistence.interfaces.CustomerRepresentativeRepository;
+import persistence.CustomerRepresentativeRepository;
+import domain.entity.Email;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

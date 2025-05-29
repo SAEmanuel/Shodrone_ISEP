@@ -2,7 +2,7 @@ package persistence.inmemory;
 
 import domain.entity.Costumer;
 import domain.valueObjects.NIF;
-import persistence.interfaces.CostumerRepository;
+import persistence.CostumerRepository;
 import utils.Validations;
 
 import java.util.*;

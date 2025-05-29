@@ -4,7 +4,7 @@ import domain.entity.Costumer;
 import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import persistence.RepositoryProvider;
-import persistence.interfaces.CostumerRepository;
+import persistence.CostumerRepository;
 
 import java.util.Optional;
 

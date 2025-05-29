@@ -1,7 +1,9 @@
 package persistence.jpa.JPAImpl;
 
-import authz.*;
+import domain.entity.User;
+import persistence.UserRepository;
 import persistence.jpa.JpaBaseRepository;
+import domain.entity.Email;
 
 import java.util.Optional;
 

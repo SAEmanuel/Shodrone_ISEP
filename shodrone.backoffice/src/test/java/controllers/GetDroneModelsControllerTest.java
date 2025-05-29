@@ -8,7 +8,7 @@ import domain.valueObjects.DroneName;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.DroneModelRepository;
+import persistence.DroneModelRepository;
 
 import java.util.Arrays;
 import java.util.Collections;

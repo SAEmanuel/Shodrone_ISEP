@@ -1,7 +1,7 @@
 package controller.showrequest;
 
 import domain.entity.ShowRequest;
-import domain.history.HistoryLogger;
+import history.HistoryLogger;
 import persistence.RepositoryProvider;
 import utils.AuthUtils;
 import utils.Utils;

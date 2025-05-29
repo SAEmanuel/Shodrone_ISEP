@@ -3,7 +3,7 @@ package persistence.jpa.JPAImpl;
 import domain.entity.Costumer;
 import domain.entity.ShowRequest;
 import persistence.jpa.JpaBaseRepository;
-import persistence.interfaces.ShowRequestRepository;
+import persistence.ShowRequestRepository;
 
 import java.util.List;
 import java.util.Optional;

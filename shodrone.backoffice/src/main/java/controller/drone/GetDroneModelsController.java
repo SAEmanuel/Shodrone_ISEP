@@ -2,7 +2,7 @@ package controller.drone;
 
 import domain.entity.DroneModel;
 import persistence.RepositoryProvider;
-import persistence.interfaces.DroneModelRepository;
+import persistence.DroneModelRepository;
 
 import java.util.List;
 import java.util.Optional;

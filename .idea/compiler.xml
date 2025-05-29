@@ -15,11 +15,14 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
+        <module name="shodrone.shared" />
         <module name="backoffice" />
         <module name="shodrone.infraestructure.application" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="customerAppServer" target="17" />
+      <module name="shared" target="17" />
       <module name="shodrone.core" target="17" />
     </bytecodeTargetLevel>
   </component>

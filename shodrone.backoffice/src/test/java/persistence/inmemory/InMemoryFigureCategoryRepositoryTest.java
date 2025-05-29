@@ -1,12 +1,12 @@
 package persistence.inmemory;
 
-import authz.Email;
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import domain.entity.Email;
 
 import java.util.List;
 import java.util.Optional;

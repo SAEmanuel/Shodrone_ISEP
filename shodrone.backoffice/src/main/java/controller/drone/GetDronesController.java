@@ -3,7 +3,7 @@ package controller.drone;
 import domain.entity.Drone;
 import domain.entity.DroneModel;
 import persistence.RepositoryProvider;
-import persistence.interfaces.DroneRepository;
+import persistence.DroneRepository;
 
 import java.util.List;
 import java.util.Optional;

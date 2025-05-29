@@ -1,7 +1,7 @@
 package controller.user;
 
 import persistence.RepositoryProvider;
-import persistence.interfaces.AuthenticationRepository;
+import persistence.AuthenticationRepository;
 
 /**
  * Controller responsible for handling user registration.

@@ -4,8 +4,8 @@ import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.RepositoryProvider;
-import persistence.interfaces.AuthenticationRepository;
-import authz.*;
+import persistence.AuthenticationRepository;
+
 
 
 public class Bootstrap implements Runnable {

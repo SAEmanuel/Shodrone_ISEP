@@ -2,7 +2,7 @@ package persistence.jpa.JPAImpl;
 
 
 import domain.entity.FigureCategory;
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
 import persistence.jpa.JpaBaseRepository;
 
 

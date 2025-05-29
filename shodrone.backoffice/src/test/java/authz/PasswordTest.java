@@ -1,6 +1,7 @@
 package authz;
 
 import org.junit.jupiter.api.Test;
+import domain.entity.Password;
 
 import static org.junit.jupiter.api.Assertions.*;
 

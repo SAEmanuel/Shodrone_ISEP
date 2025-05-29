@@ -2,14 +2,14 @@ package controllers;
 
 import controller.user.RegisterCustomerController;
 import domain.entity.Costumer;
-import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.CostumerRepository;
+import persistence.CostumerRepository;
 import utils.Utils;
+import domain.valueObjects.*;
 
 import java.util.Optional;
 

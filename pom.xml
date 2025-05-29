@@ -24,6 +24,7 @@
     <modules>
         <module>shodrone.backoffice</module>
         <module>shodrone.infraestructure.application</module>
+        <module>shodrone.shared</module>
     </modules>
 
     <properties>
@@ -75,8 +76,8 @@
         <!-- JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.1</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.3</version>
             <scope>test</scope>
         </dependency>
 

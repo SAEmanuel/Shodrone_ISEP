@@ -1,7 +1,7 @@
 package persistence.inmemory;
 
-import domain.history.AuditLogEntry;
-import persistence.interfaces.AuditLogRepository;
+import domain.entity.AuditLogEntry;
+import persistence.AuditLogRepository;
 
 import java.util.ArrayList;
 import java.util.List;

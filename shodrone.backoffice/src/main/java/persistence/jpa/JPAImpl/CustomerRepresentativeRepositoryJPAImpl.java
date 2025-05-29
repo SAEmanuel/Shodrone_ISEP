@@ -1,7 +1,7 @@
 package persistence.jpa.JPAImpl;
 
 import domain.entity.CustomerRepresentative;
-import persistence.interfaces.CustomerRepresentativeRepository;
+import persistence.CustomerRepresentativeRepository;
 import eapli.framework.infrastructure.repositories.impl.jpa.JpaAutoTxRepository;
 
 /**

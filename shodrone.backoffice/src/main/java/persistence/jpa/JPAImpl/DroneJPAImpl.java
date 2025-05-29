@@ -4,7 +4,7 @@ import domain.entity.Drone;
 import domain.entity.DroneModel;
 import domain.valueObjects.DroneRemovalLog;
 import domain.valueObjects.DroneStatus;
-import persistence.interfaces.DroneRepository;
+import persistence.DroneRepository;
 import persistence.jpa.JpaBaseRepository;
 
 import java.util.List;

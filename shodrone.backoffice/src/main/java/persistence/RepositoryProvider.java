@@ -1,10 +1,8 @@
 package persistence;
 
-import authz.UserRepository;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import lombok.Setter;
 import persistence.inmemory.*;
-import persistence.interfaces.*;
 import controller.user.*;
 import persistence.jpa.JPAImpl.*;
 /**

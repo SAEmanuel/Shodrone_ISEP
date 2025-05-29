@@ -1,7 +1,7 @@
 package persistence.inmemory;
 
 import domain.entity.DroneModel;
-import persistence.interfaces.DroneModelRepository;
+import persistence.DroneModelRepository;
 
 import java.util.*;
 

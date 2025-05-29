@@ -4,7 +4,7 @@ import controller.user.FilterUsersController;
 import controller.user.UserStatusController;
 import controller.user.CheckUserStatusController;
 import utils.Utils;
-import authz.User;
+import domain.entity.User;
 
 
 import java.util.List;

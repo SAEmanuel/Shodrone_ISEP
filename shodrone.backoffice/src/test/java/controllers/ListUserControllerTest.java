@@ -1,10 +1,12 @@
 package controllers;
 
-import authz.*;
 import controller.user.ListUserController;
+import domain.entity.Email;
+import domain.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
+import persistence.UserRepository;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package persistence.jpa.JPAImpl;
 
 import domain.entity.DroneModel;
-import persistence.interfaces.DroneModelRepository;
+import persistence.DroneModelRepository;
 import persistence.jpa.JpaBaseRepository;
 
 import java.util.List;

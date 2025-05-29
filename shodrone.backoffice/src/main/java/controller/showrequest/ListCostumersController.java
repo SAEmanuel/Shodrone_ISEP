@@ -3,7 +3,7 @@ package controller.showrequest;
 import domain.entity.Costumer;
 import domain.valueObjects.NIF;
 import persistence.RepositoryProvider;
-import persistence.interfaces.CostumerRepository;
+import persistence.CostumerRepository;
 
 import java.util.List;
 import java.util.Optional;

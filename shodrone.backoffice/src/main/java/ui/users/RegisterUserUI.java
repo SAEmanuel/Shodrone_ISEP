@@ -1,10 +1,10 @@
 package ui.users;
 
-import authz.Email;
-import authz.Password;
 import controller.user.RegisterUserController;
 import utils.Utils;
 import domain.valueObjects.Name;
+import domain.entity.Email;
+import domain.entity.Password;
 
 /**
  * UI class responsible for handling user registration.

@@ -1,6 +1,6 @@
 package controllers;
 
-import authz.User;
+import domain.entity.User;
 import controller.authz.AuthenticationController;
 import controller.user.FilterUsersController;
 import controller.user.ListUserController;

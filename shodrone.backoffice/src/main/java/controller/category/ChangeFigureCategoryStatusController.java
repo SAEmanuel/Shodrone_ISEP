@@ -1,14 +1,13 @@
 package controller.category;
 
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
 import utils.AuthUtils;
 
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Controller responsible for changing the status (active/inactive) of a figure category.

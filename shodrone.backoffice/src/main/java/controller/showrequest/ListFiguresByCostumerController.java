@@ -3,7 +3,7 @@ package controller.showrequest;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureRepository;
+import persistence.FigureRepository;
 
 import java.util.List;
 import java.util.Optional;

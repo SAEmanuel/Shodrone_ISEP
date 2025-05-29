@@ -3,7 +3,7 @@ package controller.showrequest;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
-import domain.history.HistoryLogger;
+import history.HistoryLogger;
 import domain.valueObjects.Location;
 import factories.FactoryProvider;
 import domain.valueObjects.Description;

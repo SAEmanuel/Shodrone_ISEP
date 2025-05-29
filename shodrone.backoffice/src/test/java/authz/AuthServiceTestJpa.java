@@ -4,7 +4,7 @@ import controller.authz.AuthenticationController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.AuthenticationRepository;
+import persistence.AuthenticationRepository;
 
 import static org.junit.jupiter.api.Assertions.*;
 

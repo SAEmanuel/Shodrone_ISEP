@@ -1,5 +1,4 @@
 package controllers;
-import authz.Email;
 
 import controller.category.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
@@ -8,7 +7,8 @@ import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureCategoryRepository;
+import persistence.FigureCategoryRepository;
+import domain.entity.Email;
 
 
 import java.util.ArrayList;

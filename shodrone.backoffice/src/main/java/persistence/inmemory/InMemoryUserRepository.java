@@ -1,6 +1,8 @@
 package persistence.inmemory;
 
-import authz.*;
+import domain.entity.Email;
+import domain.entity.User;
+import persistence.UserRepository;
 
 import java.util.*;
 

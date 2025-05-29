@@ -1,11 +1,13 @@
 package controllers;
 
-import authz.*;
 import controller.user.UserStatusController;
+import domain.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
+import persistence.UserRepository;
 import persistence.inmemory.InMemoryAuthenticationRepository;
+import domain.entity.Email;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;

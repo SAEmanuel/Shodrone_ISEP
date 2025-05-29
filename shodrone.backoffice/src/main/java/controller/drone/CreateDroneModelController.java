@@ -5,7 +5,7 @@ import domain.valueObjects.Description;
 import domain.valueObjects.DroneModelID;
 import domain.valueObjects.DroneName;
 import persistence.RepositoryProvider;
-import persistence.interfaces.DroneModelRepository;
+import persistence.DroneModelRepository;
 
 import java.util.Optional;
 

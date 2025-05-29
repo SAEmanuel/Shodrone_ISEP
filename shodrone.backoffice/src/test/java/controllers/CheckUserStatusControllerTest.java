@@ -1,6 +1,6 @@
 package controllers;
 
-import authz.User;
+import domain.entity.User;
 import controller.user.CheckUserStatusController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

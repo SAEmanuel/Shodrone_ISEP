@@ -1,7 +1,7 @@
 package controller.authz;
 
 import persistence.RepositoryProvider;
-import persistence.interfaces.AuthenticationRepository;
+import persistence.AuthenticationRepository;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
 
 import java.util.List;

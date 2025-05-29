@@ -1,15 +1,15 @@
 package controllers;
 
-import authz.Email;
 import controller.category.EditFigureCategoryController;
 import domain.entity.FigureCategory;
-import domain.history.AuditLoggerService;
+import history.AuditLoggerService;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
-import persistence.interfaces.FigureCategoryRepository;
+import domain.entity.Email;
+import persistence.FigureCategoryRepository;
 
 import java.util.Optional;
 

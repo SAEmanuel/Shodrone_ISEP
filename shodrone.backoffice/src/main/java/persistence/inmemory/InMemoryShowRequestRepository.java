@@ -2,7 +2,7 @@ package persistence.inmemory;
 
 import domain.entity.Costumer;
 import domain.entity.ShowRequest;
-import persistence.interfaces.ShowRequestRepository;
+import persistence.ShowRequestRepository;
 
 import java.util.*;
 

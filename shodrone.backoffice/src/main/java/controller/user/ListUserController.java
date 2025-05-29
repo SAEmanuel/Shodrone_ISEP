@@ -1,6 +1,6 @@
 package controller.user;
 
-import authz.User;
+import domain.entity.User;
 import persistence.RepositoryProvider;
 
 import java.util.List;

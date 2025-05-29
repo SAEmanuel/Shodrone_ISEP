@@ -4,7 +4,7 @@ import domain.entity.Drone;
 import domain.entity.DroneModel;
 import domain.valueObjects.SerialNumber;
 import persistence.RepositoryProvider;
-import persistence.interfaces.DroneRepository;
+import persistence.DroneRepository;
 
 import java.util.Optional;
 

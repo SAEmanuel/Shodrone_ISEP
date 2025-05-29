@@ -1,6 +1,6 @@
 package controller.user;
 
-import authz.User;
+import domain.entity.User;
 
 /**
  * Controller responsible for checking the current active status of a user.

@@ -6,8 +6,19 @@
 
   <persistence-unit name="shodrone_backoffice">
     <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-    <class>authz.User</class>
+    <class>domain.entity.AuditLogEntry</class>
+    <class>domain.entity.Costumer</class>
+    <class>domain.entity.CustomerRepresentative</class>
+    <class>domain.entity.Drone</class>
+    <class>domain.valueObjects.DroneRemovalLog</class>
+    <class>domain.entity.DroneModel</class>
+    <class>domain.valueObjects.WindTolerance</class>
+    <class>domain.entity.Figure</class>
+    <class>domain.entity.FigureCategory</class>
     <class>domain.entity.ShowRequest</class>
+    <class>domain.entity.UserRole</class>
+    <class>domain.entity.User</class>
+
 
     <!-- Scan automatic entities (requires entities in correct packages) -->
     <properties>

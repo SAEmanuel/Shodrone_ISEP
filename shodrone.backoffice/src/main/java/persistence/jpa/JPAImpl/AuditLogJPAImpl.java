@@ -1,7 +1,7 @@
 package persistence.jpa.JPAImpl;
 
-import domain.history.AuditLogEntry;
-import persistence.interfaces.AuditLogRepository;
+import domain.entity.AuditLogEntry;
+import persistence.AuditLogRepository;
 import persistence.jpa.JpaBaseRepository;
 
 import java.util.List;

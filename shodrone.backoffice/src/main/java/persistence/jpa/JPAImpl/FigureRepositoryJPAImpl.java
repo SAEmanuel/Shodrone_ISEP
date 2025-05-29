@@ -5,13 +5,12 @@ import domain.entity.Figure;
 import domain.entity.FigureCategory;
 import domain.valueObjects.*;
 import persistence.RepositoryProvider;
-import persistence.interfaces.CostumerRepository;
-import persistence.interfaces.FigureCategoryRepository;
-import persistence.interfaces.FigureRepository;
+import persistence.CostumerRepository;
+import persistence.FigureCategoryRepository;
+import persistence.FigureRepository;
 import persistence.jpa.JpaBaseRepository;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
