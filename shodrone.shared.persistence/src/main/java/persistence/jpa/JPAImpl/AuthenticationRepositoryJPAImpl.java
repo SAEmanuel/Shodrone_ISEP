@@ -222,6 +222,8 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
     }
 
     public Optional<User> findCustomerRepresentativeByEmail(String email) {
+        System.out.println("[JPA] findCustomerRepresentativeByEmail chamado com: " + email);
+
         String sql = "SELECT * FROM users u " +
                 "JOIN user_roles ur ON u.email = ur.user_email " +
                 "WHERE u.email = ? AND ur.role_id = ?";

@@ -1,14 +1,14 @@
 package network;
 
 import com.google.gson.Gson;
-import network.LoginRequest;
+import static more.ColorfulOutput.*;
 
 import java.io.*;
 import java.net.Socket;
 
 public class AuthenticationController {
 
-    private static final String SERVER_HOST = "localhost"; //todo IP do servidor MUDAR!!!!
+    private static final String SERVER_HOST = "10.8.0.80"; //todo IP do servidor MUDAR!!!!
     private static final int SERVER_PORT = 9000;
 
 
@@ -27,8 +27,10 @@ public class AuthenticationController {
             return "OK".equalsIgnoreCase(response);
 
         } catch (IOException e) {
-            System.out.println("Login failed: " + e.getMessage());
+            System.out.println(ANSI_LIGHT_RED + "Servers are down! Login unavailable..." + ANSI_RESET);
+            System.exit(1);
             return false;
         }
     }
+
 }
