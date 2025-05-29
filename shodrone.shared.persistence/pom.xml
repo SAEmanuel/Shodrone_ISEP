@@ -7,10 +7,10 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>shodrone.customer_app</artifactId>
+    <artifactId>shodrone.shared.persistence</artifactId>
     <packaging>jar</packaging>
 
-    <name>shodrone.customer_app</name>
+    <name>shodrone.shared.persistence</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -27,16 +27,6 @@
         <dependency>
             <groupId>lapr4</groupId>
             <artifactId>shodrone.shared</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared.persistence</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>lapr4</groupId>
-            <artifactId>shodrone.customer_app_server</artifactId>
             <version>0.1.0</version>
         </dependency>
     </dependencies>

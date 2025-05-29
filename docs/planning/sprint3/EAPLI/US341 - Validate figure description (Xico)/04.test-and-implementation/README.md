@@ -382,7 +382,6 @@ package persistence;
 import lombok.Setter;
 import persistence.inmemory.*;
 import persistence.interfaces.*;
-import persistence.jpa.JPAImpl.*;
 
 public class RepositoryProvider {
     private static FigureCategoryRepository figureCategoryRepository;
@@ -403,7 +402,7 @@ public class RepositoryProvider {
             if (isInMemory()) {
                 figureCategoryRepository = new InMemoryFigureCategoryRepository();
             } else {
-                 figureCategoryRepository = new FigureCategoryJPAImpl();
+                figureCategoryRepository = new FigureCategoryJPAImpl();
             }
         }
         return figureCategoryRepository;

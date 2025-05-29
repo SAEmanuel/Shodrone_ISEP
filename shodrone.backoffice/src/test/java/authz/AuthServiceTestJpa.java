@@ -1,7 +1,6 @@
 package authz;
 
 import constants.Roles;
-import controller.authz.AuthenticationController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;

@@ -1,6 +1,6 @@
 package ui.users;
 
-import controller.user.ListUserController;
+import persistence.ListUserController;
 
 import java.util.List;
 

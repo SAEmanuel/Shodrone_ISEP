@@ -521,7 +521,6 @@ package persistence;
 import lombok.Setter;
 import persistence.inmemory.*;
 import persistence.interfaces.*;
-import persistence.jpa.JPAImpl.*;
 
 public class RepositoryProvider {
     private static FigureCategoryRepository figureCategoryRepository;

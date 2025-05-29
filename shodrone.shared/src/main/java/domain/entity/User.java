@@ -240,6 +240,10 @@ public class User {
         return Objects.equals(id, user.id);
     }
 
+    public boolean passwordMatches(String rawPassword) {
+        return this.password.checkPassword(rawPassword);
+    }
+
     /**
      * Returns a string representation of the user, showing email and name.
      *

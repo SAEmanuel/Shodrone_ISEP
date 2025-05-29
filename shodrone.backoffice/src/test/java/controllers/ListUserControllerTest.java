@@ -1,6 +1,6 @@
 package controllers;
 
-import controller.user.ListUserController;
+import persistence.ListUserController;
 import domain.entity.Email;
 import domain.entity.User;
 import org.junit.jupiter.api.BeforeEach;
