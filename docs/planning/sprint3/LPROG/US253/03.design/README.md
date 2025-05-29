@@ -1,41 +1,47 @@
-# US251 – Specification of the Language for Figure and Show Description Using ANTLR Grammar
-
+# US253 – Configuration of a Drone’s Language Using ANTLR Grammar
 
 ## 3. Design
 
 ### 3.1. Design Overview
 
-O design para a especificação da linguagem de descrição de figuras e shows por meio de uma gramática ANTLR segue princípios arquiteturais modulares e em camadas, alinhados às diretrizes do projeto.
+O design para a configuração da linguagem de drones via gramática ANTLR baseia-se em princípios modulares, automação por Makefile e separação clara entre definição da linguagem e sua execução.
 
-O processo inicia com o Product Owner ou desenvolvedor interagindo com ferramentas de edição ou sistemas que aceitam descrições em texto conforme a linguagem definida pela gramática ANTLR. O texto de descrição é submetido para análise sintática via parser gerado pela gramática, que valida conformidade com os requisitos da seção 3.1.3.
+Cada modelo de drone pode ter associada uma gramática ANTLR específica, que define como instruções para aquele modelo devem ser escritas e interpretadas. Esta gramática é compilada usando o ANTLR para gerar um parser que analisa um ficheiro `input.txt`, contendo comandos ou variáveis que controlam o comportamento do drone.
 
-Principais comportamentos e responsabilidades incluem:
-- A gramática ANTLR define de forma formal as regras sintáticas e tokens da linguagem, suportando descrições de figuras e shows.
-- O parser gerado a partir da gramática processa a entrada textual, gerando uma árvore de análise (parse tree).
-- Um motor de validação utiliza essa árvore para detectar erros sintáticos e, posteriormente, implementar regras semânticas específicas.
-- Ferramentas de edição integradas (IDE, editores customizados) podem consumir o parser para oferecer realce de sintaxe, autocompletar e validação instantânea.
-- O design assegura que a gramática seja extensível para acomodar futuras evoluções da linguagem sem impacto em versões anteriores.
+Principais responsabilidades do design incluem:
 
-Este design promove clareza, precisão e automação na definição e validação das descrições de figuras, garantindo alinhamento total com os requisitos funcionais e não funcionais.
+- A gramática ANTLR (`.g4`) define formalmente as instruções e estruturas aceites para cada modelo de drone.
+- O `Makefile` automatiza todo o ciclo: geração de código com ANTLR, compilação do parser com `javac`, execução com `java`, e análise do ficheiro `input.txt`.
+- O parser gerado processa `input.txt` e valida se as instruções estão em conformidade com a gramática.
+- A modularidade permite que cada gramática esteja isolada por modelo de drone, garantindo suporte a múltiplos tipos de linguagem operacional.
+- O sistema pode ser estendido para aplicar validações semânticas, interpretar árvores de análise ou integrar com simuladores/reais.
+
+Este design promove robustez, automação e escalabilidade, garantindo que instruções para drones sejam formalmente validadas antes da execução.
+
+---
 
 ### 3.2. Sequence Diagram(s)
 
-![Sequence Diagram - Language Specification and Validation](svg/us253-sequence-diagram-full.svg)
+![Sequence Diagram - Drone Language Configuration and Validation](svg/us253-sequence-diagram-full.svg)
 
-O diagrama de sequência ilustra o fluxo para a especificação e validação da linguagem:
+O diagrama de sequência ilustra o fluxo desde a configuração da linguagem até à validação da entrada:
 
-- O usuário ou sistema submete uma descrição textual conforme a linguagem.
-- O parser gerado pela gramática ANTLR analisa o texto, produzindo uma árvore sintática.
-- O motor de validação aplica regras para detectar erros e validar conformidade.
-- Caso a descrição seja válida, a árvore parse é passada para componentes consumidores (ex: editor, motor de renderização).
-- Em caso de erros, mensagens claras são retornadas ao usuário para correção.
+- O utilizador desenvolve ou associa uma gramática `.g4` a um modelo de drone.
+- Um ficheiro `input.txt` com instruções para o drone é preparado.
+- O `Makefile` é executado para compilar a gramática e o parser gerado.
+- O sistema usa o parser para analisar o conteúdo de `input.txt`.
+- Se o ficheiro for válido, a análise continua para camadas superiores (e.g., execução em simulação).
+- Se ocorrerem erros, o utilizador é notificado com mensagens claras e localizadas no input.
+
+---
 
 ### 3.3. Design Patterns (if any)
 
-- **Parser Pattern:** Implementado via ANTLR, transforma texto de descrição em estruturas de dados manipuláveis (parse trees).
-- **Validation Pipeline:** Separação entre análise sintática (parser) e validação semântica, permitindo modularidade e reutilização.
-- **Factory Pattern:** Utilizado para criação dos parsers e validadores conforme versões da gramática.
-- **Extensible Grammar Design:** Uso de regras modulares e opcionais no ANTLR para facilitar adição de novos elementos.
-- **Integration Pattern:** Facilita a incorporação do parser e validação em editores e outras ferramentas, promovendo feedback rápido e consistente.
+- **Parser Pattern**: Utilizado através da gramática ANTLR, transforma `input.txt` em árvore de parsing (parse tree).
+- **Validation Pipeline**: A pipeline de validação separa parsing de interpretação, permitindo reutilização e modularidade.
+- **Makefile Automation Pattern**: Centraliza todas as etapas de geração, compilação e execução de testes num único ponto.
+- **Strategy Pattern**: Permite que diferentes drones usem diferentes estratégias de parsing, trocando dinamicamente a gramática aplicada.
+- **Extensible Grammar Design**: A gramática pode ser estendida com novas instruções, tipos de variáveis ou comportamentos.
+- **Tooling Integration**: Estrutura preparada para integração futura com editores de código, IDEs ou simuladores de drones.
 
-Este design assegura um sistema confiável, flexível e preparado para evolução, suportando tanto a precisão formal necessária quanto a usabilidade em ferramentas reais.
+Este design garante uma base sólida para a validação automatizada de comandos de drones, através de linguagens formais específicas, altamente reutilizáveis e facilmente auditáveis.
