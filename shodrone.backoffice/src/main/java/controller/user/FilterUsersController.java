@@ -2,6 +2,7 @@ package controller.user;
 
 import constants.Roles;
 import domain.entity.User;
+import persistence.ListUserController;
 import persistence.RepositoryProvider;
 
 import java.util.List;
