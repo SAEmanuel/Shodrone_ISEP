@@ -4,7 +4,7 @@ import ui.drone.AddDroneInventoryUI;
 import ui.drone.CreateDroneModelUI;
 import ui.drone.ListActiveDronesUI;
 import ui.drone.RemoveDroneInventoryUI;
-import ui.menu.MenuItem;
+import utils.MenuItem;
 import utils.Utils;
 
 import java.util.ArrayList;

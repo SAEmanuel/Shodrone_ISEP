@@ -6,7 +6,7 @@ import ui.showrequest.EditShowRequestUI;
 import ui.showrequest.ListShowRequestByCostumerUI;
 import ui.customer.RegisterCustomerUI;
 import ui.showrequest.RegisterShowRequestUI;
-import ui.menu.MenuItem;
+import utils.MenuItem;
 import utils.Utils;
 
 import java.util.ArrayList;

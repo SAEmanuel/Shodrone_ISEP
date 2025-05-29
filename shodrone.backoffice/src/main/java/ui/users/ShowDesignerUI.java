@@ -9,7 +9,7 @@ import ui.figure.AddFigureUI;
 import ui.figure.DecommissionFigureUI;
 import ui.figure.ListPublicFiguresUI;
 import ui.figure.SearchFigureUI;
-import ui.menu.MenuItem;
+import utils.MenuItem;
 import utils.Utils;
 
 import java.util.ArrayList;

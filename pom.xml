@@ -25,6 +25,8 @@
         <module>shodrone.backoffice</module>
         <module>shodrone.infraestructure.application</module>
         <module>shodrone.shared</module>
+        <module>shodrone.customer_app_server</module>
+        <module>shodrone.customer_app</module>
     </modules>
 
     <properties>

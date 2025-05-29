@@ -1,7 +1,7 @@
 package ui.authz;
 
 import controller.authz.AuthenticationController;
-import ui.menu.MenuItem;
+import utils.MenuItem;
 import ui.users.*;
 import utils.*;
 import pt.isep.lei.esoft.auth.mappers.dto.UserRoleDTO;
@@ -68,7 +68,6 @@ public class AuthenticationUI implements Runnable {
         rolesUI.add(new MenuItem(Roles.ROLE_CRM_COLLABORATOR, new CRMCollaboratorUI()));
         rolesUI.add(new MenuItem(Roles.ROLE_CRM_MANAGER, new CRMManagerUI()));
         rolesUI.add(new MenuItem(Roles.ROLE_SHOW_DESIGNER, new ShowDesignerUI()));
-        rolesUI.add(new MenuItem(Roles.ROLE_CUSTOMER_REPRESENTATIVE, new RepresentativeUI()));
         rolesUI.add(new MenuItem(Roles.ROLE_DRONE_TECH, new DroneTechUI()));
         // TODO: Add more roles and corresponding UI as needed
         return rolesUI;

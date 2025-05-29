@@ -1,5 +1,6 @@
 package persistence.inmemory;
 
+import constants.Roles;
 import domain.entity.User;
 import persistence.AuthenticationRepository;
 import persistence.UserRepository;
@@ -203,6 +204,13 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
 
     @Override
     public Optional<User> findCustomerRepresentativeByEmail(String email) {
+        for (User user : userStore.values()) {
+            if (user.getId().toString().equalsIgnoreCase(email)) {
+                if (user.hasRole(Roles.ROLE_CUSTOMER_REPRESENTATIVE)) {
+                    return Optional.of(user);
+                }
+            }
+        }
         return Optional.empty();
     }
 }

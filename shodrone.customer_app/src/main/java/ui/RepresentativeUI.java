@@ -1,7 +1,7 @@
-package ui.users;
+package ui;
 
 
-import ui.menu.MenuItem;
+import utils.MenuItem;
 import ui.menu.ShowTextUI;
 import utils.Utils;
 

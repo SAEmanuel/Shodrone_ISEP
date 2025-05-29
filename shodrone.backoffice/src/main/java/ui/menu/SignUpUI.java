@@ -1,8 +1,8 @@
 package ui.menu;
 
 import constants.Roles;
-import controller.authz.AuthenticationController;
 import ui.users.RegisterUserUI;
+import utils.MenuItem;
 import utils.Utils;
 
 import java.util.ArrayList;
