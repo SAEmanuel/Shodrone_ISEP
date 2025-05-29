@@ -38,3 +38,12 @@ Initial State:
 ShowRequest [ID=2, Date=2025-06-01 11:26, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
 ═════════════════════════════════════════════
 
+╔══════════════ENTITY CREATED═══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-05-29 16:32:16
+Author    : system@shodrone.app
+Entity ID : 2
+Initial State:
+ShowRequest [ID=2, Date=2025-06-01 17:32, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
+═════════════════════════════════════════════
+

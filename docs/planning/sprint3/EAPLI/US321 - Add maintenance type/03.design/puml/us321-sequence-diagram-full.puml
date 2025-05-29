@@ -1,0 +1,95 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Sequence Diagram (SD) - Add Maintenance Type
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":AddMaintenanceTypeUI" as UI
+participant ":AddMaintenanceTypeController" as CTRL
+participant "Name" as NameVO
+participant "Description" as DescVO
+participant "MaintenanceType" as MT
+participant "repositoryProvider\n:RepositoryProvider" as Provider
+participant "MaintenanceTypeRepository\n:MaintenanceTypeRepository" as Repo
+participant "MaintenanceTypeJPAImpl" as JPA
+participant "MaintenanceTypeInMemory" as InMem
+
+activate DT
+
+DT -> UI: requestAddMaintenanceType()
+activate UI
+UI --> DT: requestMaintenanceTypeDetails()
+deactivate UI
+
+DT -> UI: provideMaintenanceTypeDetails(name, description)
+activate UI
+UI -> CTRL **: create
+UI -> CTRL: addMaintenanceType(name, description)
+activate CTRL
+
+CTRL -> NameVO **: create(name)
+activate NameVO
+NameVO -> NameVO: isValid()
+NameVO --> CTRL: Name instance
+deactivate NameVO
+
+CTRL -> DescVO **: create(description)
+activate DescVO
+DescVO --> CTRL: Description instance
+deactivate DescVO
+
+CTRL -> MT **: create(name, description)
+activate MT
+MT --> CTRL: MaintenanceType instance
+deactivate MT
+
+CTRL -> Provider **: maintenanceTypeRepository()
+activate Provider
+Provider --> CTRL: repository (dynamic: JPA or InMem)
+deactivate Provider
+
+CTRL -> Repo: findByName(name)
+activate Repo
+Repo --> CTRL: Optional<MaintenanceType>
+deactivate Repo
+
+alt name is not unique
+    CTRL --> UI: errorMessage("Duplicate maintenance type name!")
+    UI --> DT: errorMessage("Duplicate maintenance type name!")
+    deactivate CTRL
+    deactivate UI
+else name is unique
+    CTRL -> Repo: save(maintenanceType)
+    activate Repo
+    alt Repository is MaintenanceTypeJPAImpl
+        Repo -> JPA: save(maintenanceType)
+        activate JPA
+        JPA --> Repo: Optional<MaintenanceType>
+        deactivate JPA
+    else Repository is MaintenanceTypeInMemory
+        Repo -> InMem: save(maintenanceType)
+        activate InMem
+        InMem --> Repo: Optional<MaintenanceType>
+        deactivate InMem
+    end
+    Repo --> CTRL: Optional<MaintenanceType>
+    deactivate Repo
+
+    alt save failed
+        CTRL --> UI: errorMessage("Failed to save maintenance type!")
+        UI --> DT: errorMessage("Failed to save maintenance type!")
+    else save succeeded
+        CTRL --> UI: successMessage("Maintenance type added successfully!")
+        UI --> DT: successMessage("Maintenance type added successfully!")
+    end
+end
+
+deactivate CTRL
+deactivate UI
+deactivate DT
+
+@enduml

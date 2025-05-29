@@ -2,9 +2,8 @@ package controllers;
 
 import constants.Roles;
 import domain.entity.User;
-import controller.authz.AuthenticationController;
 import controller.user.FilterUsersController;
-import controller.user.ListUserController;
+import persistence.ListUserController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;

@@ -1,16 +1,17 @@
-# US241 - Add Drones to Inventory
+# US321 - Add Maintenance Type
 
 ## 3. Design
 
-### 3.1. UI Sequence Diagram (SD)
+### 3.1. Sequence Diagram (SD)
 
-The following sequence diagram illustrates the process of adding drones to the inventory, including listing existing drone models, selecting one, and adding drones with unique serial numbers.
+The following sequence diagram illustrates the process of adding a maintenance type to the system, including requesting details, validating the uniqueness of the maintenance type name, and persisting the new maintenance type.
 
-![UI Sequence Diagram - Add Drones to Inventory](svg/us241-sequence-diagram-full-UI_Sequence_Diagram__SD____Drone_Model_Creation.svg)
+![Sequence Diagram - Add Maintenance Type](svg/us321-sequence-diagram-full.svg)
 
 #### Key Interactions:
-- **Drone Tech and UI**: The Drone Tech requests a list of existing `DroneModel` types via the `AddDronesToInventoryUI`. The UI displays the list, and the Drone Tech selects a model and provides a list of serial numbers (either manually or via a CSV file for bootstrap).
-- **Controller and Repositories**: The `AddDronesToInventoryController` fetches the list of `DroneModel` types using the `DroneModelRepository`, and later uses the `DroneRepository` to check serial number uniqueness and persist the drones.
-- **Controller and Factory**: The controller uses the `DroneFactoryImpl` to validate each serial number, check for uniqueness, and create `Drone` instances with a "stored" status.
-- **Persistence**: Each `Drone` is persisted in both the JPA (`DroneJPAImpl`) and in-memory (`InMemoryDroneRepository`) repositories, adhering to NFR07.
-- **Feedback**: The UI informs the Drone Tech of the operation’s success or failure, including the list of added serial numbers.
+- **Drone Tech and UI**: The Drone Tech initiates the addition of a maintenance type via the `AddMaintenanceTypeUI`. The UI prompts for the maintenance type details (name and optional description), which the Drone Tech provides.
+- **Controller and Domain**: The `AddMaintenanceTypeController` receives the details and creates `Name` and `Description` value objects, performing validation (e.g., name format). It then creates a `MaintenanceType` aggregate instance, encapsulating the validated data.
+- **Controller and Repositories**: The controller uses the `RepositoryProvider` to obtain the `MaintenanceTypeRepository`, which checks for name uniqueness by querying existing maintenance types. If unique, the `MaintenanceType` is persisted using either the JPA (`MaintenanceTypeJPAImpl`) or in-memory (`MaintenanceTypeInMemory`) repository, adhering to NFR07.
+- **Persistence**: The `MaintenanceType` is saved to the repository, with the system supporting both in-memory and relational database persistence (NFR07).
+- **Feedback**: The UI informs the Drone Tech of the operation’s success (e.g., "Maintenance type added successfully!") or failure (e.g., "Duplicate maintenance type name!" or "Failed to save maintenance type!").
+- **Error Handling**: The system validates the uniqueness of the maintenance type name (case-sensitive) and handles persistence errors, ensuring robust operation.

@@ -8,7 +8,6 @@ import domain.valueObjects.Name;
 import domain.valueObjects.PhoneNumber;
 import persistence.RepositoryProvider;
 import persistence.CustomerRepresentativeRepository;
-import controller.authz.AuthenticationController;
 
 public class RegisterRepresentativeController {
 

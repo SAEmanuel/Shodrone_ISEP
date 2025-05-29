@@ -1,6 +1,6 @@
 package ui;
 
-import controller.AuthenticationController;
+import network.AuthenticationController;
 import utils.Utils;
 
 import static more.ColorfulOutput.*;
