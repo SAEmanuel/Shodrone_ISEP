@@ -25,7 +25,7 @@ public class DroneTechUI implements Runnable {
         options.add(new MenuItem("List Drone in the Inventory", new ListActiveDronesUI()));
         options.add(new MenuItem("Add Maintenance Type", new AddMaintenanceTypeUI()));
         options.add(new MenuItem("List Maintenance Type", new ListMaintenanceTypeUI()));
-        options.add(new MenuItem("Edit Maintenance Type", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Edit Maintenance Type", new EditMaintenanceTypeUI()));
 
         int option = 0;
 
