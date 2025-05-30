@@ -3,74 +3,73 @@
 skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
+left to right direction
 
 title Add Figure to Proposal - Domain Model (US312)
 
 hide circles
 hide methods
 
-package "Show Proposal Subsystem" {
-
-    class ShowProposal {
+package "ShowProposal Aggregate" {
+    class ShowProposal <<AggregateRoot>> {
         String: id
         Integer: totalDrones
-        List<DroneModelAssignment>: droneModels
-        List<FigureExecution>: figureExecutions
-        ShowProposalAuthor: author
         DateTime: creationDate
     }
 
-    class FigureExecution {
-        String: id
-        Figure: figure
-        Integer: sequencePosition
-        List<DroneTypeMapping>: droneTypeMappings
+    class DroneModelAssignment <<ValueObject>> {
+        Integer: quantity
     }
 
-    class Figure {
+    class ShowProposalAuthor <<ValueObject>> {
+        String: userId
+        String: username
+    }
+}
+
+package "FigureExecution Aggregate" {
+    class FigureExecution <<AggregateRoot>> {
+        String: id
+        Integer: sequencePosition
+    }
+
+    class DroneTypeMapping <<ValueObject>> {
+    }
+}
+
+package "Figure Aggregate" {
+    class Figure <<AggregateRoot>> {
         String: id
         String: code
         Boolean: isActive
         Boolean: isPublic
-        Customer: exclusivity
-        List<DroneType>: droneTypes
     }
+}
 
-    class DroneTypeMapping {
-        DroneType: droneType
-        DroneModel: droneModel
-    }
-
-    class DroneModelAssignment {
-        DroneModel: droneModel
-        Integer: quantity
-    }
-
-    class DroneModel {
+package "DroneModel Aggregate" {
+    class DroneModel <<AggregateRoot>> {
         String: id
         String: modelName
         String: capabilities
     }
+}
 
-    class DroneType {
+package "DroneType Aggregate" {
+    class DroneType <<AggregateRoot>> {
         String: id
         String: typeName
     }
-
-    class ShowProposalAuthor {
-        String: userId
-        String: username
-    }
-
-    ShowProposal "1" --> "0..*" FigureExecution : contains >
-    FigureExecution "1" --> "1" Figure : refers >
-    FigureExecution "1" --> "1..*" DroneTypeMapping : includes >
-    DroneTypeMapping "1" --> "1" DroneType : maps >
-    DroneTypeMapping "1" --> "1" DroneModel : to >
-    ShowProposal "1" --> "1..*" DroneModelAssignment : assigns >
-    DroneModelAssignment "1" --> "1" DroneModel : refers >
-    ShowProposal "1" --> "1" ShowProposalAuthor : created by >
-    Figure "1" --> "1..*" DroneType : requires >
 }
+
+ShowProposal "1" --> "0..*" FigureExecution : contains >
+ShowProposal "1" --> "1..*" DroneModelAssignment : assigns >
+ShowProposal "1" --> "1" ShowProposalAuthor : created by >
+FigureExecution "1" --> "1" Figure : refers >
+FigureExecution "1" --> "1..*" DroneTypeMapping : includes >
+DroneTypeMapping "1" --> "1" DroneType : maps >
+DroneTypeMapping "1" --> "1" DroneModel : to >
+DroneModelAssignment "1" --> "1" DroneModel : refers >
+Figure "0..1" --> "1" Customer : exclusive to >
+Figure "1" --> "1..*" DroneType : requires >
 
 @enduml
