@@ -1,80 +1,91 @@
-# US231 - List Public Figures in Figure Catalogue
+# US310 - Create Show Proposal
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As a CRM Collaborator or Show Designer, I want to list all public figures in the figure catalogue so that I can select appropriate figures when creating or editing a show request. This functionality ensures that only valid, reusable content (non-exclusive figures) is presented for general use across customers.
+As a CRM Collaborator, I want to start the process of creating a show proposal so that we can reply to the customer. The show proposal includes essential show configuration such as the total number of drones to be used and must follow a predefined proposal template. This process formalizes the initial response to a customer's show request.
 
 ### 1.2. Customer Specifications and Clarifications
 
-The following specifications are derived from the requirements document and the DDD model:
+The following specifications are derived from the requirements documents and business rules:
 
-- A **public figure** is defined as a `Figure` entity where `Figure.isPublic = true`.
-- Only **active figures** should be listed (`Figure.status = Active`).
-- Each figure includes:
-    - **ID** (e.g., "FIG-101")
-    - **Name** (e.g., "Spiral")
-    - **Description**
-    - **Category**
-    - **version**
-    - **availability** (`public`, `exclusive`)
-    - **DSL** (optional but recommended)
-    - **Status**: Automatically initialized as `Active`
+- The **show proposal** must contain:
+  - Total number of drones to be used in the show.
+  - Customer and request information.
+  - Link or reference to the predefined show proposal template.
+- At this stage, **all figures in the show must use the same number of drones** — the total number specified in the proposal.
+- The show proposal is created through a dedicated system interface and saved as a draft until formally submitted.
+- A **predefined template** is used for all show proposals to ensure consistency in structure and presentation.
+- The template is versioned and stored in the system.
 
 **Clarifications**:
-- **Q: Should exclusive figures appear in this list?**
-    - A: No, only active and public figures should be displayed.
-- **Q: Can the figures be reused across multiple customers?**
-    - A: Yes. Public figures are reusable and not exclusive to any customer.
-- **Q: Can the figures be filtered or sorted?**
-    - A: Not in this version (covered by US232 – Search Figure Catalogue), though pagination may be included as a non-functional requirement.
+- **Q: Can different figures use different numbers of drones in a proposal?**
+  - A: No, currently all figures must use the same number of drones — the total specified for the show.
+- **Q: Is the show proposal editable after creation?**
+  - A: Yes, until it's submitted or approved.
+- **Q: Who defines the template for the proposal?**
+  - A: The template is defined and versioned by the operations team and stored in the system.
 
 **Forum Questions**:
-> **Question:** Os utilizadores devem ver todas as figuras públicas, ou apenas de determinadas categorias?
+> **Question:** A proposta pode ser gerada automaticamente ou precisa ser criada manualmente?
 >
-> **Answer:** Devem ver todas as figuras públicas ativas, independentemente da categoria. Filtragem por categoria pode ser implementada em US232.
+> **Answer:** Deve ser criada manualmente, com campos preenchidos pelo utilizador através de um formulário estruturado, com base no template.
 
 ### 1.3. Acceptance Criteria
 
-- **AC1**: Only authenticated CRM Collaborators and Show Designer can access the list (authorization via role-based access).
-- **AC2**: The system must retrieve and list all `Figure` entities where `isPublic = true` and `status = Active`.
-- **AC3**: Each listed figure must display its ID and optionally a name, a description, a duration, a category and a dsl.
-- **AC4**: The list must be paginated if the number of results exceeds a configured limit (e.g., 20 per page).
-- **AC5**: If no public figures are available, the system displays: "No public figures available."
+- **AC1**: Only authenticated CRM Collaborators can create a show proposal.
+- **AC2**: The system must provide a form based on the predefined template for inputting show proposal details.
+- **AC3**: The user must define the total number of drones for the show.
+- **AC4**: Upon submission, the system validates that all figures used conform to the specified drone count.
+- **AC5**: The proposal must be saved as a draft and later marked as "Submitted" when finalized.
+- **AC6**: The template used must be referenced by version number.
 
-### 1.4. Found out Dependencies
+### 1.4. Found Out Dependencies
 
-- **US210**: Authentication and user management – Required to verify the identity and role of the CRM Collaborator accessing the catalogue.
-- **US233**: Add Figure to the catalogue – Used to populate the catalogue with public figures.
-- **US234**: Decommission Figure – Used to change the `status` of a figure to inactive, affecting visibility in this list.
-- **US245–US248**: Figure category management – Used to associate a given category to a figure.
+- **US210**: Authentication and authorization – Required to ensure only authenticated CRM Collaborators can initiate show proposals.
+- **US220**: Register customer – Required to associate a show proposal with a registered customer.
+- **US230**: Register show request – The show proposal is typically created in response to a show request.
+- **US231**: List public figures in the figure catalogue – Required for selecting valid figures to include in the proposal.
+- **US233**: Add Figure to the catalogue – Needed for figure availability in the proposal process.
+- **US234**: Decommission Figure – Affects which figures are available for inclusion.
+- **US240–US243**: Drone model and inventory management – Provide drone availability data necessary to define drone count in proposals.
+- **US248**: Inactivate/Activate a figure category – Influences visibility and selection of figures.
+- **US311**: Add drones to a proposal – Handles configuration of drone count per proposal.
+- **US312**: Add figures to a proposal – Links specific figures to the proposal based on total drone count.
+- **US318**: Templates for show proposals – Defines the structure and versioned template required for creating the proposal.
 
 ### 1.5 Input and Output Data
 
-**Input Data:**
 
-- typed data:
-    - `page` (integer, default: 1)
-    - `pageSize` (integer, default: 20)
+**Input Data:**
+- **Typed data:**
+  - `numberOfDrones` (integer): Total number of drones to be used in the show.
+  - `showDate` (date): Proposed date for the show.
+  - `location` (string): Location where the show is intended to take place.
+  - `description` (string): Optional description of the proposal.
+  - `showDuration` (integer): Estimated total duration of the drone show in seconds or minutes.
+  - `video` (object): Optional video preview or simulation associated with the proposal.
+
+- **Selected data:**
+  - `showRequestId` (integer): Identifier of the associated customer show request.
+  - `templateVersion` (string): Version ID of the predefined proposal template to use.
+  - `sequenceFigures` (list of objects): Ordered list of figures to be used in the show. Each includes: `figures` that are active and public or customer-exclusive figures (`Figure.isActive = true`)
+  - `droneTypes`: Mappings of `DroneType` to selected `DroneModel`.
+
+- **Automatic data:**
+  - `status` (enum): Initial status of the proposal (`CREATED`, `SENT`, `APPROVED`, `REJECTED`).
 
 **Output Data:**
 
-- List of `Figure` records with:
-    - `Figure.id`
-    - `Figure.name`
-    - `Figure.description`
-    - `Figure.version`
-    - `Figure.availability`
-    - `Figure.category.name`
-    - `Figure.dsl`
-    - `Figure.status`
-  
+- Show proposal ID (generated by the system, e.g., `showProposal.id = "SP-001"`)
+- Confirmation message (e.g., "Show proposal registered successfully with ID SP-001")
+
 ### 1.6. System Sequence Diagram (SSD)
 
-Below is the PlantUML source code for the System Sequence Diagram (SSD) of US231, showing the interaction between the Show Designer, the system, and external entities (e.g., authentication, customer/figure data).
+Below is a high-level representation of the interaction for creating a show proposal:
 
-![System Sequence Diagram](./svg/us231-sequence-diagram.svg)
+![System Sequence Diagram](./svg/us310-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
