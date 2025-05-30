@@ -49,6 +49,7 @@ public class RepositoryProvider {
     private static CustomerRepresentativeRepository customerRepresentativeRepository;
     private static ListUserController listUserController;
     private static ShowProposalRepository showProposalRepository;
+    private static MaintenanceTypeRepository maintenanceTypeRepository;
 
 
     private static AuditLoggerService auditLoggerService;
@@ -205,6 +206,18 @@ public class RepositoryProvider {
             }
         }
         return droneRepository;
+    }
+
+
+    public static MaintenanceTypeRepository maintenanceTypeRepository() {
+        if (maintenanceTypeRepository == null) {
+            if (isInMemory()) {
+                maintenanceTypeRepository = new InMemoryMaintenanceTypeRepository();
+            } else {
+                maintenanceTypeRepository = new MaintenanceTypeJPAImpl();
+            }
+        }
+        return maintenanceTypeRepository;
     }
 
 
