@@ -1,9 +1,7 @@
 package ui.users;
 
-import ui.drone.AddDroneInventoryUI;
-import ui.drone.CreateDroneModelUI;
-import ui.drone.ListActiveDronesUI;
-import ui.drone.RemoveDroneInventoryUI;
+import ui.drone.*;
+import ui.menu.ShowTextUI;
 import utils.MenuItem;
 import utils.Utils;
 
@@ -25,6 +23,9 @@ public class DroneTechUI implements Runnable {
         options.add(new MenuItem("Add Drone to the Inventory", new AddDroneInventoryUI()));
         options.add(new MenuItem("Remove Drone from the Inventory", new RemoveDroneInventoryUI()));
         options.add(new MenuItem("List Drone in the Inventory", new ListActiveDronesUI()));
+        options.add(new MenuItem("Add Maintenance Type", new AddMaintenanceTypeUI()));
+        options.add(new MenuItem("List Maintenance Type", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Edit Maintenance Type", new ShowTextUI("Not implemented yet.")));
 
         int option = 0;
 
