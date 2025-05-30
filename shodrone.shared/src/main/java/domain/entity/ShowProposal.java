@@ -21,7 +21,7 @@ import java.util.Objects;
 import static java.lang.String.format;
 import static more.ColorfulOutput.*;
 
-
+@Entity
 public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoot<Long>, Serializable, IdentifiableEntity<Long> {
 
     @Serial
@@ -34,20 +34,23 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Column(name = "Show_Proposal_ID", nullable = false, unique = true)
     private Long showProposalID;
 
+    @Setter
     @Getter
-    @Column(name = "Show_Request_Associated", nullable = false)
-    private Long showRequestID;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "Show_Request", nullable = false)
+    private ShowRequest showRequest;
 
-    @Column(name = "Show_Proposal_Template", nullable = false)
-    private ShowTemplate template;
+
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "Show_Proposal_Template")
+//    private ShowTemplate template;
 
     @Setter
     @Getter
     @OneToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "List_Figures")
+    @JoinColumn(name = "Show_Proposal")
     private List<Figure> sequenceFigues;
 
-    @Column(name = "Show_Description")
     @Embedded
     private Description description;
 
@@ -79,11 +82,6 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Column(name = "Show_Duration", nullable = false)
     private Duration showDuration;
 
-    @Setter
-    @Getter
-    @Column(name = "Show_Video", nullable = false)
-    private Object video;
-
     //-------------------
     @Setter
     @Getter
@@ -110,19 +108,17 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     protected ShowProposal() {
     }
 
-    public ShowProposal(Long showRequestID, ShowTemplate template, List<Figure> sequenceFigues
-            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration,
-                        Object video, String creationAuthor, LocalDateTime creationDate) {
+    public ShowProposal(ShowRequest showRequest, ShowTemplate template, List<Figure> sequenceFigues
+            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate ) {
 
-        this.showRequestID = showRequestID;
-        this.template = template;
+        this.showRequest = showRequest;
+//        this.template = template;
         this.sequenceFigues = sequenceFigues;
         this.description = description;
         this.location = location;
         this.showDate = showDate;
         this.numberOfDrones = numberOfDrones;
         this.showDuration = showDuration;
-        this.video = video;
         this.creationAuthor = creationAuthor;
         this.creationDate = creationDate;
         this.status = ShowProposalStatus.CREATED;
@@ -151,7 +147,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
         return String.format(
                 "%s%sID_SP =%s %d %s| %s%sID_SR =%s %s %s| %s%sStatus =%s%s %s%s | %s%sDrones =%s %-4d %s| %s%sDuration =%s %-8s %s| %s%sAuthor =%s %s %s| %s%sCreation Date =%s %s %s| %s%sStart Date =%s %s %s| %s%sLocation =%s %s %s",
                 ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, identity(), ANSI_RESET,
-                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getShowRequestID() != null ? getShowRequestID() : "N/A", ANSI_RESET,
+                ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getShowRequest().identity() != null ? getShowRequest().identity() : "N/A", ANSI_RESET,
                 ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, ANSI_PURPLE, getStatus(), ANSI_RESET,
                 ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getNumberOfDrones(), ANSI_RESET,
                 ANSI_BRIGHT_BLACK, ANSI_BOLD, ANSI_RESET, getShowDuration().toMinutes() + " min", ANSI_RESET,

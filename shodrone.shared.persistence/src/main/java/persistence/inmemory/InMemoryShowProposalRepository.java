@@ -19,7 +19,7 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
             entity.setShowProposalID(LAST_SHOW_REQUEST_ID++);
         }
 
-        Long idShowRequest = entity.getShowRequestID();
+        Long idShowRequest = entity.getShowRequest().identity();
 
         if (store.get(idShowRequest) == null) {
             store.put(idShowRequest, new ArrayList<>());

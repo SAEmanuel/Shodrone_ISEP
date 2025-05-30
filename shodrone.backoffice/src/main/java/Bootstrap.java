@@ -9,6 +9,7 @@ import persistence.AuthenticationRepository;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -22,9 +23,12 @@ public class Bootstrap implements Runnable {
         addFigures();
         addDroneModels();
         addDrones();
-        initLists();
-        addProposals();
+        //addShowRequest();
+        //initLists();
+        //addProposals();
     }
+
+
 
 
     // --- User Setup -----------------------------------------------------
@@ -135,6 +139,16 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.droneRepository().save(drone20);
     }
 
+    // --- Show Request Setup ---------------------------------------------------
+
+    private void addShowRequest() {
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest1);
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest2);
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest3);
+    }
+
+    // --- Lists Setup ---------------------------------------------------
+
     private void initLists() {
         list1.add(figure1);
 
@@ -163,6 +177,7 @@ public class Bootstrap implements Runnable {
         list6.add(figure20);
     }
 
+    // --- Show Proposals Setup ---------------------------------------------------
     private void addProposals() {
         RepositoryProvider.showProposalRepository().saveInStore(proposal1);
         RepositoryProvider.showProposalRepository().saveInStore(proposal2);
@@ -305,36 +320,75 @@ public class Bootstrap implements Runnable {
     private final Drone drone19 = new Drone(new SerialNumber("SN-00019"), droneModel5);
     private final Drone drone20 = new Drone(new SerialNumber("SN-00020"), droneModel5);
 
+    // --- Show Request -----------------------------------------------------------
+
+    private final Description description1 = new Description("Amazing drone show!");
+    private final Description description2 = new Description("Incredible light performance!");
+    private final Description description3 = new Description("Breathtaking sky art!");
+
+    private final Location location1 = new Location(new Address("Rua", "Porto", "4444-888", "Portugal"), 12, 12, "iasjdiasjdiasdjasid");
+    private final Location location2 = new Location(new Address("Avenida", "Lisboa", "1111-222", "Portugal"), 34, 45, "localdesc2");
+    private final Location location3 = new Location(new Address("Praça", "Coimbra", "3333-444", "Portugal"), 56, 78, "localdesc3");
+
+    private final ShowRequest showRequest1 = new ShowRequest(2L,
+            LocalDateTime.now(), ShowRequestStatus.PENDING,
+            "crm_collaborator@shodrone.app", customer1,
+            Arrays.asList(figure1,figure2,figure3),
+            description1, location1,
+            LocalDateTime.now().plusHours(1),
+            10,
+            Duration.ofMinutes(15));
+
+    private final ShowRequest showRequest2 = new ShowRequest(3L,
+            LocalDateTime.now().minusDays(1), ShowRequestStatus.PENDING,
+            "crm_collaborator@shodrone.app", customer2,
+            Arrays.asList(figure8, figure9),
+            description2, location2,
+            LocalDateTime.now().plusHours(2),
+            20,
+            Duration.ofMinutes(30));
+
+    private final ShowRequest showRequest3 = new ShowRequest(4L,
+            LocalDateTime.now().minusDays(2), ShowRequestStatus.PENDING,
+            "crm_collaborator@shodrone.app", customer3,
+            Arrays.asList(figure15, figure16),
+            description3, location3,
+            LocalDateTime.now().plusDays(1),
+            15,
+            Duration.ofMinutes(45));
+
+
+
 
     // --- Proposals -----------------------------------------------------------
-    private final ShowProposal proposal1 = new ShowProposal(1L, null,list1,
+    private final ShowProposal proposal1 = new ShowProposal(showRequest1, null,list1,
             new Description("Description 1"),
             new Location(new Address("Street1","City1","4444-000","Country1"),60,120,"Description"),
-            LocalDateTime.now().plusDays(3L),10, Duration.ofMinutes(60),null,
+            LocalDateTime.now().plusDays(3L),10, Duration.ofMinutes(60),
             "crm_collaborator@shodrone.app",LocalDateTime.now());
 
-    private final ShowProposal proposal2 = new ShowProposal(2L, null, list2,
+    private final ShowProposal proposal2 = new ShowProposal(showRequest1, null, list2,
             new Description("Description 2"),
             new Location(new Address("Street2", "City2", "5555-111", "Country2"), 50, 100, "Another description"),
-            LocalDateTime.now().plusDays(5L), 15, Duration.ofMinutes(45), null,
+            LocalDateTime.now().plusDays(5L), 15, Duration.ofMinutes(45),
             "crm_collaborator@shodrone.app", LocalDateTime.now());
 
-    private final ShowProposal proposal3 = new ShowProposal(3L, null, list3,
+    private final ShowProposal proposal3 = new ShowProposal(showRequest2, null, list3,
             new Description("Description 3"),
             new Location(new Address("Street3", "City3", "6666-222", "Country3"), 45, 150, "Yet another description"),
-            LocalDateTime.now().plusDays(7L), 20, Duration.ofMinutes(90), null,
+            LocalDateTime.now().plusDays(7L), 20, Duration.ofMinutes(90),
             "crm_collaborator@shodrone.app", LocalDateTime.now());
 
-    private final ShowProposal proposal4 = new ShowProposal(4L, null, list4,
+    private final ShowProposal proposal4 = new ShowProposal(showRequest2, null, list4,
             new Description("Description 4"),
             new Location(new Address("Street4", "City4", "7777-333", "Country4"), 80, 130, "Different description"),
-            LocalDateTime.now().plusDays(10L), 12, Duration.ofMinutes(75), null,
+            LocalDateTime.now().plusDays(10L), 12, Duration.ofMinutes(75),
             "crm_collaborator@shodrone.app", LocalDateTime.now());
 
-    private final ShowProposal proposal5 = new ShowProposal(5L, null, list5,
+    private final ShowProposal proposal5 = new ShowProposal(showRequest3, null, list5,
             new Description("Description 5"),
             new Location(new Address("Street5", "City5", "8888-444", "Country5"), 80, 110, "Some description here"),
-            LocalDateTime.now().plusDays(12L), 18, Duration.ofMinutes(120), null,
+            LocalDateTime.now().plusDays(12L), 18, Duration.ofMinutes(120),
             "crm_collaborator@shodrone.app", LocalDateTime.now());
 
 }

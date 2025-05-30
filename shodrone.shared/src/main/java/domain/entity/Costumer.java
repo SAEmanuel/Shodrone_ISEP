@@ -7,6 +7,7 @@ import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.EmailAddress;
 import eapli.framework.infrastructure.authz.domain.model.Name;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.Setter;
 
 import javax.xml.bind.annotation.XmlRootElement;
@@ -42,6 +43,7 @@ public final class Costumer implements AggregateRoot<Long>, Serializable {
     @AttributeOverrides({@AttributeOverride(name = "number", column = @Column(name = "phone_number", nullable = false, unique = true))})
     private PhoneNumber phoneNumber;
 
+    @Getter
     @Embedded
     @AttributeOverrides({@AttributeOverride(name = "value", column = @Column(name = "nif", nullable = false, unique = true))})
     private NIF nif;
