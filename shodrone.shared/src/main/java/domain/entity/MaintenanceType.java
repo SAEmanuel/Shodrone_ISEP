@@ -64,6 +64,20 @@ public class MaintenanceType implements AggregateRoot<String> {
         return this.description;
     }
 
+    public void changeDescriptionTo(final Description newDescription) {
+        if (newDescription == null) {
+            throw new IllegalArgumentException("Description cannot be null.");
+        }
+        this.description = newDescription;
+    }
+
+    public void changeNameTo(final MaintenanceTypeName newName) {
+        if (newName == null) {
+            throw new IllegalArgumentException("Name cannot be null.");
+        }
+        this.name = newName;
+    }
+
     @Override
     public String identity() {
         return this.name.name();
@@ -88,6 +102,11 @@ public class MaintenanceType implements AggregateRoot<String> {
     @Override
     public boolean equals(final Object o) {
         return super.equals(o);
+    }
+
+    public MaintenanceType copy() {
+        MaintenanceType copy = new MaintenanceType(this.name(), this.description());
+        return copy;
     }
 
     @Override

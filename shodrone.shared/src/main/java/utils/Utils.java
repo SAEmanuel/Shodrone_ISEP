@@ -421,6 +421,19 @@ public class Utils {
         return index;
     }
 
+    static public int selectMaintenanceTypeIndex(List<MaintenanceType> maintenanceTypes) {
+        Utils.dropLines(1);
+
+        Utils.printCenteredSubtitleV2("Maintenance Type Selection");
+
+        int index = Utils.showAndSelectIndexPartially(maintenanceTypes, "Select the desired maintenance type:");
+        if (index < 0) {
+            Utils.printFailMessage("No maintenance type selected.");
+            Utils.silentExit();
+        }
+        return index;
+    }
+
     /**
      * Shows a menu with custom options to the user and lets them select one.
      * Exits silently if no valid option is chosen.
