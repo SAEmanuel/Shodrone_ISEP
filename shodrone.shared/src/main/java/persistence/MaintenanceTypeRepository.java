@@ -12,4 +12,6 @@ public interface MaintenanceTypeRepository {
     Optional<MaintenanceType> findByName(String name);
 
     List<MaintenanceType> findAll();
+
+    Optional<MaintenanceType> updateMaintenanceType(MaintenanceType maintenanceType, String oldKey);
 }

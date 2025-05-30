@@ -30,4 +30,12 @@ public class InMemoryMaintenanceTypeRepository implements MaintenanceTypeReposit
         return new ArrayList<>(store.values());
     }
 
+    @Override
+    public Optional<MaintenanceType> updateMaintenanceType(MaintenanceType maintenanceType, String oldKey) {
+       String newKey = maintenanceType.identity().toLowerCase();
+       store.remove(oldKey.toLowerCase());
+       store.put(newKey, maintenanceType);
+       return Optional.of(maintenanceType);
+    }
+
 }
