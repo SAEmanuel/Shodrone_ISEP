@@ -33,4 +33,19 @@ public class MaintenanceTypeJPAImpl extends JpaBaseRepository<MaintenanceType, L
             return Optional.of(results.get(0));
         }
     }
+
+    @Override
+    public Optional<MaintenanceType> updateMaintenanceType(MaintenanceType maintenanceType, String oldKey) {
+       if (maintenanceType == null || maintenanceType.identity() == null) {
+           return Optional.empty();
+       }
+
+       Optional<MaintenanceType> existing = Optional.ofNullable(findById(maintenanceType.id()));
+        if (existing.isEmpty()) {
+            return Optional.empty();
+        }
+
+        MaintenanceType updated = update(maintenanceType);
+        return Optional.ofNullable(updated);
+    }
 }
