@@ -1,0 +1,18 @@
+@startuml
+actor "Customer" as Actor
+participant "System" as System
+
+activate Actor
+activate System
+Actor -> System: Check My Show Dates()
+alt Show Request Not Found
+    System --> Actor: Error "Show request not found"
+else
+    System -> System: Check for Conflicts(showRequestId)
+    alt Conflicts Found
+        System --> Actor: Warning "Scheduling conflict detected! Conflicting show requests: [details]"
+    else
+        System --> Actor: Success "No scheduling conflicts found for show request [ShowRequest.id]"
+    end
+end
+@enduml
