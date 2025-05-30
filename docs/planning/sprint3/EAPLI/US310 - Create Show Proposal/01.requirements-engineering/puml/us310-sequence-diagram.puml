@@ -1,0 +1,48 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US310 Create Show Proposal
+
+autonumber
+
+actor "CRM Collaborator" as Actor
+participant "System" as System
+
+activate Actor
+
+Actor -> System : Request to create new Show Proposal
+    activate System
+
+    System -> System : list of proposal templates
+    System --> Actor : Return list of templates
+
+deactivate System
+
+Actor -> System : Submit show proposal data
+    activate System
+
+    System -> System : Validate input (showRequestID, numberOfDrones, sequenceFigues,showProposalDate, ...)
+    alt Invalid or missing required fields
+        System --> Actor : Error Invalid information
+       else Success
+        System -> System: createShowProposal(showRequestID, numberOfDrones, sequenceFigues,showProposalDate, ...)
+        activate System
+
+        deactivate System
+        System -> System: addShowProposalStatus("Created", timestamp)
+        activate System
+
+        deactivate System
+        System -> System: persistShowRequest()
+        activate System
+
+                deactivate System
+
+        System --> Actor: show outputs and status of the registration
+        deactivate System
+    end
+
+deactivate Actor
+@enduml

@@ -1,0 +1,111 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Create Show Proposal (US310)
+
+autonumber
+
+actor "CRM Collaborator" as crmColl
+participant ":CreateShowProposalUI" as UI
+participant ":CreateShowProposalController" as CTRL
+participant "templateController\n:TemplateController" as templateCtrl
+participant "repositoryProvider\n:RepositoryProvider" as repoProvider
+participant "templateRepositoryInterface\n:TemplateRepositoryInterface" as templateRepoInt
+participant "showProposalRepositoryInterface\n:ShowProposalRepositoryInterface" as showProposalRepoInt
+participant "factoryProvider\n:FactoryProvider" as factoryProvider
+participant "showProposalFactoryInterface\n:ShowProposalFactoryInterface" as factory
+participant "showProposal\n:ShowProposal" as showProposal
+participant "status\n:Status" as status
+participant "localDateTime\n:LocalDateTime" as localTime
+participant "showProposalValidationService\n:ShowProposalValidationService" as validationService
+activate crmColl
+
+crmColl -> UI : ask to create new Show Proposal
+activate UI
+
+UI -> CTRL ** : create
+UI -> CTRL : getTemplateList()
+activate CTRL
+
+CTRL -> templateCtrl ** : create
+CTRL -> templateCtrl : getTemplates()
+activate templateCtrl
+
+templateCtrl -> repoProvider : getTemplateRepository()
+activate repoProvider
+
+repoProvider --> templateCtrl : templateRepositoryInterface
+deactivate repoProvider
+
+templateCtrl -> templateRepoInt : listTemplates()
+activate templateRepoInt
+
+templateRepoInt --> templateCtrl : listOfTemplates
+deactivate templateRepoInt
+
+templateCtrl --> CTRL : listOfTemplates
+deactivate templateCtrl
+CTRL --> UI : listOfTemplates
+deactivate CTRL
+
+UI --> crmColl : show available templates
+deactivate UI
+
+crmColl -> UI : submit Show Proposal data (showRequestId, templateId, numberOfDrones, showDate, duration, location, description, figures)
+activate UI
+
+UI -> CTRL : createShowProposal(showRequestId, templateId, numberOfDrones, showDate, duration, location, description, figures)
+activate CTRL
+
+alt Validation failed
+
+CTRL -> validationService : validateInput(showRequestId, numberOfDrones, figures, showDate, ...)
+activate validationService
+
+validationService --> CTRL : validationResult
+deactivate validationService
+
+alt validationResult = errors
+    CTRL --> UI : Error: Invalid or missing required fields
+    UI --> crmColl : show error message
+else
+
+    CTRL -> factoryProvider : getShowProposalFactory()
+    activate factoryProvider
+
+    factoryProvider --> CTRL : showProposalFactoryInterface
+    deactivate factoryProvider
+
+    CTRL -> factory : createShowProposal(ShowProposal)
+    activate factory
+
+    factory --> CTRL : showProposalObject
+    deactivate factory
+
+    CTRL -> status : addStatus("Created", timestamp)
+    activate status
+
+    status --> CTRL : statusAdded
+    deactivate status
+
+    CTRL -> repoProvider : getShowProposalRepository()
+    activate repoProvider
+
+    repoProvider --> CTRL : showProposalRepositoryInterface
+    deactivate repoProvider
+
+    CTRL -> showProposalRepoInt : add(showProposalObject)
+
+    deactivate factory
+
+    CTRL --> UI : showProposalObject
+    deactivate CTRL
+
+    UI --> crmColl : Show Proposal created successfully
+    deactivate UI
+end
+deactivate crmColl
+
+@enduml

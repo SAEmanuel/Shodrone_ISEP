@@ -1,41 +1,42 @@
-# US321 – List public figures in Figure catalogue
+# US310 – Create Show Proposal
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us231-domain-model.svg)
+![Domain Model](svg/us310-domain-model.svg)
 
-This diagram presents the updated domain model for figure and category management, tailored specifically to support the listing of **public figures** in the **Figure catalogue**. It integrates all relevant data required to fulfill the user story and meet catalog listing needs, including references to category data and figure visibility.
+This domain model represents the structure for creating a **Show Proposal**. It introduces the `ShowProposal` aggregate as the core entity, encapsulating all required data to initiate, describe, and track a proposal based on a customer's show request.
 
-While a general domain model focuses on high-level entities and their relationships, this specific excerpt dives deeper into the internal structure of the **Figure** entity. It highlights the key attributes needed to support real-world catalogue functionality, such as `availability`, `Category Name`, and `status`. These elements are essential for controlling visibility, tracking figure evolution, and managing lifecycle states.
-
-Including this level of detail is important because:
-
-- It helps meet both functional and non-functional requirements for managing figures in the catalogue, such as determining whether a figure is publicly accessible or under revision.
-- It lays the groundwork for enforcing rules around figure visibility, state transitions, and content accuracy.
-- It ensures the system can support consistent figure listings while remaining flexible for future enhancements like advanced filtering or publishing workflows.
+The model aligns with the business process of generating a proposal from a **show request**, defining a template, selecting figures, and optionally attaching a simulation video. The internal value objects provide strong typing and encapsulation for all critical fields.
 
 #### **Explanation of the model elements**
 
-- **Figure** (`<<AggregateRoot>>`): Central entity in the Figure catalogue. Each figure includes essential metadata used for display and filtering in the catalogue, such as:
-    - `id`: Unique identifier for the figure.
-    - `name`: User-facing name.
-    - `description`: Description of the figure's purpose or context.
-    - `version`: Indicates the current version of the figure 
-    - `availability`: Enum indicating if the figure is public (e.g., *Public*, *Exclusive*).
-    - `dsl`: Domain-specific language reference used to define the figure.
-    - `status`: Operational status (e.g., *Active*).
-    - `category`: Association to the `Category` entity, from which the `category.name` is exposed.
-    - **Category** (`<<AggregateRoot>>`): Each figure belongs to exactly one category, which provides organizational structure and classification for listing. From the figure perspective, the `category.name` is highly relevant in this context, as it’s used for display and filtering.
+- **ShowProposal** (`<<AggregateRoot>>`): Central domain entity for representing a customer's drone show proposal. Contains:
+  - `showProposalId`: Unique identifier for the proposal.
+  - `showRequestId`: Link to the originating customer request.
+  - `template`: Structure or blueprint used to guide the proposal creation.
+  - `numberOfDrones`: The number of drones planned to be used in the show.
+  - `showDate`, `location`, `description`, `showDuration`: Operational and logistical metadata for planning the show.
+  - `status`: Current proposal state (`CREATED`, `SEND`, `APPROVED`, `REJECTED`).
+  - `createdAt`, `createdBy`: Audit trail capturing who and when the proposal was created.
+  - `video`: Optional simulation video to preview the proposal.
 
-This domain view ensures that all required data for public figure listing is readily accessible, while maintaining clean separation of responsibilities between the Figure and Category aggregates.
+- **Figure** (`<<AggregateRoot>>`): A reference to the selected figures intended for inclusion in the show. Though figures are modeled separately, they are logically connected to the proposal and drive much of its content.
+
+- **Value Objects**: Each property within the `ShowProposal` is modeled as a value object. This provides immutability, validation, and encapsulated domain rules. Notable examples include:
+  - `NumberOfDrones` ensures consistent drone count enforcement across the show.
+  - `Template` ensures that only validated structures are used to create proposals.
+  - `Status` manages state transitions in the proposal lifecycle.
+
+This structure ensures that show proposals are reliable, traceable, and structured according to business rules.
 
 ### 2.2. Other Remarks
 
-This version of the domain model emphasizes read-optimized access to figure data, including category references. The design ensures:
-- **Fast and reliable retrieval** of all fields required by the UI for the catalogue.
-- **Clear separation of concerns**, maintaining category ownership of classification logic.
-- **Future extensibility**, such as support for filtering by availability or status.
+This domain model emphasizes **clarity**, **modularity**, and **traceability**, which are all essential in delivering high-quality proposals that align with customer expectations and system constraints. Noteworthy design considerations include:
 
-The model is now prepared to support additional features like search, filtering, and version tracking in the figure catalogue.
+- **Separation of concerns**: The `Figure` aggregate is managed independently from the proposal, allowing figure reuse, version control, and public/exclusive visibility.
+- **Extensibility**: Future features like proposal editing, review logs, drone assignment validation, or customer feedback workflows can be cleanly integrated.
+- **Robust validation**: Encapsulating business rules in value objects allows the domain to reject invalid or inconsistent proposals early.
+
+This domain structure ensures the creation of proposals is both technically sound and functionally aligned with the customer journey.

@@ -34,6 +34,7 @@ public class CustomerAppServer {
             String email = loginRequest.getEmail();
             String password = loginRequest.getPassword();
 
+            RepositoryProvider.setUseInMemory(false);
             AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
             Optional<User> userOpt = repo.findCustomerRepresentativeByEmail(email);
             boolean success = userOpt.isPresent() && userOpt.get().passwordMatches(password);

@@ -7,20 +7,17 @@ import static more.ColorfulOutput.*;
 
 public class CustomerAppUI {
 
-    private final AuthenticationController ctrl;
+    private final AuthenticationController ctrl = new AuthenticationController();
 
-    public CustomerAppUI(AuthenticationController ctrl) {
-        this.ctrl = ctrl;
+    public CustomerAppUI() {
     }
 
     public void run() {
-        System.out.println(ANSI_BRIGHT_WHITE + "\nWelcome to the Customer App!\n" + ANSI_RESET);
-
         if (doLogin()) {
             System.out.println(ANSI_BRIGHT_GREEN + "Login successful! Welcome!" + ANSI_RESET);
             new RepresentativeUI().run();
         } else {
-            System.out.println(ANSI_LIGHT_RED + "Login failed. Exiting application." + ANSI_RESET);
+            System.out.println(ANSI_LIGHT_RED + "FATAL: Login failed. Exiting application." + ANSI_RESET);
         }
     }
 
