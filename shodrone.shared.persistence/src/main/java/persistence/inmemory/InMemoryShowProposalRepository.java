@@ -10,7 +10,7 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
     private static long LAST_SHOW_REQUEST_ID = 1L;
 
     @Override
-    public Optional<ShowProposal> saveInStore(ShowProposal entity) {
+    public Optional<ShowProposal> saveInStoreProposal(ShowProposal entity) {
         if (entity == null) {
             return Optional.empty();
         }
@@ -40,6 +40,33 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
         }
 
         return listShowProposals.isEmpty() ? Optional.empty() : Optional.of(listShowProposals);
+    }
+
+    @Override
+    public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity) {
+        if (entity == null || entity.identity() == null || entity.getShowRequest() == null) {
+            return Optional.empty();
+        }
+
+        Long idShowRequest = entity.getShowRequest().identity();
+
+        // Obtém a lista de propostas para o ShowRequest
+        List<ShowProposal> proposals = store.get(idShowRequest);
+
+        if (proposals == null) {
+            return Optional.empty();
+        }
+
+        // Encontra o índice da proposta com o mesmo identity
+        for (int i = 0; i < proposals.size(); i++) {
+            ShowProposal proposal = proposals.get(i);
+            if (proposal.identity().equals(entity.identity())) {
+                proposals.set(i, entity);
+                return Optional.of(entity);
+            }
+        }
+
+        return Optional.empty();
     }
 
 

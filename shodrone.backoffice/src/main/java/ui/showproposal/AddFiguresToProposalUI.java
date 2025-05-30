@@ -7,6 +7,8 @@ import domain.entity.ShowProposal;
 import utils.Utils;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Queue;
 
 import static more.ColorfulOutput.*;
 
@@ -30,7 +32,7 @@ public class AddFiguresToProposalUI implements Runnable {
             Utils.printSuccessMessage("\nSelected Proposal with ID : " + selectedProposal.identity());
 
             Utils.printCenteredSubtitle("Figures of Selected Proposal");
-            List<Figure> listFigures = selectedProposal.getSequenceFigues();
+            Queue<Figure> listFigures = selectedProposal.getSequenceFigues();
 
             if(listFigures.isEmpty()){
                 Utils.printAlterMessage("No Figures was found in the selected proposal, do you wish to add [y/n]: ");
@@ -44,10 +46,17 @@ public class AddFiguresToProposalUI implements Runnable {
             }
 
             Utils.printCenteredSubtitle("Selection of New Figures");
+            Queue<Figure> sequenceOfFigures = ServiceForValidSequenceFiguresForShow.getListFiguresUIWithRepetitions(selectedProposal.getShowRequest().getCostumer(), listFigures);
+            Optional<ShowProposal> optionalResult = controller.saveNewImagesInProposal(selectedProposal,sequenceOfFigures);
 
-            ServiceForValidSequenceFiguresForShow.getListFiguresUIWithRepetitions(selectedProposal.getShowRequest().getCostumer(), listFigures);
-
-            Utils.printSuccessMessage("\n✅ Figures added successfully to proposal!");
+            if(optionalResult.isEmpty()){
+                Utils.printFailMessage("\n✖️ Something went grong saving the Show Proposal!");
+            }else{
+                Utils.printSuccessMessage("\n✔️ Figures added successfully to proposal!");
+                for(Figure figure : optionalResult.get().getSequenceFigues()){
+                    System.out.println(figure.toString());
+                }
+            }
             Utils.waitForUser();
         } catch (Exception e) {
             Utils.printFailMessage(e.getMessage());

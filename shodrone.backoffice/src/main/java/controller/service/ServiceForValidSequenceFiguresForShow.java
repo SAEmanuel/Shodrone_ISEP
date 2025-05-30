@@ -15,7 +15,7 @@ import static more.TextEffects.*;
 
 public class ServiceForValidSequenceFiguresForShow {
 
-    public static Queue<Figure> getListFiguresUIWithRepetitions(Costumer costumer, List<Figure> initialSelection) {
+    public static Queue<Figure> getListFiguresUIWithRepetitions(Costumer costumer, Queue<Figure> initialSelection) {
         ListFiguresByCostumerController listFiguresByCostumerController = new ListFiguresByCostumerController();
         Queue<Figure> selectedFigureQueue = new LinkedList<>(initialSelection != null ? initialSelection : new ArrayList<>());
         List<Figure> figureList = listFiguresByCostumerController
@@ -30,29 +30,31 @@ public class ServiceForValidSequenceFiguresForShow {
         Figure lastSelectedFigure = selectedFigureQueue.isEmpty() ? null : ((LinkedList<Figure>) selectedFigureQueue).getLast();
 
         while (true) {
-            System.out.printf("\n\n\n%s─── Select figures from the list below ───%s%n",ANSI_BOLD,ANSI_RESET);
+            System.out.printf("\n%s─── Select figures from the list below ───%s%n", ANSI_BOLD, ANSI_RESET);
             System.out.println(ANSI_BRIGHT_BLACK + BOLD + "• Currently selected figures:" + ANSI_RESET);
 
             if (selectedFigureQueue.isEmpty()) {
-                System.out.printf("   %s[%sNone selected yet%s]%s%n",
+                System.out.printf("    %s[%sNone selected yet%s]%s%n",
                         ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
             } else {
-                int index = 1;
                 for (Figure selectedFigure : selectedFigureQueue) {
                     String highlight = selectedFigure.equals(lastSelectedFigure) ? ANSI_BRIGHT_CYAN : ANSI_RESET;
                     System.out.printf("    🗳️ %sID: %-3d | Name: %-15s | Availability: %-9s%s%n",
-                             highlight, selectedFigure.identity(), selectedFigure.name(), selectedFigure.availability(), ANSI_RESET);
+                            highlight, selectedFigure.identity(), selectedFigure.name(), selectedFigure.availability(), ANSI_RESET);
                 }
             }
 
             Utils.dropLines(1);
 
             System.out.println(ANSI_BRIGHT_BLACK + BOLD + "• Figures:" + ANSI_RESET);
-            System.out.printf("    %s(0)%s  -  Finish selection%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+            System.out.printf("    %s(-2)%s -  %sRemove last added figure%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET); // NOVA OPÇÃO
+            System.out.printf("    %s(-1)%s -  %sClear selected figures%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET);
+            System.out.printf("    %s(0)%s  -  %sFinish selection%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET);
+
             for (int i = 0; i < figureList.size(); i++) {
                 Figure f = figureList.get(i);
                 System.out.printf("    %s(%-3s%s -  ID: %-3d | Costumer: %-18s | Name: %-15s | Availability: %-9s%s%n",
-                        ANSI_BRIGHT_BLACK, i+1 +")", ANSI_RESET,
+                        ANSI_BRIGHT_BLACK, i + 1 + ")", ANSI_RESET,
                         f.identity(), f.costumer().name(), f.name(), f.availability(), ANSI_RESET);
             }
 
@@ -76,6 +78,25 @@ public class ServiceForValidSequenceFiguresForShow {
                 break;
             }
 
+            if (option == -1) {
+                Utils.printAlterMessage("Selected figures cleared. You can start selecting again.");
+                selectedFigureQueue.clear();
+                lastSelectedFigure = null;
+                continue;
+            }
+
+            if (option == -2) {
+                if (selectedFigureQueue.isEmpty()) {
+                    Utils.printAlterMessage("No figures to remove.");
+                } else {
+                    LinkedList<Figure> tempList = (LinkedList<Figure>) selectedFigureQueue;
+                    Figure removed = tempList.removeLast();
+                    lastSelectedFigure = tempList.isEmpty() ? null : tempList.getLast();
+                    Utils.printAlterMessage("Removed last selected figure: " + removed.name());
+                }
+                continue;
+            }
+
             if (option < 1 || option > figureList.size()) {
                 Utils.printAlterMessage("Invalid option. Try again.");
                 continue;
@@ -84,7 +105,7 @@ public class ServiceForValidSequenceFiguresForShow {
             Figure selectedFigure = figureList.get(option - 1);
 
             if (selectedFigure.equals(lastSelectedFigure)) {
-                Utils.printAlterMessage("\nCannot select the same figure consecutively. Choose a different figure.");
+                Utils.printAlterMessage("Cannot select the same figure consecutively. Choose a different figure.");
                 continue;
             }
 
@@ -95,11 +116,12 @@ public class ServiceForValidSequenceFiguresForShow {
                     ANSI_GREEN, ANSI_RESET,
                     selectedFigure.identity(), selectedFigure.name(), ANSI_RESET);
 
-            Utils.dropLines(2);
+            Utils.dropLines(4);
         }
 
         return selectedFigureQueue;
     }
+
 
 
 }

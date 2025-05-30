@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface ShowProposalRepository {
 
-    public Optional<ShowProposal> saveInStore(ShowProposal entity);
+    public Optional<ShowProposal> saveInStoreProposal(ShowProposal entity);
 
     public Optional<List<ShowProposal>> getAllProposals();
+
+    public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity);
 }

@@ -8,9 +8,7 @@ import persistence.AuthenticationRepository;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 
 public class Bootstrap implements Runnable {
@@ -179,11 +177,11 @@ public class Bootstrap implements Runnable {
 
     // --- Show Proposals Setup ---------------------------------------------------
     private void addProposals() {
-        RepositoryProvider.showProposalRepository().saveInStore(proposal1);
-        RepositoryProvider.showProposalRepository().saveInStore(proposal2);
-        RepositoryProvider.showProposalRepository().saveInStore(proposal3);
-        RepositoryProvider.showProposalRepository().saveInStore(proposal4);
-        RepositoryProvider.showProposalRepository().saveInStore(proposal5);
+        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal1);
+        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal2);
+        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal3);
+        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal4);
+        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal5);
     }
 
 
@@ -259,12 +257,12 @@ public class Bootstrap implements Runnable {
     private final Figure figure20 = new Figure(new domain.valueObjects.Name("Cloud"), new Description("A visible mass of condensed water vapor"), 15L, category15, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer3);
 
     // --- List Figures --------------------------------------------------------
-    private final List<Figure> list1 = new ArrayList<>();
-    private final List<Figure> list2 = new ArrayList<>();
-    private final List<Figure> list3 = new ArrayList<>();
-    private final List<Figure> list4 = new ArrayList<>();
-    private final List<Figure> list5 = new ArrayList<>();
-    private final List<Figure> list6 = new ArrayList<>();
+    private final Queue<Figure> list1 = new LinkedList<>();
+    private final Queue<Figure> list2 = new LinkedList<>();
+    private final Queue<Figure> list3 = new LinkedList<>();
+    private final Queue<Figure> list4 = new LinkedList<>();
+    private final Queue<Figure> list5 = new LinkedList<>();
+    private final Queue<Figure> list6 = new LinkedList<>();
 
     // --- Drone Models ------------------------------------------------------
     private final DroneModel droneModel1 = new DroneModel(

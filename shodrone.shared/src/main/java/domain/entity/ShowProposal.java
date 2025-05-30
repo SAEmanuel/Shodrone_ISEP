@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
+import java.util.Queue;
 
 import static java.lang.String.format;
 import static more.ColorfulOutput.*;
@@ -49,7 +50,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Getter
     @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name = "Show_Proposal")
-    private List<Figure> sequenceFigues;
+    private Queue<Figure> sequenceFigues;
 
     @Embedded
     private Description description;
@@ -108,7 +109,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     protected ShowProposal() {
     }
 
-    public ShowProposal(ShowRequest showRequest, ShowTemplate template, List<Figure> sequenceFigues
+    public ShowProposal(ShowRequest showRequest, ShowTemplate template, Queue<Figure> sequenceFigues
             , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate ) {
 
         this.showRequest = showRequest;

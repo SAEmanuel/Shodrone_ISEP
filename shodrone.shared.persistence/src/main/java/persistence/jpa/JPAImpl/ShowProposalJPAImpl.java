@@ -1,6 +1,7 @@
 package persistence.jpa.JPAImpl;
 
 import domain.entity.ShowProposal;
+import org.apache.commons.lang3.NotImplementedException;
 import persistence.ShowProposalRepository;
 import persistence.jpa.JpaBaseRepository;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> implements ShowProposalRepository {
 
     @Override
-    public Optional<ShowProposal> saveInStore(ShowProposal entity) {
+    public Optional<ShowProposal> saveInStoreProposal(ShowProposal entity) {
 
         if (entity.identity() == null || findById(entity.identity()) == null) {
             return Optional.empty();
@@ -25,6 +26,12 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
         List<ShowProposal> listShowProposals = findAll();
 
         return listShowProposals.isEmpty() ? Optional.empty() : Optional.of(listShowProposals);
+    }
+
+
+    @Override
+    public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity){
+        throw new NotImplementedException("");
     }
 
 }
