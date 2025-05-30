@@ -4,87 +4,69 @@ skinparam shadowing false
 skinparam linetype polyline
 skinparam classAttributeIconSize 0
 
+title Class Diagram - Add Figure To Proposal
+
 class Repositories {
     - Repositories()
     + getInstance() : Repositories
-    + getShowRequestRepository() : ShowRequestRepository
-    + getAuthenticationRepository() : AuthenticationRepository
     + getFigureRepository() : FigureRepository
+    + getProposalRepository() : ProposalRepository
 }
 
-class AuthenticationController {
-    + getMyActiveCustomers() : List<Customer>
-}
-
-class FigureController {
-    + getAvailableFiguresForCustomer(CustomerID identification) : List<Figure>
-}
-
-class RegisterShowRequestController {
-    + RegisterShowRequestController()
-    + registerShowRequest(location, date, numDrones, duration, description, listFigures, customer)
-    + getResponsible() : Email
-    + getThisTime() : LocalDateTime
-}
-
-class RegisterShowRequestUI {
-    + askToRegisterShowRequest()
-    + optionsToSelectCustomer(List<Customer> customers)
-    + optionsToSelectFigures(List<Figure> figures)
-    + requestData()
+class AddFigureToProposalUI {
+    + askToAddFigureToProposal()
+    + optionsToSelectFigure(List<Figure> figures)
+    + requestProposalId() : ProposalID
     + showConfirmation()
-    + showsOperationSuccess()
 }
 
-class ShowRequestFactory {
-    + registerShowRequest(location, date, numDrones, duration, description, listFigures, customer, registrationTime, author) : ShowRequest
+class AddFigureToProposalController {
+    + AddFigureToProposalController()
+    + getAvailableFigures() : List<Figure>
+    + addFigureToProposal(ProposalID proposalId, FigureID figureId)
 }
 
-class ShowRequest {
-    + create(...)
-}
-
-class AuthenticationRepository {
-    + getMyActiveCustomers() : List<Customer>
-    + getCurrentUserSession() : UserSession
+class ProposalRepository {
+    + findById(ProposalID proposalId) : Proposal
+    + save(Proposal proposal)
 }
 
 class FigureRepository {
-    + getAvailableFiguresForCustomer(CustomerID id) : List<Figure>
+    + getAvailableFigures() : List<Figure>
+    + findById(FigureID figureId) : Figure
 }
 
-class ShowRequestRepository {
-    + add(ShowRequest showRequest)
+class Proposal {
+    + addFigure(Figure figure)
+    + getFigures() : List<Figure>
 }
 
-class UserSession {
-    + getUserId() : Email
+class Figure {
+    + getId() : FigureID
+    + getName() : String
 }
 
-class Email {
-    + getEmail() : String
+class ProposalID {
+    + getValue() : String
 }
 
-class LocalDateTime {
-    + now() : LocalDateTime
+class FigureID {
+    + getValue() : String
 }
 
-RegisterShowRequestUI ..> RegisterShowRequestController
-RegisterShowRequestController ..> Repositories : repositories
-Repositories --> "1" ShowRequestRepository
-Repositories --> "1" AuthenticationRepository
-Repositories --> "1" FigureRepository
+AddFigureToProposalUI ..> AddFigureToProposalController : controller
+AddFigureToProposalController ..> Repositories : repositories
+Repositories --> ProposalRepository
+Repositories --> FigureRepository
 
-RegisterShowRequestController ..> AuthenticationRepository
-AuthenticationController ..> AuthenticationRepository
-AuthenticationRepository --> UserSession
-UserSession --> Email
+AddFigureToProposalController ..> ProposalRepository : proposalRepo
+AddFigureToProposalController ..> FigureRepository : figureRepo
 
-RegisterShowRequestController ..> ShowRequestFactory
-ShowRequestFactory --> ShowRequest
+ProposalRepository ..> Proposal : manages
+FigureRepository ..> Figure : manages
 
-RegisterShowRequestController ..> LocalDateTime
-
-FigureController ..> FigureRepository
+Proposal --> "0..*" Figure : contains
+Proposal ..> ProposalID : identifiedBy
+Figure ..> FigureID : identifiedBy
 
 @enduml

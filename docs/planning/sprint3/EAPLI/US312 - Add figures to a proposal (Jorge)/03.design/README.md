@@ -28,7 +28,7 @@ The design follows a layered architecture:
 The Sequence Diagram (SD) below provides a detailed view of the internal interactions within the system to add a figure to a `ShowProposal`. It includes the UI, application service, domain entities, and repositories.
 
 
-![Sequence Diagram](svg/us312-sequence-diagram.svg)
+![Sequence Diagram](svg/us230-sequence-diagram.svg)
 
 ### 3.3. Design Patterns (if any)
 

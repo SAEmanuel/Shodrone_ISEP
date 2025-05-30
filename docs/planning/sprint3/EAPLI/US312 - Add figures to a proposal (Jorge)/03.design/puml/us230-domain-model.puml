@@ -3,133 +3,67 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title UI Sequence Diagram (SSD) - Register Show Request
+title UI Sequence Diagram (SSD) - Add Figure To Proposal
 
 autonumber
 
 actor "CRM Collaborator" as crmColl
-participant ":RegisterShowRequestUI" as UI
-participant ":RegisterShowRequestController" as CTRL
-participant "authenticationController\n:AuthenticationController" as authCtrl
-participant "figureController\n:FigureController" as figCtrl
+participant ":AddFigureToProposalUI" as UI
+participant ":AddFigureToProposalController" as CTRL
 participant "repositoryProvider\n:RepositoryProvider" as repoProvider
-participant "authenticationRepositoryInterface\n:AuthenticationRepositoryInterface" as authRepoInt
-participant "figureRepositoryInterface\n:FigureRepositoryInterface" as figRepoInt
-participant "userSession\n:UserSession" as userSession
-participant "email\n:Email" as email
-participant "localDateTime\n:LocalDateTime" as localTime
-participant "factoryProvider\n:FactoryProvider" as factoryProvider
-participant "showRequestFactoryInterface\n:ShowRequestFactoryInterface" as factory
-participant "showRequest\n:ShowRequest" as showRequest
-participant "showRequestRepositoryInterface\n:ShowRequestRepositoryInterface" as showReqRepoInt
+participant "figureRepository\n:FigureRepository" as figRepo
+participant "proposalRepository\n:ProposalRepository" as propRepo
+participant "figure\n:Figure" as figure
+participant "proposal\n:Proposal" as proposal
 
 activate crmColl
 
-crmColl -> UI : ask to register a Show Request
+crmColl -> UI : ask to add figure to proposal
 activate UI
 
-UI -> CTRL ** : create
-UI -> CTRL : getShowRequestRepository()
+UI -> CTRL : create
+UI -> CTRL : getFigureRepository()
 activate CTRL
-
-CTRL -> repoProvider : getShowRequestRepository()
+CTRL -> repoProvider : figureRepository()
 activate repoProvider
-repoProvider --> CTRL : showRequestRepositoryInterface
+repoProvider --> CTRL : figRepo
 deactivate repoProvider
-
 deactivate CTRL
 
-UI -> authCtrl ** : create
-UI -> authCtrl : getMyActiveCustomers()
-activate authCtrl
-
-authCtrl -> repoProvider : getAuthenticationRepository()
-activate repoProvider
-repoProvider --> authCtrl : authenticationRepositoryInterface
-deactivate repoProvider
-
-authCtrl -> authRepoInt : getMyActiveCustomers()
-activate authRepoInt
-authRepoInt --> authCtrl : listActiveCustomers
-deactivate authRepoInt
-
-authCtrl --> UI : listActiveCustomers
-deactivate authCtrl
-
-UI --> crmColl : options to select customer
-deactivate UI
-
-crmColl -> UI : customer selected
-activate UI
-
-UI -> figCtrl ** : create
-UI -> figCtrl : getAvailableFiguresForCustomer(customerID)
-activate figCtrl
-
-figCtrl -> repoProvider : getFigureRepository()
-activate repoProvider
-repoProvider --> figCtrl : figureRepositoryInterface
-deactivate repoProvider
-
-figCtrl -> figRepoInt : getAvailableFiguresForCustomer(customerID)
-activate figRepoInt
-figRepoInt --> figCtrl : listWithAvailableFiguresForCustomer
-deactivate figRepoInt
-
-figCtrl --> UI : listWithAvailableFiguresForCustomer
-deactivate figCtrl
-
-UI --> crmColl : options to select figures
-deactivate UI
-
-crmColl -> UI : figures selected
-activate UI
-
-UI --> crmColl : request data (location, date, numDrones, duration, description)
-deactivate UI
-
-crmColl -> UI : provide requested data
-activate UI
-
-UI --> crmColl : show all data registered + confirmation menu
-crmColl -> UI : submit data
-UI -> CTRL : registerShowRequest(location, date, numDrones, duration, description, listFigures, customer)
+UI -> CTRL : getProposalRepository()
 activate CTRL
-
-CTRL -> repoProvider : getAuthenticationRepository()
+CTRL -> repoProvider : proposalRepository()
 activate repoProvider
-repoProvider --> CTRL : authenticationRepositoryInterface
+repoProvider --> CTRL : propRepo
 deactivate repoProvider
-
-CTRL -> authRepoInt : getCurrentUserSession()
-activate authRepoInt
-authRepoInt --> CTRL : userSession
-deactivate authRepoInt
-
-CTRL -> userSession : getUserId()
-userSession --> CTRL : userId
-
-CTRL -> email : getEmail()
-email --> CTRL : email
-
-CTRL -> localTime : now()
-localTime --> CTRL : currentTime
-
-CTRL -> factoryProvider : getShowRequestFactory()
-activate factoryProvider
-factoryProvider --> CTRL : showRequestFactoryInterface
-deactivate factoryProvider
-
-CTRL -> factory : registerShowRequest(all params...)
-activate factory
-factory --> CTRL : showRequestObject
-deactivate factory
-
-CTRL -> showReqRepoInt : add(showRequestObject)
-CTRL --> UI : showRequestObject
 deactivate CTRL
 
-UI --> crmColl : show operation success/failure
+UI -> figRepo : getAvailableFigures()
+activate figRepo
+figRepo --> UI : listAvailableFigures
+deactivate figRepo
+
+UI --> crmColl : options to select figure
 deactivate UI
+
+crmColl -> UI : selects figure and proposal
+activate UI
+
+UI -> figRepo : findById(figureID)
+activate figRepo
+figRepo --> UI : figure
+deactivate figRepo
+
+UI -> propRepo : findById(proposalID)
+activate propRepo
+propRepo --> UI : proposal
+deactivate propRepo
+
+UI -> proposal : addFigure(figure)
+UI -> propRepo : save(proposal)
+
+UI --> crmColl : confirmation of figure addition to proposal
+deactivate UI
+
 deactivate crmColl
 @enduml
