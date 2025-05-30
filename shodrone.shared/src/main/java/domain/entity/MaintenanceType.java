@@ -5,6 +5,7 @@ import domain.valueObjects.MaintenanceTypeName;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.validations.Preconditions;
 import jakarta.persistence.*;
+import more.ColorfulOutput;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -44,7 +45,7 @@ public class MaintenanceType implements AggregateRoot<String> {
             Preconditions.nonEmpty(name.name());
 
             this.name = name;
-            this.description = new Description("N/A");
+            this.description = new Description("Not Provided!");
 
         } catch (IllegalArgumentException e) {
             throw e;
@@ -91,6 +92,21 @@ public class MaintenanceType implements AggregateRoot<String> {
 
     @Override
     public String toString() {
-        return String.format("[%s] %s", name, description);
+        String nameStr = name.name();
+        String descStr = description.toString();
+
+        String nameTrunc = nameStr.length() > 25 ? nameStr.substring(0, 22) + "..." : nameStr;
+        String descTrunc = descStr.length() > 35 ? descStr.substring(0, 32) + "..." : descStr;
+
+        return String.format(
+                "%s%s%-4s%s: %s%-25s%s | " +
+                        "%s%s%-11s%s: %s%-35s%s",
+                ColorfulOutput.ANSI_ORANGE, ColorfulOutput.ANSI_BOLD, "Name", ColorfulOutput.ANSI_RESET,
+                ColorfulOutput.ANSI_BRIGHT_WHITE, nameTrunc, ColorfulOutput.ANSI_RESET,
+
+                ColorfulOutput.ANSI_ORANGE, ColorfulOutput.ANSI_BOLD, "Description", ColorfulOutput.ANSI_RESET,
+                ColorfulOutput.ANSI_BRIGHT_WHITE, descTrunc, ColorfulOutput.ANSI_RESET
+        );
     }
+
 }
