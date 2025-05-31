@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import more.ColorfulOutput;
 
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Objects;
 
 @XmlRootElement
 @Entity
@@ -89,19 +90,23 @@ public class MaintenanceType implements AggregateRoot<String> {
     }
 
     @Override
-    public boolean sameAs(Object other) {
-        final MaintenanceType maintenanceType = (MaintenanceType) other;
-        return this.equals(maintenanceType) && name().equals(maintenanceType.name()) && description().equals(maintenanceType.description());
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MaintenanceType that = (MaintenanceType) o;
+        return name().equals(that.name()) && description().equals(that.description());
     }
 
     @Override
     public int hashCode() {
-        return super.hashCode();
+        return Objects.hash(name(), description());
     }
 
     @Override
-    public boolean equals(final Object o) {
-        return super.equals(o);
+    public boolean sameAs(Object other) {
+        if (!(other instanceof MaintenanceType)) return false;
+        final MaintenanceType that = (MaintenanceType) other;
+        return name().equals(that.name()) && description().equals(that.description());
     }
 
     public MaintenanceType copy() {
