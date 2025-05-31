@@ -238,6 +238,10 @@ public class RepositoryProvider {
         droneRepository = mockRepo;
     }
 
+    public static void injectMaintenanceTypeRepository(MaintenanceTypeRepository mockRepo) {
+        maintenanceTypeRepository = mockRepo;
+    }
+
     public static void injectFigureRepository(FigureRepository mockRepo) {
         figureRepository = mockRepo;
     }
