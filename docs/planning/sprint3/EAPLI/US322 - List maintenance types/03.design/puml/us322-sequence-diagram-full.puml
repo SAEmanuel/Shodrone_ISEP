@@ -3,54 +3,54 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title Sequence Diagram (SD) - List Maintenance Types
+title UI Sequence Diagram (SD) - List Maintenance Types
 
 autonumber
 
 actor "Drone Tech" as DT
-participant ":ListMaintenanceTypesUI" as UI
-participant ":ListMaintenanceTypesController" as CTRL
-participant "repositoryProvider\n:RepositoryProvider" as Provider
-participant "MaintenanceTypeRepository\n:MaintenanceTypeRepository" as Repo
-participant "MaintenanceTypeJPAImpl" as JPA
-participant "MaintenanceTypeInMemory" as InMem
+participant ":ListMaintenanceTypeUI" as UI
+participant ":GetMaintenanceTypeController" as CTRL
+participant "repositoryProvider:RepositoryProvider" as Provider
+participant ":MaintenanceTypeRepository" as Repo
+participant ":InMemoryMaintenanceTypeRepository" as InMem
+participant ":MaintenanceTypeJPAImpl" as JPA
 
 activate DT
 
-DT -> UI: requestListMaintenanceTypes()
+DT -> UI: requests to list maintenance types
 activate UI
-UI -> CTRL **: create
-UI -> CTRL: listMaintenanceTypes()
-activate CTRL
 
+UI -> CTRL **: create
+activate CTRL
+UI -> CTRL: getAllMaintenanceTypes()
 CTRL -> Provider **: maintenanceTypeRepository()
 activate Provider
-Provider --> CTRL: repository (dynamic: JPA or InMem)
+Provider --> CTRL: repository (dynamic: InMem or JPA)
 deactivate Provider
 
 CTRL -> Repo: findAll()
 activate Repo
-alt Repository is MaintenanceTypeJPAImpl
-    Repo -> JPA: findAll()
-    activate JPA
-    JPA --> Repo: maintenanceTypesList
-    deactivate JPA
-else Repository is MaintenanceTypeInMemory
+alt Repository is InMemoryMaintenanceTypeRepository
     Repo -> InMem: findAll()
     activate InMem
     InMem --> Repo: maintenanceTypesList
     deactivate InMem
+else Repository is MaintenanceTypeJPAImpl
+    Repo -> JPA: findAll()
+    activate JPA
+    JPA --> Repo: maintenanceTypesList
+    deactivate JPA
 end
 Repo --> CTRL: maintenanceTypesList
 deactivate Repo
 
-CTRL --> UI: maintenanceTypesList
+CTRL --> UI: Optional<maintenanceTypesList>
 deactivate CTRL
 
 alt maintenanceTypesList is empty
-    UI --> DT: displayMessage("No maintenance types found in the system")
+    UI --> DT: errorMessage("No maintenance types in the system yet...")
 else maintenanceTypesList is not empty
-    UI --> DT: displayMaintenanceTypes(maintenanceTypesList)
+    UI --> DT: showListPartially(maintenanceTypesList)
 end
 
 deactivate UI
