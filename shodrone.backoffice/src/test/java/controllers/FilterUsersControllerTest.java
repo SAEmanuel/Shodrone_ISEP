@@ -1,12 +1,12 @@
 package controllers;
 
 import constants.Roles;
-import domain.entity.User;
 import controller.user.FilterUsersController;
-import persistence.ListUserController;
+import domain.entity.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
+import persistence.UserRepository;
 
 import java.util.List;
 
@@ -15,15 +15,14 @@ import static org.mockito.Mockito.*;
 
 public class FilterUsersControllerTest {
 
-    private ListUserController mockListController;
+    private UserRepository mockUserRepository;
     private FilterUsersController controller;
 
     @BeforeEach
     void setUp() {
-        mockListController = mock(ListUserController.class);
-        RepositoryProvider.injectListUserController(mockListController);
+        mockUserRepository = mock(UserRepository.class);
+        RepositoryProvider.injectUserRepository(mockUserRepository);
         controller = new FilterUsersController();
-
     }
 
     @Test
@@ -36,9 +35,10 @@ public class FilterUsersControllerTest {
         when(inactiveUser.isActive()).thenReturn(false);
         when(inactiveUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(false);
 
-        when(mockListController.getAllUsers()).thenReturn(List.of(activeUser, inactiveUser));
+        when(mockUserRepository.findAll()).thenReturn(List.of(activeUser, inactiveUser));
 
         List<User> result = controller.getUsersByFilter(0);
+
         assertEquals(1, result.size());
         assertTrue(result.contains(activeUser));
     }
@@ -53,9 +53,10 @@ public class FilterUsersControllerTest {
         when(inactiveUser.isActive()).thenReturn(false);
         when(inactiveUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(false);
 
-        when(mockListController.getAllUsers()).thenReturn(List.of(activeUser, inactiveUser));
+        when(mockUserRepository.findAll()).thenReturn(List.of(activeUser, inactiveUser));
 
         List<User> result = controller.getUsersByFilter(1);
+
         assertEquals(1, result.size());
         assertTrue(result.contains(inactiveUser));
     }
@@ -69,9 +70,10 @@ public class FilterUsersControllerTest {
         User adminUser = mock(User.class);
         when(adminUser.hasRole(Roles.ROLE_ADMIN)).thenReturn(true);
 
-        when(mockListController.getAllUsers()).thenReturn(List.of(normalUser, adminUser));
+        when(mockUserRepository.findAll()).thenReturn(List.of(normalUser, adminUser));
 
         List<User> result = controller.getUsersByFilter(99);
+
         assertEquals(1, result.size());
         assertTrue(result.contains(normalUser));
         assertFalse(result.contains(adminUser));

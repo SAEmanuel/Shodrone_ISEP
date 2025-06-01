@@ -47,7 +47,6 @@ public class RepositoryProvider {
     private static DroneRepository droneRepository;
     private static UserRepository userRepository;
     private static CustomerRepresentativeRepository customerRepresentativeRepository;
-    private static ListUserController listUserController;
     private static ShowProposalRepository showProposalRepository;
     private static MaintenanceTypeRepository maintenanceTypeRepository;
 
@@ -284,17 +283,6 @@ public class RepositoryProvider {
      */
     public static void injectUserRepository(UserRepository mockRepo) {
         userRepository = mockRepo;
-    }
-
-    public static ListUserController listUserController() {
-        if (listUserController == null) {
-            listUserController = new ListUserController();
-        }
-        return listUserController;
-    }
-
-    public static void injectListUserController(ListUserController mockController) {
-        listUserController = mockController;
     }
 
     /**
