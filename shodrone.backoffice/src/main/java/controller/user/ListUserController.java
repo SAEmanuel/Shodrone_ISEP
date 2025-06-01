@@ -1,6 +1,7 @@
-package persistence;
+package controller.user;
 
 import domain.entity.User;
+import persistence.RepositoryProvider;
 
 import java.util.List;
 
