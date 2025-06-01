@@ -3,92 +3,81 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title Sequence Diagram (SD) - Add Maintenance Type
+title UI Sequence Diagram (SD) - Add Maintenance Type
 
 autonumber
 
 actor "Drone Tech" as DT
 participant ":AddMaintenanceTypeUI" as UI
-participant ":AddMaintenanceTypeController" as CTRL
-participant "Name" as NameVO
+participant "MaintenanceTypeName" as NameVO
 participant "Description" as DescVO
+participant ":AddMaintenanceTypeController" as CTRL
+participant ":RepositoryProvider" as Provider
+participant ":MaintenanceTypeRepository" as Repo
+participant ":InMemoryMaintenanceTypeRepository" as InMem
+participant ":MaintenanceTypeJPAImpl" as JPA
 participant "MaintenanceType" as MT
-participant "repositoryProvider\n:RepositoryProvider" as Provider
-participant "MaintenanceTypeRepository\n:MaintenanceTypeRepository" as Repo
-participant "MaintenanceTypeJPAImpl" as JPA
-participant "MaintenanceTypeInMemory" as InMem
 
 activate DT
 
-DT -> UI: requestAddMaintenanceType()
+DT -> UI: requests to add a maintenance type
 activate UI
-UI --> DT: requestMaintenanceTypeDetails()
-deactivate UI
 
-DT -> UI: provideMaintenanceTypeDetails(name, description)
-activate UI
-UI -> CTRL **: create
-UI -> CTRL: addMaintenanceType(name, description)
-activate CTRL
-
-CTRL -> NameVO **: create(name)
+UI -> NameVO : Utils.rePromptWhileInvalid()
 activate NameVO
-NameVO -> NameVO: isValid()
-NameVO --> CTRL: Name instance
+NameVO -> UI: maintenanceTypeName
 deactivate NameVO
 
-CTRL -> DescVO **: create(description)
-activate DescVO
-DescVO --> CTRL: Description instance
-deactivate DescVO
+UI -> UI: promptForDescription()
+alt hasDescription is true
+    UI -> DescVO : Utils.rePromptWhileInvalid()
+    activate DescVO
+    DescVO -> UI: description
+    deactivate DescVO
+else
+    note right: skips description
+end
 
-CTRL -> MT **: create(name, description)
+UI -> CTRL : create
+activate CTRL
+alt hasDescription is true
+    UI -> CTRL: createMaintenanceType(maintenanceTypeName, description)
+    CTRL -> MT : new(maintenanceTypeName, description)
+else
+    UI -> CTRL: createMaintenanceTypeWithoutDescription(maintenanceTypeName)
+    CTRL -> MT : new(maintenanceTypeName)
+end
 activate MT
 MT --> CTRL: MaintenanceType instance
 deactivate MT
 
-CTRL -> Provider **: maintenanceTypeRepository()
+CTRL -> Provider : maintenanceTypeRepository()
 activate Provider
-Provider --> CTRL: repository (dynamic: JPA or InMem)
+Provider --> CTRL: repository (dynamic: InMem or JPA)
 deactivate Provider
 
-CTRL -> Repo: findByName(name)
-activate Repo
-Repo --> CTRL: Optional<MaintenanceType>
-deactivate Repo
-
-alt name is not unique
-    CTRL --> UI: errorMessage("Duplicate maintenance type name!")
-    UI --> DT: errorMessage("Duplicate maintenance type name!")
-    deactivate CTRL
-    deactivate UI
-else name is unique
-    CTRL -> Repo: save(maintenanceType)
-    activate Repo
-    alt Repository is MaintenanceTypeJPAImpl
-        Repo -> JPA: save(maintenanceType)
-        activate JPA
-        JPA --> Repo: Optional<MaintenanceType>
-        deactivate JPA
-    else Repository is MaintenanceTypeInMemory
-        Repo -> InMem: save(maintenanceType)
-        activate InMem
-        InMem --> Repo: Optional<MaintenanceType>
-        deactivate InMem
-    end
-    Repo --> CTRL: Optional<MaintenanceType>
-    deactivate Repo
-
-    alt save failed
-        CTRL --> UI: errorMessage("Failed to save maintenance type!")
-        UI --> DT: errorMessage("Failed to save maintenance type!")
-    else save succeeded
-        CTRL --> UI: successMessage("Maintenance type added successfully!")
-        UI --> DT: successMessage("Maintenance type added successfully!")
-    end
+alt Repository is InMemoryMaintenanceTypeRepository
+    CTRL -> InMem: save(maintenanceType)
+    activate InMem
+    InMem -> InMem: containsKey(maintenanceType.identity())
+    InMem --> CTRL: Optional<MaintenanceType>
+    deactivate InMem
+else Repository is MaintenanceTypeJPAImpl
+    CTRL -> JPA: save(maintenanceType)
+    activate JPA
+    JPA --> CTRL: Optional<MaintenanceType>
+    deactivate JPA
 end
 
+CTRL --> UI: Optional<MaintenanceType>
 deactivate CTRL
+
+alt MaintenanceType saved successfully
+    UI --> DT: successMessage("Maintenance type created successfully!")
+else Save failed (duplicate name)
+    UI --> DT: errorMessage("A Maintenance Type with that name already exists!")
+end
+
 deactivate UI
 deactivate DT
 
