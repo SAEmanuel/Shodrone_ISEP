@@ -18,7 +18,7 @@ System -> System: retrieveMaintenanceTypes()
 alt maintenance types exist
     System --> DT: displayMaintenanceTypes(maintenanceTypesList)
 else no maintenance types
-    System --> DT: displayMessage("No maintenance types found in the system")
+    System --> DT: errorMessage("No maintenance types in the system yet")
 end
 deactivate System
 
