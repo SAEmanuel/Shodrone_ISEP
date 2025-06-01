@@ -14,25 +14,32 @@ activate DT
 
 DT -> System: requestAddMaintenanceType()
 activate System
-System --> DT: requestMaintenanceTypeDetails()
+System --> DT: requestMaintenanceTypeName()
 deactivate System
 
-DT -> System: provideMaintenanceTypeDetails(name)
+DT -> System: provideMaintenanceTypeName(name)
 activate System
-System -> System: validateMaintenanceTypeName(name)
-alt name is not unique
-    System --> DT: errorMessage("Duplicate maintenance type name!")
+System --> DT: requestAddDescription()
+deactivate System
+
+DT -> System: confirmDescriptionChoice(hasDescription)
+activate System
+alt hasDescription = true
+    System --> DT: requestDescription()
     deactivate System
-else name is unique
-    System -> System: createMaintenanceType(name)
-    System -> System: saveMaintenanceType()
-    alt save failed
-        System --> DT: errorMessage("Failed to save maintenance type!")
-    else save succeeded
-        System --> DT: successMessage("Maintenance type added successfully!")
-    end
-    deactivate System
+    DT -> System: provideDescription(description)
+    activate System
+    System -> System: createMaintenanceType(name, description)
+else hasDescription = false
+    System -> System: createMaintenanceTypeWithoutDescription(name)
 end
+
+alt creation successful
+    System --> DT: successMessage("Maintenance type created successfully")
+else name already exists
+    System --> DT: errorMessage("A Maintenance Type with that name already exists")
+end
+deactivate System
 
 deactivate DT
 
