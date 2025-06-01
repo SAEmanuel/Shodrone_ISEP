@@ -3,109 +3,122 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title Sequence Diagram (SD) - Edit Maintenance Type
+title UI Sequence Diagram (SD) - Edit a Maintenance Type
 
 autonumber
 
 actor "Drone Tech" as DT
 participant ":EditMaintenanceTypeUI" as UI
-participant ":EditMaintenanceTypeController" as CTRL
-participant "Name" as NameVO
+participant ":GetMaintenanceTypeController" as GetCTRL
+participant ":EditMaintenanceTypeController" as EditCTRL
+participant "MaintenanceTypeName" as NameVO
 participant "Description" as DescVO
 participant "MaintenanceType" as MT
-participant "repositoryProvider\n:RepositoryProvider" as Provider
-participant "MaintenanceTypeRepository\n:MaintenanceTypeRepository" as Repo
-participant "MaintenanceTypeJPAImpl" as JPA
-participant "MaintenanceTypeInMemory" as InMem
+participant ":RepositoryProvider" as Provider
+participant ":MaintenanceTypeRepository" as Repo
+participant ":InMemoryMaintenanceTypeRepository" as InMem
+participant ":MaintenanceTypeJPAImpl" as JPA
 
 activate DT
 
-DT -> UI: requestEditMaintenanceType()
+DT -> UI: requests to edit a maintenance type
 activate UI
-UI --> DT: requestMaintenanceTypeSelection()
-deactivate UI
 
-DT -> UI: selectMaintenanceType(identifier)
-activate UI
-UI -> CTRL **: create
-UI -> CTRL: getMaintenanceType(identifier)
-activate CTRL
-
-CTRL -> Provider **: maintenanceTypeRepository()
+UI -> GetCTRL : create
+activate GetCTRL
+UI -> GetCTRL: getAllMaintenanceTypes()
+GetCTRL -> Provider : maintenanceTypeRepository()
 activate Provider
-Provider --> CTRL: repository (dynamic: JPA or InMem)
+Provider --> GetCTRL: repository
 deactivate Provider
-
-CTRL -> Repo: findById(identifier)
+GetCTRL -> Repo: findAll()
 activate Repo
-Repo --> CTRL: Optional<MaintenanceType>
+alt Repository is InMemoryMaintenanceTypeRepository
+    Repo -> InMem: findAll()
+    activate InMem
+    InMem --> Repo: maintenanceTypesList
+    deactivate InMem
+else Repository is MaintenanceTypeJPAImpl
+    Repo -> JPA: findAll()
+    activate JPA
+    JPA --> Repo: maintenanceTypesList
+    deactivate JPA
+end
+Repo --> GetCTRL: maintenanceTypesList
 deactivate Repo
+GetCTRL --> UI: Optional<maintenanceTypesList>
+deactivate GetCTRL
 
-alt maintenance type not found
-    CTRL --> UI: errorMessage("Maintenance type not found")
-    UI --> DT: errorMessage("Maintenance type not found")
-    deactivate CTRL
+alt maintenanceTypesList is empty
+    UI --> DT: errorMessage("No maintenance types in the system yet...")
     deactivate UI
-else maintenance type found
-    CTRL --> UI: maintenanceType
-    UI --> DT: requestUpdatedDetails()
-    deactivate CTRL
-    DT -> UI: provideUpdatedDetails(newName, newDescription)
-    UI -> CTRL **: create
-    UI -> CTRL: updateMaintenanceType(identifier, newName, newDescription)
-    activate CTRL
-
-    CTRL -> NameVO **: create(newName)
-    activate NameVO
-    NameVO -> NameVO: isValid()
-    NameVO --> CTRL: Name instance
-    deactivate NameVO
-
-    CTRL -> DescVO **: create(newDescription)
-    activate DescVO
-    DescVO --> CTRL: Description instance
-    deactivate DescVO
-
-    CTRL -> Repo: findByName(newName)
-    activate Repo
-    Repo --> CTRL: Optional<MaintenanceType>
-    deactivate Repo
-
-    alt name is not unique
-        CTRL --> UI: errorMessage("Duplicate maintenance type name!")
-        UI --> DT: errorMessage("Duplicate maintenance type name!")
-        deactivate CTRL
-    else name is unique
-        CTRL -> MT: update(newName, newDescription)
+else maintenanceTypesList is not empty
+    UI --> DT: selectMaintenanceType()
+    DT -> UI: provideMaintenanceTypeSelection(typeIndex)
+    UI -> UI: getMaintenanceType(typeIndex)
+    UI -> UI: confirmEditName()
+    DT -> UI: confirmNameEdit(editName)
+    alt editName = true
+        UI -> NameVO **: Utils.rePromptWhileInvalid()
+        activate NameVO
+        NameVO -> UI: newMaintenanceName
+        deactivate NameVO
+    else
+        note right: skips name edit
+    end
+    UI -> UI: confirmEditDescription()
+    DT -> UI: confirmDescriptionEdit(editDescription)
+    alt editDescription = true
+        UI -> DescVO **: Utils.rePromptWhileInvalid()
+        activate DescVO
+        DescVO -> UI: newDescription
+        deactivate DescVO
+    else
+        note right: skips description edit
+    end
+    alt no changes provided
+        UI --> DT: errorMessage("Nothing has changed...")
+    else changes provided
+        UI -> EditCTRL **: create
+        activate EditCTRL
+        UI -> EditCTRL: editMaintenanceType(maintenanceType, newMaintenanceName, newDescription)
+        EditCTRL -> MT: changeNameTo(newMaintenanceName)
         activate MT
-        MT --> CTRL: updated MaintenanceType
+        MT --> EditCTRL
         deactivate MT
-
-        CTRL -> Repo: save(maintenanceType)
+        EditCTRL -> MT: changeDescriptionTo(newDescription)
+        activate MT
+        MT --> EditCTRL
+        deactivate MT
+        EditCTRL -> Provider **: maintenanceTypeRepository()
+        activate Provider
+        Provider --> EditCTRL: repository
+        deactivate Provider
+        EditCTRL -> Repo: updateMaintenanceType(maintenanceType, oldName)
         activate Repo
-        alt Repository is MaintenanceTypeJPAImpl
-            Repo -> JPA: save(maintenanceType)
+        alt Repository is InMemoryMaintenanceTypeRepository
+            Repo -> InMem: updateMaintenanceType(maintenanceType, oldName)
+            activate InMem
+            InMem -> InMem: remove(oldName.toLowerCase())
+            InMem -> InMem: put(maintenanceType.identity().toLowerCase(), maintenanceType)
+            InMem --> Repo: Optional<MaintenanceType>
+            deactivate InMem
+        else Repository is MaintenanceTypeJPAImpl
+            Repo -> JPA: updateMaintenanceType(maintenanceType, oldName)
             activate JPA
             JPA --> Repo: Optional<MaintenanceType>
             deactivate JPA
-        else Repository is MaintenanceTypeInMemory
-            Repo -> InMem: save(maintenanceType)
-            activate InMem
-            InMem --> Repo: Optional<MaintenanceType>
-            deactivate InMem
         end
-        Repo --> CTRL: Optional<MaintenanceType>
+        Repo --> EditCTRL: Optional<MaintenanceType>
         deactivate Repo
-
-        alt save failed
-            CTRL --> UI: errorMessage("Failed to update maintenance type!")
-            UI --> DT: errorMessage("Failed to update maintenance type!")
-        else save succeeded
-            CTRL --> UI: successMessage("Maintenance type updated successfully!")
+        EditCTRL --> UI: Optional<MaintenanceType>
+        deactivate EditCTRL
+        alt update succeeded
             UI --> DT: successMessage("Maintenance type updated successfully!")
+        else update failed
+            UI --> DT: errorMessage("Failed to update maintenance type!")
         end
     end
-    deactivate CTRL
 end
 
 deactivate UI

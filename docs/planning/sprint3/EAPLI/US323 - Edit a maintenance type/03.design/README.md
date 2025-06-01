@@ -6,7 +6,7 @@
 
 The following sequence diagram illustrates the process of editing a maintenance type, including selecting a maintenance type, validating the updated name for uniqueness, and persisting the changes.
 
-![Sequence Diagram - Edit Maintenance Type](svg/us242-sequence-diagram-full.svg)
+![Sequence Diagram - Edit Maintenance Type](svg/us323-sequence-diagram-full.svg)
 
 #### Key Interactions:
 - **Drone Tech and UI**: The Drone Tech initiates the edit process via the `EditMaintenanceTypeUI`, selecting a maintenance type by its identifier and providing updated details (name and optional description).
