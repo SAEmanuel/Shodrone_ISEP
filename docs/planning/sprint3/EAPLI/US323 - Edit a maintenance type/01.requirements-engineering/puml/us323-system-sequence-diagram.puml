@@ -12,33 +12,43 @@ participant ":System" as System
 
 activate DT
 
-DT -> System: requestEditMaintenanceType()
+DT -> System: requests to edit a maintenance type
 activate System
-System --> DT: requestMaintenanceTypeSelection()
-deactivate System
-
-DT -> System: selectMaintenanceType(identifier)
-activate System
-alt maintenance type exists
-    System --> DT: requestUpdatedDetails()
+System -> System: retrieveMaintenanceTypes()
+alt no maintenance types exist
+    System --> DT: errorMessage("No maintenance types in the system yet")
     deactivate System
-    DT -> System: provideUpdatedDetails(newName)
-    activate System
-    System -> System: validateNewName(newName)
-    alt name is not unique
-        System --> DT: errorMessage("Duplicate maintenance type name")
-    else name is unique
-        System -> System: updateMaintenanceType(newName)
-        alt update failed
-            System --> DT: errorMessage("Failed to update maintenance type")
-        else update succeeded
+else maintenance types exist
+    System --> DT: selectMaintenanceType()
+    DT -> System: provideMaintenanceTypeSelection(identifier)
+    System --> DT: confirmEditName()
+    DT -> System: confirmNameEdit(editName)
+    alt editName = true
+        System --> DT: requestNewName()
+        DT -> System: provideNewName(newName)
+    else
+        note right: skips name edit
+    end
+    System --> DT: confirmEditDescription()
+    DT -> System: confirmDescriptionEdit(editDescription)
+    alt editDescription = true
+        System --> DT: requestNewDescription()
+        DT -> System: provideNewDescription(newDescription)
+    else
+        note right: skips description edit
+    end
+    alt no changes provided
+        System --> DT: errorMessage("Nothing has changed")
+    else changes provided
+        System -> System: updateMaintenanceType(newName, newDescription)
+        alt update successful
             System --> DT: successMessage("Maintenance type updated successfully")
+        else update failed
+            System --> DT: errorMessage("Failed to update maintenance type")
         end
     end
-else maintenance type does not exist
-    System --> DT: errorMessage("Maintenance type not found")
+    deactivate System
 end
-deactivate System
 
 deactivate DT
 
