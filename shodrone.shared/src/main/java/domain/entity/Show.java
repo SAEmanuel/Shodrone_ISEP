@@ -64,9 +64,7 @@ public class Show extends DomainEntityBase<Long> implements AggregateRoot<Long>,
     @Column(name = "Customer_ID")
     private Long customerID;
 
-    // Construtores
     protected Show() {
-        // for ORM
     }
 
     public Show(ShowProposal showProposalAcceptedID, Location location, LocalDateTime showDate,
@@ -80,7 +78,6 @@ public class Show extends DomainEntityBase<Long> implements AggregateRoot<Long>,
         this.customerID = customerID;
     }
 
-    // Identidade
     @Override
     public Long identity() {
         return showID;

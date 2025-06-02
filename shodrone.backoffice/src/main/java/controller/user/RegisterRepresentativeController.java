@@ -28,7 +28,7 @@ public class RegisterRepresentativeController {
     public boolean registerRepresentative(Costumer costumer, Name name, Email email,
                                           PhoneNumber phone, String position, String password) {
         CustomerRepresentative representative = new CustomerRepresentative(costumer, name, email, phone, position);
-        representativeRepository.save(representative);
+        representativeRepository.saveInStore(representative);
         return userController.registerUser(
                 name.name(),
                 email.getEmail(),

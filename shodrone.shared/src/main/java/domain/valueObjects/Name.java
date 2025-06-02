@@ -4,6 +4,7 @@ import eapli.framework.domain.model.ValueObject;
 import eapli.framework.validations.Preconditions;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,7 +18,7 @@ public final class Name implements ValueObject, Serializable {
     private static final int MAX_LENGTH = 80;
     private static final Pattern VALID_NAME_REGEX = Pattern.compile("^[\\pL\\pM\\p{Nl}][\\pL\\pM\\p{Nl} ',.\\-]*$", Pattern.UNICODE_CASE);
 
-    @Column(unique = true)
+    @Column(name = "Name")
     private final String name;
 
     /**

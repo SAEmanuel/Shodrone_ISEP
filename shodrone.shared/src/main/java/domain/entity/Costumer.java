@@ -5,7 +5,7 @@ import domain.valueObjects.NIF;
 import domain.valueObjects.PhoneNumber;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
+import domain.valueObjects.Name;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

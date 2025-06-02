@@ -3,6 +3,7 @@ package domain.entity;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import domain.valueObjects.*;
+import lombok.Getter;
 
 /**
  * Represents a customer representative within the Shodrone system.
@@ -17,19 +18,22 @@ public class CustomerRepresentative implements AggregateRoot<Long> {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Getter
     /** Reference to the associated customer entity. */
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.MERGE,optional = false)
     @JoinColumn(name = "costumer_id", nullable = false)
     private Costumer costumer;
 
-    /** Representative's full name (first and last), stored with overridden column names. */
-    @AttributeOverrides({
-            @AttributeOverride(name = "firstName", column = @Column(name = "rep_first_name", nullable = false)),
-            @AttributeOverride(name = "lastName", column = @Column(name = "rep_last_name", nullable = false))
-    })
+    @Embedded
     private Name name;
 
-    /** Email address of the representative. */
+    /** Email address of the representative.
+     * -- GETTER --
+     *  Returns the email of the representative.
+     *
+     * @return Email object.
+     */
+    @Getter
     @Embedded
     private Email email;
 
@@ -156,12 +160,4 @@ public class CustomerRepresentative implements AggregateRoot<Long> {
         this.costumer = costumer;
     }
 
-    /**
-     * Returns the email of the representative.
-     *
-     * @return Email object.
-     */
-    public Email getEmail() {
-        return this.email;
-    }
 }

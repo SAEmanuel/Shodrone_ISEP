@@ -7,7 +7,6 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Bootstrap bootstrap = new Bootstrap();
         boolean typePersistence = true;
 
         try {
@@ -15,6 +14,7 @@ public class Main {
             RepositoryProvider.setUseInMemory(typePersistence);
             RepositoryProvider.initializeAuditLogger(RepositoryProvider.isInMemory());
 
+            Bootstrap bootstrap = new Bootstrap();
             bootstrap.run();
             MainMenuUI menu = new MainMenuUI();
             menu.run();

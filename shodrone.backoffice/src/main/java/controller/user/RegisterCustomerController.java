@@ -20,7 +20,7 @@ public class RegisterCustomerController {
 
     public Optional<Costumer> registerCustomer(Name customerName, EmailAddress email, PhoneNumber phone,
                                                NIF nif, Address address) {
-        Costumer customer = new Costumer(convertToName(customerName), email, phone, nif, address);
+        Costumer customer = new Costumer(customerName, email, phone, nif, address);
         return customerRepository.saveInStore(customer, nif);
     }
 }

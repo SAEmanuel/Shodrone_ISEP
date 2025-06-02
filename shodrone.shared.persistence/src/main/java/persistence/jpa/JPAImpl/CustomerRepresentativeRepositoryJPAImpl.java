@@ -1,8 +1,14 @@
 package persistence.jpa.JPAImpl;
 
+import domain.entity.Costumer;
 import domain.entity.CustomerRepresentative;
+import domain.entity.ShowRequest;
 import persistence.CustomerRepresentativeRepository;
 import eapli.framework.infrastructure.repositories.impl.jpa.JpaAutoTxRepository;
+import persistence.jpa.JpaBaseRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * JPA implementation of the {@link CustomerRepresentativeRepository} interface.
@@ -10,14 +16,32 @@ import eapli.framework.infrastructure.repositories.impl.jpa.JpaAutoTxRepository;
  * Uses the "shodrone_backoffice" persistence unit and "id" as the identity field.
  */
 public class CustomerRepresentativeRepositoryJPAImpl
-        extends JpaAutoTxRepository<CustomerRepresentative, Long, Long>
+        extends JpaBaseRepository<CustomerRepresentative, Long>
         implements CustomerRepresentativeRepository {
 
-    /**
-     * Constructs a new JPA repository for customer representatives.
-     * Configured to use the "shodrone_backoffice" persistence unit.
-     */
-    public CustomerRepresentativeRepositoryJPAImpl() {
-        super("shodrone_backoffice", "id");
+    @Override
+    public Optional<CustomerRepresentative> saveInStore(CustomerRepresentative entity){
+        if (entity.identity() != null) {
+            return Optional.empty();
+        }
+
+        if(!findCostumer(entity.getCostumer())){
+            return Optional.empty();
+        }
+
+        add(entity);
+        return Optional.of(entity);
     }
+
+    public boolean findCostumer(Costumer costumer) {
+        if (costumer == null) return false;
+
+        List<CustomerRepresentative> requests = entityManager()
+                .createQuery("SELECT s FROM CustomerRepresentative s WHERE s.costumer.id = :costumer", CustomerRepresentative.class)
+                .setParameter("costumer", costumer.identity())
+                .getResultList();
+
+        return requests.isEmpty();
+    }
+
 }

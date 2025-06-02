@@ -32,9 +32,15 @@ public class ShowRequestJPAImpl extends JpaBaseRepository<ShowRequest, Long> imp
             return Optional.empty();
         }
 
-        add(entity);
+        if (entity.identity() != null) {
+            update(entity);
+        } else {
+            add(entity);
+        }
+
         return Optional.of(entity);
     }
+
 
     /**
      * Retrieves all ShowRequest entities from the database.

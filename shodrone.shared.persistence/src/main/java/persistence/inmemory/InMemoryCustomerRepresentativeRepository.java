@@ -31,7 +31,7 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
      * @throws RuntimeException if the ID cannot be set via reflection.
      */
     @Override
-    public CustomerRepresentative save(CustomerRepresentative entity) {
+    public Optional<CustomerRepresentative> saveInStore(CustomerRepresentative entity){
         if (entity.identity() == null) {
             try {
                 var field = CustomerRepresentative.class.getDeclaredField("id");
@@ -43,7 +43,7 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
         }
         idMap.put(entity.identity(), entity);
         emailMap.put(entity.getEmail(), entity);
-        return entity;
+        return Optional.of(entity);
     }
 
     /**
@@ -52,7 +52,6 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
      * @param id The ID of the representative.
      * @return An {@link Optional} containing the entity, if found.
      */
-    @Override
     public Optional<CustomerRepresentative> ofIdentity(Long id) {
         return Optional.ofNullable(idMap.get(id));
     }
@@ -62,7 +61,6 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
      *
      * @return A collection of all entities.
      */
-    @Override
     public Iterable<CustomerRepresentative> findAll() {
         return idMap.values();
     }
@@ -72,7 +70,6 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
      *
      * @param entity The entity to remove.
      */
-    @Override
     public void delete(CustomerRepresentative entity) {
         idMap.remove(entity.identity());
         emailMap.remove(entity.getEmail());
@@ -83,7 +80,6 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
      *
      * @param entityId The ID of the entity to delete.
      */
-    @Override
     public void deleteOfIdentity(Long entityId) {
         ofIdentity(entityId).ifPresent(this::delete);
     }
@@ -93,7 +89,6 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
      *
      * @return Number of stored entities.
      */
-    @Override
     public long count() {
         return idMap.size();
     }

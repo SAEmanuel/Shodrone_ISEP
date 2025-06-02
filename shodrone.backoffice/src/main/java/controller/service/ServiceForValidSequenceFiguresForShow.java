@@ -8,16 +8,15 @@ import utils.Utils;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import static more.ColorfulOutput.*;
 import static more.TextEffects.*;
 
 public class ServiceForValidSequenceFiguresForShow {
 
-    public static Queue<Figure> getListFiguresUIWithRepetitions(Costumer costumer, Queue<Figure> initialSelection) {
+    public static List<Figure> getListFiguresUIWithRepetitions(Costumer costumer, List<Figure> initialSelection) {
         ListFiguresByCostumerController listFiguresByCostumerController = new ListFiguresByCostumerController();
-        Queue<Figure> selectedFigureQueue = new LinkedList<>(initialSelection != null ? initialSelection : new ArrayList<>());
+        List<Figure> selectedFigureQueue = new LinkedList<>(initialSelection != null ? initialSelection : new ArrayList<>());
         List<Figure> figureList = listFiguresByCostumerController
                 .listFiguresByCostumer(costumer)
                 .orElse(new ArrayList<>());

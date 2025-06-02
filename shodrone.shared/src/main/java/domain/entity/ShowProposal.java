@@ -50,7 +50,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Getter
     @OneToMany(cascade = CascadeType.MERGE)
     @JoinColumn(name = "Show_Proposal")
-    private Queue<Figure> sequenceFigues;
+    private List<Figure> sequenceFigues;
 
     @Embedded
     private Description description;
@@ -105,12 +105,16 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Column(name = "Sent_Date")
     private LocalDateTime sentDate;
 
+    @Setter
+    @Getter
+    @Column(name = "Name_Proposal")
+    private String nameProposal;
 
     protected ShowProposal() {
     }
 
-    public ShowProposal(ShowRequest showRequest, ShowTemplate template, Queue<Figure> sequenceFigues
-            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate ) {
+    public ShowProposal(ShowRequest showRequest, ShowTemplate template, List<Figure> sequenceFigues
+            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate,String version ) {
 
         this.showRequest = showRequest;
 //        this.template = template;
@@ -123,6 +127,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
         this.creationAuthor = creationAuthor;
         this.creationDate = creationDate;
         this.status = ShowProposalStatus.CREATED;
+        this.nameProposal = version;
     }
 
     @Override

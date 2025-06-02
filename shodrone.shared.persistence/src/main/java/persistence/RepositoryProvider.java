@@ -49,6 +49,7 @@ public class RepositoryProvider {
     private static CustomerRepresentativeRepository customerRepresentativeRepository;
     private static ShowProposalRepository showProposalRepository;
     private static MaintenanceTypeRepository maintenanceTypeRepository;
+    private static ShowRepository showRepository;
 
 
     private static AuditLoggerService auditLoggerService;
@@ -243,6 +244,22 @@ public class RepositoryProvider {
 
     public static void injectFigureRepository(FigureRepository mockRepo) {
         figureRepository = mockRepo;
+    }
+
+    /**
+     * Retrieves the show repository.
+     *
+     * @return The show repository.
+     */
+    public static ShowRepository showRepository() {
+        if (showRepository == null) {
+            if (isInMemory()) {
+                showRepository = new InMemoryShowRepository();
+            } else {
+                showRepository = new ShowJPAImpl();
+            }
+        }
+        return showRepository;
     }
 
     /**

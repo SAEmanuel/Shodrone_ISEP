@@ -23,7 +23,7 @@ public class AddFiguresToProposalController {
         return optionalResult.get();
     }
 
-    public Optional<ShowProposal> saveNewImagesInProposal(ShowProposal showProposal ,Queue<Figure> sequenceOfFigures){
+    public Optional<ShowProposal> saveNewImagesInProposal(ShowProposal showProposal ,List<Figure> sequenceOfFigures){
         showProposal.setSequenceFigues(sequenceOfFigures);
         return RepositoryProvider.showProposalRepository().updateInStoreProposal(showProposal);
     }

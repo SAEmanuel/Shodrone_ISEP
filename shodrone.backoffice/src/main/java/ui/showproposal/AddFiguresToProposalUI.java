@@ -32,7 +32,7 @@ public class AddFiguresToProposalUI implements Runnable {
             Utils.printSuccessMessage("\nSelected Proposal with ID : " + selectedProposal.identity());
 
             Utils.printCenteredSubtitle("Figures of Selected Proposal");
-            Queue<Figure> listFigures = selectedProposal.getSequenceFigues();
+            List<Figure> listFigures = selectedProposal.getSequenceFigues();
 
             if(listFigures.isEmpty()){
                 Utils.printAlterMessage("No Figures was found in the selected proposal, do you wish to add [y/n]: ");
@@ -46,7 +46,7 @@ public class AddFiguresToProposalUI implements Runnable {
             }
 
             Utils.printCenteredSubtitle("Selection of New Figures");
-            Queue<Figure> sequenceOfFigures = ServiceForValidSequenceFiguresForShow.getListFiguresUIWithRepetitions(selectedProposal.getShowRequest().getCostumer(), listFigures);
+            List<Figure> sequenceOfFigures = ServiceForValidSequenceFiguresForShow.getListFiguresUIWithRepetitions(selectedProposal.getShowRequest().getCostumer(), listFigures);
             Optional<ShowProposal> optionalResult = controller.saveNewImagesInProposal(selectedProposal,sequenceOfFigures);
 
             if(optionalResult.isEmpty()){
