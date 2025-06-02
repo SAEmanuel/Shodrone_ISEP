@@ -1,6 +1,7 @@
 package factories;
 
 import factories.impl.LocationFactoryImpl;
+import factories.impl.ShowProposalFactoryImpl;
 import factories.impl.ShowRequestFactoryImpl;
 
 /**
@@ -17,6 +18,7 @@ public class FactoryProvider {
     // Factory instances
     private static ShowRequestFactoryImpl showRequestFactory;
     private static LocationFactoryImpl locationFactory;
+    private static ShowProposalFactoryImpl showProposalFactory;
 
     /**
      * Default constructor for the FactoryProvider class.
@@ -54,5 +56,13 @@ public class FactoryProvider {
             locationFactory = new LocationFactoryImpl();
         }
         return locationFactory;
+    }
+
+
+    public static ShowProposalFactoryImpl getShowProposalFactory() {
+        if(showProposalFactory == null){
+            showProposalFactory = new ShowProposalFactoryImpl();
+        }
+        return showProposalFactory;
     }
 }

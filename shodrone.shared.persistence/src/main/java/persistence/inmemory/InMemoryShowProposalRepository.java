@@ -10,7 +10,7 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
     private static long LAST_SHOW_REQUEST_ID = 1L;
 
     @Override
-    public Optional<ShowProposal> saveInStoreProposal(ShowProposal entity) {
+    public Optional<ShowProposal> saveInStore(ShowProposal entity) {
         if (entity == null) {
             return Optional.empty();
         }

@@ -980,6 +980,37 @@ public class Utils {
         System.out.println("──────────────────────────────────────────────────\n");
     }
 
+    static public void printShowProposalResume(ShowProposal registeredShowProposal) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+        System.out.printf("%n%n🧾 Show Proposal with ID [%d] summary: %n", registeredShowProposal.identity());
+        System.out.println("──────────────────────────────────────────────────");
+        System.out.println("\uD83C\uDF9F\uFE0F Show Request ID           : " + registeredShowProposal.getShowRequest());
+        System.out.println("💬️ Status                    : " + registeredShowProposal.getStatus().toString());
+        //System.out.println("💬️ Template Name             : " + registeredShowProposal.getStatus().toString());
+        System.out.println("📝 Description               : " + (registeredShowProposal.getDescription() != null ? registeredShowProposal.getDescription() : ""));
+        System.out.println("📅 Show Date                 : " + registeredShowProposal.getShowDate().format(formatter));
+        System.out.println("📍 Location                  : " + registeredShowProposal.getLocation().toString());
+        System.out.println("🚁 Number of Drones          : " + registeredShowProposal.getNumberOfDrones());
+        System.out.println("⏱️ Show Duration             : " + registeredShowProposal.getShowDuration().toMinutes() + " minutes");
+        System.out.println("\uD83C\uDFAC  Video                     : " +
+                (registeredShowProposal.getVideo() == null ? "" : registeredShowProposal.getVideo().toString()));
+        System.out.println("\uD83D\uDDBC\uFE0F Selected Figures          :");
+
+        int index = 1;
+
+        // Get a sorted copy of the figures list
+        List<Figure> sortedFigures = new ArrayList<>(registeredShowProposal.getSequenceFigues());
+        sortedFigures.sort(Comparator.comparing(Figure::identity));  // adjust identity() if needed
+
+        for (Figure figure : sortedFigures) {
+            System.out.printf("   %s%n", figure.toString());
+        }
+
+
+        System.out.println("──────────────────────────────────────────────────\n");
+    }
+
 
     /**
      * Shows the list in segments (pages) of size STEP with a header, asking the user if they want to see more.

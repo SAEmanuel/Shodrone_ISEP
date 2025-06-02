@@ -3,6 +3,7 @@ package domain.entity;
 import domain.valueObjects.Description;
 import domain.valueObjects.Location;
 import domain.valueObjects.ShowProposalStatus;
+import domain.valueObjects.Video;
 import eapli.framework.domain.model.AggregateRoot;
 import eapli.framework.domain.model.DomainEntityBase;
 import jakarta.persistence.*;
@@ -40,7 +41,6 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "Show_Request", nullable = false)
     private ShowRequest showRequest;
-
 
 //    @ManyToOne(optional = false)
 //    @JoinColumn(name = "Show_Proposal_Template")
@@ -82,6 +82,13 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Getter
     @Column(name = "Show_Duration", nullable = false)
     private Duration showDuration;
+
+    @Setter
+    @Getter
+    @Column(name = "Video_Path", nullable = true)
+    @Embedded
+    private Video video;
+
 
     //-------------------
     @Setter
@@ -134,6 +141,12 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     public Long identity() {
         return showProposalID;
     }
+
+    public void editShowProposalID(long l) { this.showProposalID = l; }
+
+    public void editVideo(Video video) { this.video = video; }
+
+    public Description getDescription() { return description; }
 
     @Override
     public boolean sameAs(Object other) {

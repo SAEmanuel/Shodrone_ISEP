@@ -21,10 +21,10 @@ public class Bootstrap implements Runnable {
         addFigures();
         addDroneModels();
         addDrones();
-        addRepresentatives();
-        addShowRequest();
+        //addRepresentatives();
+        //addShowRequest();
         initLists();
-        addProposals();
+        //addProposals();
     }
 
 
@@ -185,11 +185,11 @@ public class Bootstrap implements Runnable {
 
     // --- Show Proposals Setup ---------------------------------------------------
     private void addProposals() {
-        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal1);
-        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal2);
-        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal3);
-        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal4);
-        RepositoryProvider.showProposalRepository().saveInStoreProposal(proposal5);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal1);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal2);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal3);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal4);
+        RepositoryProvider.showProposalRepository().saveInStore(proposal5);
     }
 
 

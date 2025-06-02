@@ -13,8 +13,7 @@ import java.util.Optional;
 public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> implements ShowProposalRepository {
 
     @Override
-    public Optional<ShowProposal> saveInStoreProposal(ShowProposal entity) {
-
+    public Optional<ShowProposal> saveInStore(ShowProposal entity) {
         if (entity.identity() != null) {
             Optional<ShowProposal> existing = Optional.ofNullable(findById(entity.identity()));
             if (existing.isPresent()) {
