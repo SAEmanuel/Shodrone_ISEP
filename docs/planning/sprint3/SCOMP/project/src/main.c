@@ -249,18 +249,6 @@ int run_simulation(char* argv, float percentage) {
         }
         pthread_mutex_unlock(&mutex_collision);
 
-/*
-        pthread_mutex_lock(&mutex_report);
-        report_tick_ready = 1;
-        report_tick_done = 0;
-        pthread_cond_signal(&cond_tick_report);
-
-        while(!report_tick_done) {
-            pthread_cond_wait(&cond_done_report, &mutex_report);
-        }
-        pthread_mutex_unlock(&mutex_report);
-*/
-
         for (int i = 0; i < total_drones; i++) {
             if (!is_drone_crashed(shared_mem->drones_state[i].drone_info.id, drones_terminated, drones_terminated_size)
             && !in_final_position(shared_mem->drones_state[i].position.x, shared_mem->drones_state[i].position.y, shared_mem->drones_state[i].position.z)) {
