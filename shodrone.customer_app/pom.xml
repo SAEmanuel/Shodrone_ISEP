@@ -18,12 +18,30 @@
     </properties>
 
     <dependencies>
+        <!-- JUnit Jupiter (JUnit 5) para testes -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit Platform Launcher (opcional, útil para IDEs/build tools) -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.10.2</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Dependências do teu projeto -->
         <dependency>
             <groupId>lapr4</groupId>
             <artifactId>shodrone.shared</artifactId>
@@ -38,6 +56,12 @@
             <groupId>lapr4</groupId>
             <artifactId>shodrone.customer_app_server</artifactId>
             <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.1.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

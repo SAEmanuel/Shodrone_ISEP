@@ -54,3 +54,73 @@ Field 'modificationDate' changed from 'null' to '2025-05-29T16:32:17.278113'
 
 ═════════════════════════════════════════════
 
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-02 17:59:10
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-02T17:59:10.138817'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-02 18:01:36
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-02T18:01:36.528523'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-02 18:04:20
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-02T18:04:20.489163'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-02 18:07:10
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-02T18:07:10.148940'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-02 18:09:42
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-02T18:09:42.441211'
+
+═════════════════════════════════════════════
+
