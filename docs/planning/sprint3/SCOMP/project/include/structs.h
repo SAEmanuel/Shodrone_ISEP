@@ -80,7 +80,13 @@ typedef struct {
     pthread_cond_t* cond_done;
     int* collision_tick_ready;
     int* collision_tick_done;
+    pthread_mutex_t* mutex_report;
+    pthread_cond_t* cond_tick_report;
+    pthread_cond_t* cond_done_report;
+    int* report_tick_ready;
+    int* report_tick_done;
 } CollisionThreadArgs;
+
 
 typedef struct {
     Environment* environment;

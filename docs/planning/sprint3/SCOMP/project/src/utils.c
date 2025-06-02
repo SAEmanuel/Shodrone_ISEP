@@ -208,6 +208,17 @@ void* collision_thread_func(void* arg) {
 
         *(args->collision_counter) += collisions_in_tick;
 
+        pthread_mutex_lock(args->mutex_report);
+        *(args->report_tick_ready) = 1;
+        *(args->report_tick_done) = 0;
+        pthread_cond_signal(args->cond_tick_report);
+
+        while (!*(args->report_tick_done)) {
+            pthread_cond_wait(args->cond_done_report, args->mutex_report);
+        }
+        pthread_mutex_unlock(args->mutex_report);
+        
+
         *(args->collision_tick_ready) = 0;
         *(args->collision_tick_done) = 1;
         pthread_cond_signal(args->cond_done);

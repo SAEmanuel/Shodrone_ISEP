@@ -120,6 +120,14 @@ int run_simulation(char* argv, float percentage) {
 
     // ----------------- ########################### --------------- //
 
+    // ----------------- Shared declarations report -> collisions ----------------- //
+    pthread_mutex_t mutex_report = PTHREAD_MUTEX_INITIALIZER;
+    pthread_cond_t cond_tick_report = PTHREAD_COND_INITIALIZER;
+    pthread_cond_t cond_done_report = PTHREAD_COND_INITIALIZER;
+    int report_tick_ready = 0;
+    int report_tick_done = 0;
+    // ----------------- ########################### --------------- //
+
     // ----------------- Collision Thread related ----------------- //
     pthread_t collision_thread;
     pthread_mutex_t mutex_collision = PTHREAD_MUTEX_INITIALIZER;
@@ -144,7 +152,12 @@ int run_simulation(char* argv, float percentage) {
         .cond_tick = &cond_tick_collision,
         .cond_done = &cond_done_collision,
         .collision_tick_ready = &collision_tick_ready,
-        .collision_tick_done = &collision_tick_done
+        .collision_tick_done = &collision_tick_done,
+        .mutex_report = &mutex_report,
+        .cond_tick_report = &cond_tick_report,
+        .cond_done_report = &cond_done_report,
+        .report_tick_ready = &report_tick_ready,
+        .report_tick_done = &report_tick_done
     };
     pthread_create(&collision_thread, NULL, collision_thread_func, &collision_args);
     // ----------------- ########################### ----------------- //
@@ -173,11 +186,6 @@ int run_simulation(char* argv, float percentage) {
 
     // ----------------- Report Thread related ----------------- //
     pthread_t report_thread;
-    pthread_mutex_t mutex_report = PTHREAD_MUTEX_INITIALIZER;
-    pthread_cond_t cond_tick_report = PTHREAD_COND_INITIALIZER;
-    pthread_cond_t cond_done_report = PTHREAD_COND_INITIALIZER;
-    int report_tick_ready = 0;
-    int report_tick_done = 0;
     int report_passed = 1;
     int stop_report_thread = 0;
 
@@ -208,6 +216,7 @@ int run_simulation(char* argv, float percentage) {
 
     pthread_create(&report_thread, NULL, report_thread_func, &report_args);
     // ----------------- ########################### ----------------- //
+
 
     // -----------------  Main Simulation cicle  ------------------ //
     for(int timeStamp = 0; timeStamp < total_ticks; timeStamp++) {
@@ -240,7 +249,7 @@ int run_simulation(char* argv, float percentage) {
         }
         pthread_mutex_unlock(&mutex_collision);
 
-
+/*
         pthread_mutex_lock(&mutex_report);
         report_tick_ready = 1;
         report_tick_done = 0;
@@ -250,7 +259,7 @@ int run_simulation(char* argv, float percentage) {
             pthread_cond_wait(&cond_done_report, &mutex_report);
         }
         pthread_mutex_unlock(&mutex_report);
-
+*/
 
         for (int i = 0; i < total_drones; i++) {
             if (!is_drone_crashed(shared_mem->drones_state[i].drone_info.id, drones_terminated, drones_terminated_size)
