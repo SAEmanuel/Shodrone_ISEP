@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class AuthenticationController {
 
-    private static final String SERVER_HOST = "10.8.0.80"; //todo IP do servidor MUDAR!!!!
+    private static final String SERVER_HOST = "10.8.0.80"; //"localhost" for local pc
     private static final int SERVER_PORT = 9000;
 
 
@@ -17,9 +17,9 @@ public class AuthenticationController {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
-            LoginRequest loginRequest = new LoginRequest(email, password);
+            UserDTO userDTO = new UserDTO(email, password);
             Gson gson = new Gson();
-            String loginJson = gson.toJson(loginRequest);
+            String loginJson = gson.toJson(userDTO);
 
             out.println(loginJson);
 

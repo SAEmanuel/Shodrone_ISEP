@@ -1,5 +1,5 @@
 import com.google.gson.Gson;
-import network.LoginRequest;
+import network.UserDTO;
 import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
 import domain.entity.User;
@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Optional;
 
-public class CustomerAppServer {
+public class Main {
 
     public static void main(String[] args) throws IOException {
         int port = 9000;
@@ -29,10 +29,10 @@ public class CustomerAppServer {
 
             String received = in.readLine();
             Gson gson = new Gson();
-            LoginRequest loginRequest = gson.fromJson(received, LoginRequest.class);
+            UserDTO userDTO = gson.fromJson(received, UserDTO.class);
 
-            String email = loginRequest.getEmail();
-            String password = loginRequest.getPassword();
+            String email = userDTO.getEmail();
+            String password = userDTO.getPassword();
 
             RepositoryProvider.setUseInMemory(false);
             AuthenticationRepository repo = RepositoryProvider.authenticationRepository();

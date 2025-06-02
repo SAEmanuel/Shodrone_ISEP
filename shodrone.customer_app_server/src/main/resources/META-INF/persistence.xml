@@ -18,6 +18,10 @@
     <class>domain.entity.ShowRequest</class>
     <class>domain.entity.UserRole</class>
     <class>domain.entity.User</class>
+    <class>domain.entity.ShowProposal</class>
+    <class>domain.entity.ShowTemplate</class>
+    <class>domain.entity.MaintenanceType</class>
+    <class>domain.valueObjects.MaintenanceTypeName</class>
 
 
     <!-- Scan automatic entities (requires entities in correct packages) -->
