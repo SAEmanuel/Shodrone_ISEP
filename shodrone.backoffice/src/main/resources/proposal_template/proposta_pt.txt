@@ -23,12 +23,12 @@ Hora – [12:20]
 Duração – [20] minutos
 
 #Lista de drones utilizados
-[DJI Mavic 3] – [#10] unidades.
-[DJI Mini 3] – [#20] unidades.
-[DJI Phantom Pro] – [#15] unidades.
+[DJI Mavic 3 Classic] – [#10] unidades.
+[Shahed 136] – [#20] unidades.
+[DJI Phantom 4 Pro] – [#15] unidades.
 
 #Lista de figuras
-[1º] – [Estrela]
-[2º] – [Planeta]
-[3º] – [Carro]
-[4º] – [Agros Logotipo]
+[1º] – [Circle]
+[2º] – [Pizza]
+[3º] – [Football]
+[4º] – [Airplane]

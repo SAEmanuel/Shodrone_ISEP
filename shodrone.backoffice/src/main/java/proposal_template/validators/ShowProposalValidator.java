@@ -2,8 +2,11 @@ package proposal_template.validators;
 
 import domain.entity.DroneModel;
 import domain.entity.Figure;
+import domain.valueObjects.FigureStatus;
+import org.antlr.v4.runtime.tree.TerminalNode;
 import persistence.DroneModelRepository;
 import persistence.FigureRepository;
+import persistence.RepositoryProvider;
 import proposal_template.generated.showProposal_ptBaseListener;
 import proposal_template.generated.showProposal_ptParser;
 import domain.valueObjects.NIF;
@@ -21,8 +24,8 @@ import java.util.regex.Pattern;
 
 public class ShowProposalValidator extends showProposal_ptBaseListener {
     private final Map<String, Integer> droneInfoMap = new HashMap<>();
-    private DroneModelRepository modelRepo;
-    private FigureRepository figureRepo;
+    private final DroneModelRepository modelRepo = RepositoryProvider.droneModelRepository();
+    private final FigureRepository figureRepo = RepositoryProvider.figureRepository();
     private String lastFigureName = null;
 
     @Override
@@ -51,12 +54,13 @@ public class ShowProposalValidator extends showProposal_ptBaseListener {
 
     @Override
     public void enterDrone_info(showProposal_ptParser.Drone_infoContext ctx) {
-
         String droneLine = ctx.getText();
-        Pattern pattern = Pattern.compile("\\[(.+?)\\]\\s*–\\s*\\[#(\\d+)] unidades\\.");
+        Pattern pattern = Pattern.compile("\\[([^\\]]+)\\]\\s*–\\s*\\[#(\\d+)]\\s*unidades\\.");
         Matcher matcher = pattern.matcher(droneLine);
 
-        if (matcher.matches()) {
+        boolean found = false;
+        while (matcher.find()) {
+            found = true;
             String model = matcher.group(1).trim();
             int quantity = Integer.parseInt(matcher.group(2).trim());
 
@@ -79,47 +83,49 @@ public class ShowProposalValidator extends showProposal_ptBaseListener {
             if (!validModels.contains(model)) {
                 System.err.println("Unknown drone model: " + model);
             }
-
-        } else {
+        }
+        if (!found) {
             System.err.println("Invalid drone info format: " + droneLine);
         }
     }
 
+
     @Override
     public void enterFiguras_info(showProposal_ptParser.Figuras_infoContext ctx) {
-        List<Figure> figures = figureRepo.findAll();
-        String line = ctx.getText();
+        for (TerminalNode node : ctx.FIGURAS_INFO()) {
+            String line = node.getText();
+            processLine(line);
+        }
+    }
+
+    private void processLine(String line) {
         Pattern pattern = Pattern.compile("\\[(.+?)\\]\\s*–\\s*\\[(.+?)\\]");
         Matcher matcher = pattern.matcher(line);
 
-        if (matcher.matches()) {
+        if (matcher.find()) {
             String position = matcher.group(1).trim();
             String figureName = matcher.group(2).trim();
-
-            if (position.isEmpty()) {
-                System.err.println("Figure position is empty: " + line);
-            }
 
             if (figureName.equalsIgnoreCase(lastFigureName)) {
                 System.err.println("Figure repeated in consecutive positions: " + figureName);
             }
             lastFigureName = figureName;
 
-            List<String> validFigureNames = new ArrayList<>();
+            List<Figure> figures = figureRepo.findAll();
+            boolean figuraExiste = false;
+            boolean figuraAtiva = false;
+
             for (Figure figure : figures) {
-                validFigureNames.add(figure.name.name());
+                if (figure.name().name().equalsIgnoreCase(figureName)) {
+                    figuraExiste = true;
+                    figuraAtiva = figure.status().equals(FigureStatus.ACTIVE);
+                    break;
+                }
             }
 
-            if (!validFigureNames.contains(figureName)) {
+            if (!figuraExiste) {
                 System.err.println("Unknown figure: " + figureName);
-            }
-
-            List<Figure> actives = figureRepo.findAllActive();
-            List<String> activeFigures = new ArrayList<>();
-            for (Figure a : actives) {
-                activeFigures.add(a.name.name());
-            }
-            if (actives.isEmpty() || !activeFigures.contains(figureName)) {
+            } else if (!figuraAtiva) {
                 System.err.println("Figure is not active: " + figureName);
             }
 
@@ -127,6 +133,7 @@ public class ShowProposalValidator extends showProposal_ptBaseListener {
             System.err.println("Invalid figure info format: " + line);
         }
     }
+
 
     private void checkVat(String vat) {
         try {
@@ -176,8 +183,8 @@ public class ShowProposalValidator extends showProposal_ptBaseListener {
 
     private void checkRef(String ref) {
         String pattern = "Referência \\[#(\\d+)] / \\[(\\d{2}/\\d{2}/\\d{4})]";
-        Pattern r = java.util.regex.Pattern.compile(pattern);
-        Matcher m = r.matcher(ref.replaceAll("\\s+", ""));
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(ref);
 
         if (!m.matches()) {
             System.err.println("Invalid reference format: " + ref);
