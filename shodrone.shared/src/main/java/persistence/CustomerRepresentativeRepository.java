@@ -14,4 +14,5 @@ import java.util.Optional;
  */
 public interface CustomerRepresentativeRepository {
     public Optional<CustomerRepresentative> saveInStore(CustomerRepresentative entity);
+    public Optional<Costumer> getAssociatedCustomer(String emailOfRepresentative);
 }

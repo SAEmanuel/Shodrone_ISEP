@@ -2,32 +2,42 @@ package ui.show;
 
 import controller.show.CheckShowDatesController;
 import domain.entity.Figure;
+import domain.entity.Show;
 import utils.AuthUtils;
 import utils.Utils;
 
-public class CheckShowDatesUI implements Runnable{
+import java.util.List;
+import java.util.Optional;
+import java.util.Scanner;
+
+public class CheckShowDatesUI implements Runnable {
     private final CheckShowDatesController controller;
 
-    public CheckShowDatesUI(CheckShowDatesController controller) {
-        this.controller = controller;
+    public CheckShowDatesUI( ) {
+        this.controller = new CheckShowDatesController();
     }
 
     @Override
     public void run() {
         Utils.printCenteredTitle("CHECK SHOW DATES");
 
-        try{
+        try {
+            System.out.println("Insere");
+            Scanner scan = new Scanner(System.in);
+            String email = scan.nextLine();
+            //Optional<List<Show>>  listOfShows= controller.getShowsForCustomer(AuthUtils.getCurrentUserEmail());
+            Optional<List<Show>>  listOfShows= controller.getShowsForCustomer(email);
 
-//            if(optionalResult.isEmpty()){
-//                Utils.printFailMessage("\n✖️ Something went grong saving the Show Proposal!");
-//            }else{
-//                Utils.printSuccessMessage("\n✔️ Figures added successfully to proposal!");
-//                for(Figure figure : optionalResult.get().getSequenceFigues()){
-//                    System.out.println(figure.toString());
-//                }
-//            }
+            if(listOfShows.isEmpty()){
+                Utils.printFailMessage("\n✖️ Check Show Dates for Customer Can't be Loaded!");
+            }else{
+                Utils.printSuccessMessage("\n✔️ Check Show Dates for Customer Successfully Loaded!");
+                for(Show show : listOfShows.get()){
+                    System.out.println(show.toString());
+                }
+            }
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             Utils.printFailMessage(e.getMessage());
         }
     }

@@ -81,6 +81,10 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.costumerRepository().saveInStore(customer1, customer1.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer2, customer2.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer3, customer3.nif());
+        AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
+        repo.addUserWithRole("Microsoft","jorgeUbaldo@shodrone.app","Jorge123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("Apple","francisco@shodrone.app","Franc123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("Continente","paulo@shodrone.app","Paulo123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
     }
 
     // --- Representative Setup -------------------------------------------------

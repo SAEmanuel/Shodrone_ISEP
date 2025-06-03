@@ -32,6 +32,22 @@ public class CustomerRepresentativeRepositoryJPAImpl
         add(entity);
         return Optional.of(entity);
     }
+    @Override
+    public Optional<Costumer> getAssociatedCustomer(String emailOfRepresentative){
+        if (emailOfRepresentative == null) return Optional.empty();
+
+        List<CustomerRepresentative> requests = entityManager()
+                .createQuery("SELECT s FROM CustomerRepresentative s WHERE s.costumer.email = :email", CustomerRepresentative.class)
+                .setParameter("email", emailOfRepresentative)
+                .getResultList();
+
+        if(requests.isEmpty()){
+            return Optional.empty();
+        }
+
+        return Optional.of(requests.get(0).getCostumer());
+    }
+
 
     public boolean findCostumer(Costumer costumer) {
         if (costumer == null) return false;
@@ -43,5 +59,7 @@ public class CustomerRepresentativeRepositoryJPAImpl
 
         return requests.isEmpty();
     }
+
+
 
 }

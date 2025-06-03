@@ -1,5 +1,6 @@
 package persistence.inmemory;
 
+import domain.entity.Costumer;
 import domain.entity.CustomerRepresentative;
 import domain.entity.Email;
 import persistence.CustomerRepresentativeRepository;
@@ -92,4 +93,15 @@ public class InMemoryCustomerRepresentativeRepository implements CustomerReprese
     public long count() {
         return idMap.size();
     }
+
+    @Override
+    public Optional<Costumer> getAssociatedCustomer(String emailOfRepresentative){
+        CustomerRepresentative foundChoice = emailMap.get(emailOfRepresentative);
+
+        if(foundChoice == null){
+            return Optional.empty();
+        }
+        return Optional.of(foundChoice.getCostumer());
+    }
+
 }

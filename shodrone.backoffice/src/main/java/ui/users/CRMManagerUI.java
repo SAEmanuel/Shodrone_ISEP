@@ -1,5 +1,6 @@
 package ui.users;
 
+import ui.show.CheckShowDatesUI;
 import ui.showrequest.ListShowRequestByCostumerUI;
 import utils.MenuItem;
 import ui.menu.ShowTextUI;
@@ -45,6 +46,7 @@ public class CRMManagerUI implements Runnable {
         options.add(new MenuItem("Change Costumer Status", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Manage Proposal Templates", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Manage Clients", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Tests",new CheckShowDatesUI()));
 
         int option;
         do {

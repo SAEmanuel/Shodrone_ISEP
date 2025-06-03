@@ -36,6 +36,15 @@ public class Utils {
     }
 
     /**
+     * Immediately exits the application with a given error message.
+     *
+     * @param message The error message to display before exiting.
+     */
+    public static void exitImmediatelyWithThrow(String message) {
+        throw new RuntimeException(message);
+    }
+
+    /**
      * Silently exits the application without any message.
      */
     public static void silentExit() {

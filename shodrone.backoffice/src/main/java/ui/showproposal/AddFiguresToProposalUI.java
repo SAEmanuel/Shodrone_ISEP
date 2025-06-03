@@ -36,7 +36,7 @@ public class AddFiguresToProposalUI implements Runnable {
             List<Figure> listFigures = selectedProposal.getSequenceFigues();
 
             if(listFigures.isEmpty()){
-                Utils.printAlterMessage("No Figures was found in the selected proposal, do you wish to add [y/n]: ");
+                Utils.printAlterMessage("No Figures was found in the selected proposal. ");
             }else{
                 Utils.printAlterMessage("A total of "+listFigures.size()+" Figures were found in the selected proposal: ");
                 int count = 0;
@@ -46,12 +46,18 @@ public class AddFiguresToProposalUI implements Runnable {
                 Utils.dropLines(1);
             }
 
+            boolean continueAdd = Utils.confirm(ANSI_BOLD+"Do you wish to add 'Figures' [y/n]"+ANSI_RESET);
+
+            if(!continueAdd){
+                Utils.exitImmediatelyWithThrow("\n✖️ Exiting add Figures to Show Proposal UI.");
+            }
+
             Utils.printCenteredSubtitle("Selection of New Figures");
             List<Figure> sequenceOfFigures = ServiceForValidSequenceFiguresForShow.getListFiguresUIWithRepetitions(selectedProposal.getShowRequest().getCostumer(), listFigures);
             Optional<ShowProposal> optionalResult = controller.saveNewImagesInProposal(selectedProposal,sequenceOfFigures);
 
             if(optionalResult.isEmpty()){
-                Utils.printFailMessage("\n✖️ Something went grong saving the Show Proposal!");
+                Utils.printFailMessage("\n✖️ Something went wrong saving the Show Proposal!");
             }else{
                 Utils.printSuccessMessage("\n✔️ Figures added successfully to proposal!");
                 for(Figure figure : optionalResult.get().getSequenceFigues()){
