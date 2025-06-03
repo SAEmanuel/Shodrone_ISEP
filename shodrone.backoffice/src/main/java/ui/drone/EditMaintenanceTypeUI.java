@@ -5,6 +5,7 @@ import controller.drone.GetMaintenanceTypeController;
 import domain.entity.MaintenanceType;
 import domain.valueObjects.Description;
 import domain.valueObjects.MaintenanceTypeName;
+import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
@@ -43,6 +44,7 @@ public class EditMaintenanceTypeUI implements Runnable{
 
             if(editedMaintenanceType.isPresent()){
                 Utils.printSuccessMessage("Maintenance Type updated successfully!");
+                DatabaseSync.sync();
             } else {
                 Utils.printFailMessage("Failed to update maintenance type!");
             }

@@ -6,6 +6,7 @@ import domain.entity.Costumer;
 import domain.valueObjects.*;
 import domain.entity.Email;
 import eapli.framework.general.domain.model.EmailAddress;
+import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.Optional;
@@ -55,6 +56,7 @@ public class RegisterCustomerUI implements Runnable {
 
             if (repSuccess) {
                 Utils.printSuccessMessage("✅ Customer and Representative registered successfully!");
+                DatabaseSync.sync();
             } else {
                 Utils.printFailMessage("❌ Customer created but failed to register representative.");
             }

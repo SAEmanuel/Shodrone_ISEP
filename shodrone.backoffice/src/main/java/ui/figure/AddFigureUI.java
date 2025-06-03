@@ -7,6 +7,7 @@ import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
 import domain.valueObjects.*;
+import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
@@ -107,6 +108,7 @@ public class AddFigureUI implements Runnable {
 
         if (result.isPresent() && !result.isEmpty()) {
             Utils.printSuccessMessage("Figure added successfully!");
+            DatabaseSync.sync();
         } else {
             Utils.printFailMessage("Error Figure already exist! Same : (name, category and costumer not allowed)");
         }

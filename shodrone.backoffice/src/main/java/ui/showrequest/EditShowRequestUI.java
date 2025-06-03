@@ -6,6 +6,7 @@ import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import domain.valueObjects.Description;
 import factories.FactoryProvider;
+import session.DatabaseSync;
 import ui.customer.FoundCostumerUI;
 import utils.Utils;
 
@@ -144,7 +145,8 @@ public class EditShowRequestUI implements Runnable {
                     List<Figure> newSelectedFigures = listFiguresByCostumerUI.getListFiguresUI(newRequest.getCostumer());
                     newRequest.setFigures(newSelectedFigures);
                 }
-                case 0 -> Utils.printSuccessMessage("Finished editing.");
+                case 0 ->  {Utils.printSuccessMessage("Finished editing.");
+                            DatabaseSync.sync();}
                 default -> Utils.printAlterMessage("Invalid option.");
             }
         } while (option != 0);

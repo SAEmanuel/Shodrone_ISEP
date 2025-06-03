@@ -4,6 +4,7 @@ import domain.entity.DroneModel;
 import domain.valueObjects.Description;
 import domain.valueObjects.DroneModelID;
 import domain.valueObjects.DroneName;
+import session.DatabaseSync;
 import utils.Utils;
 import controller.drone.CreateDroneModelController;
 
@@ -64,6 +65,7 @@ public class CreateDroneModelUI implements Runnable {
         if (result.isPresent()) {
             System.out.println();
             Utils.printSuccessMessage("Drone Model created successfully!");
+            DatabaseSync.sync();
         } else {
             System.out.println();
             Utils.printFailMessage("A Drone Model with that ID already exists!");

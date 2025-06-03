@@ -2,9 +2,9 @@ import constants.Roles;
 import domain.entity.*;
 import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
 import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
+import session.DatabaseSync;
 
 import java.time.Duration;
 import java.time.LocalDateTime;

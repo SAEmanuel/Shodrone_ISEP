@@ -4,6 +4,7 @@ import controller.category.AddFigureCategoryController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
+import session.DatabaseSync;
 import utils.AuthUtils;
 import domain.entity.Email;
 import utils.Utils;
@@ -48,6 +49,7 @@ public class AddFigureCategoryUI implements Runnable {
 
         if (result.isPresent()) {
             Utils.printSuccessMessage("Category added successfully!");
+            DatabaseSync.sync();
         } else {
             Utils.printFailMessage("A category with that name already exists!");
         }

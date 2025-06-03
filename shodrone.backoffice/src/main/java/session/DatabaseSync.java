@@ -1,3 +1,5 @@
+package session;
+
 import com.jcraft.jsch.*;
 import java.io.*;
 
@@ -53,7 +55,7 @@ public class DatabaseSync {
             } else {
                 try (FileInputStream fis = new FileInputStream(file)) {
                     sftp.put(fis, remoteFilePath, ChannelSftp.OVERWRITE);
-                    System.out.println("Enviado: " + file.getAbsolutePath() + " -> " + remoteFilePath);
+                    //System.out.println("Enviado: " + file.getAbsolutePath() + " -> " + remoteFilePath);
                 } catch (Exception e) {
                     System.err.println("Falha ao enviar " + file.getName() + ": " + e.getMessage());
                 }

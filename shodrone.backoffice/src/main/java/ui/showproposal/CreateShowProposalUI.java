@@ -11,6 +11,7 @@ import domain.valueObjects.Description;
 import domain.valueObjects.Location;
 import domain.valueObjects.Video;
 import factories.FactoryProvider;
+import session.DatabaseSync;
 import utils.Utils;
 
 import java.time.Duration;
@@ -138,6 +139,7 @@ public class CreateShowProposalUI implements Runnable{
             Utils.dropLines(10);
             Utils.printShowProposalResume(registeredShowProposal.get());
             Utils.printSuccessMessage("\n✅ Show proposal successfully registered!");
+            DatabaseSync.sync();
             Utils.waitForUser();
 
         } catch (Exception e) {
