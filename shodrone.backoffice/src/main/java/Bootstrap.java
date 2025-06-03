@@ -51,6 +51,7 @@ public class Bootstrap implements Runnable {
         repo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", Roles.ROLE_CRM_COLLABORATOR);
     }
 
+
     // --- Category Setup -------------------------------------------------
     private void addCategories() {
         RepositoryProvider.figureCategoryRepository().save(category1);
