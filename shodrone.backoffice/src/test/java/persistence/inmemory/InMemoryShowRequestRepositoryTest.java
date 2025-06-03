@@ -2,10 +2,10 @@ package persistence.inmemory;
 
 import static org.junit.jupiter.api.Assertions.*;
 import domain.entity.Costumer;
+import domain.valueObjects.Name;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import domain.valueObjects.*;
@@ -29,7 +29,7 @@ class InMemoryShowRequestRepositoryTest {
         repository = new InMemoryShowRequestRepository();
 
          costumer1 = new Costumer(1L,
-                eapli.framework.infrastructure.authz.domain.model.Name.valueOf("Jorge", "Ubaldo"),
+               Name.valueOf("Jorge"),
                 EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
                 new PhoneNumber("912861312"),
                 new NIF("123456789"),
@@ -37,7 +37,7 @@ class InMemoryShowRequestRepositoryTest {
         );
 
         costumer2 = new Costumer(2L,
-                eapli.framework.infrastructure.authz.domain.model.Name.valueOf("Romeu", "Mendes"),
+                Name.valueOf("Romeu Mends"),
                 EmailAddress.valueOf("maria.silva@shodrone.app"),
                 new PhoneNumber("923456789"),
                 new NIF("286500850"),
@@ -128,7 +128,7 @@ class InMemoryShowRequestRepositoryTest {
     void testFindByCostumerReturnsEmptyForUnknownCostumer() {
         repository.saveInStore(request1);
         Costumer unknown = new Costumer(3L,
-                Name.valueOf("Paulo", "Xu"),
+                Name.valueOf("Paulo Xu"),
                 EmailAddress.valueOf("carlos.ferreira@shodrone.app"),
                 new PhoneNumber("934567890"),
                 new NIF("248367080"),

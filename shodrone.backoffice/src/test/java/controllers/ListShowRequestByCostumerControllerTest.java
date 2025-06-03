@@ -2,11 +2,11 @@ package controllers;
 
 import controller.showrequest.ListShowRequestByCostumerController;
 import domain.entity.Costumer;
+import domain.valueObjects.Name;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
 import factories.FactoryProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -64,7 +64,7 @@ class ListShowRequestByCostumerControllerTest {
     @Test
     void testListShowRequestByCostumer_WithCostumerWithoutRequests_ThrowsException() {
         Costumer emptyCostumer = new Costumer(
-                Name.valueOf("Jorge", "Ubaldo"),
+                new Name("Jorge"),
                 EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
                 new PhoneNumber("912861312"),
                 new NIF("123456789"),

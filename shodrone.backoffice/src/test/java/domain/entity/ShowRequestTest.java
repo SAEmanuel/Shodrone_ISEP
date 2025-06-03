@@ -3,7 +3,7 @@ package domain.entity;
 import static org.junit.jupiter.api.Assertions.*;
 
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
+import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import domain.valueObjects.*;
@@ -21,7 +21,7 @@ class ShowRequestTest {
     private Figure figure;
 
     private final Costumer customer2 = new Costumer(
-            Name.valueOf("Maria", "Silva"),
+            Name.valueOf("Maria Silva"),
             EmailAddress.valueOf("maria.silva@shodrone.app"),
             new PhoneNumber("923456789"),
             new NIF("286500850"),
@@ -31,7 +31,7 @@ class ShowRequestTest {
     @BeforeEach
     void setUp() {
         // Criando dependências necessárias para o ShowRequest
-        costumer = new Costumer(Name.valueOf("John", "Doe"),
+        costumer = new Costumer(Name.valueOf("John Doe"),
                 EmailAddress.valueOf("john.doe@example.com"),
                 new PhoneNumber("912345678"),
                 new NIF("900000007"),

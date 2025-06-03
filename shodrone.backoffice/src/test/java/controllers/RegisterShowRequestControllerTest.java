@@ -5,7 +5,7 @@ import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
+import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.AuthUtils;
@@ -28,7 +28,7 @@ class RegisterShowRequestControllerTest {
         controller = new RegisterShowRequestController();
 
          Costumer realCostumer = new Costumer(
-                Name.valueOf("Jorge", "Ubaldo"),
+                Name.valueOf("Jorge Ubaldo"),
                 EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
                 new PhoneNumber("912861312"),
                 new NIF("123456789"),

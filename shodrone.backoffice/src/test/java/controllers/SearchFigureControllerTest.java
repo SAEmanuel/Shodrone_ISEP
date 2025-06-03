@@ -37,7 +37,7 @@ class SearchFigureControllerTest {
 
     // Sample Costumer to associate with figures
     private final Costumer customer = new Costumer(
-            eapli.framework.infrastructure.authz.domain.model.Name.valueOf("Jorge", "Ubaldo"),
+            Name.valueOf("Jorge"),
             EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
             new PhoneNumber("912861312"),
             new NIF("123456789"),

@@ -25,6 +25,7 @@ public class Bootstrap implements Runnable {
         //addShowRequest();
         initLists();
         //addProposals();
+        DatabaseSync.sync();
     }
 
 

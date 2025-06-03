@@ -1,8 +1,8 @@
 Exmos. Senhores
-[Agros Lda]
-[Rua das Rolas, 4470-198, Porto, Portugal]
-[123456789]
-Referência [#78] / [22/08/2025]
+[xxx Lda]
+[Rua xxx, 0000-000, Porto, Portugal]
+[000000000]
+Referência [#0] / [22/08/2025]
 Proposta de Show
 
 
@@ -13,19 +13,19 @@ Estando certos que seremos alvo da V/ preferência.
 Subscrevemo-nos ao dispor.
 Melhores cumprimentos,
 
-Francisco Santos
+[Francisco Santos]
 CRM Manager
 
-Anexo – Detalhes do Show [#78]
-Local de realização – Lat: 41.1810 || Lon: -8.6369
+Anexo – Detalhes do Show [#0]
+Local de realização – Lat: 41 || Lon: 8
 Data – [29/01/2026]
 Hora – [12:20]
-Duração – [20] minutos
+Duração – [0] minutos
 
 #Lista de drones utilizados
-[DJI Mavic 3 Classic] – [#10] unidades.
-[Shahed 136] – [#20] unidades.
-[DJI Phantom 4 Pro] – [#15] unidades.
+[DJI Mavic 3 Classic] – [#0] unidades.
+[Shahed 136] – [#0] unidades.
+[DJI Phantom 4 Pro] – [#0] unidades.
 
 #Lista de figuras
 [1º] – [Circle]

@@ -3,10 +3,10 @@ package controllers;
 import controller.user.RegisterCustomerController;
 import domain.entity.Costumer;
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
+import domain.valueObjects.Name;
 import persistence.CostumerRepository;
 import utils.Utils;
 import domain.valueObjects.*;
@@ -31,7 +31,7 @@ public class RegisterCustomerControllerTest {
 
     @Test
     void testRegisterCustomerSuccessfully() {
-        Name name = Name.valueOf("João","Pedro");
+        Name name = Name.valueOf("João Pedro");
         EmailAddress email = EmailAddress.valueOf("joao.pedro@shodrone.app");
         PhoneNumber phone = new PhoneNumber("912345678");
         NIF nif = new NIF("123456789");
@@ -42,8 +42,7 @@ public class RegisterCustomerControllerTest {
         when(mockRepository.saveInStore(any(Costumer.class), eq(nif)))
                 .thenReturn(Optional.of(expected));
 
-        domain.valueObjects.Name newName = Utils.convertName(name);
-        Optional<Costumer> result = controller.registerCustomer(newName, email, phone, nif, address);
+        Optional<Costumer> result = controller.registerCustomer(name, email, phone, nif, address);
 
         assertTrue(result.isPresent());
         assertEquals(expected, result.get());
@@ -52,7 +51,7 @@ public class RegisterCustomerControllerTest {
 
     @Test
     void testRegisterCustomerFailsReturnsEmpty() {
-        Name name = Name.valueOf("Ana","Lima");
+        Name name = Name.valueOf("Ana Lima");
         EmailAddress email = EmailAddress.valueOf("ana.lima@shodrone.app");
         PhoneNumber phone = new PhoneNumber("912345679");
         NIF nif = new NIF("123456789");
@@ -61,9 +60,9 @@ public class RegisterCustomerControllerTest {
         when(mockRepository.saveInStore(any(Costumer.class), eq(nif)))
                 .thenReturn(Optional.empty());
 
-        domain.valueObjects.Name newName = Utils.convertName(name);
 
-        Optional<Costumer> result = controller.registerCustomer(newName, email, phone, nif, address);
+
+        Optional<Costumer> result = controller.registerCustomer(name, email, phone, nif, address);
 
         assertTrue(result.isEmpty());
         verify(mockRepository).saveInStore(any(Costumer.class), eq(nif));

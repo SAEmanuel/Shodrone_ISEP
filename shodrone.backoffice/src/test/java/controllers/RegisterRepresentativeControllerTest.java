@@ -43,7 +43,7 @@ public class RegisterRepresentativeControllerTest {
         String password = "securePassword123";
 
         Costumer costumer = new Costumer(
-                eapli.framework.infrastructure.authz.domain.model.Name.valueOf("Ana", "Lima"),
+                Name.valueOf("Ana Lima"),
                 EmailAddress.valueOf(email.getEmail()),
                 phone,
                 new NIF("123456789"),
@@ -56,7 +56,7 @@ public class RegisterRepresentativeControllerTest {
         boolean result = controller.registerRepresentative(costumer, name, email, phone, position, password);
 
         assertTrue(result);
-        verify(mockRepository).save(any(CustomerRepresentative.class));
+        verify(mockRepository).saveInStore(any(CustomerRepresentative.class));
         verify(mockUserController).registerUser(
                 eq(name.name()),
                 eq(email.getEmail()),

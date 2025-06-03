@@ -8,7 +8,7 @@ import java.net.Socket;
 
 public class AuthenticationController {
 
-    private static final String SERVER_HOST = "10.8.0.80"; //"localhost" for local pc
+    private static final String SERVER_HOST = "10.9.23.21"; //"localhost" for local pc
     private static final int SERVER_PORT = 9000;
 
 

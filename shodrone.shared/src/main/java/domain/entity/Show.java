@@ -34,9 +34,10 @@ public class Show extends DomainEntityBase<Long> implements AggregateRoot<Long>,
     @JoinColumn(name = "Show_Proposal_Accepted_ID")
     private ShowProposal showProposalAcceptedID;
 
-    @Getter
     @Setter
-    @Column(name = "Figures",nullable = false)
+    @Getter
+    @OneToMany(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "show_request_id")
     private List<Figure> sequenceFigures = new ArrayList<>();
 
     @Getter

@@ -6,7 +6,7 @@ import domain.valueObjects.Address;
 import domain.valueObjects.NIF;
 import domain.valueObjects.PhoneNumber;
 import eapli.framework.general.domain.model.EmailAddress;
-import eapli.framework.infrastructure.authz.domain.model.Name;
+import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +21,7 @@ class CostumerTest {
 
     @BeforeEach
     void setUp() {
-        name = Name.valueOf("John", "Doe");
+        name = Name.valueOf("John Doe");
         email = EmailAddress.valueOf("john.doe@example.com");
         phone = new PhoneNumber("912345678");
         nif = new NIF("900000007");
@@ -61,7 +61,7 @@ class CostumerTest {
 
     @Test
     void testEqualsSameNIF() {
-        Costumer other = new Costumer(Name.valueOf("Another", "Name"),
+        Costumer other = new Costumer(Name.valueOf("Another Name"),
                 EmailAddress.valueOf("another@example.com"),
                 new PhoneNumber("934567890"),
                 new NIF("900000007"),
@@ -72,7 +72,7 @@ class CostumerTest {
 
     @Test
     void testNotEqualsDifferentNIF() {
-        Costumer other = new Costumer(Name.valueOf("Different", "Person"),
+        Costumer other = new Costumer(Name.valueOf("Different Person"),
                 EmailAddress.valueOf("different@example.com"),
                 new PhoneNumber("912861312"),
                 new NIF("245716084"),
