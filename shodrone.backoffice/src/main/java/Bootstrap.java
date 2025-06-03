@@ -21,10 +21,10 @@ public class Bootstrap implements Runnable {
         addFigures();
         addDroneModels();
         addDrones();
-        //addRepresentatives();
-        //addShowRequest();
+        addRepresentatives();
         initLists();
-        //addProposals();
+        addShowRequest();
+        addProposals();
         DatabaseSync.sync();
     }
 
@@ -158,31 +158,31 @@ public class Bootstrap implements Runnable {
     // --- Lists Setup ---------------------------------------------------
 
     private void initLists() {
-        list1.add(figure1);
+        list1.add(foundFigure(1L));
 
-        list2.add(figure2);
-        list2.add(figure3);
+        list2.add(foundFigure(2L));
+        list2.add(foundFigure(3L));
 
-        list3.add(figure4);
-        list3.add(figure5);
-        list3.add(figure6);
+        list3.add(foundFigure(4L));
+        list3.add(foundFigure(5L));
+        list3.add(foundFigure(6L));
 
-        list4.add(figure7);
-        list4.add(figure8);
-        list4.add(figure9);
-        list4.add(figure10);
+        list4.add(foundFigure(7L));
+        list4.add(foundFigure(8L));
+        list4.add(foundFigure(9L));
+        list4.add(foundFigure(10L));
 
-        list5.add(figure11);
-        list5.add(figure12);
-        list5.add(figure13);
-        list5.add(figure14);
-        list5.add(figure15);
+        list5.add(foundFigure(11L));
+        list5.add(foundFigure(12L));
+        list5.add(foundFigure(13L));
+        list5.add(foundFigure(14L));
+        list5.add(foundFigure(15L));
 
-        list6.add(figure16);
-        list6.add(figure17);
-        list6.add(figure18);
-        list6.add(figure19);
-        list6.add(figure20);
+        list6.add(foundFigure(16L));
+        list6.add(foundFigure(17L));
+        list6.add(foundFigure(18L));
+        list6.add(foundFigure(19L));
+        list6.add(foundFigure(20L));
     }
 
     // --- Show Proposals Setup ---------------------------------------------------
@@ -407,6 +407,11 @@ public class Bootstrap implements Runnable {
     // ---- -------------------
     private Costumer foundCostumerByNIF(NIF nif){
         Optional<Costumer> result = RepositoryProvider.costumerRepository().findByNIF(nif);
+        return result.orElse(null);
+    }
+
+    private Figure foundFigure(Long id){
+        Optional<Figure> result = RepositoryProvider.figureRepository().findFigure(id);
         return result.orElse(null);
     }
 }

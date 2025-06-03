@@ -258,4 +258,14 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         Figure updated = update(figure);
         return Optional.ofNullable(updated);
     }
+
+    @Override
+    public Optional<Figure> findFigure(Long figureId){
+        Figure figure = findById(figureId);
+        if( figure == null){
+            return Optional.empty();
+        }
+        return Optional.of(figure);
+    }
+
 }

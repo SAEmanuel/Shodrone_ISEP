@@ -270,4 +270,16 @@ public class InMemoryFigureRepository implements FigureRepository {
 
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Figure> findFigure(Long figureIdbility){
+        Figure figure = store.get(figureIdbility);
+
+        if(figure == null){
+            return Optional.empty();
+        }
+
+        return Optional.of(figure);
+    }
+
 }

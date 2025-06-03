@@ -77,4 +77,6 @@ public interface FigureRepository {
      */
     List<Figure> findAllPublicFigures();
 
+    Optional<Figure> findFigure(Long figureIdbility);
+
 }
