@@ -8,7 +8,6 @@ import eapli.framework.general.domain.model.EmailAddress;
 import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import utils.AuthUtils;
 import domain.valueObjects.*;
 
 import java.io.IOException;

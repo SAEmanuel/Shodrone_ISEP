@@ -1,6 +1,7 @@
 package ui;
 
 
+import ui.show.CheckShowDatesUI;
 import utils.MenuItem;
 import ui.menu.ShowTextUI;
 import utils.Utils;
@@ -21,6 +22,7 @@ public class RepresentativeUI implements Runnable {
         options.add(new MenuItem("Analyse Proposal", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Approve/Reject Proposal", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Consult Shows Agenda", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Check Show's Dates", new CheckShowDatesUI()));
 
         int option = 0;
         do {

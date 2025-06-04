@@ -5,14 +5,12 @@ import domain.entity.ShowRequest;
 import domain.entity.Figure;
 import domain.valueObjects.Description;
 import domain.valueObjects.Location;
-import domain.valueObjects.ShowProposalStatus;
 import eapli.framework.domain.model.DomainFactory;
 import utils.AuthUtils;
 import utils.Utils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 

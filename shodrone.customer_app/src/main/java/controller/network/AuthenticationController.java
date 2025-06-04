@@ -1,6 +1,8 @@
-package network;
+package controller.network;
 
 import com.google.gson.Gson;
+import network.UserDTO;
+
 import static more.ColorfulOutput.*;
 
 import java.io.*;

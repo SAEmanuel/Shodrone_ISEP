@@ -1,7 +1,7 @@
 package utils;
 
-import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
+import persistence.RepositoryProvider;
 
 /**
  * Utility class for retrieving authentication-related data.

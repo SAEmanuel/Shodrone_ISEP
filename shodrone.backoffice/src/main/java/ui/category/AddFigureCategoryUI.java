@@ -4,8 +4,8 @@ import controller.category.AddFigureCategoryController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
-import utils.AuthUtils;
 import domain.entity.Email;
+import utils.AuthUtils;
 import utils.Utils;
 
 import java.util.Optional;
