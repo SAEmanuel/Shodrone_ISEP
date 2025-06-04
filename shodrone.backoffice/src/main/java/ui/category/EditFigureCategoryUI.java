@@ -5,7 +5,6 @@ import controller.category.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
-import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
@@ -77,7 +76,6 @@ public class EditFigureCategoryUI implements Runnable {
                     figureCategory -> Utils.printSuccessMessage("Category updated successfully!"),
                     () -> Utils.printFailMessage("Failed to update category.")
             );
-            DatabaseSync.sync();
         } else {
             Utils.printFailMessage("No categories in the system yet...");
         }

@@ -226,13 +226,14 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
 
         String sql = "SELECT * FROM users u " +
                 "JOIN user_roles ur ON u.email = ur.user_email " +
-                "WHERE u.email = ? AND ur.role_id = ?";
+                "WHERE u.email = ? AND ur.role_id = ? AND u.ACTIVE = true";
         List<User> result = entityManager().createNativeQuery(sql, User.class)
                 .setParameter(1, email)
                 .setParameter(2, Roles.ROLE_CUSTOMER_REPRESENTATIVE)
                 .getResultList();
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
+
 
 
 }

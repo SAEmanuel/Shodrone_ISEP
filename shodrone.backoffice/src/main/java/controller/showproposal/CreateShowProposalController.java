@@ -19,7 +19,7 @@ public class CreateShowProposalController {
 
     // Data collected from the user for the show request
     private ShowRequest showRequest;
-    private ShowTemplate showTemplate;
+    private ProposalTemplate proposalTemplate;
     private List<Figure> sequenceFigures;
     private Description description;
     private Location location;
@@ -32,7 +32,7 @@ public class CreateShowProposalController {
 
     public Optional<ShowProposal> registerShowProposal(
             ShowRequest showRequest,
-            ShowTemplate template,
+            ProposalTemplate template,
             List<Figure> sequenceFigures,
             Description description,
             Location location,

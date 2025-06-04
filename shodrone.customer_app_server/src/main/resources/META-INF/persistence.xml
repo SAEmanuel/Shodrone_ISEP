@@ -19,24 +19,23 @@
     <class>domain.entity.UserRole</class>
     <class>domain.entity.User</class>
     <class>domain.entity.ShowProposal</class>
-    <class>domain.entity.ShowTemplate</class>
+    <class>domain.entity.ProposalTemplate</class>
     <class>domain.entity.MaintenanceType</class>
     <class>domain.valueObjects.MaintenanceTypeName</class>
 
-
-    <!-- Scan automatic entities (requires entities in correct packages) -->
     <properties>
       <!-- JDBC config -->
-      <property name="jakarta.persistence.jdbc.driver" value="org.h2.Driver"/>
-      <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:./db/shodrone_backoffice"/>
+      <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://10.9.23.21:5432/shodrone_db"/>
       <property name="jakarta.persistence.jdbc.user" value="user"/>
       <property name="jakarta.persistence.jdbc.password" value="password"/>
 
       <!-- Hibernate dialect -->
-      <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 
       <!-- Schema generation -->
-      <property name="jakarta.persistence.schema-generation.database.action" value="create"/>
+      <!-- USE THIS INSTEAD OF jakarta.persistence.schema-generation.database.action -->
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
 
       <!-- show SQL in console -->
       <property name="hibernate.show_sql" value="false"/>

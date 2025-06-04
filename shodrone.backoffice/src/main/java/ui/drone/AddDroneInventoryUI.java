@@ -7,7 +7,6 @@ import domain.entity.Drone;
 import domain.entity.DroneModel;
 import domain.valueObjects.DroneStatus;
 import domain.valueObjects.SerialNumber;
-import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
@@ -150,7 +149,6 @@ public class AddDroneInventoryUI implements Runnable {
         System.out.println();
         if (result.isPresent()) {
             Utils.printSuccessMessage("Drone added successfully!");
-            DatabaseSync.sync();
         } else {
             Utils.printFailMessage("A Drone with that Serial Number already exists in the system!");
         }

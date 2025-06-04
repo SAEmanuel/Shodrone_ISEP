@@ -5,7 +5,6 @@ import controller.drone.RemoveDroneInventoryController;
 import domain.entity.Drone;
 import domain.valueObjects.DroneRemovalLog;
 import domain.valueObjects.DroneStatus;
-import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
@@ -53,7 +52,6 @@ public class RemoveDroneInventoryUI implements Runnable {
                 Utils.printFailMessage("Removal failed!");
             } else {
                 Utils.printSuccessMessage("Drone removed successfully!");
-                DatabaseSync.sync();
             }
         } catch (RuntimeException ignored) {}
     }

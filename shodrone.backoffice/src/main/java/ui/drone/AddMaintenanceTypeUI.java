@@ -4,7 +4,6 @@ import controller.drone.AddMaintenanceTypeController;
 import domain.entity.MaintenanceType;
 import domain.valueObjects.Description;
 import domain.valueObjects.MaintenanceTypeName;
-import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.Optional;
@@ -44,7 +43,6 @@ public class AddMaintenanceTypeUI implements Runnable {
         if (result.isPresent()) {
             System.out.println();
             Utils.printSuccessMessage("Maintenance Type created successfully!");
-            DatabaseSync.sync();
         } else {
             System.out.println();
             Utils.printFailMessage("A Maintenance Type with that name already exists!");

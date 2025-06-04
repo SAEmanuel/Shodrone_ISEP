@@ -3,8 +3,6 @@ package ui.figure;
 import controller.figure.DecommissionFigureController;
 import controller.figure.GetAllActiveFiguresController;
 import domain.entity.Figure;
-import domain.entity.FigureCategory;
-import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
@@ -51,7 +49,6 @@ public class DecommissionFigureUI implements Runnable {
 
         if (result.isPresent() && !result.isEmpty()) {
             Utils.printSuccessMessage("Decommission Figure successfully");
-            DatabaseSync.sync();
         } else {
             Utils.printFailMessage("Error: Decommitting failed! Figure already decommissioned!");
         }

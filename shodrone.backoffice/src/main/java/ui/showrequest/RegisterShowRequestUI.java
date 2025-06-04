@@ -4,7 +4,6 @@ import controller.showrequest.RegisterShowRequestController;
 import domain.entity.Costumer;
 import domain.entity.ShowRequest;
 import factories.FactoryProvider;
-import session.DatabaseSync;
 import ui.customer.FoundCostumerUI;
 import utils.Utils;
 
@@ -96,7 +95,6 @@ public class RegisterShowRequestUI implements Runnable {
             ShowRequest registeredShowRequest = getRegisterShowcontroller().registerShowRequest();
             Utils.printShowRequestResume(registeredShowRequest);
             Utils.printSuccessMessage("\n✅ Show request successfully registered!");
-            DatabaseSync.sync();
             Utils.waitForUser();
 
         } catch (Exception e) {

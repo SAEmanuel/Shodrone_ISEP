@@ -4,7 +4,6 @@ import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
-import session.DatabaseSync;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -21,14 +20,11 @@ public class Bootstrap implements Runnable {
         addFigures();
         addDroneModels();
         addDrones();
-        addRepresentatives();
+        //addRepresentatives();
+        //addShowRequest();
         initLists();
-        addShowRequest();
-        addProposals();
-        DatabaseSync.sync();
+        //addProposals();
     }
-
-
 
 
     // --- User Setup -----------------------------------------------------
@@ -81,10 +77,6 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.costumerRepository().saveInStore(customer1, customer1.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer2, customer2.nif());
         RepositoryProvider.costumerRepository().saveInStore(customer3, customer3.nif());
-        AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
-        repo.addUserWithRole("Microsoft","jorgeUbaldo@shodrone.app","Jorge123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("Apple","francisco@shodrone.app","Franc123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("Continente","paulo@shodrone.app","Paulo123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
     }
 
     // --- Representative Setup -------------------------------------------------
@@ -162,31 +154,31 @@ public class Bootstrap implements Runnable {
     // --- Lists Setup ---------------------------------------------------
 
     private void initLists() {
-        list1.add(foundFigure(1L));
+        list1.add(figure1);
 
-        list2.add(foundFigure(2L));
-        list2.add(foundFigure(3L));
+        list2.add(figure2);
+        list2.add(figure3);
 
-        list3.add(foundFigure(4L));
-        list3.add(foundFigure(5L));
-        list3.add(foundFigure(6L));
+        list3.add(figure4);
+        list3.add(figure5);
+        list3.add(figure6);
 
-        list4.add(foundFigure(7L));
-        list4.add(foundFigure(8L));
-        list4.add(foundFigure(9L));
-        list4.add(foundFigure(10L));
+        list4.add(figure7);
+        list4.add(figure8);
+        list4.add(figure9);
+        list4.add(figure10);
 
-        list5.add(foundFigure(11L));
-        list5.add(foundFigure(12L));
-        list5.add(foundFigure(13L));
-        list5.add(foundFigure(14L));
-        list5.add(foundFigure(15L));
+        list5.add(figure11);
+        list5.add(figure12);
+        list5.add(figure13);
+        list5.add(figure14);
+        list5.add(figure15);
 
-        list6.add(foundFigure(16L));
-        list6.add(foundFigure(17L));
-        list6.add(foundFigure(18L));
-        list6.add(foundFigure(19L));
-        list6.add(foundFigure(20L));
+        list6.add(figure16);
+        list6.add(figure17);
+        list6.add(figure18);
+        list6.add(figure19);
+        list6.add(figure20);
     }
 
     // --- Show Proposals Setup ---------------------------------------------------
@@ -247,9 +239,9 @@ public class Bootstrap implements Runnable {
     );
 
     // --- Representative ------------------------------------------------------
-    private final CustomerRepresentative representativeMicrosoft = new CustomerRepresentative(foundCostumerByNIF(new NIF("123456789")),new domain.valueObjects.Name("Jorge Ubaldo"),new Email("jorgeUbaldo@shodrone.app"),new PhoneNumber("914861312"),"CEO");
-    private final CustomerRepresentative representativeApple = new CustomerRepresentative(foundCostumerByNIF(new NIF("286500850")),new domain.valueObjects.Name("Francisco"),new Email("francisco@shodrone.app"),new PhoneNumber("912856060"),"CEO");
-    private final CustomerRepresentative representativeContinente = new CustomerRepresentative(foundCostumerByNIF(new NIF("248367080")),new domain.valueObjects.Name("Paulo Mendes"),new Email("paulo@shodrone.app"),new PhoneNumber("912809789"),"CEO");
+    private final CustomerRepresentative representativeMicrosoft = new CustomerRepresentative(foundCostumerByNIF(new NIF("123456789")), new domain.valueObjects.Name("Jorge Ubaldo"), new Email("jorgeUbaldo@shodrone.app"), new PhoneNumber("914861312"), "CEO");
+    private final CustomerRepresentative representativeApple = new CustomerRepresentative(foundCostumerByNIF(new NIF("286500850")), new domain.valueObjects.Name("Francisco"), new Email("francisco@shodrone.app"), new PhoneNumber("912856060"), "CEO");
+    private final CustomerRepresentative representativeContinente = new CustomerRepresentative(foundCostumerByNIF(new NIF("248367080")), new domain.valueObjects.Name("Paulo Mendes"), new Email("paulo@shodrone.app"), new PhoneNumber("912809789"), "CEO");
 
     // --- Figures --------------------------------------------------------
     private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
@@ -350,7 +342,7 @@ public class Bootstrap implements Runnable {
     private final ShowRequest showRequest1 = new ShowRequest(2L,
             LocalDateTime.now(), ShowRequestStatus.PENDING,
             "crm_collaborator@shodrone.app", foundCostumerByNIF(new NIF("123456789")),
-            Arrays.asList(figure1,figure2,figure3),
+            Arrays.asList(figure1, figure2, figure3),
             description1, location1,
             LocalDateTime.now().plusHours(1),
             10,
@@ -375,47 +367,40 @@ public class Bootstrap implements Runnable {
             Duration.ofMinutes(45));
 
 
-
-
     // --- Proposals -----------------------------------------------------------
-    private final ShowProposal proposal1 = new ShowProposal(showRequest1, null,list1,
+    private final ShowProposal proposal1 = new ShowProposal(showRequest1, null, list1,
             new Description("Description 1"),
-            new Location(new Address("Street1","City1","4444-000","Country1"),60,120,"Description"),
-            LocalDateTime.now().plusDays(3L),10, Duration.ofMinutes(60),
-            "crm_collaborator@shodrone.app",LocalDateTime.now(),"Prop1");
+            new Location(new Address("Street1", "City1", "4444-000", "Country1"), 60, 120, "Description"),
+            LocalDateTime.now().plusDays(3L), 10, Duration.ofMinutes(60),
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop1");
 
     private final ShowProposal proposal2 = new ShowProposal(showRequest1, null, list2,
             new Description("Description 2"),
             new Location(new Address("Street2", "City2", "5555-111", "Country2"), 50, 100, "Another description"),
             LocalDateTime.now().plusDays(5L), 15, Duration.ofMinutes(45),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(),"Prop2");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop2");
 
     private final ShowProposal proposal3 = new ShowProposal(showRequest2, null, list3,
             new Description("Description 3"),
             new Location(new Address("Street3", "City3", "6666-222", "Country3"), 45, 150, "Yet another description"),
             LocalDateTime.now().plusDays(7L), 20, Duration.ofMinutes(90),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(),"Prop3");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop3");
 
     private final ShowProposal proposal4 = new ShowProposal(showRequest2, null, list4,
             new Description("Description 4"),
             new Location(new Address("Street4", "City4", "7777-333", "Country4"), 80, 130, "Different description"),
             LocalDateTime.now().plusDays(10L), 12, Duration.ofMinutes(75),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(),"Prop4");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop4");
 
     private final ShowProposal proposal5 = new ShowProposal(showRequest3, null, list5,
             new Description("Description 5"),
             new Location(new Address("Street5", "City5", "8888-444", "Country5"), 80, 110, "Some description here"),
             LocalDateTime.now().plusDays(12L), 18, Duration.ofMinutes(120),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(),"Prop5");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop5");
 
     // ---- -------------------
-    private Costumer foundCostumerByNIF(NIF nif){
+    private Costumer foundCostumerByNIF(NIF nif) {
         Optional<Costumer> result = RepositoryProvider.costumerRepository().findByNIF(nif);
-        return result.orElse(null);
-    }
-
-    private Figure foundFigure(Long id){
-        Optional<Figure> result = RepositoryProvider.figureRepository().findFigure(id);
         return result.orElse(null);
     }
 }

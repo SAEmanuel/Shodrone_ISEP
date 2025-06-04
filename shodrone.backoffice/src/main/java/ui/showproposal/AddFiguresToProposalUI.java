@@ -4,12 +4,10 @@ import controller.service.ServiceForValidSequenceFiguresForShow;
 import controller.showproposal.AddFiguresToProposalController;
 import domain.entity.Figure;
 import domain.entity.ShowProposal;
-import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Queue;
 
 import static more.ColorfulOutput.*;
 
@@ -63,7 +61,6 @@ public class AddFiguresToProposalUI implements Runnable {
                 for(Figure figure : optionalResult.get().getSequenceFigues()){
                     System.out.println(figure.toString());
                 }
-                DatabaseSync.sync();
             }
             Utils.waitForUser();
         } catch (Exception e) {

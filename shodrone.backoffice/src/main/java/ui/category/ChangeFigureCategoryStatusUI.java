@@ -3,7 +3,6 @@ package ui.category;
 import controller.category.ChangeFigureCategoryStatusController;
 import controller.category.GetFigureCategoriesController;
 import domain.entity.FigureCategory;
-import session.DatabaseSync;
 import utils.Utils;
 
 import java.util.List;
@@ -44,7 +43,6 @@ public class ChangeFigureCategoryStatusUI implements Runnable {
                     Utils.printFailMessage("Failed to change category status");
                 } else {
                     Utils.printSuccessMessage("Category status changed");
-                    DatabaseSync.sync();
                 }
 
             } else {
