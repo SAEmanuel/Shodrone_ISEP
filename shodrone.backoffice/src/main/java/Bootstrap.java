@@ -24,6 +24,7 @@ public class Bootstrap implements Runnable {
         //addShowRequest();
         initLists();
         //addProposals();
+        addMaintenanceTypes();
     }
 
 
@@ -142,6 +143,16 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.droneRepository().save(drone19);
         RepositoryProvider.droneRepository().save(drone20);
     }
+
+    // --- Maintenance Type Setup ---------------------------------------------------
+    private void addMaintenanceTypes() {
+        RepositoryProvider.maintenanceTypeRepository().save(maintenanceType1);
+        RepositoryProvider.maintenanceTypeRepository().save(maintenanceType2);
+        RepositoryProvider.maintenanceTypeRepository().save(maintenanceType3);
+        RepositoryProvider.maintenanceTypeRepository().save(maintenanceType4);
+        RepositoryProvider.maintenanceTypeRepository().save(maintenanceType5);
+    }
+
 
     // --- Show Request Setup ---------------------------------------------------
 
@@ -328,6 +339,35 @@ public class Bootstrap implements Runnable {
     private final Drone drone18 = new Drone(new SerialNumber("SN-00018"), droneModel5);
     private final Drone drone19 = new Drone(new SerialNumber("SN-00019"), droneModel5);
     private final Drone drone20 = new Drone(new SerialNumber("SN-00020"), droneModel5);
+
+    // --- Maintenance Types ------------------------------------------------------
+
+    private final MaintenanceType maintenanceType1 = new MaintenanceType(
+            new MaintenanceTypeName("Battery Replacement"),
+            new Description("Replace the drone's battery with a new unit to ensure full power and safe operation.")
+    );
+
+    private final MaintenanceType maintenanceType2 = new MaintenanceType(
+            new MaintenanceTypeName("Propeller Check"),
+            new Description("Inspect and replace damaged or worn propellers to ensure stable flight.")
+    );
+
+    private final MaintenanceType maintenanceType3 = new MaintenanceType(
+            new MaintenanceTypeName("Firmware Update"),
+            new Description("Update the drone's firmware to the latest version to improve performance and security.")
+    );
+
+    private final MaintenanceType maintenanceType4 = new MaintenanceType(
+            new MaintenanceTypeName("Gimbal Calibration"),
+            new Description("Recalibrate the gimbal to ensure smooth video capture and camera stability.")
+    );
+
+    private final MaintenanceType maintenanceType5 = new MaintenanceType(
+            new MaintenanceTypeName("Sensor Cleaning"),
+            new Description("Clean all external sensors to maintain accurate obstacle detection and GPS positioning.")
+    );
+
+
 
     // --- Show Request -----------------------------------------------------------
 

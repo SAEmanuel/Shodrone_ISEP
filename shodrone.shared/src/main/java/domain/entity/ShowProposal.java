@@ -120,7 +120,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     protected ShowProposal() {
     }
 
-    public ShowProposal(ShowRequest showRequest, ShowTemplate template, List<Figure> sequenceFigues
+    public ShowProposal(ShowRequest showRequest, ProposalTemplate template, List<Figure> sequenceFigues
             , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate,String version ) {
 
         this.showRequest = showRequest;
