@@ -9,6 +9,7 @@ import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import domain.valueObjects.*;
+import utils.AuthUtils;
 
 import java.io.IOException;
 import java.time.Duration;
