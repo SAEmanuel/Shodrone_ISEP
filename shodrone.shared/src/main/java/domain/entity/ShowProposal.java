@@ -46,10 +46,15 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
 //    @JoinColumn(name = "Show_Proposal_Template")
 //    private ShowTemplate template;
 
+
     @Setter
     @Getter
     @OneToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "Show_Proposal")
+    @JoinTable(
+            name = "show_proposal_figures",
+            joinColumns = @JoinColumn(name = "Show_Proposal_ID"),
+            inverseJoinColumns = @JoinColumn(name = "figureId")
+    )
     private List<Figure> sequenceFigues;
 
     @Embedded

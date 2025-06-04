@@ -43,7 +43,7 @@ public class ShowRequest extends DomainEntityBase<Long> implements AggregateRoot
      */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "identification", nullable = false, unique = true)
+    @Column(name = "Show_Request_ID", nullable = false, unique = true)
     private Long showRequestId;
 
     /**
@@ -73,17 +73,22 @@ public class ShowRequest extends DomainEntityBase<Long> implements AggregateRoot
      * Costumer associated with the show request.
      */
     @Getter
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.MERGE)
     @JoinColumn(name = "costumer_id", nullable = false)
     private Costumer costumer;
+
 
     /**
      * List of figures selected for the show.
      */
     @Setter
     @Getter
-    @OneToMany(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "show_request_id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinTable(
+            name = "show_request_figures",
+            joinColumns = @JoinColumn(name = "Show_Request_ID"),
+            inverseJoinColumns = @JoinColumn(name = "figureId")
+    )
     private List<Figure> figures;
 
     /**
