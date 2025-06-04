@@ -1,8 +1,8 @@
 package ui.show;
 
+import controller.network.AuthenticationController;
 import controller.show.CheckShowDatesController;
 import domain.entity.Show;
-import utils.AuthUtils;
 import utils.Utils;
 
 import java.util.List;
@@ -20,12 +20,14 @@ public class CheckShowDatesUI implements Runnable {
         Utils.printCenteredTitle("CHECK SHOW DATES");
 
         try {
-            Optional<List<Show>>  listOfShows= controller.getShowsForCustomer(AuthUtils.getCurrentUserEmail());
+            String email = AuthenticationController.getEmailLogin();
+            System.out.println("Email: " + email);
+            Optional<List<Show>>  listOfShows = controller.getShowsForCustomer(email);
 
             if(listOfShows.isEmpty()){
-                Utils.printFailMessage("\n✖️ Check Show Dates for Customer Can't be Loaded!");
+                Utils.printFailMessage("\n✖ No shows found for the associated customer to representative with Email [" + email + "].");
             }else{
-                Utils.printSuccessMessage("\n✔️ Check Show Dates for Customer Successfully Loaded!");
+                Utils.printSuccessMessage("\n✔ Check Show Dates for Customer Successfully Loaded!");
                 for(Show show : listOfShows.get()){
                     System.out.println(show.toString());
                 }

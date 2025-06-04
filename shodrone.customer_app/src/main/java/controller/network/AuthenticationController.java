@@ -12,13 +12,26 @@ public class AuthenticationController {
 
     private static final String SERVER_HOST = "10.9.23.21"; //"localhost" for local pc
     private static final int SERVER_PORT = 9000;
+    private static String EMAIL_LOGIN = null;
 
+    public static String getEmailLogin() {
+        return EMAIL_LOGIN;
+    }
+
+    public static String getServerHost() {
+        return SERVER_HOST;
+    }
+
+    public static int getServerPort() {
+        return SERVER_PORT;
+    }
 
     public boolean doLogin(String email, String password) {
         try (Socket socket = new Socket(SERVER_HOST, SERVER_PORT);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
+            EMAIL_LOGIN = email;
             UserDTO userDTO = new UserDTO(email, password);
             Gson gson = new Gson();
             String loginJson = gson.toJson(userDTO);

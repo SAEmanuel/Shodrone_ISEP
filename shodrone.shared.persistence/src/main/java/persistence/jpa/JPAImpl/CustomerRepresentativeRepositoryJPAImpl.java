@@ -32,21 +32,27 @@ public class CustomerRepresentativeRepositoryJPAImpl
         add(entity);
         return Optional.of(entity);
     }
+
     @Override
-    public Optional<Costumer> getAssociatedCustomer(String emailOfRepresentative){
+    public Optional<Costumer> getAssociatedCustomer(String emailOfRepresentative) {
         if (emailOfRepresentative == null) return Optional.empty();
 
-        List<CustomerRepresentative> requests = entityManager()
-                .createQuery("SELECT s FROM CustomerRepresentative s WHERE s.costumer.email = :email", CustomerRepresentative.class)
-                .setParameter("email", emailOfRepresentative)
+        List<CustomerRepresentative> reps = entityManager()
+                .createQuery("SELECT r FROM CustomerRepresentative r ", CustomerRepresentative.class)
                 .getResultList();
 
-        if(requests.isEmpty()){
-            return Optional.empty();
+        for(CustomerRepresentative rep : reps){
+            System.out.println(rep);
         }
 
-        return Optional.of(requests.get(0).getCostumer());
+        if (reps.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.empty();
+
+        //return Optional.ofNullable(reps.get(0).getCostumer());
     }
+
 
 
     public boolean findCostumer(Costumer costumer) {
