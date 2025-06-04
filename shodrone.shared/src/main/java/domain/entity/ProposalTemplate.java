@@ -1,10 +1,13 @@
 package domain.entity;
 
+import domain.valueObjects.Content;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import jakarta.persistence.*;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @XmlRootElement
 @Entity
@@ -17,8 +20,8 @@ public class ProposalTemplate {
     @Column(nullable = false)
     private Name name;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
+    @Column(nullable = false, columnDefinition = "Content")
+    private List<String> text;
 
     @Column
     private Description description;
@@ -31,10 +34,10 @@ public class ProposalTemplate {
         this.createdAt = LocalDateTime.now();
     }
 
-    public ProposalTemplate(Name name, String content, Description description) {
+    public ProposalTemplate(Name name, Description description, List<String> text) {
         this();
         this.name = name;
-        this.content = content;
+        this.text = text;
         this.description = description;
     }
 
@@ -52,12 +55,12 @@ public class ProposalTemplate {
         this.name = name;
     }
 
-    public String content() {
-        return content;
+    public List<String> text() {
+        return text;
     }
 
-    public void changeContent(String content) {
-        this.content = content;
+    public void changeContent(List<String> text) {
+        this.text = text;
     }
 
     public Description description() {

@@ -1,5 +1,7 @@
 package ui.users;
 
+
+import ui.showproposal.RegisterProposalTemplateUI;
 import ui.showrequest.ListShowRequestByCostumerUI;
 import utils.MenuItem;
 import ui.menu.ShowTextUI;
@@ -43,7 +45,7 @@ public class CRMManagerUI implements Runnable {
         List<MenuItem> options = new ArrayList<>();
         options.add(new MenuItem("List Show Request of Clients", new ListShowRequestByCostumerUI()));
         options.add(new MenuItem("Change Costumer Status", new ShowTextUI("Not implemented yet.")));
-        options.add(new MenuItem("Manage Proposal Templates", new ShowTextUI("Not implemented yet.")));
+        options.add(new MenuItem("Create Proposal Template", new RegisterProposalTemplateUI()));
         options.add(new MenuItem("Manage Clients", new ShowTextUI("Not implemented yet.")));
 
         int option;

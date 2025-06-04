@@ -4,11 +4,12 @@ import history.AuditLoggerService;
 import lombok.Setter;
 import persistence.inmemory.*;
 import persistence.jpa.JPAImpl.*;
+
 /**
  * The {@code RepositoryProvider} class is responsible for providing access to persistence repositories
  * for various entities in the system. It uses the Singleton design pattern to ensure that only one instance
  * of each repository is created and maintained during the application's runtime.
- *
+ * <p>
  * The implementation can be configured to use either in-memory repositories or JPA-based repositories,
  * depending on the need, through the {@link #setUseInMemory(boolean)} method.
  *
@@ -21,7 +22,7 @@ import persistence.jpa.JPAImpl.*;
  *   <li>{@link AuthenticationRepository} - Repository for authentication.</li>
  *   <li>{@link DroneModelRepository} - Repository for drone models.</li>
  * </ul>
- *
+ * <p>
  * The class also provides methods for injecting mock repositories for unit testing purposes.
  *
  * <p>Example usage:</p>
@@ -50,6 +51,7 @@ public class RepositoryProvider {
     private static ShowProposalRepository showProposalRepository;
     private static MaintenanceTypeRepository maintenanceTypeRepository;
     private static ShowRepository showRepository;
+    private static ProposalTemplateRepository proposalTemplateRepository;
 
 
     private static AuditLoggerService auditLoggerService;
@@ -71,7 +73,6 @@ public class RepositoryProvider {
     }
 
 
-
     public static void initializeAuditLogger(boolean inMemory) {
         if (inMemory) {
             auditLogRepository = new InMemoryAuditLogRepository();
@@ -84,6 +85,7 @@ public class RepositoryProvider {
     public static AuditLoggerService auditLoggerService() {
         return auditLoggerService;
     }
+
     /**
      * Retrieves the figure category repository.
      *
@@ -291,6 +293,16 @@ public class RepositoryProvider {
             }
         }
         return customerRepresentativeRepository;
+    }
+
+    public static ProposalTemplateRepository proposalTemplateRepository() {
+        if (proposalTemplateRepository == null) {
+            if (isInMemory())
+                proposalTemplateRepository = new InMemoryProposalTemplateRepository();
+            else
+                proposalTemplateRepository = new ProposalTemplateJPAImpl();
+        }
+        return proposalTemplateRepository;
     }
 
     /**
