@@ -1,43 +1,41 @@
-# US245 - Add figure category
+# US318 – Templates for Show Proposals
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us245-domain-model.svg)
+![Domain Model](svg/us318-domain-model.svg)
 
-The following diagram illustrates the updated and complete domain model for the **Figure Category** functionality. It includes all relevant attributes and associations required for implementation, traceability, and auditing.
+The following diagram illustrates the domain model for the **Proposal Template** functionality. It includes all relevant attributes and associations required for implementation, traceability, and auditing.
 
-#### **Explanation of the model elements**
+#### **Explanation of the Model Elements**
 
-- **FigureCategory** (`<<AggregateRoot>>`):  
-  The aggregate root representing a category of figures. It encapsulates all rules and logic necessary for managing the lifecycle of a category.
+- **ProposalTemplate** (`<<AggregateRoot>>`):  
+  The aggregate root representing a template for show proposals. It encapsulates all rules and logic necessary for managing the lifecycle of a template.
 
-    - `pk`: Primary key (surrogate, auto-generated).
-    - `version`: Used for optimistic concurrency control.
-    - `createdOn` / `updatedOn`: Audit fields for timestamps.
-    - `active`: Boolean flag indicating availability (status).
+  - `id`: Primary key (surrogate, auto-generated).
+  - `name`: The unique name of the template, enforced as a value object.
+  - `text`: The content of the template, stored as a list of strings (lines), supporting dynamic placeholders.
+  - `description`: An optional description for the template, also a value object.
+  - `createdAt`: Timestamp indicating when the template was created.
 
 - **Name** (`<<ValueObject>>`):  
-  Value object representing the name of the category. Enforces constraints such as length, allowed characters, and uniqueness.
+  Value object representing the name of the template. Enforces constraints such as length, allowed characters, and uniqueness.
 
 - **Description** (`<<ValueObject>>`):  
-  Optional value object used to provide additional context about the category. Subject to validation constraints (length, non-empty, meaningful content).
+  Optional value object used to provide additional context about the template. Subject to validation constraints (length, non-empty, meaningful content).
 
-- **Email** (`<<ValueObject>>`):  
-  Used both as the `createdBy` and `updatedBy` identifiers, referencing the authenticated user responsible for actions on the category.  
-  Must be a valid email from the `@shodrone.app` domain.
-
-- **Figure** (`<<AggregateRoot>>`):  
-  Represents a shape or form created by a customer. Each `Figure` is associated with exactly one `FigureCategory`, supporting classification and filtering of figures.
+- **Template Content**:  
+  The actual content of the template, stored as a list of strings. Supports dynamic placeholders for customer and show information.
 
 ---
 
 This detailed model supports:
 
--  Full **auditability** of each category (who created or modified it, and when).
--  Enforcement of **domain constraints** (e.g., email domain, name rules, optional descriptions).
--  Easy **extensibility** for future figure or category features.
--  Complete **traceability** from figures back to their respective categories.
+- **Full auditability** of each template (when it was created).
+- **Enforcement of domain constraints** (name rules, optional descriptions, template content validation).
+- **Easy extensibility** for future template features or formats.
+- **Complete traceability** from templates to the proposals they generate.
 
-> This version of the domain model reflects the most up-to-date understanding of requirements and ensures compliance with business rules for category and figure management.
+> This version of the domain model reflects the current implementation and ensures compliance with business rules for template management and proposal generation.
+
