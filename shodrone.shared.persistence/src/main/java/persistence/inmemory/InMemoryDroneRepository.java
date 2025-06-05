@@ -107,4 +107,22 @@ public class InMemoryDroneRepository implements DroneRepository {
 
         return droneList.isEmpty() ? Optional.empty() : Optional.of(droneList);
     }
+
+    @Override
+    public Map<DroneModel, Integer> numberOfDronesPerModel() {
+        Map<DroneModel, Integer> result = new HashMap<>();
+
+        for (Drone drone: store.values()) {
+            DroneModel model = drone.droneModel();
+
+            if (!result.containsKey(model)) {
+                result.put(model, 1);
+            } else {
+                result.put(model, result.get(model) + 1);
+            }
+
+        }
+        return result;
+    }
+
 }

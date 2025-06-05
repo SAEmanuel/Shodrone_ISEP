@@ -5,6 +5,7 @@ import domain.entity.DroneModel;
 import domain.valueObjects.DroneRemovalLog;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public interface DroneRepository {
@@ -20,4 +21,6 @@ public interface DroneRepository {
     Optional<Drone> removeDrone(Drone drone, DroneRemovalLog log);
 
     List<Drone> findAll();
+
+    Map<DroneModel, Integer> numberOfDronesPerModel();
 }

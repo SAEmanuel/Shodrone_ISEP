@@ -2,12 +2,15 @@ package persistence.jpa.JPAImpl;
 
 import domain.entity.Drone;
 import domain.entity.DroneModel;
+import domain.valueObjects.DroneModelID;
 import domain.valueObjects.DroneRemovalLog;
 import domain.valueObjects.DroneStatus;
 import persistence.DroneRepository;
 import persistence.jpa.JpaBaseRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -101,4 +104,28 @@ public class DroneJPAImpl extends JpaBaseRepository<Drone, Long> implements Dron
 
         return result.isEmpty() ? Optional.empty() : Optional.of(result);
     }
+
+    @Override
+    public Map<DroneModel, Integer> numberOfDronesPerModel() {
+        List<Object[]> results = entityManager()
+                .createQuery(
+                        "SELECT d.droneModel.droneModelID, COUNT(d) " +
+                                "FROM Drone d " +
+                                "GROUP BY d.droneModel.droneModelID",
+                        Object[].class
+                )
+                .getResultList();
+
+        Map<DroneModel, Integer> resultMap = new HashMap<>();
+        for (Object[] row : results) {
+            DroneModelID modelId = (DroneModelID) row[0];
+            Long count = (Long) row[1];
+
+            DroneModel model = entityManager().find(DroneModel.class, modelId);
+            resultMap.put(model, count.intValue());
+        }
+
+        return resultMap;
+    }
+
 }
