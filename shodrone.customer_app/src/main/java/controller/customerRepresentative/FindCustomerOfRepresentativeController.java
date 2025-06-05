@@ -4,14 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import controller.network.AuthenticationController;
 import domain.entity.Costumer;
+import domain.valueObjects.NIF;
 import network.ObjectDTO;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.lang.reflect.Type;
-import java.net.Socket;
 import java.util.Optional;
 
 import static more.ColorfulOutput.ANSI_LIGHT_RED;
@@ -19,35 +16,39 @@ import static more.ColorfulOutput.ANSI_RESET;
 
 public class FindCustomerOfRepresentativeController {
 
-    public FindCustomerOfRepresentativeController(){}
+    private final AuthenticationController authController;
 
-    public Optional<Costumer> getCustomerIDbyHisEmail(String email) {
-        try (Socket socket = new Socket(AuthenticationController.getServerHost(), AuthenticationController.getServerPort());
-             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+    public FindCustomerOfRepresentativeController(AuthenticationController authController){
+        this.authController = authController;
+    }
 
-            out.println("FindCustomerOfRepresentative");
+    public Optional<NIF> getCustomerIDbyHisEmail(String email) {
+        try {
+            Gson gson = new Gson();
+
+            authController.sendMessage("FindCustomerOfRepresentative");
 
             ObjectDTO<String> objectDTO = ObjectDTO.of(email);
-            Gson gson = new Gson();
             String objectDTOJson = gson.toJson(objectDTO);
-            out.println(objectDTOJson);
+            authController.sendMessage(objectDTOJson);
 
-            String response = in.readLine();
+            String response = authController.receiveMessage();
+            Type objectDTOType = new TypeToken<ObjectDTO<NIF>>() {}.getType();
+            ObjectDTO<NIF> objectDTOReponse = gson.fromJson(response, objectDTOType);
+            NIF costumerNIF = objectDTOReponse.getObject();
 
-            Type type = new TypeToken<ObjectDTO<Optional<Costumer>>>() {}.getType();
-            ObjectDTO<Optional<Costumer>> objectDTOOptional = gson.fromJson(response, type);
+            System.out.println(costumerNIF);
 
-            return objectDTOOptional.getObject();
+            if(costumerNIF == null){
+                return Optional.empty();
+            }
+
+            return Optional.of(costumerNIF);
 
         } catch (IOException e) {
-            System.out.println(ANSI_LIGHT_RED + "Servers are down! Login unavailable..." + ANSI_RESET);
-            System.exit(1);
+            System.out.println(ANSI_LIGHT_RED + "Erro na comunicação com o servidor..." + ANSI_RESET);
             return Optional.empty();
         }
     }
-
-
-
 
 }

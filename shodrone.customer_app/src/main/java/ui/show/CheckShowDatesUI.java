@@ -11,8 +11,8 @@ import java.util.Optional;
 public class CheckShowDatesUI implements Runnable {
     private final CheckShowDatesController controller;
 
-    public CheckShowDatesUI() {
-        this.controller = new CheckShowDatesController();
+    public CheckShowDatesUI(AuthenticationController authController) {
+        this.controller = new CheckShowDatesController(authController);
     }
 
     @Override

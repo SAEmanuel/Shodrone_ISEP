@@ -15,7 +15,7 @@ public class CustomerAppUI {
     public void run() {
         if (doLogin()) {
             System.out.println(ANSI_BRIGHT_GREEN + "Login successful! Welcome!" + ANSI_RESET);
-            new RepresentativeUI().run();
+            new RepresentativeUI(ctrl).run();
         } else {
             System.out.println(ANSI_LIGHT_RED + "FATAL: Login failed. Exiting application." + ANSI_RESET);
         }

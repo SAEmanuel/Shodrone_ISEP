@@ -34,7 +34,7 @@ public class HandleClientsController {
 
             out.println(success ? "OK" : "FAIL");
 
-            menuOptionsToExecute(in, out, gson,clientSocket);
+            menuOptionsToExecute(in, out,gson);
 
 
         } catch (IOException e) {
@@ -42,26 +42,31 @@ public class HandleClientsController {
         }
     }
 
-    private static void menuOptionsToExecute(BufferedReader in, PrintWriter out, Gson gson,Socket clientSocket) {
+    private static void menuOptionsToExecute(BufferedReader in, PrintWriter out,Gson gson) {
         try {
+            System.out.println("SERVER: Waiting for option to be selected...");
             String received = in.readLine();
 
-            while (!received.equals("exit")) {
+            while (received != null && !received.equals("exit")) {
+                System.out.println("Recebido: " + received); // Debug
 
                 switch (received) {
                     case "FindCustomerOfRepresentative":
-                        FindCustomerOfRepresentativeController.getCustomerOfRepresentativeAction(clientSocket);
+                        System.out.println("Chamando getCustomerOfRepresentativeAction");
+                        FindCustomerOfRepresentativeController.getCustomerOfRepresentativeAction(in, out,gson);
                         break;
                     default:
+                        System.out.println("Comando não reconhecido: " + received);
                 }
 
                 received = in.readLine();
             }
 
+            System.out.println("Conexão encerrada ou comando 'exit' recebido.");
 
         } catch (IOException e) {
             System.out.println("Client error: " + e.getMessage());
         }
-
     }
+
 }

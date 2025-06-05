@@ -1,6 +1,8 @@
 package ui;
 
 
+import controller.network.AuthenticationController;
+import lombok.Getter;
 import ui.show.CheckShowDatesUI;
 import utils.MenuItem;
 import ui.menu.ShowTextUI;
@@ -14,15 +16,22 @@ import static more.ColorfulOutput.ANSI_RESET;
 
 
 public class RepresentativeUI implements Runnable {
-    public RepresentativeUI() {
+
+    @Getter
+    private final AuthenticationController authController;
+
+    public RepresentativeUI(AuthenticationController authController) {
+        this.authController = authController;
     }
+
+
 
     public void run() {
         List<MenuItem> options = new ArrayList<MenuItem>();
         options.add(new MenuItem("Analyse Proposal", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Approve/Reject Proposal", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Consult Shows Agenda", new ShowTextUI("Not implemented yet.")));
-        options.add(new MenuItem("Check Show's Dates", new CheckShowDatesUI()));
+        options.add(new MenuItem("Check Show's Dates", new CheckShowDatesUI(getAuthController())));
 
         int option = 0;
         do {

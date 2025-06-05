@@ -41,16 +41,11 @@ public class CustomerRepresentativeRepositoryJPAImpl
                 .createQuery("SELECT r FROM CustomerRepresentative r ", CustomerRepresentative.class)
                 .getResultList();
 
-        for(CustomerRepresentative rep : reps){
-            System.out.println(rep);
-        }
-
         if (reps.isEmpty()) {
             return Optional.empty();
         }
-        return Optional.empty();
 
-        //return Optional.ofNullable(reps.get(0).getCostumer());
+        return Optional.ofNullable(reps.get(0).getCostumer());
     }
 
 
