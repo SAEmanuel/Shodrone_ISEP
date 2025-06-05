@@ -23,7 +23,7 @@ public class Content {
     Map<Integer, Figure> figures;
     Map<DroneModel, Integer> droneModels;
     String managerName;
-    //Video video;
+    Video video;
 
     List<String> text;
 
@@ -68,9 +68,9 @@ public class Content {
 
     public String managerName() { return managerName; }
 
-//    public Video video() {
-//        return video;
-//    }
+    public Video video() {
+        return video;
+    }
 
     public List<String> text() {
         return text;
@@ -100,9 +100,9 @@ public class Content {
         this.droneModels = droneModels;
     }
 
-//    public void changeVideo(Video video) {
-//        this.video = video;
-//    }
+    public void changeVideo(Video video) {
+        this.video = video;
+    }
 
     public void changeText(List<String> text) {
         this.text = text;

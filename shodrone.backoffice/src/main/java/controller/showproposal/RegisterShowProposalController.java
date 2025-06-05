@@ -19,7 +19,7 @@ public class RegisterShowProposalController {
     }
 
 
-    public Optional<ShowProposal> generateShowProposal(ShowRequest showRequest, ProposalTemplate template, Map<DroneModel, Integer> droneModels) {
+    public Optional<ShowProposal> generateShowProposal(ShowRequest showRequest, ProposalTemplate template, Map<DroneModel, Integer> droneModels, int numberOfDrones) {
         Map<Integer, Figure> figures = new HashMap<>();
         for (int i = 0; i < showRequest.getFigures().size(); i++) {
             figures.put(i + 1, showRequest.getFigures().get(i));
@@ -37,19 +37,13 @@ public class RegisterShowProposalController {
 
         List<String> filled = TemplatePlugin.replacePlaceholders(template.text(), placeholders);
         content.changeText(filled);
-        int totalDrones = sumDroneQuantities(droneModels);
 
-        ShowProposal showProposal = new ShowProposal(showRequest, template, new ArrayList<>(figures.values()), showRequest.getDescription(), showRequest.getLocation(), showRequest.getShowDate(), totalDrones, showRequest.getShowDuration(), AuthUtils.getCurrentUserName(), LocalDateTime.now(), droneModels);
+        ShowProposal showProposal = new ShowProposal(showRequest, template, new ArrayList<>(figures.values()), showRequest.getDescription(), showRequest.getLocation(), showRequest.getShowDate(), numberOfDrones, showRequest.getShowDuration(), AuthUtils.getCurrentUserName(), LocalDateTime.now(), droneModels);
         showProposal.setText(filled);
 
         return repository.saveInStore(showProposal);
 
     }
 
-    private int sumDroneQuantities(Map<DroneModel, Integer> droneModels) {
-        return droneModels.values().stream()
-                .mapToInt(Integer::intValue)
-                .sum();
-    }
 
 }

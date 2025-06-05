@@ -3,21 +3,22 @@ package proposal_template.validators;
 import domain.entity.DroneModel;
 import domain.entity.Figure;
 import domain.valueObjects.Content;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import domain.valueObjects.Location;
+import org.antlr.v4.runtime.*;
 import proposal_template.generated.templateLexer;
 import proposal_template.generated.templateParser;
 import utils.AuthUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Duration;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TemplatePlugin {
+    private static final String DEFAULT_VIDEO_PLACEHOLDER = "Pending video preview";
 
     private final List<String> templateContent;
+    private final List<String> validationErrors = new ArrayList<>();
 
     public TemplatePlugin(List<String> templateContent) {
         this.templateContent = templateContent;
@@ -25,90 +26,120 @@ public class TemplatePlugin {
 
     public List<String> validate() {
         String templateText = String.join("\n", templateContent);
-        CharStream charStream = CharStreams.fromString(templateText);
 
-        templateLexer lexer = new templateLexer(charStream);
-        templateParser parser = new templateParser(new CommonTokenStream(lexer));
-        TemplateFieldVisitor visitor = new TemplateFieldVisitor();
-        visitor.visit(parser.template());
+        try {
+            CharStream charStream = CharStreams.fromString(templateText);
+            templateLexer lexer = new templateLexer(charStream);
+            CommonTokenStream tokens = new CommonTokenStream(lexer);
+            templateParser parser = new templateParser(tokens);
 
-        List<String> missing = new java.util.ArrayList<>();
-        for (RequiredFields required : RequiredFields.values()) {
-            boolean found = visitor.getFields().stream().anyMatch(fieldName -> required.contains(fieldName));
-            if (!found) {
-                missing.add(required.name());
-            }
+            parser.removeErrorListeners();
+            parser.addErrorListener(new BaseErrorListener() {
+                @Override
+                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol,
+                                        int line, int charPositionInLine,
+                                        String msg, RecognitionException e) {
+                    validationErrors.add(String.format("Line %d:%d - %s", line, charPositionInLine, msg));
+                }
+            });
+
+            TemplateFieldVisitor visitor = new TemplateFieldVisitor();
+            visitor.visit(parser.template());
+
+            checkRequiredFields(visitor.getFields());
+
+        } catch (Exception e) {
+            validationErrors.add("Template parsing error: " + e.getMessage());
         }
-        return missing;
+
+        return validationErrors;
     }
 
-    public boolean isValid() {
-        return validate().isEmpty();
+    private void checkRequiredFields(Set<String> presentFields) {
+        for (RequiredFields required : RequiredFields.values()) {
+            boolean found = required.getFieldNames().stream().anyMatch(presentFields::contains);
+            if (!found) {
+                validationErrors.add(String.format("Missing required field group: %s", required.name()));
+            }
+        }
     }
 
     public static Map<String, String> buildPlaceholderMap(Content context) {
-        Map<String, String> map = new HashMap<>();
+        Map<String, String> placeholders = new LinkedHashMap<>();
 
-        String customerName = context.customer().name().name();
-        String showDate = context.showDate().toString();
-        String location = context.showLocation().toString();
-        String duration = String.valueOf(context.showDuration());
-        String figures = formatFigures(context.figures());
-        String drones = formatDrones(context.droneModels());
-        String video = "video"; // TODO: substituir quando estiver pronto
-        String manager = AuthUtils.getCurrentUserName();
+        placeholders.putAll(mapFieldGroup(RequiredFields.CUSTOMER,
+                context.customer().name().name()));
 
-        for (RequiredFields required : RequiredFields.values()) {
-            String value = switch (required) {
-                case CUSTOMER -> customerName;
-                case SHOW_DATE -> showDate;
-                case SHOW_LOCATION -> location;
-                case DURATION -> duration;
-                case FIGURES -> figures;
-                case DRONES -> drones;
-                case VIDEO -> video;
-                case MANAGER -> manager;
-            };
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+        placeholders.putAll(mapFieldGroup(RequiredFields.SHOW_DATE,
+                context.showDate().format(dateFormatter)));
 
-            for (String name : required.getFieldNames()) {
-                map.put(name, value);
-            }
-        }
+        placeholders.putAll(mapFieldGroup(RequiredFields.SHOW_LOCATION,
+                formatLocation(context.showLocation())));
 
-        return map;
+        placeholders.putAll(mapFieldGroup(RequiredFields.DURATION,
+                formatDuration(context.showDuration())));
+
+        placeholders.putAll(mapFieldGroup(RequiredFields.FIGURES,
+                formatFigures(context.figures())));
+
+        placeholders.putAll(mapFieldGroup(RequiredFields.DRONES,
+                formatDrones(context.droneModels())));
+
+
+        placeholders.putAll(mapFieldGroup(RequiredFields.VIDEO,
+                context.video() != null ? context.video().toString() : DEFAULT_VIDEO_PLACEHOLDER));
+
+        placeholders.putAll(mapFieldGroup(RequiredFields.MANAGER,
+                AuthUtils.getCurrentUserName()));
+
+        return placeholders;
     }
 
+    private static Map<String, String> mapFieldGroup(RequiredFields fieldGroup, String value) {
+        return fieldGroup.getFieldNames().stream()
+                .collect(Collectors.toMap(
+                        name -> name,
+                        name -> value != null ? value : ""
+                ));
+    }
+
+    private static String formatLocation(Location location) {
+        return String.format("%s | Coordinates: %.6f, %.6f",
+                location.address(),
+                location.latitude(),
+                location.longitude());
+    }
+
+    private static String formatDuration(Duration duration) {
+        long hours = duration.toHours();
+        long minutes = duration.minusHours(hours).toMinutes();
+        return (hours > 0 ? hours + "h " : "") + minutes + "min";
+    }
 
     private static String formatFigures(Map<Integer, Figure> figures) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<Integer, Figure> entry : figures.entrySet()) {
-            sb.append(entry.getKey()).append(". ").append(entry.getValue().name()).append("\n");
-        }
-        return sb.toString();
+        return figures.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .map(entry -> String.format("  %d. %s", entry.getKey(), entry.getValue().name()))
+                .collect(Collectors.joining("\n"));
     }
 
     private static String formatDrones(Map<DroneModel, Integer> droneModels) {
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<DroneModel, Integer> entry : droneModels.entrySet()) {
-            sb.append(entry.getValue()).append("x ").append(entry.getKey().droneName().name()).append("\n");
-        }
-        return sb.toString();
+        return droneModels.entrySet().stream()
+                .map(entry -> String.format("  %dx %s", entry.getValue(), entry.getKey().droneName()))
+                .collect(Collectors.joining("\n"));
     }
 
     public static List<String> replacePlaceholders(List<String> template, Map<String, String> values) {
-        List<String> result = new ArrayList<>();
-        for (String line : template) {
-            for (Map.Entry<String, String> entry : values.entrySet()) {
-                line = line.replace("${" + entry.getKey() + "}", entry.getValue());
-            }
-            result.add(line);
-        }
-        return result;
+        return template.stream()
+                .map(line -> replaceLinePlaceholders(line, values))
+                .collect(Collectors.toList());
     }
 
-
-
-    public List<String> getTemplateContent() {
-        return templateContent;
+    private static String replaceLinePlaceholders(String line, Map<String, String> values) {
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            line = line.replace("${" + entry.getKey() + "}", entry.getValue());
+        }
+        return line;
     }
 }

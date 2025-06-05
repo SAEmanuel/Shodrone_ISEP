@@ -258,6 +258,26 @@ public class Utils {
         }
     }
 
+    public static Integer readPositiveIntegerFromConsole(String prompt, Function<Integer, Optional<Integer>> validator) {
+        Scanner scanner = new Scanner(System.in);
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+            try {
+                int value = Integer.parseInt(input.trim());
+                Optional<Integer> valid = validator.apply(value);
+                if (valid.isPresent()) {
+                    return valid.get();
+                } else {
+                    System.out.println("Invalid value. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid integer.");
+            }
+        }
+    }
+
+
     /**
      * Reads a strictly positive integer (> 0) from the console with prompt.
      * Keeps retrying until the user inputs a positive integer.
@@ -1014,29 +1034,41 @@ public class Utils {
         System.out.println("──────────────────────────────────────────────────");
         System.out.println("\uD83C\uDF9F\uFE0F Show Request ID           : " + registeredShowProposal.getShowRequest());
         System.out.println("💬️ Status                    : " + registeredShowProposal.getStatus().toString());
-        System.out.println("💬️ Template Name             : " + registeredShowProposal.template());
+        System.out.println("💬️ Template                  : " + registeredShowProposal.template());
         System.out.println("📝 Description               : " + (registeredShowProposal.getDescription() != null ? registeredShowProposal.getDescription() : ""));
         System.out.println("📅 Show Date                 : " + registeredShowProposal.getShowDate().format(formatter));
         System.out.println("📍 Location                  : " + registeredShowProposal.getLocation().toString());
-        System.out.println("🚁 Number of Drones          : " + registeredShowProposal.getNumberOfDrones());
         System.out.println("⏱️ Show Duration             : " + registeredShowProposal.getShowDuration().toMinutes() + " minutes");
-        System.out.println("\uD83C\uDFAC  Video                     : " +
+        System.out.println("\uD83C\uDFAC  Video                    : " +
                 (registeredShowProposal.getVideo() == null ? "" : registeredShowProposal.getVideo().toString()));
-        System.out.println("\uD83D\uDDBC\uFE0F Selected Figures          :");
 
-        int index = 1;
+        System.out.println("🚁 Number of Drones          : " + registeredShowProposal.getNumberOfDrones());
 
-        // Get a sorted copy of the figures list
-        List<Figure> sortedFigures = new ArrayList<>(registeredShowProposal.getSequenceFigues());
-        sortedFigures.sort(Comparator.comparing(Figure::identity));  // adjust identity() if needed
-
-        for (Figure figure : sortedFigures) {
-            System.out.printf("   %s%n", figure.toString());
+        System.out.println("\uD83D\uDEE0\uFE0F Drone Models Used         ");
+        if (registeredShowProposal.getModelsUsed() != null && !registeredShowProposal.getModelsUsed().isEmpty()) {
+            registeredShowProposal.getModelsUsed().forEach((model, qty) ->
+                    System.out.printf("     -> [%dx] %s%n", qty, model.droneName())
+            );
+        } else {
+            System.out.println("   (no drone models selected)");
         }
 
 
+        System.out.println("\uD83D\uDDBC\uFE0F Selected Figures          ");
+
+        int index = 1;
+
+
+        List<Figure> sortedFigures = new ArrayList<>(registeredShowProposal.getSequenceFigues());
+        sortedFigures.sort(Comparator.comparing(Figure::identity));
+
+        for (Figure figure : sortedFigures) {
+            System.out.printf("     -> [%d] %s%n", figure.identity(), figure.name().toString());
+        }
+
         System.out.println("──────────────────────────────────────────────────\n");
     }
+
 
 
     /**

@@ -64,21 +64,34 @@ public class RegisterShowProposalUI implements Runnable {
             return;
         }
 
+        Utils.dropLines(2);
+        Utils.printAlterMessage("Current number of drones: " + showRequest.getNumberOfDrones());
+        int numberOfDrones;
+        boolean changeNumberOfDrones = Utils.confirm("Do you wish to change the current number of drones? (y/n)");
+        if (changeNumberOfDrones) {
+            numberOfDrones = Utils.readIntegerFromConsole("Select the desired number: ");
+            if (numberOfDrones == showRequest.getNumberOfDrones())
+                Utils.printAlterMessage("You have selected the same number of drones, nothing was changed...");
+        } else {
+            numberOfDrones = showRequest.getNumberOfDrones();
+        }
 
-        Optional<List<DroneModel>> listOfDroneModels = getDroneModelsController.getAllModels();
 
-        if (listOfDroneModels.isEmpty() || listOfDroneModels.get().isEmpty()) {
+        Optional<Map<DroneModel, Integer>> inventory = getDroneModelsController.getDroneModelQuantity();
+
+        if (inventory.isEmpty() || inventory.get().isEmpty()) {
             Utils.printFailMessage("No drone models in the system! Add some first");
             return;
         }
 
-        List<DroneModel> availableModels = new ArrayList<>(listOfDroneModels.get());
         DroneModelSelectorUI selector = new DroneModelSelectorUI(
-                "Drone model selection",
-                "Select a model"
+                "Drone Model selection",
+                "Choose a model",
+                inventory.get(),
+                numberOfDrones
         );
 
-        Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels(availableModels);
+        Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels();
         if (selectedModels.isEmpty()) {
             Utils.printFailMessage("No model selected. Operation canceled.");
             return;
@@ -87,7 +100,7 @@ public class RegisterShowProposalUI implements Runnable {
         Map<DroneModel, Integer> modelsToBeUsed = selectedModels.get();
 
 
-        Optional<ShowProposal> proposal = registerShowProposalController.generateShowProposal(showRequest, template, modelsToBeUsed);
+        Optional<ShowProposal> proposal = registerShowProposalController.generateShowProposal(showRequest, template, modelsToBeUsed, numberOfDrones);
 
         if (proposal.isEmpty()) {
             Utils.printFailMessage("Error registering show proposal...");

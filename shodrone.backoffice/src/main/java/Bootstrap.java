@@ -23,6 +23,7 @@ public class Bootstrap implements Runnable {
         addRepresentatives();
         addShowRequest();
         initLists();
+        addTemplates();
         //addProposals();
         addMaintenanceTypes();
     }
@@ -237,6 +238,13 @@ public class Bootstrap implements Runnable {
         list6.add(foundFigure(19L));
         list6.add(foundFigure(20L));
     }
+
+    // --- Show Proposal Templates Setup ---------------------------------------------------
+    private void addTemplates() {
+        RepositoryProvider.proposalTemplateRepository().save(templatePT);
+        RepositoryProvider.proposalTemplateRepository().save(templateEN);
+    }
+
 
     // --- Show Proposals Setup ---------------------------------------------------
     private void addProposals() {
@@ -491,6 +499,62 @@ public class Bootstrap implements Runnable {
             LocalDateTime.now().plusDays(1),
             15,
             Duration.ofMinutes(45));
+
+    // --- Templates -----------------------------------------------------------
+    private final ProposalTemplate templatePT = new ProposalTemplate(
+            new Name("Template PT"),
+            new Description("Template simples e curto em português"),
+            List.of(
+                    "Exmos. Senhores ${customerName},",
+                    "",
+                    "A sua proposta para o espetáculo no dia ${showDate}.",
+                    "",
+                    "Data: ${data}",
+                    "Local: ${showLocation}",
+                    "Duração: ${duration}",
+                    "",
+                    "Figuras apresentadas:",
+                    "${figures}",
+                    "",
+                    "Modelos de drones utilizados:",
+                    "${drones}",
+                    "",
+                    "Video preview do show: ${video}",
+                    "",
+                    "Obrigado pela sua preferência,",
+                    "${manager}",
+                    "",
+                    "© 2025 Shodrone. Todos os direitos reservados."
+            )
+    );
+
+    private final ProposalTemplate templateEN = new ProposalTemplate(
+            new Name("Template EN"),
+            new Description("Simple and short proposal template in English"),
+            List.of(
+                    "Dear ${customerName},",
+                    "",
+                    "Your proposal for the show on ${showDate}.",
+                    "",
+                    "Date:        ${data}",
+                    "Location:    ${showLocation}",
+                    "Duration:    ${duration}",
+                    "",
+                    "Presented figures:",
+                    "${figures}",
+                    "",
+                    "Drone models used:",
+                    "${drones}",
+                    "",
+                    "Video preview of the show: ${video}",
+                    "",
+                    "Thank you for your preference,",
+                    "${manager}",
+                    "",
+                    "© 2025 Shodrone. All rights reserved."
+            )
+    );
+
 
 
     // --- Proposals -----------------------------------------------------------

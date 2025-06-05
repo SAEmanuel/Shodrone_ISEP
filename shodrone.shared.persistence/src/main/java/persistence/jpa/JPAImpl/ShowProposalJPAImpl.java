@@ -65,7 +65,7 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
         if (entity == null || entity.identity() == null) {
             return Optional.empty();
         }
-        Optional<ShowRequest> existing = Optional.ofNullable(findById(entity.identity()).getShowRequest());
+        Optional<ShowProposal> existing = Optional.ofNullable(findById(entity.identity()));
         if (existing.isEmpty()) {
             return Optional.empty();
         }

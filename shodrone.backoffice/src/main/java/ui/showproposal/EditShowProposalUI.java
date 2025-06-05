@@ -38,14 +38,15 @@ public class EditShowProposalUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("EDIT SHOW PROPOSAL");
 
-        ShowProposal newProposal = proposal.cloneProposal();
-        requestChanges(newProposal);
-        Optional<ShowProposal> validEdit = editShowProposalController.editShowProposal(proposal, newProposal);
+
+        requestChanges(proposal);
+        Optional<ShowProposal> validEdit = editShowProposalController.editShowProposal(proposal);
         if (validEdit.isPresent()) {
-            Utils.printSuccessMessage("✅ Show request successfully edited!");
+            Utils.printSuccessMessage("Show proposal successfully edited!");
+            Utils.printShowProposalResume(proposal);
             Utils.waitForUser();
         } else {
-            Utils.printFailMessage("Failed to edit show request.");
+            Utils.printFailMessage("Failed to edit show proposal.");
             Utils.waitForUser();
         }
     }
@@ -100,20 +101,21 @@ public class EditShowProposalUI implements Runnable {
                     newProposal.setLocation(FactoryProvider.getLocationFactoryImpl().createLocationObject());
                 }
                 case 5 -> {
-                    Optional<List<DroneModel>> listOfDroneModels = getDroneModelsController.getAllModels();
+                    Optional<Map<DroneModel, Integer>> inventory = getDroneModelsController.getDroneModelQuantity();
 
-                    if (listOfDroneModels.isEmpty() || listOfDroneModels.get().isEmpty()) {
+                    if (inventory.isEmpty() || inventory.get().isEmpty()) {
                         Utils.printFailMessage("No drone models in the system! Add some first");
                         return;
                     }
 
-                    List<DroneModel> availableModels = new ArrayList<>(listOfDroneModels.get());
                     DroneModelSelectorUI selector = new DroneModelSelectorUI(
-                            "New drone model selection",
-                            "Select a model"
+                            "Drone Model selection",
+                            "Choose a model",
+                            inventory.get(),
+                            proposal.getNumberOfDrones()
                     );
 
-                    Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels(availableModels);
+                    Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels();
                     if (selectedModels.isEmpty()) {
                         Utils.printFailMessage("No model selected. Operation canceled.");
                         return;

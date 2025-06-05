@@ -1,10 +1,13 @@
 package controller.drone;
 
 import domain.entity.DroneModel;
+import persistence.DroneRepository;
 import persistence.RepositoryProvider;
 import persistence.DroneModelRepository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -16,6 +19,7 @@ public class GetDroneModelsController {
      * The repository used to access DroneModel entities.
      */
     private final DroneModelRepository repository;
+    private final DroneRepository droneRepository;
 
     /**
      * Initializes a new GetDroneModelsController with a repository instance.
@@ -24,6 +28,7 @@ public class GetDroneModelsController {
      */
     public GetDroneModelsController() {
         repository = RepositoryProvider.droneModelRepository();
+        droneRepository = RepositoryProvider.droneRepository();
     }
 
     /**
@@ -44,5 +49,10 @@ public class GetDroneModelsController {
      */
     public Optional<DroneModel> getModelById(String droneModelId) {
         return repository.findByDroneModelID(droneModelId);
+    }
+
+    public Optional<Map<DroneModel, Integer>> getDroneModelQuantity() {
+        Map<DroneModel, Integer> map = droneRepository.numberOfDronesPerModel();
+        return Optional.ofNullable(map);
     }
 }

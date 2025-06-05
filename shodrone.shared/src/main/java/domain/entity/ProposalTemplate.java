@@ -3,7 +3,6 @@ package domain.entity;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import jakarta.persistence.*;
-import more.ColorfulOutput;
 import utils.StringListConverter;
 
 import javax.xml.bind.annotation.XmlRootElement;

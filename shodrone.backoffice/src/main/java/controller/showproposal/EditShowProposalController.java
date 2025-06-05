@@ -21,7 +21,7 @@ public class EditShowProposalController {
     }
 
 
-    public Optional<ShowProposal> editShowProposal(ShowProposal proposal, ShowProposal newProposal) {
+    public Optional<ShowProposal> editShowProposal(ShowProposal newProposal) {
         Content content = new Content(
                 newProposal.getShowRequest().getCostumer(),
                 newProposal.getShowDate(),
