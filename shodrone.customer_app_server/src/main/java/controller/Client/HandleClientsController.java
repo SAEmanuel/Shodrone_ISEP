@@ -2,6 +2,7 @@ package controller.Client;
 
 import com.google.gson.Gson;
 import controller.Representative.FindCustomerOfRepresentativeController;
+import controller.Show.FindShow4CustomerController;
 import domain.entity.User;
 import network.UserDTO;
 import persistence.AuthenticationRepository;
@@ -34,7 +35,7 @@ public class HandleClientsController {
 
             out.println(success ? "OK" : "FAIL");
 
-            menuOptionsToExecute(in, out,gson);
+            menuOptionsToExecute(in, out, gson);
 
 
         } catch (IOException e) {
@@ -42,23 +43,28 @@ public class HandleClientsController {
         }
     }
 
-    private static void menuOptionsToExecute(BufferedReader in, PrintWriter out,Gson gson) {
+    private static void menuOptionsToExecute(BufferedReader in, PrintWriter out, Gson gson) {
         try {
             System.out.println("SERVER: Waiting for option to be selected...");
             String received = in.readLine();
 
             while (received != null && !received.equals("exit")) {
-                System.out.println("Recebido: " + received); // Debug
+                System.out.println("Recebido: " + received);
 
                 switch (received) {
                     case "FindCustomerOfRepresentative":
                         System.out.println("Chamando getCustomerOfRepresentativeAction");
-                        FindCustomerOfRepresentativeController.getCustomerOfRepresentativeAction(in, out,gson);
+                        FindCustomerOfRepresentativeController.getCustomerOfRepresentativeAction(in, out, gson);
+                        break;
+                    case "FindShow4Customer":
+                        System.out.println("Chamando getShow4CustomerAction");
+                        FindShow4CustomerController.getShow4CustomerAction(in, out, gson);
                         break;
                     default:
                         System.out.println("Comando não reconhecido: " + received);
                 }
 
+                System.out.println("SERVER: Waiting for option to be selected...");
                 received = in.readLine();
             }
 
