@@ -23,7 +23,7 @@ public class Bootstrap implements Runnable {
         addRepresentatives();
         addShowRequest();
         initLists();
-        addProposals();
+        //addProposals();
         addMaintenanceTypes();
     }
 
@@ -380,9 +380,9 @@ public class Bootstrap implements Runnable {
     private final Description description2 = new Description("Incredible light performance!");
     private final Description description3 = new Description("Breathtaking sky art!");
 
-    private final Location location1 = new Location(new Address("Rua", "Porto", "4444-888", "Portugal"), 12, 12, "iasjdiasjdiasdjasid");
-    private final Location location2 = new Location(new Address("Avenida", "Lisboa", "1111-222", "Portugal"), 34, 45, "localdesc2");
-    private final Location location3 = new Location(new Address("Praça", "Coimbra", "3333-444", "Portugal"), 56, 78, "localdesc3");
+    private final Location location1 = new Location(new Address("Rua", "Porto", "4444-888", "Portugal"), 12, 12, "Near coast");
+    private final Location location2 = new Location(new Address("Avenida", "Lisboa", "1111-222", "Portugal"), 34, 45, "Near Apple Building");
+    private final Location location3 = new Location(new Address("Praça", "Coimbra", "3333-444", "Portugal"), 56, 78, "Caracas Center");
 
     private final ShowRequest showRequest1 = new ShowRequest(2L,
             LocalDateTime.now(), ShowRequestStatus.PENDING,
@@ -413,35 +413,36 @@ public class Bootstrap implements Runnable {
 
 
     // --- Proposals -----------------------------------------------------------
+    //todo adicionar os modelos de drones as propostas
     private final ShowProposal proposal1 = new ShowProposal(showRequest1, null, list1,
             new Description("Description 1"),
             new Location(new Address("Street1", "City1", "4444-000", "Country1"), 60, 120, "Description"),
             LocalDateTime.now().plusDays(3L), 10, Duration.ofMinutes(60),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop1");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
 
     private final ShowProposal proposal2 = new ShowProposal(showRequest1, null, list2,
             new Description("Description 2"),
             new Location(new Address("Street2", "City2", "5555-111", "Country2"), 50, 100, "Another description"),
             LocalDateTime.now().plusDays(5L), 15, Duration.ofMinutes(45),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop2");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
 
     private final ShowProposal proposal3 = new ShowProposal(showRequest2, null, list3,
             new Description("Description 3"),
             new Location(new Address("Street3", "City3", "6666-222", "Country3"), 45, 150, "Yet another description"),
             LocalDateTime.now().plusDays(7L), 20, Duration.ofMinutes(90),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop3");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
 
     private final ShowProposal proposal4 = new ShowProposal(showRequest2, null, list4,
             new Description("Description 4"),
             new Location(new Address("Street4", "City4", "7777-333", "Country4"), 80, 130, "Different description"),
             LocalDateTime.now().plusDays(10L), 12, Duration.ofMinutes(75),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop4");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
 
     private final ShowProposal proposal5 = new ShowProposal(showRequest3, null, list5,
             new Description("Description 5"),
             new Location(new Address("Street5", "City5", "8888-444", "Country5"), 80, 110, "Some description here"),
             LocalDateTime.now().plusDays(12L), 18, Duration.ofMinutes(120),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), "Prop5");
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
 
     // ---- -------------------
     private Costumer foundCostumerByNIF(NIF nif) {

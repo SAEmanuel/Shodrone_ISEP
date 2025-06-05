@@ -1,8 +1,6 @@
 package factories.impl;
 
-import domain.entity.ShowProposal;
-import domain.entity.ShowRequest;
-import domain.entity.Figure;
+import domain.entity.*;
 import domain.valueObjects.Description;
 import domain.valueObjects.Location;
 import eapli.framework.domain.model.DomainFactory;
@@ -12,6 +10,7 @@ import utils.Utils;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -30,6 +29,8 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     private String creationAuthor;
     private LocalDateTime creationDate;
     private String version;
+    private ProposalTemplate template;
+    Map<DroneModel, Integer> drones;
 
     /**
      * Builds and returns a new ShowProposal object with the current factory values.
@@ -40,7 +41,7 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     public ShowProposal build() {
         return new ShowProposal(
                 showRequest,
-                null, // Template is not currently used
+                template,
                 sequenceFigures,
                 description,
                 location,
@@ -49,7 +50,7 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
                 showDuration,
                 creationAuthor,
                 creationDate,
-                version
+                drones
         );
     }
 

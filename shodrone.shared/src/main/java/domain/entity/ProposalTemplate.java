@@ -1,13 +1,17 @@
 package domain.entity;
 
-import domain.valueObjects.Content;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import jakarta.persistence.*;
+import more.ColorfulOutput;
+import utils.StringListConverter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
+
+import static more.ColorfulOutput.*;
 
 @XmlRootElement
 @Entity
@@ -20,7 +24,8 @@ public class ProposalTemplate {
     @Column(nullable = false)
     private Name name;
 
-    @Column(nullable = false, columnDefinition = "Content")
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "TEXT")
     private List<String> text;
 
     @Column
@@ -71,14 +76,21 @@ public class ProposalTemplate {
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProposalTemplate that = (ProposalTemplate) o;
+        return Objects.equals(name, that.name);
+    }
 
     @Override
     public String toString() {
-        return "ShowTemplate{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
+        String desc = description.toString();
+        if ("Not provided!".equals(desc)) {
+            desc = ANSI_BRIGHT_BLACK + desc + ANSI_RESET;
+        }
+        return String.format("[%s -> %s] ", name, desc);
     }
+
 }

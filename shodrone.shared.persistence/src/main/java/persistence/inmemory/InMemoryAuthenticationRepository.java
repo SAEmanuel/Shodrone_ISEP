@@ -213,4 +213,14 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
         }
         return Optional.empty();
     }
+
+    @Override
+    public String getUserName(String email) {
+        return userStore.values().stream()
+                .filter(user -> user.getId().toString().equalsIgnoreCase(email))
+                .findFirst()
+                .map(User::getName)
+                .orElse("");
+    }
+
 }

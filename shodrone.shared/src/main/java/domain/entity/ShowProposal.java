@@ -10,15 +10,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import persistence.IdentifiableEntity;
+import utils.StringListConverter;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Objects;
-import java.util.Queue;
+import java.util.*;
 
 import static java.lang.String.format;
 import static more.ColorfulOutput.*;
@@ -42,14 +41,14 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @JoinColumn(name = "Show_Request", nullable = false)
     private ShowRequest showRequest;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "Show_Proposal_Template")
-//    private ShowTemplate template;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "show_proposal_template")
+    private ProposalTemplate template;
 
 
-    @Setter
     @Getter
-    @OneToMany(cascade = CascadeType.MERGE)
+    @Setter
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "show_proposal_figures",
             joinColumns = @JoinColumn(name = "Show_Proposal_ID"),
@@ -79,6 +78,17 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Getter
     @Column(name = "Number_of_Drones", nullable = false)
     private int numberOfDrones;
+
+    @Setter
+    @Getter
+    @ElementCollection
+    @CollectionTable(
+            name = "show_proposal_drone_models",
+            joinColumns = @JoinColumn(name = "show_proposal_id")
+    )
+    @MapKeyJoinColumn(name = "drone_model_id")
+    @Column(name = "quantity")
+    private Map<DroneModel, Integer> modelsUsed = new HashMap<>();
 
     /**
      * Planned duration of the show.
@@ -122,15 +132,21 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Column(name = "Name_Proposal")
     private String nameProposal;
 
+    @Setter
+    @Getter
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private List<String> text;
+
     protected ShowProposal() {
     }
 
-    public ShowProposal(ShowRequest showRequest, ProposalTemplate template, List<Figure> sequenceFigues
-            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate,String version ) {
+    public ShowProposal(ShowRequest showRequest, ProposalTemplate template, List<Figure> sequenceFigures
+            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate,Map<DroneModel, Integer> modelsUsed ) {
 
         this.showRequest = showRequest;
-//        this.template = template;
-        this.sequenceFigues = sequenceFigues;
+        this.template = template;
+        this.sequenceFigues = sequenceFigures;
         this.description = description;
         this.location = location;
         this.showDate = showDate;
@@ -139,7 +155,8 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
         this.creationAuthor = creationAuthor;
         this.creationDate = creationDate;
         this.status = ShowProposalStatus.CREATED;
-        this.nameProposal = version;
+        this.modelsUsed = modelsUsed;
+        text = new ArrayList<>();
     }
 
     @Override
@@ -153,12 +170,41 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
 
     public Description getDescription() { return description; }
 
+    public void changeDescription(Description newDescription) {
+        this.description = newDescription;
+    }
+
+    public void changeTemplate(ProposalTemplate newTemplate) {
+        this.template = newTemplate;
+    }
+
+    public ProposalTemplate template() {
+        return template;
+    }
+
     @Override
     public boolean sameAs(Object other) {
         if (!(other instanceof ShowProposal)) return false;
         ShowProposal that = (ShowProposal) other;
         return Objects.equals(identity(), that.identity());
     }
+
+    public ShowProposal cloneProposal() {
+        return new ShowProposal(
+                this.showRequest,
+                this.template,
+                new ArrayList<>(this.sequenceFigues),
+                this.description,
+                this.location,
+                this.showDate,
+                this.numberOfDrones,
+                this.showDuration,
+                this.creationAuthor,
+                this.creationDate,
+                new HashMap<>(this.modelsUsed)
+        );
+    }
+
 
     @Override
     public int hashCode() {

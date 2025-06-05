@@ -8,7 +8,9 @@ import jakarta.persistence.Embeddable;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Embeddable
@@ -20,19 +22,21 @@ public class Content {
     Duration showDuration;
     Map<Integer, Figure> figures;
     Map<DroneModel, Integer> droneModels;
-    Video video;
+    String managerName;
+    //Video video;
 
-    String text;
+    List<String> text;
 
-    public Content(String text) {
-        this.text = text;
-        customer = null;
-        showDate = null;
-        showLocation = null;
-        showDuration = null;
-        figures = new HashMap<>();
-        droneModels = new HashMap<>();
-        video = null;
+    public Content(Costumer customer, LocalDateTime showDate, Location showLocation, Duration showDuration, Map<Integer, Figure> figures, Map<DroneModel, Integer> droneModels, String managerName) {
+        this.customer = customer;
+        this.showDate = showDate;
+        this.showLocation = showLocation;
+        this.showDuration = showDuration;
+        this.figures = figures;
+        this.droneModels = droneModels;
+        //this.video = video;
+        this.text = new ArrayList<>();
+        this.managerName = managerName;
     }
 
     public Content() {
@@ -58,15 +62,17 @@ public class Content {
         return figures;
     }
 
-    public Map<DroneModel, Integer> droneModels( ) {
+    public Map<DroneModel, Integer> droneModels() {
         return droneModels;
     }
 
-    public Video video() {
-        return video;
-    }
+    public String managerName() { return managerName; }
 
-    public String text() {
+//    public Video video() {
+//        return video;
+//    }
+
+    public List<String> text() {
         return text;
     }
 
@@ -94,11 +100,11 @@ public class Content {
         this.droneModels = droneModels;
     }
 
-    public void changeVideo(Video video) {
-        this.video = video;
-    }
+//    public void changeVideo(Video video) {
+//        this.video = video;
+//    }
 
-    public void changeText(String text) {
+    public void changeText(List<String> text) {
         this.text = text;
     }
 }

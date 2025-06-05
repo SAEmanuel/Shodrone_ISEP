@@ -12,7 +12,8 @@ public enum RequiredFields {
     DURATION(Arrays.asList("duration", "showDuration", "duracao", "duracaoShow")),
     FIGURES(List.of("figures", "figuras")),
     DRONES(List.of("drones")),
-    VIDEO(List.of("video", "linkVideo", "videoLink"));
+    VIDEO(List.of("video", "linkVideo", "videoLink")),
+    MANAGER(List.of("manager", "crmManager", "crm_manager", "gestor_responsavel", "gestorResponsavel"));
 
 
     private final List<String> fieldNames;

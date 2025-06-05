@@ -47,7 +47,7 @@ public class RegisterProposalTemplateUI implements Runnable {
         result = controller.registerProposalTemplate(name, description, text, missingFields);
 
         if (result.isEmpty()) {
-            Utils.printFailMessage("Failed to register Proposal Template! mandatory fields missing: ");
+            Utils.printFailMessage("Failed to register Proposal Template...");
             Utils.printFailMessage("Mandatory field(s) missing: ");
             for (String s : missingFields)
                 Utils.printFailMessage(s);

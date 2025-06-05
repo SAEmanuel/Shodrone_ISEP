@@ -234,6 +234,10 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
         return result.isEmpty() ? Optional.empty() : Optional.of(result.get(0));
     }
 
-
+    @Override
+    public String getUserName(String email) {
+        User user = findById(new Email(email));
+        return user != null ? user.getName() : null;
+    }
 
 }

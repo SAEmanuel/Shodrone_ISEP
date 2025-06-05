@@ -23,6 +23,7 @@ import static more.TextEffects.*;
 public class Utils {
     final static String COLOR_OPTIONS = ANSI_BRIGHT_BLACK;
     final static int STEP = 10;
+    private static final Scanner scanner = new Scanner(System.in);
 
     /**
      * Immediately exits the application with a given error message.
@@ -237,6 +238,24 @@ public class Utils {
                 printAlterMessage("Invalid number. Please enter a valid integer value.");
             }
         } while (true);
+    }
+
+    public static Integer readIntegerFromConsole(String prompt, Function<Integer, Optional<Integer>> validator) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine();
+            try {
+                int value = Integer.parseInt(input.trim());
+                Optional<Integer> valid = validator.apply(value);
+                if (valid.isPresent()) {
+                    return valid.get();
+                } else {
+                    System.out.println("Invalid value. Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                return -1;
+            }
+        }
     }
 
     /**
@@ -995,7 +1014,7 @@ public class Utils {
         System.out.println("──────────────────────────────────────────────────");
         System.out.println("\uD83C\uDF9F\uFE0F Show Request ID           : " + registeredShowProposal.getShowRequest());
         System.out.println("💬️ Status                    : " + registeredShowProposal.getStatus().toString());
-        //System.out.println("💬️ Template Name             : " + registeredShowProposal.getStatus().toString());
+        System.out.println("💬️ Template Name             : " + registeredShowProposal.template());
         System.out.println("📝 Description               : " + (registeredShowProposal.getDescription() != null ? registeredShowProposal.getDescription() : ""));
         System.out.println("📅 Show Date                 : " + registeredShowProposal.getShowDate().format(formatter));
         System.out.println("📍 Location                  : " + registeredShowProposal.getLocation().toString());

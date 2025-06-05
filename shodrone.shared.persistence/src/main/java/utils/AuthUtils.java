@@ -51,4 +51,19 @@ public class AuthUtils {
 
         return session.getUserId().toString();
     }
+
+    public static String getCurrentUserName() {
+        AuthenticationRepository repo = getAuthRepo();
+
+        if (repo == null || !repo.isLoggedIn()) {
+            return "CRM Manager";
+        }
+
+        var session = repo.getCurrentUserSession();
+        if (session == null || session.getUserId() == null) {
+            return "CRM Manager";
+        }
+
+        return repo.getUserName(session.getUserId().toString());
+    }
 }

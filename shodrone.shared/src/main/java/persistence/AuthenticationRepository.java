@@ -79,4 +79,5 @@ public interface AuthenticationRepository {
 
     Optional<User> findCustomerRepresentativeByEmail(String email);
 
+    String getUserName(String email);
 }
