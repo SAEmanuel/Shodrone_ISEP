@@ -2,43 +2,44 @@
 
 ### 3.1. Design Overview
 
-The design for the *"Search Figure Catalogue"* functionality adheres to modular architectural principles outlined in the project guidelines. The process is initiated by the **Show Designer** via the UI, which allows them to specify search parameters such as `id`, `name`, `description`, `version`, `availability`, `category`, `dsl`, `status`, as well as pagination details like `page` and `pagesize`. The UI then forwards this data to a dedicated controller responsible for retrieving the relevant figures.
+The design for the *"Add Video of Simulation to the Proposal"* functionality follows a modular and layered architecture, ensuring maintainability and secure handling of media assets. The process is initiated by the **CRM Collaborator** via the UI during the editing phase of a proposal. The user selects a proposal and uploads a simulation video, which is then validated, stored, and linked to the corresponding proposal record.
 
 Key behaviors and responsibilities:
-- **Authenticated Access:** Only users with the **Show Designer** or **CRM Collaborator** role can initiate the search.
-- **Dynamic Search:** The controller allows flexible filtering based on various criteria, such as figure `id`, `name`, and `status`.
-- **Pagination Support:** To improve usability, the results are paginated, reducing the amount of data displayed at once and improving performance.
-- **Repository Layer Interaction:** The controller interacts with the repository to retrieve data, with the repository abstracting the data access logic from the rest of the application.
-- **Active Figures:** The controller ensures only figures marked as active and public are returned in the search results.
-- **Repository Pattern:** The design follows the repository pattern to encapsulate the logic for data access, supporting both in-memory and persistent storage.
+- **Authenticated Access:** Only users with the **CRM Collaborator** role can upload simulation videos.
+- **Proposal Edit Context:** Videos can only be uploaded or replaced if the proposal is in an editable state (e.g., *Draft*).
+- **Video Validation:** The system validates video attributes, including format, size, and length, before storing the file.
+- **Storage and Linking:** The video is uploaded to a secure video storage service (e.g., cloud storage), and a reference (`videoUrl`) is saved in the proposal entity.
+- **Auditability:** Metadata such as `videoUploadedBy` and `videoUploadDate` are recorded for traceability.
+- **Repository Interaction:** A dedicated controller delegates operations to the Proposal Repository, which abstracts access to the proposal's persistence layer and enforces domain constraints.
 
-The architecture is designed for flexibility, clarity, and modularity, aligning with both functional and non-functional requirements. It ensures separation of concerns, efficient data retrieval, and proper user access control.
+The architecture enforces separation of concerns between the UI, controller, domain logic, and persistence layers. It supports security, scalability, and easy future enhancements (e.g., video previews or version history).
 
 ---
 
 ### 3.2. Sequence Diagram
 
-![Sequence Diagram - Search Figures](svg/us232-sequence-diagram-full.svg)
+![Sequence Diagram - Add Video to Proposal](svg/us315-sequence-diagram.svg)
 
-The sequence diagram illustrates the flow for searching figures in the catalogue:
-1. The **Show Designer** requests to search for figures via the UI.
-2. The UI prompts the user to input optional filtering and pagination parameters.
-3. The **Show Designer** provides the requested search parameters.
-4. The UI creates and invokes the `ListSearchedFigureController`.
-5. The controller obtains the repository instance using the factory pattern and retrieves the appropriate `FigureRepository` from the repository singleton.
-6. The controller constructs the query based on the user's search and pagination inputs.
-7. The controller invokes the repository to retrieve the filtered list of figures.
-8. The list of figures is returned to the UI.
-9. The UI displays the search results with pagination support, showing only the relevant figures based on the provided criteria.
+The sequence diagram illustrates the flow for uploading a simulation video to a proposal:
+1. The **CRM Collaborator** opens a proposal in editable state via the UI.
+2. The UI prompts the user to upload a video file.
+3. The video file and proposal ID are sent to the `UploadProposalVideoController`.
+4. The controller validates the user role and the status of the proposal.
+5. The controller calls the **ProposalRepository** to retrieve and verify the proposal.
+6. The video is passed to a **VideoStorageService**, which handles storage and returns a secure video URL.
+7. The controller updates the proposal entity with the `videoUrl`, `videoUploadedBy`, and `videoUploadDate`.
+8. The updated proposal is saved through the repository.
+9. The UI displays a confirmation message and renders the video preview if needed.
 
 ---
 
 ### 3.3. Design Patterns Used
 
-- **Controller Pattern:** Acts as the intermediary between the UI and the application's core logic. The controller handles user requests, applies business logic, and coordinates data flow between layers.
-- **Factory Pattern:** Used to instantiate repositories, promoting decoupling and enhancing maintainability by simplifying configuration and testing.
-- **Repository Pattern:** Provides an abstraction layer over data storage, allowing for different storage mechanisms (e.g., in-memory or database) without affecting the business logic.
-- **Separation of Concerns:** Ensures that each layer—presentation, business logic, and data persistence—has its own distinct responsibilities, allowing for easier maintenance and scalability.
-- **SOLID and GoF Principles:** The architecture adheres to SOLID design principles and incorporates well-established Gang of Four design patterns to ensure high-quality, maintainable, and flexible code.
+- **Controller Pattern:** Serves as the entry point for the upload request. It manages user validation, orchestrates dependencies, and handles responses.
+- **Repository Pattern:** Encapsulates data access logic and ensures that domain rules around proposal status and video uploads are respected.
+- **Service Layer Pattern:** Introduces a dedicated service for managing video storage (e.g., `VideoStorageService`), abstracting external integration details.
+- **Factory Pattern:** (Optional) Can be used to instantiate repository or storage services, improving testability and flexibility.
+- **Separation of Concerns:** Keeps business rules, presentation logic, and storage concerns cleanly separated for maintainability.
+- **SOLID and GoF Principles:** The solution adheres to solid design fundamentals—single responsibility, open/closed, and interface segregation—alongside classic patterns for scalable architecture.
 
-This design ensures clarity, modularity, and adherence to both functional and non-functional requirements. It maintains flexibility for future enhancements and scalability in terms of both functionality and performance.
+This design ensures modularity, secure video handling, and auditability, while staying aligned with functional and non-functional requirements. It supports extensibility for additional media types, preview generation, or integration with external review portals.
