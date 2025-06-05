@@ -3,50 +3,35 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - Search Figure catalogue
+title System Sequence Diagram (SSD) - Add Video of Simulation to Proposal
 
 autonumber
 
-actor "Show Designer" as SD
+actor "CRM Collaborator" as CRM
 participant ":System" as System
 
-activate SD
+activate CRM
 
-activate System
-
-    SD -> System: login()
-    System --> SD: authenticated
-
+    CRM -> System: login()
+    activate System
+    System --> CRM: authenticated
     deactivate System
-    SD -> System: ask to search for figures
 
-    System --> SD: request data (id, name, categoryId, availability, customerId,...)
+    CRM -> System: openProposal(proposalId)
+    activate System
+    System --> CRM: proposal data (status, metadata)
     deactivate System
-    SD -> System: types requested data (id, name, categoryId, availability, customerId,...)
 
+    CRM -> System: uploadSimulationVideo(proposalId, videoFile)
     activate System
 
-    System --> SD: show all data registered for confirmation
+        System -> System: validateProposalIsEditable(proposalId)
+        System -> System: uploadVideoToStorage(videoFile)
+        System -> System: generateVideoUrl()
+        System -> System: attachVideoToProposal(proposalId, videoUrl, uploadedBy, timestamp)
+
+    System --> CRM: confirmation + videoUrl
     deactivate System
 
-    SD -> System: searchFigures(id, name, categoryId, availability, customerId,...)
-    activate System
-
-        System -> System: validations(...)
-        activate System
-
-        deactivate System
-
-        System -> System: findFiguresByFilter(id, name, categoryId, availability, customerId,...)
-        activate System
-
-
-        System --> System: figureList
-        deactivate System
-
-
-    System --> SD: show the output of public figure list
-    deactivate System
-deactivate SD
-
+deactivate CRM
 @enduml

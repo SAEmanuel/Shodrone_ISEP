@@ -1,90 +1,76 @@
-# US232 - Search Figure Catalogue
+# US315 - Add Video of Simulation to the Proposal
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As a CRM Collaborator and Show Designer, I want to search the figure catalogue using keywords, categories, and availability (public or exclusive) so that I can quickly find relevant figures for inclusion in a show request. This allows efficient browsing and improves show configuration accuracy and speed.
+As a CRM Collaborator, I want to add a video of the simulated show to the proposal so that the customer can have a preview of the show. This enhances customer engagement and provides a more immersive, realistic representation of the proposed experience.
 
 ### 1.2. Customer Specifications and Clarifications
 
-The following specifications are derived from the requirements document and the DDD model:
+The following specifications are derived from stakeholder interviews, the DDD model, and current workflow analysis:
 
-- The figure catalogue includes both:
-    - **Public figures** (`Figure.isPublic = true`)
-    - **Exclusive figures** (`Figure.exclusivity = customerId`)
-- The system must allow filtering/searching by:
-    - **Name or keyword** (full or partial match)
-    - **Category** (optional field)
-    - **Availability** (public or exclusive)
-- The results must only show **active** figures (`Figure.status = Active`).
-- If a customer is selected, only **public** and **customer-exclusive** figures should appear.
+- A simulation video file can be:
+  - Uploaded during the proposal creation or update process.
+  - Played or previewed directly from the proposal UI.
+- Only one video per proposal is allowed.
+- Accepted video formats: `.mp4`, `.mov`, `.webm`.
+- Maximum file size: 200MB.
+- Video should be stored securely and linked to the associated proposal.
+- If a video is already uploaded, uploading a new one should **replace** the previous version.
 
 **Clarifications**:
-- **Q: Is full-text search required?**
-    - A: No, partial match on name or description is sufficient (e.g., searching "spir" matches "Spiral").
-- **Q: Can multiple filters be combined?**
-    - A: Yes, the user can filter by name, category, and availability simultaneously.
-- **Q: Can this be used independently of a show request?**
-    - A: Yes, but typically accessed during figure selection in a request.
+- **Q: Can videos be uploaded after proposal submission?**
+  - A: Yes, but only if the proposal is in an editable state.
+- **Q: Is streaming required or is download acceptable?**
+  - A: Streaming (via embedded player) is preferred; download fallback is optional.
+- **Q: Who can view the video?**
+  - A: CRM Collaborators and the target customer (via shared proposal link or interface).
 
 **Forum Questions**:
-> **Question:** Figuras exclusivas de cliente devem aparecer em pesquisas se o cliente estiver selecionado?
->
-> **Answer:** Sim. Devem aparecer figuras públicas e exclusivas do cliente (com `exclusivity = customerId`).
+> **Question:** Pode-se substituir o vídeo simulado após o envio da proposta?  
+> **Answer:** Sim, desde que a proposta ainda esteja em estado de edição.
 
 ### 1.3. Acceptance Criteria
 
-- **AC1**: Only authenticated CRM Collaborators and Show Designer can access the figure search.
-- **AC2**: The search supports filtering by:
-    - Name (partial match)
-    - Category
-    - Availability (public or exclusive)
-- **AC3**: If a customer is selected, the system must include:
-    - Public figures
-    - Figures where `Figure.exclusivity = selectedCustomerId`
-- **AC4**: Only active figures are included in results (`Figure.status = Active`).
-- **AC5**: The search must be paginated (default: 20 results per page).
-- **AC6**: If no results match, system displays: "No figures match the search criteria."
-- **AC7**: Results include: `id`, `name`, `description`, `version`, `category`, `availability`, `dsl` and `Status`.
-
+- **AC1**: Only authenticated CRM Collaborators can upload simulation videos to proposals.
+- **AC2**: The system allows uploading of one video file per proposal.
+- **AC3**: The video must be in an accepted format (`.mp4`, `.mov`, `.webm`) and ≤ 200MB.
+- **AC4**: If a video already exists, uploading a new one replaces the previous.
+- **AC5**: The uploaded video is linked to the corresponding proposal and viewable within it.
+- **AC6**: The video can be streamed within the proposal view (embedded player).
+- **AC7**: Only users with appropriate access (e.g., CRM Collaborators and target customers) can view the video.
 
 ### 1.4. Found out Dependencies
 
-- **US210**: Authentication and user management – Required to verify the identity and role of the CRM Collaborator.
-- **US231**: List public figures – Provides the base listing capability without filters.
-- **US233**: Add Figure to the catalogue – Source of searchable data.
-- **US234**: Decommission Figure – Impacts the visibility of figures (`status = Active`).
-- **US245–US248**: Figure category management – Used as filter options.
+- **US209**: Proposal creation and editing – Entry point for attaching simulation videos.
+- **US312**: File upload service – Manages secure file storage and validation.
+- **US250**: Proposal sharing and customer access – Enables viewing permissions for video.
+- **US221**: User authentication – Validates CRM Collaborator roles for uploading.
 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
-- typed data:
-    - `name` (string, optional, partial match)
-    - `page` (integer, default: 1)
-    - `pageSize` (integer, default: 20)
-
-- selected data:
-    - `categoryId` (integer, optional)
-    - `availability` (enum: `public`, `exclusive`, optional)
-    - `customerId` (integer, optional)
+- Video file (uploaded via form field)
+  - Format: `.mp4`, `.mov`, `.webm`
+  - Size: ≤ 200MB
+- Proposal ID (integer)
 
 **Output Data:**
 
-- List of matching `Figure` records, each with:
-    - `Figure.id`
-    - `Figure.name`
-    - `Figure.description`
-    - `Figure.duration`
-    - `Figure.category.name`
-    - `Figure.previewUrl`
+- Updated proposal record with:
+  - `proposal.id`
+  - `proposal.videoUrl`
+  - `proposal.videoUploadedBy`
+  - `proposal.videoUploadDate`
 
-### 1.6. System Sequence Diagram (SSD)
+### 1.6 System Sequence Diagram (SSD)
 
-![System Sequence Diagram](svg/us232-sequence-diagram.svg)
+![System Sequence Diagram](svg/us315-sequence-diagram.svg)
 
 ### 1.7 Other Relevant Remarks
 
-<!-- Add any additional remarks or notes here -->
+- The video should be stored in a CDN or streaming-optimized location.
+- Proposals with videos may be flagged or marked visually to indicate a preview is available.
+- Proper error messages must be shown for upload issues (e.g., unsupported format, size too large).
