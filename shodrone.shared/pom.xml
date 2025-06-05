@@ -35,5 +35,49 @@
             <version>3.0.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-graphics</artifactId>
+            <version>21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>20</version> <!-- Or your JavaFX version -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.jcodec</groupId>
+            <artifactId>jcodec</artifactId>
+            <version>0.2.3</version>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.openjfx</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>0.0.8</version>
+                <configuration>
+                    <mainClass>domain.valueObjects.Drone3DSimulation</mainClass>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <repositories>
+        <repository>
+            <id>some-repo</id>
+            <url>https://repo.somerepo.org/maven2</url>
+        </repository>
+    </repositories>
+
 </project>

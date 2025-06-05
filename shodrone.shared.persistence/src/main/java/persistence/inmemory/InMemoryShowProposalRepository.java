@@ -1,6 +1,7 @@
 package persistence.inmemory;
 
 import domain.entity.ShowProposal;
+import domain.valueObjects.Video;
 import persistence.ShowProposalRepository;
 
 import java.util.*;
@@ -69,5 +70,25 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
         return Optional.empty();
     }
 
+    @Override
+    public Optional<Video> getVideoBytesByShowProposal(ShowProposal proposal) {
+        List<ShowProposal> proposals = store.get(proposal.identity());
 
+        if (proposals == null || proposals.isEmpty()) {
+            return Optional.empty();
+        }
+
+        for (ShowProposal sp : proposals) {
+            if (sp.identity().equals(proposal.identity())) {
+                Video video = sp.getVideo();
+                if (video != null) {
+                    return Optional.of(video);
+                } else {
+                    return Optional.empty();
+                }
+            }
+        }
+
+        return Optional.empty();
+    }
 }
