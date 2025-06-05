@@ -127,6 +127,7 @@ public class Bootstrap implements Runnable {
 
     // --- Drone Setup ---------------------------------------------------
     private void addDrones() {
+        // Primeiros 20 drones (já existentes)
         RepositoryProvider.droneRepository().save(drone1);
         RepositoryProvider.droneRepository().save(drone2);
         RepositoryProvider.droneRepository().save(drone3);
@@ -147,6 +148,46 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.droneRepository().save(drone18);
         RepositoryProvider.droneRepository().save(drone19);
         RepositoryProvider.droneRepository().save(drone20);
+        RepositoryProvider.droneRepository().save(drone21);
+        RepositoryProvider.droneRepository().save(drone22);
+        RepositoryProvider.droneRepository().save(drone23);
+        RepositoryProvider.droneRepository().save(drone24);
+        RepositoryProvider.droneRepository().save(drone25);
+        RepositoryProvider.droneRepository().save(drone26);
+        RepositoryProvider.droneRepository().save(drone27);
+        RepositoryProvider.droneRepository().save(drone28);
+        RepositoryProvider.droneRepository().save(drone29);
+        RepositoryProvider.droneRepository().save(drone30);
+        RepositoryProvider.droneRepository().save(drone31);
+        RepositoryProvider.droneRepository().save(drone32);
+        RepositoryProvider.droneRepository().save(drone33);
+        RepositoryProvider.droneRepository().save(drone34);
+        RepositoryProvider.droneRepository().save(drone35);
+        RepositoryProvider.droneRepository().save(drone36);
+        RepositoryProvider.droneRepository().save(drone37);
+        RepositoryProvider.droneRepository().save(drone38);
+        RepositoryProvider.droneRepository().save(drone39);
+        RepositoryProvider.droneRepository().save(drone40);
+        RepositoryProvider.droneRepository().save(drone41);
+        RepositoryProvider.droneRepository().save(drone42);
+        RepositoryProvider.droneRepository().save(drone43);
+        RepositoryProvider.droneRepository().save(drone44);
+        RepositoryProvider.droneRepository().save(drone45);
+        RepositoryProvider.droneRepository().save(drone46);
+        RepositoryProvider.droneRepository().save(drone47);
+        RepositoryProvider.droneRepository().save(drone48);
+        RepositoryProvider.droneRepository().save(drone49);
+        RepositoryProvider.droneRepository().save(drone50);
+        RepositoryProvider.droneRepository().save(drone51);
+        RepositoryProvider.droneRepository().save(drone52);
+        RepositoryProvider.droneRepository().save(drone53);
+        RepositoryProvider.droneRepository().save(drone54);
+        RepositoryProvider.droneRepository().save(drone55);
+        RepositoryProvider.droneRepository().save(drone56);
+        RepositoryProvider.droneRepository().save(drone57);
+        RepositoryProvider.droneRepository().save(drone58);
+        RepositoryProvider.droneRepository().save(drone59);
+        RepositoryProvider.droneRepository().save(drone60);
     }
 
     // --- Maintenance Type Setup ---------------------------------------------------
@@ -344,6 +385,46 @@ public class Bootstrap implements Runnable {
     private final Drone drone18 = new Drone(new SerialNumber("SN-00018"), droneModel5);
     private final Drone drone19 = new Drone(new SerialNumber("SN-00019"), droneModel5);
     private final Drone drone20 = new Drone(new SerialNumber("SN-00020"), droneModel5);
+    private final Drone drone21 = new Drone(new SerialNumber("SN-00021"), droneModel1);
+    private final Drone drone22 = new Drone(new SerialNumber("SN-00022"), droneModel2);
+    private final Drone drone23 = new Drone(new SerialNumber("SN-00023"), droneModel3);
+    private final Drone drone24 = new Drone(new SerialNumber("SN-00024"), droneModel4);
+    private final Drone drone25 = new Drone(new SerialNumber("SN-00025"), droneModel5);
+    private final Drone drone26 = new Drone(new SerialNumber("SN-00026"), droneModel1);
+    private final Drone drone27 = new Drone(new SerialNumber("SN-00027"), droneModel2);
+    private final Drone drone28 = new Drone(new SerialNumber("SN-00028"), droneModel3);
+    private final Drone drone29 = new Drone(new SerialNumber("SN-00029"), droneModel4);
+    private final Drone drone30 = new Drone(new SerialNumber("SN-00030"), droneModel5);
+    private final Drone drone31 = new Drone(new SerialNumber("SN-00031"), droneModel1);
+    private final Drone drone32 = new Drone(new SerialNumber("SN-00032"), droneModel2);
+    private final Drone drone33 = new Drone(new SerialNumber("SN-00033"), droneModel3);
+    private final Drone drone34 = new Drone(new SerialNumber("SN-00034"), droneModel4);
+    private final Drone drone35 = new Drone(new SerialNumber("SN-00035"), droneModel5);
+    private final Drone drone36 = new Drone(new SerialNumber("SN-00036"), droneModel1);
+    private final Drone drone37 = new Drone(new SerialNumber("SN-00037"), droneModel2);
+    private final Drone drone38 = new Drone(new SerialNumber("SN-00038"), droneModel3);
+    private final Drone drone39 = new Drone(new SerialNumber("SN-00039"), droneModel4);
+    private final Drone drone40 = new Drone(new SerialNumber("SN-00040"), droneModel5);
+    private final Drone drone41 = new Drone(new SerialNumber("SN-00041"), droneModel1);
+    private final Drone drone42 = new Drone(new SerialNumber("SN-00042"), droneModel2);
+    private final Drone drone43 = new Drone(new SerialNumber("SN-00043"), droneModel3);
+    private final Drone drone44 = new Drone(new SerialNumber("SN-00044"), droneModel4);
+    private final Drone drone45 = new Drone(new SerialNumber("SN-00045"), droneModel5);
+    private final Drone drone46 = new Drone(new SerialNumber("SN-00046"), droneModel1);
+    private final Drone drone47 = new Drone(new SerialNumber("SN-00047"), droneModel2);
+    private final Drone drone48 = new Drone(new SerialNumber("SN-00048"), droneModel3);
+    private final Drone drone49 = new Drone(new SerialNumber("SN-00049"), droneModel4);
+    private final Drone drone50 = new Drone(new SerialNumber("SN-00050"), droneModel5);
+    private final Drone drone51 = new Drone(new SerialNumber("SN-00051"), droneModel1);
+    private final Drone drone52 = new Drone(new SerialNumber("SN-00052"), droneModel2);
+    private final Drone drone53 = new Drone(new SerialNumber("SN-00053"), droneModel3);
+    private final Drone drone54 = new Drone(new SerialNumber("SN-00054"), droneModel4);
+    private final Drone drone55 = new Drone(new SerialNumber("SN-00055"), droneModel5);
+    private final Drone drone56 = new Drone(new SerialNumber("SN-00056"), droneModel1);
+    private final Drone drone57 = new Drone(new SerialNumber("SN-00057"), droneModel2);
+    private final Drone drone58 = new Drone(new SerialNumber("SN-00058"), droneModel3);
+    private final Drone drone59 = new Drone(new SerialNumber("SN-00059"), droneModel4);
+    private final Drone drone60 = new Drone(new SerialNumber("SN-00060"), droneModel5);
 
     // --- Maintenance Types ------------------------------------------------------
 
