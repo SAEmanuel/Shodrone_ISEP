@@ -1,0 +1,29 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US317 - Mark Show Proposal as Accepted
+
+actor "CRM Collaborator" as User
+participant ":System" as System
+
+autonumber
+
+activate User
+User -> System : markProposalAsAccepted(proposal)
+activate System
+
+System -> System : wasShowProposalSent(proposal)
+
+alt is eligible
+    System -> System : proposal.setStatus(COLLABORATOR_APPROVED)
+    System -> System : updateInStoreProposal(proposal)
+    System --> User : confirmation(success)
+else not eligible
+    System --> User : error("Proposal cannot be accepted")
+end
+
+deactivate System
+deactivate User
+@enduml
