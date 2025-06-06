@@ -1,5 +1,6 @@
 package persistence;
 
+import domain.entity.Costumer;
 import domain.entity.ShowProposal;
 import domain.valueObjects.Video;
 
@@ -14,5 +15,8 @@ public interface ShowProposalRepository {
 
     public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity);
 
+    public Optional<List<ShowProposal>> findByCostumer(Costumer costumer);
+
     public Optional<Video> getVideoBytesByShowProposal(ShowProposal showProposal);
+
 }

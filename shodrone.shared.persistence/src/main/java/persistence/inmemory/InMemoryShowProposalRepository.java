@@ -1,5 +1,6 @@
 package persistence.inmemory;
 
+import domain.entity.Costumer;
 import domain.entity.ShowProposal;
 import domain.valueObjects.Video;
 import persistence.ShowProposalRepository;
@@ -51,14 +52,12 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
 
         Long idShowRequest = entity.getShowRequest().identity();
 
-        // Obtém a lista de propostas para o ShowRequest
         List<ShowProposal> proposals = store.get(idShowRequest);
 
         if (proposals == null) {
             return Optional.empty();
         }
 
-        // Encontra o índice da proposta com o mesmo identity
         for (int i = 0; i < proposals.size(); i++) {
             ShowProposal proposal = proposals.get(i);
             if (proposal.identity().equals(entity.identity())) {
@@ -71,6 +70,14 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
     }
 
     @Override
+    public Optional<List<ShowProposal>> findByCostumer(Costumer costumer) {
+        if (store.containsKey(costumer.identity())) {
+            return Optional.of(store.get(costumer.identity()));
+        }
+        return Optional.empty();
+    }
+
+
     public Optional<Video> getVideoBytesByShowProposal(ShowProposal proposal) {
         List<ShowProposal> proposals = store.get(proposal.identity());
 
