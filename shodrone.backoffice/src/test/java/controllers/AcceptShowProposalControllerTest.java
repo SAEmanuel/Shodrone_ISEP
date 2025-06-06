@@ -51,7 +51,7 @@ class AcceptShowProposalControllerTest {
     @Test
     void testMarkShowProposalAsAccepted_NotEligible() {
         ShowProposal proposal = new ShowProposal();
-        proposal.setStatus(ShowProposalStatus.CREATED);
+        proposal.setStatus(ShowProposalStatus.STAND_BY);
 
         when(statusControllerMock.wasShowProposalSent(proposal)).thenReturn(false);
 

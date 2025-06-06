@@ -261,3 +261,45 @@ Initial State:
 ShowRequest [ID=5, Date=2025-06-08 19:22, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
 ?????????????????????????????????????????????
 
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-06 10:44:33
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-06T10:44:33.684091'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-06 14:22:34
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-06T14:22:34.565848'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-06 15:38:04
+Author    : system@shodrone.app
+Entity ID : 5
+Changes   :
+Field 'figures' changed from '[ID: N/A | Name: Circle               | Description: A perfect round shape          | Version: 1      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         , ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]' to '[ID: N/A | Name: Airplane             | Description: A fixed-wing flying vehicle    | Version: 2      | Category: N/A                  | Status: Active | Availability: Public     | DSL: N/A                  | Costumer: Maria Silva         ]'
+Field 'description' changed from 'Empty' to 'Show Atualizado'
+Field 'numberOfDrones' changed from '12' to '333'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-06T15:38:04.651744'
+
+═════════════════════════════════════════════
+

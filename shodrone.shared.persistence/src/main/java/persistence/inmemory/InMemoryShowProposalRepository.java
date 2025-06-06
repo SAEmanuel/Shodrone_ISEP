@@ -70,7 +70,7 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
     }
 
     @Override
-    public Optional<List<ShowProposal>> findByCostumer(Costumer costumer) {
+    public Optional<List<ShowProposal>> findAllCostumerProposals(Costumer costumer) {
         if (store.containsKey(costumer.identity())) {
             return Optional.of(store.get(costumer.identity()));
         }
@@ -96,6 +96,12 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
             }
         }
 
+        return Optional.empty();
+    }
+
+    //todo falta implementar isto...
+    @Override
+    public Optional<ShowProposal> findByID(Long id) {
         return Optional.empty();
     }
 }

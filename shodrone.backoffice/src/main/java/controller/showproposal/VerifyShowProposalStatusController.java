@@ -9,6 +9,6 @@ public class VerifyShowProposalStatusController {
     }
 
     public boolean wasShowProposalSent(ShowProposal showProposal) {
-        return showProposal.getStatus().equals(ShowProposalStatus.SEND);
+        return showProposal.getStatus().equals(ShowProposalStatus.CUSTOMER_APPROVED);
     }
 }

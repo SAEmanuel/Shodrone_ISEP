@@ -10,7 +10,6 @@ import persistence.RepositoryProvider;
 import persistence.ShowProposalRepository;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,7 +57,7 @@ class ListShowProposalControllerTest {
         proposal1.setStatus(ShowProposalStatus.REJECTED);
 
         ShowProposal proposal2 = new ShowProposal();
-        proposal2.setStatus(ShowProposalStatus.CREATED);
+        proposal2.setStatus(ShowProposalStatus.STAND_BY);
 
         List<ShowProposal> allProposals = Arrays.asList(proposal1, proposal2);
 

@@ -16,10 +16,10 @@ import java.util.Optional;
 import static more.ColorfulOutput.ANSI_LIGHT_RED;
 import static more.ColorfulOutput.ANSI_RESET;
 
-public class SearchSpecificCustomersProposals {
+public class SearchSpecificCustomersProposalsController {
     private final AuthenticationController authController;
 
-    public SearchSpecificCustomersProposals(AuthenticationController authenticationController) {
+    public SearchSpecificCustomersProposalsController(AuthenticationController authenticationController) {
         authController = authenticationController;
     }
 

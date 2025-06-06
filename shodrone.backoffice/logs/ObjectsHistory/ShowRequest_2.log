@@ -245,3 +245,30 @@ Field 'modificationDate' changed from 'null' to '2025-06-05T18:22:42.666836200'
 
 ?????????????????????????????????????????????
 
+╔══════════════ENTITY CREATED═══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-06 10:44:33
+Author    : system@shodrone.app
+Entity ID : 2
+Initial State:
+ShowRequest [ID=2, Date=2025-06-09 11:44, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
+═════════════════════════════════════════════
+
+╔══════════════ENTITY CREATED═══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-06 14:22:34
+Author    : system@shodrone.app
+Entity ID : 2
+Initial State:
+ShowRequest [ID=2, Date=2025-06-09 15:22, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
+═════════════════════════════════════════════
+
+╔══════════════ENTITY CREATED═══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-06 15:38:04
+Author    : system@shodrone.app
+Entity ID : 2
+Initial State:
+ShowRequest [ID=2, Date=2025-06-09 16:38, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
+═════════════════════════════════════════════
+

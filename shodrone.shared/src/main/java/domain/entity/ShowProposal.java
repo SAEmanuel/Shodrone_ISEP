@@ -154,7 +154,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
         this.showDuration = showDuration;
         this.creationAuthor = creationAuthor;
         this.creationDate = creationDate;
-        this.status = ShowProposalStatus.CREATED;
+        this.status = ShowProposalStatus.STAND_BY;
         this.modelsUsed = modelsUsed;
         text = new ArrayList<>();
     }

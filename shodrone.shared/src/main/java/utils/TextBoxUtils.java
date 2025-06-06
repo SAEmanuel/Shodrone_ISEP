@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.util.List;
 import java.util.ArrayList;
 
-import static more.ColorfulOutput.*;
 
 public class TextBoxUtils {
 

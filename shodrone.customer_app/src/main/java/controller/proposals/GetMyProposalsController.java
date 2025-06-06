@@ -2,7 +2,6 @@ package controller.proposals;
 
 import controller.customerRepresentative.FindCustomerOfRepresentativeController;
 import controller.network.AuthenticationController;
-import domain.entity.ShowProposal;
 import domain.valueObjects.NIF;
 import network.ShowProposalDTO;
 
@@ -11,11 +10,11 @@ import java.util.Optional;
 
 public class GetMyProposalsController {
     private final FindCustomerOfRepresentativeController findCustomerOfRepresentativeController;
-    private final SearchSpecificCustomersProposals searchController;
+    private final SearchSpecificCustomersProposalsController searchController;
 
     public GetMyProposalsController(AuthenticationController authenticationController) {
         findCustomerOfRepresentativeController = new FindCustomerOfRepresentativeController(authenticationController);
-        searchController = new SearchSpecificCustomersProposals(authenticationController);
+        searchController = new SearchSpecificCustomersProposalsController(authenticationController);
     }
 
 

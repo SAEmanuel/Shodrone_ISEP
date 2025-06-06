@@ -34,7 +34,7 @@ public class FindCustomersProposalsAction {
             Optional<Costumer> customerToAssociatedNIF = RepositoryProvider.costumerRepository().findByNIF(nifCustomer);
 
             if (customerToAssociatedNIF.isPresent()) {
-                Optional<List<ShowProposal>> listOfProposalsOptional = RepositoryProvider.showProposalRepository().findByCostumer(customerToAssociatedNIF.get());
+                Optional<List<ShowProposal>> listOfProposalsOptional = RepositoryProvider.showProposalRepository().findAllCostumerProposals(customerToAssociatedNIF.get());
 
                 if (listOfProposalsOptional.isPresent()) {
                     List<ShowProposal> proposals = listOfProposalsOptional.get();
@@ -45,7 +45,7 @@ public class FindCustomersProposalsAction {
                     out.println(objectDTOJsonToSendInformative);
 
                     for (int i = 0; i < numberOfProposals; i++) {
-                        ShowProposalDTO proposalDTO = new ShowProposalDTO(proposals.get(i).identity(), proposals.get(i).getShowRequest().getCostumer().identity(), proposals.get(i).getText());
+                        ShowProposalDTO proposalDTO = ShowProposalDTO.fromEntity(proposals.get(i));
                         ObjectDTO<ShowProposalDTO> objectDTOToSend = ObjectDTO.of(proposalDTO);
                         String objectDTOJsonToSend = gson.toJson(objectDTOToSend);
                         out.println(objectDTOJsonToSend);

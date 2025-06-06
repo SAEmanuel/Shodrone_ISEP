@@ -37,7 +37,6 @@ public class FindCustomerOfRepresentativeController {
             ObjectDTO<NIF> objectDTOReponse = gson.fromJson(response, objectDTOType);
             NIF costumerNIF = objectDTOReponse.getObject();
 
-            System.out.println(costumerNIF);
 
             if(costumerNIF == null){
                 return Optional.empty();
@@ -46,7 +45,7 @@ public class FindCustomerOfRepresentativeController {
             return Optional.of(costumerNIF);
 
         } catch (IOException e) {
-            System.out.println(ANSI_LIGHT_RED + "Erro na comunicação com o servidor..." + ANSI_RESET);
+            System.out.println(ANSI_LIGHT_RED + "Communication with server failed..." + ANSI_RESET);
             return Optional.empty();
         }
     }

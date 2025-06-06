@@ -508,9 +508,8 @@ public class Bootstrap implements Runnable {
             List.of(
                     "Exmos. Senhores ${customerName},",
                     "",
-                    "A sua proposta para o espetáculo no dia ${showDate}.",
+                    "Envio da sua proposta para o espetáculo de ${showDate}.",
                     "",
-                    "Data: ${data}",
                     "Local: ${showLocation}",
                     "Duração: ${duration}",
                     "",
@@ -529,17 +528,17 @@ public class Bootstrap implements Runnable {
             )
     );
 
+
     private final ProposalTemplate templateEN = new ProposalTemplate(
             new Name("Template EN"),
             new Description("Simple and short proposal template in English"),
             List.of(
                     "Dear ${customerName},",
                     "",
-                    "Your proposal for the show on ${showDate}.",
+                    "Your show proposal for the show on ${showDate}.",
                     "",
-                    "Date:        ${data}",
-                    "Location:    ${showLocation}",
-                    "Duration:    ${duration}",
+                    "Location: ${showLocation}",
+                    "Duration: ${duration}",
                     "",
                     "Presented figures:",
                     "${figures}",
@@ -555,6 +554,7 @@ public class Bootstrap implements Runnable {
                     "© 2025 Shodrone. All rights reserved."
             )
     );
+
 
 
 
