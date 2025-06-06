@@ -1,0 +1,72 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Mark Show Proposal as Accepted (US317)
+
+autonumber
+
+actor "CRM Collaborator" as user
+activate user
+
+participant ":AcceptShowProposalUI" as UI
+participant ":ListShowProposalController" as listCTRL
+participant ":AcceptShowProposalController" as CTRL
+participant ":VerifyShowProposalStatusController" as verifier
+participant ":RepositoryProvider" as repoProvider
+participant ":ShowProposalRepository" as repoInterface
+participant ":ShowProposalRepositoryJPAImpl" as repoImpl
+participant ":ShowProposal" as proposalEntity
+
+== START ==
+
+user -> UI : selects option to accept a proposal
+activate UI
+
+UI -> listCTRL : getAllSentAcceptedProposals()
+activate listCTRL
+
+listCTRL -> repoProvider : showProposalRepository()
+activate repoProvider
+repoProvider --> listCTRL : repoInterface
+deactivate repoProvider
+
+listCTRL -> repoInterface : getAllProposals()
+activate repoInterface
+repoInterface --> listCTRL : List<ShowProposal>
+deactivate repoInterface
+deactivate listCTRL
+
+UI -> user : shows list and prompts selection
+user -> UI : selects proposal
+UI -> CTRL : markShowProposalAsAccepted(proposal)
+activate CTRL
+
+CTRL -> verifier : wasShowProposalSent(proposal)
+activate verifier
+verifier --> CTRL : true/false
+deactivate verifier
+
+alt [proposal is eligible]
+    CTRL -> proposalEntity : setStatus(COLLABORATOR_APPROVED)
+
+    CTRL -> repoProvider : showProposalRepository()
+    activate repoProvider
+    repoProvider --> CTRL : repoInterface
+    deactivate repoProvider
+
+    CTRL -> repoInterface : updateInStoreProposal(proposal)
+    activate repoInterface
+    repoInterface --> CTRL : success
+    deactivate repoInterface
+
+    CTRL --> UI : show success message
+else [proposal invalid]
+    CTRL --> UI : show error "Proposal cannot be accepted"
+end
+
+deactivate CTRL
+deactivate UI
+deactivate user
+@enduml
