@@ -1,5 +1,6 @@
 package persistence.inmemory;
 
+import domain.entity.Costumer;
 import domain.entity.ShowProposal;
 import persistence.ShowProposalRepository;
 
@@ -66,6 +67,14 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
             }
         }
 
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<List<ShowProposal>> findByCostumer(Costumer costumer) {
+        if (store.containsKey(costumer.identity())) {
+            return Optional.of(store.get(costumer.identity()));
+        }
         return Optional.empty();
     }
 

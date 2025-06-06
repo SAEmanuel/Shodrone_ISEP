@@ -3,6 +3,7 @@ package controller.Client;
 import com.google.gson.Gson;
 import controller.Representative.FindCustomerOfRepresentativeController;
 import controller.Show.FindShow4CustomerController;
+import controller.proposals.FindCustomersProposalsAction;
 import domain.entity.User;
 import network.UserDTO;
 import persistence.AuthenticationRepository;
@@ -59,6 +60,11 @@ public class HandleClientsController {
                     case "FindShow4Customer":
                         System.out.println("Chamando getShow4CustomerAction");
                         FindShow4CustomerController.getShow4CustomerAction(in, out, gson);
+                        break;
+
+                    case "FindCustomersProposals":
+                        System.out.println("findCustomersProposalsAction");
+                        FindCustomersProposalsAction.findCustomersProposalsAction(in, out, gson);
                         break;
                     default:
                         System.out.println("Comando não reconhecido: " + received);

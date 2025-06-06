@@ -1,5 +1,6 @@
 package persistence;
 
+import domain.entity.Costumer;
 import domain.entity.ShowProposal;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface ShowProposalRepository {
     public Optional<List<ShowProposal>> getAllProposals();
 
     public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity);
+
+    public Optional<List<ShowProposal>> findByCostumer(Costumer costumer);
 }

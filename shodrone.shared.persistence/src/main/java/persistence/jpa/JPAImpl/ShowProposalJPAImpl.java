@@ -1,7 +1,7 @@
 package persistence.jpa.JPAImpl;
 
+import domain.entity.Costumer;
 import domain.entity.ShowProposal;
-import domain.entity.ShowRequest;
 import jakarta.persistence.TypedQuery;
 import persistence.ShowProposalRepository;
 import persistence.jpa.JpaBaseRepository;
@@ -71,6 +71,21 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
         }
         ShowProposal updated = update(entity);
         return Optional.ofNullable(updated);
+    }
+
+    @Override
+    public Optional<List<ShowProposal>> findByCostumer(Costumer costumer) {
+        if (costumer == null) {
+            return Optional.empty();
+        }
+
+        List<ShowProposal> results = entityManager().createQuery(
+                        "SELECT s FROM ShowProposal s WHERE s.showRequest.costumer = :costumer",
+                        ShowProposal.class)
+                .setParameter("costumer", costumer)
+                .getResultList();
+
+        return results.isEmpty() ? Optional.empty() : Optional.of(results);
     }
 }
 

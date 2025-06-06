@@ -2,6 +2,7 @@ package persistence.jpa.JPAImpl;
 
 import domain.entity.Costumer;
 import domain.entity.CustomerRepresentative;
+import domain.entity.Email;
 import domain.entity.ShowRequest;
 import persistence.CustomerRepresentativeRepository;
 import eapli.framework.infrastructure.repositories.impl.jpa.JpaAutoTxRepository;
@@ -37,8 +38,13 @@ public class CustomerRepresentativeRepositoryJPAImpl
     public Optional<Costumer> getAssociatedCustomer(String emailOfRepresentative) {
         if (emailOfRepresentative == null) return Optional.empty();
 
+        Email email = new Email(emailOfRepresentative);
+
         List<CustomerRepresentative> reps = entityManager()
-                .createQuery("SELECT r FROM CustomerRepresentative r ", CustomerRepresentative.class)
+                .createQuery(
+                        "SELECT r FROM CustomerRepresentative r WHERE r.email = :email",
+                        CustomerRepresentative.class)
+                .setParameter("email", email)
                 .getResultList();
 
         if (reps.isEmpty()) {
@@ -47,6 +53,8 @@ public class CustomerRepresentativeRepositoryJPAImpl
 
         return Optional.ofNullable(reps.get(0).getCostumer());
     }
+
+
 
 
 
