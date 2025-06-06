@@ -1,0 +1,47 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Mark Show Proposal as Accepted - Domain Model (US317)
+
+hide circles
+hide methods
+
+package "Show Proposal Subsystem" {
+
+    class AcceptShowProposalController {
+        +markShowProposalAsAccepted(proposal)
+    }
+
+    class ShowProposal {
+        ShowProposalId: id
+        Status: status
+    }
+
+    class ShowProposalId {
+        int: value
+    }
+
+    class Status {
+        String: value
+    }
+
+    class ShowProposalRepository {
+        +updateInStoreProposal(proposal)
+    }
+
+    class VerifyShowProposalStatusController {
+        +wasShowProposalSent(proposal): boolean
+    }
+
+    AcceptShowProposalController --> ShowProposal : updates >
+    AcceptShowProposalController --> ShowProposalRepository : persists >
+    AcceptShowProposalController --> VerifyShowProposalStatusController : checks >
+
+    ShowProposal --> ShowProposalId
+    ShowProposal --> Status
+}
+
+@enduml
