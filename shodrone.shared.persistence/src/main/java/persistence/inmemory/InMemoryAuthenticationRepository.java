@@ -2,6 +2,7 @@ package persistence.inmemory;
 
 import constants.Roles;
 import domain.entity.User;
+import domain.entity.UserRole;
 import persistence.AuthenticationRepository;
 import persistence.UserRepository;
 import pt.isep.lei.esoft.auth.AuthFacade;
@@ -136,6 +137,18 @@ public class InMemoryAuthenticationRepository implements AuthenticationRepositor
             Password password = new Password(pwd);
             User user = new User(userEmail, password, name);
             user.activate();
+            String description = switch (roleId) {
+                case Roles.ROLE_ADMIN -> "System administrator";
+                case Roles.ROLE_CRM_MANAGER -> "CRM Manager";
+                case Roles.ROLE_CRM_COLLABORATOR -> "CRM Collaborator";
+                case Roles.ROLE_SHOW_DESIGNER -> "Show Designer";
+                case Roles.ROLE_CUSTOMER_REPRESENTATIVE -> "Customer Representative";
+                case Roles.ROLE_DRONE_TECH -> "Drone Technician";
+                default -> "Unknown Role";
+            };
+
+            user.addRole(new UserRole(roleId, description));
+
             save(user);
             userActivationState.put(email.toLowerCase(), true);
         }

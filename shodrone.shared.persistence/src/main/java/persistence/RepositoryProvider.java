@@ -327,4 +327,9 @@ public class RepositoryProvider {
         customerRepresentativeRepository = mockRepo;
     }
 
+    public static void injectShowProposalRepository(ShowProposalRepository mockRepo) {
+        showProposalRepository = mockRepo;
+    }
+
+
 }

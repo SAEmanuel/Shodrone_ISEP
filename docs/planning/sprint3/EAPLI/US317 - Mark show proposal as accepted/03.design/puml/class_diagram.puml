@@ -1,0 +1,64 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "domain.entity" {
+    class ShowProposal {
+        - ShowProposalId id
+        - ShowRequestId requestId
+        - Status status
+        + setStatus(status): void
+        + getStatus(): Status
+    }
+
+    class ShowProposalId
+    class ShowRequestId
+    class Status
+}
+
+package "controller.showproposal" {
+    class AcceptShowProposalController {
+        - VerifyShowProposalStatusController statusVerifier
+        + markShowProposalAsAccepted(proposal): Optional<ShowProposal>
+    }
+
+    class VerifyShowProposalStatusController {
+        + wasShowProposalSent(proposal): boolean
+    }
+
+    class ListShowProposalController {
+        + getAllSentAcceptedProposals(): List<ShowProposal>
+    }
+}
+
+package "persistence" {
+    interface ShowProposalRepository {
+        + getAllProposals(): Optional<List<ShowProposal>>
+        + updateInStoreProposal(proposal): Optional<ShowProposal>
+    }
+
+    class ShowProposalRepositoryJPAImpl {
+        + getAllProposals(): Optional<List<ShowProposal>>
+        + updateInStoreProposal(proposal): Optional<ShowProposal>
+    }
+
+    ShowProposalRepositoryJPAImpl ..|> ShowProposalRepository
+}
+
+package "ui.showproposal" {
+    class AcceptShowProposalUI {
+        - AcceptShowProposalController controller
+        - ListShowProposalController listController
+        + run(): void
+    }
+}
+
+AcceptShowProposalController --> ShowProposal : modifies
+AcceptShowProposalController --> ShowProposalRepository : persists
+AcceptShowProposalController --> VerifyShowProposalStatusController : validates
+AcceptShowProposalUI --> AcceptShowProposalController : uses
+AcceptShowProposalUI --> ListShowProposalController : uses
+ListShowProposalController --> ShowProposalRepository : queries
+ShowProposal --> ShowProposalId
+ShowProposal --> ShowRequestId
+ShowProposal --> Status
+@enduml

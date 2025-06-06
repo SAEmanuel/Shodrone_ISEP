@@ -138,7 +138,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     @Column(columnDefinition = "TEXT")
     private List<String> text;
 
-    protected ShowProposal() {
+    public ShowProposal() {
     }
 
     public ShowProposal(ShowRequest showRequest, ProposalTemplate template, List<Figure> sequenceFigures
