@@ -1,41 +1,43 @@
-# US232 - Search Figure catalogue
+# US315 - Add Video of Simulation to the Proposal
 
 ## 2. Analysis
 
 ### 2.1. Relevant Domain Model Excerpt
 
-![Domain Model](svg/us232-domain-model.svg)
+![Domain Model](svg/us315-domain-model.svg)
 
-This diagram presents the updated domain model for figure and category management, tailored specifically to support the listing of **public figures** in the **Figure catalogue**. It integrates all relevant data required to fulfill the user story and meet catalog listing needs, including references to category data and figure visibility.
+This diagram presents the updated domain model for proposal management, extended to support the attachment of a **simulation video** to a **Proposal**. It introduces a new association between proposals and video metadata, ensuring all relevant information required to manage and render simulation previews is properly represented.
 
-While a general domain model focuses on high-level entities and their relationships, this specific excerpt dives deeper into the internal structure of the **Figure** entity. It highlights the key attributes needed to support real-world catalogue functionality, such as `availability`, `Category Name`, and `status`. These elements are essential for controlling visibility, tracking figure evolution, and managing lifecycle states.
+While the base domain model for proposals covers customers, shows, and pricing, this excerpt focuses specifically on enriching the **Proposal** entity with video-related attributes and lifecycle awareness.
 
-Including this level of detail is important because:
+This level of detail is important because:
 
-- It helps meet both functional and non-functional requirements for managing figures in the catalogue, such as determining whether a figure is publicly accessible or under revision.
-- It lays the groundwork for enforcing rules around figure visibility, state transitions, and content accuracy.
-- It ensures the system can support consistent figure listings while remaining flexible for future enhancements like advanced filtering or publishing workflows.
+- It supports the functional requirement of adding and updating simulation videos linked to proposals.
+- It enables proper validation (e.g., format, size) and lifecycle controls (e.g., allowing replacements while editable).
+- It lays the foundation for UI integration, such as embedded video previews for customers.
 
 #### **Explanation of the model elements**
 
-- **Figure** (`<<AggregateRoot>>`): Central entity in the Figure catalogue. Each figure includes essential metadata used for display and filtering in the catalogue, such as:
-    - `id`: Unique identifier for the figure.
-    - `name`: User-facing name.
-    - `description`: Description of the figure's purpose or context.
-    - `version`: Indicates the current version of the figure 
-    - `availability`: Enum indicating if the figure is public (e.g., *Public*, *Exclusive*).
-    - `dsl`: Domain-specific language reference used to define the figure.
-    - `status`: Operational status (e.g., *Active*).
-    - `category`: Association to the `Category` entity, from which the `category.name` is exposed.
-    - **Category** (`<<AggregateRoot>>`): Each figure belongs to exactly one category, which provides organizational structure and classification for listing. From the figure perspective, the `category.name` is highly relevant in this context, as it’s used for display and filtering.
+- **Proposal** (`<<AggregateRoot>>`): Central entity representing a proposal sent to a customer. Now extended with:
+  - `id`: Unique identifier for the proposal.
+  - `title`: Optional title used internally.
+  - `videoUrl`: Direct link or path to the stored simulation video.
+  - `videoUploadedBy`: Reference to the user who uploaded the video (e.g., CRM Collaborator).
+  - `videoUploadDate`: Timestamp marking the last upload time.
+  - `status`: Workflow status (e.g., *Draft*, *Submitted*). Determines whether a video can be replaced.
+- **User**: References the authenticated CRM Collaborator who uploads the video.
+- **Video Storage**: Logical representation of the external service or infrastructure handling secure video storage and streaming. Not a persisted domain entity, but relevant to system design and interfaces.
 
-This domain view ensures that all required data for public figure listing is readily accessible, while maintaining clean separation of responsibilities between the Figure and Category aggregates.
+This domain view captures the minimal yet complete structure needed to support video functionality in proposals, while ensuring tight integration with authentication and editing workflows.
 
 ### 2.2. Other Remarks
 
-This version of the domain model emphasizes read-optimized access to figure data, including category references. The design ensures:
-- **Fast and reliable retrieval** of all fields required by the UI for the catalogue.
-- **Clear separation of concerns**, maintaining category ownership of classification logic.
-- **Future extensibility**, such as support for filtering by availability or status.
+This enriched model is optimized for secure handling and controlled presentation of simulation videos. The design ensures:
+- **Traceability and ownership** of uploaded content (who uploaded, when).
+- **Secure and accessible storage** integration, abstracted from the core domain.
+- **Enforced validation and replacement rules** based on proposal status.
 
-The model is now prepared to support additional features like search, filtering, and version tracking in the figure catalogue.
+The model is structured for future enhancements, such as:
+- Supporting video previews in mobile or shared views.
+- Logging download/play events for auditing.
+- Adding support for multiple video formats or transcodings.

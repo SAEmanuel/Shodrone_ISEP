@@ -3,153 +3,70 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title UI Sequence Diagram (SSD) - Search Figure catalogue
+title UI Sequence Diagram (SSD) - Add Video to Show Proposal (US315)
 
-autonumber
+actor "User" as user
+participant ":AddVideoOfSimulationToTheProposalUI" as UI
+participant ":AddVideoOfSimulationToTheProposalController" as Controller
+participant ":ShowProposalRepository" as Repository
 
-actor "Show Designer" as showDesigner
-participant ":ListSearchedFigureUI" as UI
-participant ":ListSearchedFigureController" as CTRL
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
+activate user
 
-participant "figureCategoryController\n:FigureCategoryController" as figureCategoryControler
-participant ":AddFigureController" as CTRL
-participant "authenticationController\n:AuthenticationController" as authcot
-participant ":Repositories" as RepositorySingleton
-participant "repositories\n:Repositories" as PLAT
-participant "figureCategoryRepository\n:FigureCategoryRepository" as figureCategoryRepository
-participant "authenticationRepository\n:AuthenticationRepository" as authenticationRepository
-
-activate showDesigner
-
-    showDesigner -> UI : ask to search figures
-    activate UI
-
-    UI -> showDesigner : ask for optional data (id, name, description, version, availability dsl, status)
-    showDesigner -> UI : provides optional data
-    UI -> figureCategoryControler** : getActiveFigureCategories()
-
-
-                    activate figureCategoryControler
-
-                    figureCategoryControler --> figureCategoryControler : getFigureCategoryRepository()
-
-                    activate figureCategoryControler
-
-                        figureCategoryControler -> RepositorySingleton : getInstance()
-                        activate RepositorySingleton
-
-                            RepositorySingleton --> figureCategoryControler : repositories
-                        deactivate RepositorySingleton
-
-                        figureCategoryControler -> PLAT : getFigureCategoryRepository()
-
-                        activate PLAT
-
-                            PLAT --> figureCategoryControler : figureCategoryRepository
-                        deactivate PLAT
-
-                            figureCategoryControler --> figureCategoryControler: figureCategoryRepository
-                    deactivate figureCategoryControler
-
-                        figureCategoryControler -> figureCategoryRepository : getActiveFigureCategories(CostumerID identification)
-
-
-                        activate figureCategoryRepository
-
-                        figureCategoryRepository --> figureCategoryControler : listWithActiveFigureCategories
-
-            deactivate figureCategoryRepository
-            figureCategoryControler --> UI : listWithActiveFigureCategories
-            deactivate figureCategoryControler
-    UI -> showDesigner : ask for optional category selection
-      deactivate UI
-
-showDesigner -> UI : provides optional category
+user -> UI : launch Add Video to Show Proposal UI
 activate UI
 
-UI -> authcot ** : getMyActiveCustomers()
-deactivate CTRL
-        activate authcot
-            authcot --> authcot : getAuthenticationRepository()
-            activate authcot
+UI -> Drone3DSimulation : loadDroneDataFromCustomFormat(fileName)
+activate Drone3DSimulation
+Drone3DSimulation --> UI : drone data loaded
+deactivate Drone3DSimulation
 
-                authcot -> RepositorySingleton : getInstance()
-                activate RepositorySingleton
+UI -> javafx.Application : launch Drone3DSimulation app
+activate javafx.Application
+javafx.Application --> UI : app launched
+deactivate javafx.Application
 
-                RepositorySingleton --> authcot : repositories
-                deactivate RepositorySingleton
+UI -> UI : read video file "drone_<fileName>.mov"
+UI -> Controller : getAllProposals()
+activate Controller
 
-                authcot -> PLAT : getAuthenticationRepository()
-                activate PLAT
+Controller -> Repository : getAllProposals()
+activate Repository
 
-                    PLAT --> authcot  : authenticationRepository
-                deactivate PLAT
-                    authcot --> authcot : authenticationRepository
-                    |||
-            deactivate authcot
+Repository --> Controller : Optional<List<ShowProposal>>
+deactivate Repository
 
-            authcot -> authenticationRepository  : getMyActiveCustomers()
-            activate authenticationRepository
+Controller --> UI : List<ShowProposal>
+deactivate Controller
 
-                authenticationRepository --> authcot : listActiveCustomers
-            deactivate authenticationRepository
+alt listOfProposals not empty
 
-            authcot --> UI : listActiveCustomers
+    UI -> UI : show proposals and prompt selection
+    UI -> UI : select proposal index
 
-        deactivate authcot
-    UI -> showDesigner : ask for optional costumer selection
+    UI -> Controller : addVideoToShowProposal(selectedProposal, video)
+    activate Controller
 
-  deactivate UI
+    Controller -> selectedProposal : editVideo(video)
+    Controller -> Repository : updateInStoreProposal(showProposal)
+    activate Repository
 
-  showDesigner -> UI : provides optional costumer
-activate UI
+    Repository --> Controller : Optional<ShowProposal>
+    deactivate Repository
 
-    UI -> CTRL** : create
-    activate CTRL
+    Controller --> UI : Optional<ShowProposal>
+    deactivate Controller
 
-        CTRL -> CTRL : getFigureRepository()
-        activate CTRL
+    alt result present
+        UI -> user : printSuccessMessage("Video added successfully to proposal!")
+    else result empty
+        UI -> user : printFailMessage("Something went wrong saving the Show Proposal!")
+    end
 
-            CTRL -> RepositorySingleton : getInstance()
-            activate RepositorySingleton
-
-                RepositorySingleton --> CTRL: repositories
-            deactivate RepositorySingleton
-
-            CTRL -> PLAT : getFigureRepository()
-            activate PLAT
-
-                PLAT --> CTRL: figureRepository
-            deactivate PLAT
-            CTRL --> CTRL : figureRepository
-
-        deactivate CTRL
-
-        UI -> CTRL: searchFigure(id, name, description, version, availability, category, dsl, status, costumer)
-
-alt Repository is InMemoryFigureRepository
-    CTRL -> inMem: findFigures(id, name, description, version, availability, category, dsl, status, costumer)
-    activate inMem
-
-    inMem --> CTRL: Optional<List<Figure>>
-    deactivate inMem
-
-else Repository is FigureRepositoryJPAImpl
-    CTRL -> jpa: findFigures(id, name, description, version, availability, category, dsl, status, costumer)
-    activate jpa
-
-    jpa --> CTRL: Optional<List<Figure>>
-    deactivate jpa
+else list empty or null
+    UI -> user : printFailMessage("No Show Proposal")
 end
-                CTRL -> UI: listOfFigures
-
-            deactivate CTRL
-
-            UI -> showDesigner : shows list of searched Figures
 
 deactivate UI
-deactivate showDesigner
+deactivate user
 
 @enduml

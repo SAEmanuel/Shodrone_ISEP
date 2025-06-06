@@ -1,12 +1,14 @@
 package persistence.jpa.JPAImpl;
 
-import domain.entity.Costumer;
 import domain.entity.ShowProposal;
+import domain.valueObjects.Video;
 import jakarta.persistence.TypedQuery;
+import org.apache.commons.lang3.NotImplementedException;
 import persistence.ShowProposalRepository;
 import persistence.jpa.JpaBaseRepository;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> implements ShowProposalRepository {
@@ -36,7 +38,7 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
     private Optional<ShowProposal> findDuplicateProposal(ShowProposal entity) {
         TypedQuery<ShowProposal> query = entityManager().createQuery(
                 "SELECT sp FROM ShowProposal sp WHERE sp.showRequest.id = :showRequest "
-                        + "AND sp.nameProposal = :name ", ShowProposal.class);
+                        +"AND sp.nameProposal = :name ", ShowProposal.class);
 
         query.setParameter("showRequest", entity.getShowRequest().identity());
         query.setParameter("name", entity.getNameProposal());
@@ -51,14 +53,12 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
         }
     }
 
-
     @Override
-    public Optional<List<ShowProposal>> getAllProposals() {
+    public Optional<List<ShowProposal>> getAllProposals(){
         List<ShowProposal> listShowProposals = findAll();
 
         return listShowProposals.isEmpty() ? Optional.empty() : Optional.of(listShowProposals);
     }
-
 
     @Override
     public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity) {
@@ -74,18 +74,12 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
     }
 
     @Override
-    public Optional<List<ShowProposal>> findByCostumer(Costumer costumer) {
-        if (costumer == null) {
-            return Optional.empty();
+    public Optional<Video> getVideoBytesByShowProposal(ShowProposal proposal) {
+        ShowProposal request = findById(proposal.identity());
+        if (request != null && request.getVideo() != null) {
+            return Optional.of(request.getVideo());
         }
-
-        List<ShowProposal> results = entityManager().createQuery(
-                        "SELECT s FROM ShowProposal s WHERE s.showRequest.costumer = :costumer",
-                        ShowProposal.class)
-                .setParameter("costumer", costumer)
-                .getResultList();
-
-        return results.isEmpty() ? Optional.empty() : Optional.of(results);
+        return Optional.empty();
     }
 }
 
