@@ -17,6 +17,7 @@ public class AnalyseProposalUI implements Runnable {
         myProposalsController = new GetMyProposalsController(authenticationController);
     }
 
+
     @Override
     public void run() {
         Utils.printCenteredTitle("ANALYZE SHOW PROPOSALS");
