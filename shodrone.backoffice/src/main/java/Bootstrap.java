@@ -47,6 +47,7 @@ public class Bootstrap implements Runnable {
         repo.addUserWithRole("Representative x", "representative@shodrone.app", "Repres654%", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
         repo.addUserWithRole("Drone Technician x", "dt@shodrone.app", "Xv1234!", Roles.ROLE_DRONE_TECH);
         repo.addUserWithRole("DroSDSDn x", "xu@shodrone.app", "XuTech159&", Roles.ROLE_CRM_COLLABORATOR);
+
     }
 
 
