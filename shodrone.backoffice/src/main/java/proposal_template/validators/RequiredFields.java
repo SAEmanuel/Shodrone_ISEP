@@ -7,7 +7,7 @@ import java.util.Optional;
 public enum RequiredFields {
 
     CUSTOMER(Arrays.asList("customer", "customerName", "client", "clientName", "cliente", "nomeCliente")),
-    SHOW_DATE(Arrays.asList("showDate", "dataShow", "data")),
+    SHOW_DATE(Arrays.asList("showDate", "dataShow", "data", "date")),
     SHOW_LOCATION(Arrays.asList("showLocation", "local", "location")),
     DURATION(Arrays.asList("duration", "showDuration", "duracao", "duracaoShow")),
     FIGURES(List.of("figures", "figuras")),

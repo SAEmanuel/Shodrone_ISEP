@@ -4,6 +4,8 @@ import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
+import proposal_template.validators.TemplatePlugin;
+import utils.AuthUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -89,9 +91,9 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.customerRepresentativeRepository().saveInStore(representativeContinente);
 
         AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
-        repo.addUserWithRole("Jorge-Microsoft","jorgeUbaldo@shodrone.app","Jorge123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("Francisco-Apple","francisco@shodrone.app","Franc123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
-        repo.addUserWithRole("Paulo-Continente","paulo@shodrone.app","Paulo123#",Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("Jorge-Microsoft", "jorgeUbaldo@shodrone.app", "Jorge123#", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("Francisco-Apple", "francisco@shodrone.app", "Franc123#", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
+        repo.addUserWithRole("Paulo-Continente", "paulo@shodrone.app", "Paulo123#", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
     }
 
     // --- Figure Setup ---------------------------------------------------
@@ -252,8 +254,6 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.showProposalRepository().saveInStore(proposal1);
         RepositoryProvider.showProposalRepository().saveInStore(proposal2);
         RepositoryProvider.showProposalRepository().saveInStore(proposal3);
-        RepositoryProvider.showProposalRepository().saveInStore(proposal4);
-        RepositoryProvider.showProposalRepository().saveInStore(proposal5);
     }
 
 
@@ -463,7 +463,6 @@ public class Bootstrap implements Runnable {
     );
 
 
-
     // --- Show Request -----------------------------------------------------------
 
     private final Description description1 = new Description("Amazing drone show!");
@@ -556,39 +555,79 @@ public class Bootstrap implements Runnable {
     );
 
 
-
-
     // --- Proposals -----------------------------------------------------------
-    //todo adicionar os modelos de drones as propostas
-    private final ShowProposal proposal1 = new ShowProposal(showRequest1, null, list1,
-            new Description("Description 1"),
-            new Location(new Address("Street1", "City1", "4444-000", "Country1"), 60, 120, "Description"),
-            LocalDateTime.now().plusDays(3L), 10, Duration.ofMinutes(60),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
+    Content content1 = new Content(
+            showRequest1.getCostumer(),
+            showRequest1.getShowDate(),
+            showRequest1.getLocation(),
+            showRequest1.getShowDuration(),
+            proposal1Figures(), proposal1DroneModels(),
+            "crm_collaborator@shodrone.app");
 
-    private final ShowProposal proposal2 = new ShowProposal(showRequest1, null, list2,
+    Map<String, String> placeholders = TemplatePlugin.buildPlaceholderMap(content1);
+
+    List<String> filled1 = TemplatePlugin.replacePlaceholders(templateEN.text(), placeholders);
+        //content1.changeText(filled1);
+
+    ShowProposal proposal1 = new ShowProposal(showRequest1, templateEN, new ArrayList<>(proposal1Figures().values()), showRequest1.getDescription(), showRequest1.getLocation(), showRequest1.getShowDate(), 10, showRequest1.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal1DroneModels());
+        //proposal1.setText(filled);
+
+
+    private final ShowProposal proposal2 = new ShowProposal(showRequest1, templateEN, list2,
             new Description("Description 2"),
             new Location(new Address("Street2", "City2", "5555-111", "Country2"), 50, 100, "Another description"),
             LocalDateTime.now().plusDays(5L), 15, Duration.ofMinutes(45),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal2DroneModels());
 
-    private final ShowProposal proposal3 = new ShowProposal(showRequest2, null, list3,
+    private final ShowProposal proposal3 = new ShowProposal(showRequest2, templatePT, list3,
             new Description("Description 3"),
             new Location(new Address("Street3", "City3", "6666-222", "Country3"), 45, 150, "Yet another description"),
             LocalDateTime.now().plusDays(7L), 20, Duration.ofMinutes(90),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
+            "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal3DroneModels());
 
-    private final ShowProposal proposal4 = new ShowProposal(showRequest2, null, list4,
-            new Description("Description 4"),
-            new Location(new Address("Street4", "City4", "7777-333", "Country4"), 80, 130, "Different description"),
-            LocalDateTime.now().plusDays(10L), 12, Duration.ofMinutes(75),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
 
-    private final ShowProposal proposal5 = new ShowProposal(showRequest3, null, list5,
-            new Description("Description 5"),
-            new Location(new Address("Street5", "City5", "8888-444", "Country5"), 80, 110, "Some description here"),
-            LocalDateTime.now().plusDays(12L), 18, Duration.ofMinutes(120),
-            "crm_collaborator@shodrone.app", LocalDateTime.now(), new HashMap<>());
+    private Map<DroneModel, Integer> proposal1DroneModels() {
+        Map<DroneModel, Integer> models = new HashMap<>();
+        models.put(droneModel1, 5);
+        models.put(droneModel2, 5);
+        return models;
+    }
+
+    private Map<DroneModel, Integer> proposal2DroneModels() {
+        Map<DroneModel, Integer> models = new HashMap<>();
+        models.put(droneModel3, 10);
+        models.put(droneModel5, 5);
+        return models;
+    }
+
+    private Map<DroneModel, Integer> proposal3DroneModels() {
+        Map<DroneModel, Integer> models = new HashMap<>();
+        models.put(droneModel1, 10);
+        models.put(droneModel2, 5);
+        models.put(droneModel4, 5);
+        return models;
+    }
+
+    private Map<Integer, Figure> proposal1Figures() {
+        Map<Integer, Figure> f = new HashMap<>();
+        f.put(1, figure8);
+        f.put(2, figure9);
+        return f;
+    }
+
+    private Map<Integer, Figure> proposal2Figures() {
+        Map<Integer, Figure> f = new HashMap<>();
+        f.put(1, figure2);
+        f.put(2, figure15);
+        return f;
+    }
+
+    private Map<Integer, Figure> proposal3Figures() {
+        Map<Integer, Figure> f = new HashMap<>();
+        f.put(1, figure16);
+        f.put(2, figure1);
+        return f;
+    }
 
     // ---- -------------------
     private Costumer foundCostumerByNIF(NIF nif) {

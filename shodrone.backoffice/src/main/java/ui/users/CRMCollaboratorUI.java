@@ -2,11 +2,7 @@ package ui.users;
 
 import ui.figure.ListPublicFiguresUI;
 import ui.figure.SearchFigureUI;
-import ui.showproposal.AddFiguresToProposalUI;
-import ui.showproposal.AddVideoOfSimulationToTheProposalUI;
-import ui.showproposal.CreateShowProposalUI;
-import ui.showproposal.PresentShowProposalVideoUI;
-import ui.showproposal.RegisterShowProposalUI;
+import ui.showproposal.*;
 import ui.showrequest.EditShowRequestUI;
 import ui.showrequest.ListShowRequestByCostumerUI;
 import ui.customer.RegisterCustomerUI;
@@ -64,6 +60,7 @@ public class CRMCollaboratorUI implements Runnable {
         options.add(new MenuItem("Add Video To Show Proposal", new AddVideoOfSimulationToTheProposalUI()));
         options.add(new MenuItem("Present Video of Show Proposal", new PresentShowProposalVideoUI()));
         options.add(new MenuItem("Register Show Proposal", new RegisterShowProposalUI()));
+        options.add(new MenuItem("Accept show proposal", new AcceptShowProposalUI()));
 
         int option;
         do {

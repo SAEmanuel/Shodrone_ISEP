@@ -1,14 +1,13 @@
 package controller.showproposal;
 
 import domain.entity.ProposalTemplate;
-import domain.valueObjects.Content;
 import domain.valueObjects.Description;
 import domain.valueObjects.Name;
 import persistence.ProposalTemplateRepository;
 import persistence.RepositoryProvider;
 import proposal_template.validators.TemplatePlugin;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
