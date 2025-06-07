@@ -131,7 +131,6 @@ public class Bootstrap implements Runnable {
 
     // --- Drone Setup ---------------------------------------------------
     private void addDrones() {
-        // Primeiros 20 drones (já existentes)
         RepositoryProvider.droneRepository().save(drone1);
         RepositoryProvider.droneRepository().save(drone2);
         RepositoryProvider.droneRepository().save(drone3);
@@ -570,7 +569,7 @@ public class Bootstrap implements Runnable {
         List<String> filled = TemplatePlugin.replacePlaceholders(RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get().text(), placeholders);
         content.changeText(filled);
 
-        ShowProposal proposal = new ShowProposal(showRequest1, RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(), showRequest1.getDescription(), showRequest1.getLocation(), showRequest1.getShowDate(), 10, showRequest1.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal1DroneModels());
+        ShowProposal proposal = new ShowProposal(new Name("Proposal One"), showRequest1, RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest1.getDescription(), showRequest1.getLocation(), showRequest1.getShowDate(), 10, showRequest1.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal1DroneModels());
         proposal.setText(filled);
         return proposal;
     }
@@ -589,7 +588,7 @@ public class Bootstrap implements Runnable {
 
         List<String> filled = TemplatePlugin.replacePlaceholders(RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get().text(), placeholders);
         content.changeText(filled);
-        ShowProposal proposal = new ShowProposal(showRequest2, RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest2.getDescription(), showRequest2.getLocation(), showRequest2.getShowDate(), 15, showRequest2.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal2DroneModels());
+        ShowProposal proposal = new ShowProposal(new Name("Proposal Two"), showRequest2, RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest2.getDescription(), showRequest2.getLocation(), showRequest2.getShowDate(), 15, showRequest2.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal2DroneModels());
         proposal.setText(filled);
         return proposal;
     }
@@ -608,7 +607,7 @@ public class Bootstrap implements Runnable {
         List<String> filled = TemplatePlugin.replacePlaceholders(RepositoryProvider.proposalTemplateRepository().findByName("Template PT").get().text(), placeholders);
         content.changeText(filled);
 
-        ShowProposal proposal = new ShowProposal(showRequest3, RepositoryProvider.proposalTemplateRepository().findByName("Template PT").get(), new ArrayList<>(proposal3Figures().values()), showRequest3.getDescription(), showRequest3.getLocation(), showRequest3.getShowDate(), 20, showRequest3.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal3DroneModels());
+        ShowProposal proposal = new ShowProposal(new Name("Proposal Three"), showRequest3, RepositoryProvider.proposalTemplateRepository().findByName("Template PT").get(), new ArrayList<>(proposal3Figures().values()), showRequest3.getDescription(), showRequest3.getLocation(), showRequest3.getShowDate(), 20, showRequest3.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal3DroneModels());
         proposal.setText(filled);
         return proposal;
     }

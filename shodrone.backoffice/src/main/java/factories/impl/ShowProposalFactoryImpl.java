@@ -3,6 +3,7 @@ package factories.impl;
 import domain.entity.*;
 import domain.valueObjects.Description;
 import domain.valueObjects.Location;
+import domain.valueObjects.Name;
 import eapli.framework.domain.model.DomainFactory;
 import utils.AuthUtils;
 import utils.Utils;
@@ -31,6 +32,7 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     private String version;
     private ProposalTemplate template;
     Map<DroneModel, Integer> drones;
+    private Name proposalName;
 
     /**
      * Builds and returns a new ShowProposal object with the current factory values.
@@ -40,6 +42,7 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     @Override
     public ShowProposal build() {
         return new ShowProposal(
+                proposalName,
                 showRequest,
                 template,
                 sequenceFigures,

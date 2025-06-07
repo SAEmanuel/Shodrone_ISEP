@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static more.ColorfulOutput.*;
-import static more.ColorfulOutput.ANSI_RESET;
 import static more.TextEffects.BOLD;
 
 public class EditShowProposalUI implements Runnable {
@@ -38,7 +37,6 @@ public class EditShowProposalUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("EDIT SHOW PROPOSAL");
 
-
         requestChanges(proposal);
         Optional<ShowProposal> validEdit = editShowProposalController.editShowProposal(proposal);
         if (validEdit.isPresent()) {
@@ -50,7 +48,6 @@ public class EditShowProposalUI implements Runnable {
             Utils.waitForUser();
         }
     }
-
 
     public void requestChanges(ShowProposal newProposal) {
         int option;
@@ -81,17 +78,16 @@ public class EditShowProposalUI implements Runnable {
                             return;
                         }
                         newTemplate = listOfTemplates.get().get(index);
-                        if (newTemplate.equals(proposal.template())) {
+                        if (newTemplate.equals(newProposal.template())) {
                             Utils.printWarningMessage("Same template selected, nothing has changed in this field...");
                             return;
                         }
 
+                        newProposal.changeTemplate(newTemplate);
                     } else {
-                        Utils.printFailMessage("The are no proposal templates in the system! Add them first and try again!");
+                        Utils.printFailMessage("There are no proposal templates in the system! Add them first and try again!");
                         return;
                     }
-
-                    newProposal.changeTemplate(newTemplate);
                 }
                 case 3 -> {
                     LocalDateTime date = Utils.readDateFromConsole("New show date (yyyy-MM-dd HH:mm): ");
@@ -101,6 +97,18 @@ public class EditShowProposalUI implements Runnable {
                     newProposal.setLocation(FactoryProvider.getLocationFactoryImpl().createLocationObject());
                 }
                 case 5 -> {
+                    Utils.printAlterMessage("Current number of drones: " + newProposal.getNumberOfDrones());
+                    int numberOfDrones;
+                    boolean changeNumberOfDrones = Utils.confirm("Do you wish to change the current number of drones? (y/n)");
+                    if (changeNumberOfDrones) {
+                        numberOfDrones = Utils.readIntegerFromConsole("Select the desired number: ");
+                        if (numberOfDrones == newProposal.getNumberOfDrones()) {
+                            Utils.printAlterMessage("You have selected the same number of drones, nothing was changed...");
+                        }
+                    } else {
+                        numberOfDrones = newProposal.getNumberOfDrones();
+                    }
+
                     Optional<Map<DroneModel, Integer>> inventory = getDroneModelsController.getDroneModelQuantity();
 
                     if (inventory.isEmpty() || inventory.get().isEmpty()) {
@@ -112,7 +120,7 @@ public class EditShowProposalUI implements Runnable {
                             "Drone Model selection",
                             "Choose a model",
                             inventory.get(),
-                            proposal.getNumberOfDrones()
+                            numberOfDrones
                     );
 
                     Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels();
@@ -122,6 +130,13 @@ public class EditShowProposalUI implements Runnable {
                     }
 
                     Map<DroneModel, Integer> modelsToBeUsed = selectedModels.get();
+                    int checkNumberOfDrones = 0;
+                    for (Integer i : modelsToBeUsed.values())
+                        checkNumberOfDrones += i;
+
+                    if (checkNumberOfDrones < numberOfDrones)
+                        newProposal.setNumberOfDrones(checkNumberOfDrones);
+
                     newProposal.setModelsUsed(modelsToBeUsed);
                 }
                 case 6 -> {

@@ -23,7 +23,6 @@ public class DroneModelSelectorUI {
     public Optional<Map<DroneModel, Integer>> selectModels() {
         Map<DroneModel, Integer> selectedModels = new HashMap<>();
         List<DroneModel> availableModels = filterAvailableModels();
-        System.out.println(availableModels.size());
         int remainingDrones = maxDrones;
 
         while (!availableModels.isEmpty() && remainingDrones > 0) {

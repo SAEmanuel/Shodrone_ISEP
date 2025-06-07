@@ -21,4 +21,6 @@ public interface ShowProposalRepository {
 
     public Optional<ShowProposal> findByID(Long id);
 
+    public Optional<ShowProposal> findByName(String nameProposal);
+
 }

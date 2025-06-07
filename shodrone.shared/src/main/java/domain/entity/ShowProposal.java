@@ -1,10 +1,6 @@
 package domain.entity;
 
-import domain.valueObjects.Description;
-import domain.valueObjects.Location;
-import domain.valueObjects.ShowProposalStatus;
-import domain.valueObjects.Video;
-import eapli.framework.domain.model.AggregateRoot;
+import domain.valueObjects.*;
 import eapli.framework.domain.model.DomainEntityBase;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -19,11 +15,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import static java.lang.String.format;
 import static more.ColorfulOutput.*;
 
 @Entity
-public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoot<Long>, Serializable, IdentifiableEntity<Long> {
+public class ShowProposal extends DomainEntityBase<Long> implements Serializable, IdentifiableEntity<Long> {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -48,7 +43,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
 
     @Getter
     @Setter
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "show_proposal_figures",
             joinColumns = @JoinColumn(name = "Show_Proposal_ID"),
@@ -81,7 +76,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
 
     @Setter
     @Getter
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "show_proposal_drone_models",
             joinColumns = @JoinColumn(name = "show_proposal_id")
@@ -129,8 +124,8 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
 
     @Setter
     @Getter
-    @Column(name = "Name_Proposal")
-    private String nameProposal;
+    @Column(name = "Name_Proposal", nullable = false)
+    private Name nameProposal;
 
     @Setter
     @Getter
@@ -141,9 +136,10 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
     public ShowProposal() {
     }
 
-    public ShowProposal(ShowRequest showRequest, ProposalTemplate template, List<Figure> sequenceFigures
+    public ShowProposal(Name name, ShowRequest showRequest, ProposalTemplate template, List<Figure> sequenceFigures
             , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate,Map<DroneModel, Integer> modelsUsed ) {
 
+        this.nameProposal = name;
         this.showRequest = showRequest;
         this.template = template;
         this.sequenceFigues = sequenceFigures;
@@ -191,6 +187,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements AggregateRoo
 
     public ShowProposal cloneProposal() {
         return new ShowProposal(
+                this.nameProposal,
                 this.showRequest,
                 this.template,
                 new ArrayList<>(this.sequenceFigues),

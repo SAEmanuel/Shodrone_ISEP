@@ -8,6 +8,7 @@ import domain.entity.DroneModel;
 import domain.entity.ProposalTemplate;
 import domain.entity.ShowProposal;
 import domain.entity.ShowRequest;
+import domain.valueObjects.Name;
 import ui.drone.DroneModelSelectorUI;
 import utils.Utils;
 
@@ -31,6 +32,8 @@ public class RegisterShowProposalUI implements Runnable {
     @Override
     public void run() {
         Utils.printCenteredTitle("Register Show Proposal");
+
+        Name proposalName = Utils.rePromptWhileInvalid("Enter the proposal name", Name::new);
 
         Optional<List<ShowRequest>> listOfShowRequests = getAllShowRequestsController.listShowRequest();
         ShowRequest showRequest;
@@ -98,12 +101,18 @@ public class RegisterShowProposalUI implements Runnable {
         }
 
         Map<DroneModel, Integer> modelsToBeUsed = selectedModels.get();
+        int checkNumberOfDrones = 0;
+        for (Integer i : modelsToBeUsed.values())
+            checkNumberOfDrones += i;
+
+        if (checkNumberOfDrones < numberOfDrones)
+            numberOfDrones = checkNumberOfDrones;
 
 
-        Optional<ShowProposal> proposal = registerShowProposalController.generateShowProposal(showRequest, template, modelsToBeUsed, numberOfDrones);
+        Optional<ShowProposal> proposal = registerShowProposalController.generateShowProposal(proposalName, showRequest, template, modelsToBeUsed, numberOfDrones);
 
         if (proposal.isEmpty()) {
-            Utils.printFailMessage("Error registering show proposal...");
+            Utils.printFailMessage("Error registering show proposal, duplicated name...");
         } else {
 
             Utils.printShowProposalResume(proposal.get());

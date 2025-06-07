@@ -2,6 +2,7 @@ package persistence.inmemory;
 
 import domain.entity.Costumer;
 import domain.entity.ShowProposal;
+import domain.valueObjects.Name;
 import domain.valueObjects.Video;
 import persistence.ShowProposalRepository;
 
@@ -102,6 +103,11 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
     //todo falta implementar isto...
     @Override
     public Optional<ShowProposal> findByID(Long id) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<ShowProposal> findByName(String nameProposal) {
         return Optional.empty();
     }
 }

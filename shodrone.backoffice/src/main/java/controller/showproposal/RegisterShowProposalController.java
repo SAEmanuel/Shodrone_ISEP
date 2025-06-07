@@ -1,6 +1,7 @@
 package controller.showproposal;
 
 import domain.entity.*;
+import domain.valueObjects.Name;
 import domain.valueObjects.Content;
 import persistence.RepositoryProvider;
 import persistence.ShowProposalRepository;
@@ -19,7 +20,7 @@ public class RegisterShowProposalController {
     }
 
 
-    public Optional<ShowProposal> generateShowProposal(ShowRequest showRequest, ProposalTemplate template, Map<DroneModel, Integer> droneModels, int numberOfDrones) {
+    public Optional<ShowProposal> generateShowProposal(Name name, ShowRequest showRequest, ProposalTemplate template, Map<DroneModel, Integer> droneModels, int numberOfDrones) {
         Map<Integer, Figure> figures = new HashMap<>();
         for (int i = 0; i < showRequest.getFigures().size(); i++) {
             figures.put(i + 1, showRequest.getFigures().get(i));
@@ -38,7 +39,7 @@ public class RegisterShowProposalController {
         List<String> filled = TemplatePlugin.replacePlaceholders(template.text(), placeholders);
         content.changeText(filled);
 
-        ShowProposal showProposal = new ShowProposal(showRequest, template, new ArrayList<>(figures.values()), showRequest.getDescription(), showRequest.getLocation(), showRequest.getShowDate(), numberOfDrones, showRequest.getShowDuration(), AuthUtils.getCurrentUserName(), LocalDateTime.now(), droneModels);
+        ShowProposal showProposal = new ShowProposal(name, showRequest, template, new ArrayList<>(figures.values()), showRequest.getDescription(), showRequest.getLocation(), showRequest.getShowDate(), numberOfDrones, showRequest.getShowDuration(), AuthUtils.getCurrentUserName(), LocalDateTime.now(), droneModels);
         showProposal.setText(filled);
 
         return repository.saveInStore(showProposal);
