@@ -6,6 +6,7 @@ import controller.network.AuthenticationController;
 import domain.entity.Show;
 import domain.valueObjects.NIF;
 import network.ObjectDTO;
+import network.ShowDTO;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -24,7 +25,7 @@ public class FindShows4CustomerController {
         this.authController = authController;
     }
 
-    public Optional<List<Show>> getShows4Customer(NIF customerNIF) {
+    public Optional<List<ShowDTO>> getShows4Customer(NIF customerNIF) {
         try {
             Gson gson = new Gson();
 
@@ -48,15 +49,14 @@ public class FindShows4CustomerController {
                 return Optional.empty();
             }
 
-            List<Show> listShows = new LinkedList<>();
+            List<ShowDTO> listShows = new LinkedList<>();
 
             for(int i = 0 ; i < numberOfShows; i++){
                 response = authController.receiveMessage();
-                objectDTOType = new TypeToken<ObjectDTO<Show>>() {}.getType();
-                ObjectDTO<Show> objectDTOReponseShow = gson.fromJson(response, objectDTOType);
-                Show show = objectDTOReponseShow.getObject();
+                objectDTOType = new TypeToken<ShowDTO>() {}.getType();
+                ShowDTO objectDTOReponseShow = gson.fromJson(response, objectDTOType);
 
-                listShows.add(show);
+                listShows.add(objectDTOReponseShow);
             }
 
 

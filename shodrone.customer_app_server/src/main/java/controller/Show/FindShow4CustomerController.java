@@ -6,6 +6,7 @@ import domain.entity.Costumer;
 import domain.entity.Show;
 import domain.valueObjects.NIF;
 import network.ObjectDTO;
+import network.ShowDTO;
 import persistence.RepositoryProvider;
 
 import java.io.BufferedReader;
@@ -47,18 +48,20 @@ public class FindShow4CustomerController {
                     out.println(objectDTOJsonToSendInformative);
 
                     for(int i = 0; i < numShows; i++) {
-                        ObjectDTO<Show> objectDTOToSend = ObjectDTO.of(listOfShows.get(i));
+                        ShowDTO objectDTOToSend = ShowDTO.fromEntity(listOfShows.get(i));
                         String objectDTOJsonToSend = gson.toJson(objectDTOToSend);
                         out.println(objectDTOJsonToSend);
                     }
+
                     System.out.println("Finished successfully sneding shows");
+
+                }else{
+                    int numShows = 0;
+
+                    ObjectDTO<Integer> objectDTOToSendInformative = ObjectDTO.of(numShows);
+                    String objectDTOJsonToSendInformative = gson.toJson(objectDTOToSendInformative);
+                    out.println(objectDTOJsonToSendInformative);
                 }
-
-                int numShows = 0;
-
-                ObjectDTO<Integer> objectDTOToSendInformative = ObjectDTO.of(numShows);
-                String objectDTOJsonToSendInformative = gson.toJson(objectDTOToSendInformative);
-                out.println(objectDTOJsonToSendInformative);
 
             }else{
                 int numShows = -1;
