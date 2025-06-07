@@ -4,6 +4,7 @@ import controller.customerRepresentative.FindCustomerOfRepresentativeController;
 import controller.network.AuthenticationController;
 import domain.entity.Show;
 import domain.valueObjects.NIF;
+import network.ShowDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,7 +18,7 @@ public class CheckShowDatesController {
         findShows4CustomerController = new FindShows4CustomerController(authController);
     }
 
-    public Optional<List<Show>> getShowsForCustomer(String email){
+    public Optional<List<ShowDTO>> getShowsForCustomer(String email){
         Optional<NIF> foundCustomer = findCustomerOfRepresentativeController.getCustomerIDbyHisEmail(email);
 
         if(foundCustomer.isEmpty()){
@@ -26,7 +27,7 @@ public class CheckShowDatesController {
 
         NIF customerNIF = foundCustomer.get();
         System.out.println("Customer: " + customerNIF);
-        Optional<List<Show>> showList4Customer = findShows4CustomerController.getShows4Customer(customerNIF);
+        Optional<List<ShowDTO>> showList4Customer = findShows4CustomerController.getShows4Customer(customerNIF);
 
         if(showList4Customer.isEmpty()){
             throw new RuntimeException("✖ No shows found for costumer with NIF [" + customerNIF + "].");
