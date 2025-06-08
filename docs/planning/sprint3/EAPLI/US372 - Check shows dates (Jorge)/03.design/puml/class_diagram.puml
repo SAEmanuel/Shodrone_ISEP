@@ -9,7 +9,7 @@ class RegisterShowRequestController {
     - repoProvider : Repositories
     - authRepo : AuthenticationRepository
     - figureRepo : FigureRepository
-    - showRepo : ShowRequestRepository
+    - showRepo : ShowRepository
     + RegisterShowRequestController()
     + getResponsible() : Email
     + getThisTime() : LocalDateTime
@@ -37,8 +37,8 @@ class RegisterShowRequestUI {
 }
 
 ' === Factory ===
-class ShowRequestFactory {
-    + registerShowRequest(loc: Location, date: LocalDateTime, numDrones: int, duration: Duration, desc: Description, figs: List<Figure>, costumer: Costumer, time: LocalDateTime, author: Email) : ShowRequest
+class ShowFactory {
+    + registerShow(loc: Location, date: LocalDateTime, numDrones: int, duration: Duration, desc: Description, figs: List<Figure>, costumer: Costumer, time: LocalDateTime, author: Email) : Show
 }
 
 ' === Repositories ===
@@ -47,7 +47,7 @@ class Repositories {
     + getInstance() : Repositories
     + getAuthenticationRepository() : AuthenticationRepository
     + getFigureRepository() : FigureRepository
-    + getShowRequestRepository() : ShowRequestRepository
+    + getShowRepository() : ShowRepository
 }
 
 class AuthenticationRepository {
@@ -59,13 +59,13 @@ class FigureRepository {
     + getAvailableFiguresForCustomer(id: CostumerID) : List<Figure>
 }
 
-class ShowRequestRepository {
-    + add(showRequest: ShowRequest) : void
+class ShowRepository {
+    + add(show: Show) : void
 }
 
 ' === Domain ===
-class ShowRequest {
-    + create(...) : ShowRequest
+class Show {
+    + create(...) : Show
 }
 
 class Costumer
@@ -112,11 +112,11 @@ RegisterShowRequestUI --> RegisterShowRequestController
 RegisterShowRequestController --> Repositories
 RegisterShowRequestController --> AuthenticationRepository
 RegisterShowRequestController --> FigureRepository
-RegisterShowRequestController --> ShowRequestRepository
-RegisterShowRequestController --> ShowRequestFactory
+RegisterShowRequestController --> ShowRepository
+RegisterShowRequestController --> ShowFactory
 RegisterShowRequestController --> LocalDateTime
 RegisterShowRequestController --> Email
-RegisterShowRequestController --> ShowRequest
+RegisterShowRequestController --> Show
 
 AuthenticationController --> AuthenticationRepository
 FigureController --> FigureRepository
@@ -124,11 +124,11 @@ FigureController --> FigureRepository
 AuthenticationRepository --> UserSession
 UserSession --> Email
 
-Repositories --> ShowRequestRepository
+Repositories --> ShowRepository
 Repositories --> AuthenticationRepository
 Repositories --> FigureRepository
 
-ShowRequestFactory --> ShowRequest
+ShowFactory --> Show
 
 Figure --> FigureCategory
 Figure --> FigureAvailability
@@ -137,10 +137,10 @@ Figure --> Description
 Figure --> Costumer
 
 Location --> Address
-ShowRequest --> Location
-ShowRequest --> Costumer
-ShowRequest --> Description
-ShowRequest --> Duration
-ShowRequest --> Figure
+Show --> Location
+Show --> Costumer
+Show --> Description
+Show --> Duration
+Show --> Figure
 
 @enduml

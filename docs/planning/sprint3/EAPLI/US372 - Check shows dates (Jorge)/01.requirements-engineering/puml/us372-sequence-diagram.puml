@@ -1,18 +1,33 @@
 @startuml
 actor "Customer" as Actor
-participant "System" as System
+participant "Customer App" as App
+participant "TCPClient" as Client
+participant "TCPServer" as Server
+participant "CheckShowDatesController" as Controller
+database "ShowRequestRepository" as Repo
 
-activate Actor
-activate System
-Actor -> System: Check My Show Dates()
-alt Show Request Not Found
-    System --> Actor: Error "Show request not found"
-else
-    System -> System: Check for Conflicts(showRequestId)
-    alt Conflicts Found
-        System --> Actor: Warning "Scheduling conflict detected! Conflicting show requests: [details]"
-    else
-        System --> Actor: Success "No scheduling conflicts found for show request [ShowRequest.id]"
-    end
+== Cliente solicita shows ==
+
+Actor -> App : Select "Check My Show Dates"
+App -> Client : Send request with Customer NIF
+Client -> Server : JSON ObjectDTO (action: "CHECK_SHOW_DATES", nif)
+
+== Servidor processa o pedido ==
+
+Server -> Controller : getShowsByCustomer(nif)
+Controller -> Repo : findByCustomer(nif)
+Repo --> Controller : List<ShowRequest>
+
+alt No Shows Found
+    Controller --> Server : JSON ObjectDTO (message: "No scheduled shows found for your account.")
+    Server --> Client : response
+    Client --> App : Show message
+else Shows Found
+    Controller -> Controller : Filter out CANCELLED
+    Controller -> Controller : Sort by date ascending
+    Controller -> Controller : Map to List<ShowDTO>
+    Controller --> Server : JSON ObjectDTO (list of shows)
+    Server --> Client : response
+    Client --> App : Show list of shows
 end
 @enduml

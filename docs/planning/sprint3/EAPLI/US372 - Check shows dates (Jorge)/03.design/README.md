@@ -1,4 +1,4 @@
-# US372 - List Scheduled Shows
+# US372 - Check Show Dates
 
 ## 3. Design
 

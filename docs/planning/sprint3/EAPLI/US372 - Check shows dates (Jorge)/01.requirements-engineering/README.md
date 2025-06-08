@@ -1,4 +1,4 @@
-# US372 - List Scheduled Shows
+# US372 - Check Shows Dates
 
 ## 1. Requirements Engineering
 
@@ -31,9 +31,7 @@ As a Customer, I want to list my scheduled shows, so that I can review the detai
 ### 1.5. Input and Output Data
 
 **Input Data:**
-
-- **Selected Data**:
-  - Authenticated customer (automatically determined from the session).
+- None
 
 **Output Data:**
 

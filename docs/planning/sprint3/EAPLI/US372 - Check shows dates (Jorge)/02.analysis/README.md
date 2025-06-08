@@ -1,4 +1,4 @@
-# US372 - List Scheduled Shows
+# US372 - Check Shows Dates
 
 ## 2. Analysis
 
