@@ -1,10 +1,16 @@
+
 @startuml
-actor "Customer" as Actor
-participant "Customer App" as App
+actor "Customer Representative" as Actor
+participant "Customer App (UI)" as App
+participant "AuthenticationController" as AuthCtrl
+participant "CheckShowDatesController" as CheckDatesCtrl
+participant "FindShows4CustomerController" as FindShowsCtrl
+participant "FindCustomerOfRepresentativeController" as FindCustCtrl
 participant "TCPClient" as Client
 participant "TCPServer" as Server
-participant "CheckShowDatesController" as Controller
-database "ShowRequestRepository" as Repo
+participant "FindShow4CustomerController" as ServerCtrl
+database "ShowRepository" as ShowRepo
+database "CustomerRepository" as CustRepo
 
 == Cliente solicita shows ==
 
@@ -12,56 +18,71 @@ Actor -> App : Select "Check My Show Dates"
 activate Actor
 activate App
 
-App -> Client : Send request with Customer NIF
-activate Client
-deactivate App
-deactivate Actor
+App -> AuthCtrl : getEmailLogin()
+activate AuthCtrl
+AuthCtrl --> App : email
+deactivate AuthCtrl
 
-Client -> Server : JSON ObjectDTO (action: "CHECK_SHOW_DATES", nif)
+App -> CheckDatesCtrl : getCustomerNIFOfTheRepresentativeAssociated(email)
+activate CheckDatesCtrl
+
+CheckDatesCtrl -> FindCustCtrl : getCustomerIDbyHisEmail(email)
+activate FindCustCtrl
+FindCustCtrl -> AuthCtrl : sendMessage("FindCustomerOfRepresentative")
+FindCustCtrl -> AuthCtrl : sendMessage(ObjectDTO<email>)
+FindCustCtrl -> AuthCtrl : receiveMessage()
+FindCustCtrl --> CheckDatesCtrl : Optional<NIF>
+deactivate FindCustCtrl
+
+CheckDatesCtrl -> FindShowsCtrl : getShows4Customer(NIF)
+activate FindShowsCtrl
+FindShowsCtrl -> AuthCtrl : sendMessage("FindShow4Customer")
+FindShowsCtrl -> AuthCtrl : sendMessage(ObjectDTO<NIF>)
+FindShowsCtrl -> AuthCtrl : receiveMessage() // nº de shows
+FindShowsCtrl -> AuthCtrl : receiveMessage() x nº shows
+FindShowsCtrl --> CheckDatesCtrl : Optional<List<ShowDTO>>
+deactivate FindShowsCtrl
+
+CheckDatesCtrl --> App : Optional<List<ShowDTO>>
+deactivate CheckDatesCtrl
+
+alt No Shows Found
+    App -> App : Show "No shows found" message
+else Shows Found
+    App -> App : Display list of shows
+end
+
+deactivate Actor
+deactivate App
+
+== Comunicação TCP Client-Server ==
+
+App -> Client : Send request (via AuthCtrl)
+activate Client
+Client -> Server : JSON ObjectDTO (FindCustomerOfRepresentative / FindShow4Customer)
 activate Server
 deactivate Client
 
-== Servidor processa o pedido ==
+Server -> ServerCtrl : getCustomerOfRepresentativeAction() ou getShow4CustomerAction()
+activate ServerCtrl
 
-Server -> Controller : getShowsByCustomer(nif)
-activate Controller
+alt FindCustomerOfRepresentative
+    ServerCtrl -> CustRepo : getAssociatedCustomer(email)
+    CustRepo --> ServerCtrl : Optional<Costumer>
+    ServerCtrl --> Server : ObjectDTO<NIF>
+else FindShow4Customer
+    ServerCtrl -> CustRepo : findByNIF(NIF)
+    CustRepo --> ServerCtrl : Optional<Costumer>
+    ServerCtrl -> ShowRepo : findByCostumer(costumer)
+    ShowRepo --> ServerCtrl : Optional<List<Show>>
+    ServerCtrl --> Server : ObjectDTO<List<ShowDTO>> ou nº de shows e lista
+end
+deactivate ServerCtrl
+
+Server --> Client : JSON response
+activate Client
+Client --> App : JSON response processed
+deactivate Client
 deactivate Server
 
-Controller -> Repo : findByCustomer(nif)
-activate Repo
-deactivate Controller
-
-Repo --> Controller : List<ShowRequest>
-activate Controller
-deactivate Repo
-
-alt No Shows Found
-    Controller --> Server : JSON ObjectDTO (message: "No scheduled shows found for your account.")
-    activate Server
-    deactivate Controller
-
-    Server --> Client : response
-    activate Client
-    deactivate Server
-
-    Client --> App : Show message
-    activate App
-    deactivate Client
-    deactivate App
-else Shows Found
-    Controller -> Controller : Filter out CANCELLED
-    Controller -> Controller : Sort by date ascending
-    Controller -> Controller : Map to List<ShowDTO>
-    Controller --> Server : JSON ObjectDTO (list of shows)
-    activate Server
-    deactivate Controller
-
-    Server --> Client : response
-    activate Client
-    deactivate Server
-
-    Client --> App : Show list of shows
-    activate App
-    deactivate Client
-    deactivate App
 @enduml

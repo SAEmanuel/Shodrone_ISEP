@@ -26,7 +26,7 @@ The design follows a layered architecture:
 
 #### 3.2.2. Sequence Diagram (SD)
 The Sequence Diagram (SD) below provides a detailed view of the internal interactions within the system to list scheduled shows. It includes the UI, application service, domain entities, repositories, and authentication components.
-![Sequence Diagram](img/us372-sequence-diagram.svg)
+![Sequence Diagram](img/us372-sequence-diagram.svg.svg)
 
 ### 3.3. Design Patterns (if any)
 

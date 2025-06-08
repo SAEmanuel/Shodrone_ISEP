@@ -1,109 +1,122 @@
-# US236 - Edit a Show Request
+# US372 - Check Show Dates
 
 ## 4. Tests
 
-This section documents **unit tests**, **integration tests**, and **validation procedures** for the feature of editing a show request.
+This section documents **unit tests**, **integration tests**, and **validation procedures** for the feature that allows customers to check their scheduled show requests.
 
 ### Test Cases
 
-1. **Unit Test: Edit Description and Location**
+1. **Unit Test: Filter Cancelled Shows**
 
-    * **Description**: Tests updating the description and location fields of a show request.
-    * **Scenario**: The user modifies the description and location for a show request.
-    * **Expected Outcome**: The fields are updated, and the change is reflected when the request is retrieved again.
+    * **Description**: Ensures that only non-cancelled shows are returned.
+    * **Scenario**: A customer has three show requests, one of which is cancelled.
+    * **Expected Outcome**: Only the two active shows are returned.
 
-2. **Unit Test: Edit Show Date and Number of Drones**
+2. **Unit Test: Sort Shows by Date**
 
-    * **Description**: Ensures that show date and number of drones can be updated correctly.
-    * **Scenario**: The user changes the date and increases the number of drones for an existing request.
-    * **Expected Outcome**: The new values are persisted, and validation rules (e.g., show date in the future) are enforced.
+    * **Description**: Validates that shows are returned in ascending order by date.
+    * **Scenario**: The customer has shows scheduled on different dates.
+    * **Expected Outcome**: Shows are returned from the earliest to the latest date.
 
-3. **Unit Test: Update Modification Metadata**
+3. **Integration Test: End-to-End Customer Show Listing**
 
-    * **Description**: Verifies that `modificationAuthor` and `modificationDate` fields are automatically updated.
-    * **Scenario**: A user edits a request.
-    * **Expected Outcome**: The system stores the current user and timestamp in the appropriate fields.
+    * **Description**: Tests the full flow from inputting a customer’s NIF to receiving the list of scheduled shows.
+    * **Scenario**: A representative accesses the customer app and checks the scheduled shows for a client using their NIF.
+    * **Expected Outcome**: The system returns the correct list of `ShowDTO` objects with expected details.
 
-4. **Unit Test: Prevent Editing of Non-editable Fields**
+4. **Edge Case: No Shows Found**
 
-    * **Description**: Ensures fields like `submissionDate` or `submissionAuthor` remain unchangeable.
-    * **Scenario**: Attempt to update submission metadata through the edit function.
-    * **Expected Outcome**: The update is rejected or ignored.
+    * **Description**: Validates behavior when the customer has no scheduled shows.
+    * **Scenario**: The customer has no active show requests.
+    * **Expected Outcome**: An empty list or a user-friendly message is shown.
 
-5. **Integration Test: End-to-End Edit Request**
+5. **Edge Case: Invalid NIF**
 
-    * **Description**: Tests the full flow from selecting a request in the UI to persisting the edited version.
-    * **Scenario**: A CRM collaborator edits a show request from the CLI.
-    * **Expected Outcome**: The edited values are saved and can be retrieved from the repository.
+    * **Description**: Handles invalid or unauthorized NIF input.
+    * **Scenario**: The representative inputs a NIF not associated with any client they manage.
+    * **Expected Outcome**: The system throws an exception or displays an appropriate error message.
 
-6. **Edge Case: Invalid Input Values**
-
-    * **Description**: Validates handling of invalid edits (e.g., negative drone count, null dates).
-    * **Scenario**: User attempts to set invalid values during editing.
-    * **Expected Outcome**: Validation errors are shown, and the request is not updated.
-
-### Screenshots
-
-![Edit Show Request CLI](img/UnitTestShowRequest.png)
-![Edit Logic Unit Test](img/InMemoryShowRequestRepositoryTests.png)
+---
 
 ## 5. Construction (Implementation)
 
-This section describes the implementation logic for editing a show request.
+This section describes the logic behind the implementation of the scheduled show listing functionality.
 
-* **Controller**: `EditShowRequestController`
-    * Coordinates loading the request, validating changes, and persisting updates.
-    * Updates the `modificationAuthor` and `modificationDate` automatically.
+* **Controller**: `CheckShowDatesController`
 
-* **UI**: `EditShowRequestUI`
-    * Prompts the user to select an existing show request.
-    * Asks for new values (or skips if left empty).
-    * Displays confirmation before persisting changes.
+    * Receives the customer's NIF from the UI.
+    * Validates the relationship between the authenticated representative and the client.
+    * Returns filtered and sorted `ShowDTO` objects.
 
-* **Service**: `ShowRequestService` (optional depending on layering)
-    * Could contain business logic for editable fields and validation rules.
+* **UI**: `CheckShowDatesUI`
+
+    * Prompts the user to enter the customer's NIF.
+    * Displays the list of scheduled shows (excluding cancelled ones), sorted by date.
+
+* **Service**: `ShowRequestService`
+
+    * Applies filtering logic (excludes cancelled shows) and sorting.
+    * May validate the NIF or client-representative association.
 
 * **Repository**: `ShowRequestRepository`
-    * Provides `save(ShowRequest)` method to persist changes.
+
+    * Provides methods like `findAllScheduledByCustomerNif(String nif)` to retrieve active show requests.
+
+* **DTO**: `ShowDTO`
+
+    * Includes fields such as `id`, `date`, `duration`, `location`, and `state`.
 
 * **Implementation Strategy**:
-    * The user enters the edit flow from the CLI.
-    * The controller retrieves the selected show request.
-    * The UI prompts for field updates, applying them to the entity.
-    * The controller persists the updated request via the repository.
-    * A success message is shown.
+
+    * The UI collects the customer's NIF.
+    * The controller validates access and delegates to the service.
+    * The service fetches the data, applies filters and sorting, and returns the results as DTOs.
+    * The UI displays the results in a clean format.
 
 * **Patterns Used**:
-    * **Repository Pattern**: `ShowRequestRepository` for persistence.
-    * **Controller Pattern**: `EditShowRequestController` to encapsulate flow.
-    * **Value Object Pattern**: Reused for `Description`, `Location`.
+
+    * **DTO Pattern**: Used to expose data without exposing the domain model.
+    * **Service Layer Pattern**: To isolate business logic from UI and persistence.
+    * **Repository Pattern**: Abstracts database access.
+    * **Decorator Pattern** (optional): Can be used to enrich `ShowDTO` objects.
+
+---
 
 ## 6. Integration and Demo
 
 ### Integration Points
-* **Authentication**: Uses the logged-in CRM Collaborator's email as `modificationAuthor`.
-* **Show Request Selection**: Reuses listing logic (`ShowRequestRepository.findByCostumer`) for request selection.
-* **Persistence**: Integrates with JPA to persist changes to the `show_request` table.
+
+* **Authentication**: Uses the authenticated representative’s credentials to validate access to the customer’s data.
+* **Persistence**: Show requests are stored in the database and accessed via `ShowRequestRepository`.
+* **Client-Server Communication**: Utilizes TCP sockets and JSON serialization (via `ObjectDTO` and Gson).
 
 ### Demo Walkthrough
-1. User selects "Edit Show Request" in the CLI.
-2. System lists all show requests for selection.
-3. User selects a request to edit.
-4. User is prompted to input new values (leave blank to skip).
-5. System shows a summary of changes and asks for confirmation.
-6. Upon confirmation, the request is saved, and success is displayed.
+
+1. User selects "Check Show Dates" in the client app.
+2. The system prompts for the customer's NIF.
+3. The system validates that the customer is managed by the authenticated representative.
+4. The system retrieves active (non-cancelled) show requests and sorts them by date.
+5. The list of shows is displayed with details for each entry.
+
+---
 
 ## 7. Observations
+
 * **Known Limitations**:
-    * Cannot edit `submissionDate` or `submissionAuthor`.
-    * No undo functionality is provided.
-    * Cannot change the associated `costumer`.
+
+    * Only non-cancelled shows are displayed.
+    * If the NIF is not linked to a client of the representative, an error is returned.
+    * The list is read-only; no further actions can be taken on the shows.
 
 * **Design Decisions**:
-    * The `modificationDate` and `modificationAuthor` are automatically handled internally.
-    * Skipping updates is done by allowing the user to leave fields empty in CLI.
+
+    * `ShowDTO` is used to decouple internal domain models from presentation.
+    * Filtering by state is handled at the service layer for flexibility.
+    * Shows are sorted by date for better user experience.
 
 * **Open Questions**:
-    * Should the status of the request reset upon modification?
-    * Should edits trigger notifications to clients or system users?
+
+    * Should we allow exporting the list (e.g., PDF or CSV)?
+    * Should more details (e.g., number of drones, responsible collaborator) be shown?
+    * Should the client be notified when a representative checks their show data?
 
