@@ -2,8 +2,10 @@ package persistence.inmemory;
 
 import domain.entity.Costumer;
 import domain.entity.Show;
+import domain.valueObjects.Location;
 import persistence.ShowRepository;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class InMemoryShowRepository implements ShowRepository {
@@ -55,4 +57,24 @@ public class InMemoryShowRepository implements ShowRepository {
         }
         return Optional.empty();
     }
+
+    @Override
+    public Optional<Show> findDuplicateShow(Location location, LocalDateTime showDate, Long customerID) {
+        List<Show> showsForCustomer = store.get(customerID);
+
+        if (showsForCustomer == null) {
+            return Optional.empty();
+        }
+
+        for (Show show : showsForCustomer) {
+            if (show.getLocation().equals(location)
+                    && show.getShowDate().equals(showDate)
+                    && Objects.equals(show.getCustomerID(), customerID)) {
+                return Optional.of(show);
+            }
+        }
+
+        return Optional.empty();
+    }
+
 }

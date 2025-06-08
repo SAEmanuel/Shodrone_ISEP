@@ -22,6 +22,7 @@
     <class>domain.entity.ProposalTemplate</class>
     <class>domain.entity.MaintenanceType</class>
     <class>domain.valueObjects.MaintenanceTypeName</class>
+    <class>domain.entity.Show</class>
 
     <properties>
       <!-- JDBC config -->

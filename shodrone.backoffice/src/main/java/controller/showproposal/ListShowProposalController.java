@@ -22,7 +22,7 @@ public class ListShowProposalController {
     }
 
     public List<ShowProposal> getAllSentAcceptedProposals(){
-        Optional<List<ShowProposal>> optionalResult = RepositoryProvider.showProposalRepository().getAllProposals();
+        Optional<List<ShowProposal>> optionalResult = RepositoryProvider.showProposalRepository().getUpdatedProposals();
         if (optionalResult.isEmpty()){
             throw new RuntimeException("No Show Proposal's were found on the system.");
         }

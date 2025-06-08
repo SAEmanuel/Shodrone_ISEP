@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/shodrone.backoffice/backoffice.iml" filepath="$PROJECT_DIR$/shodrone.backoffice/backoffice.iml" />
       <module fileurl="file://$PROJECT_DIR$/shodrone.iml" filepath="$PROJECT_DIR$/shodrone.iml" />
       <module fileurl="file://$PROJECT_DIR$/shodrone.core/shodrone.core.iml" filepath="$PROJECT_DIR$/shodrone.core/shodrone.core.iml" />
       <module fileurl="file://$PROJECT_DIR$/shodrone.shared.persistence/shodrone.shared.persistence.iml" filepath="$PROJECT_DIR$/shodrone.shared.persistence/shodrone.shared.persistence.iml" />

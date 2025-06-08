@@ -1574,5 +1574,30 @@ public class Utils {
         } while (input.isEmpty());
         return input;
     }
+    public static <T> int showAndSelectIndexWithoutBox(List<T> list, String header) {
+        System.out.println("\n──────────────────────────────");
+        System.out.println("  " + header);
+        System.out.println("──────────────────────────────");
+
+        if (list.isEmpty()) {
+            printFailMessage("❌ No elements to display.");
+            waitForUser();
+            return -1;
+        }
+
+        for (int i = 0; i < list.size(); i++) {
+            System.out.println("  (" + (i + 1) + ") - " + list.get(i).toString());
+        }
+
+        System.out.println("  (0) - Cancel");
+
+        int option = selectsIndex(list) + 1;
+
+        if (option == 0) {
+            return -1;
+        }
+
+        return option - 1;
+    }
 
 }
