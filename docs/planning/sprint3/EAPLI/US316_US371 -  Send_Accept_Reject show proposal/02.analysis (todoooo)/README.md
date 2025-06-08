@@ -1,4 +1,4 @@
-# US245 - Add figure category
+# US316_US371 -  Send_Accept_Reject show proposal
 
 ## 2. Analysis
 

@@ -1,5 +1,6 @@
-## 3. Design
+# US316_US371 - Send_Accept_Reject show proposal
 
+## 3 Design
 ### 3.1. Design Overview
 
 The design for the **"Add Figure Category"** functionality adopts a layered, modular, and domain-driven approach. It aligns with the system's architectural style and promotes separation of concerns between UI, controller logic, domain model, and persistence.

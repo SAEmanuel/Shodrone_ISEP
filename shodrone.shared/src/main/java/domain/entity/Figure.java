@@ -14,7 +14,6 @@ import java.util.Objects;
 @Table(name = "figure")
 public class Figure implements AggregateRoot<Long>, Serializable {
 
-    // Primary key for the Figure entity, auto-generated
     @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -130,6 +129,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     @Override
     public boolean equals(Object o) {
+
         if (this == o) return true;
         if (!(o instanceof Figure)) return false;
         Figure that = (Figure) o;

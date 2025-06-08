@@ -7,7 +7,6 @@ import domain.entity.*;
 import domain.valueObjects.Description;
 import factories.FactoryProvider;
 import ui.drone.DroneModelSelectorUI;
-import ui.showrequest.ListFiguresByCostumerUI;
 import utils.Utils;
 
 import java.time.Duration;
@@ -21,7 +20,6 @@ public class EditShowProposalUI implements Runnable {
     private final ShowProposal proposal;
     private final GetAllProposalTemplatesController getAllProposalTemplatesController;
     private final GetDroneModelsController getDroneModelsController;
-    private final ListFiguresByCostumerUI listFiguresByCostumerUI;
     private final EditShowProposalController editShowProposalController;
     private static final int EXIT = -1;
 
@@ -29,7 +27,6 @@ public class EditShowProposalUI implements Runnable {
         proposal = previousProposal;
         getAllProposalTemplatesController = new GetAllProposalTemplatesController();
         getDroneModelsController = new GetDroneModelsController();
-        listFiguresByCostumerUI = new ListFiguresByCostumerUI();
         editShowProposalController = new EditShowProposalController();
     }
 
@@ -59,7 +56,6 @@ public class EditShowProposalUI implements Runnable {
             System.out.printf("    %s4 %s- %sLocation%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             System.out.printf("    %s5 %s- %sDrone Models%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             System.out.printf("    %s6 %s- %sDuration%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
-            System.out.printf("    %s7 %s- %sFigures%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             System.out.printf("    %s0 %s- %sFinish editing%s\n", ANSI_BRIGHT_BLACK, ANSI_RESET, BOLD, ANSI_RESET);
             option = Utils.readIntegerFromConsole("• Option (0 to finish) ");
             switch (option) {
@@ -151,10 +147,7 @@ public class EditShowProposalUI implements Runnable {
                     } while (true);
                     newProposal.setShowDuration(Duration.ofMinutes(minutes));
                 }
-                case 7 -> {
-                    List<Figure> newSelectedFigures = listFiguresByCostumerUI.getListFiguresUI(newProposal.getShowRequest().getCostumer());
-                    newProposal.setSequenceFigues(newSelectedFigures);
-                }
+
                 case 0 -> Utils.printSuccessMessage("Finished editing.");
 
                 default -> Utils.printAlterMessage("Invalid option.");

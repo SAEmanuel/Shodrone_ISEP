@@ -118,9 +118,8 @@ public class RegisterShowProposalUI implements Runnable {
             Utils.printShowProposalResume(proposal.get());
             boolean edit = Utils.confirm("Do you wish to edit proposal? (y/n)");
 
-            if (!edit) {
-                Utils.printSuccessMessage("Show proposal registered!");
-            } else {
+            Utils.printSuccessMessage("Show proposal registered!");
+            if (edit) {
                 EditShowProposalUI editUI = new EditShowProposalUI(proposal.get());
                 editUI.run();
             }
