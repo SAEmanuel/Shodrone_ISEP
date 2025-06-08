@@ -238,7 +238,7 @@ Timestamp : 2025-06-05 18:22:42
 Author    : system@shodrone.app
 Entity ID : 2
 Changes   :
-Field 'description' changed from 'Empty' to 'Nova descrição'
+Field 'description' changed from 'Empty' to 'Nova descriï¿½ï¿½o'
 Field 'numberOfDrones' changed from '12' to '13'
 Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
 Field 'modificationDate' changed from 'null' to '2025-06-05T18:22:42.666836200'
@@ -278,7 +278,7 @@ Timestamp : 2025-06-07 16:19:36
 Author    : system@shodrone.app
 Entity ID : 2
 Changes   :
-Field 'description' changed from 'Empty' to 'Nova descrição'
+Field 'description' changed from 'Empty' to 'Nova descriï¿½ï¿½o'
 Field 'numberOfDrones' changed from '12' to '13'
 Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
 Field 'modificationDate' changed from 'null' to '2025-06-07T16:19:36.969965400'
@@ -291,10 +291,23 @@ Timestamp : 2025-06-07 17:07:19
 Author    : system@shodrone.app
 Entity ID : 2
 Changes   :
-Field 'description' changed from 'Empty' to 'Nova descrição'
+Field 'description' changed from 'Empty' to 'Nova descriï¿½ï¿½o'
 Field 'numberOfDrones' changed from '12' to '13'
 Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
 Field 'modificationDate' changed from 'null' to '2025-06-07T17:07:19.292102800'
+
+?????????????????????????????????????????????
+
+???????????????ENTITY MODIFIED???????????????
+?????????????????????????????????????????????
+Timestamp : 2025-06-07 17:38:46
+Author    : system@shodrone.app
+Entity ID : 2
+Changes   :
+Field 'description' changed from 'Empty' to 'Nova descriï¿½ï¿½o'
+Field 'numberOfDrones' changed from '12' to '13'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-07T17:38:46.082434900'
 
 ?????????????????????????????????????????????
 
@@ -304,7 +317,7 @@ Timestamp : 2025-06-08 13:35:51
 Author    : system@shodrone.app
 Entity ID : 2
 Changes   :
-Field 'description' changed from 'Empty' to 'Nova descrição'
+Field 'description' changed from 'Empty' to 'Nova descriï¿½ï¿½o'
 Field 'numberOfDrones' changed from '12' to '13'
 Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
 Field 'modificationDate' changed from 'null' to '2025-06-08T13:35:51.144459600'

@@ -3,7 +3,6 @@ package controller.show;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import controller.network.AuthenticationController;
-import domain.entity.Show;
 import domain.valueObjects.NIF;
 import network.ObjectDTO;
 import network.ShowDTO;
@@ -14,8 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static more.ColorfulOutput.ANSI_LIGHT_RED;
-import static more.ColorfulOutput.ANSI_RESET;
 
 public class FindShows4CustomerController {
 
@@ -40,11 +37,8 @@ public class FindShows4CustomerController {
             ObjectDTO<Integer> objectDTOReponse = gson.fromJson(response, objectDTOType);
             int numberOfShows = objectDTOReponse.getObject();
 
-            System.out.println(numberOfShows);
-
             if(numberOfShows == -1){
-                System.out.println("Algum problema com encontrar o customer");
-                return Optional.empty();
+                throw new RuntimeException("✖ The system couldn't found the related Customer!");
             }else if(numberOfShows == 0){
                 return Optional.empty();
             }
@@ -63,8 +57,7 @@ public class FindShows4CustomerController {
             return Optional.of(listShows);
 
         } catch (IOException e) {
-            System.out.println(ANSI_LIGHT_RED + "Erro na comunicação com o servidor..." + ANSI_RESET);
-            return Optional.empty();
+            throw new RuntimeException("✖ Error trying to comunicated with the Server Host!");
         }
     }
 

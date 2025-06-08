@@ -14,10 +14,10 @@ public class CustomerAppUI {
 
     public void run() {
         if (doLogin()) {
-            System.out.println(ANSI_BRIGHT_GREEN + "Login successful! Welcome!" + ANSI_RESET);
+            System.out.println(ANSI_BRIGHT_GREEN + "\nLogin successful! Welcome!" + ANSI_RESET);
             new RepresentativeUI(ctrl).run();
         } else {
-            System.out.println(ANSI_LIGHT_RED + "FATAL: Login failed. Exiting application." + ANSI_RESET);
+            System.out.println(ANSI_LIGHT_RED + "\nFATAL: Login failed. Exiting application." + ANSI_RESET);
         }
     }
 
@@ -37,13 +37,13 @@ public class CustomerAppUI {
             try {
                 success = ctrl.doLogin(id, pwd);
                 if (!success) {
-                    System.out.println(ANSI_LIGHT_RED + "Invalid UserId and/or Password - Attempt(s) left [" + maxAttempts + "]" + ANSI_RESET + "\n");
+                    System.out.println(ANSI_LIGHT_RED + "\nInvalid UserId and/or Password - Attempt(s) left [" + maxAttempts + "]" + ANSI_RESET + "\n");
                 }
             } catch (IllegalStateException ex) {
                 System.out.println(ANSI_LIGHT_RED + ex.getMessage() + ANSI_RESET + "\n");
                 return false;
             } catch (Exception ex) {
-                System.out.println(ANSI_LIGHT_RED + "Login failed: " + ex.getMessage() + ANSI_RESET + "\n");
+                System.out.println(ANSI_LIGHT_RED + "\nLogin failed: " + ex.getMessage() + ANSI_RESET + "\n");
                 return false;
             }
 

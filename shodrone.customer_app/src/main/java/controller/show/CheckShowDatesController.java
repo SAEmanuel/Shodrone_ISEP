@@ -2,6 +2,7 @@ package controller.show;
 
 import controller.customerRepresentative.FindCustomerOfRepresentativeController;
 import controller.network.AuthenticationController;
+import domain.entity.Costumer;
 import domain.entity.Show;
 import domain.valueObjects.NIF;
 import network.ShowDTO;
@@ -18,15 +19,18 @@ public class CheckShowDatesController {
         findShows4CustomerController = new FindShows4CustomerController(authController);
     }
 
-    public Optional<List<ShowDTO>> getShowsForCustomer(String email){
+    public NIF getCustomerNIFOfTheRepresentativeAssociated(String email){
         Optional<NIF> foundCustomer = findCustomerOfRepresentativeController.getCustomerIDbyHisEmail(email);
 
         if(foundCustomer.isEmpty()){
             throw new RuntimeException("✖ No was found Customer for the corresponding representative Logged in.");
         }
 
-        NIF customerNIF = foundCustomer.get();
-        System.out.println("Customer: " + customerNIF);
+        return foundCustomer.get();
+    }
+
+    public Optional<List<ShowDTO>> getShowsForCustomer(NIF customerNIF){
+
         Optional<List<ShowDTO>> showList4Customer = findShows4CustomerController.getShows4Customer(customerNIF);
 
         if(showList4Customer.isEmpty()){
