@@ -13,8 +13,6 @@ public interface ShowProposalRepository {
 
     public Optional<List<ShowProposal>> getAllProposals();
 
-    public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity);
-
     public Optional<List<ShowProposal>> findAllCostumerProposals(Costumer costumer);
 
     public Optional<Video> getVideoBytesByShowProposal(ShowProposal showProposal);

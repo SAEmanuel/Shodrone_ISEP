@@ -24,6 +24,6 @@ public class AddVideoOfSimulationToTheProposalController {
 
     public Optional<ShowProposal> addVideoToShowProposal(ShowProposal showProposal, Video video){
         showProposal.editVideo(video);
-        return RepositoryProvider.showProposalRepository().updateInStoreProposal(showProposal);
+        return RepositoryProvider.showProposalRepository().saveInStore(showProposal);
     }
 }

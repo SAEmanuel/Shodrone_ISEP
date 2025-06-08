@@ -27,7 +27,7 @@ public class AcceptProposalAndCreateShowController {
         Optional<Show> show = createShowController.createShowFromProposal(proposal);
 
         if (show.isPresent()) {
-            showProposalRepository.updateInStoreProposal(proposal);
+            showProposalRepository.saveInStore(proposal);
             return show;
         } else {
             throw new IllegalStateException("❌ Show creation failed. Proposal was not persisted as accepted.");

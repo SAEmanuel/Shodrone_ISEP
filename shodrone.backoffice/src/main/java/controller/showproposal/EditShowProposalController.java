@@ -43,7 +43,7 @@ public class EditShowProposalController {
             return Optional.empty();
         }
 
-        return repository.updateInStoreProposal(newProposal);
+        return repository.saveInStore(newProposal);
     }
 
     private Map<Integer, Figure> buildFiguresMap(List<Figure> figures) {

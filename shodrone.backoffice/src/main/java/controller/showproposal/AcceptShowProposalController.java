@@ -19,6 +19,6 @@ public class AcceptShowProposalController {
         }
 
         showProposal.setStatus(ShowProposalStatus.COLLABORATOR_APPROVED);
-        return RepositoryProvider.showProposalRepository().updateInStoreProposal(showProposal);
+        return RepositoryProvider.showProposalRepository().saveInStore(showProposal);
     }
 }

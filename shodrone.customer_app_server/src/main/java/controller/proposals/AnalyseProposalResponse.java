@@ -46,7 +46,7 @@ public class AnalyseProposalResponse {
             proposal.setStatus(proposalDTO.getStatus());
 
             Optional<ShowProposal> updatedProposal =
-                    RepositoryProvider.showProposalRepository().updateInStoreProposal(proposal);
+                    RepositoryProvider.showProposalRepository().saveInStore(proposal);
 
             if (updatedProposal.isPresent()) {
                 System.out.println("[SERVER] Status updated to: " + proposal.getStatus());

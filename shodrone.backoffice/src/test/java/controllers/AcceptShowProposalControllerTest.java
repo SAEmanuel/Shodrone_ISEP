@@ -39,13 +39,13 @@ class AcceptShowProposalControllerTest {
         proposal.setStatus(ShowProposalStatus.CUSTOMER_APPROVED);
 
         when(statusControllerMock.wasShowProposalSent(proposal)).thenReturn(true);
-        when(repositoryMock.updateInStoreProposal(proposal)).thenReturn(Optional.of(proposal));
+        when(repositoryMock.saveInStore(proposal)).thenReturn(Optional.of(proposal));
 
         Optional<ShowProposal> result = controller.markShowProposalAsAccepted(proposal);
 
         assertTrue(result.isPresent());
         assertEquals(ShowProposalStatus.COLLABORATOR_APPROVED, proposal.getStatus());
-        verify(repositoryMock).updateInStoreProposal(proposal);
+        verify(repositoryMock).saveInStore(proposal);
     }
 
     @Test
@@ -60,7 +60,7 @@ class AcceptShowProposalControllerTest {
         });
 
         assertEquals("❌ Cannot accept the proposal because it was not sent.", exception.getMessage());
-        verify(repositoryMock, never()).updateInStoreProposal(any());
+        verify(repositoryMock, never()).saveInStore(any());
     }
 }
 

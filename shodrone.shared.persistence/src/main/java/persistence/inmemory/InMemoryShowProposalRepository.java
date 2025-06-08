@@ -45,31 +45,6 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
     }
 
     @Override
-    public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity) {
-        if (entity == null || entity.identity() == null || entity.getShowRequest() == null) {
-            return Optional.empty();
-        }
-
-        Long idShowRequest = entity.getShowRequest().identity();
-
-        List<ShowProposal> proposals = store.get(idShowRequest);
-
-        if (proposals == null) {
-            return Optional.empty();
-        }
-
-        for (int i = 0; i < proposals.size(); i++) {
-            ShowProposal proposal = proposals.get(i);
-            if (proposal.identity().equals(entity.identity())) {
-                proposals.set(i, entity);
-                return Optional.of(entity);
-            }
-        }
-
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<List<ShowProposal>> findAllCostumerProposals(Costumer costumer) {
         if (store.containsKey(costumer.identity())) {
             return Optional.of(store.get(costumer.identity()));

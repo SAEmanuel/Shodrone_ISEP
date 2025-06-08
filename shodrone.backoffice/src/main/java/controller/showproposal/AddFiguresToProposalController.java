@@ -25,6 +25,6 @@ public class AddFiguresToProposalController {
 
     public Optional<ShowProposal> saveNewImagesInProposal(ShowProposal showProposal ,List<Figure> sequenceOfFigures){
         showProposal.setSequenceFigues(sequenceOfFigures);
-        return RepositoryProvider.showProposalRepository().updateInStoreProposal(showProposal);
+        return RepositoryProvider.showProposalRepository().saveInStore(showProposal);
     }
 }

@@ -63,19 +63,6 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
     }
 
     @Override
-    public Optional<ShowProposal> updateInStoreProposal(ShowProposal entity) {
-        if (entity == null || entity.identity() == null) {
-            return Optional.empty();
-        }
-        Optional<ShowProposal> existing = Optional.ofNullable(findById(entity.identity()));
-        if (existing.isEmpty()) {
-            return Optional.empty();
-        }
-        ShowProposal updated = update(entity);
-        return Optional.ofNullable(updated);
-    }
-
-    @Override
     public Optional<List<ShowProposal>> findAllCostumerProposals(Costumer costumer) {
         if (costumer == null) {
             return Optional.empty();
