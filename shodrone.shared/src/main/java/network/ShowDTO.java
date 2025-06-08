@@ -97,17 +97,20 @@ public class ShowDTO {
 
     @Override
     public String toString() {
-        return "ShowDTO {" +
-                "showID=" + showID +
-                ", showProposalAcceptedID=" + showProposalAcceptedID +
-                ", sequenceFigures=" + sequenceFigures +
-                ", location=" + location +
-                ", showDate='" + showDate + '\'' +
-                ", numberOfDrones=" + numberOfDrones +
-                ", showDuration='" + showDuration + '\'' +
-                ", status='" + status + '\'' +
-                ", customerID=" + customerID +
-                '}';
+        return String.format(
+                "🧾 ID: [%d], Proposal ID: [%d], 📅 Date: %s, ⏱️ Duration: %s, 🚁 Drones: %d, 📍 Location: %s, " +
+                        "🗿 Figures: %s, 💬 Status: %s, 👤 Customer ID: %d",
+                showID,
+                showProposalAcceptedID,
+                showDate,
+                showDuration,
+                numberOfDrones,
+                location,
+                sequenceFigures,
+                status,
+                customerID
+        );
     }
+
 
 }

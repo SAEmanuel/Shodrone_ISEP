@@ -44,7 +44,7 @@ public class CheckShowDatesUI implements Runnable {
                     int i = 1;
                     for(ShowDTO show : listOfShows.get()){
                         if(show != null){
-                            System.out.printf("Show Nº%s%-3s %s%n",i++,":",show.toString());
+                            System.out.printf("%s     • Show Nº%s%-3s%s %s%n",ANSI_BRIGHT_BLACK,i++,":",ANSI_RESET,show.toString());
                         }
                     }
                 }
