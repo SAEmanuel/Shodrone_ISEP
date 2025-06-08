@@ -1,0 +1,73 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Show Proposal domain model section
+
+hide circles
+hide methods
+
+package "Show Proposal Aggregate" {
+
+    class ShowProposal <<AggregateRoot>> {
+    - showProposalID <<Long>>
+    - showDate <<LocalDateTime>>
+    - numberOfDrones <<int>>
+    - showDuration <<Duration>>
+    - creationAuthor <<String>>
+    - creationDate <<LocalDateTime>>
+    - sentDate <<LocalDateTime>>
+    - status <<ShowProposalStatus>>
+    }
+
+    class Description <<ValueObject>> {
+    }
+
+    class Name <<ValueObject>> {
+    }
+
+    class Location <<ValueObject>> {
+    }
+
+    class Video <<ValueObject>> {
+    }
+
+
+}
+
+
+package "Show Request Aggregate" {
+    class ShowRequest <<Entity>> {
+    }
+}
+
+package "Proposal Template Aggregate" {
+    class ProposalTemplate <<Entity>> {
+    }
+}
+
+package "Figure Aggregate" {
+    class Figure <<Entity>> {
+    }
+}
+
+package "Drone Model Aggregate" {
+    class DroneModel <<Entity>> {
+    }
+}
+
+
+ShowProposal "1" --- "1" ShowRequest : >
+ShowProposal "1" --- "1" ProposalTemplate : >
+ShowProposal "1" --- "1" Description : >
+ShowProposal "1" --- "1" Location : >
+ShowProposal "1" --- "1" Video : >
+ShowProposal "*" --- "*" DroneModel : >
+ShowProposal "*" --- "*" Figure : >
+
+ShowProposal "1" --- "1" Name : >
+
+@enduml
