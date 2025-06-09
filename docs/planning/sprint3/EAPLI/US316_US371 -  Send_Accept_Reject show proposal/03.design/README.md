@@ -1,52 +1,59 @@
-# US316_US371 - Send_Accept_Reject show proposal
+# US316_US371 - Send_Accept_Reject Show Proposal
 
-## 3 Design
+## 3. Design
+
 ### 3.1. Design Overview
 
-The design for the **"Add Figure Category"** functionality adopts a layered, modular, and domain-driven approach. It aligns with the system's architectural style and promotes separation of concerns between UI, controller logic, domain model, and persistence.
+The design for the **Send / Accept / Reject Show Proposal** functionality adopts a layered, modular, and domain-driven approach. It aligns with the system's architectural style and promotes separation of concerns between UI, controller logic, domain model, network communication, and persistence.
 
-The process is initiated by the **Show Designer** via the UI, which:
-- Collects and validates user input (category name and optional description).
-- Delegates the creation of the figure category to a dedicated controller.
+The process is initiated by the **Customer** via the UI in the **Customer App**, which:
+- Retrieves proposals available for their account from the server.
+- Prompts the customer to accept or reject a selected proposal, optionally with feedback.
+- Sends the accept/reject decision to the server via TCP, using a **ProposalResponseController**.
 
-The controller:
-- Validates business constraints (e.g., name non-null, length limits, optional description).
-- Instantiates the domain object (`FigureCategory`) with all necessary attributes (name, description, createdBy, etc.).
-- Requests the repository from a centralized `RepositoryProvider` and delegates persistence.
-
-The repository used can be either:
-- **InMemoryFigureCategoryRepository**, where it checks for duplicate keys and stores the object in a HashMap.
-- **FigureCategoryJPAImpl**, which queries the database to verify uniqueness and persists the object using JPA.
+The server:
+- Processes the customer’s decision via the **AnalyseProposalResponse** controller.
+- Validates the existence of the proposal.
+- Updates the proposal’s status to **ACCEPTED** or **REJECTED** in the database, attaching any feedback provided.
+- Responds with success or failure messages, packaged in a **ResponseDTO**.
 
 The system ensures that:
-- The category is treated as an **aggregate root**, encapsulating its full lifecycle and business logic.
-- All audit data (`createdOn`, `createdBy`) is set during instantiation.
-- The repository pattern abstracts data access for easy switching between persistence backends.
-- Clear feedback is sent back to the UI, based on success or validation failure.
+- The **ShowProposal** entity is treated as an **aggregate root**, encapsulating its full lifecycle and domain rules (like status updates).
+- All audit data (`createdBy`, `updatedBy`, `createdOn`, `updatedOn`) is preserved.
+- The repository pattern (`ShowProposalRepository`) abstracts data access, supporting both in-memory and JPA-based persistence.
+- Clear feedback is sent back to the UI, ensuring a smooth and transparent customer experience.
 
-This modular design supports extensibility (e.g., edit, inactivation), maintainability, and robustness.
+This modular design promotes:
+- Extensibility for future enhancements (e.g., proposal revision requests).
+- Maintainability and testability by isolating responsibilities.
+- Robustness through clear domain and application layer separation.
 
 ### 3.2. Sequence Diagram
 
-![Sequence Diagram Full](svg/us245-sequence-diagram-full.svg)
+![Sequence Diagram Full](svg/us316_371-sequence-diagram-full.svg)
 
 The diagram illustrates:
-- Show Designer starts the process via UI.
-- The UI prompts for and validates input (Name and Description).
-- The controller is invoked with valid inputs and creates a `FigureCategory` instance.
-- It uses `RepositoryProvider` to get the current persistence implementation.
-- The controller checks for duplicates before saving.
-- Based on the persistence implementation, the object is saved in-memory or persisted via JPA.
-- The result (success or failure) is returned to the UI.
+- **Customer** initiates the action from the **Customer App**.
+- **AnalyseProposalUI** interacts with **GetMyProposalsController** and **ProposalResponseController** for communication.
+- The **AuthenticationController** acts as the TCP client to communicate with the server.
+- On the **Server**, **HandleClientsController** receives the TCP request and delegates to **AnalyseProposalResponse**.
+- The proposal is fetched from the repository.
+- If found, the status is updated and persisted.
+- Feedback is included if provided.
+- The server sends a confirmation response back to the **Customer App**.
+- The **Customer App** UI displays the operation result to the customer.
 
 ### 3.3. Design Patterns
 
-- **Repository Pattern**: Abstracts persistence access, decoupling domain logic from data storage.
-- **Factory Pattern**: `RepositoryProvider` dynamically provides the correct implementation.
-- **Aggregate Root (DDD)**: `FigureCategory` is an aggregate root enforcing domain consistency.
-- **Controller Pattern**: Business logic is centralized in the controller, improving testability.
-- **Separation of Concerns**: Responsibilities are clearly divided among layers.
-- **SOLID Principles**: Follows best practices for extensible, maintainable object-oriented design.
-- **GoF Patterns**: Classic design patterns like Repository and Factory ensure flexibility.
+- **Repository Pattern**: Abstracts data access, decoupling domain logic from the persistence layer (e.g., `ShowProposalRepository`).
+- **Factory Pattern**: `RepositoryProvider` dynamically provides the appropriate repository implementation (e.g., JPA or in-memory).
+- **Aggregate Root (DDD)**: `ShowProposal` is an aggregate root that encapsulates all domain logic and lifecycle events.
+- **Controller Pattern**:
+    - On the **Customer App**, `ProposalResponseController` and `GetMyProposalsController` centralize business logic.
+    - On the **Server**, `AnalyseProposalResponse` handles domain-driven updates.
+- **Separation of Concerns**: The system layers are clearly defined: UI, Controller, Domain, and Persistence.
+- **Network Protocol Abstraction**: Communication between the **Customer App** and the **Server** is done via TCP, abstracted by the `AuthenticationController`.
+- **DTO Pattern**: `ShowProposalDTO`, `ObjectDTO`, and `ResponseDTO` standardize data transfer between layers and across the network.
+- **SOLID Principles**: The design ensures flexibility, maintainability, and testability.
 
-This design provides a robust, extensible solution fully aligned with business and technical requirements.
+This design provides a robust, extensible, and maintainable foundation to support the US316_US371 user stories, ensuring customer interaction and feedback with show proposals are transparent and auditable.
