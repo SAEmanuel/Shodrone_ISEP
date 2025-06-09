@@ -303,6 +303,7 @@ public class Bootstrap implements Runnable {
             new Address("Central Avenue", "Braga", "4700-123", "Portugal")
     );
 
+
     // --- Representative ------------------------------------------------------
     private final CustomerRepresentative representativeMicrosoft = new CustomerRepresentative(foundCostumerByNIF(new NIF("123456789")), new domain.valueObjects.Name("Jorge Ubaldo"), new Email("jorgeUbaldo@shodrone.app"), new PhoneNumber("914861312"), "CEO");
     private final CustomerRepresentative representativeApple = new CustomerRepresentative(foundCostumerByNIF(new NIF("286500850")), new domain.valueObjects.Name("Francisco"), new Email("francisco@shodrone.app"), new PhoneNumber("912856060"), "CEO");
@@ -557,7 +558,7 @@ public class Bootstrap implements Runnable {
     // --- Proposals -----------------------------------------------------------
     private ShowProposal proposal1() {
         Content content = new Content(
-                showRequest1.getCostumer(),
+                foundCostumerByNIF(new NIF("123456789")),
                 showRequest1.getShowDate(),
                 showRequest1.getLocation(),
                 showRequest1.getShowDuration(),
@@ -577,7 +578,7 @@ public class Bootstrap implements Runnable {
 
     private ShowProposal proposal2() {
         Content content = new Content(
-                showRequest2.getCostumer(),
+                foundCostumerByNIF(new NIF("286500850")),
                 showRequest2.getShowDate(),
                 showRequest2.getLocation(),
                 showRequest2.getShowDuration(),
@@ -595,7 +596,7 @@ public class Bootstrap implements Runnable {
 
     private ShowProposal proposal3() {
         Content content = new Content(
-                showRequest3.getCostumer(),
+                foundCostumerByNIF(new NIF("248367080")),
                 showRequest3.getShowDate(),
                 showRequest3.getLocation(),
                 showRequest3.getShowDuration(),
