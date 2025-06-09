@@ -1,7 +1,9 @@
 package ui.common;
 
 import utils.Utils;
+
 import java.util.Scanner;
+
 import static more.ColorfulOutput.*;
 
 /**
@@ -21,9 +23,13 @@ public class PersistenceSelectorUI {
      * Enumeration representing the supported types of persistence.
      */
     public enum PersistenceType {
-        /** In-memory persistence. */
+        /**
+         * In-memory persistence.
+         */
         MEMORY,
-        /** Persistent storage using a relational database. */
+        /**
+         * Persistent storage using a relational database.
+         */
         DATABASE
     }
 
@@ -40,19 +46,19 @@ public class PersistenceSelectorUI {
      * clears the terminal after selection, and returns the corresponding integer value.</p>
      *
      * @return the numeric value of the selected option:
-     *         <ul>
-     *             <li>1 for {@code MEMORY}</li>
-     *             <li>2 for {@code DATABASE}</li>
-     *         </ul>
+     * <ul>
+     *     <li>1 for {@code MEMORY}</li>
+     *     <li>2 for {@code DATABASE}</li>
+     * </ul>
      */
     public int selectionUI() {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.printf("%s╔═════%sSELECT THE TYPE OF PERSISTENCE%s════╗%s%n",ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("%s╚═══════════════════════════════════════╝%s%n",ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("    %s(1)%s -  In Memory  %n",ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("    %s(2)%s -  In Database (H2)%n",ANSI_BRIGHT_BLACK, ANSI_RESET);
-        System.out.printf("%s═════════════════════════════════════════%s%n",ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s╔═════%sSELECT THE TYPE OF PERSISTENCE%s════╗%s%n", ANSI_BRIGHT_BLACK, ANSI_BRIGHT_WHITE, ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s╚═══════════════════════════════════════╝%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("    %s(1)%s -  In Memory  %n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("    %s(2)%s -  In Database (PostgreSQL)%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+        System.out.printf("%s═════════════════════════════════════════%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET);
 
 
         int option = -1;
@@ -64,6 +70,9 @@ public class PersistenceSelectorUI {
                 option = Integer.parseInt(input);
 
                 if (option == 1 || option == 2) {
+                    if (option == 2) {
+                        System.out.println(ANSI_BRIGHT_YELLOW + "⚠ NOTE: Ensure VPN is active and server is reachable for database connection\nFor more information, visit: https://rede.dei.isep.ipp.pt/usermanual-en/vpn.html." + ANSI_RESET);
+                    }
                     break;
                 } else {
                     Utils.printFailMessage("Invalid option. Please choose 1 or 2.");

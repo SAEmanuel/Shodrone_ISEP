@@ -5,7 +5,6 @@ import eapli.framework.general.domain.model.EmailAddress;
 import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
 import proposal_template.validators.TemplatePlugin;
-import utils.AuthUtils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,6 +12,11 @@ import java.util.*;
 
 
 public class Bootstrap implements Runnable {
+    private final boolean useInMemory;
+
+    public Bootstrap(boolean useInMemory) {
+        this.useInMemory = useInMemory;
+    }
 
     @Override
     public void run() {
@@ -86,9 +90,9 @@ public class Bootstrap implements Runnable {
 
     // --- Representative Setup -------------------------------------------------
     private void addRepresentatives() {
-        RepositoryProvider.customerRepresentativeRepository().saveInStore(representativeMicrosoft);
-        RepositoryProvider.customerRepresentativeRepository().saveInStore(representativeApple);
-        RepositoryProvider.customerRepresentativeRepository().saveInStore(representativeContinente);
+        RepositoryProvider.customerRepresentativeRepository().saveInStore(representativeMicrosoft());
+        RepositoryProvider.customerRepresentativeRepository().saveInStore(representativeApple());
+        RepositoryProvider.customerRepresentativeRepository().saveInStore(representativeContinente());
 
         AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
         repo.addUserWithRole("Jorge-Microsoft", "jorgeUbaldo@shodrone.app", "Jorge123#", Roles.ROLE_CUSTOMER_REPRESENTATIVE);
@@ -206,9 +210,9 @@ public class Bootstrap implements Runnable {
     // --- Show Request Setup ---------------------------------------------------
 
     private void addShowRequest() {
-        RepositoryProvider.showRequestRepository().saveInStore(showRequest1);
-        RepositoryProvider.showRequestRepository().saveInStore(showRequest2);
-        RepositoryProvider.showRequestRepository().saveInStore(showRequest3);
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest1());
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest2());
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest3());
     }
 
     // --- Lists Setup ---------------------------------------------------
@@ -305,10 +309,26 @@ public class Bootstrap implements Runnable {
 
 
     // --- Representative ------------------------------------------------------
-    private final CustomerRepresentative representativeMicrosoft = new CustomerRepresentative(foundCostumerByNIF(new NIF("123456789")), new domain.valueObjects.Name("Jorge Ubaldo"), new Email("jorgeUbaldo@shodrone.app"), new PhoneNumber("914861312"), "CEO");
-    private final CustomerRepresentative representativeApple = new CustomerRepresentative(foundCostumerByNIF(new NIF("286500850")), new domain.valueObjects.Name("Francisco"), new Email("francisco@shodrone.app"), new PhoneNumber("912856060"), "CEO");
-    private final CustomerRepresentative representativeContinente = new CustomerRepresentative(foundCostumerByNIF(new NIF("248367080")), new domain.valueObjects.Name("Paulo Mendes"), new Email("paulo@shodrone.app"), new PhoneNumber("912809789"), "CEO");
+    private CustomerRepresentative representativeMicrosoft() {
+        if (!useInMemory)
+            return new CustomerRepresentative(foundCostumerByNIF(new NIF("123456789")), new domain.valueObjects.Name("Jorge Ubaldo"), new Email("jorgeUbaldo@shodrone.app"), new PhoneNumber("914861312"), "CEO");
+        else
+            return new CustomerRepresentative(customer1, new domain.valueObjects.Name("Jorge Ubaldo"), new Email("jorgeUbaldo@shodrone.app"), new PhoneNumber("914861312"), "CEO");
+    }
 
+    private CustomerRepresentative representativeApple() {
+        if (!useInMemory)
+            return new CustomerRepresentative(foundCostumerByNIF(new NIF("286500850")), new domain.valueObjects.Name("Francisco"), new Email("francisco@shodrone.app"), new PhoneNumber("912856060"), "CEO");
+        else
+            return new CustomerRepresentative(customer2, new domain.valueObjects.Name("Francisco"), new Email("francisco@shodrone.app"), new PhoneNumber("912856060"), "CEO");
+    }
+
+    private CustomerRepresentative representativeContinente() {
+        if (!useInMemory)
+            return new CustomerRepresentative(foundCostumerByNIF(new NIF("248367080")), new domain.valueObjects.Name("Paulo Mendes"), new Email("paulo@shodrone.app"), new PhoneNumber("912809789"), "CEO");
+        else
+            return new CustomerRepresentative(customer3, new domain.valueObjects.Name("Paulo Mendes"), new Email("paulo@shodrone.app"), new PhoneNumber("912809789"), "CEO");
+    }
     // --- Figures --------------------------------------------------------
     private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
     private final Figure figure2 = new Figure(new domain.valueObjects.Name("Tree"), new Description("A tall plant with a trunk"), 3L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer1);
@@ -473,32 +493,41 @@ public class Bootstrap implements Runnable {
     private final Location location2 = new Location(new Address("Avenida", "Lisboa", "1111-222", "Portugal"), 34, 45, "Near Apple Building");
     private final Location location3 = new Location(new Address("Praça", "Coimbra", "3333-444", "Portugal"), 56, 78, "Caracas Center");
 
-    private final ShowRequest showRequest1 = new ShowRequest(2L,
-            LocalDateTime.now(), ShowRequestStatus.PENDING,
-            "crm_collaborator@shodrone.app", foundCostumerByNIF(new NIF("123456789")),
-            Arrays.asList(foundFigure(1L), foundFigure(2L), foundFigure(3L)),
-            description1, location1,
-            LocalDateTime.now().plusHours(1),
-            10,
-            Duration.ofMinutes(15));
+    private ShowRequest showRequest1() {
+        Costumer customer = !useInMemory ? foundCostumerByNIF(new NIF("123456789")) : customer1;
+        return new ShowRequest(2L,
+                LocalDateTime.now(), ShowRequestStatus.PENDING,
+                "crm_collaborator@shodrone.app", customer,
+                Arrays.asList(foundFigure(1L), foundFigure(2L), foundFigure(3L)),
+                description1, location1,
+                LocalDateTime.now().plusHours(1),
+                10,
+                Duration.ofMinutes(15));
+    }
 
-    private final ShowRequest showRequest2 = new ShowRequest(3L,
-            LocalDateTime.now().minusDays(1), ShowRequestStatus.PENDING,
-            "crm_collaborator@shodrone.app", foundCostumerByNIF(new NIF("286500850")),
-            Arrays.asList(foundFigure(8L), foundFigure(9L)),
-            description2, location2,
-            LocalDateTime.now().plusHours(2),
-            20,
-            Duration.ofMinutes(30));
+    private ShowRequest showRequest2() {
+        Costumer customer = !useInMemory ? foundCostumerByNIF(new NIF("286500850")) : customer2;
+        return new ShowRequest(3L,
+                LocalDateTime.now().minusDays(1), ShowRequestStatus.PENDING,
+                "crm_collaborator@shodrone.app", customer,
+                Arrays.asList(foundFigure(8L), foundFigure(9L)),
+                description2, location2,
+                LocalDateTime.now().plusHours(2),
+                20,
+                Duration.ofMinutes(30));
+    }
 
-    private final ShowRequest showRequest3 = new ShowRequest(4L,
-            LocalDateTime.now().minusDays(2), ShowRequestStatus.PENDING,
-            "crm_collaborator@shodrone.app", foundCostumerByNIF(new NIF("248367080")),
-            Arrays.asList(foundFigure(15L), foundFigure(16L)),
-            description3, location3,
-            LocalDateTime.now().plusDays(1),
-            15,
-            Duration.ofMinutes(45));
+    private ShowRequest showRequest3() {
+        Costumer customer = !useInMemory ? foundCostumerByNIF(new NIF("248367080")) : customer3;
+        return new ShowRequest(4L,
+                LocalDateTime.now().minusDays(2), ShowRequestStatus.PENDING,
+                "crm_collaborator@shodrone.app", customer,
+                Arrays.asList(foundFigure(15L), foundFigure(16L)),
+                description3, location3,
+                LocalDateTime.now().plusDays(1),
+                15,
+                Duration.ofMinutes(45));
+    }
 
     // --- Templates -----------------------------------------------------------
     private final ProposalTemplate templatePT = new ProposalTemplate(
@@ -559,9 +588,9 @@ public class Bootstrap implements Runnable {
     private ShowProposal proposal1() {
         Content content = new Content(
                 foundCostumerByNIF(new NIF("123456789")),
-                showRequest1.getShowDate(),
-                showRequest1.getLocation(),
-                showRequest1.getShowDuration(),
+                showRequest1().getShowDate(),
+                showRequest1().getLocation(),
+                showRequest1().getShowDuration(),
                 proposal1Figures(), proposal1DroneModels(),
                 "crm_collaborator@shodrone.app");
 
@@ -570,7 +599,7 @@ public class Bootstrap implements Runnable {
         List<String> filled = TemplatePlugin.replacePlaceholders(RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get().text(), placeholders);
         content.changeText(filled);
 
-        ShowProposal proposal = new ShowProposal(new Name("Proposal One"), showRequest1, RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest1.getDescription(), showRequest1.getLocation(), showRequest1.getShowDate(), 10, showRequest1.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal1DroneModels());
+        ShowProposal proposal = new ShowProposal(new Name("Proposal One"), showRequest1(), RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest1().getDescription(), showRequest1().getLocation(), showRequest1().getShowDate(), 10, showRequest1().getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal1DroneModels());
         proposal.setText(filled);
         return proposal;
     }
@@ -579,9 +608,9 @@ public class Bootstrap implements Runnable {
     private ShowProposal proposal2() {
         Content content = new Content(
                 foundCostumerByNIF(new NIF("286500850")),
-                showRequest2.getShowDate(),
-                showRequest2.getLocation(),
-                showRequest2.getShowDuration(),
+                showRequest2().getShowDate(),
+                showRequest2().getLocation(),
+                showRequest2().getShowDuration(),
                 proposal2Figures(), proposal2DroneModels(),
                 "crm_collaborator@shodrone.app");
 
@@ -589,7 +618,7 @@ public class Bootstrap implements Runnable {
 
         List<String> filled = TemplatePlugin.replacePlaceholders(RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get().text(), placeholders);
         content.changeText(filled);
-        ShowProposal proposal = new ShowProposal(new Name("Proposal Two"), showRequest2, RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest2.getDescription(), showRequest2.getLocation(), showRequest2.getShowDate(), 15, showRequest2.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal2DroneModels());
+        ShowProposal proposal = new ShowProposal(new Name("Proposal Two"), showRequest2(), RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest2().getDescription(), showRequest2().getLocation(), showRequest2().getShowDate(), 15, showRequest2().getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal2DroneModels());
         proposal.setText(filled);
         return proposal;
     }
@@ -597,9 +626,9 @@ public class Bootstrap implements Runnable {
     private ShowProposal proposal3() {
         Content content = new Content(
                 foundCostumerByNIF(new NIF("248367080")),
-                showRequest3.getShowDate(),
-                showRequest3.getLocation(),
-                showRequest3.getShowDuration(),
+                showRequest3().getShowDate(),
+                showRequest3().getLocation(),
+                showRequest3().getShowDuration(),
                 proposal3Figures(), proposal3DroneModels(),
                 "crm_collaborator@shodrone.app");
 
@@ -608,7 +637,7 @@ public class Bootstrap implements Runnable {
         List<String> filled = TemplatePlugin.replacePlaceholders(RepositoryProvider.proposalTemplateRepository().findByName("Template PT").get().text(), placeholders);
         content.changeText(filled);
 
-        ShowProposal proposal = new ShowProposal(new Name("Proposal Three"), showRequest3, RepositoryProvider.proposalTemplateRepository().findByName("Template PT").get(), new ArrayList<>(proposal3Figures().values()), showRequest3.getDescription(), showRequest3.getLocation(), showRequest3.getShowDate(), 20, showRequest3.getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal3DroneModels());
+        ShowProposal proposal = new ShowProposal(new Name("Proposal Three"), showRequest3(), RepositoryProvider.proposalTemplateRepository().findByName("Template PT").get(), new ArrayList<>(proposal3Figures().values()), showRequest3().getDescription(), showRequest3().getLocation(), showRequest3().getShowDate(), 20, showRequest3().getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal3DroneModels());
         proposal.setText(filled);
         return proposal;
     }
@@ -659,6 +688,13 @@ public class Bootstrap implements Runnable {
 
     // ---- -------------------
     private Costumer foundCostumerByNIF(NIF nif) {
+        Optional<List<Costumer>> a = RepositoryProvider.costumerRepository().getAllCostumers();
+        if (a.isPresent()) {
+            List<Costumer> costumers = a.get();
+            costumers.forEach(System.out::println);
+        } else {
+            System.out.println("No costumers found.");
+        }
         Optional<Costumer> result = RepositoryProvider.costumerRepository().findByNIF(nif);
         return result.orElse(null);
     }

@@ -14,7 +14,7 @@ public class Main {
             RepositoryProvider.setUseInMemory(typePersistence);
             RepositoryProvider.initializeAuditLogger(RepositoryProvider.isInMemory());
 
-            Bootstrap bootstrap = new Bootstrap();
+            Bootstrap bootstrap = new Bootstrap(typePersistence);
             bootstrap.run();
             MainMenuUI menu = new MainMenuUI();
             menu.run();
