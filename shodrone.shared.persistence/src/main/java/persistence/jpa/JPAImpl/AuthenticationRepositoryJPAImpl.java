@@ -16,6 +16,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static more.ColorfulOutput.ANSI_BRIGHT_WHITE;
+import static more.ColorfulOutput.ANSI_RESET;
+import static more.TextEffects.BOLD;
+
 /**
  * JPA-based implementation of the {@link AuthenticationRepository}.
  * Manages user login, logout, session tracking, user-role management, and persistence using JPA.
@@ -222,7 +226,7 @@ public class AuthenticationRepositoryJPAImpl extends JpaBaseRepository<User, Ema
     }
 
     public Optional<User> findCustomerRepresentativeByEmail(String email) {
-        System.out.println("[JPA] findCustomerRepresentativeByEmail chamado com: " + email);
+        System.out.printf("%s%s🗃️ [JPA] Find Customer Representative By Email Call With:%s %s%n",BOLD,ANSI_BRIGHT_WHITE,ANSI_RESET,email);
 
         String sql = "SELECT * FROM users u " +
                 "JOIN user_roles ur ON u.email = ur.user_email " +
