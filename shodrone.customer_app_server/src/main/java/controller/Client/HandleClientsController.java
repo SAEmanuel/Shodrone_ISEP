@@ -18,6 +18,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Optional;
 
+import static more.ColorfulOutput.ANSI_MAROON;
 import static more.ColorfulOutput.ANSI_RESET;
 import static more.TextEffects.BOLD;
 
@@ -45,7 +46,7 @@ public class HandleClientsController {
 
 
         } catch (IOException e) {
-            Utils.printFailMessage("Client error: " + e.getMessage());
+            Utils.printFailMessage("❌ Client error: " + e.getMessage());
         }
     }
 
@@ -55,7 +56,7 @@ public class HandleClientsController {
             String received = in.readLine();
 
             while (received != null && !received.equals("exit")) {
-                System.out.println("Recebido: " + received);
+                System.out.printf("%s%s📡 SERVER RECEIVED: %s%s%n",BOLD,ANSI_MAROON,received,ANSI_RESET);
 
                 switch (received) {
                     case "FindCustomerOfRepresentative":
@@ -78,7 +79,7 @@ public class HandleClientsController {
                         break;
 
                     default:
-                        Utils.printAlterMessage("Command not found: " + received);
+                        Utils.printAlterMessage("❌ Command not found: " + received);
                 }
 
                 System.out.printf("%s🛜 SERVER: Waiting for option to be selected...%s%n",BOLD,ANSI_RESET);
@@ -88,7 +89,7 @@ public class HandleClientsController {
             System.out.printf("%s🛜 SERVER: Connection close or command 'exit' received.%s%n",BOLD,ANSI_RESET);
 
         } catch (IOException e) {
-            System.out.println("Client error: " + e.getMessage());
+            System.out.println("❌ Client error: " + e.getMessage());
         }
     }
 

@@ -23,8 +23,6 @@ public class FindCustomerOfRepresentativeController {
     public static void getCustomerOfRepresentativeAction(BufferedReader in, PrintWriter out,Gson gson) {
         try {
 
-            System.out.printf("%s%sWaiting for client connection...%s%n", BOLD, ANSI_BRIGHT_PURPLE, ANSI_RESET);
-
             String receivedEmail = in.readLine();
             Type objectDTOType = new TypeToken<ObjectDTO<String>>() {}.getType();
             ObjectDTO<String> objectDTO = gson.fromJson(receivedEmail, objectDTOType);
@@ -35,7 +33,6 @@ public class FindCustomerOfRepresentativeController {
 
             if(optionalCustomer.isPresent()) {
                 NIF nif =  optionalCustomer.get().nif();
-                System.out.println(nif);
                 ObjectDTO<NIF> objectDTOToSend = ObjectDTO.of(nif);
                 String objectDTOJsonToSend = gson.toJson(objectDTOToSend);
                 out.println(objectDTOJsonToSend);
@@ -46,8 +43,8 @@ public class FindCustomerOfRepresentativeController {
             }
 
 
+            System.out.printf("%s%s❕SERVER ACTION FINISHED: Get Customer of Representative -> [%s] %s%n",ANSI_BRIGHT_PURPLE,BOLD,email,ANSI_RESET);
 
-            System.out.printf("%s%sAction finished - Get Customer of Representative - %s%s\n", BOLD, ANSI_BRIGHT_PURPLE, email, ANSI_RESET);
         } catch (IOException e) {
             System.out.println("Client error: " + e.getMessage());
         }
