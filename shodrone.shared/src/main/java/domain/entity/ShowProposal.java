@@ -95,7 +95,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements Serializable
 
     @Setter
     @Getter
-    @Column(name = "Video_Path", nullable = true)
+    @Column(name = "Video", nullable = true)
     @Embedded
     private Video video;
 
