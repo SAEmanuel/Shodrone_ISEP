@@ -1,6 +1,14 @@
 grammar Figures;
 
-program: statement* EOF;
+program: versionDecl? statement* EOF;
+
+versionDecl:
+    'DSL' 'version' version_string SEMICOLON
+    ;
+
+version_string:
+    VERSION
+    ;
 
 statement:
     droneType
@@ -82,8 +90,10 @@ literal:
     | CONSTANT;
 
 
-FLOAT: '-'? [0-9]+ '.' [0-9]+;
-INT: '-'? [0-9]+;
+fragment DIGIT: [0-9]+;
+VERSION: DIGIT'.'DIGIT'.'DIGIT;
+FLOAT: '-'? DIGIT+ '.' DIGIT+;
+INT: '-'? DIGIT+;
 
 COLOR: 'RED' | 'GREEN' | 'YELLOW';
 CONSTANT: 'PI' | 'e';
@@ -101,5 +111,6 @@ LPAREN: '(';
 RPAREN: ')';
 COMMA: ',';
 SEMICOLON: ';';
+DOT: '.';
 
 WS: [ \t\r\n]+ -> skip;

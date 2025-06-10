@@ -1,3 +1,5 @@
+DSL version 1.1.23;
+
 DroneType droneTypeA;
 
 Position aPos = (0,0,0);
