@@ -1,0 +1,65 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Show and Costumer domain model section for US373
+
+hide circles
+hide methods
+
+package "Customer Aggregate" {
+    class Costumer <<AggregateRoot>> {
+    }
+
+    class NIF {
+    }
+}
+
+package "Show Aggregate" {
+    class Show <<AggregateRoot>> {
+    }
+
+    class ShowID {
+    }
+
+    class Name {
+    }
+
+    class Description {
+    }
+
+    class Status {
+    }
+
+    class ScheduledDateTime {
+    }
+
+    class Progress {
+    }
+}
+
+package "Figure/Designer Subdomain" {
+    class Figure {
+    }
+
+    class Designer {
+    }
+}
+
+Costumer "1" --- "1" NIF: >
+Costumer "1" <-- "*" Show: owns >
+
+Show "1" --- "1" ShowID: >
+Show "1" --- "1" Name: >
+Show "1" --- "1" Description: >
+Show "1" --- "1" Status: >
+Show "1" --- "1" ScheduledDateTime: >
+Show "1" --- "1" Progress: >
+
+Show "1" --- "*" Figure: assigned >
+Show "1" --- "*" Designer: assigned >
+
+@enduml

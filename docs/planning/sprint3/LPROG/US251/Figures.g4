@@ -82,6 +82,8 @@ expr:
     literal
     | literal op=('*'|'/') expr
     | literal op=('+'|'-') expr
+    | IDENTIFIER op=('*'|'/') expr
+    | IDENTIFIER op=('+'|'-') expr
     ;
 
 literal:

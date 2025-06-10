@@ -146,6 +146,9 @@ public class DSLFigureVisitor extends FiguresBaseVisitor<Object> {
     public Object visitPauseStmt(FiguresParser.PauseStmtContext ctx) {
         System.out.println();
         String seconds = ctx.INT().getText();
+        try {
+            System.out.println();
+            String seconds = ctx.INT().getText();
 
         System.out.printf("pause(%s);%n", seconds);
         return new Command("system", "pause", List.of(seconds));

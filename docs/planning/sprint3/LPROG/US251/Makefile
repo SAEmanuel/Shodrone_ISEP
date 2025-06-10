@@ -1,4 +1,4 @@
-ANTLR_JAR=../lib/antlr-4.13.1-complete.jar
+ANTLR_JAR=../lib/antlr4-4.10.1-complete.jar
 JUNIT_JAR=../lib/junit-platform-console-standalone-1.9.3.jar
 CLASSPATH=.:$(ANTLR_JAR):$(JUNIT_JAR):gen
 MAIN_CLASS=Main

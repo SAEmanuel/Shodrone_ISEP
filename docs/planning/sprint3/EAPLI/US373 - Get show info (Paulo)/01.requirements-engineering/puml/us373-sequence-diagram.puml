@@ -1,0 +1,63 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Get Show Info
+autonumber
+
+actor "Customer" as Customer
+participant ":System" as System
+
+activate Customer
+
+Customer -> System: login()
+activate System
+System -> System: getEmailLogin()
+System --> Customer: email authenticated
+deactivate System
+
+Customer -> System: requestShowInfo()
+activate System
+
+
+System -> System: getCustomerNIFByRepresentative(email)
+alt NIF not found
+    System --> Customer: error("No customer found for representative.")
+    deactivate System
+
+    return
+    activate System
+end
+
+System -> System: send NIF to server (ObjectDTO<NIF>)
+System -> System: findByNIF(nif) via costumerRepository
+alt NIF not found on server
+    System --> Customer: error("Customer not found.")
+    deactivate System
+    return
+
+    activate System
+end
+
+System -> System: findByCostumer(customer) via showRepository
+alt no shows
+    System --> Customer: numShows = 0
+else shows found
+    System --> Customer: numShows > 0
+    loop for each Show
+        System --> Customer: ShowDTO(showID, date, drones, location, figures...)
+        deactivate System
+    end
+
+end
+deactivate System
+
+Customer -> System: selectShow(showID)
+activate System
+System -> System: getShowDetails(showID)
+System --> Customer: showDetails(...)
+deactivate System
+
+deactivate Customer
+@enduml
