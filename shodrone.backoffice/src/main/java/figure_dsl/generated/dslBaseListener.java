@@ -1,244 +1,256 @@
-// Generated from DroneShowDSL.g4 by ANTLR 4.13.2
+package figure_dsl.generated;// Generated from dsl.g4 by ANTLR 4.13.2
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
- * This class provides an empty implementation of {@link DroneShowDSLListener},
+ * This class provides an empty implementation of {@link dslListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
 @SuppressWarnings("CheckReturnValue")
-public class DroneShowDSLBaseListener implements DroneShowDSLListener {
+public class dslBaseListener implements dslListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDslFile(DroneShowDSLParser.DslFileContext ctx) { }
+	@Override public void enterDsl(dslParser.DslContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDslFile(DroneShowDSLParser.DslFileContext ctx) { }
+	@Override public void exitDsl(dslParser.DslContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDroneTypeDecl(DroneShowDSLParser.DroneTypeDeclContext ctx) { }
+	@Override public void enterVersion(dslParser.VersionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDroneTypeDecl(DroneShowDSLParser.DroneTypeDeclContext ctx) { }
+	@Override public void exitVersion(dslParser.VersionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVariableDecl(DroneShowDSLParser.VariableDeclContext ctx) { }
+	@Override public void enterDrone_model(dslParser.Drone_modelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVariableDecl(DroneShowDSLParser.VariableDeclContext ctx) { }
+	@Override public void exitDrone_model(dslParser.Drone_modelContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPositionDecl(DroneShowDSLParser.PositionDeclContext ctx) { }
+	@Override public void enterVariable_declaration(dslParser.Variable_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPositionDecl(DroneShowDSLParser.PositionDeclContext ctx) { }
+	@Override public void exitVariable_declaration(dslParser.Variable_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVelocityDecl(DroneShowDSLParser.VelocityDeclContext ctx) { }
+	@Override public void enterPosition_declaration(dslParser.Position_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVelocityDecl(DroneShowDSLParser.VelocityDeclContext ctx) { }
+	@Override public void exitPosition_declaration(dslParser.Position_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDistanceDecl(DroneShowDSLParser.DistanceDeclContext ctx) { }
+	@Override public void enterVelocity_declaration(dslParser.Velocity_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDistanceDecl(DroneShowDSLParser.DistanceDeclContext ctx) { }
+	@Override public void exitVelocity_declaration(dslParser.Velocity_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterShapeDecl(DroneShowDSLParser.ShapeDeclContext ctx) { }
+	@Override public void enterDistance_declaration(dslParser.Distance_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitShapeDecl(DroneShowDSLParser.ShapeDeclContext ctx) { }
+	@Override public void exitDistance_declaration(dslParser.Distance_declarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCommandBlock(DroneShowDSLParser.CommandBlockContext ctx) { }
+	@Override public void enterVector(dslParser.VectorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCommandBlock(DroneShowDSLParser.CommandBlockContext ctx) { }
+	@Override public void exitVector(dslParser.VectorContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterGroupBlock(DroneShowDSLParser.GroupBlockContext ctx) { }
+	@Override public void enterElement_definition(dslParser.Element_definitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitGroupBlock(DroneShowDSLParser.GroupBlockContext ctx) { }
+	@Override public void exitElement_definition(dslParser.Element_definitionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBeforeBlock(DroneShowDSLParser.BeforeBlockContext ctx) { }
+	@Override public void enterParameter_list(dslParser.Parameter_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBeforeBlock(DroneShowDSLParser.BeforeBlockContext ctx) { }
+	@Override public void exitParameter_list(dslParser.Parameter_listContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAfterBlock(DroneShowDSLParser.AfterBlockContext ctx) { }
+	@Override public void enterParameter(dslParser.ParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAfterBlock(DroneShowDSLParser.AfterBlockContext ctx) { }
+	@Override public void exitParameter(dslParser.ParameterContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPauseCommand(DroneShowDSLParser.PauseCommandContext ctx) { }
+	@Override public void enterStatement_block(dslParser.Statement_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPauseCommand(DroneShowDSLParser.PauseCommandContext ctx) { }
+	@Override public void exitStatement_block(dslParser.Statement_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSimpleCommand(DroneShowDSLParser.SimpleCommandContext ctx) { }
+	@Override public void enterBlock_type(dslParser.Block_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSimpleCommand(DroneShowDSLParser.SimpleCommandContext ctx) { }
+	@Override public void exitBlock_type(dslParser.Block_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCommand(DroneShowDSLParser.CommandContext ctx) { }
+	@Override public void enterEnd_block_type(dslParser.End_block_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCommand(DroneShowDSLParser.CommandContext ctx) { }
+	@Override public void exitEnd_block_type(dslParser.End_block_typeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprArguments(DroneShowDSLParser.ExprArgumentsContext ctx) { }
+	@Override public void enterStatement(dslParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprArguments(DroneShowDSLParser.ExprArgumentsContext ctx) { }
+	@Override public void exitStatement(dslParser.StatementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExprList(DroneShowDSLParser.ExprListContext ctx) { }
+	@Override public void enterGroup_statement_block(dslParser.Group_statement_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExprList(DroneShowDSLParser.ExprListContext ctx) { }
+	@Override public void exitGroup_statement_block(dslParser.Group_statement_blockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExpr(DroneShowDSLParser.ExprContext ctx) { }
+	@Override public void enterMethod(dslParser.MethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExpr(DroneShowDSLParser.ExprContext ctx) { }
+	@Override public void exitMethod(dslParser.MethodContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAtom(DroneShowDSLParser.AtomContext ctx) { }
+	@Override public void enterRotate_param(dslParser.Rotate_paramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAtom(DroneShowDSLParser.AtomContext ctx) { }
+	@Override public void exitRotate_param(dslParser.Rotate_paramContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterVector(DroneShowDSLParser.VectorContext ctx) { }
+	@Override public void enterPause_statement(dslParser.Pause_statementContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitVector(DroneShowDSLParser.VectorContext ctx) { }
+	@Override public void exitPause_statement(dslParser.Pause_statementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterExpression(dslParser.ExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitExpression(dslParser.ExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

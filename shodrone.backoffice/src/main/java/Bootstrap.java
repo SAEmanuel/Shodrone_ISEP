@@ -688,13 +688,6 @@ public class Bootstrap implements Runnable {
 
     // ---- -------------------
     private Costumer foundCostumerByNIF(NIF nif) {
-        Optional<List<Costumer>> a = RepositoryProvider.costumerRepository().getAllCostumers();
-        if (a.isPresent()) {
-            List<Costumer> costumers = a.get();
-            costumers.forEach(System.out::println);
-        } else {
-            System.out.println("No costumers found.");
-        }
         Optional<Costumer> result = RepositoryProvider.costumerRepository().findByNIF(nif);
         return result.orElse(null);
     }

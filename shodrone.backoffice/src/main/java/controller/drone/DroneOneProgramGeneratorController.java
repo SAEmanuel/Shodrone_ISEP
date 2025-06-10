@@ -2,8 +2,8 @@ package controller.drone;
 
 import Interface.DroneProgramGenerator;
 import drone.DroneProgramGeneratorVisitor;
-import drone_code.DroneShowDSLLexer;
-import drone_code.DroneShowDSLParser;
+import drone_code.generated.DroneShowDSLLexer;
+import drone_code.generated.DroneShowDSLParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 

@@ -1,7 +1,7 @@
 package drone;
 
-import drone_code.DroneShowDSLBaseVisitor;
-import drone_code.DroneShowDSLParser;
+import drone_code.generated.DroneShowDSLBaseVisitor;
+import drone_code.generated.DroneShowDSLParser;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
