@@ -231,3 +231,6 @@ public class DSLFigureVisitor extends FiguresBaseVisitor<Object> {
             this.commands = cmds;
         }
     }
+
+    public record Command(String target, String action, List<String> args) {}
+}
