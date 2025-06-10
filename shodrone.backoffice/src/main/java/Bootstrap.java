@@ -23,12 +23,11 @@ public class Bootstrap implements Runnable {
         addUsers();
         addCategories();
         addCustomers();
+        addRepresentatives();
         addFigures();
         addDroneModels();
         addDrones();
-        addRepresentatives();
-        addShowRequest();
-        initLists();
+        addShowRequests();
         addTemplates();
         addProposals();
         addMaintenanceTypes();
@@ -64,21 +63,6 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.figureCategoryRepository().save(category3);
         RepositoryProvider.figureCategoryRepository().save(category4);
         RepositoryProvider.figureCategoryRepository().save(category5);
-        RepositoryProvider.figureCategoryRepository().save(category6);
-        RepositoryProvider.figureCategoryRepository().save(category7);
-        RepositoryProvider.figureCategoryRepository().save(category8);
-        RepositoryProvider.figureCategoryRepository().save(category9);
-        RepositoryProvider.figureCategoryRepository().save(category10);
-        RepositoryProvider.figureCategoryRepository().save(category11);
-        RepositoryProvider.figureCategoryRepository().save(category12);
-        RepositoryProvider.figureCategoryRepository().save(category13);
-        RepositoryProvider.figureCategoryRepository().save(category14);
-        RepositoryProvider.figureCategoryRepository().save(category15);
-        RepositoryProvider.figureCategoryRepository().save(category16);
-        RepositoryProvider.figureCategoryRepository().save(category17);
-        RepositoryProvider.figureCategoryRepository().save(category18);
-        RepositoryProvider.figureCategoryRepository().save(category19);
-        RepositoryProvider.figureCategoryRepository().save(category20);
     }
 
     // --- Customer Setup -------------------------------------------------
@@ -107,21 +91,6 @@ public class Bootstrap implements Runnable {
         RepositoryProvider.figureRepository().save(figure3);
         RepositoryProvider.figureRepository().save(figure4);
         RepositoryProvider.figureRepository().save(figure5);
-        RepositoryProvider.figureRepository().save(figure6);
-        RepositoryProvider.figureRepository().save(figure7);
-        RepositoryProvider.figureRepository().save(figure8);
-        RepositoryProvider.figureRepository().save(figure9);
-        RepositoryProvider.figureRepository().save(figure10);
-        RepositoryProvider.figureRepository().save(figure11);
-        RepositoryProvider.figureRepository().save(figure12);
-        RepositoryProvider.figureRepository().save(figure13);
-        RepositoryProvider.figureRepository().save(figure14);
-        RepositoryProvider.figureRepository().save(figure15);
-        RepositoryProvider.figureRepository().save(figure16);
-        RepositoryProvider.figureRepository().save(figure17);
-        RepositoryProvider.figureRepository().save(figure18);
-        RepositoryProvider.figureRepository().save(figure19);
-        RepositoryProvider.figureRepository().save(figure20);
     }
 
     // --- Drone Model Setup ---------------------------------------------------
@@ -207,44 +176,6 @@ public class Bootstrap implements Runnable {
     }
 
 
-    // --- Show Request Setup ---------------------------------------------------
-
-    private void addShowRequest() {
-        RepositoryProvider.showRequestRepository().saveInStore(showRequest1());
-        RepositoryProvider.showRequestRepository().saveInStore(showRequest2());
-        RepositoryProvider.showRequestRepository().saveInStore(showRequest3());
-    }
-
-    // --- Lists Setup ---------------------------------------------------
-
-    private void initLists() {
-        list1.add(foundFigure(1L));
-
-        list2.add(foundFigure(2L));
-        list2.add(foundFigure(3L));
-
-        list3.add(foundFigure(4L));
-        list3.add(foundFigure(5L));
-        list3.add(foundFigure(6L));
-
-        list4.add(foundFigure(7L));
-        list4.add(foundFigure(8L));
-        list4.add(foundFigure(9L));
-        list4.add(foundFigure(10L));
-
-        list5.add(foundFigure(11L));
-        list5.add(foundFigure(12L));
-        list5.add(foundFigure(13L));
-        list5.add(foundFigure(14L));
-        list5.add(foundFigure(15L));
-
-        list6.add(foundFigure(16L));
-        list6.add(foundFigure(17L));
-        list6.add(foundFigure(18L));
-        list6.add(foundFigure(19L));
-        list6.add(foundFigure(20L));
-    }
-
     // --- Show Proposal Templates Setup ---------------------------------------------------
     private void addTemplates() {
         RepositoryProvider.proposalTemplateRepository().save(templatePT);
@@ -252,12 +183,6 @@ public class Bootstrap implements Runnable {
     }
 
 
-    // --- Show Proposals Setup ---------------------------------------------------
-    private void addProposals() {
-        RepositoryProvider.showProposalRepository().saveInStore(proposal1());
-        RepositoryProvider.showProposalRepository().saveInStore(proposal2());
-        RepositoryProvider.showProposalRepository().saveInStore(proposal3());
-    }
 
 
     // --- Categories -----------------------------------------------------
@@ -266,21 +191,6 @@ public class Bootstrap implements Runnable {
     private final FigureCategory category3 = new FigureCategory(new domain.valueObjects.Name("Nature"), new Description("Natural elements and landscapes"), new Email("show_designer@shodrone.app"));
     private final FigureCategory category4 = new FigureCategory(new domain.valueObjects.Name("Technology"), new Description("Tech and gadgets"), new Email("show_designer@shodrone.app"));
     private final FigureCategory category5 = new FigureCategory(new domain.valueObjects.Name("Abstract"), new Description("Abstract forms"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category6 = new FigureCategory(new domain.valueObjects.Name("Animals"), new Description("Animal shapes"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category7 = new FigureCategory(new domain.valueObjects.Name("Music"), new Description("Musical symbols and instruments"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category8 = new FigureCategory(new domain.valueObjects.Name("Sports"), new Description("Sports-related figures"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category9 = new FigureCategory(new domain.valueObjects.Name("Space"), new Description("Space and astronomy"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category10 = new FigureCategory(new domain.valueObjects.Name("Transport"), new Description("Vehicles and means of transport"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category11 = new FigureCategory(new domain.valueObjects.Name("Food"), new Description("Food and drink"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category12 = new FigureCategory(new domain.valueObjects.Name("People"), new Description("Human figures and actions"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category13 = new FigureCategory(new domain.valueObjects.Name("Buildings"), new Description("Buildings and architecture"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category14 = new FigureCategory(new domain.valueObjects.Name("Symbols"), new Description("Common symbols"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category15 = new FigureCategory(new domain.valueObjects.Name("Weather"), new Description("Weather phenomena"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category16 = new FigureCategory(new domain.valueObjects.Name("Plants"), new Description("Plant life"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category17 = new FigureCategory(new domain.valueObjects.Name("Fantasy"), new Description("Fantasy and mythical creatures"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category18 = new FigureCategory(new domain.valueObjects.Name("Holiday"), new Description("Holiday and festive shapes"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category19 = new FigureCategory(new domain.valueObjects.Name("Ocean"), new Description("Sea and ocean life"), new Email("show_designer@shodrone.app"));
-    private final FigureCategory category20 = new FigureCategory(new domain.valueObjects.Name("Emojis"), new Description("Emoji-inspired figures"), new Email("show_designer@shodrone.app"));
 
     // --- Customers ------------------------------------------------------
     private final Costumer customer1 = new Costumer(
@@ -332,34 +242,11 @@ public class Bootstrap implements Runnable {
     // --- Figures --------------------------------------------------------
     private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
     private final Figure figure2 = new Figure(new domain.valueObjects.Name("Tree"), new Description("A tall plant with a trunk"), 3L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer1);
-    private final Figure figure3 = new Figure(new domain.valueObjects.Name("Guitar"), new Description("A stringed musical instrument"), 7L, category7, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
-    private final Figure figure4 = new Figure(new domain.valueObjects.Name("Rocket"), new Description("A vehicle propelled by rocket engines"), 9L, category9, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
-    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Heart"), new Description("A classic symbol of love"), 14L, category14, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
-    private final Figure figure6 = new Figure(new domain.valueObjects.Name("Flower"), new Description("A colorful part of a plant"), 16L, category16, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
-    private final Figure figure7 = new Figure(new domain.valueObjects.Name("Fish"), new Description("A typical sea fish"), 19L, category19, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer1);
+    private final Figure figure3 = new Figure(new domain.valueObjects.Name("Robot"), new Description("A programmable machine"), 4L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
+    private final Figure figure4 = new Figure(new domain.valueObjects.Name("Spiral"), new Description("A curve that winds around a center point"), 5L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
+    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Airplane"), new Description("A fixed-wing flying vehicle"), 2L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
 
-    private final Figure figure8 = new Figure(new domain.valueObjects.Name("Robot"), new Description("A programmable machine"), 4L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
-    private final Figure figure9 = new Figure(new domain.valueObjects.Name("Spiral"), new Description("A curve that winds around a center point"), 5L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
-    private final Figure figure10 = new Figure(new domain.valueObjects.Name("Car"), new Description("A four-wheeled motor vehicle"), 10L, category10, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
-    private final Figure figure11 = new Figure(new domain.valueObjects.Name("Pizza"), new Description("A slice of Italian pizza"), 11L, category11, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
-    private final Figure figure12 = new Figure(new domain.valueObjects.Name("House"), new Description("A simple house with a roof"), 13L, category13, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
-    private final Figure figure13 = new Figure(new domain.valueObjects.Name("Dragon"), new Description("A mythical fire-breathing creature"), 17L, category17, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
-    private final Figure figure14 = new Figure(new domain.valueObjects.Name("Smiley"), new Description("A classic smiling emoji face"), 20L, category20, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
 
-    private final Figure figure15 = new Figure(new domain.valueObjects.Name("Airplane"), new Description("A fixed-wing flying vehicle"), 2L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
-    private final Figure figure16 = new Figure(new domain.valueObjects.Name("Cat"), new Description("A domestic feline animal"), 6L, category6, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
-    private final Figure figure17 = new Figure(new domain.valueObjects.Name("Football"), new Description("A classic soccer ball"), 8L, category8, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer3);
-    private final Figure figure18 = new Figure(new domain.valueObjects.Name("Runner"), new Description("A person running"), 12L, category12, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
-    private final Figure figure19 = new Figure(new domain.valueObjects.Name("Christmas Tree"), new Description("A decorated pine for Christmas"), 18L, category18, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("input.txt"), customer3);
-    private final Figure figure20 = new Figure(new domain.valueObjects.Name("Cloud"), new Description("A visible mass of condensed water vapor"), 15L, category15, FigureAvailability.EXCLUSIVE, FigureStatus.ACTIVE, new DSL("drones.txt"), customer3);
-
-    // --- List Figures --------------------------------------------------------
-    private final List<Figure> list1 = new LinkedList<>();
-    private final List<Figure> list2 = new LinkedList<>();
-    private final List<Figure> list3 = new LinkedList<>();
-    private final List<Figure> list4 = new LinkedList<>();
-    private final List<Figure> list5 = new LinkedList<>();
-    private final List<Figure> list6 = new LinkedList<>();
 
     // --- Drone Models ------------------------------------------------------
     private final DroneModel droneModel1 = new DroneModel(
@@ -484,6 +371,11 @@ public class Bootstrap implements Runnable {
 
 
     // --- Show Request -----------------------------------------------------------
+    public void addShowRequests() {
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest1());
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest2());
+        RepositoryProvider.showRequestRepository().saveInStore(showRequest3());
+    }
 
     private final Description description1 = new Description("Amazing drone show!");
     private final Description description2 = new Description("Incredible light performance!");
@@ -495,7 +387,7 @@ public class Bootstrap implements Runnable {
 
     private ShowRequest showRequest1() {
         Costumer customer = !useInMemory ? foundCostumerByNIF(new NIF("123456789")) : customer1;
-        return new ShowRequest(2L,
+        return new ShowRequest(1L,
                 LocalDateTime.now(), ShowRequestStatus.PENDING,
                 "crm_collaborator@shodrone.app", customer,
                 Arrays.asList(foundFigure(1L), foundFigure(2L), foundFigure(3L)),
@@ -507,7 +399,7 @@ public class Bootstrap implements Runnable {
 
     private ShowRequest showRequest2() {
         Costumer customer = !useInMemory ? foundCostumerByNIF(new NIF("286500850")) : customer2;
-        return new ShowRequest(3L,
+        return new ShowRequest(2L,
                 LocalDateTime.now().minusDays(1), ShowRequestStatus.PENDING,
                 "crm_collaborator@shodrone.app", customer,
                 Arrays.asList(foundFigure(8L), foundFigure(9L)),
@@ -519,7 +411,7 @@ public class Bootstrap implements Runnable {
 
     private ShowRequest showRequest3() {
         Costumer customer = !useInMemory ? foundCostumerByNIF(new NIF("248367080")) : customer3;
-        return new ShowRequest(4L,
+        return new ShowRequest(3L,
                 LocalDateTime.now().minusDays(2), ShowRequestStatus.PENDING,
                 "crm_collaborator@shodrone.app", customer,
                 Arrays.asList(foundFigure(15L), foundFigure(16L)),
@@ -599,6 +491,7 @@ public class Bootstrap implements Runnable {
         List<String> filled = TemplatePlugin.replacePlaceholders(RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get().text(), placeholders);
         content.changeText(filled);
 
+
         ShowProposal proposal = new ShowProposal(new Name("Proposal One"), showRequest1(), RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest1().getDescription(), showRequest1().getLocation(), showRequest1().getShowDate(), 10, showRequest1().getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal1DroneModels());
         proposal.setText(filled);
         return proposal;
@@ -667,23 +560,29 @@ public class Bootstrap implements Runnable {
 
     private Map<Integer, Figure> proposal1Figures() {
         Map<Integer, Figure> f = new HashMap<>();
-        f.put(1, foundFigure(4L));
-        f.put(2, foundFigure(5L));
+        f.put(1, foundFigure(1L));
+        f.put(2, foundFigure(2L));
         return f;
     }
 
     private Map<Integer, Figure> proposal2Figures() {
         Map<Integer, Figure> f = new HashMap<>();
         f.put(1, foundFigure(3L));
-        f.put(2, foundFigure(2L));
+        f.put(2, foundFigure(4L));
         return f;
     }
 
     private Map<Integer, Figure> proposal3Figures() {
         Map<Integer, Figure> f = new HashMap<>();
-        f.put(1, foundFigure(6L));
-        f.put(2, foundFigure(1L));
+        f.put(1, foundFigure(2L));
+        f.put(2, foundFigure(4L));
         return f;
+    }
+
+    public void addProposals() {
+        RepositoryProvider.showProposalRepository().saveInStore(proposal1());
+        RepositoryProvider.showProposalRepository().saveInStore(proposal2());
+        RepositoryProvider.showProposalRepository().saveInStore(proposal3());
     }
 
     // ---- -------------------
