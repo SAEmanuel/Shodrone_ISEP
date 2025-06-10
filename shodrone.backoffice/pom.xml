@@ -180,7 +180,8 @@
                             <goal>antlr4</goal>
                         </goals>
                         <configuration>
-                            <packageName>drone_code</packageName>
+                            <visitor>true</visitor>
+                            <outputDirectory>${project.build.directory}/generated-sources/antlr4</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
