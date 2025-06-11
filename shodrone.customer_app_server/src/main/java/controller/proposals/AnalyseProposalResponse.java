@@ -20,7 +20,6 @@ import static more.TextEffects.BOLD;
 public class AnalyseProposalResponse {
     public static void analyseProposalResponseAction(String proposalJson, PrintWriter out, Gson gson) {
         try {
-            System.out.printf("%s%sProcessing proposal response...%s%n", BOLD, ANSI_BRIGHT_PURPLE, ANSI_RESET);
 
             Type objectDTOType = new TypeToken<ObjectDTO<ShowProposalDTO>>() {}.getType();
             ObjectDTO<ShowProposalDTO> objectDTO = gson.fromJson(proposalJson, objectDTOType);
@@ -31,7 +30,7 @@ public class AnalyseProposalResponse {
             }
 
             ShowProposalDTO proposalDTO = objectDTO.getObject();
-            System.out.println("[SERVER] Received update request for proposal ID: " + proposalDTO.getId());
+            System.out.printf("%s🛜 [SERVER] : Received update request for proposal ID: %s%s%n",BOLD, proposalDTO.getId(),ANSI_RESET);
 
             Optional<ShowProposal> optionalShowProposal =
                     RepositoryProvider.showProposalRepository().findByID(proposalDTO.getId());
@@ -49,11 +48,13 @@ public class AnalyseProposalResponse {
                     RepositoryProvider.showProposalRepository().saveInStore(proposal);
 
             if (updatedProposal.isPresent()) {
-                System.out.println("[SERVER] Status updated to: " + proposal.getStatus());
+                System.out.printf("%s🛜 [SERVER] : Status updated to: %s%s%n",BOLD, proposal.getStatus(),ANSI_RESET);
                 sendResponse(out, gson, "success");
             } else {
                 sendResponse(out, gson, "fail");
             }
+
+            System.out.printf("%s%s❕SERVER ACTION FINISHED: Analyse Proposal Response -> [%s] %s%n",ANSI_BRIGHT_PURPLE,BOLD,proposal.getNameProposal(),ANSI_RESET);
 
         } catch (Exception e) {
             System.out.println("Error processing proposal: " + e.getMessage());

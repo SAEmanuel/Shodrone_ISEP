@@ -52,11 +52,11 @@ public class HandleClientsController {
 
     private static void menuOptionsToExecute(BufferedReader in, PrintWriter out, Gson gson) {
         try {
-            System.out.printf("%s🛜 SERVER: Waiting for option to be selected...%s%n",BOLD,ANSI_RESET);
+            System.out.printf("%s🛜 [SERVER] : Waiting for option to be selected...%s%n",BOLD,ANSI_RESET);
             String received = in.readLine();
 
             while (received != null && !received.equals("exit")) {
-                System.out.printf("%s%s📡 SERVER RECEIVED: %s%s%n",BOLD,ANSI_MAROON,received,ANSI_RESET);
+                System.out.printf("%s%s📡 [SERVER RECEIVED] : %s%s%n",BOLD,ANSI_MAROON,received,ANSI_RESET);
 
                 switch (received) {
                     case "FindCustomerOfRepresentative":
@@ -74,6 +74,7 @@ public class HandleClientsController {
                         break;
 
                     case "AnalyseProposalResponse":
+                        System.out.println("📍 Calling analyseProposalResponseAction");
                         String proposalJson = in.readLine();
                         AnalyseProposalResponse.analyseProposalResponseAction(proposalJson, out, gson);
                         break;
@@ -82,7 +83,7 @@ public class HandleClientsController {
                         Utils.printAlterMessage("❌ Command not found: " + received);
                 }
 
-                System.out.printf("%s🛜 SERVER: Waiting for option to be selected...%s%n",BOLD,ANSI_RESET);
+                System.out.printf("%s🛜 [SERVER] : Waiting for option to be selected...%s%n",BOLD,ANSI_RESET);
                 received = in.readLine();
             }
 

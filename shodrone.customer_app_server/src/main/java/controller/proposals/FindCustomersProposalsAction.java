@@ -8,6 +8,7 @@ import domain.valueObjects.NIF;
 import network.ObjectDTO;
 import network.ShowProposalDTO;
 import persistence.RepositoryProvider;
+import utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,7 +24,6 @@ import static more.TextEffects.BOLD;
 public class FindCustomersProposalsAction {
     public static void findCustomersProposalsAction(BufferedReader in, PrintWriter out, Gson gson) {
         try {
-            System.out.printf("%s%sWaiting for client connection...%s%n", BOLD, ANSI_BRIGHT_PURPLE, ANSI_RESET);
 
             String receivedEmail = in.readLine();
             Type objectDTOType = new TypeToken<ObjectDTO<NIF>>() {
@@ -57,11 +57,12 @@ public class FindCustomersProposalsAction {
                     String objectDTOJsonToSendInformative = gson.toJson(objectDTOToSendInformative);
                     out.println(objectDTOJsonToSendInformative);
                 }
-                System.out.printf("%s%sAction finished - Get Customer of Representative - %s%s\n", BOLD, ANSI_BRIGHT_PURPLE, nifCustomer, ANSI_RESET);
+
+                System.out.printf("%s%s❕SERVER ACTION FINISHED:Get Customer of Representative -> [%s] %s%n",ANSI_BRIGHT_PURPLE,BOLD,nifCustomer,ANSI_RESET);
             }
 
         } catch (IOException e) {
-            System.out.println("Client error: " + e.getMessage());
+            Utils.printFailMessage("Client error: " + e.getMessage());
         }
     }
 }
