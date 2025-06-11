@@ -1,14 +1,12 @@
 package domain.entity;
 
-
 import domain.valueObjects.*;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import lombok.Setter;
 
 import java.io.Serializable;
-import java.util.Objects;
-
+import java.util.*;
 
 @Entity
 @Table(name = "figure")
@@ -21,15 +19,16 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     @Embedded
     @Column(name = "Name", nullable = false)
-    public Name name;
+    private Name name;
 
     @Embedded
-    public Description description;
+    private Description description;
 
-    @Column(name = "Version")
-    private Long version;
+    @Version
+    @Column(name = "entity_version")
+    private Long entityVersion;
 
-    @ManyToOne //(cascade = CascadeType.MERGE)
+    @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private FigureCategory category;
 
@@ -41,99 +40,96 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Column(nullable = false)
     private FigureStatus status;
 
-    @Embedded
-    public DSL dsl;
+    @ElementCollection(fetch = FetchType.LAZY)
+    @CollectionTable(name = "figure_dsl_versions", joinColumns = @JoinColumn(name = "figure_id"))
+    @MapKeyColumn(name = "dsl_version")
+    @Column(name = "dsl_content", columnDefinition = "TEXT")
+    private Map<String, List<String>> dslVersions = new HashMap<>();
 
     @ManyToOne
-    @JoinColumn(name = "costumer_id")
-    private Costumer costumer;
-
-
+    @JoinColumn(name = "customer_id")
+    private Costumer customer;
 
     protected Figure() {}
 
-    /**
-     * Constructs a new Figure entity with all required attributes.
-     *
-     * @param name          The name of the figure.
-     * @param description   The description of the figure.
-     * @param version       The version number of the figure.
-     * @param category      The category to which the figure belongs.
-     * @param availability  The availability status of the figure.
-     * @param status        The current status of the figure.
-     * @param dsl           The DSL associated with the figure.
-     * @param costumer      The costumer associated with the figure.
-     */
     public Figure(Name name, Description description,
-                  Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
-
-        this.name = name;
+                  FigureCategory category, FigureAvailability availability,
+                  FigureStatus status, Map<String, List<String>> dslVersions,
+                  Costumer customer) {
+        this.name = Objects.requireNonNull(name);
         this.description = description;
-        this.version = version;
-        this.category = category;
-        this.availability = availability;
-        this.status = status;
-        this.dsl = dsl;
-        this.costumer = costumer;
+        this.category = Objects.requireNonNull(category);
+        this.availability = Objects.requireNonNull(availability);
+        this.status = Objects.requireNonNull(status);
+        this.dslVersions = new HashMap<>(dslVersions);
+        this.customer = Objects.requireNonNull(customer);
     }
 
-
-    /**
-     * Returns the unique identifier of this Figure entity.
-     *
-     * @return The figure's identity (primary key).
-     */
     @Override
-    public Long identity() { return figureId; }
+    public Long identity() {
+        return figureId;
+    }
 
-    public Name name() { return name; }
+    public Name name() {
+        return name;
+    }
 
-    public Description description() { return description; }
+    public Description description() {
+        return description;
+    }
 
-    public Long version() { return version; }
+    public FigureCategory category() {
+        return category;
+    }
 
-    public FigureCategory category() { return category; }
+    public FigureAvailability availability() {
+        return availability;
+    }
 
-    public FigureAvailability availability() { return availability; }
+    public FigureStatus status() {
+        return status;
+    }
 
-    public FigureStatus status() { return status; }
+    public Map<String, List<String>> dslVersions() {
+        return new HashMap<>(dslVersions);
+    }
 
-    public DSL dsl() { return dsl; }
+    public void addDslVersion(String version, List<String> dslContent) {
+        dslVersions.put(version, new ArrayList<>(dslContent));
+    }
 
-    public Costumer costumer() { return costumer; }
+    public Costumer customer() {
+        return customer;
+    }
 
+    public void updateFigureCategory(FigureCategory category) {
+        this.category = Objects.requireNonNull(category);
+    }
 
-    /**
-     * Updates the category of the figure.
-     * @param category new category to assign
-     */
-    public void UpdateFigureCategory (FigureCategory category) { this.category = category; }
+    public void updateCustomer(Costumer customer) {
+        this.customer = Objects.requireNonNull(customer);
+    }
 
-    /**
-     * Updates the costumer (owner/client) of the figure.
-     * @param costumer new costumer to assign
-     */
-    public void UpdateFigureCostumer (Costumer costumer) { this.costumer = costumer; }
-
-    /**
-     * Marks the figure as inactive (decommissioned).
-     */
-    public void decommissionFigureStatus() { this.status = FigureStatus.INACTIVE; }
+    public void decommission() {
+        if (this.status != FigureStatus.ACTIVE) {
+            throw new IllegalStateException("Figure must be active to decommission");
+        }
+        this.status = FigureStatus.INACTIVE;
+    }
 
     @Override
     public boolean sameAs(Object other) {
         if (!(other instanceof Figure)) return false;
         Figure that = (Figure) other;
-        return figureId.equals(that.figureId);
+        return Objects.equals(figureId, that.figureId);
     }
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
         if (!(o instanceof Figure)) return false;
-        Figure that = (Figure) o;
-        return figureId.equals(that.figureId);
+        Figure figure = (Figure) o;
+        return Objects.equals(figureId, figure.figureId);
     }
 
     @Override
@@ -144,16 +140,15 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @Override
     public String toString() {
         return String.format(
-                "ID: %-3s | Name: %-20s | Description: %-30s | Version: %-6s | Category: %-20s | Status: %-6s | Availability: %-10s | DSL: %-20s | Costumer: %-20s",
+                "ID: %-3s | Name: %-20s | Description: %-30s | Category: %-20s | Status: %-6s | Availability: %-10s | Customer: %-20s | DSL Versions: %s",
                 figureId != null ? figureId : "N/A",
-                name != null ? name : "N/A",
-                description != null ? description : "N/A",
-                version != null ? version.toString() : "N/A",
-                category != null ? category.identity() : "N/A",
-                status != null ? status : "N/A",
-                availability != null ? availability : "N/A",
-                dsl != null ? dsl: "N/A",
-                costumer != null ? costumer.name() : "N/A"
+                name,
+                description,
+                category.identity(),
+                status,
+                availability,
+                customer != null ? customer.name() : "N/A",
+                dslVersions.keySet()
         );
     }
 }

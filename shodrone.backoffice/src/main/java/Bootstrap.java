@@ -183,8 +183,6 @@ public class Bootstrap implements Runnable {
     }
 
 
-
-
     // --- Categories -----------------------------------------------------
     private final FigureCategory category1 = new FigureCategory(new domain.valueObjects.Name("Geometry"), new Description("Geometric shapes"), new Email("show_designer@shodrone.app"));
     private final FigureCategory category2 = new FigureCategory(new domain.valueObjects.Name("Aviation"), new Description("Aircraft and flying objects"), new Email("show_designer@shodrone.app"));
@@ -239,13 +237,13 @@ public class Bootstrap implements Runnable {
         else
             return new CustomerRepresentative(customer3, new domain.valueObjects.Name("Paulo Mendes"), new Email("paulo@shodrone.app"), new PhoneNumber("912809789"), "CEO");
     }
-    // --- Figures --------------------------------------------------------
-    private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), 1L, category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer1);
-    private final Figure figure2 = new Figure(new domain.valueObjects.Name("Tree"), new Description("A tall plant with a trunk"), 3L, category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer1);
-    private final Figure figure3 = new Figure(new domain.valueObjects.Name("Robot"), new Description("A programmable machine"), 4L, category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), customer2);
-    private final Figure figure4 = new Figure(new domain.valueObjects.Name("Spiral"), new Description("A curve that winds around a center point"), 5L, category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.txt"), customer2);
-    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Airplane"), new Description("A fixed-wing flying vehicle"), 2L, category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("drones.pdf"), customer3);
 
+    // --- Figures --------------------------------------------------------
+    private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer1);
+    private final Figure figure2 = new Figure(new domain.valueObjects.Name("Tree"), new Description("A tall plant with a trunk"), category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer1);
+    private final Figure figure3 = new Figure(new domain.valueObjects.Name("Robot"), new Description("A programmable machine"), category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer2);
+    private final Figure figure4 = new Figure(new domain.valueObjects.Name("Spiral"), new Description("A curve that winds around a center point"), category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer2);
+    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Airplane"), new Description("A fixed-wing flying vehicle"), category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer3);
 
 
     // --- Drone Models ------------------------------------------------------

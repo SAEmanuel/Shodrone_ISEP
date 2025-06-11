@@ -97,7 +97,7 @@ public class ListFiguresByCostumerUI implements Runnable {
                 Figure f = figureList.get(i);
                 System.out.printf("    %s(%-2d)%s -  ID: %-3d | Costumer: %-18s | Name: %-15s | Availability: %-9s%s%n",
                         ANSI_BRIGHT_BLACK, i + 1, ANSI_RESET,
-                        f.identity(), f.costumer().name(), f.name(), f.availability(), ANSI_RESET);
+                        f.identity(), f.customer().name(), f.name(), f.availability(), ANSI_RESET);
             }
 
             String input = Utils.readLineFromConsole("Select a figure by number (or press ENTER to finish)").trim();
