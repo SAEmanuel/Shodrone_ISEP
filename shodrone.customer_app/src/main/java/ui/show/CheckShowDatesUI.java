@@ -25,35 +25,58 @@ public class CheckShowDatesUI implements Runnable {
 
         try {
             String email = AuthenticationController.getEmailLogin();
-            System.out.printf("%s%s• Email:%s      %s\n",BOLD,ANSI_BRIGHT_BLUE,ANSI_RESET,email);
+            System.out.printf("%s%s• Email:%s      %s\n", BOLD, ANSI_BRIGHT_BLUE, ANSI_RESET, email);
 
             NIF customerFound = controller.getCustomerNIFOfTheRepresentativeAssociated(email);
-            System.out.printf("%s%s• Customer:%s   %s\n",BOLD,ANSI_BRIGHT_BLUE,ANSI_RESET,customerFound);
-            Optional<List<ShowDTO>>  listOfShows = controller.getShowsForCustomer(customerFound);
+            System.out.printf("%s%s• Customer:%s   %s\n", BOLD, ANSI_BRIGHT_BLUE, ANSI_RESET, customerFound);
+            Optional<List<ShowDTO>> listOfShowsOpt = controller.getShowsForCustomer(customerFound);
 
-            if(listOfShows.isEmpty()){
+            if (listOfShowsOpt.isEmpty() || listOfShowsOpt.get().isEmpty()) {
                 Utils.printFailMessage("\n✖ No shows found for the associated customer to representative with Email [" + email + "].");
-            }else{
-                int size = listOfShows.get().size();
-                System.out.printf("%s%s• Nº of Show:%s %s\n",BOLD,ANSI_BRIGHT_BLUE,ANSI_RESET,size);
+            } else {
+                List<ShowDTO> listOfShows = listOfShowsOpt.get();
 
-                if(size > 0){
-                    System.out.printf("\n\n%s         🧾 SHOW'S INFORMATION SUMMARY                   %s",ANSI_MEDIUM_SPRING_GREEN,ANSI_RESET);
-                    System.out.printf("\n%s──────────────────────────────────────────────────%s\n\n",ANSI_BRIGHT_BLACK,ANSI_RESET);
+                List<ShowDTO> filteredShows = listOfShows.stream()
+                        .filter(show -> show.getStatus().equalsIgnoreCase("PLANNED"))
+                        .filter(show -> {
+                            try {
+                                return java.time.LocalDateTime.parse(show.getShowDate(),
+                                                java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+                                        .isAfter(java.time.LocalDateTime.now());
+                            } catch (Exception e) {
+                                return false;
+                            }
+                        })
+                        .sorted((s1, s2) -> s2.getShowDate().compareTo(s1.getShowDate()))
+                        .toList();
 
-                    int i = 1;
-                    for(ShowDTO show : listOfShows.get()){
-                        if(show != null){
-                            System.out.printf("%s     • Show Nº%s%-3s%s %s%n",ANSI_BRIGHT_BLACK,i++,":",ANSI_RESET,show.toString());
-                        }
-                    }
+                if (filteredShows.isEmpty()) {
+                    Utils.printFailMessage("\n✖ No PLANNED shows with a future date found.");
+                    return;
                 }
 
-                Utils.printSuccessMessage("\n✔ Check Show Dates for Customer Successfully Loaded!");
+                System.out.printf("%s%s• Nº of Planned Future Shows:%s %d\n", BOLD, ANSI_BRIGHT_BLUE, ANSI_RESET, filteredShows.size());
+
+                System.out.printf("\n\n%s        🧾 UPCOMING PLANNED SHOWS (Most Recent First)        %s", ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET);
+                System.out.printf("\n%s───────────────────────────────────────────────────────────────%s\n\n", ANSI_BRIGHT_BLACK, ANSI_RESET);
+
+                int i = 1;
+                for (ShowDTO show : filteredShows) {
+                    System.out.printf("%s  • Show %02d:%s  ID: %d | Status: %s | Date: %s\n",
+                            ANSI_BRIGHT_BLACK, i++, ANSI_RESET,
+                            show.getShowID(),
+                            show.getStatus(),
+                            show.getShowDate()
+                    );
+                }
+
+                Utils.printSuccessMessage("\n✔ Filtered future planned shows listed successfully!");
             }
 
         } catch (Exception e) {
             Utils.printFailMessage(e.getMessage());
         }
     }
+
+
 }
