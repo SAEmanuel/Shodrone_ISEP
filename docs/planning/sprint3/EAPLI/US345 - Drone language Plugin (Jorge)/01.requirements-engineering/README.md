@@ -62,7 +62,7 @@ The following specifications are based on the official project document (Section
 
 ### 1.6. System Sequence Diagram (SSD)
 
-![System Sequence Diagram](svg/us345-system-sequence-diagram.svg)
+![System Sequence Diagram](img/us345-system-sequence-diagram.png)
 
 ### 1.7. Other Relevant Remarks
 
