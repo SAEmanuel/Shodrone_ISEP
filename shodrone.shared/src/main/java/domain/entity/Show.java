@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Show extends DomainEntityBase<Long> implements AggregateRoot<Long>, Serializable {
+public class Show extends DomainEntityBase<Long> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
