@@ -1,4 +1,4 @@
-package proposal_template.generated;// Generated from template.g4 by ANTLR 4.13.2
+package proposal_template.generated;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**

@@ -54,7 +54,7 @@ public class ServiceForValidSequenceFiguresForShow {
                 Figure f = figureList.get(i);
                 System.out.printf("    %s(%-3s%s -  ID: %-3d | Costumer: %-18s | Name: %-15s | Availability: %-9s%s%n",
                         ANSI_BRIGHT_BLACK, i + 1 + ")", ANSI_RESET,
-                        f.identity(), f.costumer().name(), f.name(), f.availability(), ANSI_RESET);
+                        f.identity(), f.customer().name(), f.name(), f.availability(), ANSI_RESET);
             }
 
             String input = Utils.readLineFromConsole("Select a Figure").trim();

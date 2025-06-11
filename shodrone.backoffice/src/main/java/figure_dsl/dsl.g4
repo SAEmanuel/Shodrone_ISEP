@@ -86,7 +86,7 @@ group_statement_block
 method
   : 'move' '(' vector ',' expression ',' ID ')'
   | 'rotate' '(' rotate_param ',' rotate_param ',' rotate_param ',' rotate_param ')'
-  | 'lightsOn' '(' NUMBER ',' NUMBER ',' NUMBER ')'
+  | 'lightsOn' '(' parameter_list ')'
   | 'lightsOff()'
   ;
 

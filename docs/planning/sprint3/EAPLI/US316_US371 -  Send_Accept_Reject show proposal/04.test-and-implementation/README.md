@@ -1,75 +1,110 @@
-# US316_US371 - Send_Accept_Reject show proposal
+# US316_US371 - Send_Accept_Reject Show Proposal
 
 ## 4. Tests
 
+---
 
+### 4.1. Unit Tests
+
+*(To be defined)*
 
 ---
 
+### 4.2. Application Logic: `AnalyseProposalResponse`
 
-
----
-
-### 4.2. Application Logic: `AddFigureCategoryController`
-
-
+*(To be defined)*
 
 ---
 
-### 4.3. Persistence: `InMemoryFigureCategoryRepository`
+### 4.3. Persistence: `ShowProposalRepository`
 
+*(To be defined)*
 
-
-Each test above ensures that the repository behaves correctly in both typical and edge cases.
-
+---
 
 ## 5. Construction (Implementation)
 
+The implementation of **Send / Accept / Reject Show Proposal** was carried out with a modular and domain-driven approach:
 
+- **UI Layer**  
+  Implemented in the `AnalyseProposalUI` class within the **Customer App**, providing a console-based interface for selecting proposals and submitting responses (accept/reject). The UI handles:
+    - Loading proposals for the authenticated customer.
+    - Presenting the options (accept/reject).
+    - Optional feedback collection from the customer.
+    - Delegating the response submission to the appropriate controller.
 
+- **Application Layer (Client)**
+    - `GetMyProposalsController`: Fetches proposals from the server for the authenticated customer.
+    - `ProposalResponseController`: Sends the customer’s decision (accept/reject + optional feedback) to the server using TCP and JSON (via Gson).
+
+- **Application Layer (Server)**
+    - `HandleClientsController`: Accepts TCP connections from customers and dispatches requests (like `AnalyseProposalResponse`).
+    - `AnalyseProposalResponse`: Processes the accept/reject decision, updating the proposal status and feedback in the domain model and persisting the changes.
+
+- **Domain Layer**  
+  The `ShowProposal` entity is part of the domain model and references a `ShowRequest`. It encapsulates:
+    - The current status (`ShowProposalStatus`) and feedback.
+    - Auditing fields (creation data and modification data).
+    - It **is not an aggregate root**; instead, it is managed in the lifecycle of a `ShowRequest` (which *is* an aggregate root).
+
+- **Persistence Layer**  
+  Uses the `ShowProposalRepository` abstraction:
+    - Either `InMemoryShowProposalRepository` for development/test environments.
+    - Or `ShowProposalJPAImpl` for real-world scenarios with JPA/Hibernate.
+
+- **Network Layer**  
+  Communication between client and server uses TCP sockets with JSON-encoded messages (`ObjectDTO`, `ResponseDTO`, etc.), ensuring flexibility and easy extension for future use cases.
+
+- **Auditability**  
+  Changes in proposal status and feedback are auditable (who, when).
 
 ## 6. Integration and Demo
 
 ### 6.1 Integration Points
 
-The implementation of **Add Figure Category** integrates with several components of the system:
+The implementation integrates with:
 
 - **Domain Layer**  
-  The `FigureCategory` entity is defined as an aggregate root. It encapsulates validation logic and lifecycle methods (e.g., status toggle, auditing fields).
+  `ShowProposal` as an entity managed by the aggregate root `ShowRequest`, including the relevant business logic for proposal lifecycle.
 
 - **Persistence Layer**  
-  The feature uses the `FigureCategoryRepository` interface, which supports both in-memory (`InMemoryFigureCategoryRepository`) and JPA-based (`FigureCategoryJPAImpl`) persistence. This duality allows the system to remain flexible and adaptable to different storage backends.
+  `ShowProposalRepository` abstraction, switching between in-memory and JPA-based implementations.
+
+- **Authentication Module**
+    - On the client side, the `AuthenticationController` verifies the identity of the logged-in customer.
+    - On the server side, the customer’s representative relationship is verified before returning proposals.
+
+- **Network Communication**  
+  All communication is performed using TCP sockets (via Java Sockets API) with JSON serialization for interoperability and maintainability.
 
 - **Infrastructure**  
-  The repository instance is obtained through `RepositoryProvider`, which determines whether to use the in-memory or JPA implementation based on configuration flags.
-
-- **Authentication Module**  
-  The `createdBy` audit field in `FigureCategory` is tied to the currently authenticated user. It leverages the `AuthenticationRepository` and `AuthUtils.getCurrentUserEmail()` to fetch user identity.
+  `RepositoryProvider` manages the repository instance for persistence logic.
 
 ### 6.2 Demo Walkthrough (UI)
 
-The demo is performed through a CLI-based interface, using a menu-driven interaction pattern. The main steps are:
+The typical flow demonstrated in the CLI-based UI:
 
 1. **Access the UI**  
-   The user selects “Add Figure Category” from the main CLI menu. Only users with the role `Show Designer` are allowed to proceed.
+   The customer accesses the “Analyse Show Proposal” option in the **Customer App**.
 
-2. **Input Phase**  
-   The system prompts the user to input:
-    - A category name (mandatory, validated on input).
-    - An optional category description.
-      Validation feedback is provided interactively.
+2. **Proposal Retrieval**  
+   The system loads and displays the proposals for the authenticated customer using the **GetMyProposalsController**.
 
-3. **Business Logic Execution**  
-   The UI invokes the `AddFigureCategoryController`, which creates a new `FigureCategory` object and attempts to persist it.
+3. **Interaction**  
+   The customer selects a proposal and chooses to either **accept** or **reject** it.
+    - If the customer chooses to provide feedback, it is collected interactively.
 
-4. **Persistence and Feedback**
-    - If the category is successfully saved (i.e., name is unique), a success message is shown.
-    - If validation fails or the name already exists, an appropriate error message is displayed.
+4. **Response Submission**  
+   The **ProposalResponseController** sends the customer’s decision to the server.
 
-5. **Verification**  
-   The new category becomes immediately available for listing and association with new figures, confirming its correct integration in the system.
+5. **Server Processing**  
+   The **AnalyseProposalResponse** controller on the server updates the proposal status and feedback, persisting the changes.
 
+6. **Feedback**  
+   The server sends a success or error message back to the **Customer App**, which is displayed to the user.
 
 ## 7. Observations
 
 There are no additional observations, limitations, or open questions for this User Story at this time.
+
+---
