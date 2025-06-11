@@ -12,6 +12,7 @@ import persistence.jpa.JpaBaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -21,56 +22,28 @@ import java.util.Optional;
 public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         implements FigureRepository {
 
-    // FIX TABLE BY DROPPING
-    /*public Optional<Void> dropFigureTableAndSequence() {
-        EntityTransaction tx = entityManager().getTransaction();
-
-        try {
-            tx.begin();
-            entityManager().createNativeQuery("DROP TABLE IF EXISTS figure").executeUpdate();
-            entityManager().createNativeQuery("DROP SEQUENCE IF EXISTS figure_SEQ").executeUpdate();
-            tx.commit();
-        } catch (Exception e) {
-            if (tx.isActive()) tx.rollback();
-            throw e;
-        }
-
-        return Optional.empty();
-    }*/
-
-    /**
-     * Saves a new Figure entity if it does not already exist.
-     * Also persists or reuses the associated category and costumer entities.
-     * Checks for duplicate figures before saving.
-     *
-     * @param figure The Figure entity to save.
-     * @return Optional containing the saved Figure if successful, or empty if duplicate or already exists.
-     */
     @Override
     public Optional<Figure> save(Figure figure) {
         if (figure.identity() != null && findById(figure.identity()) != null) {
             return Optional.empty();
         }
 
-        // Persist category if not already persisted
         Optional<FigureCategory> category = Optional.ofNullable(figure.category());
         if (category.isPresent() && category.get().identity() != null) {
             FigureCategoryRepository categoryRepository = RepositoryProvider.figureCategoryRepository();
             Optional<FigureCategory> existingCategory = categoryRepository.findByName(category.get().identity());
 
             if (existingCategory.isEmpty()) {
-                category = categoryRepository.save(category.orElse(null));
+                category = categoryRepository.save(category.get());
             } else {
                 category = Optional.of(existingCategory.get());
             }
-            figure.UpdateFigureCategory(category.get());
-        }else{
+            figure.updateFigureCategory(category.get());
+        } else {
             return Optional.empty();
         }
 
-
-        // Persist or reuse costumer
-        Optional<Costumer> costumer = Optional.ofNullable(figure.costumer());
+        Optional<Costumer> costumer = Optional.ofNullable(figure.customer());
         if (costumer.isPresent() && costumer.get().nif() != null) {
             CostumerRepository costumerRepository = RepositoryProvider.costumerRepository();
             Optional<Costumer> existingCostumer = costumerRepository.findByNIF(costumer.get().nif());
@@ -80,41 +53,44 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
             } else {
                 costumer = Optional.of(existingCostumer.get());
             }
-            figure.UpdateFigureCostumer(costumer.get());
+            figure.updateCustomer(costumer.get());
         }
 
-        Optional<List<Figure>> findExistentFigure = findFigures(null, figure.name, null, null, figure.category(),
-                null, null, null, figure.costumer());
-        if( findExistentFigure.isPresent() && !findExistentFigure.get().isEmpty()) {
-            return Optional.empty();
+        // Verifica duplicados (nome, categoria, costumer e qualquer DSL igual em qualquer versão)
+        Optional<List<Figure>> findExistentFigure = findFigures(
+                null, figure.name(), null, null, figure.category(),
+                null, null, null, figure.customer());
+        if (findExistentFigure.isPresent() && !findExistentFigure.get().isEmpty()) {
+            for (Figure f : findExistentFigure.get()) {
+                if (f.name().equals(figure.name())
+                        && f.category().equals(figure.category())
+                        && ((f.customer() == null && figure.customer() == null)
+                        || (f.customer() != null && f.customer().equals(figure.customer())))) {
+                    for (Map.Entry<String, List<String>> entry : f.dslVersions().entrySet()) {
+                        for (List<String> newDslList : figure.dslVersions().values()) {
+                            if (newDslList.equals(entry.getValue())) {
+                                return Optional.empty();
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         add(figure);
-        //System.out.println(figure);
         return Optional.of(figure);
     }
 
-    /**
-     * Retrieves all active figures owned by the specified costumer or publicly available figures.
-     *
-     * @param costumer The costumer to filter by.
-     * @return List of figures matching the criteria.
-     */
     @Override
     public List<Figure> findByCostumer(Costumer costumer) {
         return entityManager()
-                .createQuery("SELECT f FROM Figure f WHERE (f.costumer.id = :costumerid and f.status = :status) or (f.status = :status and f.availability = :availability) ORDER BY f.costumer.id ASC", Figure.class)
-                .setParameter("costumerid",costumer.identity())
+                .createQuery("SELECT f FROM Figure f WHERE (f.customer.id = :costumerid and f.status = :status) or (f.status = :status and f.availability = :availability) ORDER BY f.customer.id ASC", Figure.class)
+                .setParameter("costumerid", costumer.identity())
                 .setParameter("status", FigureStatus.ACTIVE)
                 .setParameter("availability", FigureAvailability.PUBLIC)
                 .getResultList();
     }
 
-    /**
-     * Retrieves all figures with status ACTIVE.
-     *
-     * @return List of active figures.
-     */
     @Override
     public List<Figure> findAllActive() {
         return entityManager()
@@ -123,23 +99,10 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                 .getResultList();
     }
 
-    /**
-     * Searches for figures matching a combination of optional filters.
-     * Applies filters successively by each attribute.
-     *
-     * @param figureId     Filter by figure ID.
-     * @param name         Filter by figure name.
-     * @param description  Filter by description.
-     * @param version      Filter by version.
-     * @param category     Filter by figure category.
-     * @param availability Filter by availability status.
-     * @param status       Filter by figure status.
-     * @param dsl          Filter by DSL.
-     * @param costumer     Filter by costumer.
-     * @return Optional containing list of matching figures or empty if none found.
-     */
     @Override
-    public Optional<List<Figure>> findFigures(Long figureId, Name name, Description description, Long version, FigureCategory category, FigureAvailability availability, FigureStatus status, DSL dsl, Costumer costumer) {
+    public Optional<List<Figure>> findFigures(Long figureId, Name name, Description description, Long version,
+                                              FigureCategory category, FigureAvailability availability,
+                                              FigureStatus status, DSL dsl, Costumer costumer) {
         List<Figure> figures = entityManager()
                 .createQuery("SELECT f FROM Figure f", Figure.class)
                 .getResultList();
@@ -161,7 +124,6 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
 
         int searching = 1;
         List<Figure> searchFigures = new ArrayList<>(figures);
-
         while (searching <= 8) {
             figures = new ArrayList<>();
 
@@ -178,9 +140,7 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                         }
                         break;
                     case 3:
-                        if (version == null || figure.version().equals(version)) {
-                            figures.add(figure);
-                        }
+                        figures.add(figure);
                         break;
                     case 4:
                         if (category == null || figure.category().equals(category)) {
@@ -198,12 +158,20 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                         }
                         break;
                     case 7:
-                        if (dsl == null || figure.dsl().toString().equals(dsl.toString())) {
+                        if (dsl == null) {
                             figures.add(figure);
+                        } else {
+                            // Verifica se alguma versão DSL contém exatamente o conteúdo procurado (como lista de strings)
+                            for (List<String> dslList : figure.dslVersions().values()) {
+                                if (dslList.equals(List.of(dsl.toString()))) {
+                                    figures.add(figure);
+                                    break;
+                                }
+                            }
                         }
                         break;
                     case 8:
-                        if (costumer == null || figure.costumer().equals(costumer)) {
+                        if (costumer == null || (figure.customer() != null && figure.customer().equals(costumer))) {
                             figures.add(figure);
                         }
                         break;
@@ -221,12 +189,6 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         return Optional.of(figures);
     }
 
-
-    /**
-     * Retrieves all figures that are active and publicly available.
-     *
-     * @return List of public active figures.
-     */
     @Override
     public List<Figure> findAllPublicFigures() {
         return entityManager()
@@ -236,12 +198,6 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                 .getResultList();
     }
 
-    /**
-     * Marks a given figure as inactive (decommissioned) and updates it in the database.
-     *
-     * @param figure The figure to edit.
-     * @return Optional containing the updated figure if successful, or empty if the figure does not exist.
-     */
     @Override
     public Optional<Figure> editChosenFigure(Figure figure) {
         if (figure == null || figure.identity() == null) {
@@ -253,19 +209,17 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
             return Optional.empty();
         }
 
-        figure.decommissionFigureStatus();
-
+        figure.decommission();
         Figure updated = update(figure);
         return Optional.ofNullable(updated);
     }
 
     @Override
-    public Optional<Figure> findFigure(Long figureId){
+    public Optional<Figure> findFigure(Long figureId) {
         Figure figure = findById(figureId);
-        if( figure == null){
+        if (figure == null) {
             return Optional.empty();
         }
         return Optional.of(figure);
     }
-
 }
