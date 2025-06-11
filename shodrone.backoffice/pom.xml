@@ -92,6 +92,22 @@
             <artifactId>shodrone.shared.persistence</artifactId>
             <version>0.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>shodrone.dsl_Plugin</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>shodrone.showProposal_Plugin</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>shodrone.droneLanguage_Plugin</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+
 
         <!-- H2 Database -->
         <dependency>

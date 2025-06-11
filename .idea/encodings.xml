@@ -13,12 +13,18 @@
     <file url="file://$PROJECT_DIR$/shodrone.customer_app/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.customer_app_server/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.customer_app_server/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shodrone.droneLanguage_Plugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shodrone.droneLanguage_Plugin/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shodrone.dsl_Plugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shodrone.dsl_Plugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.infraestructure.application/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.infraestructure.application/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.shared.persistence/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.shared.persistence/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.shared/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.shared/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shodrone.showProposal_Plugin/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/shodrone.showProposal_Plugin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.util.ci/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/shodrone.util.ci/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
