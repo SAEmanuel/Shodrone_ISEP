@@ -1,106 +1,74 @@
-# US235 - List Show Requests of Client
+# US345 - Drone Language Plugin
 
 ## 1. Requirements Engineering
 
 ### 1.1. User Story Description
 
-As a CRM Collaborator, I want to list all show requests of a specific client so that I can review and manage their requests efficiently. This functionality allows me to view details of each show request, such as the request ID, place, time, number of drones, duration, and status, ensuring I can track the progress of each request and take appropriate actions (e.g., editing or creating a proposal).
+**As a Drone Tech**, I want to deploy and configure a plugin to be used by the system to analyze/validate a drone program. This functionality ensures that each drone model's code is properly validated according to its specific programming language, improving reliability and safety before the code is used in simulation or execution.
 
 ### 1.2. Customer Specifications and Clarifications
 
-The following specifications are derived from the requirements document (Section 4.2, Page 14) and discussions with the LAPR4 PL teacher:
+The following specifications are based on the official project document (Section 4.3, Page 19):
 
-- The system must allow the CRM Collaborator to select a client and list all associated `ShowRequest` entities.
-- Each `ShowRequest` in the list should display key details, including:
-    - Request ID (e.g., "SR-001").
-    - Place (textual description and coordinates, e.g., "Lisbon Central Park, (38.736946, -9.138611)").
-    - Time (e.g., "2025-06-15 20:00").
-    - Number of drones (e.g., 50).
-    - Duration (e.g., 30 minutes).
-    - Current status (e.g., "Created", "Proposed").
-- The list should include all show requests for the selected client, regardless of their status.
+* The system must allow a Drone Tech to **register and configure plugins** that validate drone code.
+* **Each drone programming language** must be supported by a dedicated plugin.
+* A plugin is responsible for validating the **syntax and structure** of drone programs.
+* The system must use the correct plugin based on the programming language assigned to the drone model.
+* A plugin must clearly indicate the programming language it supports and provide meaningful error messages in case of validation failure.
 
 **Clarifications**:
-- **Q: Should the CRM Manager also be able to list show requests?**
-    - A: Yes, both the CRM Collaborator and CRM Manager should have access to this functionality, as they both manage client interactions (Section 4.2, Page 14). Role-based access (NFR08) will ensure that only authorized users can perform this action.
-- **Q: What if the client has no show requests?**
-    - A: The system should display a message: "No show requests found for this client."
-- **Q: Should the list include the sequence of figures in the `ShowDescription`?**
-    - A: Not by default, as it may clutter the list. However, a future user story (e.g., US238 in Sprint 3) could add a "view details" option to display the full `ShowDescription`, including the sequence of figures.
-- **Q: Should the list be sorted in any specific order?**
-    - A: Yes, the list should be sorted by `creationDate` in descending order (newest first) to show the most recent requests at the top.
+
+* **Q: Where are plugins registered?**
+  A: Plugins can be registered either via an internal configuration interface or by loading implementations dynamically. They will be stored in a plugin registry (e.g., a `Map<String, DroneLangPlugin>`).
+* **Q: What is the core responsibility of a plugin?**
+  A: To validate the drone program syntax and expose language identification and error reporting functionality.
+* **Q: Does the system support multiple languages simultaneously?**
+  A: Yes, the plugin architecture must support multiple languages, each with its own plugin implementation.
+* **Q: Is validation mandatory before simulation?**
+  A: Yes, no figure or show simulation can proceed unless the code for each drone passes validation using the appropriate plugin.
 
 ### 1.3. Acceptance Criteria
 
-- **AC1**: The CRM Collaborator (or CRM Manager) must be authenticated and authorized to list show requests (role-based access, NFR08).
-- **AC2**: The system must allow the user to select a client from a list of all clients (active, VIP, or inactive).
-- **AC3**: The system must display all `ShowRequest` entities associated with the selected client, including the following details for each request:
-    - Request ID (`ShowRequest.id`).
-    - Place (`ShowDescription.place` and coordinates: `latitude`, `longitude`).
-    - Time (`ShowDescription.time`).
-    - Number of drones (`ShowRequest.numberOfDrones`).
-    - Duration (`ShowRequest.duration`).
-    - Current status (most recent `ShowRequestStatus.status`).
-- **AC4**: If the client has no show requests, the system must display a message: "No show requests found for this client."
-- **AC5**: The list must be sorted by `creationDate` in descending order (newest first).
-- **AC6**: The list must be retrieved from both in-memory and RDBMS persistence modes (NFR07).
-- **AC7**: The system must handle errors gracefully, displaying appropriate messages (e.g., "Error retrieving show requests" if the database fails).
+* **AC1**: The user must be authenticated and have Drone Tech privileges (see NFR08).
+* **AC2**: The system must support registering plugins for specific programming languages.
+* **AC3**: Each plugin must implement a common interface (e.g., `DroneLangPlugin`) with methods such as `validateCode(String code)`, `getLanguageName()`, and `getErrorMessage()`.
+* **AC4**: The system must allow each drone model to be assigned a programming language.
+* **AC5**: When validating code, the system must identify the language and invoke the appropriate plugin.
+* **AC6**: If validation fails, the plugin must return a detailed error message to the user, and the operation must be aborted.
+* **AC7**: The system must support replacing/updating plugins, provided the interface contract is respected.
 
-### 1.4. Found out Dependencies
+### 1.4. Found Out Dependencies
 
-- **US210**: Authentication and user management – Required to authenticate the CRM Collaborator or CRM Manager and enforce role-based access (NFR08).
-- **US220**: List all customers – Needed to display a list of clients for the user to select from, including their `status` (active, VIP, inactive).
-- **US230**: Register show request – Required to have existing `ShowRequest` entities in the system to list. US235 depends on the `ShowRequest` entity and its associated entities (`ShowDescription`, `ShowRequestStatus`).
-- **US110**: Iterative updates to the DDD model – The `ShowRequest`, `Customer`, `ShowDescription`, and `ShowRequestStatus` entities must be defined in the DDD model to support this functionality.
+* **US210**: Required for user authentication and role-based access control (Drone Tech authorization).
+* **US253**: Required for configuring the language associated with each drone model.
+* **US344**: The drone program is generated from the DSL and must be validated using a registered plugin.
+* **US346**: The plugin created in US345 is directly used to validate the code of individual drones.
+* **NFR08**: Ensures proper role-based access to register or use drone language plugins.
 
-### 1.5 Input and Output Data
+### 1.5. Input and Output Data
 
-**Input Data:**
+**Input Data**:
 
-- Selected data:
-    - Client (from a list of all clients, e.g., selected by `Customer.id`).
+* Plugin class or file implementing the `DroneLangPlugin` interface.
+* Programming language identifier (e.g., `"Python"`, `"Lua"`, `"DroneScript"`).
+* Drone program code (as a `String`) to be validated.
 
-**Output Data:**
+**Output Data**:
 
-- List of show requests for the selected client, with each entry containing:
-    - Request ID (e.g., "SR-001").
-    - Place (e.g., "Lisbon Central Park, (38.736946, -9.138611)").
-    - Time (e.g., "2025-06-15 20:00").
-    - Number of drones (e.g., 50).
-    - Duration (e.g., 30 minutes).
-    - Current status (e.g., "Created").
-- Message if no requests are found (e.g., "No show requests found for this client").
+* Validation result: `true` (valid) or `false` (invalid).
+* Error message if validation fails.
+* Confirmation that the plugin was successfully registered.
+* Validation log messages (optional for debugging purposes).
 
 ### 1.6. System Sequence Diagram (SSD)
 
-Below is the PlantUML source code for the System Sequence Diagram (SSD) of US235, showing the interaction between the CRM Collaborator (or CRM Manager) and the system. The diagram is saved as `svg/us235-system-sequence-diagram.svg`.
+![System Sequence Diagram](svg/us345-system-sequence-diagram.svg)
 
+### 1.7. Other Relevant Remarks
 
-@startuml
-' System Sequence Diagram for US235 - List Show Requests of Client
-
-actor "CRM Collaborator" as Collaborator
-participant ":System" as System
-
-Collaborator -> System: login()
-System -> Collaborator: authenticated
-Collaborator -> System: listShowRequestsOfClient()
-System -> Collaborator: showClientList()
-Collaborator -> System: selectClient(clientId)
-System -> System: retrieveShowRequests(clientId)
-alt show requests exist
-System -> Collaborator: displayShowRequests(requests)
-else no show requests
-System -> Collaborator: "No show requests found for this client"
-end
-
-@enduml
-
-![System Sequence Diagram](svg/us235-system-sequence-diagram.svg)
-
-### 1.7 Other Relevant Remarks
-
-- The system should provide a paginated list if the number of show requests for a client is large (e.g., more than 20 requests), to improve usability. This could be addressed in a future enhancement (e.g., US239 in Sprint 3).
-- The displayed list should be formatted for readability, possibly as a table in the console UI (EAPLI framework), with columns for ID, place, time, number of drones, duration, and status.
-- The system could benefit from a search or filter option (e.g., by status or date range), which could be added in a future user story.
-- Performance considerations: Retrieving show requests from the RDBMS (NFR07) may involve joins with `ShowDescription` and `ShowRequestStatus`. The system should optimize queries to avoid performance bottlenecks, especially for clients with many requests.
+* The `DroneLangPlugin` interface should be designed to be extensible, with clearly defined contracts for validation and metadata retrieval.
+* The system can support automatic loading of plugins from a predefined folder (e.g., `plugins/`) using reflection or a plugin manager (e.g., Java SPI).
+* Plugin removal and updates could be addressed in a future user story (e.g., US349 – Manage Plugins).
+* Exception handling must be robust; for example, plugins should throw domain-specific exceptions like `InvalidDroneCodeException`.
+* Plugins should be tested using unit tests (JUnit or equivalent), covering both valid and invalid code scenarios.
+* In future iterations, plugins could also validate semantics or constraints beyond syntax (e.g., drone capabilities, battery constraints, execution limits).
