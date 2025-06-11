@@ -9,7 +9,7 @@
     </parent>
 
     <groupId>lapr4</groupId>
-    <artifactId>backoffice</artifactId>
+    <artifactId>Backoffice_APP</artifactId>
     <packaging>jar</packaging>
 
     <name>shodrone.backoffice</name>
@@ -84,27 +84,27 @@
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared</artifactId>
+            <artifactId>Shared</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared.persistence</artifactId>
+            <artifactId>Persistence</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.dsl_Plugin</artifactId>
+            <artifactId>DSL_PLUGIN</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.showProposal_Plugin</artifactId>
+            <artifactId>ShowProposal_PLUGIN</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.droneLanguage_Plugin</artifactId>
+            <artifactId>DroneLanguage_PLUGIN</artifactId>
             <version>0.1.0</version>
         </dependency>
 

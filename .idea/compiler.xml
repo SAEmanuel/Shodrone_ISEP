@@ -15,15 +15,15 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
-        <module name="shodrone.customer_app_server" />
-        <module name="backoffice" />
-        <module name="shodrone.droneLanguage_Plugin" />
-        <module name="shodrone.shared" />
-        <module name="shodrone.dsl_Plugin" />
-        <module name="shodrone.showProposal_Plugin" />
-        <module name="shodrone.customer_app" />
-        <module name="shodrone.shared.persistence" />
+        <module name="DSL_PLUGIN" />
+        <module name="Persistence" />
+        <module name="ShowProposal_PLUGIN" />
+        <module name="Server_APP" />
+        <module name="Customer_APP" />
+        <module name="DroneLanguage_PLUGIN" />
+        <module name="Shared" />
         <module name="shodrone.backoffice" />
+        <module name="Backoffice_APP" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

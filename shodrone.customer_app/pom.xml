@@ -44,7 +44,7 @@
         <!-- Dependências do teu projeto -->
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared</artifactId>
+            <artifactId>Shared</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
@@ -55,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared</artifactId>
+            <artifactId>Shared</artifactId>
             <version>0.1.0</version>
             <scope>compile</scope>
         </dependency>

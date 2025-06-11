@@ -7,7 +7,7 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>shodrone.droneLanguage_Plugin</artifactId>
+    <artifactId>DroneLanguage_PLUGIN</artifactId>
     <packaging>jar</packaging>
 
     <name>shodrone.droneLanguage_Plugin</name>
@@ -27,12 +27,12 @@
 
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared</artifactId>
+            <artifactId>Shared</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared.persistence</artifactId>
+            <artifactId>Persistence</artifactId>
             <version>0.1.0</version>
         </dependency>
     </dependencies>
