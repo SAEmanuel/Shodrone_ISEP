@@ -117,6 +117,16 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
             return Optional.of(results.get(0));
         }
     }
+
+    @Override
+    public Optional<List<ShowProposal>> getStandbyProposals() {
+        List<ShowProposal> results = entityManager().createQuery(
+                        "SELECT s FROM ShowProposal s WHERE s.status = :status", ShowProposal.class)
+                .setParameter("status", ShowProposalStatus.STAND_BY)
+                .getResultList();
+
+        return results.isEmpty() ? Optional.empty() : Optional.of(results);
+    }
 }
 
 

@@ -2,6 +2,7 @@ package persistence.inmemory;
 
 import domain.entity.Costumer;
 import domain.entity.ShowProposal;
+import domain.valueObjects.ShowProposalStatus;
 import domain.valueObjects.Video;
 import persistence.ShowProposalRepository;
 
@@ -23,15 +24,27 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
 
         Long idShowRequest = entity.getShowRequest().identity();
 
-        if (store.get(idShowRequest) == null) {
-            store.put(idShowRequest, new ArrayList<>());
-            store.get(idShowRequest).add(entity);
-        } else {
-            store.get(idShowRequest).add(entity);
+        store.putIfAbsent(idShowRequest, new ArrayList<>());
+
+        List<ShowProposal> proposals = store.get(idShowRequest);
+
+        boolean updated = false;
+        for (int i = 0; i < proposals.size(); i++) {
+            ShowProposal existing = proposals.get(i);
+            if (existing.identity().equals(entity.identity())) {
+                proposals.set(i, entity);
+                updated = true;
+                break;
+            }
+        }
+
+        if (!updated) {
+            proposals.add(entity);
         }
 
         return Optional.of(entity);
     }
+
 
     @Override
     public Optional<List<ShowProposal>> getAllProposals() {
@@ -90,4 +103,18 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
         return getAllProposals();
     }
 
+    @Override
+    public Optional<List<ShowProposal>> getStandbyProposals() {
+        Optional<List<ShowProposal>> allProposalsOpt = getAllProposals();
+
+        if (allProposalsOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<ShowProposal> proposals = allProposalsOpt.get().stream()
+                .filter(p -> p.getStatus() == ShowProposalStatus.STAND_BY)
+                .toList();
+
+        return proposals.isEmpty() ? Optional.empty() : Optional.of(proposals);
+    }
 }

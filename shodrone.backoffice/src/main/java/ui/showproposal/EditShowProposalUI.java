@@ -92,49 +92,49 @@ public class EditShowProposalUI implements Runnable {
                 case 4 -> {
                     newProposal.setLocation(FactoryProvider.getLocationFactoryImpl().createLocationObject());
                 }
-                case 5 -> {
-                    Utils.printAlterMessage("Current number of drones: " + newProposal.getNumberOfDrones());
-                    int numberOfDrones;
-                    boolean changeNumberOfDrones = Utils.confirm("Do you wish to change the current number of drones? (y/n)");
-                    if (changeNumberOfDrones) {
-                        numberOfDrones = Utils.readIntegerFromConsole("Select the desired number: ");
-                        if (numberOfDrones == newProposal.getNumberOfDrones()) {
-                            Utils.printAlterMessage("You have selected the same number of drones, nothing was changed...");
-                        }
-                    } else {
-                        numberOfDrones = newProposal.getNumberOfDrones();
-                    }
-
-                    Optional<Map<DroneModel, Integer>> inventory = getDroneModelsController.getDroneModelQuantity();
-
-                    if (inventory.isEmpty() || inventory.get().isEmpty()) {
-                        Utils.printFailMessage("No drone models in the system! Add some first");
-                        return;
-                    }
-
-                    DroneModelSelectorUI selector = new DroneModelSelectorUI(
-                            "Drone Model selection",
-                            "Choose a model",
-                            inventory.get(),
-                            numberOfDrones
-                    );
-
-                    Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels();
-                    if (selectedModels.isEmpty()) {
-                        Utils.printFailMessage("No model selected. Operation canceled.");
-                        return;
-                    }
-
-                    Map<DroneModel, Integer> modelsToBeUsed = selectedModels.get();
-                    int checkNumberOfDrones = 0;
-                    for (Integer i : modelsToBeUsed.values())
-                        checkNumberOfDrones += i;
-
-                    if (checkNumberOfDrones < numberOfDrones)
-                        newProposal.setNumberOfDrones(checkNumberOfDrones);
-
-                    newProposal.setModelsUsed(modelsToBeUsed);
-                }
+//                case 5 -> {
+//                    Utils.printAlterMessage("Current number of drones: " + newProposal.getNumberOfDrones());
+//                    int numberOfDrones;
+//                    boolean changeNumberOfDrones = Utils.confirm("Do you wish to change the current number of drones? (y/n)");
+//                    if (changeNumberOfDrones) {
+//                        numberOfDrones = Utils.readIntegerFromConsole("Select the desired number: ");
+//                        if (numberOfDrones == newProposal.getNumberOfDrones()) {
+//                            Utils.printAlterMessage("You have selected the same number of drones, nothing was changed...");
+//                        }
+//                    } else {
+//                        numberOfDrones = newProposal.getNumberOfDrones();
+//                    }
+//
+//                    Optional<Map<DroneModel, Integer>> inventory = getDroneModelsController.getDroneModelQuantity();
+//
+//                    if (inventory.isEmpty() || inventory.get().isEmpty()) {
+//                        Utils.printFailMessage("No drone models in the system! Add some first");
+//                        return;
+//                    }
+//
+//                    DroneModelSelectorUI selector = new DroneModelSelectorUI(
+//                            "Drone Model selection",
+//                            "Choose a model",
+//                            inventory.get(),
+//                            numberOfDrones
+//                    );
+//
+//                    Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels();
+//                    if (selectedModels.isEmpty()) {
+//                        Utils.printFailMessage("No model selected. Operation canceled.");
+//                        return;
+//                    }
+//
+//                    Map<DroneModel, Integer> modelsToBeUsed = selectedModels.get();
+//                    int checkNumberOfDrones = 0;
+//                    for (Integer i : modelsToBeUsed.values())
+//                        checkNumberOfDrones += i;
+//
+//                    if (checkNumberOfDrones < numberOfDrones)
+//                        newProposal.setNumberOfDrones(checkNumberOfDrones);
+//
+//                    newProposal.setModelsUsed(modelsToBeUsed);
+//                }
                 case 6 -> {
                     int minutes = Utils.readIntegerFromConsole("New show duration in minutes: ");
                     do {
