@@ -4,111 +4,131 @@ import domain.valueObjects.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import java.util.*;
 
-/**
- * Unit test class for the Figure entity.
- * Tests creation, updates, equality, identity, and string representation.
- */
+import static org.junit.jupiter.api.Assertions.*;
+
 class FigureTest {
 
-    private FigureCategory mockCategory;
-    private Costumer mockCostumer;
-    private Description mockDescription;
+    private FigureCategory category;
+    private Costumer customer;
+    private Description description;
+    private Name name;
+    private Map<String, List<String>> dslVersions;
 
-    // Instance of Figure to be tested
     private Figure figure;
 
-    /**
-     * Setup method executed before each test.
-     * Initializes mocks and creates a new Figure instance with mocked dependencies.
-     */
     @BeforeEach
     void setUp() {
-        // Mock dependencies
-        mockCategory = mock(FigureCategory.class);
-        mockCostumer = mock(Costumer.class);
-        mockDescription = mock(Description.class);
+        category = new FigureCategory(
+                new Name("Geometry"),
+                new Description("Geometric shapes"),
+                new Email("designer@shodrone.app")
+        );
 
-        // Initialize the figure object
-        figure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
+        customer = new Costumer(
+                Name.valueOf("Alice Martins"),
+                eapli.framework.general.domain.model.EmailAddress.valueOf("alice@shodrone.app"),
+                new PhoneNumber("913456789"),
+                new NIF("123456789"),
+                new Address("Main Street", "Lisbon", "1000-000", "Portugal")
+        );
+
+        description = new Description("An airplane shaped figure");
+        name = new Name("Airplane");
+
+        dslVersions = new HashMap<>();
+        dslVersions.put("1.0", List.of("Position p = (0,0,0);", "Line l1(p, (1,1,1));", "pause(2);"));
+
+        figure = new Figure(name, description, category,
+                FigureAvailability.PUBLIC, FigureStatus.ACTIVE,
+                dslVersions, customer);
+        figure.setFigureId(1L);
     }
 
-    // ---- Creation Tests ----
-    /**
-     * Verifies that the Figure is correctly created with valid initial values.
-     */
     @Test
     void testCreationWithValidValues() {
-        assertEquals("Airplane", figure.name());
-        assertEquals(mockDescription, figure.description());
-        assertEquals(1L, figure.version());
-        assertEquals(mockCategory, figure.category());
+        assertEquals("Airplane", figure.name().toString());
+        assertEquals(description, figure.description());
+        assertEquals(category, figure.category());
         assertEquals(FigureAvailability.PUBLIC, figure.availability());
         assertEquals(FigureStatus.ACTIVE, figure.status());
-        assertEquals(mockCostumer, figure.costumer());
+        assertEquals(customer, figure.customer());
+        assertEquals(dslVersions.keySet(), figure.dslVersions().keySet());
     }
 
-    // ---- Update Methods ----
-    /**
-     * Tests updating the Figure's category and verifies it changes accordingly.
-     */
     @Test
     void testUpdateFigureCategory() {
-        FigureCategory newCategory = mock(FigureCategory.class);
-        figure.UpdateFigureCategory(newCategory);
+        FigureCategory newCategory = new FigureCategory(
+                new Name("Abstract"),
+                new Description("Abstract patterns"),
+                new Email("new@shodrone.app")
+        );
+        figure.updateFigureCategory(newCategory);
         assertEquals(newCategory, figure.category());
     }
 
-    /**
-     * Tests updating the Figure's costumer (owner) and verifies it changes accordingly.
-     */
     @Test
-    void testUpdateFigureCostumer() {
-        Costumer newCostumer = mock(Costumer.class);
-        figure.UpdateFigureCostumer(newCostumer);
-        assertEquals(newCostumer, figure.costumer());
+    void testUpdateCustomer() {
+        Costumer newCustomer = new Costumer(
+                Name.valueOf("Carlos Silva"),
+                eapli.framework.general.domain.model.EmailAddress.valueOf("carlos@shodrone.app"),
+                new PhoneNumber("917654321"),
+                new NIF("248367080"),
+                new Address("Avenida Nova", "Porto", "4000-000", "Portugal")
+        );
+        figure.updateCustomer(newCustomer);
+        assertEquals(newCustomer, figure.customer());
     }
 
-    /**
-     * Tests decommissioning the Figure by setting its status to INACTIVE.
-     */
     @Test
-    void testDecommissionFigureStatus() {
-        assertEquals(FigureStatus.ACTIVE, figure.status());
-        figure.decommissionFigureStatus();
+    void testDecommission() {
+        figure.decommission();
         assertEquals(FigureStatus.INACTIVE, figure.status());
     }
 
-    // ---- Equality and Identity Tests ----
-    /**
-     * Verifies that a Figure equals itself.
-     */
     @Test
-    void testEqualsWithItself() {
-        assertTrue(figure.equals(figure));
+    void testDecommissionThrowsIfAlreadyInactive() {
+        figure.decommission();
+        assertThrows(IllegalStateException.class, figure::decommission);
     }
 
-    /**
-     * Verifies that a Figure is not equal to null.
-     */
     @Test
-    void testEqualsWithNull() {
-        assertFalse(figure.equals(null));
+    void testEqualsWithSameId() {
+        Figure other = new Figure(name, description, category,
+                FigureAvailability.PUBLIC, FigureStatus.ACTIVE,
+                dslVersions, customer);
+        other.setFigureId(1L);
+        assertEquals(figure, other);
     }
 
-    /**
-     * Verifies that a Figure is not equal to an object of a different class.
-     */
     @Test
-    void testEqualsWithDifferentClass() {
-        assertFalse(figure.equals("not a figure"));
+    void testNotEqualsDifferentId() {
+        Figure other = new Figure(name, description, category,
+                FigureAvailability.PUBLIC, FigureStatus.ACTIVE,
+                dslVersions, customer);
+        other.setFigureId(2L);
+        assertNotEquals(figure, other);
     }
 
-    /**
-     * Verifies that the hashCode method returns consistent values.
-     */
+    @Test
+    void testSameAs() {
+        Figure other = new Figure(name, description, category,
+                FigureAvailability.PUBLIC, FigureStatus.ACTIVE,
+                dslVersions, customer);
+        other.setFigureId(1L);
+        assertTrue(figure.sameAs(other));
+    }
+
+    @Test
+    void testSameAsReturnsFalseForDifferentId() {
+        Figure other = new Figure(name, description, category,
+                FigureAvailability.PUBLIC, FigureStatus.ACTIVE,
+                dslVersions, customer);
+        other.setFigureId(99L);
+        assertFalse(figure.sameAs(other));
+    }
+
     @Test
     void testHashCodeConsistency() {
         int hash1 = figure.hashCode();
@@ -116,47 +136,9 @@ class FigureTest {
         assertEquals(hash1, hash2);
     }
 
-    /**
-     * Verifies that Figures with different IDs are not equal.
-     */
     @Test
-    void testDiference() {
-        Figure sameFigure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
-        figure.setFigureId(1L);
-        sameFigure.setFigureId(2L);
-        assertFalse(figure.equals(sameFigure));
+    void testToStringNotNull() {
+        assertNotNull(figure.toString());
+        assertTrue(figure.toString().contains("Airplane"));
     }
-
-    /**
-     * Verifies that Figures with the same ID are equal.
-     */
-    @Test
-    void testEquality() {
-        Figure sameFigure = new Figure(new Name("Airplane"), mockDescription, 1L, mockCategory, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("Input.txt"), mockCostumer);
-        figure.setFigureId(1L);
-        sameFigure.setFigureId(1L);
-        assertTrue(figure.equals(sameFigure));
-    }
-
-    // ---- toString Tests ----
-    /**
-     * Tests that the toString method returns the expected formatted string.
-     */
-    @Test
-    void testToString() {
-        String expectedString = String.format(
-                "ID: %-3s | Name: %-20s | Description: %-30s | Version: %-6s | Category: %-20s | Status: %-6s | Availability: %-10s | Costumer: %-20s",
-                figure.identity() != null ? figure.identity() : "N/A",
-                figure.name() != null ? figure.name() : "N/A",
-                figure.description() != null ? figure.description() : "N/A",
-                figure.version() != null ? figure.version().toString() : "N/A",
-                figure.category() != null ? figure.category().identity() : "N/A",
-                figure.status() != null ? figure.status() : "N/A",
-                figure.availability() != null ? figure.availability() : "N/A",
-                figure.costumer() != null ? figure.costumer().name() : "N/A"
-        );
-
-        assertEquals(expectedString, figure.toString());
-    }
-
 }

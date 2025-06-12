@@ -7,7 +7,7 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>Persistence</artifactId>
+    <artifactId>shodrone.shared.persistence</artifactId>
     <packaging>jar</packaging>
 
     <name>shodrone.shared.persistence</name>
@@ -35,7 +35,7 @@
         <!-- Dependência do teu projeto -->
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>Shared</artifactId>
+            <artifactId>shodrone.shared</artifactId>
             <version>0.1.0</version>
         </dependency>
 
