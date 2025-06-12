@@ -5,13 +5,35 @@ import utils.Utils;
 
 import static more.ColorfulOutput.*;
 
+/**
+ * UI class responsible for initializing the Customer Representative application.
+ * <p>
+ * Handles the login process and launches the appropriate interface (e.g., {@link ui.RepresentativeUI})
+ * upon successful authentication.
+ *
+ * <p>Allows up to three login attempts before terminating the application.</p>
+ *
+ * @author
+ */
 public class CustomerAppUI {
 
+    /**
+     * Controller used for handling authentication with the server.
+     */
     private final AuthenticationController ctrl = new AuthenticationController();
 
+    /**
+     * Default constructor.
+     */
     public CustomerAppUI() {
     }
 
+    /**
+     * Main entry point for running the customer application UI.
+     * <p>
+     * If authentication is successful, the user is welcomed and redirected
+     * to the {@link RepresentativeUI}. Otherwise, the application exits.
+     */
     public void run() {
         if (doLogin()) {
             System.out.println(ANSI_BRIGHT_GREEN + "\nLogin successful! Welcome!" + ANSI_RESET);
@@ -21,6 +43,13 @@ public class CustomerAppUI {
         }
     }
 
+    /**
+     * Displays the login UI and handles the authentication process.
+     * <p>Allows up to 3 attempts for login. Credentials are read from console input.
+     * Uses the {@link AuthenticationController#doLogin(String, String)} method to authenticate.</p>
+     *
+     * @return {@code true} if login is successful, {@code false} otherwise.
+     */
     private boolean doLogin() {
         System.out.println("\n\n══════════════════════════════════════════");
         System.out.println(ANSI_BRIGHT_WHITE + "                 LOGIN UI               " + ANSI_RESET);
