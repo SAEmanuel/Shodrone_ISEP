@@ -441,3 +441,56 @@ Field 'modificationDate' changed from 'null' to '2025-06-09T01:28:03.002573600'
 
 ?????????????????????????????????????????????
 
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-12 00:41:49
+Author    : system@shodrone.app
+Entity ID : 2
+Changes   :
+Field 'description' changed from 'Empty' to 'Nova descrição'
+Field 'numberOfDrones' changed from '12' to '13'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-12T00:41:49.869123'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY MODIFIED══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-12 00:46:11
+Author    : system@shodrone.app
+Entity ID : 2
+Changes   :
+Field 'description' changed from 'Empty' to 'Nova descrição'
+Field 'numberOfDrones' changed from '12' to '13'
+Field 'modificationAuthor' changed from 'No author have modified this Show Request yet!' to 'system@shodrone.app'
+Field 'modificationDate' changed from 'null' to '2025-06-12T00:46:11.298012'
+
+═════════════════════════════════════════════
+
+╔══════════════ENTITY CREATED═══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-12 00:48:31
+Author    : system@shodrone.app
+Entity ID : 2
+Initial State:
+ShowRequest [ID=2, Date=2025-06-15 01:48, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
+═════════════════════════════════════════════
+
+╔══════════════ENTITY CREATED═══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-12 01:18:42
+Author    : system@shodrone.app
+Entity ID : 2
+Initial State:
+ShowRequest [ID=2, Date=2025-06-15 02:18, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
+═════════════════════════════════════════════
+
+╔══════════════ENTITY CREATED═══════════════╗
+╚═══════════════════════════════════════════╝
+Timestamp : 2025-06-12 01:20:59
+Author    : system@shodrone.app
+Entity ID : 2
+Initial State:
+ShowRequest [ID=2, Date=2025-06-15 02:20, Author=system@shodrone.app, Status=Pending, Drones=5, Duration=30 min]
+═════════════════════════════════════════════
+

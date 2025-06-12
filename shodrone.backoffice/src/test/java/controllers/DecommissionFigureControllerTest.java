@@ -2,40 +2,35 @@ package controllers;
 
 import controller.figure.DecommissionFigureController;
 import domain.entity.Costumer;
+import domain.entity.Email;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
+import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.RepositoryProvider;
 import persistence.FigureRepository;
-import domain.valueObjects.*;
-import domain.entity.Email;
+import persistence.RepositoryProvider;
 
-import java.util.Optional;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 /**
  * Unit tests for DecommissionFigureController.
- * Mocks FigureRepository to simulate persistence layer behavior.
- * Tests successful and unsuccessful figure decommissioning scenarios.
  */
 class DecommissionFigureControllerTest {
     private DecommissionFigureController controller;
     private FigureRepository mockRepository;
 
-    // Sample FigureCategory to be used in tests
     private final FigureCategory category = new FigureCategory(
-            new domain.valueObjects.Name("Geometry"),
+            new Name("Geometry"),
             new Description("Common geometric shapes"),
             new Email("show_designer@shodrone.app")
     );
 
-    // Sample customer used for association with Figure
     private final Costumer customer = new Costumer(
             Name.valueOf("Jorge Ubaldo"),
             EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
@@ -44,44 +39,44 @@ class DecommissionFigureControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
-    // Sample Figure instance for testing, initially active and public
-    private final Figure figure = new Figure(new Name("Airplane") , new Description("Airplane figure"), (long) 1.2,
-            category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null,customer
-    );
+    private Figure figure;
 
-    /**
-     * Setup method runs before each test case.
-     * Creates a mock FigureRepository and injects it into the RepositoryProvider.
-     * Instantiates the controller being tested.
-     */
     @BeforeEach
     void setUp() {
         mockRepository = mock(FigureRepository.class);
         RepositoryProvider.injectFigureRepository(mockRepository);
         controller = new DecommissionFigureController();
+
+        // Criar dslVersions de teste
+        Map<String, List<String>> dslVersions = new HashMap<>();
+        dslVersions.put("v1", List.of("LINE(1,2)", "CIRCLE(3)"));
+
+        figure = new Figure(
+                new Name("Airplane"),
+                new Description("Airplane figure"),
+                category,
+                FigureAvailability.PUBLIC,
+                FigureStatus.ACTIVE,
+                dslVersions,
+                customer
+        );
     }
 
-    /**
-     * Tests successful decommission of a Figure.
-     * Mocks the repository method to return an Optional containing the figure (simulating success).
-     * Verifies the controller method returns a present Optional.
-     */
     @Test
     void testDecommissionFigureSuccess() {
         when(mockRepository.editChosenFigure(any())).thenReturn(Optional.of(figure));
+
         Optional<Figure> result = controller.editChosenFigure(figure);
+
         assertTrue(result.isPresent());
     }
 
-    /**
-     * Tests the case where decommissioning a Figure fails.
-     * Mocks the repository method to return an empty Optional (simulating failure).
-     * Verifies the controller method returns an empty Optional.
-     */
     @Test
     void testDecommissionFigureFails() {
         when(mockRepository.editChosenFigure(any())).thenReturn(Optional.empty());
+
         Optional<Figure> result = controller.editChosenFigure(figure);
+
         assertTrue(result.isEmpty());
     }
 }

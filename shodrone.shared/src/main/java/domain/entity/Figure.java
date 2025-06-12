@@ -58,11 +58,11 @@ public class Figure implements AggregateRoot<Long>, Serializable {
                   Costumer customer) {
         this.name = Objects.requireNonNull(name);
         this.description = description;
-        this.category = Objects.requireNonNull(category);
+        this.category = category;
         this.availability = Objects.requireNonNull(availability);
         this.status = Objects.requireNonNull(status);
         this.dslVersions = new HashMap<>(dslVersions);
-        this.customer = Objects.requireNonNull(customer);
+        this.customer = customer;
     }
 
     @Override

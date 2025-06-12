@@ -12,36 +12,30 @@ import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
 import persistence.FigureRepository;
 
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.when;
-
 
 /**
  * Unit tests for AddFigureController.
- * Uses Mockito to mock the FigureRepository and verify controller behavior.
  */
 class AddFigureControllerTest {
 
     private AddFigureController controller;
     private FigureRepository mockRepository;
 
-    // Sample valid test data
     private final Name name = new Name("Test Figure");
     private final Description description = new Description("Test description");
-    private final Long version = 1L;
     private final FigureCategory category = new FigureCategory(
-            new domain.valueObjects.Name("Geometry"),
+            new Name("Geometry"),
             new Description("Common geometric shapes"),
             new Email("show_designer@shodrone.app")
     );
-    private final FigureAvailability figureAvailability = FigureAvailability.PUBLIC;
-    private final FigureStatus figureStatus = FigureStatus.ACTIVE;
+    private final FigureAvailability availability = FigureAvailability.PUBLIC;
+    private final FigureStatus status = FigureStatus.ACTIVE;
 
-    // Sample customer used to associate with the figure
     private final Costumer customer = new Costumer(
             Name.valueOf("Jorge Ubaldo"),
             EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
@@ -50,11 +44,10 @@ class AddFigureControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
-    /**
-     * Setup method called before each test.
-     * Initializes the mock repository and injects it into the RepositoryProvider.
-     * Instantiates the controller to be tested.
-     */
+    private final Map<String, List<String>> dslVersions = Map.of(
+            "v1", List.of("Position p = (0,0,0);")
+    );
+
     @BeforeEach
     void setUp() {
         mockRepository = mock(FigureRepository.class);
@@ -62,53 +55,38 @@ class AddFigureControllerTest {
         controller = new AddFigureController();
     }
 
-    /**
-     * Tests successful addition of a Figure with all parameters.
-     * Mocks repository save to return an Optional containing the figure.
-     * Asserts the controller returns the figure wrapped in Optional and that repository save was called.
-     */
     @Test
     void testAddFigureSuccess() {
-        Figure fakeFigure = new Figure(name, description, version, category, figureAvailability, figureStatus, null, customer);
+        Figure fakeFigure = new Figure(name, description, category, availability, status, dslVersions, customer);
         when(mockRepository.save(any(Figure.class))).thenReturn(Optional.of(fakeFigure));
 
-        Optional<Figure> result = controller.addFigure(name, description, version, category, figureAvailability, figureStatus, null, customer);
+        Optional<Figure> result = controller.addFigure(name, description, category, availability, status, dslVersions, customer);
 
         assertTrue(result.isPresent());
         assertEquals(fakeFigure, result.get());
         verify(mockRepository).save(any(Figure.class));
     }
 
-    /**
-     * Tests adding a Figure with only name, category, and customer, relying on default availability and status.
-     * Mocks repository save to return an Optional containing the figure.
-     * Asserts correct Optional result and repository interaction.
-     */
     @Test
-    void testAddFigureWithNameCategoryAndCostumerOnly_Success() {
-        //Added manually the default Availability and Status
-        Figure fakeFigure = new Figure(name, null, null, category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, customer);
-        when(mockRepository.save(any(Figure.class))).thenReturn(Optional.of(fakeFigure));
+    void testAddFigureWithMinimalInputs() {
+        // Usa um dslVersions vazio, mas nunca null
+        Map<String, List<String>> emptyDslVersions = new HashMap<>();
+        Figure minimalFigure = new Figure(name, null, category, availability, status, emptyDslVersions, customer);
+        when(mockRepository.save(any(Figure.class))).thenReturn(Optional.of(minimalFigure));
 
-        //Added manually the default Availability and Status
-        Optional<Figure> result = controller.addFigure(name, null, null, category, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, customer);
+        Optional<Figure> result = controller.addFigure(name, null, category, availability, status, emptyDslVersions, customer);
 
         assertTrue(result.isPresent());
-        assertEquals(fakeFigure, result.get());
+        assertEquals(minimalFigure, result.get());
         verify(mockRepository).save(any(Figure.class));
     }
 
-    /**
-     * Tests the case where saving a Figure fails (repository returns empty Optional).
-     * Asserts that the controller returns an empty Optional to indicate failure.
-     */
     @Test
-    void testAddFigure_SaveFails_ReturnsEmpty() {
+    void testAddFigureSaveFails() {
         when(mockRepository.save(any(Figure.class))).thenReturn(Optional.empty());
 
-        Optional<Figure> result = controller.addFigure(name, null,null, null, null, null, null, null);
+        Optional<Figure> result = controller.addFigure(name, description, category, availability, status, dslVersions, customer);
 
         assertTrue(result.isEmpty());
     }
-
 }

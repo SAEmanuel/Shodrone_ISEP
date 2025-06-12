@@ -7,7 +7,8 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>Server_APP</artifactId>
+
+    <artifactId>shodrone.customer_app_server</artifactId>
     <packaging>jar</packaging>
 
     <name>shodrone.customer_app_server</name>

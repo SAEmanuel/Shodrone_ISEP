@@ -1,5 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -8,7 +10,6 @@
         <version>0.1.0</version>
     </parent>
 
-    <groupId>lapr4</groupId>
     <artifactId>Backoffice_APP</artifactId>
     <packaging>jar</packaging>
 
@@ -22,15 +23,7 @@
     </properties>
 
     <dependencies>
-        <!-- JUnit 3 (para compatibilidade, mas não recomendado para novos testes) -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>3.8.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- JUnit Jupiter (JUnit 5) -->
+        <!-- Framework e testes -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -38,15 +31,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- JUnit Jupiter API (caso precises explicitamente em compile, mas só usa se necessário) -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.2</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <!-- JUnit Platform Launcher -->
         <dependency>
             <groupId>org.junit.platform</groupId>
             <artifactId>junit-platform-launcher</artifactId>
@@ -54,7 +38,6 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- TestNG -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -62,54 +45,44 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Jakarta Persistence API -->
-        <dependency>
-            <groupId>jakarta.persistence</groupId>
-            <artifactId>jakarta.persistence-api</artifactId>
-            <version>3.2.0</version>
-        </dependency>
-
-        <!-- Jakarta Validation API -->
-        <dependency>
-            <groupId>jakarta.validation</groupId>
-            <artifactId>jakarta.validation-api</artifactId>
-            <version>3.0.2</version>
-        </dependency>
-
-        <!-- Dependências do teu projeto -->
+        <!-- Projeto interno -->
         <dependency>
             <groupId>pt.isep.lei.esoft</groupId>
             <artifactId>AuthLib</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>Shared</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>lapr4</groupId>
-            <artifactId>Persistence</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>lapr4</groupId>
-            <artifactId>DSL_PLUGIN</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>lapr4</groupId>
-            <artifactId>ShowProposal_PLUGIN</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>lapr4</groupId>
-            <artifactId>DroneLanguage_PLUGIN</artifactId>
+            <artifactId>shodrone.shared</artifactId>
             <version>0.1.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>shodrone.shared.persistence</artifactId>
+            <version>0.1.0</version>
+        </dependency>
 
-        <!-- H2 Database -->
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>shodrone.dsl_Plugin</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>shodrone.showProposal_Plugin</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>lapr4</groupId>
+            <artifactId>shodrone.droneLanguage_Plugin</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+
+        <!-- DB e validação -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
@@ -117,46 +90,43 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Hibernate Core -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>6.2.0.Final</version>
         </dependency>
 
-        <!-- Hibernate Validator -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>8.0.1.Final</version>
         </dependency>
 
-        <!-- SLF4J API -->
+        <!-- Logging -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>2.0.9</version>
         </dependency>
 
-        <!-- Logback: SLF4J implementation -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>1.4.12</version>
         </dependency>
 
+        <!-- Outros -->
         <dependency>
             <groupId>org.antlr</groupId>
             <artifactId>antlr4-runtime</artifactId>
-            <version>4.10.1 </version>
+            <version>4.10.1</version>
         </dependency>
 
         <dependency>
             <groupId>uk.co.caprica</groupId>
             <artifactId>vlcj</artifactId>
-            <version>4.7.1</version> <!-- or latest stable version -->
+            <version>4.7.1</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -199,4 +169,5 @@
             <url>https://repo.repsy.io/mvn/pmaio/lei-soft</url>
         </repository>
     </repositories>
+
 </project>

@@ -1,20 +1,16 @@
 package persistence.inmemory;
 
 import static org.junit.jupiter.api.Assertions.*;
-import domain.entity.Costumer;
-import domain.valueObjects.Name;
-import domain.entity.Figure;
-import domain.entity.ShowRequest;
+
+import domain.entity.*;
+import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import domain.valueObjects.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 class InMemoryShowRequestRepositoryTest {
 
@@ -28,8 +24,8 @@ class InMemoryShowRequestRepositoryTest {
     void setUp() {
         repository = new InMemoryShowRequestRepository();
 
-         costumer1 = new Costumer(1L,
-               Name.valueOf("Jorge"),
+        costumer1 = new Costumer(1L,
+                Name.valueOf("Jorge"),
                 EmailAddress.valueOf("jorge.ubaldo@shodrone.app"),
                 new PhoneNumber("912861312"),
                 new NIF("123456789"),
@@ -45,15 +41,36 @@ class InMemoryShowRequestRepositoryTest {
         );
 
         Description description = new Description("Amazing drone show!");
-        Location location = new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid");
-        Figure figure = new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, null, null);
+        Location location = new Location(
+                new Address("Rua", "Porto", "4444-888", "Portugal"),
+                12, 12, "iasjdiasjdiasdjasid"
+        );
+
+        Map<String, List<String>> dslVersions = new HashMap<>();
+        dslVersions.put("1.1.1", List.of("Position a = (1,2,3);", "Line l(a,a,DroneX);"));
+
+        FigureCategory category = new FigureCategory(
+                new Name("Category"),
+                new Description("Sample category"),
+                new Email("creator@shodrone.app")
+        );
+
+        Figure figure = new Figure(
+                new Name("Airplane"),
+                new Description("Airplane figure"),
+                category,
+                FigureAvailability.PUBLIC,
+                FigureStatus.ACTIVE,
+                dslVersions,
+                costumer1
+        );
 
         request1 = new ShowRequest(1L,
                 LocalDateTime.now(),
                 ShowRequestStatus.PENDING,
                 "John Doe",
                 costumer1,
-                Arrays.asList(figure),
+                List.of(figure),
                 description,
                 location,
                 LocalDateTime.now().plusHours(1),
@@ -66,14 +83,13 @@ class InMemoryShowRequestRepositoryTest {
                 ShowRequestStatus.PENDING,
                 "Jorge Doe",
                 costumer2,
-                Arrays.asList(figure),
+                List.of(figure),
                 description,
                 location,
                 LocalDateTime.now().plusHours(1),
                 10,
                 Duration.ofMinutes(15)
         );
-
     }
 
     @Test

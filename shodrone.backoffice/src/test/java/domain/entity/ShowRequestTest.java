@@ -10,7 +10,7 @@ import domain.valueObjects.*;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Arrays;
+import java.util.*;
 
 class ShowRequestTest {
 
@@ -30,23 +30,40 @@ class ShowRequestTest {
 
     @BeforeEach
     void setUp() {
-        // Criando dependências necessárias para o ShowRequest
-        costumer = new Costumer(Name.valueOf("John Doe"),
+        costumer = new Costumer(
+                Name.valueOf("John Doe"),
                 EmailAddress.valueOf("john.doe@example.com"),
                 new PhoneNumber("912345678"),
                 new NIF("900000007"),
-                new Address("Rua Exemplo", "Lisboa", "1234-567", "Portugal"));
+                new Address("Rua Exemplo", "Lisboa", "1234-567", "Portugal")
+        );
 
         description = new Description("Amazing drone show!");
-        location = new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid");
-        figure = new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), null);
+        location = new Location(
+                new Address("Rua", "Porto", "4444-888", "Portugal"),
+                12, 12, "iasjdiasjdiasdjasid"
+        );
 
-        showRequest = new ShowRequest(2L,
+        Map<String, List<String>> fakeDslVersions = new HashMap<>();
+        fakeDslVersions.put("v1", Arrays.asList("LINE(1,2)", "CIRCLE(3)"));
+
+        figure = new Figure(
+                new domain.valueObjects.Name("Airplane"),
+                new Description("Airplane figure"),
+                null,
+                FigureAvailability.PUBLIC,
+                FigureStatus.ACTIVE,
+                fakeDslVersions,
+                null
+        );
+
+        showRequest = new ShowRequest(
+                2L,
                 LocalDateTime.now(),
                 ShowRequestStatus.PENDING,
                 "John Doe",
                 costumer,
-                Arrays.asList(figure),
+                List.of(figure),
                 description,
                 location,
                 LocalDateTime.now().plusHours(1),
@@ -71,7 +88,7 @@ class ShowRequestTest {
                 ShowRequestStatus.PENDING,
                 "John Doe",
                 costumer,
-                Arrays.asList(figure),
+                List.of(figure),
                 description,
                 location,
                 LocalDateTime.now().plusHours(1),
@@ -79,8 +96,7 @@ class ShowRequestTest {
                 Duration.ofMinutes(15)
         );
 
-        Long id = showRequest.identity();
-        assertNull(id); // ShowRequest ID should be null before persisting
+        assertNull(showRequest.identity()); // ID is null before persisting
     }
 
     @Test
@@ -91,55 +107,86 @@ class ShowRequestTest {
 
     @Test
     void testEqualsDifferentObject() {
-        // Atualizando customer2 com os dados apropriados
-        ShowRequest anotherRequest = new ShowRequest(1L,
+        Map<String, List<String>> dsl = new HashMap<>();
+        dsl.put("x", List.of("test"));
+
+        ShowRequest anotherRequest = new ShowRequest(
+                1L,
                 LocalDateTime.now(),
                 ShowRequestStatus.PENDING,
                 "Jane Doe",
-                customer2, // Atualizado para customer2
-        Arrays.asList(new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), null)),
+                customer2,
+                List.of(new Figure(
+                        new domain.valueObjects.Name("Airplane"),
+                        new Description("Airplane figure"),
+                        null,
+                        FigureAvailability.PUBLIC,
+                        FigureStatus.ACTIVE,
+                        dsl,
+                        null)),
                 new Description("Another Show!"),
-                new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid"),
+                new Location(
+                        new Address("Rua", "Porto", "4444-888", "Portugal"),
+                        12, 12, "iasjdiasjdiasdjasid"
+                ),
                 LocalDateTime.now().plusHours(2),
                 15,
                 Duration.ofMinutes(20)
         );
-        assertFalse(showRequest.equals(anotherRequest));
+
+        assertNotEquals(showRequest, anotherRequest);
     }
 
     @Test
     void testShowRequestHashCode() {
-        // Criando um novo ShowRequest com dados diferentes para verificar o hashCode
-        ShowRequest anotherRequest = new ShowRequest(1L,
+        Map<String, List<String>> dsl = new HashMap<>();
+        dsl.put("x", List.of("test"));
+
+        ShowRequest anotherRequest = new ShowRequest(
+                1L,
                 LocalDateTime.now(),
                 ShowRequestStatus.PENDING,
                 "Jane Doe",
-                customer2, // Atualizado para customer2
-                Arrays.asList(new Figure(new domain.valueObjects.Name("Airplane"), new Description("Airplane figure"), (long) 1.2, null, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new DSL("input.txt"), null)),
+                customer2,
+                List.of(new Figure(
+                        new domain.valueObjects.Name("Airplane"),
+                        new Description("Airplane figure"),
+                        null,
+                        FigureAvailability.PUBLIC,
+                        FigureStatus.ACTIVE,
+                        dsl,
+                        null)),
                 new Description("Another Show!"),
-                new Location(new Address("Rua","Porto","4444-888","Portugal"),12,12,"iasjdiasjdiasdjasid"),
+                new Location(
+                        new Address("Rua", "Porto", "4444-888", "Portugal"),
+                        12, 12, "iasjdiasjdiasdjasid"
+                ),
                 LocalDateTime.now().plusHours(2),
                 15,
                 Duration.ofMinutes(20)
         );
+
         assertNotEquals(showRequest.hashCode(), anotherRequest.hashCode());
     }
 
     @Test
     void testShowRequestStatus() {
         assertEquals(ShowRequestStatus.PENDING, showRequest.getStatus());
-        showRequest = new ShowRequest(1L,
+
+        showRequest = new ShowRequest(
+                1L,
                 LocalDateTime.now(),
                 ShowRequestStatus.APPROVED,
                 "John Doe",
                 costumer,
-                Arrays.asList(figure),
+                List.of(figure),
                 description,
                 location,
                 LocalDateTime.now().plusHours(1),
                 10,
                 Duration.ofMinutes(15)
         );
+
         assertEquals(ShowRequestStatus.APPROVED, showRequest.getStatus());
     }
 
