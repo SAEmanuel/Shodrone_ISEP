@@ -27,6 +27,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="DSL_PLUGIN" target="17" />
       <module name="shodrone.core" target="17" />
       <module name="shodrone.infraestructure.application" target="17" />
     </bytecodeTargetLevel>
