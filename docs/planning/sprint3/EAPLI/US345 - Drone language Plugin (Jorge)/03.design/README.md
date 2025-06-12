@@ -1,78 +1,100 @@
-# US235 - List Show Requests of Client
+# US345 - Drone Language Plugin
 
 ## 3. Design
 
 ### 3.1. Design Overview
 
-The design for US235 focuses on implementing the functionality to list all show requests associated with a specific client within the Shodrone back-office application, using the EAPLI framework (NFR07). The process involves the following high-level steps:
+The design for US345 focuses on enabling the registration, configuration, and use of language-specific plugins that validate drone programs before simulation or execution. This feature is critical to ensure that each drone’s source code complies with the syntactic rules of its associated programming language. The system must be extensible to support multiple drone languages, each validated by a separate plugin.
 
-1. **Authentication and Authorization**: The CRM Collaborator (or CRM Manager) logs into the system, and their role is verified (via US210, NFR08: role-based access).
-2. **User Interaction**: The user interacts with a console-based UI (provided by EAPLI) to select a client from a list of all clients and view their associated show requests.
-3. **Business Logic Execution**: An application service (`ListShowRequestsService`) orchestrates the listing process, retrieving the client’s show requests, sorting them by `creationDate` (descending), and formatting the output with details like request ID, place, time, number of drones, duration, and current status.
-4. **Persistence**: The `ShowRequestRepository` and `CustomerRepository` are used to retrieve data from both in-memory and RDBMS modes (NFR07).
-5. **Feedback**: The system displays the list of show requests in a formatted table, or a message if no requests are found (e.g., "No show requests found for this client").
+The design follows the layered architecture defined in the EAPLI framework (NFR07), and includes the following main responsibilities:
 
-The design follows a layered architecture:
-- **UI Layer**: Handles user interaction via EAPLI’s console UI (`ListShowRequestsUI`).
-- **Application Layer**: Contains the `ListShowRequestsService`, which coordinates the use case logic.
-- **Domain Layer**: Includes entities (`Customer`, `ShowRequest`, `ShowDescription`, `ShowRequestStatus`) and enforces business rules.
-- **Persistence Layer**: Uses EAPLI’s repository pattern (`ShowRequestRepository`, `CustomerRepository`) for data access.
-- **Infrastructure Layer**: Leverages EAPLI’s authentication (`AuthFacade`) and persistence mechanisms.
+1. **Authentication and Authorization**: The Drone Tech logs into the system. The system checks their credentials and permissions to ensure they are authorized to manage drone language plugins (via US210 and NFR08).
+2. **Plugin Registration**: The Drone Tech registers a new plugin implementation through an internal API or configuration. The system verifies the plugin and associates it with a unique language name.
+3. **Validation Execution**: Whenever a drone program is generated or uploaded, the system retrieves the plugin corresponding to the drone’s language and runs the validation.
+4. **Error Handling**: If the plugin fails to validate the code or is missing, the system aborts the operation and displays a meaningful error message.
+5. **Feedback**: The result of the plugin validation is returned to the user or calling process, including error messages if applicable.
+
+The design is structured across the following layers:
+
+* **UI Layer**: May include command-line feedback or logs (minimal for plugin registration, more involved during validation).
+* **Application Layer**: Hosts the service logic for plugin management and validation coordination.
+* **Domain Layer**: Includes `DroneModel`, `DroneProgram`, and the `DroneLangPlugin` interface.
+* **Infrastructure Layer**: Includes the `PluginManager`, responsible for managing and resolving plugin instances at runtime.
+
+---
 
 ### 3.2. Sequence Diagrams
 
 #### 3.2.1. Class Diagram
-![System Sequence Diagram](img/class_diagram.svg)
+
+![Class Diagram](img/class_diagram.png)
+
+> The diagram defines:
+>
+> * `DroneModel`: stores the language name.
+> * `DroneProgram`: stores the actual code.
+> * `DroneLangPlugin`: interface for plugins.
+> * `PluginManager`: maintains a registry of language-to-plugin mappings.
+> * `PythonPlugin`, `LuaPlugin`: implementations of `DroneLangPlugin`.
 
 #### 3.2.2. Sequence Diagram (SD)
-The Sequence Diagram (SD) below provides a detailed view of the internal interactions within the system to list show requests for a client. It includes the UI, application service, domain entities, repositories, and authentication components.
 
-![Sequence Diagram](img/us235-domain-model.svg)
+The Sequence Diagram below illustrates how the system uses the `PluginManager` to retrieve and invoke the correct plugin based on the drone model’s language when validating a `DroneProgram`.
 
-### 3.3. Design Patterns (if any)
+![Sequence Diagram](img/us345-sequence-diagram.png)
 
-The design for US235 leverages several design patterns, primarily those provided by the EAPLI framework and common in domain-driven design (DDD):
+---
 
-- **Application Service Pattern**:
-  - The `ListShowRequestsService` acts as an application service, orchestrating the use case logic. It coordinates interactions between the UI, domain entities, and repositories, handling tasks like retrieving show requests, sorting, and formatting the output.
+### 3.3. Design Patterns
 
-- **Repository Pattern**:
-  - Repositories (`ShowRequestRepository`, `CustomerRepository`) are used to abstract persistence logic, supporting both in-memory and RDBMS modes (NFR07). This pattern decouples the domain layer from the persistence layer, allowing for flexible data access (e.g., `findByCustomer` method in `ShowRequestRepository`).
+The implementation of US345 uses several well-established design patterns, many of which align with the EAPLI framework and domain-driven design principles:
 
-- **Iterator Pattern (Implicit in EAPLI)**:
-  - The `ShowRequestRepository` returns a collection of `ShowRequest` entities (e.g., as an `Iterable` or `List`), which the `ListShowRequestsService` iterates over to process each request (e.g., to retrieve the `ShowDescription` and current status). This leverages the Iterator pattern for traversing the collection.
+#### **Strategy Pattern**
 
-- **Decorator Pattern (for Formatting)**:
-  - The `ListShowRequestsService` applies a lightweight Decorator-like approach to format the show requests for display. It "decorates" the raw `ShowRequest` data by adding formatted strings (e.g., combining `place` and coordinates, extracting the most recent status) before passing the result to the UI.
+* The `DroneLangPlugin` interface acts as a strategy interface.
+* Each language plugin (e.g., `PythonPlugin`, `LuaPlugin`) is a concrete strategy.
+* The system dynamically selects the appropriate plugin strategy at runtime using the drone’s language name.
 
-- **Strategy Pattern (Potential Future Use)**:
-  - While not implemented in US235, the system could use the Strategy pattern for future enhancements, such as supporting different sorting strategies (e.g., by status or time instead of `creationDate`). This would involve defining a `SortStrategy` interface and implementations like `SortByCreationDateDescending`.
+#### **Service Locator (PluginManager)**
+
+* The `PluginManager` acts as a service locator that maintains a mapping between programming language identifiers and plugin implementations.
+* This decouples the consumers (e.g., `DroneProgramValidator`) from the concrete plugin classes.
+
+#### **Application Service Pattern**
+
+* The validation logic can be encapsulated in an application service such as `ValidateDroneProgramService`.
+* This service coordinates the retrieval of the drone model and program, plugin resolution, and execution of the validation process.
+
+#### **Factory Pattern (Optional Future Use)**
+
+* A factory could be used to dynamically load and instantiate plugins from classpath or external JARs in a future enhancement.
+
+#### **Adapter Pattern (for third-party validators)**
+
+* If external tools (e.g., ANTLR or language-specific linters) are used inside a plugin, the plugin may act as an adapter to translate between internal drone program representations and external tools.
+
+---
 
 ### Explanation of the Design Section
 
 #### 3.1. Design Overview
-- Provides a high-level view of the design, outlining the steps involved in listing show requests:
-  - Authentication ensures role-based access (NFR08).
-  - The UI allows the user to select a client.
-  - The `ListShowRequestsService` retrieves and formats the show requests.
-  - Repositories handle data access.
-  - The UI displays the results.
-- Describes the layered architecture (UI, Application, Domain, Persistence, Infrastructure), aligning with EAPLI’s structure and ensuring separation of concerns.
 
-#### 3.2. Sequence Diagrams
-- **SSD**: Reuses the SSD from the Requirements Engineering phase (Section 1.6), providing a high-level view of the interaction between the user and the system.
-- **SD**: The detailed Sequence Diagram (`us235-sequence-diagram.puml`) shows internal interactions:
-  - The `ListShowRequestsUI` handles user interaction, using EAPLI’s console UI.
-  - The `ListShowRequestsService` orchestrates the use case, retrieving data, sorting, and formatting.
-  - Repositories (`CustomerRepository`, `ShowRequestRepository`) handle data access.
-  - Entities (`Customer`, `ShowRequest`, `ShowDescription`, `ShowRequestStatus`) are queried for details.
-  - The `AuthFacade` (from US210) ensures role-based access.
-  - The diagram includes alternative flows for edge cases (e.g., invalid role, client not found, no show requests).
+* Introduces the goal of supporting language-specific validation of drone programs.
+* Describes how authentication, registration, and validation flows are handled.
+* Emphasizes the extensibility and flexibility of the plugin-based architecture.
+
+#### 3.2. Diagrams
+
+* The **Class Diagram** shows the relationships between `DroneModel`, `DroneProgram`, the plugin interface, and its implementations.
+* The **Sequence Diagram** shows:
+
+  * A Drone Tech or internal process initiating validation.
+  * The system retrieving the correct plugin based on the language.
+  * The plugin performing validation and returning results.
 
 #### 3.3. Design Patterns
-- Identifies patterns used in the design:
-  - **Application Service**: `ListShowRequestsService` coordinates the use case, a standard pattern in DDD and EAPLI.
-  - **Repository**: Used for persistence, aligning with EAPLI’s approach (NFR07).
-  - **Iterator**: Implicit in processing the collection of show requests.
-  - **Decorator**: Used for formatting the output in the application service.
-  - **Strategy**: Suggested for future sorting enhancements, but not implemented in US235.
+
+* **Strategy** is used for runtime selection of validation logic.
+* **Service Locator (PluginManager)** manages plugin registration and retrieval.
+* **Application Service** encapsulates the validation coordination.
+* Optional future use of **Factory** and **Adapter** is discussed to further modularize or extend plugin integration.
