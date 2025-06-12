@@ -10,10 +10,10 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>Backoffice_APP</artifactId>
+    <artifactId>shodrone.backoffice</artifactId>
     <packaging>jar</packaging>
 
-    <name>shodrone.backoffice</name>
+
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

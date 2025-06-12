@@ -52,12 +52,12 @@
         <!-- Dependências do teu projeto -->
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>Shared</artifactId>
+            <artifactId>shodrone.shared</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
             <groupId>lapr4</groupId>
-            <artifactId>Persistence</artifactId>
+            <artifactId>shodrone.shared.persistence</artifactId>
             <version>0.1.0</version>
         </dependency>
         <dependency>
