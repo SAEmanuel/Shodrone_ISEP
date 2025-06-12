@@ -2,9 +2,9 @@ package figure_dsl.validator;
 
 import figure_dsl.generated.dslBaseVisitor;
 import figure_dsl.generated.dslParser.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import java.util.List;
 import java.util.Stack;
 
 public class StatementBlockValidator extends dslBaseVisitor<Void> {
@@ -44,8 +44,9 @@ public class StatementBlockValidator extends dslBaseVisitor<Void> {
 
     @Override
     public Void visitGroup_statement_block(Group_statement_blockContext ctx) {
-        if (blockStack.isEmpty() || (!blockStack.peek().equals("before") && !blockStack.peek().equals("after"))) {
-            plugin.addError("Error at line " + ctx.getStart().getLine() + ": 'group' must be nested inside 'before' or 'after' block");
+        if (!blockStack.isEmpty() &&
+                !(blockStack.peek().equals("before") || blockStack.peek().equals("after"))) {
+            plugin.addError("Error at line " + ctx.getStart().getLine() + ": 'group' blocks must appear inside 'before' or 'after' blocks or be top-level");
         }
         return super.visitGroup_statement_block(ctx);
     }
@@ -55,9 +56,8 @@ public class StatementBlockValidator extends dslBaseVisitor<Void> {
         if (ctx.method() != null) {
             int line = ctx.getStart().getLine();
             String methodName = ctx.method().getChild(0).getText();
-
-            // Confirma que o elemento foi declarado usando plugin.getDeclaredElements()
             String elementName = ctx.ID().getText();
+
             if (!plugin.getDeclaredElements().contains(elementName)) {
                 plugin.addError(String.format("Error at line %d: Method '%s' called on undeclared element '%s'", line, methodName, elementName));
             }
@@ -73,7 +73,6 @@ public class StatementBlockValidator extends dslBaseVisitor<Void> {
                     validateLightsOn(ctx.method(), line);
                     break;
                 case "lightsOff":
-                    // Só checa se elemento existe (feito acima)
                     break;
                 default:
                     plugin.addError(String.format("Error at line %d: Unknown method '%s'", line, methodName));
@@ -100,60 +99,88 @@ public class StatementBlockValidator extends dslBaseVisitor<Void> {
     }
 
     private void validateRotate(MethodContext ctx, int line) {
-        if (ctx.rotate_param().size() != 4) {
+        List<Rotate_paramContext> params = ctx.rotate_param();
+        if (params.size() != 4) {
             plugin.addError(String.format("Error at line %d: rotate() requires exactly 4 parameters", line));
             return;
         }
 
         for (int i = 0; i < 2; i++) {
-            Rotate_paramContext param = ctx.rotate_param(i);
-            if (param.vector() == null && (param.ID() == null || !plugin.getDeclaredVariables().get("Position").containsKey(param.ID().getText()))) {
-                plugin.addError(String.format("Error at line %d: rotate() parameter %d must be a vector literal or declared Position", line, i + 1));
+            Rotate_paramContext param = params.get(i);
+            if (param.vector() != null) continue;
+            ExpressionContext expr = param.expression();
+            if (expr == null || !isPositionVariable(expr)) {
+                plugin.addError(String.format("Error at line %d: rotate() parameter %d must be a vector or declared Position", line, i + 1));
             }
         }
 
-        for (int i = 2; i < 4; i++) {
-            ExpressionContext expr = ctx.rotate_param(i).expression();
-            if (expr == null || !isNumericOrVariable(expr)) {
-                plugin.addError(String.format("Error at line %d: rotate() parameter %d must be numeric or declared numeric variable", line, i + 1));
-            }
+        ExpressionContext expr3 = params.get(2).expression();
+        if (expr3 == null || !isNumericOrVariable(expr3)) {
+            plugin.addError(String.format("Error at line %d: rotate() parameter 3 must be numeric or declared Velocity/Distance", line));
+        }
+
+        ExpressionContext expr4 = params.get(3).expression();
+        if (expr4 == null || !isVelocityLiteralOrVariable(expr4)) {
+            plugin.addError(String.format("Error at line %d: rotate() parameter 4 must be a number or declared Velocity", line));
         }
     }
 
     private void validateLightsOn(MethodContext ctx, int line) {
-        int numberCount = 0;
-        for (ParseTree child : ctx.children) {
-            if (child instanceof TerminalNode terminal && terminal.getSymbol().getType() == figure_dsl.generated.dslParser.NUMBER) {
-                try {
-                    int value = Integer.parseInt(terminal.getText());
-                    if (value < 0 || value > 255) {
-                        plugin.addError(String.format("Error at line %d: lightsOn() RGB value %d must be in range 0-255", line, numberCount + 1));
-                    }
-                } catch (NumberFormatException e) {
-                    plugin.addError(String.format("Error at line %d: lightsOn() parameter %d is not a valid integer", line, numberCount + 1));
-                }
-                numberCount++;
-            } else if (child instanceof TerminalNode terminal && terminal.getSymbol().getType() == figure_dsl.generated.dslParser.ID) {
-                plugin.addError(String.format("Error at line %d: lightsOn() RGB parameter %d must be a numeric literal (no variables allowed)", line, numberCount + 1));
-                numberCount++;
-            }
-        }
-        if (numberCount != 3) {
+        Parameter_listContext paramList = ctx.parameter_list();
+        if (paramList == null || paramList.parameter().size() != 3) {
             plugin.addError(String.format("Error at line %d: lightsOn() requires exactly 3 numeric literal RGB values", line));
+            return;
+        }
+
+        List<ParameterContext> params = paramList.parameter();
+        for (int i = 0; i < 3; i++) {
+            ParameterContext param = params.get(i);
+            String text = param.getText();
+            try {
+                int value = Integer.parseInt(text);
+                if (value < 0 || value > 255) {
+                    plugin.addError(String.format("Error at line %d: lightsOn() RGB value %d must be in range 0–255", line, i + 1));
+                }
+            } catch (NumberFormatException e) {
+                plugin.addError(String.format("Error at line %d: lightsOn() parameter %d must be a numeric literal, not '%s'", line, i + 1, text));
+            }
         }
     }
 
     private boolean isNumericOrVariable(ExpressionContext expr) {
         if (expr.NUMBER() != null) return true;
         if (expr.ID() != null) return isNumericVariable(expr.ID().getText());
+        if (expr.expression().size() == 1) {
+            return isNumericOrVariable(expr.expression(0));
+        }
         if (expr.expression().size() == 2) {
             return isNumericOrVariable(expr.expression(0)) && isNumericOrVariable(expr.expression(1));
         }
-        return expr.expression().size() == 1 && isNumericOrVariable(expr.expression(0));
+        return false;
+    }
+
+    private boolean isVelocityLiteralOrVariable(ExpressionContext expr) {
+        if (expr.NUMBER() != null) return true;
+        if (expr.ID() != null) {
+            return plugin.getDeclaredVariables().get("Velocity").containsKey(expr.ID().getText());
+        }
+        if (expr.expression().size() == 1) {
+            return isVelocityLiteralOrVariable(expr.expression(0));
+        }
+        if (expr.expression().size() == 2) {
+            return isVelocityLiteralOrVariable(expr.expression(0)) &&
+                    isVelocityLiteralOrVariable(expr.expression(1));
+        }
+        return false;
     }
 
     private boolean isNumericVariable(String varName) {
         return plugin.getDeclaredVariables().get("Velocity").containsKey(varName) ||
                 plugin.getDeclaredVariables().get("Distance").containsKey(varName);
+    }
+
+    private boolean isPositionVariable(ExpressionContext expr) {
+        return expr.ID() != null &&
+                plugin.getDeclaredVariables().get("Position").containsKey(expr.ID().getText());
     }
 }

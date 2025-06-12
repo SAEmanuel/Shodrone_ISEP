@@ -7,6 +7,7 @@ import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.DslMetadata;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -46,8 +47,15 @@ class InMemoryShowRequestRepositoryTest {
                 12, 12, "iasjdiasjdiasdjasid"
         );
 
-        Map<String, List<String>> dslVersions = new HashMap<>();
-        dslVersions.put("1.1.1", List.of("Position a = (1,2,3);", "Line l(a,a,DroneX);"));
+        List<String> dslLines = List.of(
+                "DSL version 1.1.1;",
+                "DroneType DroneX;",
+                "Position a = (1,2,3);",
+                "Line l(a,a,DroneX);"
+        );
+        DslMetadata metadata = new DslMetadata("DroneX", dslLines);
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+        dslVersions.put("1.1.1", metadata);
 
         FigureCategory category = new FigureCategory(
                 new Name("Category"),
@@ -97,7 +105,7 @@ class InMemoryShowRequestRepositoryTest {
         Optional<ShowRequest> saved = repository.saveInStore(request1);
         assertTrue(saved.isPresent());
         assertNotNull(saved.get().identity());
-        assertEquals(1L, saved.get().identity());  // Primeiro ID
+        assertEquals(1L, saved.get().identity());
     }
 
     @Test

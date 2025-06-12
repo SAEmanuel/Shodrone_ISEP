@@ -11,6 +11,7 @@ import persistence.RepositoryProvider;
 import persistence.FigureRepository;
 import domain.entity.Email;
 import domain.valueObjects.*;
+import utils.DslMetadata;
 
 import java.util.*;
 
@@ -40,7 +41,7 @@ class SearchFigureControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
-    private Map<String, List<String>> sampleDsl;
+    private Map<String, DslMetadata> sampleDsl;
 
     private Figure figure1;
     private Figure figure2;
@@ -51,9 +52,16 @@ class SearchFigureControllerTest {
         mockRepository = mock(FigureRepository.class);
         RepositoryProvider.injectFigureRepository(mockRepository);
 
-        // Sample DSL for all figures
+        // DSL with metadata
+        List<String> dslLines = List.of(
+                "DSL version 1.0.0;",
+                "DroneType DroneX;",
+                "Position a = (0,0,0);",
+                "Line l(a,a,DroneX);"
+        );
+        DslMetadata metadata = new DslMetadata("DroneX", dslLines);
         sampleDsl = new HashMap<>();
-        sampleDsl.put("1.0.0", List.of("Position a = (0,0,0);", "Line l(a,a,DroneX);"));
+        sampleDsl.put("1.0.0", metadata);
 
         // Create sample figures
         figure1 = new Figure(new Name("Airplane"), new Description("Airplane figure"),

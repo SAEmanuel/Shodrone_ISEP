@@ -1,39 +1,78 @@
 package utils;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DSLTextBoxUtils {
 
     private static final String INSTRUCTIONS =
-            "Enter the DSL content for this version.\n\n" +
-                    "You can paste or escrever múltiplas linhas.\n" +
-                    "Press 'Submit' to confirm or feche/cancele para abortar.\n";
+            """
+            DSL Syntax Guide for Figure:
 
+            • Start with the version: DSL version X.Y.Z;
+            • Declare the drone type: DroneType YourDroneName;
 
-    public static List<String> getDslLinesFromTextBox(String titulo) {
+            • You can define:
+              - Position name = (x, y, z);
+              - Velocity name = expression;
+              - Distance name = expression;
+
+            • Define elements with parameters:
+              - ElementType elementName(position, value1, value2, DroneType);
+
+            • Use timed blocks for actions:
+              before
+                  element.method(...);
+              endbefore
+
+              after
+                  ...
+              endafter
+
+            • Supported methods: move, rotate, lightsOn(R,G,B), lightsOff, pause(time);
+
+            • Use 'group ... endgroup' to group statements for parallel execution.
+
+            Press 'Submit' to validate the DSL or 'Cancel' to abort.
+            """;
+
+    public static List<String> getDslLinesFromTextBox(String title) {
         List<String> lines = new ArrayList<>();
 
-        JTextArea textArea = new JTextArea(20, 60);
+        JTextArea textArea = new JTextArea(30, 80);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
 
         JScrollPane scrollPane = new JScrollPane(textArea);
-        JPanel panel = new JPanel();
-        panel.add(scrollPane);
 
-        JOptionPane.showMessageDialog(
-                null,
-                INSTRUCTIONS,
-                "DSL Input Instructions",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+        JButton helpButton = new JButton("Instructions");
+        helpButton.addActionListener((ActionEvent e) -> {
+            JTextArea helpArea = new JTextArea(INSTRUCTIONS);
+            helpArea.setEditable(false);
+            helpArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+            helpArea.setLineWrap(true);
+            helpArea.setWrapStyleWord(true);
+
+            JScrollPane helpScroll = new JScrollPane(helpArea);
+            helpScroll.setPreferredSize(new Dimension(600, 300));
+
+            JOptionPane.showMessageDialog(null, helpScroll, "DSL Help", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        topPanel.add(helpButton);
+
+        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel.add(topPanel, BorderLayout.NORTH);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         int result = JOptionPane.showConfirmDialog(
                 null,
-                panel,
-                titulo,
+                mainPanel,
+                title,
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE
         );
@@ -45,6 +84,7 @@ public class DSLTextBoxUtils {
                 lines.add(l);
             }
         }
+
         return lines;
     }
 }

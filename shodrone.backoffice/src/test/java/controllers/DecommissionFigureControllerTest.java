@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.FigureRepository;
 import persistence.RepositoryProvider;
+import utils.DslMetadata;
 
 import java.util.*;
 
@@ -47,9 +48,9 @@ class DecommissionFigureControllerTest {
         RepositoryProvider.injectFigureRepository(mockRepository);
         controller = new DecommissionFigureController();
 
-        // Criar dslVersions de teste
-        Map<String, List<String>> dslVersions = new HashMap<>();
-        dslVersions.put("v1", List.of("LINE(1,2)", "CIRCLE(3)"));
+        // DSL Metadata em vez de List<String>
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+        dslVersions.put("v1", new DslMetadata("DroneTypeX", List.of("LINE(1,2)", "CIRCLE(3)")));
 
         figure = new Figure(
                 new Name("Airplane"),

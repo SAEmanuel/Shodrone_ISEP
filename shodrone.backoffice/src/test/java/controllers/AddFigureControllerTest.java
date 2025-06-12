@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
 import persistence.FigureRepository;
+import utils.DslMetadata;
 
 import java.util.*;
 
@@ -44,8 +45,8 @@ class AddFigureControllerTest {
             new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
     );
 
-    private final Map<String, List<String>> dslVersions = Map.of(
-            "v1", List.of("Position p = (0,0,0);")
+    private final Map<String, DslMetadata> dslVersions = Map.of(
+            "v1", new DslMetadata("DroneTypeX", List.of("Position p = (0,0,0);"))
     );
 
     @BeforeEach
@@ -69,8 +70,7 @@ class AddFigureControllerTest {
 
     @Test
     void testAddFigureWithMinimalInputs() {
-        // Usa um dslVersions vazio, mas nunca null
-        Map<String, List<String>> emptyDslVersions = new HashMap<>();
+        Map<String, DslMetadata> emptyDslVersions = new HashMap<>();
         Figure minimalFigure = new Figure(name, null, category, availability, status, emptyDslVersions, customer);
         when(mockRepository.save(any(Figure.class))).thenReturn(Optional.of(minimalFigure));
 

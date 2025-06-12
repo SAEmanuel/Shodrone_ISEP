@@ -1,7 +1,12 @@
 package figure_dsl.validator;
 
 import figure_dsl.generated.dslBaseVisitor;
-import figure_dsl.generated.dslParser.*;
+import figure_dsl.generated.dslParser.Position_declarationContext;
+import figure_dsl.generated.dslParser.Velocity_declarationContext;
+import figure_dsl.generated.dslParser.Distance_declarationContext;
+import figure_dsl.generated.dslParser.ExpressionContext;
+import figure_dsl.generated.dslParser.VectorContext;
+
 import java.util.Map;
 
 public class DeclaredVariablesValidator extends dslBaseVisitor<Void> {

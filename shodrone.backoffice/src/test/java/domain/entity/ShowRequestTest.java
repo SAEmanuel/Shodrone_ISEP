@@ -7,6 +7,7 @@ import domain.valueObjects.Name;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import domain.valueObjects.*;
+import utils.DslMetadata;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -44,8 +45,8 @@ class ShowRequestTest {
                 12, 12, "iasjdiasjdiasdjasid"
         );
 
-        Map<String, List<String>> fakeDslVersions = new HashMap<>();
-        fakeDslVersions.put("v1", Arrays.asList("LINE(1,2)", "CIRCLE(3)"));
+        Map<String, DslMetadata> fakeDslVersions = new HashMap<>();
+        fakeDslVersions.put("v1", new DslMetadata("DroneX", List.of("LINE(1,2)", "CIRCLE(3)")));
 
         figure = new Figure(
                 new domain.valueObjects.Name("Airplane"),
@@ -107,8 +108,8 @@ class ShowRequestTest {
 
     @Test
     void testEqualsDifferentObject() {
-        Map<String, List<String>> dsl = new HashMap<>();
-        dsl.put("x", List.of("test"));
+        Map<String, DslMetadata> dsl = new HashMap<>();
+        dsl.put("x", new DslMetadata("DroneA", List.of("test")));
 
         ShowRequest anotherRequest = new ShowRequest(
                 1L,
@@ -139,8 +140,8 @@ class ShowRequestTest {
 
     @Test
     void testShowRequestHashCode() {
-        Map<String, List<String>> dsl = new HashMap<>();
-        dsl.put("x", List.of("test"));
+        Map<String, DslMetadata> dsl = new HashMap<>();
+        dsl.put("x", new DslMetadata("DroneA", List.of("test")));
 
         ShowRequest anotherRequest = new ShowRequest(
                 1L,

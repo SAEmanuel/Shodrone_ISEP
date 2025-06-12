@@ -10,6 +10,7 @@ import factories.FactoryProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
+import utils.DslMetadata;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -36,8 +37,8 @@ class EditShowRequestControllerTest {
         );
         RepositoryProvider.costumerRepository().saveInStore(costumer, costumer.nif());
 
-        Map<String, List<String>> dslVersions = new HashMap<>();
-        dslVersions.put("v1", List.of("Position p = (0,0,0);"));
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+        dslVersions.put("v1", new DslMetadata("DroneTypeX", List.of("Position p = (0,0,0);")));
 
         Figure figure1 = new Figure(new Name("Circle"), new Description("A perfect round shape"), null,
                 FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dslVersions, costumer);
@@ -61,8 +62,8 @@ class EditShowRequestControllerTest {
 
     @Test
     void testEditShowRequest_Success() {
-        Map<String, List<String>> dslVersions = new HashMap<>();
-        dslVersions.put("v1", List.of("Position p = (1,1,1);"));
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+        dslVersions.put("v1", new DslMetadata("DroneTypeX", List.of("Position p = (1,1,1);")));
 
         Figure figure2 = new Figure(new Name("Airplane"), new Description("A fixed-wing flying vehicle"), null,
                 FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dslVersions, costumer);
@@ -95,8 +96,8 @@ class EditShowRequestControllerTest {
 
     @Test
     void testEditShowRequest_FailsWithInvalidUpdate() {
-        Map<String, List<String>> dslVersions = new HashMap<>();
-        dslVersions.put("v1", List.of("invalid = true;"));
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+        dslVersions.put("v1", new DslMetadata("DroneTypeX", List.of("invalid = true;")));
 
         Figure fakeFigure = new Figure(new Name("FakeFigure"), new Description("Fake Desc"), null,
                 FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dslVersions, costumer);

@@ -4,6 +4,7 @@ import domain.valueObjects.*;
 import eapli.framework.domain.model.AggregateRoot;
 import jakarta.persistence.*;
 import lombok.Setter;
+import utils.DslMetadata;
 
 import java.io.Serializable;
 import java.util.*;
@@ -43,8 +44,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "figure_dsl_versions", joinColumns = @JoinColumn(name = "figure_id"))
     @MapKeyColumn(name = "dsl_version")
-    @Column(name = "dsl_content", columnDefinition = "TEXT")
-    private Map<String, List<String>> dslVersions = new HashMap<>();
+    private Map<String, DslMetadata> dslVersions = new HashMap<>();
 
     @ManyToOne
     @JoinColumn(name = "customer_id")
@@ -54,7 +54,7 @@ public class Figure implements AggregateRoot<Long>, Serializable {
 
     public Figure(Name name, Description description,
                   FigureCategory category, FigureAvailability availability,
-                  FigureStatus status, Map<String, List<String>> dslVersions,
+                  FigureStatus status, Map<String, DslMetadata> dslVersions,
                   Costumer customer) {
         this.name = Objects.requireNonNull(name);
         this.description = description;
@@ -90,12 +90,12 @@ public class Figure implements AggregateRoot<Long>, Serializable {
         return status;
     }
 
-    public Map<String, List<String>> dslVersions() {
-        return new HashMap<>(dslVersions);
+    public Map<String, DslMetadata> dslVersions() {
+        return Collections.unmodifiableMap(dslVersions);
     }
 
-    public void addDslVersion(String version, List<String> dslContent) {
-        dslVersions.put(version, new ArrayList<>(dslContent));
+    public void addDslVersion(String version, String droneModel, List<String> dslContent) {
+        dslVersions.put(version, new DslMetadata(droneModel, dslContent));
     }
 
     public Costumer customer() {

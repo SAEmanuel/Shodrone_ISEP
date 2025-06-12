@@ -1,7 +1,7 @@
 package figure_dsl.validator;
 
-import figure_dsl.generated.dslParser;
 import figure_dsl.generated.dslBaseVisitor;
+import figure_dsl.generated.dslParser;
 
 public class DslVersionValidator extends dslBaseVisitor<Void> {
     private final FigureValidationPlugin plugin;

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import persistence.RepositoryProvider;
 import persistence.FigureRepository;
+import utils.DslMetadata;
 
 import java.util.*;
 
@@ -37,8 +38,9 @@ class ListPublicFiguresControllerTest {
         controller = new ListPublicFiguresController();
 
         // DSL versions dummy data
-        Map<String, List<String>> dslVersions = new HashMap<>();
-        dslVersions.put("1.0", List.of("Position a = (0,0,0);", "Line l(a,a,DroneTypeX);"));
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+        List<String> dslLines = List.of("DSL version 1.0;", "DroneType DroneTypeX;", "Position a = (0,0,0);", "Line l(a,a,DroneTypeX);");
+        dslVersions.put("1.0", new DslMetadata("DroneTypeX", dslLines));
 
         FigureCategory category = new FigureCategory(
                 new Name("Geometry"),

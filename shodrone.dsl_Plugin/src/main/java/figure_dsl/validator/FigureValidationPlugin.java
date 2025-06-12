@@ -2,9 +2,15 @@ package figure_dsl.validator;
 
 import figure_dsl.generated.dslLexer;
 import figure_dsl.generated.dslParser;
+import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
+
 import lombok.Getter;
 import lombok.Setter;
-import org.antlr.v4.runtime.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,6 +26,8 @@ public class FigureValidationPlugin {
     private final List<String> errors;
     private final Map<String, Map<String, String>> declaredVariables;
     private final List<String> declaredElements;
+    private final List<String> unscopedStatements;
+
 
     public FigureValidationPlugin() {
         this.dslVersion = null;
@@ -32,6 +40,7 @@ public class FigureValidationPlugin {
         this.declaredVariables.put("Velocity", new HashMap<>());
         this.declaredVariables.put("Distance", new HashMap<>());
         this.declaredElements = new ArrayList<>();
+        this.unscopedStatements = new ArrayList<>();
     }
 
     public List<String> validate(List<String> dslLines) {
@@ -67,6 +76,9 @@ public class FigureValidationPlugin {
 
                 StatementBlockValidator stmtValidator = new StatementBlockValidator(this);
                 stmtValidator.visit(parseTree);
+
+                UnscopedStatementValidator unscopedStatementValidator = new UnscopedStatementValidator(this);
+                unscopedStatementValidator.visit(parseTree);
 
                 validateDroneModelPresence();
             }
@@ -115,6 +127,7 @@ public class FigureValidationPlugin {
         errors.clear();
         declaredVariables.forEach((k, v) -> v.clear());
         declaredElements.clear();
+        unscopedStatements.clear();
     }
 
     private void validateDroneModelPresence() {

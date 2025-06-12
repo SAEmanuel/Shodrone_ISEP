@@ -9,16 +9,13 @@ import persistence.CostumerRepository;
 import persistence.FigureCategoryRepository;
 import persistence.FigureRepository;
 import persistence.jpa.JpaBaseRepository;
+import utils.DslMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * JPA implementation of the FigureRepository interface.
- * Provides persistence and query operations for Figure entities using JPA.
- */
 public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
         implements FigureRepository {
 
@@ -56,7 +53,7 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
             figure.updateCustomer(costumer.get());
         }
 
-        // Verifica duplicados (nome, categoria, costumer e qualquer DSL igual em qualquer versão)
+        // Verifica duplicados
         Optional<List<Figure>> findExistentFigure = findFigures(
                 null, figure.name(), null, null, figure.category(),
                 null, null, null, figure.customer());
@@ -66,9 +63,9 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                         && f.category().equals(figure.category())
                         && ((f.customer() == null && figure.customer() == null)
                         || (f.customer() != null && f.customer().equals(figure.customer())))) {
-                    for (Map.Entry<String, List<String>> entry : f.dslVersions().entrySet()) {
-                        for (List<String> newDslList : figure.dslVersions().values()) {
-                            if (newDslList.equals(entry.getValue())) {
+                    for (Map.Entry<String, DslMetadata> entry : f.dslVersions().entrySet()) {
+                        for (DslMetadata newMetadata : figure.dslVersions().values()) {
+                            if (newMetadata.getDslLines().equals(entry.getValue().getDslLines())) {
                                 return Optional.empty();
                             }
                         }
@@ -161,9 +158,8 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                         if (dsl == null) {
                             figures.add(figure);
                         } else {
-                            // Verifica se alguma versão DSL contém exatamente o conteúdo procurado (como lista de strings)
-                            for (List<String> dslList : figure.dslVersions().values()) {
-                                if (dslList.equals(List.of(dsl.toString()))) {
+                            for (DslMetadata dslMetadata : figure.dslVersions().values()) {
+                                if (dslMetadata.getDslLines().equals(List.of(dsl.toString()))) {
                                     figures.add(figure);
                                     break;
                                 }

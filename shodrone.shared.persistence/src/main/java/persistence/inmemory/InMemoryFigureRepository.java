@@ -3,14 +3,16 @@ package persistence.inmemory;
 import domain.entity.Costumer;
 import domain.entity.Figure;
 import domain.entity.FigureCategory;
-import history.AuditLoggerService;
 import domain.valueObjects.*;
+import history.AuditLoggerService;
 import persistence.RepositoryProvider;
 import persistence.CostumerRepository;
 import persistence.FigureCategoryRepository;
 import persistence.FigureRepository;
+import utils.DslMetadata;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class InMemoryFigureRepository implements FigureRepository {
     private final Map<Long, Figure> store = new HashMap<>();
@@ -29,6 +31,7 @@ public class InMemoryFigureRepository implements FigureRepository {
             figure.setFigureId(LAST_FIGURE_ID++);
         }
 
+        // Handle category
         Optional<FigureCategory> category = Optional.ofNullable(figure.category());
         FigureCategoryRepository categoryRepo = RepositoryProvider.figureCategoryRepository();
         if (category.isPresent()) {
@@ -38,6 +41,7 @@ public class InMemoryFigureRepository implements FigureRepository {
             return Optional.empty();
         }
 
+        // Handle costumer
         Optional<Costumer> customer = Optional.ofNullable(figure.customer());
         CostumerRepository customerRepo = RepositoryProvider.costumerRepository();
         if (customer.isPresent()) {
@@ -45,6 +49,7 @@ public class InMemoryFigureRepository implements FigureRepository {
             figure.updateCustomer(existing.orElseGet(() -> customerRepo.saveInStore(customer.get(), customer.get().nif()).get()));
         }
 
+        // Duplicate check
         Optional<List<Figure>> duplicates = findFigures(
                 null, figure.name(), null, null, figure.category(),
                 null, null, null, figure.customer()
@@ -52,12 +57,12 @@ public class InMemoryFigureRepository implements FigureRepository {
 
         if (duplicates.isPresent()) {
             for (Figure existing : duplicates.get()) {
-                if (existing.dslVersions().values().stream()
-                        .anyMatch(existingDsl ->
-                                figure.dslVersions().values().stream()
-                                        .anyMatch(newDsl -> newDsl.equals(existingDsl))
-                        )) {
-                    return Optional.empty();
+                for (DslMetadata existingMeta : existing.dslVersions().values()) {
+                    for (DslMetadata newMeta : figure.dslVersions().values()) {
+                        if (existingMeta.getDslLines().equals(newMeta.getDslLines())) {
+                            return Optional.empty();
+                        }
+                    }
                 }
             }
         }
@@ -87,9 +92,9 @@ public class InMemoryFigureRepository implements FigureRepository {
     }
 
     private boolean containsDsl(Figure figure, DSL dsl) {
-        List<String> targetDsl = Arrays.asList(dsl.toString().split("\n"));
+        List<String> targetLines = Arrays.asList(dsl.toString().split("\n"));
         return figure.dslVersions().values().stream()
-                .anyMatch(versionDsl -> versionDsl.equals(targetDsl));
+                .anyMatch(meta -> meta.getDslLines().equals(targetLines));
     }
 
     @Override
@@ -135,7 +140,7 @@ public class InMemoryFigureRepository implements FigureRepository {
         return Optional.ofNullable(store.get(figureId));
     }
 
-    private List<Figure> filterFigures(java.util.function.Predicate<Figure> predicate) {
+    private List<Figure> filterFigures(Predicate<Figure> predicate) {
         return store.values().stream()
                 .filter(predicate)
                 .toList();

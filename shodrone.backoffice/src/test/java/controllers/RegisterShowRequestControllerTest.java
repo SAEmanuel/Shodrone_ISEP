@@ -9,6 +9,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import utils.AuthUtils;
+import utils.DslMetadata;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -33,9 +34,15 @@ class RegisterShowRequestControllerTest {
                 new Address("Brigadeiro Street", "Porto", "4440-778", "Portugal")
         );
 
-        // DSL dummy data
-        Map<String, List<String>> dslVersions = new HashMap<>();
-        dslVersions.put("v1", List.of("Position p = (0,0,0);", "Line l(p,p,DroneTypeX);"));
+        // DSL dummy data using DslMetadata
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+        List<String> dslLines = List.of(
+                "DSL version v1;",
+                "DroneType DroneTypeX;",
+                "Position p = (0,0,0);",
+                "Line l(p,p,DroneTypeX);"
+        );
+        dslVersions.put("v1", new DslMetadata("DroneTypeX", dslLines));
 
         Figure figure = new Figure(
                 new Name("Circle"),

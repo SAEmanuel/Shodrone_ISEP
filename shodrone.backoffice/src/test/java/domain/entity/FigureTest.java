@@ -3,6 +3,7 @@ package domain.entity;
 import domain.valueObjects.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.DslMetadata;
 
 import java.util.*;
 
@@ -14,8 +15,8 @@ class FigureTest {
     private Costumer customer;
     private Description description;
     private Name name;
-    private Map<String, List<String>> dslVersions;
-
+    private Map<String, DslMetadata> dslVersions;
+    private DslMetadata metadata;
     private Figure figure;
 
     @BeforeEach
@@ -37,8 +38,17 @@ class FigureTest {
         description = new Description("An airplane shaped figure");
         name = new Name("Airplane");
 
+        List<String> dslLines = List.of(
+                "DSL version 1.0;",
+                "DroneType TestDrone;",
+                "Position p = (0,0,0);",
+                "Line l1(p, (1,1,1));",
+                "pause(2);"
+        );
+        metadata = new DslMetadata("TestDrone", dslLines);
+
         dslVersions = new HashMap<>();
-        dslVersions.put("1.0", List.of("Position p = (0,0,0);", "Line l1(p, (1,1,1));", "pause(2);"));
+        dslVersions.put("1.0", metadata);
 
         figure = new Figure(name, description, category,
                 FigureAvailability.PUBLIC, FigureStatus.ACTIVE,
@@ -55,6 +65,8 @@ class FigureTest {
         assertEquals(FigureStatus.ACTIVE, figure.status());
         assertEquals(customer, figure.customer());
         assertEquals(dslVersions.keySet(), figure.dslVersions().keySet());
+        assertEquals("TestDrone", figure.dslVersions().get("1.0").getDroneModel());
+        assertEquals(metadata.getDslLines(), figure.dslVersions().get("1.0").getDslLines());
     }
 
     @Test

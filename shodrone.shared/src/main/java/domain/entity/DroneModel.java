@@ -7,6 +7,7 @@ import eapli.framework.domain.model.DomainEntities;
 import eapli.framework.validations.Preconditions;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
 import more.ColorfulOutput;
 
 import javax.xml.bind.annotation.XmlElement;
@@ -27,6 +28,7 @@ public class DroneModel implements AggregateRoot<String>, Serializable {
     @Id
     @Column(nullable = false, unique = true)
     @Size(min = 3, max = 50)
+    @Getter
     private DroneModelID droneModelID;
 
     @XmlElement

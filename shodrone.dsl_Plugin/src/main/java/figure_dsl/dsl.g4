@@ -1,20 +1,21 @@
 grammar dsl;
 
 dsl
-  : version drone_model variable_declaration* element_definition*
-    statement_block* pause_statement*
+  : version
+    drone_model
+    variable_declaration*
+    element_definition*
+    block_statement*
+    unscoped_statement*
   ;
-
 
 version
   : 'DSL' 'version' VERSION_NUMBER ';'
   ;
 
-
 drone_model
   : 'DroneType' ID ';'
   ;
-
 
 variable_declaration
   : position_declaration
@@ -34,11 +35,9 @@ distance_declaration
   : 'Distance' ID '=' expression ';'
   ;
 
-
 vector
   : '(' expression ',' expression ',' expression ')'
   ;
-
 
 element_definition
   : ID ID '(' parameter_list? ')' ';'
@@ -54,9 +53,13 @@ parameter
   | expression
   ;
 
-
-statement_block
+block_statement
   : block_type statement+ end_block_type
+  ;
+
+unscoped_statement
+  : statement
+  | pause_statement
   ;
 
 block_type
@@ -71,17 +74,14 @@ end_block_type
   | 'endgroup'
   ;
 
-
 statement
   : ID '.' method ';'
   | group_statement_block
-  | pause_statement
   ;
 
 group_statement_block
   : 'group' statement+ 'endgroup'
   ;
-
 
 method
   : 'move' '(' vector ',' expression ',' ID ')'
@@ -90,18 +90,14 @@ method
   | 'lightsOff()'
   ;
 
-
 rotate_param
-  : ID
-  | vector
+  : vector
   | expression
   ;
-
 
 pause_statement
   : 'pause' '(' expression ')' ';'
   ;
-
 
 expression
   : NUMBER
@@ -110,8 +106,7 @@ expression
   | '(' expression ')'
   ;
 
-
 VERSION_NUMBER : [0-9]+ '.' [0-9]+ '.' [0-9]+ ;
-ID : [a-zA-Z_][a-zA-Z0-9_]* ;
-NUMBER : '-'? [0-9]+ ('.' [0-9]+)? ;
-WS : [ \t\r\n]+ -> skip ;
+ID             : [a-zA-Z_][a-zA-Z0-9_]* ;
+NUMBER         : '-'? [0-9]+ ('.' [0-9]+)? ;
+WS             : [ \t\r\n]+ -> skip ;
