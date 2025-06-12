@@ -5,6 +5,7 @@ import eapli.framework.general.domain.model.EmailAddress;
 import persistence.RepositoryProvider;
 import persistence.AuthenticationRepository;
 import proposal_template.validators.TemplatePlugin;
+import utils.DslMetadata;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -239,11 +240,221 @@ public class Bootstrap implements Runnable {
     }
 
     // --- Figures --------------------------------------------------------
-    private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer1);
-    private final Figure figure2 = new Figure(new domain.valueObjects.Name("Tree"), new Description("A tall plant with a trunk"), category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer1);
-    private final Figure figure3 = new Figure(new domain.valueObjects.Name("Robot"), new Description("A programmable machine"), category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer2);
-    private final Figure figure4 = new Figure(new domain.valueObjects.Name("Spiral"), new Description("A curve that winds around a center point"), category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer2);
-    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Airplane"), new Description("A fixed-wing flying vehicle"), category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, new HashMap<>(), customer3);
+    private final Figure figure1 = new Figure(new domain.valueObjects.Name("Circle"), new Description("A perfect round shape"), category1, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dsl(), customer1);
+    private final Figure figure2 = new Figure(new domain.valueObjects.Name("Tree"), new Description("A tall plant with a trunk"), category3, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dsl(), customer1);
+    private final Figure figure3 = new Figure(new domain.valueObjects.Name("Robot"), new Description("A programmable machine"), category4, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dsl(), customer2);
+    private final Figure figure4 = new Figure(new domain.valueObjects.Name("Spiral"), new Description("A curve that winds around a center point"), category2, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dsl(), customer2);
+    private final Figure figure5 = new Figure(new domain.valueObjects.Name("Airplane"), new Description("A fixed-wing flying vehicle"), category5, FigureAvailability.PUBLIC, FigureStatus.ACTIVE, dsl(), customer3);
+
+    private static Map<String, DslMetadata> dsl() {
+        Map<String, DslMetadata> dslVersions = new HashMap<>();
+
+        dslVersions.put("1.1.1", new DslMetadata(
+                "Mavic3Classic",
+                List.of("""
+                        DSL version 1.1.1;
+                        DroneType Mavic3Classic;
+
+                        Position aPos = (0,0,0);
+                        Position anotherPos = (0, 10, 0);
+                        Position zAxis = (0,0,1);
+
+                        Velocity aVelocity = 5.1;
+                        Velocity rotVelocity = 3.14/10;
+
+                        Distance aLenght = 20;
+
+                        Line aLine(aPos, aLenght, Mavic3Classic);
+                        Rectangle aRectangle(anotherPos, aLenght, aLenght, Mavic3Classic);
+
+                        before
+                            aLine.lightsOn(255,255,0);
+                            aLine.move((0, 0, 1),30, aVelocity);
+                            aRectangle.lightsOn(0,125,125);
+                            aRectangle.move((0, 0, 1),40, aVelocity);
+                        endbefore
+
+                        group
+                            aLine.rotate(aPos, zAxis, 2*3.14, rotVelocity);
+                            aRectangle.rotate(aPos, zAxis, -2*3.14, rotVelocity);
+                        endgroup
+
+                        pause(10);
+
+                        aLine.lightsOn(0,1,2);
+                        aRectangle.lightsOn(255,0,0);
+
+                        after
+                            aLine.move((0, 0, -1),30, aVelocity);
+                            aRectangle.move((0, 0, -1),40, aVelocity);
+                            aLine.lightsOff();
+                            aRectangle.lightsOff();
+                        endafter
+                        """)
+        ));
+
+        dslVersions.put("1.1.2", new DslMetadata(
+                "Mini4Pro",
+                List.of("""
+                        DSL version 1.1.2;
+                        DroneType Mini4Pro;
+
+                        Position aPos = (0,0,0);
+                        Position anotherPos = (0, 10, 0);
+                        Position yAxis = (0,1,0);
+
+                        Velocity aVelocity = 6;
+                        Velocity rotVelocity = 3.14/10;
+
+                        Distance aLenght = 20;
+
+                        Rectangle aRectangle(anotherPos, aLenght, aLenght, Mini4Pro);
+
+                        before
+                           aRectangle.lightsOn(0,125,200);
+                           aRectangle.move((0, 0, 1),50, aVelocity);
+                        endbefore
+
+                        aRectangle.rotate(aPos, yAxis, -2*3.14, rotVelocity);
+
+                        pause(10);
+
+                        aRectangle.lightsOn(255,255,255);
+
+                        after
+                           aRectangle.move((0, 0, -1),50, aVelocity);
+                           aRectangle.lightsOff;
+                        endafter
+                        """)
+        ));
+
+        dslVersions.put("1.1.3", new DslMetadata(
+                "Air3",
+                List.of("""
+                        DSL version 1.1.3;
+                        DroneType Air3;
+
+                        Position aPos = (0,0,0);
+                        Position yAxis = (0,1,0);
+
+                        Velocity aVelocity = 6;
+                        Velocity rotVelocity = 3.14/10;
+
+                        Distance aRadius = 19;
+
+                        Circle aCircle(aPos, aRadius, Air3);
+                        Circumference aCircumference(aPos, aRadius+1, Air3);
+
+                        before
+                           aCircle.lightsOn(0,255,0);
+                           aCircumference.lightsOn(255,255,0);
+                           group
+                                aCircle.move((0, 0, 1),50, aVelocity);
+                                aCircumference.move((0, 0, 1),50, aVelocity);
+                           endgroup
+                        endbefore
+
+                        group
+                            aCircle.rotate(aPos, yAxis, -2*3.14, rotVelocity);
+                            aCircumference.rotate(aPos, yAxis, 2*3.14, rotVelocity);
+                        endgroup
+
+                        pause(10);
+
+                        aCircle.lightsOn(255,0,0);
+                        aCircumference.lightsOn(0,255,0);
+
+                        after
+                            group
+                                aCircle.movePos(aPos, aVelocity);
+                                aCircumference.movePos(aPos, aVelocity);
+                            endgroup
+                            aCircle.lightsOff;
+                            aCircumference.lightsOff;
+                        endafter
+                        """)
+        ));
+
+        dslVersions.put("1.1.4", new DslMetadata(
+                "Phantom4Pro",
+                List.of("""
+                        DSL version 1.1.4;
+                        DroneType Phantom4Pro;
+
+                        Position origin = (0,0,0);
+                        Position xAxis = (1,0,0);
+
+                        Velocity v1 = 4.8;
+                        Velocity rotV = 3.14/11;
+
+                        Distance edge = 24;
+
+                        Square aSquare(origin, edge, Phantom4Pro);
+
+                        before
+                           aSquare.lightsOn(0,100,200);
+                           aSquare.move((0, 0, 1),36, v1);
+                        endbefore
+
+                        aSquare.rotate(origin, xAxis, 3.14, rotV);
+
+                        pause(7);
+
+                        aSquare.lightsOn(255,255,0);
+
+                        after
+                           aSquare.move((0, 0, -1),36, v1);
+                           aSquare.lightsOff;
+                        endafter
+                        """)
+        ));
+
+        dslVersions.put("1.1.5", new DslMetadata(
+                "Shahed136",
+                List.of("""
+                        DSL version 1.1.5;
+                        DroneType Shahed136;
+
+                        Position base = (0,0,0);
+                        Position zAxis = (0,0,1);
+
+                        Velocity v = 7.2;
+                        Velocity rv = 3.14/14;
+
+                        Distance spiralRad = 10;
+
+                        Spiral aSpiral(base, spiralRad, 3, Shahed136);
+                        Line aLine(base, 15, Shahed136);
+
+                        before
+                            aSpiral.lightsOn(255,50,50);
+                            aLine.lightsOn(50,255,50);
+                            group
+                                aSpiral.move((0,0,1),60, v);
+                                aLine.move((0,0,1),60, v);
+                            endgroup
+                        endbefore
+
+                        pause(6);
+
+                        group
+                            aSpiral.rotate(base, zAxis, 6.28, rv);
+                            aLine.rotate(base, zAxis, -6.28, rv);
+                        endgroup
+
+                        after
+                            group
+                                aSpiral.movePos(base, v);
+                                aLine.movePos(base, v);
+                            endgroup
+                            aSpiral.lightsOff;
+                            aLine.lightsOff;
+                        endafter
+                        """)
+        ));
+
+        return dslVersions;
+    }
 
 
     // --- Drone Models ------------------------------------------------------

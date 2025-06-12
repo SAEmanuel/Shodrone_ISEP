@@ -25,6 +25,15 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
             return Optional.empty();
         }
 
+        // 🔒 Verifica duplicado pelo nome
+        Optional<List<Figure>> figuresWithSameName = findFigures(
+                null, figure.name(), null, null, null, null, null, null, null);
+
+        if (figuresWithSameName.isPresent() && !figuresWithSameName.get().isEmpty()) {
+            return Optional.empty(); // Figura com mesmo nome já existe
+        }
+
+        // Categoria
         Optional<FigureCategory> category = Optional.ofNullable(figure.category());
         if (category.isPresent() && category.get().identity() != null) {
             FigureCategoryRepository categoryRepository = RepositoryProvider.figureCategoryRepository();
@@ -51,27 +60,6 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
                 costumer = Optional.of(existingCostumer.get());
             }
             figure.updateCustomer(costumer.get());
-        }
-
-        // Verifica duplicados
-        Optional<List<Figure>> findExistentFigure = findFigures(
-                null, figure.name(), null, null, figure.category(),
-                null, null, null, figure.customer());
-        if (findExistentFigure.isPresent() && !findExistentFigure.get().isEmpty()) {
-            for (Figure f : findExistentFigure.get()) {
-                if (f.name().equals(figure.name())
-                        && f.category().equals(figure.category())
-                        && ((f.customer() == null && figure.customer() == null)
-                        || (f.customer() != null && f.customer().equals(figure.customer())))) {
-                    for (Map.Entry<String, DslMetadata> entry : f.dslVersions().entrySet()) {
-                        for (DslMetadata newMetadata : figure.dslVersions().values()) {
-                            if (newMetadata.getDslLines().equals(entry.getValue().getDslLines())) {
-                                return Optional.empty();
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         add(figure);

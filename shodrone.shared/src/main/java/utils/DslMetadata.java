@@ -1,7 +1,8 @@
 package utils;
 
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.Lob;
+import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,9 +16,11 @@ import java.util.List;
 @NoArgsConstructor
 public class DslMetadata {
 
+    @Column(name = "droneModel", columnDefinition = "TEXT")
     private String droneModel;
 
-    @Lob
+    @Convert(converter = StringListConverter.class)
+    @Column(name = "dslLines", columnDefinition = "TEXT")
     private List<String> dslLines = new ArrayList<>();
 
     public DslMetadata(String droneModel, List<String> dslLines) {
