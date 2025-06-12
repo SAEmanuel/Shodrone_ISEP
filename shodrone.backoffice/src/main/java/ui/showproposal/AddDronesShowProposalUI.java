@@ -3,7 +3,6 @@ package ui.showproposal;
 import controller.showproposal.AddDronesShowProposalController;
 import domain.entity.DroneModel;
 import domain.entity.ShowProposal;
-import domain.valueObjects.ShowProposalStatus;
 import drone.DroneModelInformation;
 import persistence.RepositoryProvider;
 import ui.drone.DroneModelSelectorUI;
@@ -23,21 +22,14 @@ public class AddDronesShowProposalUI implements Runnable {
     public void run() {
         Utils.printCenteredTitle("Configure Drones for Show Proposal");
 
-        Optional<List<ShowProposal>> allProposals = RepositoryProvider.showProposalRepository().getAllProposals();
+        Optional<List<ShowProposal>> standbyProposals = RepositoryProvider.showProposalRepository().getStandbyProposals();
 
-        if (allProposals.isEmpty() || allProposals.get().isEmpty()) {
-            Utils.printFailMessage("No show proposals found in the system!");
-            return;
-        }
-
-        List<ShowProposal> proposals = allProposals.get().stream()
-                .filter(p -> p.getStatus() == ShowProposalStatus.STAND_BY)
-                .toList();
-
-        if (proposals.isEmpty()) {
+        if (standbyProposals.isEmpty() || standbyProposals.get().isEmpty()) {
             Utils.printFailMessage("No STAND_BY show proposals found in the system!");
             return;
         }
+
+        List<ShowProposal> proposals = standbyProposals.get();
 
         int index = Utils.showAndSelectIndexPartially(proposals, "Show Proposals");
 

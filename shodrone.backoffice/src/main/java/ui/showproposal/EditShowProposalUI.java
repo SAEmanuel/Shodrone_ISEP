@@ -135,7 +135,7 @@ public class EditShowProposalUI implements Runnable {
 //
 //                    newProposal.setModelsUsed(modelsToBeUsed);
 //                }
-                case 6 -> {
+                case 5 -> {
                     int minutes = Utils.readIntegerFromConsole("New show duration in minutes: ");
                     do {
                         if (minutes < 1) {

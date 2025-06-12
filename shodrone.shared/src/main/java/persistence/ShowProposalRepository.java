@@ -22,5 +22,6 @@ public interface ShowProposalRepository {
     public Optional<ShowProposal> findByName(String nameProposal);
 
     public Optional<List<ShowProposal>> getUpdatedProposals();
+
     public Optional<List<ShowProposal>> getStandbyProposals();
 }
