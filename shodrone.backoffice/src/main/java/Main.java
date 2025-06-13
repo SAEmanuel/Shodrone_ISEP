@@ -36,9 +36,13 @@ public class Main {
             RepositoryProvider.initializeAuditLogger(RepositoryProvider.isInMemory());
 
             Bootstrap bootstrap = new Bootstrap(typePersistence);
-            System.out.println("antes bootstrap run");
             bootstrap.run();
-            System.out.println("depois bootstrap run");
+
+            new Thread(() -> {
+                SimulationTriggerLoop loop = new SimulationTriggerLoop();
+                loop.run();
+            }).start();
+
             MainMenuUI menu = new MainMenuUI();
             menu.run();
         } catch (Exception e) {
