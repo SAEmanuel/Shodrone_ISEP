@@ -1,0 +1,55 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Complete Domain Model - US315 (ShowProposal)
+
+hide circles
+hide methods
+
+package "Show Proposal Aggregate" {
+
+    class ShowProposal <<Entity>>{
+    }
+    class "Show Request" <<AggregateRoot>>
+    class Description <<ValueObject>>
+    class Location <<ValueObject>>
+    class Video <<ValueObject>>
+    class ShowProposalStatus <<ValueObject>>
+    class Name <<ValueObject>>
+}
+
+package "Figures Aggregate" {
+
+    class Figures <<AggregateRoot>> {
+    }
+}
+
+package "DroneModel Aggregate" {
+
+    class DroneModel <<AggregateRoot>> {
+    }
+}
+
+package "ProposalTemplate Aggregate" {
+
+    class ProposalTemplate <<AggregateRoot>> {
+    }
+}
+
+ShowProposal "1" --- "1" "Show Request" : refers >
+ShowProposal "1" --- "1" ProposalTemplate : uses >
+ShowProposal "1" -- "*" DroneModel : has >
+ShowProposal "1" --- "1" Description : has >
+ShowProposal "1" --- "1" Location : has >
+ShowProposal "1" --- "1" Video : has >
+ShowProposal "1" --- "1" ShowProposalStatus : has >
+ShowProposal "1" --- "1" Name : has >
+ShowProposal "1" --- "1..*" Figures : has >
+
+
+
+@enduml
