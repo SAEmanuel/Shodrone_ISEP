@@ -21,9 +21,10 @@
         <module name="shodrone.shared" />
         <module name="shodrone.showProposal_Plugin" />
         <module name="shodrone.customer_app" />
+        <module name="shodrone.simulator" />
         <module name="shodrone.shared.persistence" />
-        <module name="shodrone.backoffice" />
         <module name="Backoffice_APP" />
+        <module name="shodrone.backoffice" />
         <module name="Persistence" />
         <module name="ShowProposal_PLUGIN" />
         <module name="backoffice" />
@@ -45,6 +46,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="backoffice" target="17" />
       <module name="DSL_PLUGIN" target="17" />
       <module name="shodrone.core" target="17" />
       <module name="shodrone.infraestructure.application" target="17" />
