@@ -69,6 +69,18 @@ The following specifications are derived from stakeholder interviews, the DDD mo
 
 ![System Sequence Diagram](svg/us315-sequence-diagram.svg)
 
+The system interaction flow includes:
+1. **CRM Collaborator** logs in.
+2. Launches *Add Video* UI.
+3. System requests the video file name from CRM.
+4. CRM enters the video file name.
+5. System launches the Drone3DSimulation with the provided name, waits for completion, and checks for the generated video file.
+6. System reads the `.mov` video as a byte array, creates a `Video` object, and starts a local preview server.
+7. System fetches proposals from the repository and requests proposal selection from CRM.
+8. CRM selects a proposal.
+9. System attaches the video to the selected proposal and saves the update in the repository.
+10. System returns a success or failure message to CRM.
+
 ### 1.7 Other Relevant Remarks
 
 - The video should be stored in a CDN or streaming-optimized location.
