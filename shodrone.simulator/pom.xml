@@ -7,10 +7,10 @@
         <version>0.1.0</version>
     </parent>
 
-    <artifactId>shodrone.testingApp</artifactId>
+    <artifactId>shodrone.simulator</artifactId>
     <packaging>jar</packaging>
 
-    <name>shodrone.testingApp</name>
+    <name>shodrone.simulator</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -27,11 +27,6 @@
         <dependency>
             <groupId>lapr4</groupId>
             <artifactId>shodrone.shared</artifactId>
-            <version>0.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>lapr4</groupId>
-            <artifactId>shodrone.shared.persistence</artifactId>
             <version>0.1.0</version>
         </dependency>
     </dependencies>
