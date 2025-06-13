@@ -1,17 +1,19 @@
 package ui.showproposal;
 
+import controller.drone.GetDroneModelsController;
 import controller.showproposal.CreateShowProposalController;
+import controller.showproposal.GetAllProposalTemplatesController;
 import controller.showproposal.GetAllShowRequestsController;
 import controller.showrequest.ListFiguresByCostumerController;
-import domain.entity.Figure;
-import domain.entity.ShowProposal;
-import domain.entity.ShowRequest;
-import domain.entity.ProposalTemplate;
+import domain.entity.*;
 import domain.valueObjects.Description;
 import domain.valueObjects.Location;
+import domain.valueObjects.Name;
 import factories.FactoryProvider;
+import ui.drone.DroneModelSelectorUI;
 import utils.Utils;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -21,127 +23,142 @@ import static java.time.Duration.ofMinutes;
 
 public class CreateShowProposalUI implements Runnable{
     private final CreateShowProposalController controller;
-    //private final ShowProposalTemplateController templateController;
+    private final GetAllProposalTemplatesController getAllProposalTemplatesController;
     private final GetAllShowRequestsController getAllShowRequestsController;
+    private final GetDroneModelsController getDroneModelsController;
     private final ListFiguresByCostumerController listFiguresByCostumerController;
     private static final int EXIT = -1;
 
     public CreateShowProposalUI(){
         controller = new CreateShowProposalController();
+        getAllProposalTemplatesController = new GetAllProposalTemplatesController();
         getAllShowRequestsController = new GetAllShowRequestsController();
+        getDroneModelsController = new GetDroneModelsController();
         listFiguresByCostumerController = new ListFiguresByCostumerController();
     }
 
     @Override
     public void run(){
-        Utils.printCenteredTitle("CREATE SHOW PROPOSAL");
+        Utils.printCenteredTitle("Register Show Proposal");
 
-        try{
-            boolean option = false;
+        Name proposalName = Utils.rePromptWhileInvalid("Enter the proposal name", Name::new);
 
-            Optional<List<ShowRequest>> listOfShowRequests = getAllShowRequestsController.listShowRequest();
-            Optional<ShowRequest> showRequest = Optional.empty();
-            if (listOfShowRequests.isPresent() && !listOfShowRequests.get().isEmpty()) {
-                int index = Utils.showAndSelectIndexPartially(listOfShowRequests.get(), "Show Request");
+        Optional<List<ShowRequest>> listOfShowRequests = getAllShowRequestsController.listShowRequest();
+        ShowRequest showRequest;
+        if (listOfShowRequests.isPresent() && !listOfShowRequests.get().isEmpty()) {
+            int index = Utils.showAndSelectIndexPartially(listOfShowRequests.get(), "Show Requests");
 
-                if (index == EXIT) {
-                    Utils.printFailMessage("No show request selected...");
-                    return;
-                }
-
-                showRequest = Optional.ofNullable(listOfShowRequests.get().get(index));
-            }else{
-                Utils.printFailMessage("❌ The are no show request to add to show proposal! Added them first and try again!");
+            if (index == EXIT) {
+                Utils.printFailMessage("No show request selected...");
                 return;
             }
 
-            Optional<ProposalTemplate> template = Optional.empty();
+            showRequest = listOfShowRequests.get().get(index);
+        } else {
+            Utils.printFailMessage("The are no show request to add to show proposal! Add them first and try again!");
+            return;
+        }
 
-            /*Optional<List<Template>> listOfTemplates = templateController.getTemplateList();
-            Optional<Template> template = Optional.empty();
-            if (listOfTemplates.isPresent() && !listOfTemplates.get().isEmpty()) {
-                int index = Utils.showAndSelectIndexPartially(listOfTemplates.get(), "Templates");
+        Optional<List<ProposalTemplate>> listOfTemplates = getAllProposalTemplatesController.getAllProposalTemplates();
+        ProposalTemplate template;
+        if (listOfTemplates.isPresent() && !listOfTemplates.get().isEmpty()) {
+            int index = Utils.showAndSelectIndexPartially(listOfTemplates.get(), "Proposal Templates");
 
-                if (index == EXIT) {
-                    Utils.printFailMessage("No template selected...");
-                    return;
-                }
-
-                template = Optional.ofNullable(listOfTemplates.get().get(index));
-
-            }else{
-                Utils.printFailMessage("The are no templates to add to show proposal! Added them first and try again!");
-                return;
-            }*/
-
-            Optional<List<Figure>> listOfFigures = listFiguresByCostumerController.listFiguresByCostumer(showRequest.get().getCostumer());
-            List<Figure> sequenceFigures = new ArrayList<>();
-
-            boolean selecting = true;
-            if (listOfFigures.isPresent() && !listOfFigures.get().isEmpty()) {
-                while(selecting) {
-                    int index = Utils.showAndSelectIndexPartially(listOfFigures.get(), "Figures");
-
-                    if (index == EXIT) {
-                        Utils.printFailMessage("No figure selected...");
-                        return;
-                    }
-
-                    Figure figureToAdd = listOfFigures.get().get(index);
-
-                    if (figureToAdd != null && figureToAdd.identity() != null) {
-                        sequenceFigures.add(figureToAdd);
-                        listOfFigures.get().remove(figureToAdd);
-                    }
-
-                    selecting = Utils.confirm("Do you want to add more?");
-                }
-            }else{
-                Utils.printFailMessage("❌ The are no figures to add to show proposal! Added them first and try again!");
+            if (index == EXIT) {
+                Utils.printFailMessage("No proposal templates selected...");
                 return;
             }
+            template = listOfTemplates.get().get(index);
 
-            Utils.dropLines(3);
-            Utils.showDescriptionRules();
-            option = Utils.confirm("Do you want to add a Description? (y/n)");
-            Optional<Description> descriptionOpt = refurseOrAcceptValueObject(option, "Description", Description::new, Description.class);
-            Description description = descriptionOpt.orElse(null);
+        } else {
+            Utils.printFailMessage("The are no proposal templates in the system! Add them first and try again!");
+            return;
+        }
 
-            Utils.dropLines(3);
-            Utils.showNameRules();
-            Location location = FactoryProvider.getLocationFactoryImpl().createLocationObject();
+        Utils.dropLines(2);
+        Utils.printAlterMessage("Current number of drones: " + showRequest.getNumberOfDrones());
+        int numberOfDrones;
+        boolean changeNumberOfDrones = Utils.confirm("Do you wish to change the current number of drones? (y/n)");
+        if (changeNumberOfDrones) {
+            numberOfDrones = Utils.readIntegerFromConsole("Select the desired number: ");
+            if (numberOfDrones == showRequest.getNumberOfDrones())
+                Utils.printAlterMessage("You have selected the same number of drones, nothing was changed...");
+        } else {
+            numberOfDrones = showRequest.getNumberOfDrones();
+        }
 
-            Utils.dropLines(3);
-            //Utils.showDateRules();// (yyyy-MM-dd HH:mm)
-            LocalDateTime showDate = Utils.readDateFromConsole("Enter the show date: ");
 
-            Utils.dropLines(3);
-            int numberOfDrones = Utils.readIntegerFromConsole("Enter the number of Drones: ");
+        Optional<Map<DroneModel, Integer>> inventory = getDroneModelsController.getDroneModelQuantity();
 
-            Utils.dropLines(3);
-            //Utils.showDurationRules();
-            Duration showDuration = ofMinutes(Utils.readIntegerFromConsolePositive("Enter the show duration (minutes)"));
+        if (inventory.isEmpty() || inventory.get().isEmpty()) {
+            Utils.printFailMessage("No drone models in the system! Add some first");
+            return;
+        }
 
-            Optional<ShowProposal> registeredShowProposal = controller.registerShowProposal(
-                    showRequest.get(),
-                    template.orElse(null),
-                    sequenceFigures,
+        DroneModelSelectorUI selector = new DroneModelSelectorUI(
+                "Drone Model selection",
+                "Choose a model",
+                inventory.get(),
+                numberOfDrones
+        );
+
+        Optional<Map<DroneModel, Integer>> selectedModels = selector.selectModels();
+        if (selectedModels.isEmpty()) {
+            Utils.printFailMessage("No model selected. Operation canceled.");
+            return;
+        }
+
+        Map<DroneModel, Integer> modelsToBeUsed = selectedModels.get();
+        int checkNumberOfDrones = 0;
+        for (Integer i : modelsToBeUsed.values())
+            checkNumberOfDrones += i;
+
+        if (checkNumberOfDrones < numberOfDrones)
+            numberOfDrones = checkNumberOfDrones;
+
+
+        boolean option;
+
+        Utils.dropLines(3);
+        Utils.showDescriptionRules();
+        option = Utils.confirm("Do you want to add a Description? (y/n)");
+        Optional<Description> descriptionOpt = refurseOrAcceptValueObject(option, "Description", Description::new, Description.class);
+        Description description = descriptionOpt.orElse(null);
+
+        Utils.dropLines(3);
+        Utils.showNameRules();
+        Location location = FactoryProvider.getLocationFactoryImpl().createLocationObject();
+
+        Utils.dropLines(3);
+        //Utils.showDateRules();// (yyyy-MM-dd HH:mm)
+        LocalDateTime showDate = Utils.readDateFromConsole("Enter the show date: ");
+
+        Utils.dropLines(3);
+        //Utils.showDurationRules();
+        Duration showDuration = ofMinutes(Utils.readIntegerFromConsolePositive("Enter the show duration (minutes)"));
+
+        Optional<ShowProposal> registeredShowProposal = null;
+        try {
+            registeredShowProposal = controller.registerShowProposal(
+                    proposalName,
+                    showRequest,
+                    template,
                     description,
                     location,
                     showDate,
                     numberOfDrones,
                     showDuration,
-                    "Prop5"
+                    proposalName.toString(),
+                    modelsToBeUsed
             );
-
-            Utils.dropLines(10);
-            Utils.printShowProposalResume(registeredShowProposal.get());
-            Utils.printSuccessMessage("\n✅ Show proposal successfully registered!");
-            Utils.waitForUser();
-
-        } catch (Exception e) {
-            Utils.printFailMessage(e.getMessage());
+        } catch (IOException e) {
+            Utils.printFailMessage("\n❌ Show proposal successfully registered!");
         }
+
+        Utils.dropLines(10);
+        Utils.printShowProposalResume(registeredShowProposal.get());
+        Utils.printSuccessMessage("\n✅ Show proposal successfully registered!");
+        Utils.waitForUser();
     }
 
     /**

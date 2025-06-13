@@ -1,63 +1,89 @@
 package controller.showproposal;
 
 import domain.entity.*;
+import domain.valueObjects.Content;
 import domain.valueObjects.Description;
 import domain.valueObjects.Location;
+import domain.valueObjects.Name;
 import factories.FactoryProvider;
 import history.HistoryLogger;
 import persistence.RepositoryProvider;
+import proposal_template.validators.TemplatePlugin;
 import utils.AuthUtils;
 import utils.Utils;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class CreateShowProposalController {
-
-    // Data collected from the user for the show request
-    private ShowRequest showRequest;
-    private ProposalTemplate proposalTemplate;
-    private List<Figure> sequenceFigures;
-    private Description description;
-    private Location location;
-    private LocalDateTime showDate;
-    private int numberOfDrones;
-    private Duration showDuration;
 
     public CreateShowProposalController() {
     }
 
+    /**
+     * Registers a show proposal with the given parameters, including the selected drone models.
+     *
+     * @param showRequest the show request
+     * @param template the proposal template
+     * @param description optional description of the show
+     * @param location location of the show
+     * @param showDate date and time of the show
+     * @param numberOfDrones total number of drones
+     * @param showDuration duration of the show
+     * @param version version string used as proposal name
+     * @param droneModels map of DroneModel to their quantities selected for the show
+     * @return optional ShowProposal if successful
+     * @throws IOException if saving fails
+     */
     public Optional<ShowProposal> registerShowProposal(
+            Name proposalName,
             ShowRequest showRequest,
             ProposalTemplate template,
-            List<Figure> sequenceFigures,
             Description description,
             Location location,
             LocalDateTime showDate,
             int numberOfDrones,
             Duration showDuration,
-            String version
+            String version,
+            Map<DroneModel, Integer> droneModels
     ) throws IOException {
+        Map<Integer, Figure> figures = new HashMap<>();
+        for (int i = 0; i < showRequest.getFigures().size(); i++) {
+            figures.put(i + 1, showRequest.getFigures().get(i));
+        }
 
-        // Attempts to automatically build a show proposal using the provided data
+        Content content = new Content(
+                showRequest.getCostumer(),
+                showRequest.getShowDate(),
+                showRequest.getLocation(),
+                showRequest.getShowDuration(),
+                figures, droneModels,
+                AuthUtils.getCurrentUserName());
+
+        Map<String, String> placeholders = TemplatePlugin.buildPlaceholderMap(content);
+
+        List<String> filled = TemplatePlugin.replacePlaceholders(template.text(), placeholders);
+        content.changeText(filled);
+
+        // Use the factory to build the proposal with full validation
         Optional<ShowProposal> result = FactoryProvider.getShowProposalFactory().automaticBuild(
                 showRequest,
-                sequenceFigures,
+                new ArrayList<>(figures.values()),
                 description,
                 location,
                 showDate,
                 numberOfDrones,
                 showDuration,
-                version
+                version,
+                droneModels,
+                proposalName,
+                template
         );
 
-        // If show request construction is successful, attempts to save it to the repository
         if (result.isPresent()) {
-            System.out.println("result: " + result);
-            System.out.println("%n%n");
+            result.get().setText(filled);
             result = RepositoryProvider.showProposalRepository().saveInStore(result.get());
             if (result.isEmpty()) {
                 Utils.exitImmediately("❌ Failed during save process of the show proposal.");
@@ -66,59 +92,9 @@ public class CreateShowProposalController {
             Utils.exitImmediately("❌ Failed to register the show proposal. Please check the input data and try again.");
         }
 
-        // Logs the creation of the show request
-        HistoryLogger<ShowProposal, Long> loggerEditer = new HistoryLogger<>();
-        loggerEditer.logCreation(result.get(), AuthUtils.getCurrentUserEmail());
+        HistoryLogger<ShowProposal, Long> loggerEditor = new HistoryLogger<>();
+        loggerEditor.logCreation(result.get(), AuthUtils.getCurrentUserEmail());
 
         return result;
-    }
-
-    /**
-     * Finds and selects the figures associated with the selected customer.
-     * If no figures are selected, an exception is thrown.
-     */
-    public void foundFiguresForRegistration(List<Figure> figures){
-        if(figures.isEmpty()){
-            throw new IllegalArgumentException("No figures selected.");
-        }
-        sequenceFigures = figures;
-    }
-
-    /**
-     * Sets the description for the show request.
-     *
-     * @param rawDescriptionOfShowRequest The raw description provided by the user.
-     */
-    public void getDescriptionsForRegistration(String rawDescriptionOfShowRequest){
-        description = new Description(rawDescriptionOfShowRequest);
-    }
-
-    /**
-     * Creates a location object for the show.
-     */
-    public void getLocationOfShow(Location locationOfShow){
-        this.location = locationOfShow;
-    }
-
-    /**
-     * Sets the show date.
-     * The expected input format is: yyyy-MM-dd HH:mm
-     */
-    public void getDateForShow(LocalDateTime dateOfShow){
-        this.showDate = dateOfShow;
-    }
-
-    /**
-     * Sets the number of drones to be used in the show.
-     */
-    public void getNumberOfDrones(int numberOfDrones){
-        this.numberOfDrones = numberOfDrones;
-    }
-
-    /**
-     * Sets the show duration in minutes.
-     */
-    public void getShowDuration(int duration){
-        this.showDuration = Duration.ofMinutes(duration);
     }
 }

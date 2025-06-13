@@ -31,7 +31,7 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     private LocalDateTime creationDate;
     private String version;
     private ProposalTemplate template;
-    Map<DroneModel, Integer> drones;
+    private Map<DroneModel, Integer> drones;
     private Name proposalName;
 
     /**
@@ -68,6 +68,9 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
      * @param numberOfDrones   drone count.
      * @param showDuration     duration of the show.
      * @param version          version name/label of the proposal.
+     * @param drones           map of drone models and their quantities.
+     * @param proposalName     the name of the proposal.
+     * @param template         proposal template used.
      * @return an Optional with the created ShowProposal or empty if validation fails.
      */
     public Optional<ShowProposal> automaticBuild(
@@ -78,13 +81,19 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
             LocalDateTime showDate,
             int numberOfDrones,
             Duration showDuration,
-            String version
+            String version,
+            Map<DroneModel, Integer> drones,
+            Name proposalName,
+            ProposalTemplate template
     ) {
         try {
             validateShowDate(showDate);
             validateSequenceFigures(sequenceFigures);
             validateNumberOfDrones(numberOfDrones);
             validateVersion(version);
+            validateName(proposalName);
+            validateTemplate(template);
+            validateDroneMap(drones);
 
             this.showRequest = showRequest;
             this.sequenceFigures = sequenceFigures;
@@ -96,6 +105,9 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
             this.creationAuthor = AuthUtils.getCurrentUserEmail();
             this.creationDate = LocalDateTime.now();
             this.version = version;
+            this.drones = drones;
+            this.proposalName = proposalName;
+            this.template = template;
 
             return Optional.of(build());
 
@@ -126,6 +138,27 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     private void validateVersion(String version) {
         if (version == null || version.trim().isEmpty()) {
             throw new IllegalArgumentException("Proposal version name cannot be empty.");
+        }
+    }
+
+    private void validateName(Name proposalName) {
+        if (proposalName == null || proposalName.toString().trim().isEmpty()) {
+            throw new IllegalArgumentException("Proposal name cannot be empty.");
+        }
+    }
+
+    private void validateTemplate(ProposalTemplate template) {
+        if (template == null) {
+            throw new IllegalArgumentException("Proposal template cannot be null.");
+        }
+    }
+
+    private void validateDroneMap(Map<DroneModel, Integer> drones) {
+        if (drones == null || drones.isEmpty()) {
+            throw new IllegalArgumentException("Drone model map cannot be empty.");
+        }
+        if (drones.values().stream().anyMatch(count -> count <= 0)) {
+            throw new IllegalArgumentException("Drone quantities must be greater than zero.");
         }
     }
 }

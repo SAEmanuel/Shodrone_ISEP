@@ -148,9 +148,9 @@ public class ShowProposal extends DomainEntityBase<Long> implements Serializable
         this.showDate = showDate;
         this.numberOfDrones = numberOfDrones;
         this.showDuration = showDuration;
+        this.status = ShowProposalStatus.CREATED;
         this.creationAuthor = creationAuthor;
         this.creationDate = creationDate;
-        this.status = ShowProposalStatus.STAND_BY;
         this.modelsUsed = modelsUsed;
         text = new ArrayList<>();
     }
@@ -162,7 +162,10 @@ public class ShowProposal extends DomainEntityBase<Long> implements Serializable
 
     public void editShowProposalID(long l) { this.showProposalID = l; }
 
-    public void editVideo(Video video) { this.video = video; }
+    public void editVideo(Video video) {
+        this.status = ShowProposalStatus.STAND_BY;
+        this.video = video;
+    }
 
     public Description getDescription() { return description; }
 
