@@ -133,11 +133,28 @@ public class ShowProposal extends DomainEntityBase<Long> implements Serializable
     @Column(columnDefinition = "TEXT")
     private List<String> text;
 
+    @Setter
+    @Getter
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "show_proposal_drone_language_specs",
+            joinColumns = @JoinColumn(name = "show_proposal_id")
+    )
+    @MapKeyColumn(name = "language_name")
+    @Column(name = "language_specification", columnDefinition = "TEXT")
+    private Map<String, String> droneLanguageSpecifications = new HashMap<>();
+
+    @Setter
+    @Getter
+    @Convert(converter = StringListConverter.class)
+    @Column(columnDefinition = "TEXT")
+    private List<String> script;
+
     public ShowProposal() {
     }
 
     public ShowProposal(Name name, ShowRequest showRequest, ProposalTemplate template, List<Figure> sequenceFigures
-            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate,Map<DroneModel, Integer> modelsUsed ) {
+            , Description description, Location location, LocalDateTime showDate, int numberOfDrones, Duration showDuration, String creationAuthor, LocalDateTime creationDate,Map<DroneModel, Integer> modelsUsed) {
 
         this.nameProposal = name;
         this.showRequest = showRequest;
@@ -153,6 +170,8 @@ public class ShowProposal extends DomainEntityBase<Long> implements Serializable
         this.creationDate = creationDate;
         this.modelsUsed = modelsUsed;
         text = new ArrayList<>();
+        this.droneLanguageSpecifications = new HashMap<>();
+        this.script = new ArrayList<>();
     }
 
     @Override
@@ -186,23 +205,6 @@ public class ShowProposal extends DomainEntityBase<Long> implements Serializable
         if (!(other instanceof ShowProposal)) return false;
         ShowProposal that = (ShowProposal) other;
         return Objects.equals(identity(), that.identity());
-    }
-
-    public ShowProposal cloneProposal() {
-        return new ShowProposal(
-                this.nameProposal,
-                this.showRequest,
-                this.template,
-                new ArrayList<>(this.sequenceFigues),
-                this.description,
-                this.location,
-                this.showDate,
-                this.numberOfDrones,
-                this.showDuration,
-                this.creationAuthor,
-                this.creationDate,
-                new HashMap<>(this.modelsUsed)
-        );
     }
 
 

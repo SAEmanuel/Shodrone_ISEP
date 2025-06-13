@@ -687,6 +687,9 @@ public class Bootstrap implements Runnable {
 
     // --- Proposals -----------------------------------------------------------
     private ShowProposal proposal1() {
+
+        Map<String, String> langSpecs = loadDroneLanguageSpecifications();
+
         Content content = new Content(
                 foundCostumerByNIF(new NIF("123456789")),
                 showRequest1().getShowDate(),
@@ -703,11 +706,16 @@ public class Bootstrap implements Runnable {
 
         ShowProposal proposal = new ShowProposal(new Name("Proposal One"), showRequest1(), RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest1().getDescription(), showRequest1().getLocation(), showRequest1().getShowDate(), 10, showRequest1().getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal1DroneModels());
         proposal.setText(filled);
+        proposal.setDroneLanguageSpecifications(langSpecs);
+        proposal.setScript(firstScript());
         return proposal;
     }
 
 
     private ShowProposal proposal2() {
+
+        Map<String, String> langSpecs = loadDroneLanguageSpecifications();
+
         Content content = new Content(
                 foundCostumerByNIF(new NIF("286500850")),
                 showRequest2().getShowDate(),
@@ -722,10 +730,15 @@ public class Bootstrap implements Runnable {
         content.changeText(filled);
         ShowProposal proposal = new ShowProposal(new Name("Proposal Two"), showRequest2(), RepositoryProvider.proposalTemplateRepository().findByName("Template EN").get(), new ArrayList<>(proposal2Figures().values()), showRequest2().getDescription(), showRequest2().getLocation(), showRequest2().getShowDate(), 15, showRequest2().getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal2DroneModels());
         proposal.setText(filled);
+        proposal.setDroneLanguageSpecifications(langSpecs);
+        proposal.setScript(firstScript());
         return proposal;
     }
 
     private ShowProposal proposal3() {
+
+        Map<String, String> langSpecs = loadDroneLanguageSpecifications();
+
         Content content = new Content(
                 foundCostumerByNIF(new NIF("248367080")),
                 showRequest3().getShowDate(),
@@ -741,8 +754,93 @@ public class Bootstrap implements Runnable {
 
         ShowProposal proposal = new ShowProposal(new Name("Proposal Three"), showRequest3(), RepositoryProvider.proposalTemplateRepository().findByName("Template PT").get(), new ArrayList<>(proposal3Figures().values()), showRequest3().getDescription(), showRequest3().getLocation(), showRequest3().getShowDate(), 20, showRequest3().getShowDuration(), "crm_collaborator@shodrone.app", LocalDateTime.now(), proposal3DroneModels());
         proposal.setText(filled);
+        proposal.setDroneLanguageSpecifications(langSpecs);
+        proposal.setScript(firstScript());
+        System.out.println(proposal.getScript());
         return proposal;
     }
+
+    private Map<String, String> loadDroneLanguageSpecifications() {
+        Map<String, String> specs = new HashMap<>();
+
+        specs.put("DroneOne", """
+        DroneOne programming language version 0.86
+
+        Types
+
+        Position - (x, y, z), so that x, y and z are floating point numbers in meters
+        Vector - (x, y, z), so that x, y and z are floating point numbers in meters
+        LinearVelocity - floating point number in m/s
+        AngularVelocity - floating point number in rad/s
+        Distance - floating point number in m
+        Time - integer number in ms
+
+        Variables
+
+        <type> <variable name> = <initial value>;
+        Position aPosition = (0, 1, 1.5);
+        Vector aDirection = (0,0,1)-(0,1,0);
+
+        LinearVelocity aVelocity = 6.2;
+        AngularVelocity rotVelocity = PI/10;
+
+        Position arrayOfPositions =((0, 0, 0), (0, 0, 20), (0, 20, 20), (0, 30, 20), (-10, 50, 25));
+
+        Instructions
+
+        takeOff(<height>, <velocity>);
+        land(<velocity>);
+        move(<final position>, <velocity>);
+        move(<vector>, <velocity>, <duration>);
+        movePath(<array of positions>, <velocity>);
+        hoover(<time>);
+
+        lightsOn();
+        lightsOff();
+        blink(<period>);
+        """);
+
+        specs.put("DroneTwo", """
+        DroneTwo programming language version 0.666
+
+        Types
+
+        Point - (x, y, z), so that x, y and z are floating point numbers in meters
+        Vector - (x, y, z), so that x, y and z are floating point numbers in meters
+        LinearVelocity - floating point number in m/s
+        AngularVelocity - floating point number in rad/s
+        Distance - floating point number in m
+        Time - integer number in ms
+
+        Variables
+
+        <type> <variable name> = <initial value>;
+        Point aPoint = (0, 1, 1.5);
+        Vector aDirection = (0,0,1)-(0,1,0);
+
+        LinearVelocity aVelocity = 6.2;
+        AngularVelocity rotVelocity = PI/10;
+
+        Point arrayOfPoints =((0, 0, 0), (0, 0, 20), (0, 20, 20), (0, 30, 20), (-10, 50, 25));
+
+        Instructions
+
+        takeOff(<height>, <velocity>);
+        land(<velocity>);
+        move(<final position>, <velocity>);
+        move(<direction vector>, <velocity>, <duration>);
+        movePath(<array of points>, <velocity>);
+        moveCircle(<center point>, <angle>, <angular velocity>);
+        moveCircle(<center point>, <duration>, <angular velocity>);
+        hoover(<time>);
+
+        lightsOn(<color>);
+        lightsOff();
+        """);
+
+        return specs;
+    }
+
 
 
     private Map<DroneModel, Integer> proposal1DroneModels() {
@@ -804,4 +902,220 @@ public class Bootstrap implements Runnable {
         Optional<Figure> result = RepositoryProvider.figureRepository().findFigure(id);
         return result.orElse(null);
     }
+
+    private List<String> firstScript() {
+        String scriptText = """
+0 - 3x3x3
+2 0 0
+2 0 0
+2 0 1
+2 0 2
+2 0 3
+2 0 4
+2 0 5
+2 0 6
+2 0 7
+2 0 8
+2 0 9
+2 0 9
+2 1 0
+2 1 0
+1 2 0
+1 2 0
+0 2 0
+-1 2 0
+-1 2 0
+-2 1 0
+-2 1 0
+-2 0 0
+-2 -1 0
+-2 -1 0
+-1 -2 0
+-1 -2 0
+0 -2 0
+1 -2 0
+1 -2 0
+2 -1 0
+2 -1 0
+2 0 0
+1 - 3x3x3
+1 0 0
+1 0 0
+1 0 1
+1 0 2
+1 0 3
+1 0 4
+1 0 5
+1 0 6
+1 0 7
+1 0 8
+1 0 9
+1 0 9
+1 0 0
+1 1 0
+1 1 0
+0 1 0
+0 1 0
+0 1 0
+-1 1 0
+-1 1 0
+-1 0 0
+-1 0 0
+-1 0 0
+-1 -1 0
+-1 -1 0
+0 -1 0
+0 -1 0
+0 -1 0
+1 -1 0
+1 -1 0
+1 0 0
+1 0 0
+2 - 3x3x3
+0 0 0
+0 0 0
+0 0 1
+0 0 2
+0 0 3
+0 0 4
+0 0 5
+0 0 6
+0 0 7
+0 0 8
+0 0 9
+0 0 9
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+3 - 3x3x3
+1 0 0
+1 0 0
+1 0 1
+1 0 2
+1 0 3
+1 0 4
+1 0 5
+1 0 6
+1 0 7
+1 0 8
+1 0 9
+1 0 9
+1 0 0
+1 -1 0
+1 -1 0
+0 -1 0
+0 -1 0
+0 -1 0
+-1 -1 0
+-1 -1 0
+-1 0 0
+-1 0 0
+-1 0 0
+-1 1 0
+-1 1 0
+0 1 0
+0 1 0
+0 1 0
+1 1 0
+1 1 0
+1 0 0
+1 0 0
+4 - 3x3x3
+0 0 0
+0 0 0
+0 0 1
+0 0 2
+0 0 3
+0 0 4
+0 0 5
+0 0 6
+0 0 7
+0 0 8
+0 0 9
+0 0 9
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+0 0 0
+5 - 3x3x3
+2 0 0
+2 0 0
+2 0 1
+2 0 2
+2 0 3
+2 0 4
+2 0 5
+2 0 6
+2 0 7
+2 0 8
+2 0 9
+2 0 9
+2 -1 0
+2 -1 0
+1 -2 0
+1 -2 0
+0 -2 0
+-1 -2 0
+-1 -2 0
+-2 -1 0
+-2 -1 0
+-2 0 0
+-2 1 0
+-2 1 0
+-1 2 0
+-1 2 0
+0 2 0
+1 2 0
+1 2 0
+2 1 0
+2 1 0
+2 0 0
+""";
+
+        List<String> script = new ArrayList<>();
+
+        String[] lines = scriptText.split("\\R");
+
+        for (String line : lines) {
+            line = line.trim();
+            if (line.isEmpty()) continue;
+            script.add(line);
+        }
+
+        return script;
+    }
+
 }

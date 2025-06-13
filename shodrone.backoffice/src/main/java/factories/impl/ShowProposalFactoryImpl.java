@@ -10,6 +10,7 @@ import utils.Utils;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -33,6 +34,8 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     private ProposalTemplate template;
     private Map<DroneModel, Integer> drones;
     private Name proposalName;
+    private Map<String, String> droneLanguageSpecifications;
+    private List<String> script;
 
     /**
      * Builds and returns a new ShowProposal object with the current factory values.
