@@ -18,6 +18,7 @@ import java.util.Optional;
 public class AddVideoOfSimulationToTheProposalUI implements Runnable {
 
     private final AddVideoOfSimulationToTheProposalController controller;
+    private static final int EXIT = -1;
 
     public AddVideoOfSimulationToTheProposalUI() {
         controller = new AddVideoOfSimulationToTheProposalController();
@@ -33,6 +34,7 @@ public class AddVideoOfSimulationToTheProposalUI implements Runnable {
         if (listOfProposals != null && !listOfProposals.isEmpty()) {
             HttpServer server = null;
             try {
+                Utils.printAlterMessage("Before continuing be sure you have the pretended file in the path:\n shodrone.shared/src/main/resources/domain/valueObjects\n");
                 String videoFile = Utils.rePromptWhileInvalid("Enter the video file name: ", String::new);
                 String javafxModules = "javafx.controls,javafx.fxml,javafx.swing";
 
@@ -85,9 +87,17 @@ public class AddVideoOfSimulationToTheProposalUI implements Runnable {
                     return;
                 }
 
-                File file = new File("videos", "drone_" + videoFile + ".mov");
+                String fileName;
+
+                if (videoFile.toLowerCase().endsWith(".txt")) {
+                    fileName = videoFile.substring(0, videoFile.length() - 4);
+                } else {
+                    fileName = videoFile;
+                }
+
+                File file = new File("videos", "drone_" + fileName + ".mov");
                 if (!file.exists()) {
-                    Utils.printFailMessage("❌ Video file not found at: " + file.getAbsolutePath());
+                    Utils.printFailMessage("❌ Video could not be found at: " + file.getAbsolutePath());
                     return;
                 }
 
@@ -111,11 +121,20 @@ public class AddVideoOfSimulationToTheProposalUI implements Runnable {
                 server.setExecutor(null);
                 server.start();
 
-                System.out.println("Open: http://localhost:" + port + "/www/player.html?video=drone_" + videoFile + ".mov");
+                Utils.dropLines(2);
+                System.out.println("Open: http://localhost:" + port + "/www/player.html?video=drone_" + fileName + ".mov");
+                Utils.dropLines(5);
 
                 Optional<ShowProposal> result = Optional.empty();
 
                 int selectedProposalIndex = Utils.showAndSelectIndexCustomOptions(listOfProposals, "Select one Show Proposal");
+
+                if (selectedProposalIndex == EXIT) {
+                    Utils.dropLines(2);
+                    Utils.printFailMessage("❌ No show proposal selected.");
+                    return;
+                }
+
                 ShowProposal selectedProposal = listOfProposals.get(selectedProposalIndex);
                 Utils.printSuccessMessage("\nSelected Proposal with ID : " + selectedProposal.identity());
 
@@ -151,7 +170,7 @@ public class AddVideoOfSimulationToTheProposalUI implements Runnable {
         } else if (osName.contains("linux")) {
             return "linux";
         } else {
-            throw new RuntimeException("Unsupported OS for JavaFX: " + osName);
+            throw new RuntimeException("❌ Unsupported OS for JavaFX: " + osName);
         }
     }
 }
