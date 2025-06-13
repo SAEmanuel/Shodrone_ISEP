@@ -30,6 +30,7 @@
         <module>shodrone.dsl_Plugin</module>
         <module>shodrone.showProposal_Plugin</module>
         <module>shodrone.droneLanguage_Plugin</module>
+        <module>shodrone.testingApp</module>
     </modules>
 
     <properties>

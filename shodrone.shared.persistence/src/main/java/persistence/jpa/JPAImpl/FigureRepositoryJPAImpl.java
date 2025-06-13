@@ -13,7 +13,6 @@ import utils.DslMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
@@ -25,15 +24,15 @@ public class FigureRepositoryJPAImpl extends JpaBaseRepository<Figure, Long>
             return Optional.empty();
         }
 
-        // 🔒 Verifica duplicado pelo nome
+
         Optional<List<Figure>> figuresWithSameName = findFigures(
                 null, figure.name(), null, null, null, null, null, null, null);
 
         if (figuresWithSameName.isPresent() && !figuresWithSameName.get().isEmpty()) {
-            return Optional.empty(); // Figura com mesmo nome já existe
+            return Optional.empty();
         }
 
-        // Categoria
+
         Optional<FigureCategory> category = Optional.ofNullable(figure.category());
         if (category.isPresent() && category.get().identity() != null) {
             FigureCategoryRepository categoryRepository = RepositoryProvider.figureCategoryRepository();

@@ -56,7 +56,7 @@ public class HandleClientsController {
             String email = userDTO.getEmail();
             String password = userDTO.getPassword();
 
-            RepositoryProvider.setUseInMemory(false); // Ensure RDBMS mode
+            RepositoryProvider.setUseInMemory(false);
             AuthenticationRepository repo = RepositoryProvider.authenticationRepository();
             Optional<User> userOpt = repo.findCustomerRepresentativeByEmail(email);
             boolean success = userOpt.isPresent() && userOpt.get().passwordMatches(password);
