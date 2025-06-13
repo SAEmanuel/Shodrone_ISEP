@@ -18,15 +18,18 @@ This level of detail is important because:
 
 #### **Explanation of the model elements**
 
-- **Proposal** (`<<AggregateRoot>>`): Central entity representing a proposal sent to a customer. Now extended with:
-  - `id`: Unique identifier for the proposal.
-  - `title`: Optional title used internally.
-  - `videoUrl`: Direct link or path to the stored simulation video.
-  - `videoUploadedBy`: Reference to the user who uploaded the video (e.g., CRM Collaborator).
-  - `videoUploadDate`: Timestamp marking the last upload time.
-  - `status`: Workflow status (e.g., *Draft*, *Submitted*). Determines whether a video can be replaced.
-- **User**: References the authenticated CRM Collaborator who uploads the video.
-- **Video Storage**: Logical representation of the external service or infrastructure handling secure video storage and streaming. Not a persisted domain entity, but relevant to system design and interfaces.
+- **ShowProposal** (`<<Entity>>`): Central entity representing a show proposal sent to a customer. Now extended with:
+  - References to `Show Request` (`<<AggregateRoot>>`) and `ProposalTemplate` (`<<AggregateRoot>>`) to link related data.
+  - Associations to multiple `Figures` (`<<AggregateRoot>>`) representing the sequence of show elements.
+  - Associations to multiple `DroneModel` (`<<AggregateRoot>>`) indicating the drones planned for the show.
+  - Embedded value objects for `Description`, `Location`, and `Video` containing respective details.
+  - `Name` (`<<ValueObject>>`) for the proposal’s identifying title.
+  - `ShowProposalStatus` (`<<ValueObject>>`) reflecting the workflow state (e.g., *Draft*, *StandBy*), controlling video upload/edit permissions.
+
+- **Show Request** (`<<AggregateRoot>>`): The originating request for the show, linked to the proposal.
+- **ProposalTemplate** (`<<AggregateRoot>>`): Template used as a basis for creating the proposal.
+- **Figures** (`<<AggregateRoot>>`): The visual elements or choreography pieces used in the show.
+- **DroneModel** (`<<AggregateRoot>>`): Models of drones involved in the show.
 
 This domain view captures the minimal yet complete structure needed to support video functionality in proposals, while ensuring tight integration with authentication and editing workflows.
 
