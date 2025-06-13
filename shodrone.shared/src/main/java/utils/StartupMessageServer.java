@@ -1,3 +1,5 @@
+package utils;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -5,8 +7,6 @@ import static more.ColorfulOutput.ANSI_BLUE;
 import static more.ColorfulOutput.ANSI_BRIGHT_BLACK;
 import static more.ColorfulOutput.ANSI_BRIGHT_CYAN;
 import static more.ColorfulOutput.ANSI_BRIGHT_WHITE;
-import static more.ColorfulOutput.ANSI_GREEN;
-import static more.ColorfulOutput.ANSI_PURPLE;
 import static more.ColorfulOutput.ANSI_RESET;
 
 public class StartupMessageServer {
