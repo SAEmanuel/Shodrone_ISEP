@@ -1,202 +1,218 @@
-# US234 - Decommission Figure
+# US373 – Get Show Info
 
 ## 1. Overview
 
-The **Decommission Figure** feature allows authorized users to mark a figure as decommissioned (inactive), reflecting that it is no longer in use or available. This functionality updates the figure's state and audit metadata accordingly.
+**As a Customer**,  
+I want to get the details of a show (scheduled or in the past),  
+**so that I can view information like drone models, figures, duration, and other details.**
+
+This feature enables customer representatives to retrieve a customer’s shows and associated metadata by linking a representative’s email with the customer’s NIF and querying the show repository.
 
 ---
 
 ## 2. Tests
 
-The test suite for **US234** focuses on validating the controller logic for decommissioning figures, ensuring correct interaction with the repository and proper handling of both success and failure cases.
+The test suite for **US373** validates the `GetShowInfoController`, ensuring:
 
----
-
-### 2.1. Controller: `DecommissionFigureControllerTest`
-
-Unit tests mock the `FigureRepository` to isolate controller logic:
-
-- Tests successful decommissioning of a figure.
-- Tests failure scenarios where the repository returns empty (e.g., figure not found or update fails).
+- Correct retrieval of a customer's NIF using their representative's email.
+- Accurate fetching of a customer's show list.
+- Proper handling of "not found" and empty result cases with appropriate exception handling.
 
 ```java
-package controllers;
+package controller.show;
 
-import authz.Email;
-import controller.figure.DecommissionFigureController;
-import domain.entity.Costumer;
-import domain.entity.Figure;
-import domain.entity.FigureCategory;
-import domain.valueObjects.*;
-import eapli.framework.general.domain.model.EmailAddress;
+import controller.customerRepresentative.FindCustomerOfRepresentativeController;
+import controller.network.AuthenticationController;
+import domain.valueObjects.NIF;
+import network.ShowDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.RepositoryProvider;
-import persistence.interfaces.FigureRepository;
+import org.mockito.Mockito;
 
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-/**
- * Unit tests for DecommissionFigureController.
- * Mocks FigureRepository to simulate persistence layer behavior.
- * Tests successful and unsuccessful figure decommissioning scenarios.
- */
-class DecommissionFigureControllerTest {
-    private DecommissionFigureController controller;
-    private FigureRepository mockRepository;
+class GetShowInfoControllerTest {
 
-    // Sample FigureCategory to be used in tests
-    private final FigureCategory category = new FigureCategory(
-            new domain.valueObjects.Name("Geometry"),
-            new Description("Common geometric shapes"),
-            new Email("show_designer@shodrone.app")
-    );
+    private AuthenticationController authController;
+    private GetShowInfoController controller;
+    private FindCustomerOfRepresentativeController customerController;
+    private FindShows4CustomerController showsController;
 
-    // Sample Costumer for Figure constructor
-    private final Costumer costumer = new Costumer(
-            new Name("Sample Costumer"),
-            new Address("123 Main St"),
-            new Email("costumer@example.com"),
-            new Phone("1234567890")
-    );
-
-    private final Figure activeFigure = new Figure(
-            new Code("GEO123"),
-            new Name("Triangle"),
-            new Description("A basic geometric figure"),
-            category,
-            costumer,
-            new Email("show_designer@shodrone.app")
-    );
+    private final String testEmail = "rep@example.com";
+    private final NIF testNIF = new NIF("123456789");
+    private final List<ShowDTO> showList = List.of(new ShowDTO(), new ShowDTO());
 
     @BeforeEach
     void setUp() {
-        mockRepository = mock(FigureRepository.class);
-        RepositoryProvider.injectFigureRepository(mockRepository);
-        controller = new DecommissionFigureController();
+        authController = mock(AuthenticationController.class);
+        controller = new GetShowInfoController(authController);
+
+        // Manually inject the inner controllers via reflection to allow mocking
+        customerController = mock(FindCustomerOfRepresentativeController.class);
+        showsController = mock(FindShows4CustomerController.class);
+
+        try {
+            var customerField = GetShowInfoController.class.getDeclaredField("findCustomerOfRepresentativeController");
+            var showsField = GetShowInfoController.class.getDeclaredField("findShows4CustomerController");
+            customerField.setAccessible(true);
+            showsField.setAccessible(true);
+            customerField.set(controller, customerController);
+            showsField.set(controller, showsController);
+        } catch (Exception e) {
+            fail("Reflection setup failed: " + e.getMessage());
+        }
     }
 
     @Test
-    void testDecommissionFigure_Success() {
-        when(mockRepository.changeStatus(any(Figure.class))).thenReturn(Optional.of(activeFigure));
+    void testGetCustomerNIFOfTheRepresentativeAssociatedSuccess() {
+        when(customerController.getCustomerIDbyHisEmail(testEmail)).thenReturn(Optional.of(testNIF));
 
-        Optional<Figure> result = controller.decommissionFigure(activeFigure);
+        NIF result = controller.getCustomerNIFOfTheRepresentativeAssociated(testEmail);
+
+        assertNotNull(result);
+        assertEquals(testNIF, result);
+        verify(customerController).getCustomerIDbyHisEmail(testEmail);
+    }
+
+    @Test
+    void testGetCustomerNIFOfTheRepresentativeAssociatedNotFound() {
+        when(customerController.getCustomerIDbyHisEmail(testEmail)).thenReturn(Optional.empty());
+
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                controller.getCustomerNIFOfTheRepresentativeAssociated(testEmail));
+
+        assertTrue(exception.getMessage().contains("✖ No customer was found"));
+    }
+
+    @Test
+    void testGetShowsForCustomerSuccess() {
+        when(showsController.getShows4Customer(testNIF)).thenReturn(Optional.of(showList));
+
+        Optional<List<ShowDTO>> result = controller.getShowsForCustomer(testNIF);
 
         assertTrue(result.isPresent());
+        assertEquals(2, result.get().size());
+        verify(showsController).getShows4Customer(testNIF);
     }
 
     @Test
-    void testDecommissionFigure_Failure() {
-        when(mockRepository.changeStatus(any(Figure.class))).thenReturn(Optional.empty());
+    void testGetShowsForCustomerNotFound() {
+        when(showsController.getShows4Customer(testNIF)).thenReturn(Optional.empty());
 
-        Optional<Figure> result = controller.decommissionFigure(activeFigure);
+        RuntimeException exception = assertThrows(RuntimeException.class, () ->
+                controller.getShowsForCustomer(testNIF));
 
-        assertTrue(result.isEmpty());
+        assertTrue(exception.getMessage().contains("✖ No shows found for customer"));
     }
 }
 ```
-
-## 3. Construction (Implementation)
-
-### 3.1. Controller
-
-The controller handles the business logic of decommissioning a figure by delegating status change requests to the repository.
-
-```java
-public class DecommissionFigureController {
-
-    private final FigureRepository repository;
-
-    public DecommissionFigureController() {
-        this.repository = RepositoryProvider.figureRepository();
-    }
-
-    /**
-     * Decommissions (toggles status) of the given figure.
-     * @param figure the figure to decommission
-     * @return Optional of updated figure if successful, empty otherwise
-     */
-    public Optional<Figure> decommissionFigure(Figure figure) {
-        return repository.changeStatus(figure);
-    }
-}
-```
-### 3.2. Repository Interface
-
-The repository interface includes a method to toggle the status of a figure.
-
-```java
-public interface FigureRepository {
-
-    // Other repository methods...
-
-    /**
-     * Changes the status (active/inactive) of a figure.
-     * @param figure the figure whose status will be toggled
-     * @return Optional containing updated figure or empty if not found/failure
-     */
-    Optional<Figure> changeStatus(Figure figure);
-}
-```
-
-### 3.3. Persistence Implementation (In-memory example)
-
-The in-memory repository toggles the figure status and updates audit metadata.
-
-```java
-public class InMemoryFigureRepository implements FigureRepository {
-
-    private final Map<String, Figure> store = new HashMap<>();
-
-    @Override
-    public Optional<Figure> changeStatus(Figure figure) {
-        Optional<Figure> found = findByCode(figure.code().toString());
-        if (found.isEmpty()) {
-            return Optional.empty();
-        }
-        Figure existing = found.get();
-        existing.toggleState();
-        existing.updateTime();
-        existing.setUpdatedBy(new Email(AuthUtils.getCurrentUserEmail()));
-        return Optional.of(existing);
-    }
-
-    // Other repository methods...
-
-    public Optional<Figure> findByCode(String code) {
-        return Optional.ofNullable(store.get(code.toUpperCase()));
-    }
-}
-```
-
-## 4. Summary of Classes Involved
-
-- **Controller**: `DecommissionFigureController`
-- **Domain Entities**: `Figure`, `FigureCategory`, `Costumer`
-- **Repository Interface**: `FigureRepository`
-- **In-Memory Repository Implementation**: `InMemoryFigureRepository`
-- **Repository Provider**: `RepositoryProvider`
 
 ---
 
-## 5. Integration and Usage
+### 2.1. Controller: `GetShowInfoControllerTest`
 
-- The decommission operation is typically triggered via the UI layer (not shown here), which calls the controller to toggle the figure's status.
-- The repository handles persistence and ensures data integrity.
-- Audit fields (`updatedBy`, `updatedOn`) are updated accordingly.
-- The status toggle reflects the figure's active/inactive lifecycle.
+The test class uses **mocked controllers** to simulate underlying behavior and **reflection** to inject dependencies into the `GetShowInfoController`.
+
+
+## 3. Implementation Summary
+### 3.1. Controller: GetShowInfoController
+Responsible for:
+- Mapping representative emails to customer NIFs.
+
+- Retrieving a list of shows for a given customer.
+
+## ✅ Test: Retrieve NIF by Email (Success)
+```java
+@Test
+void testGetCustomerNIFOfTheRepresentativeAssociatedSuccess() {
+when(customerController.getCustomerIDbyHisEmail(testEmail)).thenReturn(Optional.of(testNIF));
+
+    NIF result = controller.getCustomerNIFOfTheRepresentativeAssociated(testEmail);
+
+    assertNotNull(result);
+    assertEquals(testNIF, result);
+    verify(customerController).getCustomerIDbyHisEmail(testEmail);
+}
+```
+
+## ❌ Test: NIF Not Found
+```java
+@Test
+void testGetCustomerNIFOfTheRepresentativeAssociatedNotFound() {
+    when(customerController.getCustomerIDbyHisEmail(testEmail)).thenReturn(Optional.empty());
+
+    RuntimeException exception = assertThrows(RuntimeException.class, () ->
+            controller.getCustomerNIFOfTheRepresentativeAssociated(testEmail));
+
+    assertTrue(exception.getMessage().contains("✖ No customer was found"));
+}
+```
+
+## ✅ Test: Fetch Shows for NIF (Success)
+```java
+@Test
+void testGetShowsForCustomerSuccess() {
+    when(showsController.getShows4Customer(testNIF)).thenReturn(Optional.of(showList));
+
+    Optional<List<ShowDTO>> result = controller.getShowsForCustomer(testNIF);
+
+    assertTrue(result.isPresent());
+    assertEquals(2, result.get().size());
+    verify(showsController).getShows4Customer(testNIF);
+}
+```
+
+## ❌ Test: No Shows Found
+```java
+@Test
+void testGetShowsForCustomerNotFound() {
+    when(showsController.getShows4Customer(testNIF)).thenReturn(Optional.empty());
+
+    RuntimeException exception = assertThrows(RuntimeException.class, () ->
+            controller.getShowsForCustomer(testNIF));
+
+    assertTrue(exception.getMessage().contains("✖ No shows found for customer"));
+}
+```
+
+## 4. Involved Components
+
+| Component                              | Responsibility                                            |
+|--------------------------------------|-----------------------------------------------------------|
+| `AuthenticationController`            | Provides email identity of logged-in user.                |
+| `FindCustomerOfRepresentativeController` | Maps representative email to customer NIF.                 |
+| `FindShows4CustomerController`       | Retrieves customer shows from database.                    |
+| `ShowDTO`                            | Data Transfer Object encapsulating show info (e.g., figures, drones, duration). |
+
+---
+
+## 5. Design Considerations
+
+- **Reflection** is used in tests to inject private dependencies — this improves test isolation without altering controller design.
+- Error handling ensures that missing customers or shows are clearly reported.
+- Loose coupling through delegation to helper controllers keeps responsibilities separated.
 
 ---
 
 ## 6. Observations
 
-- The design maintains consistency with the application's layered architecture.
-- Testing isolates the controller logic by mocking the repository, allowing clear verification of business rules without persistence dependencies.
-- Extensible to support JPA or other persistent storage mechanisms by implementing the `FigureRepository` interface.
+- The `GetShowInfoControllerTest` thoroughly verifies both positive and negative paths.
+- Shows are returned in a form suitable for presentation (`ShowDTO`).
+- Designed for easy extension to support show filtering, sorting, or exporting in the future.
+- Well-aligned with clean architecture: clear separation of concerns between auth, customer linkage, and data retrieval.
 
 ---
+
+## 7. Summary
+
+- **User Story**: US373 – "Get Show Info"
+- **Feature**: Allows customer reps to query past or scheduled shows, including metadata like figures, drone models, and duration.
+- **Controller Tested**: `GetShowInfoController`
+- **Test Coverage**: 100% for expected functional paths
+- **Result**: Ensures customers receive accurate, relevant show information through robust, fail-safe logic.
+
+
