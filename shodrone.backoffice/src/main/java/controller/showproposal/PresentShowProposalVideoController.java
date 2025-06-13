@@ -15,10 +15,7 @@ public class PresentShowProposalVideoController {
     public List<ShowProposal> getAllProposals(){
         Optional<List<ShowProposal>> optionalResult = RepositoryProvider.showProposalRepository().getAllProposals();
 
-        if(optionalResult.isEmpty()){
-            throw new RuntimeException("No Show Proposal's were found on the system.");
-        }
-        return optionalResult.get();
+        return optionalResult.orElse(null);
     }
 
     public Optional<Video> getVideoOfShowProposal(ShowProposal showProposal) {

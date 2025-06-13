@@ -1,10 +1,7 @@
 package controller.showproposal;
 
-import domain.entity.Figure;
 import domain.entity.ShowProposal;
-import domain.valueObjects.Drone3DSimulation;
 import domain.valueObjects.Video;
-import javafx.application.Application;
 import persistence.RepositoryProvider;
 
 import java.util.List;
@@ -16,10 +13,7 @@ public class AddVideoOfSimulationToTheProposalController {
     public List<ShowProposal> getAllProposals(){
         Optional<List<ShowProposal>> optionalResult = RepositoryProvider.showProposalRepository().getAllProposals();
 
-        if(optionalResult.isEmpty()){
-            throw new RuntimeException("No Show Proposal's were found on the system.");
-        }
-        return optionalResult.get();
+        return optionalResult.orElse(null);
     }
 
     public Optional<ShowProposal> addVideoToShowProposal(ShowProposal showProposal, Video video){
