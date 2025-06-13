@@ -1,0 +1,54 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Video of Simulation to Proposal
+
+autonumber
+
+actor "CRM Collaborator" as CRM
+participant ":System" as System
+
+activate CRM
+
+CRM -> System: login()
+activate System
+System --> CRM: authenticated
+deactivate System
+
+CRM -> System: launchAddVideoUI()
+activate System
+System -> CRM: request video file name
+deactivate System
+
+CRM -> System: enterVideoFileName(name)
+activate System
+System -> System: launch Drone3DSimulation with name
+System -> System: wait for simulation to finish
+System -> System: check if video file exists
+
+System -> System: read .mov video as byte array
+System -> System: create Video object
+System -> System: start local preview server
+System -> System: get proposals from repository
+System -> CRM: request proposal selection
+deactivate System
+
+CRM -> System: select proposal
+
+activate System
+System -> System: get selected proposal by index
+System -> System: attach video to proposal
+System -> System: save updated proposal to repository
+
+alt proposal saved successfully
+    System --> CRM: ✔️ Video added successfully
+else save failed
+    System --> CRM: ❌ Failed to update proposal
+end
+
+deactivate System
+deactivate CRM
+
+@enduml
