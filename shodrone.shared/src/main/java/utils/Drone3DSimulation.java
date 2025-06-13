@@ -28,6 +28,8 @@ import org.jcodec.common.model.Picture;
 import org.jcodec.common.model.ColorSpace;
 import org.jcodec.common.model.Rational;
 
+import static more.ColorfulOutput.ANSI_RESET;
+
 public class Drone3DSimulation extends Application {
     private static double[][][] dronePositions;
     private static int NUM_FRAMES, NUM_DRONES;
@@ -40,17 +42,25 @@ public class Drone3DSimulation extends Application {
     private static String droneFileName;
     private final File framesDir = new File("frames");
 
-//    static {
-//        // Redirect all JavaFX logging to null
-//        java.util.logging.Logger.getLogger("javafx").setLevel(java.util.logging.Level.OFF);
-//        System.setProperty("java.util.logging.SimpleFormatter.format", "%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$s %2$s %5$s%6$s%n");
-//    }
-
     public static void main(String[] args) {
-        Logger.getLogger("com.sun.javafx.application.PlatformImpl").setLevel(Level.OFF);
-        loadDroneDataFromCustomFormat("script_1_drones");
-        launch(args);
+        final String ANSI_BOLD = "\033[1m";
+        final String ANSI_RED = "\033[31m";
+        final String ANSI_RESET = "\033[0m";
+
+        try {
+            loadDroneDataFromCustomFormat(args[0]);
+            // Check if data loaded properly, e.g. NUM_DRONES > 0
+            if (NUM_DRONES == 0 || NUM_FRAMES == 0) {
+                Utils.printFailMessage(ANSI_BOLD + "X" + ANSI_RESET + ANSI_RED + " No drone data loaded or file not found." + ANSI_RESET);
+                Platform.exit();
+            }
+            launch(args);
+        } catch (Exception e) {
+            Utils.printFailMessage(ANSI_BOLD + "X" + ANSI_RESET + ANSI_RED + " Failed to load drone data!" + ANSI_RESET);
+            Platform.exit();
+        }
     }
+
 
     @Override
     public void start(Stage stage) {
@@ -133,9 +143,10 @@ public class Drone3DSimulation extends Application {
                 finalizeAndCreateVideo();
             });
         } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
+            Utils.printFailMessage("❌ An error occurred in JavaFX application.");
+            Platform.exit();
         }
+
     }
 
     private void updateFrame() {
@@ -162,7 +173,8 @@ public class Drone3DSimulation extends Application {
             ImageIO.write(SwingFXUtils.fromFXImage(wi, null), "png", out);
             savedFrames++;
         } catch (IOException e) {
-            System.err.println("Failed to save frame #" + savedFrames + ": " + e);
+            Utils.printFailMessage("❌ Failed to save frame #" + savedFrames + ": " + e);
+            Platform.exit();
         }
     }
 
@@ -177,7 +189,7 @@ public class Drone3DSimulation extends Application {
             }
 
             Platform.runLater(() -> {
-                Utils.printAlterMessage("Exiting application...");
+                //Utils.printAlterMessage("Exiting application...");
                 Platform.exit();
             });
         }).start();
@@ -235,13 +247,22 @@ public class Drone3DSimulation extends Application {
     }
 
     public static void loadDroneDataFromCustomFormat(String baseName) {
-        droneFileName = baseName;
-        String resourcePath = "/domain/valueObjects/" + baseName + ".txt";
+        String resourcePath;
+
+        if (baseName.toLowerCase().endsWith(".txt")) {
+            droneFileName = baseName.substring(0, baseName.length() - 4);
+            resourcePath = "/domain/valueObjects/" + baseName;
+        } else {
+            droneFileName = baseName;
+            resourcePath = "/domain/valueObjects/" + droneFileName + ".txt";
+        }
+
         Map<Integer, List<double[]>> map = new HashMap<>();
         try (BufferedReader br = new BufferedReader(new InputStreamReader(
                 Drone3DSimulation.class.getResourceAsStream(resourcePath)))) {
             if (br == null) {
                 System.err.println("Resource not found: " + resourcePath);
+                Platform.exit();
                 NUM_FRAMES = NUM_DRONES = 0;
                 return;
             }
@@ -266,7 +287,7 @@ public class Drone3DSimulation extends Application {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         if (map.isEmpty()) {
