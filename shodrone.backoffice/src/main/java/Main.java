@@ -15,9 +15,17 @@ public class Main {
             rootLogger.removeHandler(handler);
         }
         rootLogger.addHandler(new Handler() {
-            @Override public void publish(java.util.logging.LogRecord record) {}
-            @Override public void flush() {}
-            @Override public void close() throws SecurityException {}
+            @Override
+            public void publish(java.util.logging.LogRecord record) {
+            }
+
+            @Override
+            public void flush() {
+            }
+
+            @Override
+            public void close() throws SecurityException {
+            }
         });
 
         Logger platformLogger = Logger.getLogger("com.sun.javafx.application.PlatformImpl");
@@ -37,11 +45,12 @@ public class Main {
 
             Bootstrap bootstrap = new Bootstrap(typePersistence);
             bootstrap.run();
-
-            new Thread(() -> {
-                SimulationTriggerLoop loop = new SimulationTriggerLoop();
-                loop.run();
-            }).start();
+            if (!typePersistence) {
+                new Thread(() -> {
+                    SimulationTriggerLoop loop = new SimulationTriggerLoop();
+                    loop.run();
+                }).start();
+            }
 
             MainMenuUI menu = new MainMenuUI();
             menu.run();

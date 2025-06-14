@@ -72,7 +72,7 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
                         "SELECT s FROM ShowProposal s WHERE s.showRequest.costumer = :costumer AND s.status = :status",
                         ShowProposal.class)
                 .setParameter("costumer", costumer)
-                .setParameter("status", ShowProposalStatus.STAND_BY)
+                .setParameter("status", ShowProposalStatus.PASSED_SIMULATION)
                 .getResultList();
 
         return results.isEmpty() ? Optional.empty() : Optional.of(results);

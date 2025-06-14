@@ -1,4 +1,6 @@
+import com.google.gson.Gson;
 import domain.entity.ShowProposal;
+import network.SimulationRequestDTO;
 import persistence.RepositoryProvider;
 import persistence.ShowProposalRepository;
 import utils.Utils;
@@ -18,7 +20,7 @@ public class SimulationTriggerLoop {
             try {
                 Optional<List<ShowProposal>> proposals = repo.getStandbyProposals();
 
-                if(proposals.isEmpty()) {
+                if (proposals.isEmpty()) {
                     return;
                 }
 
@@ -26,7 +28,7 @@ public class SimulationTriggerLoop {
                     sendToSimulator(proposal);
                 }
 
-                Thread.sleep(3000);
+                Thread.sleep(7000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -34,15 +36,22 @@ public class SimulationTriggerLoop {
     }
 
     private void sendToSimulator(ShowProposal proposal) {
-        try (Socket socket = new Socket("localhost", 9090);
+        try (Socket socket = new Socket("10.9.23.21", 9090);
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            out.println(proposal.getNameProposal().toString());
-            out.println(proposal.identity());
-            out.println(String.join("\n", proposal.getScript()));
+            SimulationRequestDTO requestDTO = new SimulationRequestDTO(
+                    proposal.identity(),
+                    proposal.getNameProposal().toString(),
+                    proposal.getScript(),
+                    proposal.getStatus()
+            );
+
+            String json = new Gson().toJson(requestDTO);
+            out.println(json);
 
         } catch (IOException e) {
-            System.out.println("❌ Erro ao comunicar com simulador: " + e.getMessage());
+            System.err.println(e.getMessage() + "... Turn Testing App on!");
+            System.exit(1);
         }
     }
 }
