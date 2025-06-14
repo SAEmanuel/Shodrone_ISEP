@@ -12,8 +12,36 @@ import java.util.List;
 import static more.ColorfulOutput.*;
 import static more.TextEffects.*;
 
+/**
+ * Service class that provides a user-interactive method to select a valid sequence of {@link Figure}
+ * instances for a drone show proposal.
+ *
+ * <p>This service ensures that figures are selected from those available to a specific {@link Costumer}
+ * and that certain rules are respected:
+ * <ul>
+ *     <li>No figure can be selected twice in a row (consecutively)</li>
+ *     <li>Users may clear or undo selections</li>
+ *     <li>Pre-loaded selections (if any) are preserved and displayed</li>
+ * </ul>
+ *
+ * <p>This class is typically used in workflows where a show proposal is being prepared or edited
+ * and requires the selection of visual figures to be executed by drones.
+ *
+ * <p><strong>UI/UX Features:</strong> The method prints current selections, figures list, and options
+ * like undo and clear. All interactions are done via console prompts.
+ *
+ * @author Catarina
+ */
 public class ServiceForValidSequenceFiguresForShow {
 
+    /**
+     * Launches an interactive console-based UI to select a list of {@link Figure}s from those associated
+     * with a given {@link Costumer}, avoiding consecutive repetition.
+     *
+     * @param costumer          the customer for whom the figures are to be fetched
+     * @param initialSelection  optional list of figures already pre-selected
+     * @return the final list of figures selected by the user
+     */
     public static List<Figure> getListFiguresUIWithRepetitions(Costumer costumer, List<Figure> initialSelection) {
         ListFiguresByCostumerController listFiguresByCostumerController = new ListFiguresByCostumerController();
         List<Figure> selectedFigureQueue = new LinkedList<>(initialSelection != null ? initialSelection : new ArrayList<>());
@@ -29,12 +57,11 @@ public class ServiceForValidSequenceFiguresForShow {
         Figure lastSelectedFigure = selectedFigureQueue.isEmpty() ? null : ((LinkedList<Figure>) selectedFigureQueue).getLast();
 
         while (true) {
+            // Display current selection
             System.out.printf("\n%s─── Select figures from the list below ───%s%n", ANSI_BOLD, ANSI_RESET);
             System.out.println(ANSI_BRIGHT_BLACK + BOLD + "• Currently selected figures:" + ANSI_RESET);
-
             if (selectedFigureQueue.isEmpty()) {
-                System.out.printf("    %s[%sNone selected yet%s]%s%n",
-                        ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
+                System.out.printf("    %s[%sNone selected yet%s]%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_BRIGHT_BLACK, ANSI_RESET);
             } else {
                 for (Figure selectedFigure : selectedFigureQueue) {
                     String highlight = selectedFigure.equals(lastSelectedFigure) ? ANSI_BRIGHT_CYAN : ANSI_RESET;
@@ -45,8 +72,9 @@ public class ServiceForValidSequenceFiguresForShow {
 
             Utils.dropLines(1);
 
+            // Display options and figure list
             System.out.println(ANSI_BRIGHT_BLACK + BOLD + "• Figures:" + ANSI_RESET);
-            System.out.printf("    %s(-2)%s -  %sRemove last added figure%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET); // NOVA OPÇÃO
+            System.out.printf("    %s(-2)%s -  %sRemove last added figure%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET);
             System.out.printf("    %s(-1)%s -  %sClear selected figures%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET);
             System.out.printf("    %s(0)%s  -  %sFinish selection%s%n", ANSI_BRIGHT_BLACK, ANSI_RESET, ANSI_MEDIUM_SPRING_GREEN, ANSI_RESET);
 
@@ -59,6 +87,7 @@ public class ServiceForValidSequenceFiguresForShow {
 
             String input = Utils.readLineFromConsole("Select a Figure").trim();
 
+            // Handle exit or invalid input
             if (input.isEmpty()) {
                 Utils.printAlterMessage("Selection terminated.");
                 break;
@@ -101,8 +130,8 @@ public class ServiceForValidSequenceFiguresForShow {
                 continue;
             }
 
+            // Prevent selecting the same figure twice in a row
             Figure selectedFigure = figureList.get(option - 1);
-
             if (selectedFigure.equals(lastSelectedFigure)) {
                 Utils.printAlterMessage("Cannot select the same figure consecutively. Choose a different figure.");
                 continue;
@@ -120,7 +149,4 @@ public class ServiceForValidSequenceFiguresForShow {
 
         return selectedFigureQueue;
     }
-
-
-
 }
