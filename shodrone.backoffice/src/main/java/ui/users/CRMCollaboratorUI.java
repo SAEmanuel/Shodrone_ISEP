@@ -57,7 +57,6 @@ public class CRMCollaboratorUI implements Runnable {
         options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
         options.add(new MenuItem("Add Figures to Show Proposal", new AddFiguresToProposalUI()));
         options.add(new MenuItem("Add Video To Show Proposal", new AddVideoOfSimulationToTheProposalUI()));
-        options.add(new MenuItem("Present Video of Show Proposal", new PresentShowProposalVideoUI()));
         options.add(new MenuItem("Create Show Proposal", new CreateShowProposalUI()));
         options.add(new MenuItem("Accept show proposal", new AcceptShowProposalUI()));
         options.add(new MenuItem("Add Drones to Show Proposal", new AddDronesShowProposalUI()));
