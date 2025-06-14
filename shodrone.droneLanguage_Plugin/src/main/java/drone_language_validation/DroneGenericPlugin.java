@@ -13,6 +13,7 @@ import java.util.*;
 public class DroneGenericPlugin {
     @Setter
     private String droneLanguageVersion;
+    @Getter
     private final List<String> errors;
     @Getter
     private final Set<String> declaredTypes;
@@ -50,14 +51,15 @@ public class DroneGenericPlugin {
             lexer.addErrorListener(errorListener);
             parser.addErrorListener(errorListener);
 
+            droneGenericParser.ProgramContext parseTree = parser.program();
 
             if (errors.isEmpty()) {
                 ProgramLanguageVersionVisitor versionValidator = new ProgramLanguageVersionVisitor(this);
-                versionValidator.visitProgram(parser.program());
+                versionValidator.visitProgram(parseTree);
 
-                TypeAndInstructionVisitor typeAndInstructionVisitor = new TypeAndInstructionVisitor(this);
-                typeAndInstructionVisitor.visitSection_instructions(parser.section_instructions());
-                typeAndInstructionVisitor.visitSection_types(parser.section_types());
+//                TypeAndInstructionVisitor typeAndInstructionVisitor = new TypeAndInstructionVisitor(this);
+//                typeAndInstructionVisitor.visitSection_instructions(parser.section_instructions());
+//                typeAndInstructionVisitor.visitSection_types(parser.section_types());
             }
 
         } catch (Exception e) {

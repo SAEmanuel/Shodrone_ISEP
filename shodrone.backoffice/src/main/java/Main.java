@@ -40,7 +40,7 @@ public class Main {
         suppressUnwantedWarnings();
 
         List<String> dslLines = Arrays.asList(
-                "DroneViado programming language version 0.666",
+                "DroneViado programming language version 0.6.66",
                 "",
                 "Types",
                 "Point",

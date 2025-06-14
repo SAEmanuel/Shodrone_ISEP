@@ -14,7 +14,7 @@ import java.util.Optional;
 
 public class HandleSimulation {
     private static final int SIMULATOR_PORT = 9091;
-    private static final String SIMULATOR_HOST = "10.9.23.21";
+    private static final String SIMULATOR_HOST = "10.8.101.185";  //check ip
 
     public static void handle(Socket socketFromBackoffice) {
         try (
