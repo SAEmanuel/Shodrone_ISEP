@@ -15,85 +15,29 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
         </processorPath>
-        <module name="DSL_PLUGIN" />
-        <module name="shodrone.shared" />
-        <module name="Server_APP" />
-        <module name="shodrone.simulator" />
-        <module name="Shared" />
-        <module name="shodrone.backoffice" />
-        <module name="Backoffice_APP" />
-        <module name="Persistence" />
-        <module name="ShowProposal_PLUGIN" />
-        <module name="shodrone.testingApp" />
-        <module name="Customer_APP" />
-        <module name="DroneLanguage_PLUGIN" />
-        <module name="Figure_DSL" />
-      </profile>
-      <profile name="Annotation profile for backoffice" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-        </processorPath>
-        <module name="backoffice" />
-      </profile>
-      <profile name="Annotation profile for shodrone.customer_app" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-        </processorPath>
-        <module name="shodrone.customer_app" />
-      </profile>
-      <profile name="Annotation profile for shodrone.customer_app_server" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-        </processorPath>
         <module name="shodrone.customer_app_server" />
-      </profile>
-      <profile name="Annotation profile for shodrone.droneLanguage_Plugin" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-        </processorPath>
+        <module name="backoffice" />
         <module name="shodrone.droneLanguage_Plugin" />
-      </profile>
-      <profile name="Annotation profile for shodrone.shared.persistence" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-        </processorPath>
-        <module name="shodrone.shared.persistence" />
-      </profile>
-      <profile name="Annotation profile for shodrone.showProposal_Plugin" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-        </processorPath>
+        <module name="shodrone.shared" />
         <module name="shodrone.showProposal_Plugin" />
+        <module name="shodrone.testingApp" />
+        <module name="shodrone.customer_app" />
+        <module name="shodrone.simulator" />
+        <module name="shodrone.shared.persistence" />
+        <module name="Figure_DSL" />
+        <module name="shodrone.backoffice" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="DSL_PLUGIN" target="17" />
+      <module name="customerAppServer" target="17" />
+      <module name="shared" target="17" />
       <module name="shodrone.core" target="17" />
       <module name="shodrone.infraestructure.application" target="17" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="shodrone.backoffice" options="" />
+    </option>
   </component>
 </project>

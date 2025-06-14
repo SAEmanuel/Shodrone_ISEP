@@ -18,7 +18,7 @@ public class ProgramLanguageVersionVisitor extends droneGenericBaseVisitor<Void>
         if (ctx.header() == null) {
             plugin.addError("Missing Header Program Language Version declaration");
         } else {
-            String version = ctx.header().NUMBER().getText();
+            String version = ctx.header().VERSION_NUMBER().getText();
             if (!version.matches("\\d+(\\.\\d+)+")) {
                 plugin.addError("Invalid version format. Use X.Y.Z");
             }

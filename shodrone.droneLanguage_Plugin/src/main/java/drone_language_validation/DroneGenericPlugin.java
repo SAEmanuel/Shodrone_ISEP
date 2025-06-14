@@ -2,10 +2,10 @@ package drone_language_validation;
 
 import drone_language_validation.generated.droneGenericLexer;
 import drone_language_validation.generated.droneGenericParser;
+import drone_language_validation.validator.ProgramLanguageVersionVisitor;
 import lombok.Setter;
 import org.antlr.v4.runtime.*;
 
-import javax.xml.transform.ErrorListener;
 import java.util.*;
 
 public class DroneGenericPlugin {
@@ -50,6 +50,8 @@ public class DroneGenericPlugin {
 
 
             if (errors.isEmpty()) {
+                ProgramLanguageVersionVisitor versionValidator = new ProgramLanguageVersionVisitor(this);
+                versionValidator.visitProgram(parseTree);
 
             }
 

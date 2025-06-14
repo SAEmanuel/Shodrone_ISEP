@@ -1,4 +1,4 @@
-package drone_language_validation.generated;// Generated from droneGeneric.g4 by ANTLR 4.13.2
+package drone_language_validation.generated;// Generated from droneGeneric.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -9,7 +9,6 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * @param <T> The return type of the visit operation. Use {@link Void} for
  * operations with no return type.
  */
-@SuppressWarnings("CheckReturnValue")
 public class droneGenericBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements droneGenericVisitor<T> {
 	/**
 	 * {@inheritDoc}
