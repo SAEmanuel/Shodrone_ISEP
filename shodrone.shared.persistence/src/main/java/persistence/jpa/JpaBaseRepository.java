@@ -153,4 +153,9 @@ public abstract class JpaBaseRepository<T, ID extends Serializable> implements G
     protected String persistenceUnitName() {
         return "shodrone_backoffice";
     }
+
+    protected void injectEntityManagerForTest(EntityManager em) {
+        this._entityManager = em;
+    }
+
 }
