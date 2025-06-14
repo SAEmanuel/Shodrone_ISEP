@@ -39,7 +39,7 @@ public class GenerateShowProgramUI implements Runnable {
         if (result.isEmpty()){
             Utils.printFailMessage("Failed to generate program.");
         } else {
-            System.out.println("Program generation completed for ShowProposal: " + selectedProposal.getNameProposal());
+            Utils.printSuccessMessage("Successfully generated program.");
         }
     }
 }
