@@ -1,79 +1,56 @@
 grammar droneGeneric;
 
-program: statement* EOF;
+program
+  : header section_types section_variables section_instructions EOF
+  ;
 
-// Statements
-statement
-    : variableDeclaration
-    | instruction
-    ;
+header
+  : ID 'programming' 'language' 'version' NUMBER
+  ;
 
-// Variable Declaration
-variableDeclaration
-    : type ID '=' expression ';'
-    ;
+section_types
+  : 'Types' ID* // tipos livres, um por linha
+  ;
 
-// Type Definitions (both DroneOne and DroneTwo types)
-type
-    : 'Position' | 'Point'
-    | 'Vector'
-    | 'LinearVelocity'
-    | 'AngularVelocity'
-    | 'Distance'
-    | 'Time'
-    ;
+section_variables
+  : 'Variables' variable_declaration*
+  ;
 
-// Instructions
+variable_declaration
+  : ID ID '=' expression ';'
+  ;
+
+section_instructions
+  : 'Instructions' instruction*
+  ;
+
 instruction
-    : 'takeOff' '(' expression ',' expression ')' ';'
-    | 'land' '(' expression ')' ';'
-    | 'move' '(' expression ',' expression ')' ';'
-    | 'move' '(' expression ',' expression ',' expression ')' ';'
-    | 'movePath' '(' expression ',' expression ')' ';'
-    | 'moveCircle' '(' expression ',' expression ',' expression ')' ';'
-    | 'hoover' '(' expression ')' ';'
-    | 'lightsOn' '(' expression? ')' ';'
-    | 'lightsOff' '('? ')' ';'
-    | 'blink' '(' expression ')' ';'
-    ;
+  : ID '(' param_list? ')' ';'
+  ;
 
-// Expressions (with precedence and no left-recursion)
+param_list
+  : expression (',' expression)*
+  ;
+
 expression
-    : <assoc=right> expression op=('*'|'/') expression       # ExpressionMulDiv
-    | <assoc=right> expression op=('+'|'-') expression       # ExpressionAddSub
-    | 'PI' '/' INT                                           # ExpressionPiDiv
-    | vectorExpr                                             # ExpressionVector
-    | tupleExpr                                              # ExpressionTuple
-    | arrayOfTuples                                          # ExpressionArray
-    | floatLiteral                                           # ExpressionFloat
-    | INT                                                    # ExpressionInt
-    | ID                                                     # ExpressionVarRef
-    ;
+  : vector
+  | array_literal
+  | NUMBER
+  | ID
+  | expression op=('*' | '/' | '+' | '-') expression
+  | '(' expression ')'
+  ;
+
+vector
+  : '(' expression ',' expression ',' expression ')'
+  | vector '-' vector
+  ;
+
+array_literal
+  : '(' vector (',' vector)* ')'
+  ;
 
 
-tupleExpr
-    : '(' floatLiteral ',' floatLiteral ',' floatLiteral ')'
-    ;
-
-arrayOfTuples
-    : '(' tupleExpr (',' tupleExpr)* ')'
-    ;
-
-vectorExpr
-    : tupleExpr '-' tupleExpr
-    ;
-
-// Literals and Identifiers
-ID: [a-zA-Z_][a-zA-Z0-9_]*;
-
-fragment DIGIT: [0-9];
-INT: '-'? DIGIT+;
-
-FLOAT: '-'? DIGIT+ '.' DIGIT* | '-'? '.' DIGIT+;
-
-fragment EXPONENT: ('e'|'E') ('+'|'-')? DIGIT+;
-floatLiteral: FLOAT (EXPONENT)?;
-
-// Skip
-WS: [ \t\r\n]+ -> skip;
-COMMENT: '//' ~[\r\n]* -> skip;
+ID             : [a-zA-Z_][a-zA-Z0-9_]* ;
+NUMBER         : '-'? [0-9]+ ('.' [0-9]+)? ;
+WS             : [ \t\r\n]+ -> skip ;
