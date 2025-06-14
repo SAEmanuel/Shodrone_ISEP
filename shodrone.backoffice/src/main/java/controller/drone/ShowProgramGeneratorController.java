@@ -1,7 +1,7 @@
 package controller.drone;
 
 import Interface.DroneProgramGenerator;
-import drone.DroneProgramGeneratorRegistry;
+import drone.DroneProgramsGenerator;
 import domain.entity.*;
 import persistence.RepositoryProvider;
 import utils.DslMetadata;
@@ -12,10 +12,10 @@ import java.util.Optional;
 
 public class ShowProgramGeneratorController {
 
-    private final DroneProgramGeneratorRegistry registry;
+    private final DroneProgramGenerator generator;
 
     public ShowProgramGeneratorController() {
-        this.registry = new DroneProgramGeneratorRegistry();
+        this.generator = new DroneProgramsGenerator();
     }
 
     /**
@@ -24,8 +24,6 @@ public class ShowProgramGeneratorController {
      * @param showProposal The ShowProposal to generate programs for.
      */
     public Optional<ShowProposal> generateProgramsForShow(ShowProposal showProposal) {
-
-        DroneProgramGenerator generator = registry.getGenerator();
 
         List<Figure> figures = showProposal.getSequenceFigues();
 
@@ -46,10 +44,10 @@ public class ShowProgramGeneratorController {
 
                     String key = figure.name().toString() + "_" + droneModel.identity() + "_DSL_" + dslVersion;
                     showProposal.getDroneLanguageSpecifications().put(key, program);
-
                 }
             }
         }
+
         return RepositoryProvider.showProposalRepository().saveInStore(showProposal);
     }
 }
