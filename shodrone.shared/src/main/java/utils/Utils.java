@@ -539,6 +539,11 @@ public class Utils {
         return selectsIndex(list);
     }
 
+    static public int showAndSelectIndexv2(List<?> list, String header) {
+        showListv2(list, header);
+        return selectsIndex(list);
+    }
+
 
     /**
      * Similar to showAndSelectIndex but displays the list with a bigger format.
@@ -636,6 +641,20 @@ public class Utils {
         }
         System.out.printf("║    %s(0)%s -  %-20s %9s%n", COLOR_OPTIONS, ANSI_RESET, "Cancel", "║");
         System.out.println("╚════════════════════════════════════════╝");
+    }
+
+    static public void showListv2(List<?> list, String header) {
+        System.out.println(header);
+        System.out.println("╚═════════════════════════════════════════════╝");
+
+        int index = 0;
+        for (Object o : list) {
+            index++;
+
+            System.out.printf("║    %s(%-3s%s -  %-28s %-2s%n", COLOR_OPTIONS, index+")", ANSI_RESET, o.toString(), "    ║");
+        }
+        System.out.printf("║    %s(0)%s  -  %-20s %9s%n", COLOR_OPTIONS, ANSI_RESET, "Cancel", "            ║");
+        System.out.println("╚═════════════════════════════════════════════╝");
     }
 
     /**

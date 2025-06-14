@@ -7,6 +7,7 @@ import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static more.ColorfulOutput.*;
 import static more.TextEffects.BOLD;
@@ -100,7 +101,7 @@ public class ListFiguresByCostumerUI implements Runnable {
                         f.identity(), f.customer().name(), f.name(), f.availability(), ANSI_RESET);
             }
 
-            String input = Utils.readLineFromConsole("Select a figure by number (or press ENTER to finish)").trim();
+            String input = Objects.requireNonNull(Utils.readLineFromConsole("Select a figure by number (or press ENTER to finish)")).trim();
 
             if (input.isEmpty()) {
                 Utils.printAlterMessage("Selection terminated.");
@@ -114,11 +115,11 @@ public class ListFiguresByCostumerUI implements Runnable {
                 Utils.printAlterMessage("Invalid input. Please enter a valid number.");
                 continue;
             }
-
             if (option == 0) {
                 Utils.printAlterMessage("Selection terminated by user.");
                 break;
             }
+
 
             if (option < 1 || option > figureList.size()) {
                 Utils.printAlterMessage("Invalid option. Try again.");

@@ -1,12 +1,16 @@
 package ui.showrequest;
 
+import controller.service.ServiceForValidSequenceFiguresForShow;
 import controller.showrequest.RegisterShowRequestController;
 import domain.entity.Costumer;
+import domain.entity.Figure;
 import domain.entity.ShowRequest;
 import factories.FactoryProvider;
 import ui.customer.FoundCostumerUI;
 import utils.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static more.ColorfulOutput.ANSI_BRIGHT_BLACK;
@@ -73,7 +77,12 @@ public class RegisterShowRequestUI implements Runnable {
             getRegisterShowcontroller().foundCostumerForRegistration(costumerSelected);
 
             Utils.printCenteredSubtitle("Figures selection for show");
-            getRegisterShowcontroller().foundFiguresForRegistration(listFiguresByCostumerUI.getListFiguresUI(costumerSelected.get()));
+
+            if(costumerSelected.isEmpty()) {
+                throw new Exception("Costumer not found");
+            }
+
+            getRegisterShowcontroller().foundFiguresForRegistration(ServiceForValidSequenceFiguresForShow.getListFiguresUIWithRepetitions(costumerSelected.get(),new ArrayList<>()));
 
             Utils.printCenteredSubtitle("Show description");
             getRegisterShowcontroller().getDescriptionsForRegistration(

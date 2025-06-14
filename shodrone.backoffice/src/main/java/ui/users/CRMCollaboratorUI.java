@@ -55,16 +55,16 @@ public class CRMCollaboratorUI implements Runnable {
         options.add(new MenuItem("Register customer", new RegisterCustomerUI()));
         options.add(new MenuItem("List All Public Figures", new ListPublicFiguresUI()) );
         options.add(new MenuItem("Search Figures", new SearchFigureUI()) );
+        options.add(new MenuItem("Create Show Proposal", new CreateShowProposalUI()));
         options.add(new MenuItem("Add Figures to Show Proposal", new AddFiguresToProposalUI()));
         options.add(new MenuItem("Add Video To Show Proposal", new AddVideoOfSimulationToTheProposalUI()));
-        options.add(new MenuItem("Create Show Proposal", new CreateShowProposalUI()));
-        options.add(new MenuItem("Accept show proposal", new AcceptShowProposalUI()));
         options.add(new MenuItem("Add Drones to Show Proposal", new AddDronesShowProposalUI()));
+        options.add(new MenuItem("Accept show proposal", new AcceptShowProposalUI()));
 
         int option;
         do {
-            String menu = "\n╔════════" + ANSI_BRIGHT_WHITE + " CRM COLLABORATOR MENU " + ANSI_RESET + "═════════╗";
-            option = Utils.showAndSelectIndex(options, menu);
+            String menu = "\n╔═══════════" + ANSI_BRIGHT_WHITE + " CRM COLLABORATOR MENU " + ANSI_RESET + "═══════════╗";
+            option = Utils.showAndSelectIndexv2(options, menu);
 
             if ((option >= 0) && (option < options.size())) {
                 options.get(option).run();
