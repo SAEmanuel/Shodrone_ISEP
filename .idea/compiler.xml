@@ -24,10 +24,10 @@
         <module name="Backoffice_APP" />
         <module name="Persistence" />
         <module name="ShowProposal_PLUGIN" />
-        <module name="shodrone.dsl_Plugin" />
         <module name="shodrone.testingApp" />
         <module name="Customer_APP" />
         <module name="DroneLanguage_PLUGIN" />
+        <module name="Figure_DSL" />
       </profile>
       <profile name="Annotation profile for backoffice" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
