@@ -1,10 +1,11 @@
 package drone_language_validation;
 
+import drone_language_validation.generated.droneGenericLexer;
+import drone_language_validation.generated.droneGenericParser;
 import lombok.Setter;
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.*;
 
+import javax.xml.transform.ErrorListener;
 import java.util.*;
 
 public class DroneGenericPlugin {
@@ -45,28 +46,11 @@ public class DroneGenericPlugin {
             lexer.addErrorListener(errorListener);
             parser.addErrorListener(errorListener);
 
-            dslParser.DslContext parseTree = parser.dsl();
+            droneGenericParser.ProgramContext parseTree = parser.program();
+
 
             if (errors.isEmpty()) {
-                DslVersionValidator versionValidator = new DslVersionValidator(this);
-                versionValidator.visit(parseTree);
 
-                DroneModelValidator droneValidator = new DroneModelValidator(this);
-                droneValidator.visit(parseTree);
-
-                DeclaredVariablesValidator varValidator = new DeclaredVariablesValidator(this);
-                varValidator.visit(parseTree);
-
-                ElementDefinitionValidator elementDefinitionValidator = new ElementDefinitionValidator(this);
-                elementDefinitionValidator.visit(parseTree);
-
-                StatementBlockValidator stmtValidator = new StatementBlockValidator(this);
-                stmtValidator.visit(parseTree);
-
-                UnscopedStatementValidator unscopedStatementValidator = new UnscopedStatementValidator(this);
-                unscopedStatementValidator.visit(parseTree);
-
-                validateDroneModelPresence();
             }
 
         } catch (Exception e) {
@@ -77,10 +61,33 @@ public class DroneGenericPlugin {
 
     }
 
+
+
+    //---------------------------(Utils Methods)-------------------------------------------
+
     private void resetState() {
         this.declaredTypes.clear();
         this.declaredInstructions.clear();
         this.errors.clear();
         this.declaredVariables.forEach((k, v) -> v.clear());
+    }
+
+    private static class ErrorListener extends BaseErrorListener {
+        private final DroneGenericPlugin plugin;
+
+        public ErrorListener(DroneGenericPlugin plugin) {
+            this.plugin = plugin;
+        }
+
+        @Override
+        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol,
+                                int line, int charPositionInLine,
+                                String msg, RecognitionException e) {
+            plugin.addError(String.format("[Syntax Error] Line %d:%d - %s", line, charPositionInLine, msg));
+        }
+    }
+
+    void addError(String error) {
+        errors.add(error);
     }
 }
