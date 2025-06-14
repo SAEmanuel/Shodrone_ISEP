@@ -67,7 +67,6 @@ public class RepresentativeUI implements Runnable {
         List<MenuItem> options = new ArrayList<MenuItem>();
 
         options.add(new MenuItem("Analyse Proposals", new AnalyseProposalUI(getAuthController())));
-        options.add(new MenuItem("Consult Shows Agenda", new ShowTextUI("Not implemented yet.")));
         options.add(new MenuItem("Check Show's Dates", new CheckShowDatesUI(getAuthController())));
         options.add(new MenuItem("Get Show Info", new GetShowInfoUI(getAuthController())));
 
