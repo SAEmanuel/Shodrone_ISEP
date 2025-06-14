@@ -5,7 +5,7 @@ program
   ;
 
 header
-  : ID 'programming' 'language' 'version' NUMBER
+  : ID 'programming' 'language' 'version' VERSION_NUMBER
   ;
 
 section_types
@@ -51,6 +51,7 @@ array_literal
   ;
 
 
+VERSION_NUMBER : [0-9]+ '.' [0-9]+ '.' [0-9]+ ;
 ID             : [a-zA-Z_][a-zA-Z0-9_]* ;
 NUMBER         : '-'? [0-9]+ ('.' [0-9]+)? ;
 WS             : [ \t\r\n]+ -> skip ;

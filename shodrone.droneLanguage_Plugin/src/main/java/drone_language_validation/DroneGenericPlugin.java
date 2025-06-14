@@ -87,7 +87,7 @@ public class DroneGenericPlugin {
         }
     }
 
-    void addError(String error) {
+    public void addError(String error) {
         errors.add(error);
     }
 }
