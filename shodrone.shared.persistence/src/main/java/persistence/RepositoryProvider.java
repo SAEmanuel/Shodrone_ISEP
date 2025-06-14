@@ -52,7 +52,7 @@ public class RepositoryProvider {
     private static MaintenanceTypeRepository maintenanceTypeRepository;
     private static ShowRepository showRepository;
     private static ProposalTemplateRepository proposalTemplateRepository;
-
+    private static DroneLanguageConfigurationRepository droneLanguageConfigurationRepository;
 
     private static AuditLoggerService auditLoggerService;
     private static AuditLogRepository auditLogRepository;
@@ -303,6 +303,17 @@ public class RepositoryProvider {
                 proposalTemplateRepository = new ProposalTemplateJPAImpl();
         }
         return proposalTemplateRepository;
+    }
+
+    public static DroneLanguageConfigurationRepository droneLanguageConfigurationRepository() {
+        if (droneLanguageConfigurationRepository == null) {
+            if (isInMemory()) {
+                droneLanguageConfigurationRepository = new InMemoryDroneLanguageConfigurationRepository();
+            } else {
+                droneLanguageConfigurationRepository = new DroneLanguageConfigurationJPAImpl();
+            }
+        }
+        return droneLanguageConfigurationRepository;
     }
 
     /**

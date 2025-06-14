@@ -756,91 +756,89 @@ public class Bootstrap implements Runnable {
         proposal.setText(filled);
         proposal.setDroneLanguageSpecifications(langSpecs);
         proposal.setScript(firstScript());
-        System.out.println(proposal.getScript());
         return proposal;
     }
 
     private Map<String, String> loadDroneLanguageSpecifications() {
         Map<String, String> specs = new HashMap<>();
 
-        specs.put("DroneOne", """
-        DroneOne programming language version 0.86
+        specs.put("Spiral_Shahed136_DSL_0.86", """
+                Drone programming language version 0.86
 
-        Types
+                Types
 
-        Position - (x, y, z), so that x, y and z are floating point numbers in meters
-        Vector - (x, y, z), so that x, y and z are floating point numbers in meters
-        LinearVelocity - floating point number in m/s
-        AngularVelocity - floating point number in rad/s
-        Distance - floating point number in m
-        Time - integer number in ms
+                Position - (x, y, z), so that x, y and z are floating point numbers in meters
+                Vector - (x, y, z), so that x, y and z are floating point numbers in meters
+                LinearVelocity - floating point number in m/s
+                AngularVelocity - floating point number in rad/s
+                Distance - floating point number in m
+                Time - integer number in ms
 
-        Variables
+                Variables
 
-        <type> <variable name> = <initial value>;
-        Position aPosition = (0, 1, 1.5);
-        Vector aDirection = (0,0,1)-(0,1,0);
+                <type> <variable name> = <initial value>;
+                Position aPosition = (0, 1, 1.5);
+                Vector aDirection = (0,0,1)-(0,1,0);
 
-        LinearVelocity aVelocity = 6.2;
-        AngularVelocity rotVelocity = PI/10;
+                LinearVelocity aVelocity = 6.2;
+                AngularVelocity rotVelocity = PI/10;
 
-        Position arrayOfPositions =((0, 0, 0), (0, 0, 20), (0, 20, 20), (0, 30, 20), (-10, 50, 25));
+                Position arrayOfPositions =((0, 0, 0), (0, 0, 20), (0, 20, 20), (0, 30, 20), (-10, 50, 25));
 
-        Instructions
+                Instructions
 
-        takeOff(<height>, <velocity>);
-        land(<velocity>);
-        move(<final position>, <velocity>);
-        move(<vector>, <velocity>, <duration>);
-        movePath(<array of positions>, <velocity>);
-        hoover(<time>);
+                takeOff(<height>, <velocity>);
+                land(<velocity>);
+                move(<final position>, <velocity>);
+                move(<vector>, <velocity>, <duration>);
+                movePath(<array of positions>, <velocity>);
+                hoover(<time>);
 
-        lightsOn();
-        lightsOff();
-        blink(<period>);
-        """);
+                lightsOn();
+                lightsOff();
+                blink(<period>);
+                """);
 
-        specs.put("DroneTwo", """
-        DroneTwo programming language version 0.666
+        specs.put("Robot_Shahed136_DSL_0.666", """
+                Drone programming language version 0.666
 
-        Types
+                Types
 
-        Point - (x, y, z), so that x, y and z are floating point numbers in meters
-        Vector - (x, y, z), so that x, y and z are floating point numbers in meters
-        LinearVelocity - floating point number in m/s
-        AngularVelocity - floating point number in rad/s
-        Distance - floating point number in m
-        Time - integer number in ms
+                Point - (x, y, z), so that x, y and z are floating point numbers in meters
+                Vector - (x, y, z), so that x, y and z are floating point numbers in meters
+                LinearVelocity - floating point number in m/s
+                AngularVelocity - floating point number in rad/s
+                Distance - floating point number in m
+                Time - integer number in ms
 
-        Variables
+                Variables
 
-        <type> <variable name> = <initial value>;
-        Point aPoint = (0, 1, 1.5);
-        Vector aDirection = (0,0,1)-(0,1,0);
+                <type> <variable name> = <initial value>;
+                Point aPoint = (0, 1, 1.5);
+                Vector aDirection = (0,0,1)-(0,1,0);
 
-        LinearVelocity aVelocity = 6.2;
-        AngularVelocity rotVelocity = PI/10;
+                LinearVelocity aVelocity = 6.2;
+                AngularVelocity rotVelocity = PI/10;
 
-        Point arrayOfPoints =((0, 0, 0), (0, 0, 20), (0, 20, 20), (0, 30, 20), (-10, 50, 25));
+                Point arrayOfPoints =((0, 0, 0), (0, 0, 20), (0, 20, 20), (0, 30, 20), (-10, 50, 25));
 
-        Instructions
+                Instructions
 
-        takeOff(<height>, <velocity>);
-        land(<velocity>);
-        move(<final position>, <velocity>);
-        move(<direction vector>, <velocity>, <duration>);
-        movePath(<array of points>, <velocity>);
-        moveCircle(<center point>, <angle>, <angular velocity>);
-        moveCircle(<center point>, <duration>, <angular velocity>);
-        hoover(<time>);
+                takeOff(<height>, <velocity>);
+                land(<velocity>);
+                move(<final position>, <velocity>);
+                move(<direction vector>, <velocity>, <duration>);
+                movePath(<array of points>, <velocity>);
+                moveCircle(<center point>, <angle>, <angular velocity>);
+                moveCircle(<center point>, <duration>, <angular velocity>);
+                hoover(<time>);
 
-        lightsOn(<color>);
-        lightsOff();
-        """);
+                lightsOn(<color>);
+                lightsOff();
+                """);
 
         return specs;
     }
-
 
 
     private Map<DroneModel, Integer> proposal1DroneModels() {
@@ -905,217 +903,76 @@ public class Bootstrap implements Runnable {
 
     private List<String> firstScript() {
         String scriptText = """
-0 - 3x3x3
-2 0 0
-2 0 0
-2 0 1
-2 0 2
-2 0 3
-2 0 4
-2 0 5
-2 0 6
-2 0 7
-2 0 8
-2 0 9
-2 0 9
-2 1 0
-2 1 0
-1 2 0
-1 2 0
-0 2 0
--1 2 0
--1 2 0
--2 1 0
--2 1 0
--2 0 0
--2 -1 0
--2 -1 0
--1 -2 0
--1 -2 0
-0 -2 0
-1 -2 0
-1 -2 0
-2 -1 0
-2 -1 0
-2 0 0
-1 - 3x3x3
-1 0 0
-1 0 0
-1 0 1
-1 0 2
-1 0 3
-1 0 4
-1 0 5
-1 0 6
-1 0 7
-1 0 8
-1 0 9
-1 0 9
-1 0 0
-1 1 0
-1 1 0
-0 1 0
-0 1 0
-0 1 0
--1 1 0
--1 1 0
--1 0 0
--1 0 0
--1 0 0
--1 -1 0
--1 -1 0
-0 -1 0
-0 -1 0
-0 -1 0
-1 -1 0
-1 -1 0
-1 0 0
-1 0 0
-2 - 3x3x3
-0 0 0
-0 0 0
-0 0 1
-0 0 2
-0 0 3
-0 0 4
-0 0 5
-0 0 6
-0 0 7
-0 0 8
-0 0 9
-0 0 9
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-3 - 3x3x3
-1 0 0
-1 0 0
-1 0 1
-1 0 2
-1 0 3
-1 0 4
-1 0 5
-1 0 6
-1 0 7
-1 0 8
-1 0 9
-1 0 9
-1 0 0
-1 -1 0
-1 -1 0
-0 -1 0
-0 -1 0
-0 -1 0
--1 -1 0
--1 -1 0
--1 0 0
--1 0 0
--1 0 0
--1 1 0
--1 1 0
-0 1 0
-0 1 0
-0 1 0
-1 1 0
-1 1 0
-1 0 0
-1 0 0
-4 - 3x3x3
-0 0 0
-0 0 0
-0 0 1
-0 0 2
-0 0 3
-0 0 4
-0 0 5
-0 0 6
-0 0 7
-0 0 8
-0 0 9
-0 0 9
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-0 0 0
-5 - 3x3x3
-2 0 0
-2 0 0
-2 0 1
-2 0 2
-2 0 3
-2 0 4
-2 0 5
-2 0 6
-2 0 7
-2 0 8
-2 0 9
-2 0 9
-2 -1 0
-2 -1 0
-1 -2 0
-1 -2 0
-0 -2 0
--1 -2 0
--1 -2 0
--2 -1 0
--2 -1 0
--2 0 0
--2 1 0
--2 1 0
--1 2 0
--1 2 0
-0 2 0
-1 2 0
-1 2 0
-2 1 0
-2 1 0
-2 0 0
-""";
+                    [5]
+                    0 - 3x4x5
+                    8 5 5
+                    7 0 1
+                    7 0 4
+                    8 3 11
+                    10 1 10
+                    1 8 5
+                    9 9 1
+                    0 3 3
+                    10 4 1
+                    5 10 2
+                    5 13 2
+                    4 10 2
+                    7 9 4
+                    5 10 8
+                    1 - 2x3x4
+                    9 4 4
+                    3 4 2
+                    6 5 2
+                    1 5 15
+                    8 7 2
+                    4 1 2
+                    5 5 4
+                    6 8 10
+                    3 10 4
+                    8 7 3
+                    8 8 3
+                    8 2 3
+                    10 1 3
+                    2 - 3x4x5
+                    7 0 2
+                    4 9 4
+                    7 9 1
+                    0 5 5
+                    8 8 1
+                    4 8 1
+                    7 4 1
+                    4 0 5
+                    9 9 2
+                    1 9 5
+                    2 10 5
+                    1 10 3
+                    5 10 2
+                    3 7 5
+                    3 - 4x3x1
+                    2 8 2
+                    3 6 1
+                    6 2 2
+                    6 7 1
+                    0 5 6
+                    1 7 1
+                    9 7 2
+                    6 1 9
+                    9 5 1
+                    9 4 2
+                    4 - 1x4x6
+                    1 5 5
+                    7 0 5
+                    4 3 1
+                    3 3 1
+                    4 4 1
+                    10 8 3
+                    1 7 8
+                    9 0 4
+                    10 7 2
+                    4 2 4
+                """;
 
-        List<String> script = new ArrayList<>();
-
-        String[] lines = scriptText.split("\\R");
-
-        for (String line : lines) {
-            line = line.trim();
-            if (line.isEmpty()) continue;
-            script.add(line);
-        }
-
-        return script;
+        return List.of(scriptText.strip().split("\\R"));
     }
 
 }

@@ -1,6 +1,10 @@
 package Interface;
 
+import domain.entity.DroneModel;
+import domain.entity.Figure;
+import utils.DslMetadata;
+
 public interface DroneProgramGenerator {
 
-    void generateDronePrograms(String dslContent);
+    String generateProgram(Figure figure, DroneModel droneModel, String dslVersion, DslMetadata dslMetadata);
 }
