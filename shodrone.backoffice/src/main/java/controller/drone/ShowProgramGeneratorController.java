@@ -69,6 +69,7 @@ public class ShowProgramGeneratorController {
             List<int[]> positions = entry.getValue();
             script.add(droneId + " - 3x4x5");
 
+
             for (int[] pos : positions) {
                 script.add(pos[0] + " " + pos[1] + " " + pos[2]);
             }
