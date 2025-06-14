@@ -154,7 +154,7 @@ public abstract class JpaBaseRepository<T, ID extends Serializable> implements G
         return "shodrone_backoffice";
     }
 
-    protected void injectEntityManagerForTest(EntityManager em) {
+    public void injectEntityManagerForTest(EntityManager em) {
         this._entityManager = em;
     }
 

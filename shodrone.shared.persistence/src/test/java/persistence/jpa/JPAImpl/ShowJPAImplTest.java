@@ -1,4 +1,4 @@
-package persistence.jpa;
+package persistence.jpa.JPAImpl;
 
 import domain.entity.Costumer;
 import domain.entity.Show;
@@ -7,7 +7,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.jpa.JPAImpl.ShowJPAImpl;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -30,7 +29,7 @@ class ShowJPAImplTest {
         typedQuery = mock(TypedQuery.class);
 
         showRepository = new ShowJPAImpl();
-        showRepository.injectEntityManagerForTest(mockEntityManager); // <- Precisa existir na superclasse
+        showRepository.injectEntityManagerForTest(mockEntityManager);
     }
 
     @Test
