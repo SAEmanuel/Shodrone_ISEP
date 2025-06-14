@@ -1,6 +1,9 @@
 package persistence.inmemory;
 
-import domain.entity.*;
+import domain.entity.Costumer;
+import domain.entity.Email;
+import domain.entity.Figure;
+import domain.entity.FigureCategory;
 import domain.valueObjects.*;
 import history.AuditLoggerService;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +12,10 @@ import persistence.AuditLogRepository;
 import persistence.FigureCategoryRepository;
 import persistence.RepositoryProvider;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 

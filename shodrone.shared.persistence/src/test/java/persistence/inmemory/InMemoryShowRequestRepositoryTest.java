@@ -1,7 +1,5 @@
 package persistence.inmemory;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import domain.entity.*;
 import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
@@ -11,7 +9,12 @@ import utils.DslMetadata;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryShowRequestRepositoryTest {
 
