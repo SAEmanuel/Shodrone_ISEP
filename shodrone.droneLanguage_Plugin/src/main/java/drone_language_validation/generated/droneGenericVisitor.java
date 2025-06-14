@@ -16,23 +16,35 @@ public interface droneGenericVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitProgram(droneGenericParser.ProgramContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link droneGenericParser#statement}.
+	 * Visit a parse tree produced by {@link droneGenericParser#header}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStatement(droneGenericParser.StatementContext ctx);
+	T visitHeader(droneGenericParser.HeaderContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link droneGenericParser#variableDeclaration}.
+	 * Visit a parse tree produced by {@link droneGenericParser#section_types}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitVariableDeclaration(droneGenericParser.VariableDeclarationContext ctx);
+	T visitSection_types(droneGenericParser.Section_typesContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link droneGenericParser#type}.
+	 * Visit a parse tree produced by {@link droneGenericParser#section_variables}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitType(droneGenericParser.TypeContext ctx);
+	T visitSection_variables(droneGenericParser.Section_variablesContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link droneGenericParser#variable_declaration}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitVariable_declaration(droneGenericParser.Variable_declarationContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link droneGenericParser#section_instructions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSection_instructions(droneGenericParser.Section_instructionsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link droneGenericParser#instruction}.
 	 * @param ctx the parse tree
@@ -40,90 +52,27 @@ public interface droneGenericVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitInstruction(droneGenericParser.InstructionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionMulDiv}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Visit a parse tree produced by {@link droneGenericParser#param_list}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionMulDiv(droneGenericParser.ExpressionMulDivContext ctx);
+	T visitParam_list(droneGenericParser.Param_listContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionFloat}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Visit a parse tree produced by {@link droneGenericParser#expression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionFloat(droneGenericParser.ExpressionFloatContext ctx);
+	T visitExpression(droneGenericParser.ExpressionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionVector}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Visit a parse tree produced by {@link droneGenericParser#vector}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionVector(droneGenericParser.ExpressionVectorContext ctx);
+	T visitVector(droneGenericParser.VectorContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code ExpressionTuple}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Visit a parse tree produced by {@link droneGenericParser#array_literal}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitExpressionTuple(droneGenericParser.ExpressionTupleContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExpressionPiDiv}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionPiDiv(droneGenericParser.ExpressionPiDivContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExpressionArray}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionArray(droneGenericParser.ExpressionArrayContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExpressionVarRef}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionVarRef(droneGenericParser.ExpressionVarRefContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExpressionInt}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionInt(droneGenericParser.ExpressionIntContext ctx);
-	/**
-	 * Visit a parse tree produced by the {@code ExpressionAddSub}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpressionAddSub(droneGenericParser.ExpressionAddSubContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link droneGenericParser#tupleExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitTupleExpr(droneGenericParser.TupleExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link droneGenericParser#arrayOfTuples}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitArrayOfTuples(droneGenericParser.ArrayOfTuplesContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link droneGenericParser#vectorExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitVectorExpr(droneGenericParser.VectorExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link droneGenericParser#floatLiteral}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFloatLiteral(droneGenericParser.FloatLiteralContext ctx);
+	T visitArray_literal(droneGenericParser.Array_literalContext ctx);
 }

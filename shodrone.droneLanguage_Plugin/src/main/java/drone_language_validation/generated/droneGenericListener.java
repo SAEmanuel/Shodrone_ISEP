@@ -17,35 +17,55 @@ public interface droneGenericListener extends ParseTreeListener {
 	 */
 	void exitProgram(droneGenericParser.ProgramContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link droneGenericParser#statement}.
+	 * Enter a parse tree produced by {@link droneGenericParser#header}.
 	 * @param ctx the parse tree
 	 */
-	void enterStatement(droneGenericParser.StatementContext ctx);
+	void enterHeader(droneGenericParser.HeaderContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link droneGenericParser#statement}.
+	 * Exit a parse tree produced by {@link droneGenericParser#header}.
 	 * @param ctx the parse tree
 	 */
-	void exitStatement(droneGenericParser.StatementContext ctx);
+	void exitHeader(droneGenericParser.HeaderContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link droneGenericParser#variableDeclaration}.
+	 * Enter a parse tree produced by {@link droneGenericParser#section_types}.
 	 * @param ctx the parse tree
 	 */
-	void enterVariableDeclaration(droneGenericParser.VariableDeclarationContext ctx);
+	void enterSection_types(droneGenericParser.Section_typesContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link droneGenericParser#variableDeclaration}.
+	 * Exit a parse tree produced by {@link droneGenericParser#section_types}.
 	 * @param ctx the parse tree
 	 */
-	void exitVariableDeclaration(droneGenericParser.VariableDeclarationContext ctx);
+	void exitSection_types(droneGenericParser.Section_typesContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link droneGenericParser#type}.
+	 * Enter a parse tree produced by {@link droneGenericParser#section_variables}.
 	 * @param ctx the parse tree
 	 */
-	void enterType(droneGenericParser.TypeContext ctx);
+	void enterSection_variables(droneGenericParser.Section_variablesContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link droneGenericParser#type}.
+	 * Exit a parse tree produced by {@link droneGenericParser#section_variables}.
 	 * @param ctx the parse tree
 	 */
-	void exitType(droneGenericParser.TypeContext ctx);
+	void exitSection_variables(droneGenericParser.Section_variablesContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link droneGenericParser#variable_declaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVariable_declaration(droneGenericParser.Variable_declarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link droneGenericParser#variable_declaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVariable_declaration(droneGenericParser.Variable_declarationContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link droneGenericParser#section_instructions}.
+	 * @param ctx the parse tree
+	 */
+	void enterSection_instructions(droneGenericParser.Section_instructionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link droneGenericParser#section_instructions}.
+	 * @param ctx the parse tree
+	 */
+	void exitSection_instructions(droneGenericParser.Section_instructionsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link droneGenericParser#instruction}.
 	 * @param ctx the parse tree
@@ -57,151 +77,43 @@ public interface droneGenericListener extends ParseTreeListener {
 	 */
 	void exitInstruction(droneGenericParser.InstructionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionMulDiv}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Enter a parse tree produced by {@link droneGenericParser#param_list}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionMulDiv(droneGenericParser.ExpressionMulDivContext ctx);
+	void enterParam_list(droneGenericParser.Param_listContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExpressionMulDiv}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Exit a parse tree produced by {@link droneGenericParser#param_list}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionMulDiv(droneGenericParser.ExpressionMulDivContext ctx);
+	void exitParam_list(droneGenericParser.Param_listContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionFloat}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Enter a parse tree produced by {@link droneGenericParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionFloat(droneGenericParser.ExpressionFloatContext ctx);
+	void enterExpression(droneGenericParser.ExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExpressionFloat}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Exit a parse tree produced by {@link droneGenericParser#expression}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionFloat(droneGenericParser.ExpressionFloatContext ctx);
+	void exitExpression(droneGenericParser.ExpressionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionVector}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Enter a parse tree produced by {@link droneGenericParser#vector}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionVector(droneGenericParser.ExpressionVectorContext ctx);
+	void enterVector(droneGenericParser.VectorContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExpressionVector}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Exit a parse tree produced by {@link droneGenericParser#vector}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionVector(droneGenericParser.ExpressionVectorContext ctx);
+	void exitVector(droneGenericParser.VectorContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code ExpressionTuple}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Enter a parse tree produced by {@link droneGenericParser#array_literal}.
 	 * @param ctx the parse tree
 	 */
-	void enterExpressionTuple(droneGenericParser.ExpressionTupleContext ctx);
+	void enterArray_literal(droneGenericParser.Array_literalContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code ExpressionTuple}
-	 * labeled alternative in {@link droneGenericParser#expression}.
+	 * Exit a parse tree produced by {@link droneGenericParser#array_literal}.
 	 * @param ctx the parse tree
 	 */
-	void exitExpressionTuple(droneGenericParser.ExpressionTupleContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ExpressionPiDiv}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionPiDiv(droneGenericParser.ExpressionPiDivContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExpressionPiDiv}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionPiDiv(droneGenericParser.ExpressionPiDivContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ExpressionArray}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionArray(droneGenericParser.ExpressionArrayContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExpressionArray}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionArray(droneGenericParser.ExpressionArrayContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ExpressionVarRef}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionVarRef(droneGenericParser.ExpressionVarRefContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExpressionVarRef}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionVarRef(droneGenericParser.ExpressionVarRefContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ExpressionInt}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionInt(droneGenericParser.ExpressionIntContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExpressionInt}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionInt(droneGenericParser.ExpressionIntContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code ExpressionAddSub}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void enterExpressionAddSub(droneGenericParser.ExpressionAddSubContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code ExpressionAddSub}
-	 * labeled alternative in {@link droneGenericParser#expression}.
-	 * @param ctx the parse tree
-	 */
-	void exitExpressionAddSub(droneGenericParser.ExpressionAddSubContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link droneGenericParser#tupleExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterTupleExpr(droneGenericParser.TupleExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link droneGenericParser#tupleExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitTupleExpr(droneGenericParser.TupleExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link droneGenericParser#arrayOfTuples}.
-	 * @param ctx the parse tree
-	 */
-	void enterArrayOfTuples(droneGenericParser.ArrayOfTuplesContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link droneGenericParser#arrayOfTuples}.
-	 * @param ctx the parse tree
-	 */
-	void exitArrayOfTuples(droneGenericParser.ArrayOfTuplesContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link droneGenericParser#vectorExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterVectorExpr(droneGenericParser.VectorExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link droneGenericParser#vectorExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitVectorExpr(droneGenericParser.VectorExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link droneGenericParser#floatLiteral}.
-	 * @param ctx the parse tree
-	 */
-	void enterFloatLiteral(droneGenericParser.FloatLiteralContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link droneGenericParser#floatLiteral}.
-	 * @param ctx the parse tree
-	 */
-	void exitFloatLiteral(droneGenericParser.FloatLiteralContext ctx);
+	void exitArray_literal(droneGenericParser.Array_literalContext ctx);
 }
