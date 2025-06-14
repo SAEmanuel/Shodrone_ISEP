@@ -1,4 +1,4 @@
-// Generated from droneGeneric.g4 by ANTLR 4.13.2
+package drone_language_validation.generated;// Generated from droneGeneric.g4 by ANTLR 4.13.2
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
 /**
@@ -10,7 +10,7 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
  * operations with no return type.
  */
 @SuppressWarnings("CheckReturnValue")
-public class droneGenericBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements droneGenericVisitor<T> {
+public abstract class droneGenericBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements droneGenericVisitor<T> {
 	/**
 	 * {@inheritDoc}
 	 *
@@ -39,6 +39,9 @@ public class droneGenericBaseVisitor<T> extends AbstractParseTreeVisitor<T> impl
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitType(droneGenericParser.TypeContext ctx) { return visitChildren(ctx); }
+
+	public abstract Void visitVarDeclaration(droneGenericParser.VariableDeclarationContext ctx);
+
 	/**
 	 * {@inheritDoc}
 	 *
