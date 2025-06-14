@@ -342,5 +342,4 @@ public class RepositoryProvider {
         showProposalRepository = mockRepo;
     }
 
-
 }
