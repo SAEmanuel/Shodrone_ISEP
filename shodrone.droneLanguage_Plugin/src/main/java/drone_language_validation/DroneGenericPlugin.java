@@ -3,6 +3,8 @@ package drone_language_validation;
 import drone_language_validation.generated.droneGenericLexer;
 import drone_language_validation.generated.droneGenericParser;
 import drone_language_validation.validator.ProgramLanguageVersionVisitor;
+import drone_language_validation.validator.TypeAndInstructionVisitor;
+import lombok.Getter;
 import lombok.Setter;
 import org.antlr.v4.runtime.*;
 
@@ -12,7 +14,9 @@ public class DroneGenericPlugin {
     @Setter
     private String droneLanguageVersion;
     private final List<String> errors;
+    @Getter
     private final Set<String> declaredTypes;
+    @Getter
     private final Set<String> declaredInstructions;
     private final Map<String, Map<String, String>> declaredVariables;
 
@@ -46,13 +50,14 @@ public class DroneGenericPlugin {
             lexer.addErrorListener(errorListener);
             parser.addErrorListener(errorListener);
 
-            droneGenericParser.ProgramContext parseTree = parser.program();
-
 
             if (errors.isEmpty()) {
                 ProgramLanguageVersionVisitor versionValidator = new ProgramLanguageVersionVisitor(this);
-                versionValidator.visitProgram(parseTree);
+                versionValidator.visitProgram(parser.program());
 
+                TypeAndInstructionVisitor typeAndInstructionVisitor = new TypeAndInstructionVisitor(this);
+                typeAndInstructionVisitor.visitSection_instructions(parser.section_instructions());
+                typeAndInstructionVisitor.visitSection_types(parser.section_types());
             }
 
         } catch (Exception e) {
