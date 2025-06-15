@@ -7,7 +7,7 @@ import java.util.List;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue", "this-escape"})
 public class dslParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.13.2", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.10.1", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
