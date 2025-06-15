@@ -64,7 +64,7 @@ class FigureTest {
         assertEquals(FigureAvailability.PUBLIC, figure.availability());
         assertEquals(FigureStatus.ACTIVE, figure.status());
         assertEquals(customer, figure.customer());
-        assertEquals(dslVersions.keySet(), figure.dslVersions().keySet());
+        assertEquals(Set.of("1.0"), figure.dslVersions().keySet());
         assertEquals("TestDrone", figure.dslVersions().get("1.0").getDroneModel());
         assertEquals(metadata.getDslLines(), figure.dslVersions().get("1.0").getDslLines());
     }
@@ -103,6 +103,20 @@ class FigureTest {
     void testDecommissionThrowsIfAlreadyInactive() {
         figure.decommission();
         assertThrows(IllegalStateException.class, figure::decommission);
+    }
+
+    @Test
+    void testAddDslVersion() {
+        figure.addDslVersion("2.0", "DroneX", List.of("Point A = (1,2,3);"));
+        assertTrue(figure.dslVersions().containsKey("2.0"));
+        assertEquals("DroneX", figure.dslVersions().get("2.0").getDroneModel());
+        assertEquals(List.of("Point A = (1,2,3);"), figure.dslVersions().get("2.0").getDslLines());
+    }
+
+    @Test
+    void testDslVersionsAreUnmodifiable() {
+        Map<String, DslMetadata> dsl = figure.dslVersions();
+        assertThrows(UnsupportedOperationException.class, () -> dsl.put("2.0", metadata));
     }
 
     @Test
@@ -150,7 +164,10 @@ class FigureTest {
 
     @Test
     void testToStringNotNull() {
-        assertNotNull(figure.toString());
-        assertTrue(figure.toString().contains("Airplane"));
+        String output = figure.toString();
+        assertNotNull(output);
+        assertTrue(output.contains("Airplane"));
+        assertTrue(output.contains("Geometry"));
+        assertTrue(output.contains("1.0"));
     }
 }
