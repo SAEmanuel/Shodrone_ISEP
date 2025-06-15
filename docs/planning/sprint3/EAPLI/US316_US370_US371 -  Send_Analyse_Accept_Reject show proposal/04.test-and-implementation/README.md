@@ -2,25 +2,47 @@
 
 ## 4. Tests
 
----
+This section demonstrates the end-to-end interaction for the "Send / Accept / Reject Show Proposal" feature through the CLI-based UI.
 
-### 4.1. Unit Tests
+### Step 1: Proposal Selection
 
-*(To be defined)*
+Once the customer logs in and selects the "Analyse Show Proposal" option, the system retrieves proposals related to their account.  
+The list of proposals is displayed, allowing the customer to choose which one to analyse:
 
----
-
-### 4.2. Application Logic: `AnalyseProposalResponse`
-
-*(To be defined)*
+![Proposal Selection](img/myProposals.png)
 
 ---
 
-### 4.3. Persistence: `ShowProposalRepository`
+### Step 2: Proposal Details
 
-*(To be defined)*
+After selecting a proposal, a detailed view is shown in a dialog window.  
+This includes:
+
+- Show date and time
+- Location and coordinates
+- Show duration
+- Presented figures
+- Drones used
+- Pending video preview (or attached media, if available)
+
+![Proposal Details](img/proposal.png)
 
 ---
+
+### Step 3: Server Feedback and Logging
+
+The system logs backend actions and server communication.  
+Once the customer accepts or rejects the proposal, the system sends this response to the server and updates the proposal status accordingly:
+
+![Server Logs](img/server.png)
+
+---
+
+These tests confirm that:
+
+- Proposal selection and detail loading work correctly
+- Proposal responses (Accept/Reject) are transmitted to the server
+- The server updates proposal status and logs the interaction
 
 ## 5. Construction (Implementation)
 

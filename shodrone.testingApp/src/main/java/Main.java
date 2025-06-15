@@ -10,7 +10,7 @@ public class Main {
         int port = 9090;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            StartupMessageServer.displayStartupMessage(port);
+            StartupMessageServer.displayStartupMessage(port, "Testing App");
 
             while (true) {
                 Socket socket = serverSocket.accept();

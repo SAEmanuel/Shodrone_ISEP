@@ -898,7 +898,11 @@ public class Utils {
             } catch (NumberFormatException ex) {
                 value = -1;
             }
-        } while (value < 0 || value > STEP);
+            if (value < 0)
+                Utils.printAlterMessage("Value less than 0");
+            if (value > list.size())
+                Utils.printAlterMessage("Value can't be bigger than " + list.size());
+        } while (value < 0 || value > list.size());
         if (cycle > 0 && value == 0) {
             return -1;
         }

@@ -95,6 +95,7 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
 
     @Override
     public Optional<List<ShowProposal>> getUpdatedProposals() {
+        entityManager().clear();
         List<ShowProposal> listShowProposals = entityManager().createQuery(
                         "SELECT DISTINCT p FROM ShowProposal p LEFT JOIN FETCH p.sequenceFigues", ShowProposal.class)
                 .setHint("javax.persistence.cache.storeMode", "REFRESH")
@@ -123,6 +124,16 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
         List<ShowProposal> results = entityManager().createQuery(
                         "SELECT s FROM ShowProposal s WHERE s.status = :status", ShowProposal.class)
                 .setParameter("status", ShowProposalStatus.STAND_BY)
+                .getResultList();
+
+        return results.isEmpty() ? Optional.empty() : Optional.of(results);
+    }
+
+    @Override
+    public Optional<List<ShowProposal>> getCreatedProposals() {
+        List<ShowProposal> results = entityManager().createQuery(
+                        "SELECT s FROM ShowProposal s WHERE s.status = :status", ShowProposal.class)
+                .setParameter("status", ShowProposalStatus.CREATED)
                 .getResultList();
 
         return results.isEmpty() ? Optional.empty() : Optional.of(results);

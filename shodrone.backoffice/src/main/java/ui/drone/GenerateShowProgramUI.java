@@ -15,10 +15,10 @@ public class GenerateShowProgramUI implements Runnable {
     @Override
     public void run() {
 
-        Optional<List<ShowProposal>> proposals = RepositoryProvider.showProposalRepository().getAllProposals();
+        Optional<List<ShowProposal>> proposals = RepositoryProvider.showProposalRepository().getCreatedProposals();
 
         if (proposals.isEmpty()) {
-            System.out.println("No ShowProposals available.");
+            Utils.printFailMessage("No ShowProposals in status Created available.");
             return;
         }
 
@@ -27,7 +27,7 @@ public class GenerateShowProgramUI implements Runnable {
         int selectedIndex = Utils.showAndSelectIndexPartially(showProposals, "Select a ShowProposal:");
 
         if (selectedIndex < 0) {
-            System.out.println("Operation cancelled.");
+            Utils.printFailMessage("Operation cancelled.");
             return;
         }
 

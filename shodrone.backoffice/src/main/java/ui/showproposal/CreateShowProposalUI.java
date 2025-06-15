@@ -16,14 +16,14 @@ import java.util.*;
 import java.util.function.Function;
 
 
-public class CreateShowProposalUI implements Runnable{
+public class CreateShowProposalUI implements Runnable {
     private final CreateShowProposalController controller;
     private final GetAllProposalTemplatesController getAllProposalTemplatesController;
     private final GetAllShowRequestsController getAllShowRequestsController;
     private final GetDroneModelsController getDroneModelsController;
     private static final int EXIT = -1;
 
-    public CreateShowProposalUI(){
+    public CreateShowProposalUI() {
         controller = new CreateShowProposalController();
         getAllProposalTemplatesController = new GetAllProposalTemplatesController();
         getAllShowRequestsController = new GetAllShowRequestsController();
@@ -31,7 +31,7 @@ public class CreateShowProposalUI implements Runnable{
     }
 
     @Override
-    public void run(){
+    public void run() {
         Utils.printCenteredTitle("Register Show Proposal");
 
         Name proposalName = Utils.rePromptWhileInvalid("Enter the proposal name", Name::new);
@@ -39,29 +39,14 @@ public class CreateShowProposalUI implements Runnable{
         Optional<List<ShowRequest>> listOfShowRequests = getAllShowRequestsController.listShowRequest();
         ShowRequest showRequest;
         if (listOfShowRequests.isPresent() && !listOfShowRequests.get().isEmpty()) {
-            Utils.showList(listOfShowRequests.get(), "Show Requests");
-            String input;
-            int index = 0;
-            do {
-                input = Utils.readLineFromConsole("Type your option");
-                try {
-                    index = Integer.valueOf(input);
-                } catch (NumberFormatException ex) {
-                    Utils.printCenteredTitle("Invalid option");
-                }
-                if(index < 0)
-                    Utils.printAlterMessage("Value less than 0");
+            int index = Utils.showAndSelectIndexPartially(listOfShowRequests.get(), "Show Requests");
 
-                if(index > listOfShowRequests.get().size())
-                    Utils.printAlterMessage("Value greater than "+ listOfShowRequests.get().size());
-            } while (index < 0 || index > listOfShowRequests.get().size());
-
-            if (index == 0) {
+            if (index == -1) {
                 Utils.printFailMessage("No show request selected...");
                 return;
             }
 
-            showRequest = listOfShowRequests.get().get(index-1);
+            showRequest = listOfShowRequests.get().get(index);
         } else {
             Utils.printFailMessage("The are no show request to add to show proposal! Add them first and try again!");
             return;
@@ -70,29 +55,14 @@ public class CreateShowProposalUI implements Runnable{
         Optional<List<ProposalTemplate>> listOfTemplates = getAllProposalTemplatesController.getAllProposalTemplates();
         ProposalTemplate template;
         if (listOfTemplates.isPresent() && !listOfTemplates.get().isEmpty()) {
-            Utils.showList(listOfTemplates.get(), "Show Requests");
-            String input;
-            int index = 0;
-            do {
-                input = Utils.readLineFromConsole("Type your option");
-                try {
-                    index = Integer.valueOf(input);
-                } catch (NumberFormatException ex) {
-                    Utils.printCenteredTitle("Invalid option");
-                }
-                if(index < 0)
-                    Utils.printAlterMessage("Value less than 0");
+            int index = Utils.showAndSelectIndexPartially(listOfTemplates.get(), "Show Requests");
 
-                if(index > listOfTemplates.get().size())
-                    Utils.printAlterMessage("Value greater than "+ listOfTemplates.get().size());
-            } while (index < 0 || index > listOfTemplates.get().size());
-
-            if (index == 0) {
+            if (index == -1) {
                 Utils.printFailMessage("No proposal templates selected...");
                 return;
             }
 
-            template = listOfTemplates.get().get(index-1);
+            template = listOfTemplates.get().get(index);
 
         } else {
             Utils.printFailMessage("The are no proposal templates in the system! Add them first and try again!");
