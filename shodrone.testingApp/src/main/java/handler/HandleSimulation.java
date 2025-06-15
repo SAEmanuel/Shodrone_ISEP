@@ -5,16 +5,15 @@ import domain.entity.ShowProposal;
 import domain.valueObjects.ShowProposalStatus;
 import network.SimulationRequestDTO;
 import network.SimulationResultDTO;
-import persistence.RepositoryProvider;
-import persistence.ShowProposalRepository;
+import persistence.jpa.ShowProposalJDBCImpl;
 import utils.Utils;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.Optional;
 
 public class HandleSimulation {
     private static final int SIMULATOR_PORT = 9091;
-    private static final String SIMULATOR_HOST = "10.8.101.185";  //check ip
 
     public static void handle(Socket socketFromBackoffice) {
         try (
@@ -26,14 +25,11 @@ public class HandleSimulation {
             SimulationRequestDTO request = gson.fromJson(inputJson, SimulationRequestDTO.class);
             System.out.println("📥 Received proposal from backoffice: " + request.getProposalId());
 
-
-            RepositoryProvider.setUseInMemory(false);
-            ShowProposalRepository repo = RepositoryProvider.showProposalRepository();
-
+            ShowProposalJDBCImpl repo = new ShowProposalJDBCImpl();
             Optional<ShowProposal> optProposal = repo.findByID(request.getProposalId());
 
             if (optProposal.isEmpty()) {
-                Utils.printFailMessage("❌ Proposal not found: " + request.getProposalId());
+                Utils.printFailMessage("Proposal not found: " + request.getProposalId());
                 return;
             }
 
@@ -41,8 +37,15 @@ public class HandleSimulation {
             proposal.setStatus(ShowProposalStatus.WAITING_IN_SIMULATOR);
             repo.saveInStore(proposal);
 
+            String simulatorIp = socketFromBackoffice.getInetAddress().getHostAddress();
+
+            if (simulatorIp == null) {
+                Utils.printFailMessage("Error finding IP.");
+                return;
+            }
+
             try (
-                    Socket simulatorSocket = new Socket(SIMULATOR_HOST, SIMULATOR_PORT);
+                    Socket simulatorSocket = new Socket(simulatorIp, SIMULATOR_PORT);
                     PrintWriter outToSimulator = new PrintWriter(simulatorSocket.getOutputStream(), true);
                     BufferedReader inFromSimulator = new BufferedReader(new InputStreamReader(simulatorSocket.getInputStream()))
             ) {
@@ -61,11 +64,11 @@ public class HandleSimulation {
                 repo.saveInStore(finalProposal);
 
             } catch (IOException e) {
-                Utils.printFailMessage("❌ Failed to communicate with simulator: " + e.getMessage());
+                Utils.printFailMessage("Failed to communicate with simulator: " + e.getMessage());
             }
 
         } catch (Exception e) {
-            Utils.printFailMessage("❌ Error handling simulation: " + e.getMessage());
+            Utils.printFailMessage("Error handling simulation: " + e.getMessage());
         }
     }
 }
