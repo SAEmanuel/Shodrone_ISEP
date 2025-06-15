@@ -48,7 +48,9 @@ public class InMemoryMaintenanceTypeRepository implements MaintenanceTypeReposit
      */
     @Override
     public List<MaintenanceType> findAll() {
-        return new ArrayList<>(store.values());
+        List<MaintenanceType> allTypes = new ArrayList<>(store.values());
+        allTypes.sort(Comparator.comparing(t -> t.identity().toLowerCase()));
+        return allTypes;
     }
 
     /**
