@@ -40,7 +40,7 @@ public class Main {
         suppressUnwantedWarnings();
 
         List<String> dslLines = Arrays.asList(
-                "DroneViado programming language version 0.6.66",
+                "DroneViado programming language version 0.66.6",
                 "",
                 "Types",
                 "Point",
@@ -56,7 +56,7 @@ public class Main {
                 "LinearVelocity vel = 6.2;",
                 "AngularVelocity angVel = PI / 10;",
                 "Time hoverTime = 5000;",
-                "Point path = ((0, 0, 0), (0, 10, 10), (10, 10, 10));",
+                "Point path = ((0, 0, 1), (0, 10, 10), (10, 10, 10));",
                 "Distance height = 15;",
                 "",
                 "Instructions",
@@ -73,6 +73,10 @@ public class Main {
 
         DroneGenericPlugin drone = new DroneGenericPlugin();
         drone.validate(dslLines);
+
+        for (String line : drone.getErrors()) {
+            System.out.println(line);
+        }
 
         boolean typePersistence = true;
 

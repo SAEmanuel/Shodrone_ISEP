@@ -2,8 +2,11 @@ package drone_language_validation;
 
 import drone_language_validation.generated.droneGenericLexer;
 import drone_language_validation.generated.droneGenericParser;
+import drone_language_validation.validator.InstructionsValidationVisitor;
 import drone_language_validation.validator.ProgramLanguageVersionVisitor;
-import drone_language_validation.validator.TypeAndInstructionVisitor;
+
+import drone_language_validation.validator.TypesValidationVisitor;
+import drone_language_validation.validator.VariablesValidationVisitor;
 import lombok.Getter;
 import lombok.Setter;
 import org.antlr.v4.runtime.*;
@@ -20,6 +23,7 @@ public class DroneGenericPlugin {
     @Getter
     private final Set<String> declaredInstructions;
     private final Map<String, Map<String, String>> declaredVariables;
+    public enum VariableKind { SCALAR, VECTOR, ARRAY }
 
     public DroneGenericPlugin(){
         this.droneLanguageVersion = null;
@@ -57,9 +61,14 @@ public class DroneGenericPlugin {
                 ProgramLanguageVersionVisitor versionValidator = new ProgramLanguageVersionVisitor(this);
                 versionValidator.visitProgram(parseTree);
 
-//                TypeAndInstructionVisitor typeAndInstructionVisitor = new TypeAndInstructionVisitor(this);
-//                typeAndInstructionVisitor.visitSection_instructions(parser.section_instructions());
-//                typeAndInstructionVisitor.visitSection_types(parser.section_types());
+                TypesValidationVisitor typesValidator = new TypesValidationVisitor(this);
+                typesValidator.visitProgram(parseTree);
+
+                VariablesValidationVisitor variablesValidator = new VariablesValidationVisitor(this);
+                variablesValidator.visitProgram(parseTree);
+
+                InstructionsValidationVisitor instructionsValidator = new InstructionsValidationVisitor(this);
+                instructionsValidator.visitProgram(parseTree);
             }
 
         } catch (Exception e) {
@@ -99,4 +108,26 @@ public class DroneGenericPlugin {
     public void addError(String error) {
         errors.add(error);
     }
+
+    public void registerVariable(String name, String type, VariableKind kind) {
+        Map<String,String> info = new HashMap<>();
+        info.put("type", type);
+        info.put("kind", kind.name());
+        declaredVariables.put(name, info);
+    }
+
+    public boolean isVariableDeclared(String name) {
+        return declaredVariables.containsKey(name);
+    }
+
+    public VariableKind getVariableKind(String name) {
+        Map<String,String> info = declaredVariables.get(name);
+        return info == null ? null : VariableKind.valueOf(info.get("kind"));
+    }
+
+    public String getVariableType(String name) {
+        Map<String,String> info = declaredVariables.get(name);
+        return info != null ? info.get("type") : null;
+    }
+
 }
