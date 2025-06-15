@@ -21,6 +21,18 @@ public class GenerateShowProgramController {
 
     public Optional<ShowProposal> generateProgramsForShow(ShowProposal showProposal) {
 
+        if (showProposal.getSequenceFigues().isEmpty() || showProposal.getModelsUsed().isEmpty()) {
+            System.out.println("❌ ShowProposal must contain at least one figure and one drone model.");
+            return Optional.empty();
+        }
+
+        for (Figure fig : showProposal.getSequenceFigues()) {
+            if (fig.dslVersions().isEmpty()) {
+                System.out.println("❌ Figure '" + fig.name() + "' has no DSL description.");
+                return Optional.empty();
+            }
+        }
+
         List<Figure> figures = showProposal.getSequenceFigues();
         Map<Integer, List<int[]>> dronePositions = new HashMap<>();
         int droneIdCounter = 0;
@@ -40,9 +52,9 @@ public class GenerateShowProgramController {
                     List<String> validationErrors = validator.validate(dslMetadata.getDslLines());
 
                     if (!validationErrors.isEmpty()) {
-                        System.out.println("❌ Validation errors in figure '" + figure.name() + "' with drone '" + droneModel.identity() + "':");
+                        //System.out.println("❌ Validation errors in figure '" + figure.name() + "' with drone '" + droneModel.identity() + "':");
                         validationErrors.forEach(System.out::println);
-                        continue;
+                        return Optional.empty();
                     }
 
                     String program = ((DroneProgramsGenerator) generator).generateProgram(
@@ -56,7 +68,7 @@ public class GenerateShowProgramController {
                     if (!validationErrorsDroneLang.isEmpty()) {
                         //System.out.println("❌ Drone program validation errors for figure '" + figure.name() + "' and drone '" + droneModel.identity() + "':");
                         validationErrorsDroneLang.forEach(System.out::println);
-                        continue;
+                        return Optional.empty();
                     }
 
                     String key = figure.name().toString() + "_" + droneModel.identity() + "_DSL_" + dslVersion;

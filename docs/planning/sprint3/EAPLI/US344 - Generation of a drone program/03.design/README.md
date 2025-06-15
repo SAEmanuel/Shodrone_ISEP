@@ -4,19 +4,22 @@
 
 ### 3.1. Design Overview
 
-The design for US212 enables system administrators to disable or enable users via the Shodrone back-office. This function is critical for controlling system access and enforcing security policies. Only administrators may perform this action, and the system must prevent an Admin from disabling their own account.
+The design for US344 enables Drone Techs to trigger the generation of drone-specific code for a show proposal based on the high-level DSL description of each figure. This process transforms human-readable figure definitions into validated drone programs ready for simulation and testing.
 The process follows these high-level steps:
-1. **Admin Input**: The administrator selects a target user and chooses to either disable or enable them via the UI.
-2. **Authorization Check**: The system verifies that the requestor has Admin privileges and is not trying to disable themselves.
-3. **Fetch and Modify User**: The target user is retrieved from the repository, and their active status is toggled accordingly.
-4. **Persistence**: The updated User object is persisted using the UserRepository.
+1. **Drone Tech Input**: The Drone Tech selects a ShowProposal from a list of created proposals.
+2. **Validation of Requirements**: The system ensures the proposal contains at least one figure, at least one drone model and valid DSL versions for each figure.
+3. **Code Generation Loop**: The system read and calculates what need to be written.
+4. **Persistence**: Upon success, the generated code is stored in the ShowProposal, a drone movement script is generated, and the status is updated to STAND_BY.
 
 The implementation follows a layered architecture, consistent with DDD principles:
-- UI Layer: Presents the list of users with actions to enable/disable, using the EAPLI console framework or backoffice UI.
-- Application Layer: The UserStatusController orchestrates the operation, interacting with the domain model and checking access permissions.
-- Domain Layer: Includes business rules for access control (Admin-only), self-deactivation protection, and status toggling.
-- Persistence Layer: Provides access to user data through the UserRepository.
-- Infrastructure Layer: Handles repository implementation and integration with authentication/authorization mechanisms.
+- UI Layer: Presents a menu option in DroneTechUI and triggers the GenerateShowProgramUI.
+- Application Layer: GenerateShowProgramController handles all business logic — data validation, plugin coordination, and persistence.
+- Domain Layer:
+* ShowProposal, Figure, and DslMetadata contain the required data.
+* FigureValidationPlugin and DroneGenericPlugin encapsulate validation rules.
+* DroneProgramsGenerator encapsulates generation logic based on DSL and drone model.
+- Persistence Layer: Interacts with ShowProposalRepository via RepositoryProvider.
+- Plugin System: Supports extensibility for different DSL versions and drone programming languages.
 
 ### 3.2. Sequence Diagrams
 
@@ -28,23 +31,23 @@ The following class diagram models the authentication domain and infrastructure.
 3.2.2. Sequence Diagram (SD)
 The sequence diagram below illustrates the login process from user input to session creation and feedback:
 
-![Sequence Diagram](svg/us212-sequence-diagram.svg)
+![Sequence Diagram](svg/us344-sequence-diagram.svg)
 
 ### 3.3. Design Patterns (if any)
 
 This use case applies the following Domain-Driven Design (DDD) and architectural patterns:
 
 - Application Service
-The ToggleUserStatusController coordinates the use case, invoking domain logic and enforcing access rules.
+  GenerateShowProgramController coordinates all business logic.
 
 - Repository
-UserRepository abstracts data access, allowing decoupling from the persistence mechanism (JPA or in-memory).
+  ShowProposalRepository abstracts persistence logic.
 
 - Aggregate Root
-The User aggregate encapsulates user data and manages its own status, exposing intent-revealing methods like disable() and enable().
+  ShowProposal is the root of the proposal and figure aggregation.
 
-- Domain Service
-A stateless service responsible for enforcing access control logic such as Admin role validation and self-disable prevention.
+- Plugin Architecture
+  FigureValidationPlugin and DroneGenericPlugin allow DSL and language validation to be extensible and configurable.
 
 - Value Object
-The Email remains a value object used to uniquely identify a user.
+  DslMetadata acts as a value object containing DSL-related data.

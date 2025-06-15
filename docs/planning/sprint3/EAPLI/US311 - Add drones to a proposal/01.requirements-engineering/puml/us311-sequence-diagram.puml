@@ -5,38 +5,38 @@ skinparam shadowing false
 
 title System Sequence Diagram (SSD) - US311 - Add Drones to a Proposal
 
-autonumber
-
 actor "CRM Collaborator" as User
 participant ":System" as System
 
-activate User
+autonumber
 
-    User -> System : addDronesToProposal(proposalId, droneModelId, quantity)
-    activate System
+User -> System : addDronesToProposal(proposalId, droneModelId, quantity)
+activate System
 
-        System -> System : validateUserRole(User)
-        System -> System : retrieveProposal(proposalId)
-        System -> System : checkProposalEditable()
+    System -> System : validateUserRole(User)
+    System -> System : getStandbyProposals()
+    System -> System : checkProposalEditable(proposalId)
 
-        alt Proposal is editable
-            System -> System : retrieveDroneModel(droneModelId)
-            alt Drone model exists and quantity valid
-                System -> System : checkForDuplicateModel(proposalId, droneModelId)
-                alt Not duplicate
-                    System -> System : saveDroneConfiguration(proposalId, droneModelId, quantity)
-                    System --> User : confirmation(success)
-                else Duplicate model
-                    System --> User : error("Drone model already added")
-                end
-            else Invalid drone model or quantity
-                System --> User : error("Invalid drone model or quantity")
+    alt [Proposal is editable]
+        System -> System : getDroneModelInventory()
+        System -> System : validateDroneModel(droneModelId)
+        System -> System : checkInventoryAvailability(droneModelId, quantity)
+
+        alt [Drone model exists and quantity valid]
+            System -> System : checkDuplicateModel(proposalId, droneModelId)
+            alt [Not duplicate]
+                System -> System : updateProposalWithDrones(proposalId, droneModelId, quantity)
+                System -> System : saveProposal(proposalId)
+                System --> User : confirmation(success)
+            else [Duplicate model]
+                System --> User : error("Drone model already added")
             end
-        else Proposal is not editable
-            System --> User : error("Proposal is not in editable state")
+        else [Invalid drone model or quantity]
+            System --> User : error("Invalid drone model or quantity")
         end
+    else [Proposal is not editable]
+        System --> User : error("Proposal is not in editable state")
+    end
 
-    deactivate System
-
-deactivate User
+deactivate System
 @enduml

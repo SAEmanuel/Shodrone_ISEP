@@ -1,62 +1,87 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-package "usermanagement.domain" {
-    class User {
-        - Email id
-        - Password password
+title Class Diagram - US344 - Generation of a Drone Program
+
+package "showmanagement.domain" {
+    class ShowProposal {
+        - List<Figure> sequenceFigures
+        - Map<DroneModel, Integer> modelsUsed
+        - Map<String, String> droneLanguageSpecifications
+        - List<String> script
+        - ShowProposalStatus status
+
+        + setScript(script: List<String>): void
+        + setStatus(status: ShowProposalStatus): void
+        + getSequenceFigues(): List<Figure>
+        + getModelsUsed(): Map<DroneModel, Integer>
+        + getDroneLanguageSpecifications(): Map<String, String>
+    }
+
+    class Figure {
         - String name
-        - String phoneNumber
-        - boolean active
-        + activate(): void
-        + deactivate(): void
-        + isActive(): boolean
-        + getId(): Email
+        - Map<String, DslMetadata> dslVersions
+
+        + name(): String
+        + dslVersions(): Map<String, DslMetadata>
     }
 
-    class Email {
-        - String value
+    class DslMetadata {
+        - String droneModel
+        - List<String> dslLines
+
+        + getDslLines(): List<String>
     }
 
-    class Password {
-        - String hashedValue
+    enum ShowProposalStatus {
+        CREATED
+        STAND_BY
+        APPROVED
+        ...
     }
 
-    User --> Email
-    User --> Password
+    class DroneModel {
+        - String identity
+        + identity(): String
+    }
+
+    ShowProposal --> "1..*" Figure
+    ShowProposal --> "1..*" DroneModel
+    Figure --> "1..*" DslMetadata
 }
 
-package "usermanagement.application" {
-    class FilterUsersController {
-        + getUsersByFilter(filterIndex: int): List<User>
-    }
-
-    class CheckUserStatusController {
-        + isUserActive(user: User): boolean
-    }
-
-    class UserStatusController {
-        + changeUserStatus(user: User, activate: boolean): boolean
-        + activateUser(user: User): boolean
-        + deactivateUser(user: User): boolean
-    }
-}
-
-package "usermanagement.persistence" {
-    interface UserRepository {
-        + save(user: User): void
-        + findAll(): List<User>
-    }
-
-    interface AuthenticationRepository {
-        + setUserActive(userId: String, active: boolean): void
+package "showmanagement.application" {
+    class GenerateShowProgramController {
+        + generateProgramsForShow(showProposal: ShowProposal): Optional<ShowProposal>
     }
 }
 
-FilterUsersController --> UserRepository
-CheckUserStatusController --> User
-UserStatusController --> User
-UserStatusController --> UserRepository
-UserStatusController --> AuthenticationRepository
+package "showmanagement.plugins" {
+    class FigureValidationPlugin {
+        + setDroneModelName(name: String): void
+        + validate(dslLines: List<String>): List<String>
+    }
+
+    class DroneProgramsGenerator {
+        + generateProgram(...): String
+    }
+
+    class DroneGenericPlugin {
+        + validate(codeLines: List<String>): List<String>
+        + getErrors(): List<String>
+    }
+}
+
+package "showmanagement.persistence" {
+    interface ShowProposalRepository {
+        + saveInStore(showProposal: ShowProposal): Optional<ShowProposal>
+    }
+}
+
+GenerateShowProgramController --> ShowProposal
+GenerateShowProgramController --> FigureValidationPlugin
+GenerateShowProgramController --> DroneProgramsGenerator
+GenerateShowProgramController --> DroneGenericPlugin
+GenerateShowProgramController --> ShowProposalRepository
 
 @enduml

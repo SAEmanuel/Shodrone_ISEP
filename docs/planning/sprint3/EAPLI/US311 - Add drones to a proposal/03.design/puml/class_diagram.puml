@@ -1,64 +1,53 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-package "usermanagement.domain" {
-    class User {
-        - Email id
-        - Password password
-        - String name
-        - String phoneNumber
-        - boolean active
-        - UserRole role
-        + activate()
-        + deactivate()
+package "showproposal.domain" {
+    class ShowProposal {
+        - Long id
+        - Map<DroneModel, Integer> modelsUsed
+        - int numberOfDrones
+        - ShowProposalStatus status
+        + getModelsUsed(): Map
+        + setNumberOfDrones(n): void
     }
 
-    class UserRole {
-        - String id
-        - String description
+    class DroneModel {
+        - String droneModelId
+        - String droneName
     }
 
-    class Email {
-        - String value
+    class DroneModelInformation {
+        - DroneModel model
+        - int usedQty
+        - int maxAvailable
+        + model(): DroneModel
+        + usedQty(): int
+        + maxAvailable(): int
     }
 
-    class Password {
-        - String hashedValue
-        + verify(input): boolean
-    }
-
-    User --> Email
-    User --> Password
-    User --> UserRole
+    ShowProposal --> DroneModel : uses >
+    DroneModelInformation --> DroneModel : references >
 }
 
-package "usermanagement.application" {
-    class RegisterUserController {
-        - UserRepository userRepo
-        - UserRoleRepository roleRepo
-        + registerUser(name, email, phone, pwd, roleId): boolean
+package "showproposal.application" {
+    class AddDronesShowProposalController {
+        - GetDroneModelsController droneCtrl
+        + getCurrentDroneModels(proposal): List
+        + getAvailableDroneModelsToAdd(proposal): List
+        + addDroneModels(proposal, models): Optional<String>
+        + changeDroneModelQuantity(proposal, model, qty): Optional<String>
+        + removeDroneModel(proposal, model): Optional<String>
+        + saveProposal(proposal): Optional<ShowProposal>
     }
 
-    interface UserRepository {
-        + save(user): void
-        + existsByEmail(email): boolean
-    }
-
-    interface UserRoleRepository {
-        + findById(roleId): UserRole
+    class GetDroneModelsController {
+        + getDroneModelQuantity(): Optional<Map<DroneModel, Integer>>
     }
 }
 
-package "usermanagement.bootstrap" {
-    class BootstrapUsers {
-        - RegisterUserController controller
-        + execute(): void
-    }
-}
-
-RegisterUserController --> UserRepository
-RegisterUserController --> UserRoleRepository
-RegisterUserController --> User : creates >
-BootstrapUsers --> RegisterUserController
+AddDronesShowProposalController --> GetDroneModelsController
+AddDronesShowProposalController --> ShowProposal : modifies >
+AddDronesShowProposalController --> DroneModelInformation : builds >
+GetDroneModelsController --> DroneModel : queries >
 
 @enduml

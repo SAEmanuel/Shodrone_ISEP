@@ -90,7 +90,7 @@ public class GenerateShowProgramControllerTest {
     }
 
     @Test
-    void testGenerateProgramsForShow_InvalidDSL_ShouldSkip() {
+    void testGenerateProgramsForShow_InvalidDSL_ShouldAbort() {
         List<String> badDsl = List.of("DSL version 1.1.2;", "INVALID LINE HERE;");
         when(figure.dslVersions()).thenReturn(Map.of("1.1.2", new DslMetadata("Mini4Pro", badDsl)));
 
@@ -98,8 +98,7 @@ public class GenerateShowProgramControllerTest {
 
         Optional<ShowProposal> result = controller.generateProgramsForShow(proposal);
 
-        assertTrue(result.isPresent(), "Proposal should still be returned");
-        assertTrue(result.get().getDroneLanguageSpecifications().isEmpty(), "No programs should be generated");
-        assertTrue(result.get().getScript().size() > 0, "Script should still be created (fallback)");
+        assertTrue(result.isEmpty(), "Expected generation to fail and return empty result");
     }
+
 }

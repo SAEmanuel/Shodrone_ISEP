@@ -3,34 +3,33 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title System Sequence Diagram (SSD) - US344 - Generation of a Drone Program
+title SSD - US344 - Generation of a Drone Program (Simplified)
+
+actor "Drone Tech" as Tech
+participant ":System" as System
 
 autonumber
 
-actor "Drone Tech" as User
-participant ":System" as System
-
-activate User
-
-User -> System : generateDronePrograms(figureId/showId)
+Tech -> System : selectShowProposal()
 activate System
 
-System -> System : getDSLDescription(figureId/showId)
-System -> System : getDroneModelConfigs()
+System -> System : validate DSLs and drone models
+alt Invalid show proposal or DSL
+    System --> Tech : error("Invalid data for generation")
+end
 
-loop For each drone type in mapping
-    System -> System : getDroneModel(droneType)
-    System -> System : generateDroneCode(droneType, DSL)
-    alt Generation successful
-        System -> System : storeGeneratedCode(droneType, code)
-    else Generation failed
-        System -> System : abortProcess()
-        System --> User : error("Generation failed for droneType")
+loop For each drone/figure
+    System -> System : validate DSL
+    System -> System : generate drone code
+    System -> System : validate drone code
+    alt Any validation fails
+        System --> Tech : error("Code generation failed")
     end
 end
 
-System --> User : confirmation("All drone code generated successfully")
+System -> System : save generated code
+System -> System : update proposal status
 
+System --> Tech : success("Drone programs generated")
 deactivate System
-deactivate User
 @enduml

@@ -1,64 +1,94 @@
 @startuml
 skinparam classAttributeIconSize 0
 
+title US317 - Mark Show Proposal as Accepted - Class Diagram
+
 package "domain.entity" {
     class ShowProposal {
         - ShowProposalId id
-        - ShowRequestId requestId
-        - Status status
+        - ShowRequest showRequest
+        - ShowProposalStatus status
         + setStatus(status): void
-        + getStatus(): Status
+        + getStatus(): ShowProposalStatus
+        + getShowRequest(): ShowRequest
+        + identity(): Long
     }
 
+    class Show {
+        + identity(): Long
+    }
+
+    class ShowRequest {
+        + getCostumer(): Customer
+        + identity(): Long
+    }
+
+    class Customer {
+        + identity(): Long
+    }
+
+    class ShowProposalStatus
     class ShowProposalId
-    class ShowRequestId
-    class Status
+}
+
+package "controller.show" {
+    class AcceptProposalAndCreateShowController {
+        + acceptProposalAndCreateShow(proposal): Optional<Show>
+    }
+
+    class CreateShowController {
+        + createShowFromProposal(proposal): Optional<Show>
+    }
 }
 
 package "controller.showproposal" {
-    class AcceptShowProposalController {
-        - VerifyShowProposalStatusController statusVerifier
-        + markShowProposalAsAccepted(proposal): Optional<ShowProposal>
+    class ListShowProposalController {
+        + getAllSentAcceptedProposals(): List<ShowProposal>
     }
 
     class VerifyShowProposalStatusController {
         + wasShowProposalSent(proposal): boolean
-    }
-
-    class ListShowProposalController {
-        + getAllSentAcceptedProposals(): List<ShowProposal>
     }
 }
 
 package "persistence" {
     interface ShowProposalRepository {
         + getAllProposals(): Optional<List<ShowProposal>>
-        + updateInStoreProposal(proposal): Optional<ShowProposal>
+        + saveInStore(proposal): Optional<ShowProposal>
+        + findByID(id): Optional<ShowProposal>
     }
 
-    class ShowProposalRepositoryJPAImpl {
-        + getAllProposals(): Optional<List<ShowProposal>>
-        + updateInStoreProposal(proposal): Optional<ShowProposal>
+    interface ShowRepository {
+        + findDuplicateShow(location, date, customerID): Optional<Show>
+        + saveInStore(show): Optional<Show>
     }
-
-    ShowProposalRepositoryJPAImpl ..|> ShowProposalRepository
 }
 
 package "ui.showproposal" {
     class AcceptShowProposalUI {
-        - AcceptShowProposalController controller
+        - AcceptProposalAndCreateShowController controller
         - ListShowProposalController listController
         + run(): void
     }
 }
 
-AcceptShowProposalController --> ShowProposal : modifies
-AcceptShowProposalController --> ShowProposalRepository : persists
-AcceptShowProposalController --> VerifyShowProposalStatusController : validates
-AcceptShowProposalUI --> AcceptShowProposalController : uses
+' Associations
+AcceptProposalAndCreateShowController --> VerifyShowProposalStatusController : validates
+AcceptProposalAndCreateShowController --> CreateShowController : delegates
+AcceptProposalAndCreateShowController --> ShowProposalRepository : saves proposal
+AcceptProposalAndCreateShowController --> Show : returns
+
+CreateShowController --> ShowRepository : persists
+CreateShowController --> ShowProposalRepository : loads proposal
+CreateShowController --> ShowRequest : reads
+ShowRequest --> Customer : belongs to
+
+AcceptShowProposalUI --> AcceptProposalAndCreateShowController : uses
 AcceptShowProposalUI --> ListShowProposalController : uses
 ListShowProposalController --> ShowProposalRepository : queries
+
 ShowProposal --> ShowProposalId
-ShowProposal --> ShowRequestId
-ShowProposal --> Status
+ShowProposal --> ShowProposalStatus
+ShowProposal --> ShowRequest
+
 @enduml

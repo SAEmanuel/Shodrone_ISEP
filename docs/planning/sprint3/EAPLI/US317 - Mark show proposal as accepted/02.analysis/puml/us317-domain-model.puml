@@ -4,44 +4,71 @@ skinparam monochrome true
 skinparam packageStyle rectangle
 skinparam shadowing false
 
-title Mark Show Proposal as Accepted - Domain Model (US317)
+title Domain Model - Mark Show Proposal as Accepted (US317)
 
 hide circles
 hide methods
 
 package "Show Proposal Subsystem" {
 
-    class AcceptShowProposalController {
-        +markShowProposalAsAccepted(proposal)
+    class AcceptProposalAndCreateShowController {
+        +acceptProposalAndCreateShow(proposal): Optional<Show>
     }
 
     class ShowProposal {
-        ShowProposalId: id
-        Status: status
+        +setStatus(COLLABORATOR_APPROVED)
+        +getStatus(): ShowProposalStatus
+        +getShowRequest(): ShowRequest
+        +identity(): Long
     }
 
-    class ShowProposalId {
-        int: value
-    }
-
-    class Status {
-        String: value
+    class ShowProposalStatus {
+        (CUSTOMER_APPROVED, COLLABORATOR_APPROVED, ...)
     }
 
     class ShowProposalRepository {
-        +updateInStoreProposal(proposal)
+        +saveInStore(proposal)
+        +findByID(id): Optional<ShowProposal>
+        +getUpdatedProposals(): Optional<List<ShowProposal>>
     }
 
     class VerifyShowProposalStatusController {
         +wasShowProposalSent(proposal): boolean
     }
-
-    AcceptShowProposalController --> ShowProposal : updates >
-    AcceptShowProposalController --> ShowProposalRepository : persists >
-    AcceptShowProposalController --> VerifyShowProposalStatusController : checks >
-
-    ShowProposal --> ShowProposalId
-    ShowProposal --> Status
 }
+
+package "Show Subsystem" {
+
+    class CreateShowController {
+        +createShowFromProposal(proposal): Optional<Show>
+    }
+
+    class ShowRepository {
+        +findDuplicateShow(location, date, customerID): Optional<Show>
+        +saveInStore(show)
+    }
+
+    class ShowRequest {
+        +getCostumer(): Customer
+        +identity(): Long
+    }
+
+    class Customer {
+        +identity(): Long
+    }
+}
+
+' Relationships
+AcceptProposalAndCreateShowController --> ShowProposal : updates >
+AcceptProposalAndCreateShowController --> VerifyShowProposalStatusController : validates >
+AcceptProposalAndCreateShowController --> CreateShowController : delegates >
+AcceptProposalAndCreateShowController --> ShowProposalRepository : saves proposal >
+
+ShowProposal --> ShowProposalStatus
+ShowProposal --> ShowRequest
+
+CreateShowController --> ShowProposalRepository : loads proposal >
+CreateShowController --> ShowRepository : stores show >
+ShowRequest --> Customer : belongs to >
 
 @enduml
