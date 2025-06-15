@@ -1,0 +1,62 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Add Drones to a Proposal (US311)
+
+autonumber
+
+actor "CRM Collaborator" as user
+participant ":AddDronesShowProposalUI" as UI
+participant ":AddDronesShowProposalController" as CTRL
+participant ":RepositoryProvider" as repoProvider
+participant ":ShowProposalRepository" as proposalRepo
+participant ":GetDroneModelsController" as droneCtrl
+participant ":DroneModelInformation" as modelInfo
+participant ":ShowProposal" as proposal
+
+== START ==
+
+user -> UI : selects "Add Drones to Proposal"
+activate UI
+
+UI -> proposalRepo : getStandbyProposals()
+activate proposalRepo
+proposalRepo --> UI : List<ShowProposal>
+deactivate proposalRepo
+
+user -> UI : selects proposal
+UI -> CTRL : getCurrentDroneModels(proposal)
+activate CTRL
+
+CTRL -> droneCtrl : getDroneModelQuantity()
+
+activate droneCtrl
+
+droneCtrl --> CTRL : Map<DroneModel, Integer>
+
+deactivate droneCtrl
+CTRL --> UI : List<DroneModelInformation>
+deactivate CTRL
+
+user -> UI : selects drone model(s) and quantity
+UI -> CTRL : addDroneModels(proposal, modelsToAdd)
+activate CTRL
+
+
+
+alt valid input
+    CTRL -> proposal : update modelsUsed + setNumberOfDrones()
+    CTRL -> proposalRepo : saveInStore(proposal)
+    activate proposalRepo
+    proposalRepo --> CTRL : Optional<ShowProposal>
+    deactivate proposalRepo
+    CTRL --> UI : success message
+else invalid input
+    CTRL --> UI : error message
+end
+
+deactivate CTRL
+deactivate UI
+@enduml

@@ -6,24 +6,18 @@ skinparam shadowing false
 title System Sequence Diagram (SSD) - US317 - Mark Show Proposal as Accepted
 
 actor "CRM Collaborator" as User
-participant ":System" as System
+participant "System"
 
 autonumber
 
-activate User
-User -> System : markProposalAsAccepted(proposal)
-activate System
+User -> System : listProposals()
+System --> User : ShowProposalList
 
-System -> System : wasShowProposalSent(proposal)
+User -> System : acceptProposal(selectedProposalID)
 
-alt is eligible
-    System -> System : proposal.setStatus(COLLABORATOR_APPROVED)
-    System -> System : updateInStoreProposal(proposal)
-    System --> User : confirmation(success)
-else not eligible
-    System --> User : error("Proposal cannot be accepted")
+alt [proposal eligible]
+  System --> User : Proposal accepted\n Show created (Show ID)
+else [invalid status or duplicate show]
+  System --> User : Cannot accept proposal
 end
-
-deactivate System
-deactivate User
 @enduml

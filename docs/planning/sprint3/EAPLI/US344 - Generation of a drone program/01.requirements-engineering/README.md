@@ -41,11 +41,7 @@ A: Yes, the same figure may map drone types to different drone models.
 
 **Input Data:**
 
-* Figure/show DSL description
-* DSL version
-* Drone type to model
-* Drone model language configuration
-* Registered plugins
+* ShowProposal
 
 **Output Data:**
 

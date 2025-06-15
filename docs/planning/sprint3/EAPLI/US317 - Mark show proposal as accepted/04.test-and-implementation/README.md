@@ -7,122 +7,110 @@ You should include:
 
 ### **Test Cases**
 
-1. **Unit Test: Successfully Accepting a Proposal**
-   * **Description**: Verifies that a proposal in the CUSTOMER_APPROVED state can be successfully marked as COLLABORATOR_APPROVED.
-   * **Scenario**: A CRM Collaborator selects an eligible proposal and accepts it.
+1. **Successfully Accepting a Valid Proposal**
+   * **Description**: A `ShowProposal` in `CUSTOMER_APPROVED` status is accepted.
    * **Expected Outcome**: The proposal’s status is updated to COLLABORATOR_APPROVED and persisted.
    * **Test**:
    ```java
-     void testMarkShowProposalAsAccepted_Success() {
-    ShowProposal proposal = new ShowProposal();
-    proposal.setStatus(ShowProposalStatus.CUSTOMER_APPROVED);
+     @Test
+    void shouldCreateShowSuccessfully() {
+        when(showRequestRepository.findById(any())).thenReturn(Optional.of(request));
+        when(showRepository.findDuplicateShow(any(), any(), anyLong())).thenReturn(Optional.empty());
+        when(showProposalRepository.findByID(any())).thenReturn(Optional.of(proposal));
+        when(showRepository.saveInStore(any())).thenReturn(Optional.of(show));
 
-    when(statusControllerMock.wasShowProposalSent(proposal)).thenReturn(true);
-    when(repositoryMock.updateInStoreProposal(proposal)).thenReturn(Optional.of(proposal));
+        controller = new AcceptProposalAndCreateShowController();
 
-    Optional<ShowProposal> result = controller.markShowProposalAsAccepted(proposal);
+        Optional<Show> createdShow = controller.acceptProposalAndCreateShow(proposal);
 
-    assertTrue(result.isPresent());
-    assertEquals(ShowProposalStatus.COLLABORATOR_APPROVED, proposal.getStatus());
-    verify(repositoryMock).updateInStoreProposal(proposal);
+        assertTrue(createdShow.isPresent());
+        assertEquals(ShowStatus.PLANNED, createdShow.get().getStatus());
+
+        verify(showProposalRepository, times(1)).saveInStore(proposal);
     }
    ```
 
-2. **Unit Test: Fails When Proposal Is Not Eligible**
-    * **Description**: Ensures that a proposal in a non-eligible state (ex: CREATED) cannot be accepted.
-    * **Scenario**: A CRM Collaborator tries to accept an ineligible proposal.
-    * **Expected Outcome**: The operation throws an IllegalStateException.
+2. **Unit Test: Proposal Not Sent**
+    * **Description**: Proposal is in STAND_BY or other ineligible status.
+    * **Expected Outcome**: Throws IllegalStateException with proper message.
     * **Test**:
    ```java
-     void testMarkShowProposalAsAccepted_NotEligible() {
-    ShowProposal proposal = new ShowProposal();
-    proposal.setStatus(ShowProposalStatus.CREATED);
+     @Test
+    void shouldThrowIfProposalNotSent() {
+        when(proposal.getStatus()).thenReturn(ShowProposalStatus.STAND_BY);
 
-    when(statusControllerMock.wasShowProposalSent(proposal)).thenReturn(false);
+        controller = new AcceptProposalAndCreateShowController();
 
-    IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
-        controller.markShowProposalAsAccepted(proposal);
-    });
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            controller.acceptProposalAndCreateShow(proposal);
+        });
 
-    assertEquals("❌ Cannot accept the proposal because it was not sent.", exception.getMessage());
-    verify(repositoryMock, never()).updateInStoreProposal(any());
+        assertTrue(exception.getMessage().contains("was not sent"));
     }
    ```
     
-3. **Unit Test: List Eligible Proposals**
-    * **Description**: Ensures that only proposals with status CUSTOMER_APPROVED are returned.
-    * **Scenario**: The controller queries the list of proposals.
-    * **Expected Outcome**: The list returned contains only CUSTOMER_APPROVED proposals.
+3. **Unit Test: ShowRequest Not Found**
+    * **Description**: The proposal references a ShowRequest that no longer exists.
+    * **Expected Outcome**: Throws IllegalStateException.
     * **Test**:
    ```java
-    void testGetAllSentAcceptedProposals_ReturnsEligibleProposals() {
-    ShowProposal proposal1 = new ShowProposal();
-    proposal1.setStatus(ShowProposalStatus.CUSTOMER_APPROVED);
+    @Test
+    void shouldThrowIfShowRequestNotFound() {
+        when(showRequestRepository.findById(any())).thenReturn(Optional.empty());
 
-    ShowProposal proposal2 = new ShowProposal();
-    proposal2.setStatus(ShowProposalStatus.CUSTOMER_APPROVED);
+        controller = new AcceptProposalAndCreateShowController();
 
-    ShowProposal proposal3 = new ShowProposal();
-    proposal3.setStatus(ShowProposalStatus.REJECTED);
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            controller.acceptProposalAndCreateShow(proposal);
+        });
 
-    List<ShowProposal> allProposals = Arrays.asList(proposal1, proposal2, proposal3);
-
-    when(repositoryMock.getAllProposals()).thenReturn(Optional.of(allProposals));
-
-    List<ShowProposal> result = controller.getAllSentAcceptedProposals();
-
-    assertEquals(2, result.size());
-    assertTrue(result.stream().allMatch(p -> p.getStatus() == ShowProposalStatus.CUSTOMER_APPROVED));
-    verify(repositoryMock).getAllProposals();
+        assertTrue(exception.getMessage().contains("ShowRequest"));
     }
     ```
 
-4. **Unit Test: No Eligible Proposals**
-* **Description**: Ensures that an exception is thrown when there are no eligible proposals.
-* **Scenario**: The repository returns proposals, but none are eligible.
-* **Expected Outcome**: An exception is thrown.
+4. **Unit Test: Duplicate Show Already Exists**
+* **Description**: A show with the same location, date and customer already exists.
+* **Expected Outcome**: Throws IllegalStateException.
 * **Test**:
    ```java
-   void testGetAllSentAcceptedProposals_NoEligibleProposals_ThrowsException() {
-    ShowProposal proposal1 = new ShowProposal();
-    proposal1.setStatus(ShowProposalStatus.REJECTED);
+   @Test
+    void shouldThrowIfDuplicateShowExists() {
+        when(showRequestRepository.findById(any())).thenReturn(Optional.of(request));
+        when(showRepository.findDuplicateShow(any(), any(), anyLong())).thenReturn(Optional.of(mock(Show.class)));
 
-    ShowProposal proposal2 = new ShowProposal();
-    proposal2.setStatus(ShowProposalStatus.CREATED);
+        controller = new AcceptProposalAndCreateShowController();
 
-    List<ShowProposal> allProposals = Arrays.asList(proposal1, proposal2);
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            controller.acceptProposalAndCreateShow(proposal);
+        });
 
-    when(repositoryMock.getAllProposals()).thenReturn(Optional.of(allProposals));
-
-    RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-        controller.getAllSentAcceptedProposals();
-    });
-
-    assertEquals("No Show Proposal's in CUSTOMER APPROVED status were found on the system.", exception.getMessage());
-    verify(repositoryMock).getAllProposals();
+        assertTrue(exception.getMessage().contains("already exists"));
     }
   ```
 
-5**Unit Test: No Proposals in Repository**
-* **Description**: Ensures that an exception is thrown when the repository is empty.
-* **Scenario**: The repository returns an empty Optional.
-* **Expected Outcome**: An exception is thrown.
+5**Unit Test: Proposal No Longer in Repository**
+* **Description**: The proposal is valid, but not found during persistence.
+* **Expected Outcome**: Throws IllegalStateException.
 * **Test**:
    ```java
-   void testGetAllSentAcceptedProposals_NoProposalsInRepo_ThrowsException() {
-    when(repositoryMock.getAllProposals()).thenReturn(Optional.empty());
+   @Test
+    void shouldThrowIfProposalNotInRepositoryAnymore() {
+        when(showRequestRepository.findById(any())).thenReturn(Optional.of(request));
+        when(showRepository.findDuplicateShow(any(), any(), anyLong())).thenReturn(Optional.empty());
+        when(showProposalRepository.findByID(any())).thenReturn(Optional.empty());
 
-    RuntimeException exception = assertThrows(RuntimeException.class, () -> {
-        controller.getAllSentAcceptedProposals();
-    });
+        controller = new AcceptProposalAndCreateShowController();
 
-    assertEquals("No Show Proposal's were found on the system.", exception.getMessage());
-    verify(repositoryMock).getAllProposals();
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> {
+            controller.acceptProposalAndCreateShow(proposal);
+        });
+
+        assertTrue(exception.getMessage().contains("Proposal not found"));
     }
   ```
 
 ### Screenshots
-![Unit Tests for AcceptShowProposalControllerTest](img/AcceptShowProposalControllerTest.png)
+![Unit Tests for MarkProposalAcceptedAndCreateShowControllerTest](img/MarkProposalAcceptedAndCreateShowControllerTest.png)
 ![Unit Tests for ListShowProposalControllerTest](img/ListShowProposalControllerTest.png)
 
 ## 5. Construction (Implementation)

@@ -1,0 +1,74 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Generate Drone Program Flow (US344)
+
+autonumber
+
+actor "Drone Tech" as tech
+participant "GenerateShowProgramUI" as UI
+participant "GenerateShowProgramController" as controller
+participant "ShowProposalRepository" as repo
+participant "FigureValidationPlugin" as dslValidator
+participant "DroneProgramsGenerator" as generator
+participant "DroneGenericPlugin" as droneValidator
+
+== START ==
+
+tech -> UI : run()
+activate UI
+
+    UI -> repo : getCreatedProposals()
+    activate repo
+        repo --> UI : List<ShowProposal>
+    deactivate repo
+
+    UI -> UI : show proposal list + select one
+
+    UI -> controller : generateProgramsForShow(selectedProposal)
+    activate controller
+
+        controller -> controller : validate proposal structure
+        alt missing data
+            controller --> UI : error("Invalid show proposal")
+        end
+
+        loop for each DroneModel
+            loop for each Figure
+                controller -> dslValidator : validate(figure.dsl)
+                activate dslValidator
+                dslValidator -> controller : validated
+                deactivate dslValidator
+                alt DSL invalid
+                    controller --> UI : error("DSL validation failed")
+                end
+
+                controller -> generator : generateProgram(...)
+                activate generator
+                generator -> controller : generatedProgram
+                deactivate generator
+
+                controller -> droneValidator : validate(program)
+                activate droneValidator
+                droneValidator -> controller : validated
+                deactivate droneValidator
+
+                alt drone code invalid
+                    controller --> UI : error("Drone code validation failed")
+                end
+
+                controller -> controller : store generated program
+            end
+        end
+
+        controller -> controller : generate script + update status
+        controller -> repo : saveInStore(showProposal)
+
+    deactivate controller
+
+    UI -> tech : success("Drone programs generated")
+
+deactivate UI
+@enduml

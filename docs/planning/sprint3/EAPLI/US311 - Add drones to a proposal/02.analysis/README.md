@@ -4,14 +4,17 @@
 
 ### 2.1. Relevant Domain Model Excerpt 
 
-![Domain Model](svg/us211-domain-model.svg)
+![Domain Model](svg/us311-domain-model.svg)
 
 ### 2.2. Other Remarks
 
-* User Creation Responsibility: The registration of users must be restricted to the Administrator role through the application backoffice. A bootstrap mechanism must also be provided to initialize the system with a default set of users.
-* Email Validation: The system must enforce that user emails belong to the @showdrone.com domain and follow a valid format. Duplicate emails must be rejected during registration.
-* Role Assignment: Upon creation, a user must be assigned one role. Although the current version supports a single role per user, the system design should allow for a future upgrade to support multiple roles per user.
-* Password Handling: Upon registration, users receive a temporary password (via secure channel – to be defined). Passwords must be hashed using a strong cryptographic algorithm (bcrypt). No password should ever be stored in plain text.
-* Bootstrap Registration: The system must include support for batch registration via configuration files or initialization scripts, allowing initial users to be created without using the GUI.
-* User Status: Users must be created with an "active" status by default. Status management (disabling/enabling users) is handled in US212.
-* Error Handling: The registration process must return meaningful error messages, such as “Invalid email format”, “Email must be @showdrone.com”, or “Email already in use”.
+* Proposal Status Requirement: Drones can only be configured for proposals with status STAND_BY. Proposals in any other state must be rejected with a proper error message.
+* Drone Model Source: Only models retrieved from the current drone inventory (DroneRepository.numberOfDronesPerModel()) are allowed. These models must have been previously created (US240).
+* Inventory Enforcement: The system ensures that the total number of drones per model used in the proposal does not exceed what is available in inventory. Attempts to exceed this limit result in a validation error.
+* No Duplicates: Adding the same drone model more than once is not allowed. If attempted, the system issues a “Drone model already added” warning.
+* Quantity Validation: Quantities must be strictly positive integers, and within the available inventory limits for each model.
+* Editable State Only: The configuration can only be applied if the selected proposal is in an editable state. Otherwise, the operation is cancelled with an appropriate error.
+* Persistence: The selected drone models and their quantities are stored in the modelsUsed map of the ShowProposal entity. The total number of drones is also updated accordingly.
+* Feedback to User: The system gives immediate feedback on success or failure.
+* Atomic Update: All additions/modifications/removals are processed in-memory and only persisted when the user finishes the configuration and confirms. This avoids partial/inconsistent saves.
+* Role Enforcement: Only users with the CRM Collaborator role can access this functionality.ling: The registration process must return meaningful error messages, such as “Invalid email format”, “Email must be @showdrone.com”, or “Email already in use”.

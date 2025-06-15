@@ -1,0 +1,53 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Add Drones to Proposal - Domain Model (US311)
+
+hide circles
+hide methods
+
+package "Show Proposal Subsystem" {
+
+    class ShowProposal {
+        Long: id
+        Map<DroneModel, Integer>: modelsUsed
+        int: numberOfDrones
+        ShowProposalStatus: status
+    }
+
+    class DroneModel {
+        String: droneModelId
+        String: name
+    }
+
+    class DroneModelInformation {
+        DroneModel: model
+        int: usedQty
+        int: maxAvailable
+    }
+
+    class AddDronesShowProposalController {
+        +getCurrentDroneModels(proposal)
+        +getAvailableDroneModelsToAdd(proposal)
+        +addDroneModels(proposal, models)
+        +changeDroneModelQuantity(proposal, model, qty)
+        +removeDroneModel(proposal, model)
+        +saveProposal(proposal)
+    }
+
+    class GetDroneModelsController {
+        +getDroneModelQuantity()
+    }
+
+    ShowProposal "1" --> "*" DroneModel : uses >
+    AddDronesShowProposalController --> ShowProposal : modifies >
+    AddDronesShowProposalController --> DroneModelInformation : builds >
+    AddDronesShowProposalController --> GetDroneModelsController : uses >
+    DroneModelInformation --> DroneModel : references >
+
+}
+
+@enduml

@@ -8,12 +8,18 @@ As a CRM Collaborator, I want to mark a show proposal as accepted after it has b
 
 ### 1.2. Customer Specifications and Clarifications
 
-- This user story represents the final step in the proposal acceptance workflow, confirming internal acknowledgment of the customer's decision.
-- The proposal must be in state CUSTOMER_APPROVED.
-- Upon success, the system must update the status to COLLABORATOR_APPROVED and persist the change.
-- Only authenticated users with the CRM Collaborator role can perform this operation.
-- It is not required to attach any email in this step, as confirmation by the customer was already done through the Customer App.
-- No other changes to the proposal should be made during this operation.
+- The proposal must have the status CUSTOMER_APPROVED before it can be accepted internally.
+- The CRM Collaborator accesses this functionality via the CRMCollaboratorUI, using the "Accept show proposal" menu option, which opens the AcceptShowProposalUI.
+- Only proposals in CUSTOMER_APPROVED status are shown to the user. This is enforced through ListShowProposalController#getAllSentAcceptedProposals().
+- When accepted:
+* The proposal status is updated to COLLABORATOR_APPROVED.
+* A new Show is created through CreateShowController#createShowFromProposal().
+* The proposal is persisted using ShowProposalRepository#saveInStore().
+- The creation of the show is only allowed if:
+* A valid associated ShowRequest exists.
+* No other show already exists for the same customer, location, and date (ShowRepository#findDuplicateShow()).
+- Only authenticated users with the CRM Collaborator role can execute this operation (NFR08 – enforced by restricted menu access).
+- If any validation fails, the operation is blocked, and the user receives a clear error message via the UI.
 
 **Clarifications**
 
@@ -30,16 +36,20 @@ A: The system must block the operation and return an appropriate error message.
 
 ### 1.4. Found out Dependencies
 
-* US316 – Sending the proposal to the customer must occur before US317.
-* NFR07 – Persistence of proposal state and email attachment must be ensured.
-* US372 – Accepted proposals will later be scheduled (Check show dates).
-* NFR08 – Authentication/authorization must be enforced.
+* US316 – Sending the proposal to the customer must precede this operation.
+* US371 – The proposal must have been accepted through the Customer App.
+* US372 – The created show will be scheduled; the proposal must be valid and free of conflicts.
+* NFR07 – Persistence of proposal and show entities must be ensured.
+* NFR08 – Authentication and role-based access are required.
+* NFR03 – Exception handling and unit testing should be considered for controller logic.
+
+
 * 
 ### 1.5 Input and Output Data
 
 **Input Data:**
 
-* Selection of a proposal from a filtered list (those with status CUSTOMER_APPROVED)
+* Selection of a show proposal from a list filtered by status (CUSTOMER_APPROVED).
 
 **Output Data:**
 

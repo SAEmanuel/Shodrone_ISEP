@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class AcceptProposalAndCreateShowControllerTest {
+class MarkProposalAcceptedAndCreateShowControllerTest {
 
     private AcceptProposalAndCreateShowController controller;
     private ShowProposalRepository showProposalRepository;
