@@ -11,19 +11,40 @@ import drone_language_validation.generated.droneGenericParser.ExpressionContext;
 import drone_language_validation.generated.droneGenericParser.InstructionContext;
 import drone_language_validation.generated.droneGenericParser.Section_instructionsContext;
 
+/**
+ * Visitor class responsible for validating the "instructions" section
+ * of a DroneLanguage DSL program.
+ * <p>
+ * It checks:
+ * - Instruction names are valid
+ * - Variables used are declared
+ * - Each instruction has the correct number and type of arguments
+ */
 public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void> {
+
+    /** Reference to the plugin that holds validation state and collects errors */
     private final DroneGenericPlugin plugin;
 
+    /**
+     * Constructs a new InstructionsValidationVisitor.
+     *
+     * @param plugin The plugin instance to be used for validation and error tracking
+     */
     public InstructionsValidationVisitor(DroneGenericPlugin plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * Visits the instruction section and validates each instruction individually.
+     *
+     * @param ctx The parser context for the instruction section
+     * @return Void (no result needed for visitor traversal)
+     */
     @Override
     public Void visitSection_instructions(Section_instructionsContext ctx) {
         for (InstructionContext instr : ctx.instruction()) {
             String name = instr.ID().getText();
 
-            // (1) Instruction name must be valid
             if (!RequiredFields.INSTRUCTIONS.contains(name)) {
                 plugin.addError(
                         String.format(
@@ -35,12 +56,10 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                 continue;
             }
 
-            // (2) Collect parameters
             List<ExpressionContext> params = instr.param_list() != null
                     ? instr.param_list().expression()
                     : Collections.emptyList();
 
-            // (3) Undeclared-variable check (ignore PI)
             for (ExpressionContext p : params) {
                 if (p.ID() != null
                         && p.vector() == null
@@ -58,7 +77,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                 }
             }
 
-            // (4) Arity & type checks per instruction
             switch (name) {
                 case "takeOff":
                     // 2 args: both numeric
@@ -84,9 +102,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                     break;
 
                 case "move":
-                    // overloaded:
-                    //  - move(Point, scalar)
-                    //  - move(Vector, scalar, scalar)
                     if (params.size() == 2) {
                         ExpressionContext first = params.get(0);
                         ExpressionContext second = params.get(1);
@@ -143,7 +158,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                     break;
 
                 case "movePath":
-                    // 2 args: vector or array of vectors, and numeric
                     if (params.size() != 2) {
                         plugin.addError(
                                 String.format(
@@ -153,7 +167,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                         );
                     } else {
                         ExpressionContext first = params.get(0);
-                        // literal vector or array, or declared ARRAY variable
                         boolean okFirst = first.vector() != null
                                 || first.array_literal() != null
                                 || (first.ID() != null
@@ -173,7 +186,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                     break;
 
                 case "moveCircle":
-                    // 3 args: vector, numeric, numeric
                     if (params.size() != 3) {
                         plugin.addError(
                                 String.format(
@@ -201,7 +213,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                     break;
 
                 case "hoover":
-                    // 1 arg: numeric
                     if (params.size() != 1) {
                         plugin.addError(
                                 String.format(
@@ -217,7 +228,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                     break;
 
                 case "lightsOn":
-                    // 3 args: integer literals in [0,255]
                     if (params.size() != 3) {
                         plugin.addError(
                                 String.format(
@@ -261,7 +271,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                     break;
 
                 case "lightsOff":
-                    // no args
                     if (!params.isEmpty()) {
                         plugin.addError(
                                 String.format(
@@ -273,7 +282,6 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
                     break;
 
                 case "land":
-                    // 1 arg: numeric
                     if (params.size() != 1) {
                         plugin.addError(
                                 String.format(
@@ -293,9 +301,13 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
         return super.visitSection_instructions(ctx);
     }
 
-    /** true if NUMBER, PI or declared SCALAR variable or any numeric expression */
+    /**
+     * Determines whether a given expression context represents a numeric value.
+     *
+     * @param ctx The expression context
+     * @return true if numeric (literal, PI, or scalar variable)
+     */
     private boolean isNumericParam(ExpressionContext ctx) {
-        // vectors/arrays are not numeric here
         if (ctx.vector() != null || ctx.array_literal() != null) return false;
 
         if (ctx.ID() != null) {
@@ -304,11 +316,15 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
             return plugin.isVariableDeclared(id)
                     && plugin.getVariableKind(id) == VariableKind.SCALAR;
         }
-        // otherwise NUMBER or arithmetic expression
         return true;
     }
 
-    /** true if vector literal or declared VECTOR (Point or Vector) variable */
+    /**
+     * Determines whether a given expression is a vector or vector variable.
+     *
+     * @param ctx The expression context
+     * @return true if it's a vector literal or declared vector variable
+     */
     private boolean isVectorParam(ExpressionContext ctx) {
         if (ctx.vector() != null) return true;
         if (ctx.ID() != null) {
@@ -319,7 +335,12 @@ public class InstructionsValidationVisitor extends droneGenericBaseVisitor<Void>
         return false;
     }
 
-    /** true if array literal or declared ARRAY variable */
+    /**
+     * Determines whether a given expression is an array or array variable.
+     *
+     * @param ctx The expression context
+     * @return true if it's an array literal or declared array variable
+     */
     private boolean isArrayParam(ExpressionContext ctx) {
         if (ctx.array_literal() != null) return true;
         if (ctx.ID() != null) {

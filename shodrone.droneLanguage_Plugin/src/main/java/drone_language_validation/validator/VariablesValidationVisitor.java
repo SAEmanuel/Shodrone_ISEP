@@ -13,14 +13,39 @@ import drone_language_validation.generated.droneGenericParser;
 import drone_language_validation.generated.droneGenericParser.VectorContext;
 import drone_language_validation.generated.droneGenericParser.ExpressionContext;
 
+/**
+ * Visitor class responsible for validating variable declarations in the DroneGeneric DSL.
+ * This includes validation of types, uniqueness, value formats, and consistency with expected literal forms.
+ */
 public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
+
+    /** Reference to the plugin that stores validation state and error list. */
     private final DroneGenericPlugin plugin;
+
+    /** Set of variable names already declared to detect duplicates. */
     private final Set<String> declaredVars = new HashSet<>();
 
+    /**
+     * Constructs the visitor with a reference to the DroneGeneric plugin instance.
+     *
+     * @param plugin The plugin instance to report errors and manage declarations
+     */
     public VariablesValidationVisitor(DroneGenericPlugin plugin) {
         this.plugin = plugin;
     }
 
+    /**
+     * Visits the section containing variable declarations, performing:
+     * <ul>
+     *     <li>Validation of declared types against the required ones</li>
+     *     <li>Detection of duplicate variable names</li>
+     *     <li>Classification and registration of variable kind (scalar, vector, array)</li>
+     *     <li>Validation of literal structure according to the type (e.g., vectors must have 3 numeric components)</li>
+     * </ul>
+     *
+     * @param ctx The context of the variable declarations section
+     * @return null (no return value expected from visitor)
+     */
     @Override
     public Void visitSection_variables(drone_language_validation.generated.droneGenericParser.Section_variablesContext ctx) {
         for (drone_language_validation.generated.droneGenericParser.Variable_declarationContext varCtx : ctx.variable_declaration()) {
@@ -28,7 +53,7 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
             String varName  = varCtx.ID(1).getText();
             ExpressionContext exprCtx = varCtx.expression();
 
-            // (1) Tipo deve existir em Types
+            // Validate type existence
             if (!RequiredFields.TYPES.contains(typeName)) {
                 plugin.addError(
                         String.format(
@@ -38,13 +63,12 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
                 );
             }
 
-            // (2) Sem duplicados e registro
+            // Check for duplicates and register if unique
             if (!declaredVars.add(varName)) {
                 plugin.addError(
                         String.format("Duplicate variable name '%s'.", varName)
                 );
             } else {
-                // determina kind e registra
                 boolean isScalar = isNumericExpression(exprCtx);
                 boolean isArray  = exprCtx.array_literal() != null
                         || (exprCtx.vector() != null
@@ -58,18 +82,16 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
                 plugin.registerVariable(varName, typeName, kind);
             }
 
-            // classificação estrutural
+            // Structure classification
             VectorContext vCtx = exprCtx.vector();
             boolean isScalarExpr = isNumericExpression(exprCtx);
-            boolean isArray      = exprCtx.array_literal() != null
-                    || (vCtx != null
-                    && vCtx.expression().stream()
-                    .allMatch(c -> c.vector() != null));
-            boolean isVectorLit  = vCtx != null
+            boolean isArray = exprCtx.array_literal() != null
+                    || (vCtx != null && vCtx.expression().stream().allMatch(c -> c.vector() != null));
+            boolean isVectorLit = vCtx != null
                     && vCtx.expression().size() == 3
-                    && vCtx.expression().stream()
-                    .allMatch(this::isNumericExpression);
-            boolean isVectorOp   = vCtx != null && vCtx.vector().size() == 2;
+                    && vCtx.expression().stream().allMatch(this::isNumericExpression);
+            boolean isVectorOp = vCtx != null && vCtx.vector().size() == 2;
+
             List<VectorContext> arrayVectors = new ArrayList<>();
             if (exprCtx.array_literal() != null) {
                 arrayVectors.addAll(exprCtx.array_literal().vector());
@@ -79,7 +101,6 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
                 }
             }
 
-            // (3) Regras por tipo
             switch (typeName) {
                 case "LinearVelocity":
                 case "AngularVelocity":
@@ -89,8 +110,7 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
                         plugin.addError(
                                 String.format(
                                         "Invalid literal for type '%s'. Expected numeric expression but found '%s'.",
-                                        typeName,
-                                        exprCtx.getText()
+                                        typeName, exprCtx.getText()
                                 )
                         );
                     }
@@ -108,7 +128,6 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
                     break;
             }
 
-            // (4) Validações finais
             if (isVectorLit) {
                 validateVectorComponents(vCtx);
             }
@@ -124,6 +143,11 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
         return null;
     }
 
+    /**
+     * Validates a 3D vector's components to ensure it has exactly three numeric expressions.
+     *
+     * @param vCtx The vector context to validate
+     */
     private void validateVectorComponents(VectorContext vCtx) {
         int count = vCtx.expression().size();
         if (count != 3) {
@@ -146,6 +170,11 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
         }
     }
 
+    /**
+     * Validates vector operations (e.g., subtraction between vectors), recursively checking nested operations.
+     *
+     * @param vCtx The vector operation context
+     */
     private void validateVectorOperation(VectorContext vCtx) {
         VectorContext left  = vCtx.vector(0);
         VectorContext right = vCtx.vector(1);
@@ -162,11 +191,17 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
         }
     }
 
-    // aceita NUMBER ou PI ou ops entre eles
+    /**
+     * Determines whether a given expression is a valid numeric value.
+     * Accepts numbers, constant PI, and arithmetic operations between numeric expressions.
+     *
+     * @param ctx The expression context to evaluate
+     * @return true if numeric, false otherwise
+     */
     private boolean isNumericExpression(ExpressionContext ctx) {
         if (ctx.NUMBER() != null) return true;
-        if (ctx.ID()     != null) return "PI".equals(ctx.ID().getText());
-        if (ctx.op       != null) {
+        if (ctx.ID() != null) return "PI".equals(ctx.ID().getText());
+        if (ctx.op != null) {
             return isNumericExpression(ctx.expression(0))
                     && isNumericExpression(ctx.expression(1));
         }
