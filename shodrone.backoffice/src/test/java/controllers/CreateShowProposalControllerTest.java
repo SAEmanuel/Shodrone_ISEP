@@ -6,11 +6,8 @@ import domain.entity.*;
 import domain.valueObjects.*;
 import eapli.framework.general.domain.model.EmailAddress;
 import factories.FactoryProvider;
-import factories.impl.ShowProposalFactoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import persistence.RepositoryProvider;
-import persistence.ShowProposalRepository;
 import utils.AuthUtils;
 import utils.DslMetadata;
 
@@ -21,13 +18,10 @@ import java.time.LocalDateTime;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class CreateShowProposalControllerTest {
 
     private CreateShowProposalController controller;
-    private ShowProposalFactoryImpl mockFactory;
-    private ShowProposalRepository mockRepository;
 
     private RegisterShowRequestController registerShowRequestController;
 
@@ -121,9 +115,6 @@ class CreateShowProposalControllerTest {
         showRequest = registerShowRequestController.registerShowRequest();
 
         droneModels.put(droneModel1, 1);
-        // Initialize mocks
-        mockFactory = mock(ShowProposalFactoryImpl.class);
-        mockRepository = mock(ShowProposalRepository.class);
     }
 
     @Test
@@ -139,7 +130,6 @@ class CreateShowProposalControllerTest {
                 LocalDateTime.now().plusHours(73),
                 10,
                 Duration.ofMinutes(15),
-                new String("1.10.1"),
                 droneModels,
                 new Name("Complex figures"),
                 templatePT
@@ -149,60 +139,30 @@ class CreateShowProposalControllerTest {
         Optional<ShowProposal> result = controller.registerShowProposal( new Name("Complex figures"),
                 showRequest,
                 templatePT,
-                new Description("ABCDERFG"),
-                location1,
-                LocalDateTime.now().plusHours(73),
                 10,
-                Duration.ofMinutes(15),
-                new String("1.10.1"),
                 droneModels);
 
         assertEquals(ShowProposalResult.get(), result.get());
     }
 
     @Test
-    void testRegisterShowProposalFailsOnSave() throws IOException {
+    void testRegisterShowProposalFailsSameName() throws IOException {
         String email = AuthUtils.getCurrentUserEmail();
         assertNotNull(email, "O email do utilizador autenticado deve estar definido.");
-
-        Optional<ShowProposal> ShowProposalResult = FactoryProvider.getShowProposalFactory().automaticBuild(
-                showRequest,
-                figures,
-                new Description("ABCDERFG"),
-                location1,
-                LocalDateTime.now().plusHours(73),
-                10,
-                Duration.ofMinutes(15),
-                new String("1.10.1"),
-                droneModels,
-                new Name("Complex figures"),
-                templatePT
-        );
-        ShowProposalResult.get().editShowProposalID(3L);
 
         Optional<ShowProposal> firstSave = controller.registerShowProposal( new Name("Complex figures"),
                 showRequest,
                 templatePT,
-                new Description("ABCDERFG"),
-                location1,
-                LocalDateTime.now().plusHours(73),
                 10,
-                Duration.ofMinutes(15),
-                new String("1.10.1"),
                 droneModels);
 
         Optional<ShowProposal> result = controller.registerShowProposal( new Name("Complex figures"),
                 showRequest,
                 templatePT,
-                new Description("ABCDERFG"),
-                location1,
-                LocalDateTime.now().plusHours(73),
                 10,
-                Duration.ofMinutes(15),
-                new String("1.10.1"),
                 droneModels);
 
-        assertEquals(ShowProposalResult.get(), result.get());
+        assertEquals(Optional.empty(), result);
     }
 
 }

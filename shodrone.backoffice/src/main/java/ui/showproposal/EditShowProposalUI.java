@@ -37,7 +37,7 @@ public class EditShowProposalUI implements Runnable {
         requestChanges(proposal);
         Optional<ShowProposal> validEdit = editShowProposalController.editShowProposal(proposal);
         if (validEdit.isPresent()) {
-            Utils.printSuccessMessage("Show proposal successfully edited!");
+            Utils.printSuccessMessage("\n✅ Show proposal successfully edited!");
             Utils.printShowProposalResume(proposal);
             Utils.waitForUser();
         } else {

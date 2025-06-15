@@ -30,12 +30,9 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
     private Duration showDuration;
     private String creationAuthor;
     private LocalDateTime creationDate;
-    private String version;
     private ProposalTemplate template;
     private Map<DroneModel, Integer> drones;
     private Name proposalName;
-    private Map<String, String> droneLanguageSpecifications;
-    private List<String> script;
 
     /**
      * Builds and returns a new ShowProposal object with the current factory values.
@@ -70,7 +67,6 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
      * @param showDate         scheduled date/time for the show.
      * @param numberOfDrones   drone count.
      * @param showDuration     duration of the show.
-     * @param version          version name/label of the proposal.
      * @param drones           map of drone models and their quantities.
      * @param proposalName     the name of the proposal.
      * @param template         proposal template used.
@@ -84,16 +80,13 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
             LocalDateTime showDate,
             int numberOfDrones,
             Duration showDuration,
-            String version,
             Map<DroneModel, Integer> drones,
             Name proposalName,
             ProposalTemplate template
     ) {
         try {
-            validateShowDate(showDate);
             validateSequenceFigures(sequenceFigures);
             validateNumberOfDrones(numberOfDrones);
-            validateVersion(version);
             validateName(proposalName);
             validateTemplate(template);
             validateDroneMap(drones);
@@ -107,7 +100,6 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
             this.showDuration = showDuration;
             this.creationAuthor = AuthUtils.getCurrentUserEmail();
             this.creationDate = LocalDateTime.now();
-            this.version = version;
             this.drones = drones;
             this.proposalName = proposalName;
             this.template = template;
@@ -120,27 +112,15 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
         }
     }
 
-    private void validateShowDate(LocalDateTime showDate) {
-        if (showDate == null || showDate.isBefore(LocalDateTime.now().plusHours(72))) {
-            throw new IllegalArgumentException("Show date must be at least 72 hours in the future.");
-        }
-    }
-
     private void validateSequenceFigures(List<Figure> sequenceFigures) {
         if (sequenceFigures == null || sequenceFigures.isEmpty()) {
-            throw new IllegalArgumentException("Sequence figures cannot be empty.");
+            throw new IllegalArgumentException("Sequence of show request empty.");
         }
     }
 
     private void validateNumberOfDrones(int numberOfDrones) {
         if (numberOfDrones <= 0) {
             throw new IllegalArgumentException("Number of drones must be greater than zero.");
-        }
-    }
-
-    private void validateVersion(String version) {
-        if (version == null || version.trim().isEmpty()) {
-            throw new IllegalArgumentException("Proposal version name cannot be empty.");
         }
     }
 

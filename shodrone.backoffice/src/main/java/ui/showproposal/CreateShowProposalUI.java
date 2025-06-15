@@ -6,27 +6,21 @@ import controller.showproposal.GetAllProposalTemplatesController;
 import controller.showproposal.GetAllShowRequestsController;
 import controller.showrequest.ListFiguresByCostumerController;
 import domain.entity.*;
-import domain.valueObjects.Description;
-import domain.valueObjects.Location;
 import domain.valueObjects.Name;
-import factories.FactoryProvider;
 import ui.drone.DroneModelSelectorUI;
 import utils.Utils;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 
-import static java.time.Duration.ofMinutes;
 
 public class CreateShowProposalUI implements Runnable{
     private final CreateShowProposalController controller;
     private final GetAllProposalTemplatesController getAllProposalTemplatesController;
     private final GetAllShowRequestsController getAllShowRequestsController;
     private final GetDroneModelsController getDroneModelsController;
-    private final ListFiguresByCostumerController listFiguresByCostumerController;
     private static final int EXIT = -1;
 
     public CreateShowProposalUI(){
@@ -34,7 +28,6 @@ public class CreateShowProposalUI implements Runnable{
         getAllProposalTemplatesController = new GetAllProposalTemplatesController();
         getAllShowRequestsController = new GetAllShowRequestsController();
         getDroneModelsController = new GetDroneModelsController();
-        listFiguresByCostumerController = new ListFiguresByCostumerController();
     }
 
     @Override
@@ -46,14 +39,29 @@ public class CreateShowProposalUI implements Runnable{
         Optional<List<ShowRequest>> listOfShowRequests = getAllShowRequestsController.listShowRequest();
         ShowRequest showRequest;
         if (listOfShowRequests.isPresent() && !listOfShowRequests.get().isEmpty()) {
-            int index = Utils.showAndSelectIndexPartially(listOfShowRequests.get(), "Show Requests");
+            Utils.showList(listOfShowRequests.get(), "Show Requests");
+            String input;
+            int index = 0;
+            do {
+                input = Utils.readLineFromConsole("Type your option");
+                try {
+                    index = Integer.valueOf(input);
+                } catch (NumberFormatException ex) {
+                    Utils.printCenteredTitle("Invalid option");
+                }
+                if(index < 0)
+                    Utils.printAlterMessage("Value less than 0");
 
-            if (index == EXIT) {
+                if(index > listOfShowRequests.get().size())
+                    Utils.printAlterMessage("Value greater than "+ listOfShowRequests.get().size());
+            } while (index < 0 || index > listOfShowRequests.get().size());
+
+            if (index == 0) {
                 Utils.printFailMessage("No show request selected...");
                 return;
             }
 
-            showRequest = listOfShowRequests.get().get(index);
+            showRequest = listOfShowRequests.get().get(index-1);
         } else {
             Utils.printFailMessage("The are no show request to add to show proposal! Add them first and try again!");
             return;
@@ -62,12 +70,28 @@ public class CreateShowProposalUI implements Runnable{
         Optional<List<ProposalTemplate>> listOfTemplates = getAllProposalTemplatesController.getAllProposalTemplates();
         ProposalTemplate template;
         if (listOfTemplates.isPresent() && !listOfTemplates.get().isEmpty()) {
-            int index = Utils.showAndSelectIndexPartially(listOfTemplates.get(), "Proposal Templates");
+            Utils.showList(listOfTemplates.get(), "Show Requests");
+            String input;
+            int index = 0;
+            do {
+                input = Utils.readLineFromConsole("Type your option");
+                try {
+                    index = Integer.valueOf(input);
+                } catch (NumberFormatException ex) {
+                    Utils.printCenteredTitle("Invalid option");
+                }
+                if(index < 0)
+                    Utils.printAlterMessage("Value less than 0");
 
-            if (index == EXIT) {
+                if(index > listOfTemplates.get().size())
+                    Utils.printAlterMessage("Value greater than "+ listOfTemplates.get().size());
+            } while (index < 0 || index > listOfTemplates.get().size());
+
+            if (index == 0) {
                 Utils.printFailMessage("No proposal templates selected...");
                 return;
             }
+
             template = listOfTemplates.get().get(index);
 
         } else {
@@ -117,69 +141,33 @@ public class CreateShowProposalUI implements Runnable{
             numberOfDrones = checkNumberOfDrones;
 
 
-        boolean option;
-
-        Utils.dropLines(3);
-        Utils.showDescriptionRules();
-        option = Utils.confirm("Do you want to add a Description? (y/n)");
-        Optional<Description> descriptionOpt = refurseOrAcceptValueObject(option, "Description", Description::new, Description.class);
-        Description description = descriptionOpt.orElse(null);
-
-        Utils.dropLines(3);
-        Utils.showNameRules();
-        Location location = FactoryProvider.getLocationFactoryImpl().createLocationObject();
-
-        Utils.dropLines(3);
-        //Utils.showDateRules();// (yyyy-MM-dd HH:mm)
-        LocalDateTime showDate = Utils.readDateFromConsole("Enter the show date: ");
-
-        Utils.dropLines(3);
-        //Utils.showDurationRules();
-        Duration showDuration = ofMinutes(Utils.readIntegerFromConsolePositive("Enter the show duration (minutes)"));
-
         Optional<ShowProposal> registeredShowProposal = null;
         try {
             registeredShowProposal = controller.registerShowProposal(
                     proposalName,
                     showRequest,
                     template,
-                    description,
-                    location,
-                    showDate,
                     numberOfDrones,
-                    showDuration,
-                    proposalName.toString(),
                     modelsToBeUsed
             );
         } catch (IOException e) {
-            Utils.printFailMessage("\n❌ Show proposal successfully registered!");
+            Utils.printFailMessage("❌ Failed to register the show proposal. Please check the input data and try again.");
         }
 
-        Utils.dropLines(10);
-        Utils.printShowProposalResume(registeredShowProposal.get());
-        Utils.printSuccessMessage("\n✅ Show proposal successfully registered!");
-        Utils.waitForUser();
-    }
+        if (!registeredShowProposal.isEmpty()) {
+            //    Utils.printFailMessage("❌ Failed to register the show proposal. Please check the input data and try again.");
+            //} else {
+            Utils.dropLines(10);
+            Utils.printShowProposalResume(registeredShowProposal.get());
+            Utils.dropLines(2);
+            Utils.printSuccessMessage("\n✅ Show proposal successfully registered!");
+            Utils.dropLines(1);
+            boolean edit = Utils.confirm("Do you wish to edit proposal? (y/n)");
 
-    /**
-     * Helper method to optionally accept or skip input for a value object.
-     * If user chooses to skip, returns empty Optional.
-     * Otherwise, prompts repeatedly until valid input is entered.
-     *
-     * @param option boolean indicating whether the user wants to provide the value
-     * @param prompt label of the input requested
-     * @param parser function that converts String input into the target value object
-     * @param clazz class of the target value object (not used here but kept for signature consistency)
-     * @param <T> type of value object
-     * @return Optional containing the parsed value or empty if skipped
-     */
-    private <T> Optional<T> refurseOrAcceptValueObject(Boolean option, String prompt, Function<String, T> parser, Class<T> clazz) {
-        if (!option) {
-            Utils.printAlterMessage("Skipped...");
-            return Optional.empty();
-        } else {
-            T value = Utils.rePromptWhileInvalid("Enter the "+ prompt, parser);
-            return Optional.of(value);
+            if (edit) {
+                EditShowProposalUI editUI = new EditShowProposalUI(registeredShowProposal.get());
+                editUI.run();
+            }
         }
     }
 }

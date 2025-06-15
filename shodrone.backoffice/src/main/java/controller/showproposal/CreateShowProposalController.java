@@ -27,12 +27,7 @@ public class CreateShowProposalController {
      *
      * @param showRequest the show request
      * @param template the proposal template
-     * @param description optional description of the show
-     * @param location location of the show
-     * @param showDate date and time of the show
      * @param numberOfDrones total number of drones
-     * @param showDuration duration of the show
-     * @param version version string used as proposal name
      * @param droneModels map of DroneModel to their quantities selected for the show
      * @return optional ShowProposal if successful
      * @throws IOException if saving fails
@@ -41,17 +36,22 @@ public class CreateShowProposalController {
             Name proposalName,
             ShowRequest showRequest,
             ProposalTemplate template,
-            Description description,
-            Location location,
-            LocalDateTime showDate,
             int numberOfDrones,
-            Duration showDuration,
-            String version,
             Map<DroneModel, Integer> droneModels
     ) throws IOException {
+        for(ShowProposal p : getShowProposal().orElse(new ArrayList<>())) {
+            if(p.getNameProposal().equals(proposalName)) {
+                Utils.printFailMessage("❌ Failed to register the show proposal! Show proposal already exists with that name!");
+                return Optional.empty();
+            }
+        }
+
         Map<Integer, Figure> figures = new HashMap<>();
         for (int i = 0; i < showRequest.getFigures().size(); i++) {
-            figures.put(i + 1, showRequest.getFigures().get(i));
+            Figure figure = showRequest.getFigures().get(i);
+            if (figure != null) {
+                figures.put(i + 1, figure);
+            }
         }
 
         Content content = new Content(
@@ -59,7 +59,8 @@ public class CreateShowProposalController {
                 showRequest.getShowDate(),
                 showRequest.getLocation(),
                 showRequest.getShowDuration(),
-                figures, droneModels,
+                figures,
+                droneModels,
                 AuthUtils.getCurrentUserName());
 
         Map<String, String> placeholders = TemplatePlugin.buildPlaceholderMap(content);
@@ -71,12 +72,11 @@ public class CreateShowProposalController {
         Optional<ShowProposal> result = FactoryProvider.getShowProposalFactory().automaticBuild(
                 showRequest,
                 new ArrayList<>(figures.values()),
-                description,
-                location,
-                showDate,
+                showRequest.getDescription(),
+                showRequest.getLocation(),
+                showRequest.getShowDate(),
                 numberOfDrones,
-                showDuration,
-                version,
+                showRequest.getShowDuration(),
                 droneModels,
                 proposalName,
                 template
@@ -86,15 +86,19 @@ public class CreateShowProposalController {
             result.get().setText(filled);
             result = RepositoryProvider.showProposalRepository().saveInStore(result.get());
             if (result.isEmpty()) {
-                Utils.exitImmediately("❌ Failed during save process of the show proposal.");
+                Utils.printFailMessage("❌ Failed during save process of the show proposal.");
             }
         } else {
-            Utils.exitImmediately("❌ Failed to register the show proposal. Please check the input data and try again.");
+            return Optional.empty();
         }
 
         HistoryLogger<ShowProposal, Long> loggerEditor = new HistoryLogger<>();
         loggerEditor.logCreation(result.get(), AuthUtils.getCurrentUserEmail());
 
         return result;
+    }
+
+    private Optional<List<ShowProposal>> getShowProposal(){
+        return RepositoryProvider.showProposalRepository().getAllProposals();
     }
 }
