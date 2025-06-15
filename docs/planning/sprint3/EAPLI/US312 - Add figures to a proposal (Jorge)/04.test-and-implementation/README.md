@@ -129,6 +129,15 @@ This section documents the **unit tests**, **integration tests**, and other **va
        verify(showProposalRepository).save(proposal);
    }
    ```
+   
+## 6. ScreenShots
+
+![Controller](./img/ControllerAddFigures.png)
+![!Show](./img/EntityShow.png)
+![!RepositoryJPAShow](./img/RepositoryJPAShow.png)
+![!RepositoryInMemoryShow](./img/RepositoryInMemoryShow.png)
+
+
 
 ## 5. Construction (Implementation)
 
