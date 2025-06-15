@@ -9,11 +9,11 @@ import utils.DslMetadata;
 
 import java.util.*;
 
-public class ShowProgramGeneratorController {
+public class GenerateShowProgramController {
 
     private final DroneProgramGenerator generator;
 
-    public ShowProgramGeneratorController() {
+    public GenerateShowProgramController() {
         this.generator = new DroneProgramsGenerator();
     }
 

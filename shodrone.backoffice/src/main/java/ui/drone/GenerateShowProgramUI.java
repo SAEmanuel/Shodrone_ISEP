@@ -1,7 +1,6 @@
 package ui.drone;
 
-import controller.drone.ShowProgramGeneratorController;
-import domain.entity.Show;
+import controller.drone.GenerateShowProgramController;
 import domain.entity.ShowProposal;
 import persistence.RepositoryProvider;
 import utils.Utils;
@@ -11,7 +10,7 @@ import java.util.Optional;
 
 public class GenerateShowProgramUI implements Runnable {
 
-    private final ShowProgramGeneratorController controller = new ShowProgramGeneratorController();
+    private final GenerateShowProgramController controller = new GenerateShowProgramController();
 
     @Override
     public void run() {

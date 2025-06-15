@@ -11,10 +11,15 @@ import java.util.stream.Collectors;
 
 public class AddDronesShowProposalController {
 
-    private final GetDroneModelsController getDroneModelsController = new GetDroneModelsController();
+    private GetDroneModelsController getDroneModelsController = new GetDroneModelsController();
 
     public AddDronesShowProposalController() {
     }
+
+    public AddDronesShowProposalController(GetDroneModelsController mockController) {
+        this.getDroneModelsController = mockController;
+    }
+
 
     public List<DroneModelInformation> getCurrentDroneModels(ShowProposal proposal) {
         Optional<Map<DroneModel, Integer>> inventoryOpt = getDroneModelsController.getDroneModelQuantity();
@@ -104,8 +109,12 @@ public class AddDronesShowProposalController {
         return RepositoryProvider.showProposalRepository().saveInStore(proposal);
     }
 
-    private int getMaxAvailableForModel(ShowProposal proposal, DroneModel model) {
+    public int getMaxAvailableForModel(ShowProposal proposal, DroneModel model) {
         Optional<Map<DroneModel, Integer>> inventoryOpt = getDroneModelsController.getDroneModelQuantity();
         return inventoryOpt.orElse(new HashMap<>()).getOrDefault(model, 0);
+    }
+
+    public GetDroneModelsController getDroneModelsController() {
+        return this.getDroneModelsController;
     }
 }

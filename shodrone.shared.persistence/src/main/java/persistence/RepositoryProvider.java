@@ -342,4 +342,11 @@ public class RepositoryProvider {
         showProposalRepository = mockRepo;
     }
 
+    public static void injectShowRequestRepository(ShowRequestRepository mockRepo) {
+        showRequestRepository = mockRepo;
+    }
+
+    public static void injectShowRepository(ShowRepository mockRepo) {
+        showRepository = mockRepo;
+    }
 }
