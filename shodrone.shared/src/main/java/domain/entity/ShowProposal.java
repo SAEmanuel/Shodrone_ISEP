@@ -201,7 +201,7 @@ public class ShowProposal extends DomainEntityBase<Long> implements Serializable
         this.showDate = showDate;
         this.numberOfDrones = numberOfDrones;
         this.showDuration = showDuration;
-        this.status = ShowProposalStatus.STAND_BY;
+        this.status = ShowProposalStatus.CREATED;
         this.creationAuthor = creationAuthor;
         this.creationDate = creationDate;
         this.modelsUsed = modelsUsed;

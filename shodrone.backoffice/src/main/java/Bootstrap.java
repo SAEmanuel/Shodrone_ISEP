@@ -708,6 +708,7 @@ public class Bootstrap implements Runnable {
         proposal.setText(filled);
         proposal.setDroneLanguageSpecifications(langSpecs);
         proposal.setScript(firstScript());
+        proposal.setStatus(ShowProposalStatus.STAND_BY);
         return proposal;
     }
 
@@ -732,6 +733,7 @@ public class Bootstrap implements Runnable {
         proposal.setText(filled);
         proposal.setDroneLanguageSpecifications(langSpecs);
         proposal.setScript(firstScript());
+        proposal.setStatus(ShowProposalStatus.STAND_BY);
         return proposal;
     }
 
@@ -756,6 +758,7 @@ public class Bootstrap implements Runnable {
         proposal.setText(filled);
         proposal.setDroneLanguageSpecifications(langSpecs);
         proposal.setScript(firstScript());
+        proposal.setStatus(ShowProposalStatus.STAND_BY);
         return proposal;
     }
 
