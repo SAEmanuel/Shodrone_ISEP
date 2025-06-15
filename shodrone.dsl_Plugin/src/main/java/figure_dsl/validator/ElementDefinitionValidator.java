@@ -7,13 +7,18 @@ import figure_dsl.generated.dslParser.ParameterContext;
 import java.util.Collections;
 import java.util.List;
 
+// Validator class for element definitions in the DSL.
+// It extends the ANTLR generated base visitor to visit element_definition nodes.
 public class ElementDefinitionValidator extends dslBaseVisitor<Void> {
+    // Reference to the validation plugin for error reporting and accessing declared variables
     private final FigureValidationPlugin plugin;
 
+    // Constructor receiving the plugin instance
     public ElementDefinitionValidator(FigureValidationPlugin plugin) {
         this.plugin = plugin;
     }
 
+    // Override the visitor method for the element_definition rule
     @Override
     public Void visitElement_definition(Element_definitionContext ctx) {
         String elementType = ctx.ID(0).getText();
@@ -61,6 +66,7 @@ public class ElementDefinitionValidator extends dslBaseVisitor<Void> {
         return null;
     }
 
+    // Helper method to check if parameter is a vector literal or a declared Position variable
     private boolean isVectorOrDeclaredPosition(ParameterContext param) {
         if (param.vector() != null) {
             return true;
@@ -70,6 +76,7 @@ public class ElementDefinitionValidator extends dslBaseVisitor<Void> {
         return plugin.getDeclaredVariables().get("Position").containsKey(paramName);
     }
 
+    // Helper method to check if parameter is numeric expression or a declared numeric variable (Velocity/Distance)
     private boolean isNumericOrDeclaredNumeric(ParameterContext param) {
         if (param.expression() != null) {
             return isNumericExpression(param.expression());
@@ -81,6 +88,10 @@ public class ElementDefinitionValidator extends dslBaseVisitor<Void> {
         return false;
     }
 
+    // Recursive helper to validate if an expression is numeric:
+    // - a number literal
+    // - a declared numeric variable (Velocity/Distance)
+    // - a valid binary arithmetic expression between numeric expressions
     private boolean isNumericExpression(figure_dsl.generated.dslParser.ExpressionContext expr) {
         if (expr.NUMBER() != null) return true;
         if (expr.ID() != null) {
