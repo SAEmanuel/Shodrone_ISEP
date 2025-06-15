@@ -127,6 +127,16 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
 
         return results.isEmpty() ? Optional.empty() : Optional.of(results);
     }
+
+    @Override
+    public Optional<List<ShowProposal>> getCreatedProposals() {
+        List<ShowProposal> results = entityManager().createQuery(
+                        "SELECT s FROM ShowProposal s WHERE s.status = :status", ShowProposal.class)
+                .setParameter("status", ShowProposalStatus.CREATED)
+                .getResultList();
+
+        return results.isEmpty() ? Optional.empty() : Optional.of(results);
+    }
 }
 
 

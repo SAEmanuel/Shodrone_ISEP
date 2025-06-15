@@ -174,4 +174,19 @@ public class InMemoryShowProposalRepository implements ShowProposalRepository {
 
         return proposals.isEmpty() ? Optional.empty() : Optional.of(proposals);
     }
+
+    @Override
+    public Optional<List<ShowProposal>> getCreatedProposals(){
+        Optional<List<ShowProposal>> allProposalsOpt = getAllProposals();
+
+        if (allProposalsOpt.isEmpty()) {
+            return Optional.empty();
+        }
+
+        List<ShowProposal> proposals = allProposalsOpt.get().stream()
+                .filter(p -> p.getStatus() == ShowProposalStatus.CREATED)
+                .toList();
+
+        return proposals.isEmpty() ? Optional.empty() : Optional.of(proposals);
+    }
 }

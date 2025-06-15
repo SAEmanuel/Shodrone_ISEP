@@ -15,7 +15,7 @@ public class GenerateShowProgramUI implements Runnable {
     @Override
     public void run() {
 
-        Optional<List<ShowProposal>> proposals = RepositoryProvider.showProposalRepository().getAllProposals();
+        Optional<List<ShowProposal>> proposals = RepositoryProvider.showProposalRepository().getCreatedProposals();
 
         if (proposals.isEmpty()) {
             System.out.println("No ShowProposals available.");

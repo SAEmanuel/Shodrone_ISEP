@@ -24,4 +24,6 @@ public interface ShowProposalRepository {
     public Optional<List<ShowProposal>> getUpdatedProposals();
 
     public Optional<List<ShowProposal>> getStandbyProposals();
+
+    public Optional<List<ShowProposal>> getCreatedProposals();
 }
