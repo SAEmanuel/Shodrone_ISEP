@@ -28,7 +28,7 @@ public class SimulationTriggerLoop {
                     sendToSimulator(proposal);
                 }
 
-                Thread.sleep(7000);
+                Thread.sleep(5000);
             } catch (Exception e) {
                 e.printStackTrace();
             }
