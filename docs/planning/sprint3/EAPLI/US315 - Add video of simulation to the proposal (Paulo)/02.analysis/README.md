@@ -6,13 +6,13 @@
 
 ![Domain Model](svg/us315-domain-model.svg)
 
-This diagram presents the updated domain model for proposal management, extended to support the attachment of a **simulation video** to a **Proposal**. It introduces a new association between proposals and video metadata, ensuring all relevant information required to manage and render simulation previews is properly represented.
+This diagram presents the updated domain model for proposal management, extended to support the attachment of a **simulation video** to a **ShowProposal**. It introduces a new association between `ShowProposal` and the video metadata value object, ensuring all relevant information required to manage and render simulation previews is properly represented.
 
-While the base domain model for proposals covers customers, shows, and pricing, this excerpt focuses specifically on enriching the **Proposal** entity with video-related attributes and lifecycle awareness.
+While the base domain model for proposals covers show requests, templates, figures, and drone models, this excerpt focuses specifically on enriching the **ShowProposal** entity with video-related attributes and lifecycle awareness.
 
 This level of detail is important because:
 
-- It supports the functional requirement of adding and updating simulation videos linked to proposals.
+- It supports the functional requirement of adding and updating simulation videos linked to show proposals.
 - It enables proper validation (e.g., format, size) and lifecycle controls (e.g., allowing replacements while editable).
 - It lays the foundation for UI integration, such as embedded video previews for customers.
 
@@ -22,8 +22,7 @@ This level of detail is important because:
   - References to `Show Request` (`<<AggregateRoot>>`) and `ProposalTemplate` (`<<AggregateRoot>>`) to link related data.
   - Associations to multiple `Figures` (`<<AggregateRoot>>`) representing the sequence of show elements.
   - Associations to multiple `DroneModel` (`<<AggregateRoot>>`) indicating the drones planned for the show.
-  - Embedded value objects for `Description`, `Location`, and `Video` containing respective details.
-  - `Name` (`<<ValueObject>>`) for the proposal’s identifying title.
+  - Embedded value objects for `Description`, `Location`, `Video`, `ShowProposalStatus`, and `Name` containing respective details.
   - `ShowProposalStatus` (`<<ValueObject>>`) reflecting the workflow state (e.g., *Draft*, *StandBy*), controlling video upload/edit permissions.
 
 - **Show Request** (`<<AggregateRoot>>`): The originating request for the show, linked to the proposal.
@@ -31,7 +30,7 @@ This level of detail is important because:
 - **Figures** (`<<AggregateRoot>>`): The visual elements or choreography pieces used in the show.
 - **DroneModel** (`<<AggregateRoot>>`): Models of drones involved in the show.
 
-This domain view captures the minimal yet complete structure needed to support video functionality in proposals, while ensuring tight integration with authentication and editing workflows.
+This domain view captures the minimal yet complete structure needed to support video functionality in show proposals, while ensuring tight integration with authentication and editing workflows.
 
 ### 2.2. Other Remarks
 
