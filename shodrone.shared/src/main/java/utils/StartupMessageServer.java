@@ -12,14 +12,13 @@ import static more.ColorfulOutput.ANSI_RESET;
 public class StartupMessageServer {
 
     private static final String COMPANY_NAME = "Shodrone";
-    private static final String APP_NAME = "Shodrone Server App";
     private static final String VERSION = "1.0.0";
     private static final int BORDER_WIDTH = 70;
 
     /**
      * Displays a stylized startup banner for the server application.
      */
-    public static void displayStartupMessage(int port) {
+    public static void displayStartupMessage(int port, String appName) {
         String border = "═".repeat(BORDER_WIDTH);
         String separator = "-".repeat(BORDER_WIDTH);
 
@@ -31,12 +30,12 @@ public class StartupMessageServer {
         System.out.println(ANSI_BRIGHT_BLACK + border + ANSI_RESET);
         System.out.println(ANSI_BRIGHT_WHITE + centerText(COMPANY_NAME + " - Powering Drone Shows Worldwide", BORDER_WIDTH) + ANSI_RESET);
         System.out.println(ANSI_BRIGHT_BLACK + separator + ANSI_RESET);
-        System.out.println("Application        : " + ANSI_BLUE + APP_NAME + ANSI_RESET);
+        System.out.println("Application        : " + ANSI_BLUE + appName + ANSI_RESET);
         System.out.println("Version            : " + ANSI_BLUE + VERSION + ANSI_RESET);
         System.out.println("Listening Port     : " + ANSI_BRIGHT_CYAN + port + ANSI_RESET);
         System.out.println("Session started at : " + ANSI_BLUE + formattedDate + ANSI_RESET);
         System.out.println(ANSI_BRIGHT_BLACK + separator + ANSI_RESET);
-        System.out.println(ANSI_BRIGHT_WHITE + centerText("Server is up and ready to receive client connections.", BORDER_WIDTH) + ANSI_RESET);
+        System.out.println(ANSI_BRIGHT_WHITE + centerText("Server is up and ready to receive connections.", BORDER_WIDTH) + ANSI_RESET);
         System.out.println(ANSI_BRIGHT_BLACK + border + ANSI_RESET);
     }
 

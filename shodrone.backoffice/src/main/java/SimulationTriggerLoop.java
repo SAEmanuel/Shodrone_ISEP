@@ -20,12 +20,10 @@ public class SimulationTriggerLoop {
             try {
                 Optional<List<ShowProposal>> proposals = repo.getStandbyProposals();
 
-                if (proposals.isEmpty()) {
-                    return;
-                }
-
-                for (ShowProposal proposal : proposals.get()) {
-                    sendToSimulator(proposal);
+                if (proposals.isPresent() && !proposals.get().isEmpty()) {
+                    for (ShowProposal proposal : proposals.get()) {
+                        sendToSimulator(proposal);
+                    }
                 }
 
                 Thread.sleep(5000);
@@ -51,7 +49,7 @@ public class SimulationTriggerLoop {
 
         } catch (IOException e) {
             System.err.println(e.getMessage() + "... Turn Testing App on!");
-            System.exit(1);
+
         }
     }
 }

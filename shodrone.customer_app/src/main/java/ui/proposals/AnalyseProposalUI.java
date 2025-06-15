@@ -35,6 +35,11 @@ public class AnalyseProposalUI implements Runnable {
                 Utils.printSuccessMessage("\nProposals found successfully!");
                 int index = Utils.showAndSelectIndexPartially(correspondingProposals.get(), "Select a proposal to analyse");
 
+                if (index == - 1) {
+                    Utils.printFailMessage("Operation canceled....");
+                    return;
+                }
+
                 ProposalAnalysisDialog dialog = new ProposalAnalysisDialog(null, correspondingProposals.get().get(index));
                 String result = dialog.showDialog();
 

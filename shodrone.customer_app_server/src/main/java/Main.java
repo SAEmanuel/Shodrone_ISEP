@@ -33,7 +33,7 @@ public class Main {
         int port = 9000;
 
         try (ServerSocket serverSocket = new ServerSocket(port)) {
-            StartupMessageServer.displayStartupMessage(port);
+            StartupMessageServer.displayStartupMessage(port, "Customer App Server");
 
             while (true) {
                 Socket clientSocket = serverSocket.accept();

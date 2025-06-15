@@ -95,6 +95,7 @@ public class ShowProposalJPAImpl extends JpaBaseRepository<ShowProposal, Long> i
 
     @Override
     public Optional<List<ShowProposal>> getUpdatedProposals() {
+        entityManager().clear();
         List<ShowProposal> listShowProposals = entityManager().createQuery(
                         "SELECT DISTINCT p FROM ShowProposal p LEFT JOIN FETCH p.sequenceFigues", ShowProposal.class)
                 .setHint("javax.persistence.cache.storeMode", "REFRESH")
