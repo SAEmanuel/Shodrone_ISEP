@@ -71,7 +71,7 @@ public class AddFiguresToProposalUI implements Runnable {
             } else {
                 Utils.printAlterMessage("A total of " + listFigures.size() + " Figures were found in the selected proposal:");
                 for (Figure figure : listFigures) {
-                    System.out.printf("    %s%s %s %s", ANSI_BRIGHT_BLACK, "•", ANSI_RESET, figure);
+                    System.out.printf("    %s%s %s %s%n", ANSI_BRIGHT_BLACK, "•", ANSI_RESET, figure);
                 }
                 Utils.dropLines(1);
             }
