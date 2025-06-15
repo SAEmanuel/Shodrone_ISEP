@@ -11,6 +11,7 @@ As a CRM Collaborator, I want to configure the list of drone models (number of d
 - The user must be able to select existing drone models already registered in the system.
 - The user must specify the quantity of each drone model to be used in the proposal.
 - The drones in the proposal must be compatible with the drone models in the Shodrone inventory.
+- The proposal must be in a modifiable state (STAND_BY).
 
 **Clarifications**
 
@@ -22,9 +23,10 @@ A: No. Only registered drone models (created in US240) can be selected.
 * AC1: Only CRM Collaborators can add drones to a proposal.
 * AC2: The drone model must already exist in the system.
 * AC3: The number of drones per model must be a positive integer.
-* AC4: The system must reject duplicate entries for the same drone model in the same proposal.
+* AC4: The system must prevent exceeding the available inventory for any drone model.
 * AC5: The configuration must be persisted and linked to the correct proposal.
-* AC6: Only proposals in editable state can be modified.
+* AC6: Only proposals in STAND_BY status can be modified.
+* AC7: It must be possible to update or remove existing drone model entries from the proposal.
 
 ### 1.4. Found out Dependencies
 

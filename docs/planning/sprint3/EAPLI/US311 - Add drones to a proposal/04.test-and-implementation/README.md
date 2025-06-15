@@ -2,146 +2,163 @@
 
 ## 4. Tests
 
-This section documents the unit tests and validation strategies used to verify the correctness of the user registration functionality, including domain constraints, repository integrity, and bootstrap logic.
+This section documents the unit tests and validation strategies used to verify the correctness of the drone configuration functionality for show proposals. It focuses on controller logic, inventory validation, and business rule enforcement.
 You should include:
 
 ### **Test Cases**
 
-1. **Unit Test: Successful User Creation**
-    * **Description**: Verifies that a user with valid details and unique email can be registered successfully.
-    * **Expected Outcome**: The user is added to the repository with the correct role.
+1. **Unit Test: Valid Drone Quantity Change**
+    * **Description**: Verifies that changing the quantity of an existing drone model to a valid number updates the proposal correctly.
+    * **Expected Outcome**: The quantity is updated in the modelsUsed map.
     * **Test**:
    ```java
     @Test
-    public void ensureUserIsCreatedSuccessfully() {
-        boolean result = authRepo.addUserWithRole("João Silva", "joao@shodrone.app", "Pass123@", AuthenticationController.ROLE_ADMIN);
-        assertTrue(result);
+    void testChangeDroneModelQuantityValid() {
+        when(mockedDroneModelsController.getDroneModelQuantity())
+                .thenReturn(Optional.of(Map.of(modelA, 5)));
 
-        List<UserDTO> users = authRepo.getAllUsers();
-        assertEquals(9, users.size());
-        UserDTO joao = users.stream()
-                .filter(u -> u.getId().equalsIgnoreCase("joao@shodrone.app"))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("João Silva not found"));
-
-        assertEquals("joao@shodrone.app", joao.getId());
-        assertEquals(AuthenticationController.ROLE_ADMIN, joao.getRoles().get(0).getId());
+        Optional<String> result = controller.changeDroneModelQuantity(proposal, modelA, 3);
+        assertTrue(result.isEmpty());
+        verify(used).put(modelA, 3);
     }
     ```
 
-2. **Unit Test: Duplicate Email Not Allowed**
-    * **Description**: Ensures that creating a user with an already-used email address is not permitted.
-    * **Expected Outcome**: The second attempt to create the user returns false.
+2. **Unit Test: Invalid Drone Quantity**
+    * **Description**: Description: Ensures that attempting to assign a drone quantity above available inventory returns an error.
+    * **Expected Outcome**: An error message is returned indicating invalid quantity.
     * **Test**:
    ```java
     @Test
-    public void ensureCannotCreateUserWithExistingEmail() {
-        authRepo.addUserWithRole("Ana Lima", "ana@shodrone.app", "pw", "ADMIN");
-        boolean result = authRepo.addUserWithRole("Ana Lima 2", "ana@shodrone.app", "pw2", "ADMIN");
-        assertFalse(result);
+    void testChangeDroneModelQuantityInvalidTooHigh() {
+        when(mockedDroneModelsController.getDroneModelQuantity())
+                .thenReturn(Optional.of(Map.of(modelA, 3)));
+
+        Optional<String> result = controller.changeDroneModelQuantity(proposal, modelA, 5);
+        assertTrue(result.isPresent());
+        assertTrue(result.get().contains("Invalid quantity"));
     }
     ```
 
-3. **Unit Test: Role Is Assigned Correctly**
-    * **Description**: Confirms that the correct role is associated with a newly created user.
-    * **Expected Outcome**: The stored user has the assigned role in their data.
+3. **Unit Test: Add Drone Models Successfully**
+    * **Description**: Confirms that adding new drone models with valid quantities updates the proposal correctly.
+    * **Expected Outcome**: Quantities are added cumulatively and stored.
     * **Test**:
    ```java
     @Test
-    public void ensureUserRoleIsAssignedCorrectly() {
-        authRepo.addUserWithRole("Carlos", "carlos@shodrone.app", "Carlos123!", AuthenticationController.ROLE_ADMIN);
+    void testAddDroneModelsSuccess() {
+        Map<DroneModel, Integer> inventory = new HashMap<>();
+        inventory.put(modelA, 5);
+        inventory.put(modelB, 2);
 
-        List<UserDTO> users = authRepo.getAllUsers();
+        when(mockedDroneModelsController.getDroneModelQuantity()).thenReturn(Optional.of(inventory));
+        when(used.getOrDefault(modelA, 0)).thenReturn(2);
+        when(used.getOrDefault(modelB, 0)).thenReturn(1);
 
-        UserDTO user = users.stream()
-                .filter(u -> u.getId().equalsIgnoreCase("carlos@shodrone.app"))
-                .findFirst()
-                .orElseThrow(() -> new AssertionError("User not found"));
+        Map<DroneModel, Integer> modelsToAdd = new HashMap<>();
+        modelsToAdd.put(modelA, 2);
+        modelsToAdd.put(modelB, 1);
 
-        assertEquals(AuthenticationController.ROLE_ADMIN, user.getRoles().get(0).getId());
+        Optional<String> result = controller.addDroneModels(proposal, modelsToAdd);
+        assertTrue(result.isEmpty());
+
+        verify(used).put(modelA, 4);
+        verify(used).put(modelB, 2);
     }
     ```
 
-4. **Unit Test: New Users Are Active by Default**
-    * **Description**: Verifies that users are created with active status unless explicitly disabled.
-    * **Expected Outcome**: The user object has isActive() == true.
+4. **Unit Test: Add Drone Models Fails Due to Insufficient Stock**
+    * **Description**: Prevents addition of drones if the quantity exceeds the available inventory.
+    * **Expected Outcome**: An error message is returned; no update is made.
     * **Test**:
    ```java
     @Test
-    public void ensureUserIsActiveByDefault() {
-        authRepo.addUserWithRole("Rita", "rita@shodrone.app", "Xyz123$", AuthenticationController.ROLE_ADMIN);
+    void testAddDroneModelsFailsDueToLackOfStock() {
+        Map<DroneModel, Integer> inventory = new HashMap<>();
+        inventory.put(modelA, 3); // only 3 available
 
-        UserRepository userRepo = RepositoryProvider.userRepository();
-        userRepo.ofIdentity(new Email("rita@shodrone.app"))
-                .ifPresentOrElse(
-                        user -> assertTrue(user.isActive(), "User should be active by default"),
-                        () -> fail("User not found")
-                );
+        when(mockedDroneModelsController.getDroneModelQuantity()).thenReturn(Optional.of(inventory));
+        when(used.getOrDefault(modelA, 0)).thenReturn(2);
+
+        Map<DroneModel, Integer> modelsToAdd = new HashMap<>();
+        modelsToAdd.put(modelA, 2);
+
+        Optional<String> result = controller.addDroneModels(proposal, modelsToAdd);
+        assertTrue(result.isPresent());
+        assertTrue(result.get().contains("Not enough drones"));
     }
     ```
 
-5. **Unit Test: Only One Role per User**
-    * **Description**: Enforces the business rule that each user must only have one role assigned.
-    * **Expected Outcome**: Attempts to assign additional roles are ignored or rejected.
+5. **Unit Test: Remove Drone Model Successfully**
+    * **Description**: Ensures that a drone model can be removed from the proposal if it exists.
+    * **Expected Outcome**: The model is removed from modelsUsed.
     * **Test**:
    ```java
     @Test
-    public void ensureUserOnlyHasOneRole() {
-        authRepo.addUserWithRole("Maria", "maria@shodrone.app", "Mariapass123!", AuthenticationController.ROLE_ADMIN);
+    void testRemoveDroneModelSuccess() {
+        when(used.containsKey(modelA)).thenReturn(true);
 
-        UserRepository userRepo = RepositoryProvider.userRepository();
-        userRepo.ofIdentity(new Email("maria@shodrone.app")).ifPresent(user -> {
-            user.addRole(new UserRole(AuthenticationController.ROLE_CRM_MANAGER, AuthenticationController.ROLE_CRM_MANAGER));
-            userRepo.save(user);
-        });
-
-        UserDTO maria = authRepo.getAllUsers().stream()
-                .filter(u -> u.getId().equalsIgnoreCase("maria@shodrone.app"))
-                .findFirst()
-                .orElseThrow();
-
-        assertEquals(1, maria.getRoles().size());
+        Optional<String> result = controller.removeDroneModel(proposal, modelA);
+        assertTrue(result.isEmpty());
+        verify(used).remove(modelA);
     }
     ```
 
-6. **Unit Test: Persistence in Repository**
-    * **Description**: Verifies that registered users are correctly stored and retrievable from the repository.
-    * **Expected Outcome**: UserRepository.ofIdentity(...) returns a matching user.
+6. **Unit Test: Remove Drone Model Fails**
+    * **Description**: Prevents removal of a drone model not present in the proposal.
+    * **Expected Outcome**: An appropriate error is returned.
     * **Test**:
    ```java
     @Test
-    public void ensureUserIsStoredCorrectlyInRepository() {
-        authRepo.addUserWithRole("Pedro", "pedro@shodrone.app", "Pedro321@", AuthenticationController.ROLE_DRONE_TECH);
+    void testRemoveDroneModelFails() {
+        when(used.containsKey(modelA)).thenReturn(false);
 
-        UserRepository userRepo = RepositoryProvider.userRepository();
-        boolean exists = userRepo.ofIdentity(new Email("pedro@shodrone.app")).isPresent();
-
-        assertTrue(exists, "User should be stored in user repository");
+        Optional<String> result = controller.removeDroneModel(proposal, modelA);
+        assertTrue(result.isPresent());
+        assertEquals("Drone model is not in the proposal.", result.get());
     }
     ```
+7. **Unit Test: Save Proposal Updates Total Drones**
+   * **Description**: Confirms that calling saveProposal() correctly sets the total number of drones and persists the proposal.
+   * **Expected Outcome**: Proposal is saved, and setNumberOfDrones() is called with the correct total.
+   * **Test**:
+   ```java
+    @Test
+    void testSaveProposal() {
+        ShowProposalRepository repo = mock(ShowProposalRepository.class);
+        RepositoryProvider.injectShowProposalRepository(repo);
+
+        when(proposal.getModelsUsed()).thenReturn(Map.of(modelA, 3, modelB, 2));
+        when(repo.saveInStore(proposal)).thenReturn(Optional.of(proposal));
+
+        Optional<ShowProposal> result = controller.saveProposal(proposal);
+        assertTrue(result.isPresent());
+        verify(proposal).setNumberOfDrones(5);
+    }
+    ```
+
+
 
 ### Screenshot
-![Unit Tests for RegisterUserTest](img/RegisterUserTest.png)
+![Unit Tests for AddDronesShowProposalTest](img/AddDronesShowProposalTest.png)
 
 ## 5. Construction (Implementation)
 
-**Controller**: RegisterUserController
-The RegisterUserController coordinates the registration workflow, interfacing between UI input and domain validation/persistence logic.
+**Controller**: AddDronesShowProposalController
+The AddDronesShowProposalController is responsible for managing the configuration of drones in a show proposal. It interacts with the drone inventory via GetDroneModelsController and ensures all business constraints are enforced before persisting the proposal.
 
 **Responsibilities**
-- Validates email uniqueness and format.
-- Retrieves roles from the role repository.
-- Instantiates User aggregates with hashed passwords and status.
-- Persists users using UserRepository.
-- 
+- Retrieves inventory data from the drone repository.
+- Ensures drone quantities are within available limits.
+- Updates or removes models from the modelsUsed map of the proposal.
+- Prevents duplicate entries.
+- Calculates and updates the total number of drones.
+
 **DDD Principle**
-- Business logic like validation (single role, email format) is enforced at the domain and service level.
-- The controller acts as an Application Service, delegating to repositories and domain constructors.
+- Aggregate Root: ShowProposal encapsulates the state being modified and acts as the aggregate root.
+- Application Service: The controller coordinates logic between the UI, domain entities, and persistence layer.
+- Repository: The proposal and drone inventory are accessed via injected repositories.
+- Mocking: Tests use mock proposals and inventory to simulate different edge cases and avoid persistence dependencies.
 
 **Persistence Layer**
-- UserRepository: Provides storage/retrieval of users.
-- UserRoleRepository: Manages available user roles.
-
-Implemented by:
-- InMemoryAuthenticationRepository (for test and dev)
-- AuthenticationRepositoryJPAImpl (for production persistence)
+- ShowProposalRepository: Saves and retrieves ShowProposal instances.
+- DroneRepository: Provides inventory quantity per model.
