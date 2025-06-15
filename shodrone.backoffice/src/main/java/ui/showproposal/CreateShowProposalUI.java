@@ -92,7 +92,7 @@ public class CreateShowProposalUI implements Runnable{
                 return;
             }
 
-            template = listOfTemplates.get().get(index);
+            template = listOfTemplates.get().get(index-1);
 
         } else {
             Utils.printFailMessage("The are no proposal templates in the system! Add them first and try again!");

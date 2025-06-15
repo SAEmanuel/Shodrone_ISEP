@@ -185,7 +185,8 @@ public class Drone3DSimulation extends Application {
             try {
                 encodeVideo();
             } catch (Exception ex) {
-                ex.printStackTrace();
+                Utils.printFailMessage("❌ Failed encoding video!!");
+                //ex.printStackTrace();
             }
 
             Platform.runLater(() -> {
@@ -276,13 +277,14 @@ public class Drone3DSimulation extends Application {
                     map.putIfAbsent(curr, new ArrayList<>());
                 } else if (curr != null) {
                     String[] parts = line.split("\\s+");
-                    if (parts.length == 3) {
+                    if (parts.length >= 3) {
                         try {
                             double x = Double.parseDouble(parts[0]);
                             double y = Double.parseDouble(parts[1]);
                             double z = Double.parseDouble(parts[2]);
                             map.get(curr).add(new double[]{x, y, z});
-                        } catch (NumberFormatException ignored) { }
+                        } catch (NumberFormatException ignored) {
+                        }
                     }
                 }
             }
