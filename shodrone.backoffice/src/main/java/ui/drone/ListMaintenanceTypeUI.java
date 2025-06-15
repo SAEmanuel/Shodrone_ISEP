@@ -7,10 +7,18 @@ import utils.Utils;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * User interface for listing all maintenance types in the system.
+ */
 public class ListMaintenanceTypeUI implements Runnable {
 
     private final GetMaintenanceTypeController controller = new GetMaintenanceTypeController();
 
+    /**
+     * Executes the process of retrieving and displaying all maintenance types.
+     * Shows an error message if no types are found.
+     */
+    @Override
     public void run() {
         try {
             Utils.printDroneCenteredTitle("List Maintenance Types");
