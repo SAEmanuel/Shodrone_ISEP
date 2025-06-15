@@ -1,4 +1,3 @@
-
 # DSL de Figuras – Documentação Técnica
 
 ## Objetivo
