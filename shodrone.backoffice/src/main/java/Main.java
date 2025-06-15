@@ -1,11 +1,8 @@
-import drone_language_validation.DroneGenericPlugin;
 import persistence.RepositoryProvider;
 import ui.menu.StartupMessageBackofficeUI;
 import ui.menu.MainMenuUI;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,44 +36,6 @@ public class Main {
     public static void main(String[] args) throws IOException {
         suppressUnwantedWarnings();
 
-        List<String> dslLines = Arrays.asList(
-                "DroneViado programming language version 1.0.2",
-                "",
-                "Types",
-                "Point",
-                "Vector",
-                "LinearVelocity",
-                "AngularVelocity",
-                "Distance",
-                "Time",
-                "",
-                "Variables",
-                "Point p1 = (0, 1, 1.5);",
-                "Vector dir = (0, 0, 1) - (0, 1, 0);",
-                "LinearVelocity vel = 6.2;",
-                "AngularVelocity angVel = PI / 10;",
-                "Time hoverTime = 5000;",
-                "Point path = ((0, 0, 1), (0, 10, 10), (10, 10, 10));",
-                "Distance height = 15;",
-                "",
-                "Instructions",
-                "takeOff(height, vel);",
-                "move(p1, vel);",
-                "move(dir, vel, hoverTime);",
-                "movePath(path, vel);",
-                "moveCircle(p1, PI, angVel);",
-                "hoover(hoverTime);",
-                "lightsOn(255,255,0);",
-                "lightsOff();",
-                "land(vel);"
-        );
-
-        DroneGenericPlugin drone = new DroneGenericPlugin();
-        drone.validate(dslLines);
-
-        for (String line : drone.getErrors()) {
-            System.out.println(line);
-        }
 
         boolean typePersistence = true;
 
