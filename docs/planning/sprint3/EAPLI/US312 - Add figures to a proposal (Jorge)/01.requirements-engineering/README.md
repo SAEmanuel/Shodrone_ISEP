@@ -26,17 +26,18 @@ The following specifications are derived from the requirements document (Section
   - A: No, all drone types in the figure must be mapped to models; otherwise, the system rejects the action with an error: "All drone types must be mapped to models."
 
 **Forum Questions** (Adapted for US312):
-> **Question:** Concorda que a validação de inventário deve ocorrer ao adicionar uma figura à proposta?
+> **Question:** É nos dito que temos de associar o drone type de uma figura aos Drone Models utilizados no show.
+A minha dúvida é se podemos considerar que, para uma figura, esta pode ter os seus drone types serem representados por qualquer Drone Model ou existe um conjunto de Drone Models específicos que podem ser utilizados para uma dada figura.
 >
-> **Answer:** Sim, a validação deve verificar se o número de drones do modelo não excede o inventário ativo.
+> **Answer:**  A associação é feita pelo CRM Collaborator. Não vejo nada escrito sobre restrições a modelos específicos. Acho que está a inventar.
+
+> **Question:** Um dos requisitos desta US é "For each figure, it must be established the relation between each drone type in the figure and the drone models in the show."
+Inicialmente interpretei como se só pudesse adicionar uma figura a um show, se os tipos de drones da figura forem iguais aos tipos dos drones do show. Mas como cada show proposal tem mais de uma figura, também terá diferentes modelos de drones.
+
 >
-> **Question:** É necessário impedir a repetição consecutiva de figuras na sequência?
->
-> **Answer:** Sim, conforme os requisitos, uma figura não pode aparecer duas vezes seguidas na sequência.
->
-> **Question:** O mapeamento de tipos de drones deve ser manual ou automático?
->
-> **Answer:** Deve ser manual, com suporte da UI para selecionar modelos compatíveis do inventário.
+> **Answer:**  O Google Translate traduziu assim: "Para cada figura, deve ser estabelecida a relação entre cada tipo de drone da figura e os modelos de drones do espetáculo."
+Olhando para os ficheiros de exemplo das figuras, verifica-se que estão lá definidos "Drone Types". E cada Show Proposal terá um conjunto de modelos. É preciso fazer essa associação para cada figura.
+
 
 ### 1.3. Acceptance Criteria
 

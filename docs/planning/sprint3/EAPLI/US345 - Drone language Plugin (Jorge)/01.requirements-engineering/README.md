@@ -17,15 +17,7 @@ The following specifications are based on the official project document (Section
 * A plugin must clearly indicate the programming language it supports and provide meaningful error messages in case of validation failure.
 
 **Clarifications**:
-
-* **Q: Where are plugins registered?**
-  A: Plugins can be registered either via an internal configuration interface or by loading implementations dynamically. They will be stored in a plugin registry (e.g., a `Map<String, DroneLangPlugin>`).
-* **Q: What is the core responsibility of a plugin?**
-  A: To validate the drone program syntax and expose language identification and error reporting functionality.
-* **Q: Does the system support multiple languages simultaneously?**
-  A: Yes, the plugin architecture must support multiple languages, each with its own plugin implementation.
-* **Q: Is validation mandatory before simulation?**
-  A: Yes, no figure or show simulation can proceed unless the code for each drone passes validation using the appropriate plugin.
+None
 
 ### 1.3. Acceptance Criteria
 
