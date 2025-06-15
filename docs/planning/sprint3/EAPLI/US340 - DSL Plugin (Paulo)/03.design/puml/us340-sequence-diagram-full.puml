@@ -1,0 +1,135 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Add Figure with DSL Validation
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":AddFigureUI" as UI
+
+participant "Name" as name
+participant "Description" as desc
+participant "FigureAvailability" as availability
+participant "FigureStatus" as status
+participant "GetFigureCategoriesController" as catController
+participant "ListCostumersController" as costumersController
+participant "GetDroneModelsController" as droneModelsController
+participant "FigureValidationPlugin" as validator
+participant "DSLTextBoxUtils" as textboxUtils
+participant "AddFigureController" as controller
+
+== Name & Description ==
+
+activate SD
+SD -> UI : start addFigure flow
+activate UI
+
+UI -> name ** : Utils.rePromptWhileInvalid()
+activate name
+name --> UI : name
+deactivate name
+
+UI -> SD : ask for optional description
+SD -> UI : provide description
+UI -> desc ** : Utils.rePromptWhileInvalid()
+activate desc
+desc --> UI : description
+deactivate desc
+
+== Category Selection ==
+
+UI -> catController : getActiveFigureCategories()
+activate catController
+catController --> UI : List<FigureCategory>
+deactivate catController
+
+UI -> SD : show categories and get selection
+SD -> UI : category selected
+
+== Availability & Status ==
+
+UI -> SD : ask to provide availability
+SD -> UI : confirm or skip
+UI -> availability ** : Utils.rePromptEnumWhileInvalid()
+activate availability
+availability --> UI : FigureAvailability
+deactivate availability
+
+UI -> SD : ask to provide status
+SD -> UI : confirm or skip
+UI -> status ** : Utils.rePromptEnumWhileInvalid()
+activate status
+status --> UI : FigureStatus
+deactivate status
+
+== DSL Input & Validation Loop ==
+alt Add DSL
+
+loop While User wants to add DSL
+    UI -> textboxUtils : getDslLinesFromTextBox()
+    activate textboxUtils
+    textboxUtils --> UI : List<String> dslLines
+    deactivate textboxUtils
+
+    UI -> validator : validate(dslLines)
+    activate validator
+    validator --> UI : List<String> errors
+    deactivate validator
+        UI -> validator : getDroneModelName()
+        activate validator
+        validator --> UI : droneModelName
+        deactivate validator
+
+        UI -> droneModelsController : getAllModels()
+        activate droneModelsController
+        droneModelsController --> UI : List<DroneModels>
+        deactivate droneModelsController
+
+        UI -> validator : getDslVersion()
+        activate validator
+        validator --> UI : version
+        deactivate validator
+
+        UI --> UI : Store DSL in dslVersions Map
+
+        UI -> SD : ask if want to add another DSL
+        SD --> UI : yes/no
+        alt if erros in dsl
+            UI -> SD : show validation errors
+            UI -> SD : ask to retry
+            SD --> UI : yes/no
+        end
+    end
+else
+    UI -> SD: skipped...
+end
+
+== Costumer Selection ==
+
+UI -> costumersController : getAllCustomer()
+activate costumersController
+costumersController --> UI : List<Costumer>
+deactivate costumersController
+
+UI -> SD : ask to select costumer (optional)
+SD --> UI : selected or skipped
+
+== Final Submission ==
+
+UI -> controller : addFigure(name, desc, category, availability, status, dslVersions, costumer)
+activate controller
+controller --> UI : Optional<Figure>
+deactivate controller
+
+alt Figure added successfully
+    UI --> SD : success message
+else Error (e.g., already exists)
+    UI --> SD : error message
+end
+
+deactivate UI
+deactivate SD
+@enduml
