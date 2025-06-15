@@ -114,7 +114,7 @@ public class ShowProposalFactoryImpl implements DomainFactory<ShowProposal> {
 
     private void validateSequenceFigures(List<Figure> sequenceFigures) {
         if (sequenceFigures == null || sequenceFigures.isEmpty()) {
-            throw new IllegalArgumentException("Sequence of show request empty.");
+            throw new IllegalArgumentException("Sequence of figures of show request empty.");
         }
     }
 
