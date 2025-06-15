@@ -15,12 +15,10 @@ public class TypesValidationVisitor extends droneGenericBaseVisitor<Void> {
 
     @Override
     public Void visitSection_types(droneGenericParser.Section_typesContext ctx) {
-        // Itera sobre cada ID declarado após a keyword 'Types'
         for (TerminalNode idNode : ctx.ID()) {
             String typeName = idNode.getText();
             // Verifica se o tipo consta em RequiredFields.TYPES
             if (!RequiredFields.TYPES.contains(typeName)) {
-                // Mensagem de erro em inglês
                 plugin.addError(
                         String.format(
                                 "Invalid type '%s' in Types section. Valid types are: %s",

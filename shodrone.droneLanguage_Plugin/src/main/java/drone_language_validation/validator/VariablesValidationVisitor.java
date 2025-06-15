@@ -38,7 +38,7 @@ public class VariablesValidationVisitor extends droneGenericBaseVisitor<Void> {
                 );
             }
 
-            // (2) Sem duplicatas e registro
+            // (2) Sem duplicados e registro
             if (!declaredVars.add(varName)) {
                 plugin.addError(
                         String.format("Duplicate variable name '%s'.", varName)
