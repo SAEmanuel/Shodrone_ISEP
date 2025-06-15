@@ -36,6 +36,11 @@ This section documents **unit tests**, **integration tests**, and **validation p
     * **Scenario**: The representative inputs a NIF not associated with any client they manage.
     * **Expected Outcome**: The system throws an exception or displays an appropriate error message.
 
+![](./img/CheckShowDateFound.png)
+#
+#
+#
+![](./img/CheckShowDateNotFound.png)
 ---
 
 ## 5. Construction (Implementation)
