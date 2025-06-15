@@ -8,18 +8,26 @@ import utils.Utils;
 
 import java.util.Optional;
 
+/**
+ * User interface for adding a new maintenance type.
+ */
 public class AddMaintenanceTypeUI implements Runnable {
 
     private final AddMaintenanceTypeController controller = new AddMaintenanceTypeController();
 
+    /**
+     * Executes the maintenance type creation process.
+     * Prompts the user for a name, optionally a description, and creates the maintenance type.
+     */
     @Override
     public void run() {
-
         Utils.printDroneCenteredTitle("Add Maintenance Type");
 
         Utils.printCenteredSubtitleV2("Maintenance Type Name");
         Utils.showDroneNameRules();
-        MaintenanceTypeName maintenanceTypeName = Utils.rePromptWhileInvalid("Enter the Maintenance Type Name", MaintenanceTypeName::new);
+        MaintenanceTypeName maintenanceTypeName = Utils.rePromptWhileInvalid(
+                "Enter the Maintenance Type Name", MaintenanceTypeName::new
+        );
 
         Optional<MaintenanceType> result;
         Description description = null;
@@ -29,7 +37,9 @@ public class AddMaintenanceTypeUI implements Runnable {
         if (hasDescription) {
             Utils.printCenteredSubtitleV2("Maintenance Type Description");
             Utils.showDescriptionRules();
-            description = Utils.rePromptWhileInvalid("Enter the Maintenance Type Description", Description::new);
+            description = Utils.rePromptWhileInvalid(
+                    "Enter the Maintenance Type Description", Description::new
+            );
         } else {
             Utils.printAlterMessage("Description skipped...");
         }
@@ -40,13 +50,12 @@ public class AddMaintenanceTypeUI implements Runnable {
             result = controller.createMaintenanceTypeWithoutDescription(maintenanceTypeName);
         }
 
+        System.out.println();
+
         if (result.isPresent()) {
-            System.out.println();
             Utils.printSuccessMessage("Maintenance Type created successfully!");
         } else {
-            System.out.println();
             Utils.printFailMessage("A Maintenance Type with that name already exists!");
         }
     }
-
 }
