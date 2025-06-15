@@ -1,17 +1,17 @@
-# US210 - Authentication and authorization
+# US317 - Mark Show Proposal as Accepted
 
 ## 3. Design
 
 ### 3.1. Design Overview
 
-The design for US210 implements user authentication and role-based authorization in the Shodrone back-office system. This functionality ensures that only authenticated users with valid roles can access and execute system operations according to their assigned responsibilities.
+The design for US317 enables a CRM Collaborator to accept a show proposal that was previously approved by a customer. This acceptance confirms internal acknowledgment and triggers the creation of a scheduled show.
 The authentication process follows these high-level steps:
 
-1. **User Interaction**: The CRM Collaborator selects a proposal with status CUSTOMER_APPROVED via the console-based UI.
+1. **User Interaction**: The CRM Collaborator uses the AcceptShowProposalUI to select a proposal with status CUSTOMER_APPROVED.
 
-2. **Validation**: The system verifies that the selected proposal is eligible for acceptance using VerifyShowProposalStatusController.
+2. **Validation**: The system uses VerifyShowProposalStatusController to ensure that the proposal is indeed eligible for acceptance (it has been approved by the customer).
 
-3. **Status Update**: If valid, the system updates the proposal’s status to COLLABORATOR_APPROVED.
+3. **Status Update and Show Creation**: If valid, the proposal status is updated to COLLABORATOR_APPROVED, and a new Show is created using the CreateShowController.
 
 4. **Persistence**: The updated proposal is saved to the database via the ShowProposalRepository.
 
@@ -19,25 +19,25 @@ The authentication process follows these high-level steps:
 
 This functionality adheres to a layered architecture with clear separation of concerns:
 
-- **UI Layer**: Handles user interaction through the AcceptShowProposalUI and provides feedback messages.
+- **UI Layer**: AcceptShowProposalUI handles user interaction and delegates the core logic to the controller.
 
-- **Application Layer**: AcceptShowProposalController acts as an orchestrator between validation, domain logic, and persistence.
+- **Application Layer**: AcceptProposalAndCreateShowController coordinates validation, proposal status update, and show creation/persistence.
 
-- **Domain Layer**: Contains the ShowProposal aggregate and its associated value objects like ShowProposalId, Status, etc.
+- **Domain Layer**: Contains the ShowProposal aggregate, ShowProposalStatus enumeration, and Show entity.
 
-- **Persistence Layer**: The ShowProposalRepository interface abstracts data access.
+- **Persistence Layer**: ShowProposalRepository and ShowRepository abstract the storage and retrieval of domain entities.
 
-- **Infrastructure Layer**: Not explicitly used in this feature, but role-based access is enforced globally via login constraints.
+- **Infrastructure Layer**: Role-based access is enforced via the CRMCollaboratorUI, which restricts this functionality to users with the CRM Collaborator role.
 
 ### 3.2. Sequence Diagrams
 
 3.2.1. Class Diagram
-The following class diagram models the authentication domain and infrastructure. It includes the User, UserRole, AuthenticationRepository, AuthenticationController, and supporting classes such as AuthFacade and UserSession.
+The class diagram below represents the main components involved in US317:
 
 ![Class Diagram](svg/class_diagram.svg)
 
 3.2.2. Sequence Diagram (SD)
-The following class diagram models the entities and services involved in the acceptance of a show proposal:
+The sequence diagram below illustrates the message flow between the user and the system:
 
 ![Sequence Diagram](svg/us317-sequence-diagram.svg)
 
@@ -45,10 +45,12 @@ The following class diagram models the entities and services involved in the acc
 
 Domain-Driven Design (DDD) Patterns
 - Application Service
-  AcceptShowProposalController serves as an application service that coordinates validation, state transitions, and persistence logic.
+  AcceptProposalAndCreateShowController serves as the application service orchestrating all domain operations involved in proposal acceptance and show creation.
 - Repository
-  ShowProposalRepository provides an abstraction over data storage, ensuring decoupling from the data layer.
-- Factory
-  ShowProposal is the aggregate root representing the entire proposal entity, owning its identity, status, and business logic.
+  ShowProposalRepository and ShowRepository abstract data access and provide persistence operations for proposals and shows, respectively.
 - Aggregate Root
-  ShowProposalId and Status are implemented as immutable value objects that encapsulate validation and behavior of identifiers and states.
+  ShowProposal is the aggregate root representing the full state of a proposal, including its current status and associated show request.
+- Value Objects
+  ShowProposalStatus is an enumeration-based value object encapsulating valid state transitions and business rules for a proposal.
+- Validation Controller
+  VerifyShowProposalStatusController acts as a validation helper to encapsulate the eligibility check for the show proposal.

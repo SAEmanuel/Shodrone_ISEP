@@ -1,4 +1,4 @@
-# US210 - Authentication and authorization
+# US317 - Mark Show Proposal as Accepted
 
 ## 2. Analysis
 
@@ -8,19 +8,27 @@
 
 ### 2.2. Other Remarks
 * Proposal State Validation:
-  Only proposals in the CUSTOMER_APPROVED state are eligible for acceptance.
-  The wasShowProposalSent(...) method from VerifyShowProposalStatusController verifies this eligibility.
+  Only proposals with the status CUSTOMER_APPROVED are eligible to be marked as accepted.
+  This validation is performed by the method wasShowProposalSent(...) in VerifyShowProposalStatusController.
 
 * Status Transition:
-  If valid, the proposal’s status is updated to COLLABORATOR_APPROVED via setStatus(...).
+  Upon validation, the system updates the status of the ShowProposal to COLLABORATOR_APPROVED via the setStatus(...) method.
+
+* Show Creation:
+  The proposal is passed to CreateShowController#createShowFromProposal(...), which:
+- Fetches the associated ShowRequest
+- Checks for duplicate shows (same location/date/customer)
+- Constructs a new Show entity if no conflicts are found
 
 * Persistence Layer:
-  The updated proposal is persisted using updateInStoreProposal(...) from the ShowProposalRepository.
+  If the show is successfully created, both the updated proposal and the show are persisted using:
+- ShowProposalRepository#saveInStore(...)
+- ShowRepository#saveInStore(...)
 
 * Access Control:
-  Only authenticated users with the CRM Collaborator role are presented with this functionality.
-  Access is enforced by offering this option only in the CRMCollaboratorUI menu.
-  (Assumes that user authentication and role loading are already handled via EAPLI's AuthService.)
+  Only users authenticated as CRM Collaborator have access to this feature.
+  This is enforced via the menu available in CRMCollaboratorUI, which includes the "Accept Show Proposal" option.
+  (Assumes authentication and authorization are handled via EAPLI’s AuthService.)
 
 * User Feedback:
   The UI informs the user whether the operation was successful or failed using Utils.printSuccessMessage(...) or printFailMessage(...).
