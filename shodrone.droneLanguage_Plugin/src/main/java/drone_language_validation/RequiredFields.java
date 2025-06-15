@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public enum RequiredFields {
 
-    TYPES(Arrays.asList("Point","Poisition", "Vector", "LinearVelocity", "AngularVelocity", "Distance", "Time")),
+    TYPES(Arrays.asList("Point","Position", "Vector", "LinearVelocity", "AngularVelocity", "Distance", "Time")),
     INSTRUCTIONS(Arrays.asList("takeOff", "move", "movePath", "moveCircle","hoover","lightsOn","lightsOff","land"));
 
 

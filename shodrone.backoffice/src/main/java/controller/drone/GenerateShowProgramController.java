@@ -1,8 +1,10 @@
 package controller.drone;
 
 import Interface.DroneProgramGenerator;
+import domain.valueObjects.ShowProposalStatus;
 import drone.DroneProgramsGenerator;
 import domain.entity.*;
+import drone_language_validation.DroneGenericPlugin;
 import figure_dsl.validator.FigureValidationPlugin;
 import persistence.RepositoryProvider;
 import utils.DslMetadata;
@@ -46,6 +48,17 @@ public class GenerateShowProgramController {
                     String program = ((DroneProgramsGenerator) generator).generateProgram(
                             figure, droneModel, dslVersion, dslMetadata, validator, droneIdCounter, dronePositions);
 
+                    DroneGenericPlugin languagePlugin = new DroneGenericPlugin();
+                    List<String> droneProgramLines = Arrays.asList(program.split("\n"));
+                    languagePlugin.validate(droneProgramLines);
+                    List<String> validationErrorsDroneLang = languagePlugin.getErrors();
+
+                    if (!validationErrorsDroneLang.isEmpty()) {
+                        //System.out.println("❌ Drone program validation errors for figure '" + figure.name() + "' and drone '" + droneModel.identity() + "':");
+                        validationErrorsDroneLang.forEach(System.out::println);
+                        continue;
+                    }
+
                     String key = figure.name().toString() + "_" + droneModel.identity() + "_DSL_" + dslVersion;
                     showProposal.getDroneLanguageSpecifications().put(key, program);
 
@@ -56,9 +69,11 @@ public class GenerateShowProgramController {
 
         List<String> script = generateScriptFromPositions(dronePositions);
         showProposal.setScript(script);
+        showProposal.setStatus(ShowProposalStatus.STAND_BY);
 
         return RepositoryProvider.showProposalRepository().saveInStore(showProposal);
     }
+
 
     private List<String> generateScriptFromPositions(Map<Integer, List<int[]>> dronePositions) {
         List<String> script = new ArrayList<>();

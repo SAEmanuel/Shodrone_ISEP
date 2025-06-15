@@ -146,18 +146,27 @@ public class DroneProgramsGenerator implements DroneProgramGenerator {
                 .keySet().stream().findFirst().orElse("v");
         String duration = String.valueOf(rand.nextInt(20) + 10);
         String time = String.valueOf(rand.nextInt(61));
-        String period = String.valueOf(rand.nextInt(61));
+        String colour1 = String.valueOf(rand.nextInt(255));
+        String colour2 = String.valueOf(rand.nextInt(255));
+        String colour3 = String.valueOf(rand.nextInt(255));
+
+        int mov = rand.nextInt(30);
+        int mov1 = rand.nextInt(30);
+        int mov2 = rand.nextInt(30);
+
+        sb.append("Point p1 = (" + mov + ", " + mov1 + ", " + mov2 + ");\n");
 
         sb.append("\nInstructions\n\n");
         sb.append("takeOff(" + height + ", " + velocity + ");\n");
         sb.append("land(" + velocity + ");\n");
-        sb.append("move((x, y, z), " + velocity + ");\n");
-        sb.append("move((dx, dy, dz), " + velocity + ", " + duration + ");\n");
+
+        sb.append("move(p1, " + velocity + ");\n");
+
         sb.append("movePath(arrayOfPositions, " + velocity + ");\n");
         sb.append("hoover(" + time + ");\n\n");
-        sb.append("lightsOn();\n");
+        sb.append("lightsOn(" + colour1 + ", " + colour2 + "," + colour3 + ");\n");
         sb.append("lightsOff();\n");
-        sb.append("blink(" + period + ");\n\n");
+
 
         return sb.toString();
     }

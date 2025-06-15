@@ -96,10 +96,10 @@ class AddDronesShowProposalControllerTest {
         inventory.put(modelA, 3); // only 3 available
 
         when(mockedDroneModelsController.getDroneModelQuantity()).thenReturn(Optional.of(inventory));
-        when(used.getOrDefault(modelA, 0)).thenReturn(2); // already using 2
+        when(used.getOrDefault(modelA, 0)).thenReturn(2);
 
         Map<DroneModel, Integer> modelsToAdd = new HashMap<>();
-        modelsToAdd.put(modelA, 2); // tries to add 2 (would result in 4 > 3)
+        modelsToAdd.put(modelA, 2);
 
         Optional<String> result = controller.addDroneModels(proposal, modelsToAdd);
         assertTrue(result.isPresent());
