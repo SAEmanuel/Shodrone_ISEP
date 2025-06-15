@@ -2,6 +2,50 @@
 
 ## 4. Tests
 
+### Domain Layer – `ProposalTemplate`
+
+- **testCreationWithValidData**  
+  Verifies that a `ProposalTemplate` instance is correctly created with valid name, description, and content.
+
+- **testChangeName**  
+  Confirms that the name of the template can be updated successfully.
+
+- **testChangeDescription**  
+  Ensures the description is updated correctly.
+
+- **testChangeContent**  
+  Checks that the script content (text list) can be modified.
+
+- **testHasIdentityWithMatchingId**  
+  Tests `hasIdentity()` using a matching string-formatted ID.
+
+- **testEqualsAndHashCode**  
+  Validates `equals()` and `hashCode()` behavior based on `id` and `name`.
+
+- **testSameAsEqualsEquivalentObject**  
+  Ensures `sameAs()` returns true for logically equal objects.
+
+- **testToStringWithAndWithoutDescription**  
+  Validates the `toString()` output formatting when description is provided or set to default ("Not provided!").
+
+---
+
+### Infrastructure Layer – `InMemoryProposalTemplateRepository`
+
+- **testSaveSuccess**  
+  Confirms a template with a unique name is saved successfully.
+
+- **testSaveDuplicateReturnsEmpty**  
+  Ensures that saving a duplicate name returns `Optional.empty()`.
+
+- **testFindByNameSuccess**  
+  Checks that a template can be found by its name (case-insensitive).
+
+- **testFindByNameNotFound**  
+  Returns empty when no template is found by name.
+
+- **testFindAllSortedAlphabetically**  
+  Asserts that all stored templates are retrieved and sorted alphabetically by name.
 
 ---
 
