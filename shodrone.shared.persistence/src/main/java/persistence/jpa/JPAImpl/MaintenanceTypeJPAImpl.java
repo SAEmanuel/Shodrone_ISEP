@@ -28,6 +28,14 @@ public class MaintenanceTypeJPAImpl extends JpaBaseRepository<MaintenanceType, L
         return Optional.empty();
     }
 
+    @Override
+    public List<MaintenanceType> findAll() {
+        return entityManager()
+                .createQuery("SELECT m FROM MaintenanceType m ORDER BY LOWER(m.name.name) ASC", MaintenanceType.class)
+                .getResultList();
+    }
+
+
     /**
      * Finds a MaintenanceType by its name.
      *
