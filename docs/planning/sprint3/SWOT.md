@@ -35,7 +35,7 @@
 
 The **MakeItSimple** team, operating within the framework of the 3rd sprint of its project, has undertaken a comprehensive strategic evaluation to assess both its technical deliverables and internal dynamics. This SWOT (Strengths, Weaknesses, Opportunities, Threats) analysis serves as a pivotal tool to reflect on the team’s performance, identify areas for improvement, and outline a strategic path forward. The exercise aligns with the principles of **transparency, inspection, and adaptation**, which are foundational to the Scrum methodology employed throughout the project.
 
-The completion of three sprints marks a critical juncture for the team, having delivered significant functionalities while fostering a culture of collaboration, autonomy, and shared responsibility. The SWOT analysis presented herein is not merely an academic exercise but a practical instrument designed to enhance decision-making, optimize processes, and ensure continuous improvement. By systematically evaluating internal strengths—such as effective communication and complementary skill sets—and addressing weaknesses, such as localized technical overload or insufficient documentation, the team aims to solidify its operational foundation.
+The completion of three sprints marks a critical juncture for the team, having delivered significant functionalities while fostering a culture of collaboration, autonomy, and shared responsibility. The SWOT analysis presented here in is not merely an academic exercise but a practical instrument designed to enhance decision-making, optimize processes, and ensure continuous improvement. By systematically evaluating internal strengths—such as effective communication and complementary skill sets—and addressing weaknesses, such as localized technical overload or insufficient documentation, the team aims to solidify its operational foundation.
 
 Moreover, this analysis considers external factors, identifying opportunities such as the adoption of advanced technologies and collaboration with mentors, while acknowledging threats like academic workload pressures and potential misapplications of agile principles. The MakeItSimple team has consistently adhered to agile practices, leveraging Scrum rituals and tools to ensure structured, incremental progress. This report serves as a strategic roadmap, guiding the team toward sustained growth and high performance in future sprints.
 
@@ -63,34 +63,33 @@ Originally developed for corporate planning, SWOT has proven highly adaptable, f
 
 In the context of agile methodologies, particularly Scrum, SWOT analysis is instrumental in promoting **self-organization, continuous learning, and team resilience**. Unlike traditional evaluation methods, an agile-focused SWOT emphasizes:
 
-- Mapping technical and collaborative capabilities (e.g., code review practices, continuous integration, team cohesion).
-- Identifying subtle weaknesses that may emerge in daily operations (e.g., inadequate documentation or uneven task distribution).
-- Highlighting incremental improvement opportunities (e.g., adopting new technology stacks or cross-functional training).
-- Anticipating external risks (e.g., shifting project requirements or resource constraints).
+- Mapping technical and collaborative capabilities (code review practices, continuous integration, team cohesion).
+- Identifying subtle weaknesses that may emerge in daily operations (inadequate documentation or uneven task distribution).
+- Highlighting incremental improvement opportunities (adopting new technology stacks or cross-functional training).
+- Anticipating external risks (shifting project requirements or resource constraints).
 
 As noted in resources such as *ThinkLouder* and *Team O’clock*, integrating SWOT analysis into Scrum rituals—such as sprint retrospectives, planning, and reviews—enhances transparency, fosters inspection, and drives adaptation. This practice empowers self-organizing teams, such as MakeItSimple, to align their processes with strategic objectives, ensuring consistent progress and responsiveness to challenges.
 
 ### 2.3 Agile Tools and SWOT Integration
 
-The integration of SWOT analysis with modern agile tools amplifies its effectiveness, transforming it into a dynamic and actionable framework. Digital platforms facilitate collaborative brainstorming, task tracking, and progress monitoring, aligning SWOT outcomes with practical implementation.
+The integration of SWOT analysis within modern agile workflows amplifies its effectiveness, transforming it from a static assessment into a dynamic, actionable framework. Instead of relying on specialized platforms, our team leveraged flexible digital tools already embedded in our workflow to conduct collaborative brainstorming, track tasks, and monitor progress—ensuring that SWOT outcomes translated directly into implementation
 
-Key tools utilized by the MakeItSimple team and their relevance to SWOT analysis include:
+Our Approach to Applying SWOT in Agile Contexts:
 
-| **Tool**                | **Application in SWOT**                                      |
+| **Practice**                | **Application in SWOT**                                      |
 |-------------------------|-------------------------------------------------------------|
-| **TeamRetro**           | Pre-built SWOT templates for remote retrospective sessions  |
-| **Miro / Mural**        | Visual boards for collaborative SWOT brainstorming          |
-| **SessionLab**          | Structured facilitation of SWOT-based retrospectives        |
-| **Notion / Confluence** | Documentation of SWOT outcomes and action plans             |
-| **Jira / Trello**       | Integration of SWOT-derived actions into task management    |
+| **Shared online documents**           | Real-time collaborative input for SWOT brainstorming  |
+| **Video conferencing with screen share**        | Enabled team discussion and clarification during SWOT reviews         |
+| **Spreadsheets and task boards**          | Assigned SWOT-derived action items and tracked ownership and progress     |
+| **Retrospective sessions** | Incorporated SWOT discussions into sprint reviews for continuous learning        |
 
-The digitalization of SWOT analysis enables:
+Benefits of Our Approach:
 
-- Clear assignment of action items with deadlines and responsible parties.
-- Historical tracking of SWOT outcomes across sprints.
-- Enhanced team accountability through shared visibility.
+- Action items from SWOT were clearly documented with responsible owners and due dates.
+- Outcomes were reviewed and refined across sprints, allowing for historical comparison and improvement tracking.
+- Collective participation in SWOT analysis fostered a sense of ownership and accountability among team members.
 
-By embedding SWOT analysis into regular sprint cycles, the MakeItSimple team has ensured that strategic reflection is a cornerstone of its continuous improvement process.
+By embedding SWOT analysis into our sprint rhythm, we ensured that strategic reflection was not a one-time event but an ongoing component of our team’s continuous improvement mindset.
 
 ---
 
@@ -123,10 +122,10 @@ The MakeItSimple team rigorously implemented Scrum rituals, adhering to the prin
 
 **Observations**:
 
-- Retrospectives, while valuable, could benefit from more interactive formats (e.g., “Mad Sad Glad” or “Start-Stop-Continue”).
+- Retrospectives, while valuable, could benefit from more interactive formats (“Mad Sad Glad” or “Start-Stop-Continue”).
 - The rotating Scrum Master role introduced diverse perspectives but required adjustment periods during transitions.
 
-**Recommendation**: Introduce sprint efficacy metrics (e.g., completed tasks, bug rates, PR merge times) to support objective evaluations.
+**Recommendation**: Introduce sprint efficacy metrics (completed tasks, bug rates, PR merge times) to support objective evaluations.
 
 ### 3.3 Tools and Practices Employed
 
@@ -134,26 +133,29 @@ The MakeItSimple team leveraged a cohesive set of tools and practices to support
 
 #### **Tools Utilized**
 
-| **Tool**                | **Purpose**                                                                 |
-|-------------------------|-----------------------------------------------------------------------------|
-| **GitHub / GitLab**     | Version control with branching, pull requests, and code review validation   |
-| **Jira / Trello**       | Visual backlog management, user story prioritization, and task tracking     |
-| **Figma**               | Rapid prototyping and iterative design for user interfaces                 |
-| **CI/CD Lite**          | Basic automated build and local/test deployment pipelines                  |
-| **Zoom / Discord**      | Synchronous (meetings) and asynchronous (threads) communication             |
+| **Tool**                      | **Purpose**                                                                 |
+|-------------------------------|-----------------------------------------------------------------------------|
+| **GitHub / GitLab**           | Version control with branching, pull requests, and code review validation   |
+| **GitHub**                    | Visual backlog management, user story prioritization, and task tracking     |
+| **Zoom / Discord / Whatsapp** | Synchronous (meetings) and asynchronous (threads) communication             |
+
+- GitHub served as both our codebase and lightweight project management platform, allowing us to break down work into issues, assign responsibilities, and track progress through commits and pull requests.
+- Zoom, Discord, and WhatsApp enabled continuous communication across the team, supporting quick stand-ups, planning discussions, and problem-solving in both real-time and asynchronous formats.
+
+Despite using a minimal set of tools, our team maintained high levels of coordination and agility by embedding these platforms into our daily rituals and development processes.
 
 #### **Key Practices**
 
 - **Consistent Code Reviews**: Emphasizing code readability and architectural best practices.
-- **Structured Issue Tracking**: Tasks labeled by type (e.g., `bug`, `enhancement`, `documentation`).
-- **Standardized Pull Requests**: Descriptive titles (e.g., `[FE] Update filter component`) for traceability.
+- **Structured Issue Tracking**: Tasks labeled by type (`bug`, `enhancement`, `documentation`).
+- **Standardized Pull Requests**: Descriptive titles (`[FE] Update filter component`) for traceability.
 - **Weekly Technical Syncs**: Mitigating integration conflicts between backend and frontend.
 - **Semantic Commits**: Enabling future automation of changelogs and release notes.
 
 #### **Areas for Improvement**
 
 1. **Automated Testing**: Incorporate frameworks like Jest, Postman/Newman, or Cypress to enhance release confidence.
-2. **Living Technical Documentation**: Establish a centralized wiki (e.g., GitHub or Notion) covering system architecture, authentication flows, and deployment guides.
+2. **Living Technical Documentation**: Establish a centralized wiki (GitHub or Notion) covering system architecture, authentication flows, and deployment guides.
 3. **Enhanced CI/CD Pipelines**: Automate pre-merge checks, staging deployments, and status notifications.
 4. **Quality Metrics Integration**: Adopt tools like SonarCloud or Codecov for code quality insights.
 
@@ -172,10 +174,12 @@ The MakeItSimple team leveraged a cohesive set of tools and practices to support
 - Complexities in API-frontend integration.
 - Underestimated task durations and partially refined backlog.
 - Technical conflicts and blockers in specific user stories.
+- Miscommunication and bad analysis of certain user stories.
 
 ### 4.3 Team Growth and Development
 
-The team demonstrated progressive improvement in collaboration, communication, and task management, particularly through daily standups and rigorous code reviews.
+The team demonstrated progressive improvement in collaboration, communication, and task management, particularly through daily standups and rigorous code reviews. Every member was essential for the project and through all the hardships encountered, the team was able to finish the project in the timeframe given.
+The members demonstrated a lot of growth in the small timeframe of the project, since there were some changes on how the project should be done, everyone needed to adapt quickly, this and some conflict within the group sparked some problems that were resolved through patience, time and a mentality to learn from mistakes.
 
 ---
 
