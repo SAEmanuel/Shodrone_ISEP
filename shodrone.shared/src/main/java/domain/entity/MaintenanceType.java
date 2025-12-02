@@ -1,0 +1,136 @@
+package domain.entity;
+
+import domain.valueObjects.Description;
+import domain.valueObjects.MaintenanceTypeName;
+import eapli.framework.domain.model.AggregateRoot;
+import eapli.framework.validations.Preconditions;
+import jakarta.persistence.*;
+import more.ColorfulOutput;
+
+import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Objects;
+
+@XmlRootElement
+@Entity
+public class MaintenanceType implements AggregateRoot<String> {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private MaintenanceTypeName name;
+
+    @Column(nullable = false)
+    private Description description;
+
+    protected MaintenanceType() {
+        // For JPA
+    }
+
+    public MaintenanceType(MaintenanceTypeName name, Description description) {
+        try {
+            Preconditions.nonEmpty(name.name());
+            Preconditions.nonEmpty(description.toString());
+
+            this.name = name;
+            this.description = description;
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+    }
+
+    public MaintenanceType(MaintenanceTypeName name) {
+        try {
+            Preconditions.nonEmpty(name.name());
+
+            this.name = name;
+            this.description = new Description("Not Provided!");
+
+        } catch (IllegalArgumentException e) {
+            throw e;
+        }
+    }
+
+    public Long id() {
+        return this.id;
+    }
+
+    public MaintenanceTypeName name() {
+        return this.name;
+    }
+
+    public Description description() {
+        return this.description;
+    }
+
+    public void changeDescriptionTo(final Description newDescription) {
+        if (newDescription == null) {
+            throw new IllegalArgumentException("Description cannot be null.");
+        }
+        this.description = newDescription;
+    }
+
+    public void changeNameTo(final MaintenanceTypeName newName) {
+        if (newName == null) {
+            throw new IllegalArgumentException("Name cannot be null.");
+        }
+        this.name = newName;
+    }
+
+    @Override
+    public String identity() {
+        return this.name.name();
+    }
+
+    @Override
+    public boolean hasIdentity(final String id) {
+        return id.equalsIgnoreCase(this.name.name());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MaintenanceType that = (MaintenanceType) o;
+        return name().equals(that.name()) && description().equals(that.description());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name(), description());
+    }
+
+    @Override
+    public boolean sameAs(Object other) {
+        if (!(other instanceof MaintenanceType)) return false;
+        final MaintenanceType that = (MaintenanceType) other;
+        return name().equals(that.name()) && description().equals(that.description());
+    }
+
+    public MaintenanceType copy() {
+        MaintenanceType copy = new MaintenanceType(this.name(), this.description());
+        return copy;
+    }
+
+    @Override
+    public String toString() {
+        String nameStr = name.name();
+        String descStr = description.toString();
+
+        String nameTrunc = nameStr.length() > 25 ? nameStr.substring(0, 22) + "..." : nameStr;
+        String descTrunc = descStr.length() > 35 ? descStr.substring(0, 32) + "..." : descStr;
+
+        return String.format(
+                "%s%s%-4s%s: %s%-25s%s | " +
+                        "%s%s%-11s%s: %s%-35s%s",
+                ColorfulOutput.ANSI_ORANGE, ColorfulOutput.ANSI_BOLD, "Name", ColorfulOutput.ANSI_RESET,
+                ColorfulOutput.ANSI_BRIGHT_WHITE, nameTrunc, ColorfulOutput.ANSI_RESET,
+
+                ColorfulOutput.ANSI_ORANGE, ColorfulOutput.ANSI_BOLD, "Description", ColorfulOutput.ANSI_RESET,
+                ColorfulOutput.ANSI_BRIGHT_WHITE, descTrunc, ColorfulOutput.ANSI_RESET
+        );
+    }
+
+}

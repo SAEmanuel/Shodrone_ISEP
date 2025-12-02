@@ -1,0 +1,146 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+' === Controllers ===
+class RegisterShowRequestController {
+    - repoProvider : Repositories
+    - authRepo : AuthenticationRepository
+    - figureRepo : FigureRepository
+    - showRepo : ShowRepository
+    + RegisterShowRequestController()
+    + getResponsible() : Email
+    + getThisTime() : LocalDateTime
+    + registerShowRequest(loc: Location, date: LocalDateTime, numDrones: int, duration: Duration, desc: Description, figs: List<Figure>, costumer: Costumer) : void
+}
+
+class FigureController {
+    - figureRepo : FigureRepository
+    + getAvailableFiguresForCustomer(id: CostumerID) : List<Figure>
+}
+
+class AuthenticationController {
+    - authRepo : AuthenticationRepository
+    + getMyActiveCustomers() : List<Costumer>
+}
+
+' === UI ===
+class RegisterShowRequestUI {
+    + askToRegisterShowRequest() : void
+    + optionsToSelectCustomer(customers: List<Costumer>) : void
+    + optionsToSelectFigures(figures: List<Figure>) : void
+    + requestData() : ShowRequestInputData
+    + showConfirmation() : void
+    + showsOperationSuccess() : void
+}
+
+' === Factory ===
+class ShowFactory {
+    + registerShow(loc: Location, date: LocalDateTime, numDrones: int, duration: Duration, desc: Description, figs: List<Figure>, costumer: Costumer, time: LocalDateTime, author: Email) : Show
+}
+
+' === Repositories ===
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getAuthenticationRepository() : AuthenticationRepository
+    + getFigureRepository() : FigureRepository
+    + getShowRepository() : ShowRepository
+}
+
+class AuthenticationRepository {
+    + getMyActiveCustomers() : List<Costumer>
+    + getCurrentUserSession() : UserSession
+}
+
+class FigureRepository {
+    + getAvailableFiguresForCustomer(id: CostumerID) : List<Figure>
+}
+
+class ShowRepository {
+    + add(show: Show) : void
+}
+
+' === Domain ===
+class Show {
+    + create(...) : Show
+}
+
+class Costumer
+class Figure {
+    - figureId: Long
+    - name: String
+    - description: Description
+    - version: Long
+    - category: FigureCategory
+    - availability: FigureAvailability
+    - status: FigureStatus
+    - costumer: Costumer
+}
+
+class FigureCategory
+class FigureAvailability
+class FigureStatus
+
+class Location {
+    - address: Address
+    - latitude: double
+    - longitude: double
+    - description: String
+}
+
+class Address
+class Description
+class Duration
+
+class UserSession {
+    + getUserId() : Email
+}
+
+class Email {
+    + getEmail() : String
+}
+
+class LocalDateTime {
+    + now() : LocalDateTime
+}
+
+' === Relationships ===
+RegisterShowRequestUI --> RegisterShowRequestController
+RegisterShowRequestController --> Repositories
+RegisterShowRequestController --> AuthenticationRepository
+RegisterShowRequestController --> FigureRepository
+RegisterShowRequestController --> ShowRepository
+RegisterShowRequestController --> ShowFactory
+RegisterShowRequestController --> LocalDateTime
+RegisterShowRequestController --> Email
+RegisterShowRequestController --> Show
+
+AuthenticationController --> AuthenticationRepository
+FigureController --> FigureRepository
+
+AuthenticationRepository --> UserSession
+UserSession --> Email
+
+Repositories --> ShowRepository
+Repositories --> AuthenticationRepository
+Repositories --> FigureRepository
+
+ShowFactory --> Show
+
+Figure --> FigureCategory
+Figure --> FigureAvailability
+Figure --> FigureStatus
+Figure --> Description
+Figure --> Costumer
+
+Location --> Address
+Show --> Location
+Show --> Costumer
+Show --> Description
+Show --> Duration
+Show --> Figure
+
+@enduml

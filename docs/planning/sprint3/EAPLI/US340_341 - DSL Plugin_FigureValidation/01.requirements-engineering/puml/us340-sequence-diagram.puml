@@ -1,0 +1,68 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Figure to the Catalogue with DSL Validation
+
+autonumber
+
+actor "Show Designer" as CM
+participant ":System" as System
+
+activate CM
+
+CM -> System : login()
+activate System
+System --> CM : authenticated
+deactivate System
+
+CM -> System : start addFigure flow
+activate System
+
+System -> System : validate and prompt name
+System -> System : prompt and validate optional description
+
+System -> System : getActiveFigureCategories()
+System -> System : prompt category selection
+
+System -> System : prompt and validate availability
+System -> System : prompt and validate status
+
+alt Add DSL
+
+loop While user adds DSL
+    System -> System : get DSL lines from UI
+    System -> System : validate DSL syntax and semantics
+    System -> System : get drone model name from DSL
+    System -> System : fetch all drone models
+    System -> System : determine DSL version
+    System -> System : store DSL in versioned map
+
+    System -> System : ask if user wants to add another DSL
+
+    alt DSL has validation errors
+        System -> CM : show validation errors and ask to retry
+    end
+end
+
+else Skipped DSL
+    System -> CM : DSL skipped
+end
+
+System -> System : get all customers
+System -> System : ask to select (optional) customer
+
+System -> System : call addFigure(name, desc, category, availability, status, dslVersions, customer)
+System -> System : validate all inputs (uniqueness, enums, nulls, etc.)
+
+alt validation fails
+    System --> CM : errorMessage("Invalid or duplicate input")
+else validation succeeds
+    System -> System : persist new figure in repository
+    System --> CM : confirmationMessage("Figure added successfully")
+end
+
+deactivate System
+deactivate CM
+@enduml

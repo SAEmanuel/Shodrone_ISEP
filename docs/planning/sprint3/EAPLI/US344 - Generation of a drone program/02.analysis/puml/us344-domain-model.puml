@@ -1,0 +1,83 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Generate Drone Program - Domain Model (US344)
+
+hide circles
+hide methods
+
+package "Domain Layer" {
+    class ShowProposal {
+        List<Figure>: sequenceFigures
+        Map<DroneModel, Integer>: modelsUsed
+        Map<String, String>: droneLanguageSpecifications
+        List<String>: script
+        ShowProposalStatus: status
+
+        +setScript(script)
+        +setStatus(status)
+    }
+
+    class Figure {
+        String: name
+        Map<String, DslMetadata>: dslVersions
+    }
+
+    class DslMetadata {
+        String: droneModel
+        List<String>: dslLines
+    }
+
+    class DroneModel {
+        String: identity
+        String: languageVersion
+    }
+
+    enum ShowProposalStatus {
+        CREATED
+        STAND_BY
+        APPROVED
+        ...
+    }
+
+    ShowProposal "1" o-- "*" Figure
+    ShowProposal "1" o-- "*" DroneModel
+    Figure "1" o-- "*" DslMetadata
+}
+
+package "Application Layer" {
+    class GenerateShowProgramController {
+        +generateProgramsForShow(ShowProposal): Optional<ShowProposal>
+    }
+}
+
+package "Plugin System" {
+    class FigureValidationPlugin {
+        +validate(dslLines): List<String>
+    }
+
+    class DroneProgramsGenerator {
+        +generateProgram(...)
+    }
+
+    class DroneGenericPlugin {
+        +validate(codeLines): List<String>
+    }
+}
+
+package "Persistence Layer" {
+    class ShowProposalRepository {
+        +saveInStore(ShowProposal)
+    }
+}
+
+GenerateShowProgramController --> ShowProposal : uses >
+GenerateShowProgramController --> FigureValidationPlugin : uses >
+GenerateShowProgramController --> DroneProgramsGenerator : uses >
+GenerateShowProgramController --> DroneGenericPlugin : uses >
+GenerateShowProgramController --> ShowProposalRepository : saves >
+
+@enduml

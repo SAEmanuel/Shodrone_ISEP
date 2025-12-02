@@ -1,0 +1,108 @@
+@startuml
+title End-to-End Accept/Reject Show Proposal Flow (US316 & US371)
+
+box "Customer App"
+    participant "AnalyseProposalUI\n(Customer App)" as UI
+    participant "GetMyProposals\nController" as GetCtrl
+    participant "ProposalResponse\nController" as RespCtrl
+    participant "AuthenticationController\n(TCP Client)" as AuthClient
+end box
+
+box "Server"
+    participant "HandleClientsController" as HandleCtrl
+    participant "AnalyseProposalResponse" as AnalyseResp
+    participant "RepositoryProvider" as Repo
+    entity "ShowProposal\n(Entity)" as Proposal
+    entity "ShowProposalDTO" as ProposalDTO
+    entity "ResponseDTO" as RespDTO
+    entity "ObjectDTO" as ObjDTO
+end box
+
+== Login (optional) ==
+UI -> AuthClient: login(credentials)
+AuthClient -> HandleCtrl: [TCP] login(credentials)
+HandleCtrl -> Repo: authenticateUser(credentials)
+Repo --> HandleCtrl: authentication OK
+HandleCtrl -> AuthClient: [TCP] login success
+AuthClient -> UI: login confirmed
+
+== Retrieve Customer's Show Proposals ==
+UI -> GetCtrl: requestShowProposals()
+GetCtrl -> AuthClient: prepare request (get proposals)
+AuthClient -> HandleCtrl: [TCP] GetMyProposals(customerId)
+HandleCtrl -> Repo: FindCustomersProposalsAction(customerId)
+Repo -> Proposal: query proposals for customer
+Proposal --> Repo: list of ShowProposal
+Repo --> HandleCtrl: list of ShowProposal objects
+HandleCtrl -> ProposalDTO: create DTOs from proposals
+ProposalDTO --> HandleCtrl: ShowProposalDTO list
+HandleCtrl -> ObjDTO: wrap proposals in ObjectDTO
+ObjDTO --> HandleCtrl: proposals packaged
+HandleCtrl -> AuthClient: [TCP] send proposals (ObjectDTO with ShowProposalDTO list)
+AuthClient --> GetCtrl: proposals list received (ObjectDTO)
+GetCtrl --> UI: display proposals (list of ShowProposalDTO)
+
+== User Accepts or Rejects a Proposal ==
+alt Accept Proposal
+    UI -> RespCtrl: acceptProposal(selectedProposalId, feedback?)
+    RespCtrl -> RespDTO: create ResponseDTO(decision="ACCEPT", feedback)
+    RespDTO --> RespCtrl: ResponseDTO created
+    RespCtrl -> AuthClient: send ResponseDTO (accept response)
+    AuthClient -> HandleCtrl: [TCP] forward ResponseDTO (Accept)
+    HandleCtrl -> AnalyseResp: handleProposalResponse(ResponseDTO)
+    AnalyseResp -> Repo: get ShowProposal by id (selectedProposalId)
+    Repo -> Proposal: find proposal by id
+    Proposal --> Repo: ShowProposal object
+    Repo --> AnalyseResp: ShowProposal object
+    alt Proposal found
+        AnalyseResp -> Proposal: set status = ACCEPTED
+        opt feedback provided
+            AnalyseResp -> Proposal: attach feedback to proposal
+        end
+        AnalyseResp -> Repo: update ShowProposal
+        Repo --> AnalyseResp: update result (success or error)
+        alt Update successful
+            AnalyseResp -> RespDTO: prepare ResponseDTO(status="OK", message="Proposal accepted")
+        else Update failed
+            AnalyseResp -> RespDTO: prepare ResponseDTO(status="FAIL", error="Update failed")
+        end
+    else Proposal not found
+        AnalyseResp -> RespDTO: prepare ResponseDTO(status="FAIL", error="Proposal not found")
+    end
+    AnalyseResp --> HandleCtrl: ResponseDTO (result)
+    HandleCtrl -> AuthClient: [TCP] send response (ResponseDTO)
+    AuthClient --> RespCtrl: deliver response (ResponseDTO)
+    RespCtrl --> UI: show confirmation (accepted)
+else Reject Proposal
+    UI -> RespCtrl: rejectProposal(selectedProposalId, feedback?)
+    RespCtrl -> RespDTO: create ResponseDTO(decision="REJECT", feedback)
+    RespDTO --> RespCtrl: ResponseDTO created
+    RespCtrl -> AuthClient: send ResponseDTO (reject response)
+    AuthClient -> HandleCtrl: [TCP] forward ResponseDTO (Reject)
+    HandleCtrl -> AnalyseResp: handleProposalResponse(ResponseDTO)
+    AnalyseResp -> Repo: get ShowProposal by id (selectedProposalId)
+    Repo -> Proposal: find proposal by id
+    Proposal --> Repo: ShowProposal object
+    Repo --> AnalyseResp: ShowProposal object
+    alt Proposal found
+        AnalyseResp -> Proposal: set status = REJECTED
+        opt feedback provided
+            AnalyseResp -> Proposal: attach feedback to proposal
+        end
+        AnalyseResp -> Repo: update ShowProposal
+        Repo --> AnalyseResp: update result (success or error)
+        alt Update successful
+            AnalyseResp -> RespDTO: prepare ResponseDTO(status="OK", message="Proposal rejected")
+        else Update failed
+            AnalyseResp -> RespDTO: prepare ResponseDTO(status="FAIL", error="Update failed")
+        end
+    else Proposal not found
+        AnalyseResp -> RespDTO: prepare ResponseDTO(status="FAIL", error="Proposal not found")
+    end
+    AnalyseResp --> HandleCtrl: ResponseDTO (result)
+    HandleCtrl -> AuthClient: [TCP] send response (ResponseDTO)
+    AuthClient --> RespCtrl: deliver response (ResponseDTO)
+    RespCtrl --> UI: show confirmation (rejected)
+end
+
+@enduml

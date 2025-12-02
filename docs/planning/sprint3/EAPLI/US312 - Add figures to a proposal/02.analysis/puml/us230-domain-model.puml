@@ -1,0 +1,75 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Add Figure to Proposal - Domain Model (US312)
+
+hide circles
+hide methods
+
+package "ShowProposal Aggregate" {
+    class ShowProposal <<AggregateRoot>> {
+        String: id
+        Integer: totalDrones
+        DateTime: creationDate
+    }
+
+    class DroneModelAssignment <<ValueObject>> {
+        Integer: quantity
+    }
+
+    class ShowProposalAuthor <<ValueObject>> {
+        String: userId
+        String: username
+    }
+}
+
+package "FigureExecution Aggregate" {
+    class FigureExecution <<AggregateRoot>> {
+        String: id
+        Integer: sequencePosition
+    }
+
+    class DroneTypeMapping <<ValueObject>> {
+    }
+}
+
+package "Figure Aggregate" {
+    class Figure <<AggregateRoot>> {
+        String: id
+        String: code
+        Boolean: isActive
+        Boolean: isPublic
+    }
+}
+
+package "DroneModel Aggregate" {
+    class DroneModel <<AggregateRoot>> {
+        String: id
+        String: modelName
+        String: capabilities
+    }
+}
+
+package "DroneType Aggregate" {
+    class DroneType <<AggregateRoot>> {
+        String: id
+        String: typeName
+    }
+}
+
+ShowProposal "1" --> "0..*" FigureExecution : contains >
+ShowProposal "1" --> "1..*" DroneModelAssignment : assigns >
+ShowProposal "1" --> "1" ShowProposalAuthor : created by >
+FigureExecution "1" --> "1" Figure : refers >
+FigureExecution "1" --> "1..*" DroneTypeMapping : includes >
+DroneTypeMapping "1" --> "1" DroneType : maps >
+DroneTypeMapping "1" --> "1" DroneModel : to >
+DroneModelAssignment "1" --> "1" DroneModel : refers >
+Figure "0..1" --> "1" Customer : exclusive to >
+Figure "1" --> "1..*" DroneType : requires >
+
+@enduml

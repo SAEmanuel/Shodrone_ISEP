@@ -1,0 +1,72 @@
+@startuml
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam linetype polyline
+skinparam classAttributeIconSize 0
+
+title Class Diagram - Add Figure To Proposal
+
+class Repositories {
+    - Repositories()
+    + getInstance() : Repositories
+    + getFigureRepository() : FigureRepository
+    + getProposalRepository() : ProposalRepository
+}
+
+class AddFigureToProposalUI {
+    + askToAddFigureToProposal()
+    + optionsToSelectFigure(List<Figure> figures)
+    + requestProposalId() : ProposalID
+    + showConfirmation()
+}
+
+class AddFigureToProposalController {
+    + AddFigureToProposalController()
+    + getAvailableFigures() : List<Figure>
+    + addFigureToProposal(ProposalID proposalId, FigureID figureId)
+}
+
+class ProposalRepository {
+    + findById(ProposalID proposalId) : Proposal
+    + save(Proposal proposal)
+}
+
+class FigureRepository {
+    + getAvailableFigures() : List<Figure>
+    + findById(FigureID figureId) : Figure
+}
+
+class Proposal {
+    + addFigure(Figure figure)
+    + getFigures() : List<Figure>
+}
+
+class Figure {
+    + getId() : FigureID
+    + getName() : String
+}
+
+class ProposalID {
+    + getValue() : String
+}
+
+class FigureID {
+    + getValue() : String
+}
+
+AddFigureToProposalUI ..> AddFigureToProposalController : controller
+AddFigureToProposalController ..> Repositories : repositories
+Repositories --> ProposalRepository
+Repositories --> FigureRepository
+
+AddFigureToProposalController ..> ProposalRepository : proposalRepo
+AddFigureToProposalController ..> FigureRepository : figureRepo
+
+ProposalRepository ..> Proposal : manages
+FigureRepository ..> Figure : manages
+
+Proposal --> "0..*" Figure : contains
+Proposal ..> ProposalID : identifiedBy
+Figure ..> FigureID : identifiedBy
+
+@enduml

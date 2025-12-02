@@ -1,0 +1,61 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Figure to the catalogue
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+    SD -> System: login()
+    activate System
+
+    System --> SD: authenticated
+
+    deactivate System
+    SD -> System: ask to register a figure
+
+    activate System
+
+    System --> SD: request data (id, name, description, version, categoryId, ...)
+    deactivate System
+    SD -> System: types requested data (id, name, description, version, categoryId, ...)
+
+    activate System
+
+    System --> SD: show all data registered for confirmation
+    deactivate System
+    SD -> System: registerFigure(id, name, description, version, categoryId, ...)
+
+    activate System
+
+        System -> System: validations(...)
+        activate System
+
+        deactivate System
+
+        alt id invalid, duplicate, or invalid name, description, version, categoryId, ...
+            System --> SD: errorMessage("Invalid or duplicate figure id, or invalid name, description, version, categoryId, ...")
+        else id valid and unique and name, description, version, categoryId, .. valid
+            System -> System: addFigure(id, name, description, version, categoryId, ...)
+            activate System
+            System --> System: figure Object
+            deactivate System
+
+            System --> SD: confirmationMessage("Figure added successfully")
+    deactivate System
+        end
+
+
+
+deactivate SD
+
+
+
+
+@enduml

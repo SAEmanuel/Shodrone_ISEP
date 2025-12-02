@@ -1,0 +1,46 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Maintenance Type
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: requestAddMaintenanceType()
+activate System
+System --> DT: requestMaintenanceTypeName()
+deactivate System
+
+DT -> System: provideMaintenanceTypeName(name)
+activate System
+System --> DT: requestAddDescription()
+deactivate System
+
+DT -> System: confirmDescriptionChoice(hasDescription)
+activate System
+alt hasDescription = true
+    System --> DT: requestDescription()
+    deactivate System
+    DT -> System: provideDescription(description)
+    activate System
+    System -> System: createMaintenanceType(name, description)
+else hasDescription = false
+    System -> System: createMaintenanceTypeWithoutDescription(name)
+end
+
+alt creation successful
+    System --> DT: successMessage("Maintenance type created successfully")
+else name already exists
+    System --> DT: errorMessage("A Maintenance Type with that name already exists")
+end
+deactivate System
+
+deactivate DT
+
+@enduml

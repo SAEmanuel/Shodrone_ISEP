@@ -1,0 +1,31 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Add Figure Category
+
+autonumber
+
+actor "Show Designer" as SD
+participant ":System" as System
+
+activate SD
+
+SD -> System: requests to add a new Figure Category
+activate System
+
+System -> System: validates Category name
+System -> System: checks Category's name uniqueness
+System -> System: validates description
+alt Name duplicate
+    System --> SD: error message (duplicated name)
+else Name and description valid and unique
+    System -> System: saves new category and registers who created it and when
+    System --> SD: informs user about the successful operation
+end
+
+deactivate System
+deactivate SD
+
+@enduml

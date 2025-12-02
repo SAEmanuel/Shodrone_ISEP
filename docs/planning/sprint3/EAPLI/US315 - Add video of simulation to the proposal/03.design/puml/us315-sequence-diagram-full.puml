@@ -1,0 +1,82 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Add Video to Show Proposal (US315)
+
+actor "User" as user
+participant ":AddVideoOfSimulationToTheProposalUI" as UI
+participant ":AddVideoOfSimulationToTheProposalController" as Controller
+participant ":ShowProposalRepository" as Repository
+participant "Drone3DSimulation" as DroneSim
+participant "HttpServer" as HttpServer
+participant "ShowProposal" as ShowProposal
+
+activate user
+
+user -> UI : start adding a Video to Show Proposal
+activate UI
+
+UI -> Controller : getAllProposals()
+activate Controller
+
+Controller -> Repository : getAllProposals()
+activate Repository
+Repository --> Controller : Optional<List<ShowProposal>>
+deactivate Repository
+
+Controller --> UI : List<ShowProposal>
+deactivate Controller
+
+alt listOfProposals not empty
+
+    UI -> user : request video file name
+    user --> UI : inserts file name
+
+    UI -> DroneSim : Drone3DSimulation(fileName)
+    activate DroneSim
+    DroneSim --> UI : simulation ended
+    deactivate DroneSim
+
+    UI -> UI : check existence of video file "drone_<fileName>.mov"
+    alt file exists
+        UI -> UI : read video file into memory
+        UI -> HttpServer : start local server for video preview
+        activate HttpServer
+        HttpServer --> UI : server started
+        deactivate HttpServer
+
+        UI -> user : show list of proposals
+        user --> UI : selects proposal
+
+        UI -> Controller : addVideoToShowProposal(selectedProposal, video)
+        activate Controller
+
+        Controller -> ShowProposal : editVideo(video)
+        Controller -> Repository : saveInStore(showProposal)
+        activate Repository
+        Repository --> Controller : Optional<ShowProposal>
+        deactivate Repository
+
+        Controller --> UI : Optional<ShowProposal>
+        deactivate Controller
+
+        alt result present
+            UI -> user : ✔️ Video added successfully to proposal!
+        else result empty
+            UI -> user : ❌ Something went wrong saving the Show Proposal!
+        end
+
+    else file not found
+        UI -> user : ❌ Video file not found
+    end
+
+else list empty or null
+    UI -> user : ❌ No Show Proposals available. Add them first and try again.
+end
+
+deactivate UI
+deactivate user
+
+@enduml

@@ -1,0 +1,93 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Mark Show Proposal as Accepted (US317)
+
+autonumber
+
+actor "CRM Collaborator" as user
+activate user
+
+participant ":AcceptShowProposalUI" as UI
+participant ":ListShowProposalController" as listCTRL
+participant ":AcceptProposalAndCreateShowController" as CTRL
+participant ":VerifyShowProposalStatusController" as verifier
+participant ":CreateShowController" as showCTRL
+participant ":RepositoryProvider" as repoProvider
+participant ":ShowProposalRepository" as proposalRepo
+participant ":ShowRepository" as showRepo
+participant ":ShowProposal" as proposalEntity
+participant ":Show" as showEntity
+
+== START ==
+
+user -> UI : selects "Accept Show Proposal"
+activate UI
+
+UI -> listCTRL : getAllSentAcceptedProposals()
+activate listCTRL
+
+listCTRL -> repoProvider : showProposalRepository()
+activate repoProvider
+repoProvider --> listCTRL : proposalRepo
+deactivate repoProvider
+
+listCTRL -> proposalRepo : getUpdatedProposals()
+activate proposalRepo
+proposalRepo --> listCTRL : List<ShowProposal>
+deactivate proposalRepo
+deactivate listCTRL
+
+UI -> user : shows filtered proposals
+user -> UI : selects one proposal
+UI -> CTRL : acceptProposalAndCreateShow(proposal)
+activate CTRL
+
+CTRL -> verifier : wasShowProposalSent(proposal)
+activate verifier
+verifier --> CTRL : true
+deactivate verifier
+
+alt [proposal is eligible]
+    CTRL -> proposalEntity : setStatus(COLLABORATOR_APPROVED)
+
+    CTRL -> showCTRL : createShowFromProposal(proposal)
+    activate showCTRL
+
+    showCTRL -> repoProvider : showRepository()
+    activate repoProvider
+    repoProvider --> showCTRL : showRepo
+    deactivate repoProvider
+
+    showCTRL -> showRepo : findDuplicateShow(location, date, customerId)
+    activate showRepo
+    showRepo --> showCTRL : Optional.empty (no duplicate)
+    deactivate showRepo
+
+    showCTRL -> proposalRepo : findByID(proposal.id)
+    activate proposalRepo
+    proposalRepo --> showCTRL : managedProposal
+    deactivate proposalRepo
+
+    showCTRL -> showRepo : saveInStore(show)
+    activate showRepo
+    showRepo --> showCTRL : Optional<Show>
+    deactivate showRepo
+    deactivate showCTRL
+
+    CTRL -> proposalRepo : saveInStore(proposal)
+    activate proposalRepo
+    proposalRepo --> CTRL : success
+    deactivate proposalRepo
+
+    CTRL --> UI : success "Proposal accepted\n Show created (ID)"
+else [proposal invalid or duplicate]
+    CTRL --> UI : error "Cannot accept proposal"
+end
+
+deactivate CTRL
+deactivate UI
+deactivate user
+@enduml

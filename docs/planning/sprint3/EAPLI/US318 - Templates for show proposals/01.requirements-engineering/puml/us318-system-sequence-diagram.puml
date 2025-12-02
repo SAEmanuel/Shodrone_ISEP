@@ -1,0 +1,37 @@
+@startuml
+skinparam monochrome true
+title System Sequence Diagram (SSD) - Register Proposal Template
+
+autonumber
+
+actor "CRM Manager" as CM
+participant "System" as S
+
+CM -> S: Start template registration
+activate S
+
+S -> CM: Request template name
+CM -> S: Provide name
+S -> S: Validate name
+
+S -> CM: Ask for description (yes/no)
+CM -> S: Answer description choice
+
+alt Description chosen
+  S -> CM: Request description
+  CM -> S: Provide description
+  S -> S: Validate description
+end
+
+S -> CM: Request template content
+CM -> S: Submit template text
+S -> S: Validate template fields
+
+alt Validation failed
+  S -> CM: Show missing fields: ${...}
+else Validation passed
+  S -> CM: Confirm template registration
+end
+
+deactivate S
+@enduml

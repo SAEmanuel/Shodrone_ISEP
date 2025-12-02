@@ -1,0 +1,35 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US251: Specification of Language for Figure Description
+autonumber
+
+actor "Product Owner (PO)" as PO
+participant ":Figure Language System" as System
+
+activate PO
+
+    PO -> System: submitFigureDescriptionCode(code)
+    activate System
+
+    System -> System: invokeLexerAndParser(code)
+    activate System
+
+    System -> System: parseProgram()
+    activate System
+
+        System -> System: parseStatements()
+
+        System --> System: parsedAST
+
+    deactivate System
+
+    System --> System: validationResult(success/failure)
+    deactivate System
+
+    System --> PO: feedbackOnParsing(validationResult)
+deactivate PO
+
+@enduml

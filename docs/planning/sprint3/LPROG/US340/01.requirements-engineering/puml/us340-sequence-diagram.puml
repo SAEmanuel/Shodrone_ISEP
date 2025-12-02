@@ -1,0 +1,38 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) – US340: DSL Plugin Deployment and Execution
+autonumber
+
+actor "Show Manager" as SH
+participant ":System" as System
+
+activate SH
+
+== Plugin Deployment ==
+
+SH -> System: uploadDSLPlugin(Figures.g4, VisitorClass)
+activate System
+
+System -> System: generateParserAndVisitor()
+System -> System: storePlugin()
+
+System --> SH: confirmPluginDeployment()
+deactivate System
+
+== DSL Validation ==
+
+SH -> System: submitDSLFile(input.txt)
+activate System
+
+System -> System: parseAndVisit(input.txt)
+System -> System: build DSLFigureModel
+
+System --> SH: parsingFeedback(success/failure, diagnostics)
+deactivate System
+
+deactivate SH
+
+@enduml

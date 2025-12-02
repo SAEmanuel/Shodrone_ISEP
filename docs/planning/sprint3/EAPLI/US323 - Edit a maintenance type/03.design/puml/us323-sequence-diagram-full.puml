@@ -1,0 +1,127 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SD) - Edit a Maintenance Type
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":EditMaintenanceTypeUI" as UI
+participant ":GetMaintenanceTypeController" as GetCTRL
+participant ":EditMaintenanceTypeController" as EditCTRL
+participant "MaintenanceTypeName" as NameVO
+participant "Description" as DescVO
+participant "MaintenanceType" as MT
+participant ":RepositoryProvider" as Provider
+participant ":MaintenanceTypeRepository" as Repo
+participant ":InMemoryMaintenanceTypeRepository" as InMem
+participant ":MaintenanceTypeJPAImpl" as JPA
+
+activate DT
+
+DT -> UI: requests to edit a maintenance type
+activate UI
+
+UI -> GetCTRL : create
+activate GetCTRL
+UI -> GetCTRL: getAllMaintenanceTypes()
+GetCTRL -> Provider : maintenanceTypeRepository()
+activate Provider
+Provider --> GetCTRL: repository
+deactivate Provider
+GetCTRL -> Repo: findAll()
+activate Repo
+alt Repository is InMemoryMaintenanceTypeRepository
+    Repo -> InMem: findAll()
+    activate InMem
+    InMem --> Repo: maintenanceTypesList
+    deactivate InMem
+else Repository is MaintenanceTypeJPAImpl
+    Repo -> JPA: findAll()
+    activate JPA
+    JPA --> Repo: maintenanceTypesList
+    deactivate JPA
+end
+Repo --> GetCTRL: maintenanceTypesList
+deactivate Repo
+GetCTRL --> UI: Optional<maintenanceTypesList>
+deactivate GetCTRL
+
+alt maintenanceTypesList is empty
+    UI --> DT: errorMessage("No maintenance types in the system yet...")
+    deactivate UI
+else maintenanceTypesList is not empty
+    UI --> DT: selectMaintenanceType()
+    DT -> UI: provideMaintenanceTypeSelection(typeIndex)
+    UI -> UI: getMaintenanceType(typeIndex)
+    UI -> UI: confirmEditName()
+    DT -> UI: confirmNameEdit(editName)
+    alt editName = true
+        UI -> NameVO **: Utils.rePromptWhileInvalid()
+        activate NameVO
+        NameVO -> UI: newMaintenanceName
+        deactivate NameVO
+    else
+        note right: skips name edit
+    end
+    UI -> UI: confirmEditDescription()
+    DT -> UI: confirmDescriptionEdit(editDescription)
+    alt editDescription = true
+        UI -> DescVO **: Utils.rePromptWhileInvalid()
+        activate DescVO
+        DescVO -> UI: newDescription
+        deactivate DescVO
+    else
+        note right: skips description edit
+    end
+    alt no changes provided
+        UI --> DT: errorMessage("Nothing has changed...")
+    else changes provided
+        UI -> EditCTRL **: create
+        activate EditCTRL
+        UI -> EditCTRL: editMaintenanceType(maintenanceType, newMaintenanceName, newDescription)
+        EditCTRL -> MT: changeNameTo(newMaintenanceName)
+        activate MT
+        MT --> EditCTRL
+        deactivate MT
+        EditCTRL -> MT: changeDescriptionTo(newDescription)
+        activate MT
+        MT --> EditCTRL
+        deactivate MT
+        EditCTRL -> Provider **: maintenanceTypeRepository()
+        activate Provider
+        Provider --> EditCTRL: repository
+        deactivate Provider
+        EditCTRL -> Repo: updateMaintenanceType(maintenanceType, oldName)
+        activate Repo
+        alt Repository is InMemoryMaintenanceTypeRepository
+            Repo -> InMem: updateMaintenanceType(maintenanceType, oldName)
+            activate InMem
+            InMem -> InMem: remove(oldName.toLowerCase())
+            InMem -> InMem: put(maintenanceType.identity().toLowerCase(), maintenanceType)
+            InMem --> Repo: Optional<MaintenanceType>
+            deactivate InMem
+        else Repository is MaintenanceTypeJPAImpl
+            Repo -> JPA: updateMaintenanceType(maintenanceType, oldName)
+            activate JPA
+            JPA --> Repo: Optional<MaintenanceType>
+            deactivate JPA
+        end
+        Repo --> EditCTRL: Optional<MaintenanceType>
+        deactivate Repo
+        EditCTRL --> UI: Optional<MaintenanceType>
+        deactivate EditCTRL
+        alt update succeeded
+            UI --> DT: successMessage("Maintenance type updated successfully!")
+        else update failed
+            UI --> DT: errorMessage("Failed to update maintenance type!")
+        end
+    end
+end
+
+deactivate UI
+deactivate DT
+
+@enduml

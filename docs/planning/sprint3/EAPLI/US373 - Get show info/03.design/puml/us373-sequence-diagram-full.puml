@@ -1,0 +1,76 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Get Show Info
+
+autonumber
+
+actor "Show Manager" as SM
+participant ":GetShowInfoUI" as UI
+participant ":GetShowInfoController" as Ctrl
+participant ":FindCustomerOfRepresentativeController" as CustomerCtrl
+participant ":FindShows4CustomerController" as ShowCtrl
+participant "RepositoryProvider" as Provider
+participant "CostumerRepository" as CustRepo
+participant "ShowRepository" as ShowRepo
+
+activate SM
+
+SM -> UI : request to retrieve shows
+activate UI
+
+UI -> Ctrl : getCustomerNIFOfTheRepresentativeAssociated(email)
+activate Ctrl
+
+Ctrl -> CustomerCtrl : getCustomerIDbyHisEmail(email)
+activate CustomerCtrl
+
+CustomerCtrl -> Provider : costumerRepository()
+activate Provider
+
+Provider --> CustomerCtrl : CostumerRepository
+deactivate Provider
+
+CustomerCtrl -> CustRepo : findByNIF(emailNIF)
+activate CustRepo
+
+CustRepo --> CustomerCtrl : Optional<Costumer>
+deactivate CustRepo
+
+CustomerCtrl --> Ctrl : Optional<NIF>
+deactivate CustomerCtrl
+
+Ctrl -> ShowCtrl : getShows4Customer(customerNIF)
+activate ShowCtrl
+
+ShowCtrl -> Provider : showRepository()
+activate Provider
+
+Provider --> ShowCtrl : ShowRepository
+deactivate Provider
+
+ShowCtrl -> ShowRepo : findByCostumer(Costumer)
+activate ShowRepo
+
+ShowRepo --> ShowCtrl : Optional<List<Show>>
+deactivate ShowRepo
+
+ShowCtrl --> Ctrl : Optional<List<ShowDTO>>
+deactivate ShowCtrl
+
+Ctrl --> UI : Optional<List<ShowDTO>>
+deactivate Ctrl
+
+alt show list is empty
+    UI -> SM : ✖ No shows found for associated customer
+else show list available
+    UI -> SM : Display paginated list of shows
+    SM -> UI : selects show
+    UI -> SM : show selected ShowDTO info
+end
+
+deactivate UI
+deactivate SM
+@enduml

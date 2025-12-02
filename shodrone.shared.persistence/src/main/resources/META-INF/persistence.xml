@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+  <persistence-unit name="shodrone_backoffice">
+    <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+    <class>domain.entity.AuditLogEntry</class>
+    <class>domain.entity.Costumer</class>
+    <class>domain.entity.CustomerRepresentative</class>
+    <class>domain.entity.Drone</class>
+    <class>domain.valueObjects.DroneRemovalLog</class>
+    <class>domain.entity.DroneModel</class>
+    <class>domain.valueObjects.WindTolerance</class>
+    <class>domain.entity.Figure</class>
+    <class>domain.entity.FigureCategory</class>
+    <class>domain.entity.ShowRequest</class>
+    <class>domain.entity.UserRole</class>
+    <class>domain.entity.User</class>
+    <class>domain.entity.ShowProposal</class>
+    <class>domain.entity.ProposalTemplate</class>
+    <class>domain.entity.MaintenanceType</class>
+    <class>domain.valueObjects.MaintenanceTypeName</class>
+    <class>domain.entity.Show</class>
+
+    <properties>
+      <!-- JDBC config -->
+      <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+      <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://10.9.23.21:5432/shodrone_db"/>
+      <property name="jakarta.persistence.jdbc.user" value="user"/>
+      <property name="jakarta.persistence.jdbc.password" value="password"/>
+
+      <!-- Hibernate dialect -->
+      <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+
+      <!-- Schema generation -->
+      <!-- USE THIS INSTEAD OF jakarta.persistence.schema-generation.database.action -->
+      <property name="hibernate.hbm2ddl.auto" value="update"/>
+
+      <!-- show SQL in console -->
+      <property name="hibernate.show_sql" value="false"/>
+      <property name="hibernate.format_sql" value="false"/>
+    </properties>
+  </persistence-unit>
+</persistence>

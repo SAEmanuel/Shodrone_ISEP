@@ -1,0 +1,83 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Figure Description Language Domain Model
+
+hide circles
+hide methods
+
+package "DSL Core" {
+
+    class Program {
+    }
+
+    class Statement {
+    }
+
+    class DroneType {
+    }
+
+    class Variable {
+    }
+
+    class Instantiation {
+    }
+
+    class Segment {
+    }
+
+    class FunctionCall {
+    }
+
+    class PauseStatement {
+    }
+
+    class Argument {
+    }
+
+    class Expression {
+    }
+
+    class Vector {
+    }
+
+    class Number {
+    }
+
+    class Color {
+    }
+
+    class Constant {
+    }
+}
+
+Program "1" -- "*" Statement : contains >
+Statement <|-- DroneType
+Statement <|-- Variable
+Statement <|-- Instantiation
+Statement <|-- Segment
+Statement <|-- FunctionCall
+Statement <|-- PauseStatement
+
+Instantiation "1" -- "0..*" Argument : has >
+FunctionCall "1" -- "0..*" Argument : has >
+Variable "1" -- "1" Expression : uses >
+
+Segment "1" -- "*" Statement : contains >
+
+Argument <|-- Identifier
+Argument <|-- Vector
+Argument <|-- Expression
+Argument <|-- Color
+
+Expression "1" -- "*" Number : composedOf >
+Expression "1" -- "*" Constant : composedOf >
+Expression "1" -- "*" Expression : composedOf >
+
+Vector "1" -- "3" Number : components >
+
+@enduml

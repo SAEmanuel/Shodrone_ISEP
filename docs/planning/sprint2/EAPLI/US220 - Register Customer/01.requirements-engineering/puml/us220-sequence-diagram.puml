@@ -1,0 +1,57 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US220 - Register Customer
+
+autonumber
+
+actor "CRM Collaborator" as Collaborator
+participant ":RegisterCustomerUI" as UI
+participant ":RegisterCustomerController" as CustomerController
+participant ":RegisterRepresentativeController" as RepController
+participant ":CostumerRepository" as CustomerRepo
+participant ":CustomerRepresentativeRepository" as RepRepo
+participant ":RegisterUserController" as UserController
+
+== Start ==
+
+Collaborator -> UI : run()
+activate UI
+
+UI -> CustomerController : registerCustomer(name, email, phone, nif, address)
+activate CustomerController
+
+CustomerController -> CustomerRepo : saveInStore(Customer, nif)
+activate CustomerRepo
+CustomerRepo --> CustomerController : Optional<Customer>
+deactivate CustomerRepo
+CustomerController --> UI : Optional<Customer>
+deactivate CustomerController
+
+alt Customer was saved
+    UI -> RepController : registerRepresentative(customer, repName, repEmail, repPhone, position, password)
+    activate RepController
+
+    RepController -> RepRepo : save(Representative)
+    activate RepRepo
+    RepRepo --> RepController : void
+    deactivate RepRepo
+
+    RepController -> UserController : registerUser(name, email, password, role)
+    activate UserController
+    UserController --> RepController : boolean
+    deactivate UserController
+
+    RepController --> UI : boolean
+    deactivate RepController
+
+    UI --> Collaborator : success message
+
+else Customer already exists
+    UI --> Collaborator : error message
+end
+
+deactivate UI
+@enduml

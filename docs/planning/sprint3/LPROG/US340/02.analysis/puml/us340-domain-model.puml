@@ -1,0 +1,40 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title US340 - Figure Aggregate with DSL Domain Model
+
+hide circles
+hide methods
+
+package "FigureAggregate" {
+    ' Aggregate root
+    class Figure {
+    }
+
+    ' Value Object DSL encapsulating parser and model
+    class DSL {
+        +antlrGrammar: String
+        +visitorClass: String
+        +parser: Object
+        +model: DSLFigureModel
+    }
+
+    class DSLFigureModel {
+        +version: String
+        +droneTypes: Map<String, DroneType>
+        +positions: Map<String, Position>
+        +velocities: Map<String, Velocity>
+        +distances: Map<String, Distance>
+        +shapes: Map<String, Shape>
+        +blocks: List<MovementBlock>
+    }
+}
+
+FigureAggregate.Figure "1" -- "1" FigureAggregate.DSL : has >
+FigureAggregate.DSL "1" -- "1" FigureAggregate.DSLFigureModel : builds >
+
+@enduml

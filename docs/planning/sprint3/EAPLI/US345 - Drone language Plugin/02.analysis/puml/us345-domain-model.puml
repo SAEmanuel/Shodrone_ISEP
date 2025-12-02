@@ -1,0 +1,47 @@
+@startuml
+' Domain Model for US345 - Drone Language Plugin
+
+skinparam classAttributeIconSize 0
+skinparam style strictuml
+
+package "domain.entity" {
+    class DroneModel {
+        - id : DroneModelId
+        - name : String
+        - languageName : String
+        ...
+    }
+
+    class DroneProgram {
+        - id : DroneProgramId
+        - droneModel : DroneModel
+        - code : String
+        ...
+    }
+}
+
+package "plugin" {
+    interface DroneLangPlugin {
+        + getLanguageName() : String
+        + validateCode(code : String) : boolean
+        + getErrorMessage() : String
+    }
+
+    class PythonPlugin
+    class LuaPlugin
+    class PluginManager {
+        - plugins : Map<String, DroneLangPlugin>
+        + registerPlugin(plugin : DroneLangPlugin)
+        + getPlugin(language : String) : DroneLangPlugin
+    }
+
+    DroneLangPlugin <|.. PythonPlugin
+    DroneLangPlugin <|.. LuaPlugin
+}
+
+DroneModel --> "1" DroneProgram : uses
+DroneModel --> "1" DroneLangPlugin : validated by
+PluginManager --> DroneLangPlugin : manages >
+DroneProgram --> DroneLangPlugin : validated through
+
+@enduml

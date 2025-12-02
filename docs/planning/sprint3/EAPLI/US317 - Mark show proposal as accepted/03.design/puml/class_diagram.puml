@@ -1,0 +1,94 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+title US317 - Mark Show Proposal as Accepted - Class Diagram
+
+package "domain.entity" {
+    class ShowProposal {
+        - ShowProposalId id
+        - ShowRequest showRequest
+        - ShowProposalStatus status
+        + setStatus(status): void
+        + getStatus(): ShowProposalStatus
+        + getShowRequest(): ShowRequest
+        + identity(): Long
+    }
+
+    class Show {
+        + identity(): Long
+    }
+
+    class ShowRequest {
+        + getCostumer(): Customer
+        + identity(): Long
+    }
+
+    class Customer {
+        + identity(): Long
+    }
+
+    class ShowProposalStatus
+    class ShowProposalId
+}
+
+package "controller.show" {
+    class AcceptProposalAndCreateShowController {
+        + acceptProposalAndCreateShow(proposal): Optional<Show>
+    }
+
+    class CreateShowController {
+        + createShowFromProposal(proposal): Optional<Show>
+    }
+}
+
+package "controller.showproposal" {
+    class ListShowProposalController {
+        + getAllSentAcceptedProposals(): List<ShowProposal>
+    }
+
+    class VerifyShowProposalStatusController {
+        + wasShowProposalSent(proposal): boolean
+    }
+}
+
+package "persistence" {
+    interface ShowProposalRepository {
+        + getAllProposals(): Optional<List<ShowProposal>>
+        + saveInStore(proposal): Optional<ShowProposal>
+        + findByID(id): Optional<ShowProposal>
+    }
+
+    interface ShowRepository {
+        + findDuplicateShow(location, date, customerID): Optional<Show>
+        + saveInStore(show): Optional<Show>
+    }
+}
+
+package "ui.showproposal" {
+    class AcceptShowProposalUI {
+        - AcceptProposalAndCreateShowController controller
+        - ListShowProposalController listController
+        + run(): void
+    }
+}
+
+' Associations
+AcceptProposalAndCreateShowController --> VerifyShowProposalStatusController : validates
+AcceptProposalAndCreateShowController --> CreateShowController : delegates
+AcceptProposalAndCreateShowController --> ShowProposalRepository : saves proposal
+AcceptProposalAndCreateShowController --> Show : returns
+
+CreateShowController --> ShowRepository : persists
+CreateShowController --> ShowProposalRepository : loads proposal
+CreateShowController --> ShowRequest : reads
+ShowRequest --> Customer : belongs to
+
+AcceptShowProposalUI --> AcceptProposalAndCreateShowController : uses
+AcceptShowProposalUI --> ListShowProposalController : uses
+ListShowProposalController --> ShowProposalRepository : queries
+
+ShowProposal --> ShowProposalId
+ShowProposal --> ShowProposalStatus
+ShowProposal --> ShowRequest
+
+@enduml

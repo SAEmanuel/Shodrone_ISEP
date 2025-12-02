@@ -1,0 +1,33 @@
+@startuml
+actor "Customer" as Actor
+participant "Customer App" as App
+participant "TCPClient" as Client
+participant "TCPServer" as Server
+participant "CheckShowDatesController" as Controller
+database "ShowRequestRepository" as Repo
+
+== Cliente solicita shows ==
+
+Actor -> App : Select "Check My Show Dates"
+App -> Client : Send request with Customer NIF
+Client -> Server : JSON ObjectDTO (action: "CHECK_SHOW_DATES", nif)
+
+== Servidor processa o pedido ==
+
+Server -> Controller : getShowsByCustomer(nif)
+Controller -> Repo : findByCustomer(nif)
+Repo --> Controller : List<ShowRequest>
+
+alt No Shows Found
+    Controller --> Server : JSON ObjectDTO (message: "No scheduled shows found for your account.")
+    Server --> Client : response
+    Client --> App : Show message
+else Shows Found
+    Controller -> Controller : Filter out CANCELLED
+    Controller -> Controller : Sort by date ascending
+    Controller -> Controller : Map to List<ShowDTO>
+    Controller --> Server : JSON ObjectDTO (list of shows)
+    Server --> Client : response
+    Client --> App : Show list of shows
+end
+@enduml

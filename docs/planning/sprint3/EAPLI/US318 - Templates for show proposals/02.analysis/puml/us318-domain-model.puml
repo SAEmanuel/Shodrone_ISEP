@@ -1,0 +1,23 @@
+@startuml
+skinparam monochrome true
+title Proposal Template Domain Model
+
+class ProposalTemplate {
+    - id: Long
+    - name: Name
+    - text: List<String>
+    - description: Description
+    - createdAt: LocalDateTime
+}
+
+class Name <<ValueObject>> {
+    - value: String
+}
+
+class Description <<ValueObject>> {
+    - value: String
+}
+
+ProposalTemplate ..> Name
+ProposalTemplate ..> Description
+@enduml

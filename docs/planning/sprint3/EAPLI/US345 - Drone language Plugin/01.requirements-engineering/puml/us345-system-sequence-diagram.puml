@@ -1,0 +1,22 @@
+@startuml
+' System Sequence Diagram for US345 - Drone Language Plugin
+
+actor "Drone Tech" as Tech
+participant ":System" as System
+participant "PluginManager" as Manager
+participant "DroneLangPlugin" as Plugin
+
+Tech -> System: login()
+System -> Tech: authenticated
+Tech -> System: registerPlugin(plugin, languageName)
+System -> Manager: addPlugin(languageName, plugin)
+Manager -> Plugin: validateStructure()
+alt valid plugin
+Manager -> System: OK
+System -> Tech: "Plugin registered successfully"
+else invalid plugin
+Manager -> System: "Invalid plugin"
+System -> Tech: error message
+end
+
+@enduml

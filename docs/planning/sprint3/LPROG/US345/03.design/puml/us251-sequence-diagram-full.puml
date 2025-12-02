@@ -1,0 +1,55 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - US345: Drone Language Plugin Deployment and Validation
+autonumber
+
+actor "User / System" as User
+participant ":PluginManager" as PluginManager
+participant ":DroneLanguagePlugin" as Plugin
+participant ":ANTLR Lexer and Parser" as ANTLR
+participant ":DroneOneValidator" as Validator
+
+activate User
+
+    User -> PluginManager: submitDroneProgram(code, language)
+    activate PluginManager
+
+    PluginManager -> PluginManager: selectPlugin(language)
+    PluginManager -> Plugin: analyzeProgram(code)
+    activate Plugin
+
+    Plugin -> ANTLR: createLexer(code)
+    activate ANTLR
+
+    ANTLR -> ANTLR: tokenizeCode()
+    ANTLR -> ANTLR: createParser(tokens)
+    ANTLR -> ANTLR: removeDefaultErrorListeners()
+    ANTLR -> ANTLR: addDiagnosticErrorListener()
+
+    ANTLR -> ANTLR: parseProgram()
+    ANTLR --> Plugin: parseTree / syntaxErrors?
+    deactivate ANTLR
+
+    alt syntaxErrors > 0
+        Plugin --> PluginManager: ValidationResult(false, "Erro(s) de sintaxe detectado(s)")
+        deactivate Plugin
+    else no syntax errors
+        Plugin -> Validator: visit(parseTree)
+        activate Validator
+
+        Validator --> Plugin: semanticValidationResult
+        deactivate Validator
+
+        Plugin --> PluginManager: ValidationResult(true, "Programa válido!")
+        deactivate Plugin
+    end
+
+    PluginManager --> User: ValidationResult(success/failure)
+    deactivate PluginManager
+
+deactivate User
+
+@enduml

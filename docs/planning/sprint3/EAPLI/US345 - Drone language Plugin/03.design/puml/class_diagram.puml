@@ -1,0 +1,48 @@
+@startuml
+' Class Diagram for US345 - Drone Language Plugin
+
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+
+package "domain.entity" {
+    class DroneModel {
+        - id : DroneModelId
+        - name : String
+        - languageName : String
+        ...
+    }
+
+    class DroneProgram {
+        - id : DroneProgramId
+        - droneModel : DroneModel
+        - code : String
+        ...
+    }
+}
+
+package "plugin" {
+    interface DroneLangPlugin {
+        + getLanguageName() : String
+        + validateCode(code : String) : boolean
+        + getErrorMessage() : String
+    }
+
+    class PythonPlugin
+    class LuaPlugin
+
+    class PluginManager {
+        - plugins : Map<String, DroneLangPlugin>
+        + registerPlugin(plugin : DroneLangPlugin)
+        + getPlugin(language : String) : DroneLangPlugin
+    }
+
+    DroneLangPlugin <|.. PythonPlugin
+    DroneLangPlugin <|.. LuaPlugin
+}
+
+DroneModel --> DroneProgram : "creates >"
+DroneModel --> DroneLangPlugin : "validated by >"
+DroneProgram --> DroneLangPlugin : "uses >"
+PluginManager --> DroneLangPlugin : "manages >"
+
+@enduml

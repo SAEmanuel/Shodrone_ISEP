@@ -1,0 +1,63 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Create Drone Model
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: provideModelID()
+activate System
+System -> System: validateModelID()
+System --> DT: promptForNextInput()
+deactivate System
+
+DT -> System: provideName()
+activate System
+System -> System: validateName()
+System --> DT: promptForNextInput()
+deactivate System
+
+DT -> System: provideHasDescription()
+activate System
+System -> System: processHasDescription()
+alt hasDescription is true
+    DT -> System: provideDescription()
+    activate System
+    System -> System: validateDescription()
+    System --> DT: promptForNextInput()
+    deactivate System
+else hasDescription is false
+    System --> DT: promptForNextInput()
+end
+deactivate System
+
+DT -> System: provideMaxWindSpeed()
+activate System
+System -> System: validateMaxWindSpeed()
+System --> DT: processCreation()
+activate System
+System -> System: checkModelIDUniqueness()
+alt ModelID already exists
+    System --> DT: errorMessage("A Drone Model with that ID already exists!")
+else ModelID is unique
+    alt hasDescription is true
+        System -> System: createDroneModelWithDescription(modelID, name, description, maxWindSpeed)
+    else
+        System -> System: createDroneModelNoDescription(modelID, name, maxWindSpeed)
+    end
+    System -> System: saveDroneModel()
+    System --> DT: successMessage("Drone Model created successfully!")
+end
+deactivate System
+deactivate System
+
+deactivate DT
+
+@enduml

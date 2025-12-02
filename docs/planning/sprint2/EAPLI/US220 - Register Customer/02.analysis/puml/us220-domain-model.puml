@@ -1,0 +1,92 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title Register Customer - Domain Model (US220)
+
+hide circles
+hide methods
+
+package "Customer Management Subsystem" {
+
+    class Costumer {
+        Name: name
+        EmailAddress: email
+        PhoneNumber: phone
+        NIF: nif
+        Address: address
+    }
+
+    class CustomerRepresentative {
+        Name: name
+        Email: email
+        PhoneNumber: phone
+        String: position
+    }
+
+    class Name {
+        String: value
+    }
+
+    class EmailAddress {
+        String: value
+    }
+
+    class NIF {
+        String: value
+    }
+
+    class Address {
+        String: fullAddress
+    }
+
+    class PhoneNumber {
+        String: value
+    }
+
+    class Email {
+        String: email
+    }
+
+    interface CostumerRepository {
+        +saveInStore(Costumer, NIF): Optional<Costumer>
+    }
+
+    interface CustomerRepresentativeRepository {
+        +save(CustomerRepresentative): void
+    }
+
+    class RegisterCustomerController {
+        +registerCustomer(...): Optional<Costumer>
+    }
+
+    class RegisterRepresentativeController {
+        +registerRepresentative(...): boolean
+    }
+
+    class RegisterUserController {
+        +registerUser(...): boolean
+    }
+
+    RegisterCustomerController --> CostumerRepository : uses >
+    RegisterCustomerController --> Costumer : creates >
+
+    RegisterRepresentativeController --> CustomerRepresentativeRepository : uses >
+    RegisterRepresentativeController --> CustomerRepresentative : creates >
+    RegisterRepresentativeController --> RegisterUserController : delegates >
+
+    Costumer "1" --> "*" CustomerRepresentative : has >
+    Costumer --> Name
+    Costumer --> EmailAddress
+    Costumer --> PhoneNumber
+    Costumer --> NIF
+    Costumer --> Address
+
+    CustomerRepresentative --> Name
+    CustomerRepresentative --> Email
+    CustomerRepresentative --> PhoneNumber
+}
+
+@enduml

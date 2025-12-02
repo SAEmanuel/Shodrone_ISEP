@@ -1,0 +1,69 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Add Figure To Proposal
+
+autonumber
+
+actor "CRM Collaborator" as crmColl
+participant ":AddFigureToProposalUI" as UI
+participant ":AddFigureToProposalController" as CTRL
+participant "repositoryProvider\n:RepositoryProvider" as repoProvider
+participant "figureRepository\n:FigureRepository" as figRepo
+participant "proposalRepository\n:ProposalRepository" as propRepo
+participant "figure\n:Figure" as figure
+participant "proposal\n:Proposal" as proposal
+
+activate crmColl
+
+crmColl -> UI : ask to add figure to proposal
+activate UI
+
+UI -> CTRL : create
+UI -> CTRL : getFigureRepository()
+activate CTRL
+CTRL -> repoProvider : figureRepository()
+activate repoProvider
+repoProvider --> CTRL : figRepo
+deactivate repoProvider
+deactivate CTRL
+
+UI -> CTRL : getProposalRepository()
+activate CTRL
+CTRL -> repoProvider : proposalRepository()
+activate repoProvider
+repoProvider --> CTRL : propRepo
+deactivate repoProvider
+deactivate CTRL
+
+UI -> figRepo : getAvailableFigures()
+activate figRepo
+figRepo --> UI : listAvailableFigures
+deactivate figRepo
+
+UI --> crmColl : options to select figure
+deactivate UI
+
+crmColl -> UI : selects figure and proposal
+activate UI
+
+UI -> figRepo : findById(figureID)
+activate figRepo
+figRepo --> UI : figure
+deactivate figRepo
+
+UI -> propRepo : findById(proposalID)
+activate propRepo
+propRepo --> UI : proposal
+deactivate propRepo
+
+UI -> proposal : addFigure(figure)
+UI -> propRepo : save(proposal)
+
+UI --> crmColl : confirmation of figure addition to proposal
+deactivate UI
+
+deactivate crmColl
+@enduml

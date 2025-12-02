@@ -1,0 +1,84 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Register Proposal Template
+
+autonumber
+
+actor "CRM Manager" as CM
+participant ":RegisterProposalTemplateUI" as UI
+participant ":RegisterProposalTemplateController" as CTRL
+participant "RepositoryProvider" as Provider
+participant "ProposalTemplateRepository" as Repo
+participant "InMemoryProposalTemplateRepository" as InMemRepo
+participant "ProposalTemplateJPAImpl" as JpaRepo
+participant "ProposalTemplate" as Entity
+participant ":TemplatePlugin" as Validator
+
+activate CM
+CM -> UI : request to register a new Proposal Template
+activate UI
+
+UI -> CM : prompts for name and description
+CM -> UI : enters name and description (optional)
+UI -> CM : prompts for template content
+CM -> UI : submits template content
+
+UI -> CTRL : registerProposalTemplate(name, description, content, missingFields)
+activate CTRL
+
+CTRL -> Validator : validate(content)
+activate Validator
+Validator -> Validator : checks template syntax and required fields
+Validator --> CTRL : List<String> missingFields
+deactivate Validator
+
+alt missing fields
+    CTRL --> UI : returns error with missingFields
+    UI -> CM : displays error message
+    deactivate UI
+    deactivate CM
+
+end
+
+CTRL -> Provider : proposalTemplateRepository()
+activate Provider
+Provider --> CTRL : ProposalTemplateRepository
+deactivate Provider
+
+CTRL -> Repo : save(new ProposalTemplate(name, description, content))
+activate Repo
+
+alt using InMemoryProposalTemplateRepository
+    Repo -> InMemRepo : save()
+    activate InMemRepo
+    InMemRepo -> InMemRepo : validates and stores new template
+    InMemRepo --> Repo : Optional<ProposalTemplate>
+    deactivate InMemRepo
+else using ProposalTemplateJPAImpl
+    Repo -> JpaRepo : save()
+    activate JpaRepo
+    JpaRepo -> JpaRepo : validates and persists new template
+    JpaRepo --> Repo : Optional<ProposalTemplate>
+    deactivate JpaRepo
+end
+
+Repo -> CTRL : Optional<ProposalTemplate>
+deactivate Repo
+
+CTRL --> UI : Optional<ProposalTemplate>
+    deactivate CTRL
+deactivate CTRL
+
+activate UI
+alt success
+    UI -> CM : displays success message
+else failure
+    UI -> CM : displays error message
+end
+
+deactivate UI
+deactivate CM
+@enduml

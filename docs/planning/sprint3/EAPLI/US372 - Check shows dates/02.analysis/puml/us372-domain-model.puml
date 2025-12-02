@@ -1,0 +1,60 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Show and Customer Domain Model Section (US372)
+
+hide circles
+hide methods
+
+package "Customer Aggregate" {
+    class Customer <<AggregateRoot>> {
+        String: id
+        String: name
+        String: email
+        List<Show>: shows
+    }
+}
+
+package "Show Aggregate" {
+    class Show <<AggregateRoot>> {
+        String: id
+        Integer: numberOfDrones
+        Integer: duration
+        DateTime: date
+        String: description
+        List<Figure>: figures
+    }
+
+    class Location <<ValueObject>> {
+        Double: latitude
+        Double: longitude
+        Double: altitude
+        String: place
+    }
+
+    class ShowStatus <<ValueObject>> {
+        String: value
+        DateTime: timestamp
+    }
+}
+
+package "Figure Aggregate" {
+    class Figure <<AggregateRoot>> {
+        String: id
+        String: code
+        Boolean: isActive
+        Boolean: isPublic
+    }
+}
+
+Customer "1" --- "0..*" Show : owns >
+Show "1" --- "1" Location : has >
+Show "1" --- "1..*" ShowStatus : tracks >
+Show "1" --- "0..*" Figure : includes >
+Figure "0..1" --- "1" Customer : exclusive to >
+
+@enduml

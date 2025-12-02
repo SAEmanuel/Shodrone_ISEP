@@ -1,0 +1,78 @@
+@startuml
+
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+left to right direction
+
+title Drone Language Plugin Domain Model (US345)
+
+hide circles
+hide methods
+
+package "Drone Language Plugin Core" {
+
+    class DroneLanguagePlugin {
+        +analyzeProgram(code: String): ValidationResult
+    }
+
+    class ValidationResult {
+        -valid: boolean
+        -message: String
+        +isValid(): boolean
+        +getMessage(): String
+    }
+
+    class ANTLRLexer {
+    }
+
+    class ANTLRParser {
+    }
+
+    class ParseTree {
+    }
+
+    class DroneOneValidator {
+        +visit(tree: ParseTree)
+    }
+
+    class PluginManager {
+        +selectPlugin(language: String): DroneLanguagePlugin
+        +submitProgram(code: String, language: String): ValidationResult
+    }
+
+    class DroneProgram {
+        -code: String
+    }
+
+    class ErrorReporting {
+        +reportError(line: int, column: int, message: String)
+    }
+
+    class DiagnosticErrorListener {
+    }
+
+    class TokenStream {
+    }
+}
+
+DroneLanguagePlugin --> ValidationResult : returns >
+DroneLanguagePlugin --> ANTLRLexer : uses >
+DroneLanguagePlugin --> ANTLRParser : uses >
+DroneLanguagePlugin --> ParseTree : produces >
+DroneLanguagePlugin --> DiagnosticErrorListener : uses >
+DroneLanguagePlugin --> DroneOneValidator : uses >
+
+PluginManager --> DroneLanguagePlugin : manages >
+PluginManager --> ValidationResult : returns >
+PluginManager --> DroneProgram : manages >
+
+ParseTree --> DroneOneValidator : visitedBy >
+
+DroneProgram "1" -- "1" DroneLanguagePlugin : analyzedBy >
+
+DroneLanguagePlugin --> TokenStream : uses >
+
+DroneLanguagePlugin --> ErrorReporting : uses >
+
+@enduml

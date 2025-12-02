@@ -1,0 +1,40 @@
+@startuml
+' Sequence Diagram for US345 - Drone Language Plugin
+
+actor "Drone Tech" as Tech
+participant "DroneProgramService" as Service
+participant "PluginManager" as Manager
+participant "DroneLangPlugin" as Plugin
+participant "DroneModel" as Model
+participant "DroneProgram" as Program
+
+== Plugin Registration ==
+
+Tech -> Manager: registerPlugin(plugin : DroneLangPlugin)
+Manager -> Manager: store plugin by language
+Manager --> Tech: confirmation
+
+== Program Validation ==
+
+Tech -> Service: validateProgram(programId)
+
+Service -> Program: getDroneModel()
+Program --> Service: DroneModel
+
+Service -> Model: getLanguageName()
+Model --> Service: "Python"
+
+Service -> Manager: getPlugin("Python")
+Manager --> Plugin: return plugin instance
+
+Service -> Plugin: validateCode(code)
+Plugin --> Service: true/false
+
+alt valid code
+Service --> Tech: "Validation succeeded"
+else invalid code
+Plugin -> Service: getErrorMessage()
+Service --> Tech: "Validation failed: <error>"
+end
+
+@enduml

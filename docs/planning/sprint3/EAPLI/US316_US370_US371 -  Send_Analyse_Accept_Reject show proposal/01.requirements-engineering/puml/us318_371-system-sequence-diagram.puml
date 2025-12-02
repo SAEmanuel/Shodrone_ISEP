@@ -1,0 +1,43 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Send/Accept/Reject Show Proposal
+
+autonumber
+
+actor "CRM Collaborator" as CRM
+actor "Customer Representative" as CR
+participant ":System" as System
+
+== CRM sends a proposal ==
+
+activate CRM
+CRM -> System: requests to send a show proposal
+activate System
+
+System -> System: generates proposal document
+System -> System: attaches video link (if available)
+System -> System: updates proposal status to STAND_BY
+System -> System: saves who sent it and when (audit)
+System --> CRM: informs of successful sending
+deactivate CRM
+
+== Customer Representative accepts/rejects ==
+
+activate CR
+CR -> System: views received proposals
+System -> System: retrieves proposals for the customer representative
+System --> CR: shows list of proposals
+
+CR -> System: sends accept or reject decision
+System -> System: updates proposal status to ACCEPTED or REJECTED
+System -> System: stores feedback (if provided)
+System -> System: logs who made the decision and when (audit)
+System --> CR: confirmation of decision saved
+
+deactivate CR
+deactivate System
+
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title US340 Sequence Diagram - DSL Plugin Parsing and Validation
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":DroneFigureSystem" as System
+participant ":DSLPlugin" as Plugin
+participant ":FiguresLexer" as Lexer
+participant ":FiguresParser" as Parser
+participant ":DSLFigureVisitor" as Visitor
+
+activate DT
+
+    DT -> System : submitDSLFile(input.txt)
+    activate System
+
+    System -> Plugin : parseAndVisit(input.txt)
+    activate Plugin
+
+        Plugin -> Lexer : create(input.txt), tokenize()
+        activate Lexer
+
+        Lexer --> Plugin : tokens
+        deactivate Lexer
+
+        Plugin -> Parser : parseTokens(tokens)
+        activate Parser
+
+        Parser --> Plugin : parseTree
+        deactivate Parser
+
+        Plugin -> Visitor : visitParseTree(parseTree)
+        activate Visitor
+
+        Visitor --> Plugin : DSLFigureModel or errors
+        deactivate Visitor
+
+    Plugin --> System : validationResult(model or errors)
+    deactivate Plugin
+
+    System --> DT : parsingFeedback(success or failure, diagnostics)
+
+deactivate System
+deactivate DT
+
+@enduml

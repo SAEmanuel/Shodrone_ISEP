@@ -1,0 +1,55 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title System Sequence Diagram (SSD) - Edit a Maintenance Type
+
+autonumber
+
+actor "Drone Tech" as DT
+participant ":System" as System
+
+activate DT
+
+DT -> System: requests to edit a maintenance type
+activate System
+System -> System: retrieveMaintenanceTypes()
+alt no maintenance types exist
+    System --> DT: errorMessage("No maintenance types in the system yet")
+    deactivate System
+else maintenance types exist
+    System --> DT: selectMaintenanceType()
+    DT -> System: provideMaintenanceTypeSelection(identifier)
+    System --> DT: confirmEditName()
+    DT -> System: confirmNameEdit(editName)
+    alt editName = true
+        System --> DT: requestNewName()
+        DT -> System: provideNewName(newName)
+    else
+        note right: skips name edit
+    end
+    System --> DT: confirmEditDescription()
+    DT -> System: confirmDescriptionEdit(editDescription)
+    alt editDescription = true
+        System --> DT: requestNewDescription()
+        DT -> System: provideNewDescription(newDescription)
+    else
+        note right: skips description edit
+    end
+    alt no changes provided
+        System --> DT: errorMessage("Nothing has changed")
+    else changes provided
+        System -> System: updateMaintenanceType(newName, newDescription)
+        alt update successful
+            System --> DT: successMessage("Maintenance type updated successfully")
+        else update failed
+            System --> DT: errorMessage("Failed to update maintenance type")
+        end
+    end
+    deactivate System
+end
+
+deactivate DT
+
+@enduml

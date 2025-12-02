@@ -1,0 +1,51 @@
+@startuml
+skinparam monochrome true
+skinparam packageStyle rectangle
+skinparam shadowing false
+
+title UI Sequence Diagram (SSD) - Figure Description Language Parsing and Validation
+
+autonumber
+
+actor "Product Owner" as PO
+participant ":FigureDescriptionUI" as UI
+participant ":FiguresParserFacade" as ParserFacade
+participant ":FiguresParser" as Parser
+participant ":FiguresLexer" as Lexer
+participant ":FiguresLanguageService" as LangService
+
+activate PO
+
+    PO -> UI : inputs figure description code
+    activate UI
+
+    UI -> ParserFacade : parse(code)
+    activate ParserFacade
+
+        ParserFacade -> Lexer : tokenize(code)
+        activate Lexer
+
+        Lexer --> ParserFacade : tokens
+        deactivate Lexer
+
+        ParserFacade -> Parser : parseTokens(tokens)
+        activate Parser
+
+        Parser --> ParserFacade : parseTree or errors
+        deactivate Parser
+
+        ParserFacade --> UI : parse result (success or errors)
+    deactivate ParserFacade
+
+    UI -> LangService : validate(code)
+    activate LangService
+
+    LangService --> UI : validation report
+    deactivate LangService
+
+    UI -> PO : show parsing and validation feedback
+
+deactivate UI
+deactivate PO
+
+@enduml

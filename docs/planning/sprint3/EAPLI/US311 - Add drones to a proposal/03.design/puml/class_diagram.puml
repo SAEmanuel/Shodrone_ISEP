@@ -1,0 +1,53 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package "showproposal.domain" {
+    class ShowProposal {
+        - Long id
+        - Map<DroneModel, Integer> modelsUsed
+        - int numberOfDrones
+        - ShowProposalStatus status
+        + getModelsUsed(): Map
+        + setNumberOfDrones(n): void
+    }
+
+    class DroneModel {
+        - String droneModelId
+        - String droneName
+    }
+
+    class DroneModelInformation {
+        - DroneModel model
+        - int usedQty
+        - int maxAvailable
+        + model(): DroneModel
+        + usedQty(): int
+        + maxAvailable(): int
+    }
+
+    ShowProposal --> DroneModel : uses >
+    DroneModelInformation --> DroneModel : references >
+}
+
+package "showproposal.application" {
+    class AddDronesShowProposalController {
+        - GetDroneModelsController droneCtrl
+        + getCurrentDroneModels(proposal): List
+        + getAvailableDroneModelsToAdd(proposal): List
+        + addDroneModels(proposal, models): Optional<String>
+        + changeDroneModelQuantity(proposal, model, qty): Optional<String>
+        + removeDroneModel(proposal, model): Optional<String>
+        + saveProposal(proposal): Optional<ShowProposal>
+    }
+
+    class GetDroneModelsController {
+        + getDroneModelQuantity(): Optional<Map<DroneModel, Integer>>
+    }
+}
+
+AddDronesShowProposalController --> GetDroneModelsController
+AddDronesShowProposalController --> ShowProposal : modifies >
+AddDronesShowProposalController --> DroneModelInformation : builds >
+GetDroneModelsController --> DroneModel : queries >
+
+@enduml
